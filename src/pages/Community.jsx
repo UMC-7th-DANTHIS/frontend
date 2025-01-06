@@ -4,9 +4,15 @@ import dummyList from "../store/dummyList";
 
 const Community = () => {
   const [data, setData] = useState([]);
+  const [pagenum, setPagenum] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+
   useEffect(() => {
     setData(dummyList);
+    setPagenum(10);
   });
+
+  const handlePageClick = (page) => setCurrentPage(page);
 
   return (
     <Container>
@@ -26,6 +32,30 @@ const Community = () => {
               <SeeList>{list.See}</SeeList>
             </ListContainer>
           ))}
+          <PageContainer>
+            <PageCursor
+              onClick={() => handlePageClick(Math.max(1, currentPage - 1))}
+            >
+              {"<"}
+            </PageCursor>
+            {Array.from({ length: pagenum }, (_, i) => i + 1).map((page) => (
+              <PageNumber
+                key={page}
+                className={page === currentPage ? "active" : ""}
+                onClick={() => handlePageClick(page)}
+              >
+                {page}
+              </PageNumber>
+            ))}
+            <PageCursor
+              onClick={() =>
+                handlePageClick(Math.min(pagenum, currentPage + 1))
+              }
+            >
+              {">"}
+            </PageCursor>
+          </PageContainer>
+          <WriteButton>글쓰기</WriteButton>
         </ListsContainer>
       </ContentContainer>
     </Container>
@@ -82,7 +112,7 @@ const ListsContainer = styled.div`
 `;
 
 const ListContainer = styled.div`
-  margin-top: 26px;
+  margin-top: 16px;
   margin-left: 37px;
   height: 20px;
   font-size: 16px;
@@ -125,6 +155,71 @@ const SeeList = styled.span`
   margin-left: 55px;
   width: 65px;
   text-align: center;
+`;
+
+const PageContainer = styled.div`
+  display: inline-block;
+  width: 514px;
+  margin-left: 250px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  margin-top: 56px;
+`;
+
+const PageCursor = styled.div`
+  display: inline-block;
+  font-size: 20px;
+  font-weight: bold;
+  color: #9819c3;
+  cursor: pointer;
+  margin: 0 20px;
+`;
+
+const PageNumber = styled.div`
+  display: inline-block;
+  font-size: 18px;
+  color: white;
+  margin: 5px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 50%;
+
+  &:hover {
+    color: #9819c3;
+  }
+
+  &.active {
+    background-color: #9819c3;
+    color: white;
+  }
+`;
+
+const WriteButton = styled.button`
+  display: inline-block;
+  margin-left: 186px;
+  width: 80px;
+  height: 40px;
+  background-color: #9819c3;
+  color: white;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #b327d1;
+  }
+
+  &:active {
+    background-color: #6e0f88;
+  }
 `;
 
 export default Community;
