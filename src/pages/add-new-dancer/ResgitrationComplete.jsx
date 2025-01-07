@@ -9,7 +9,7 @@ const RegistrationComplete = () => {
   return (
     <Container>
       <Ellipse>
-        <CheckIcon src={Check} alt="Check Icon" />
+        <img src={Check} alt="Check Icon" />
       </Ellipse>
       <CompleteMsg>댄서 등록 신청이 완료되었어요!</CompleteMsg>
       <DetailMsg>
@@ -34,8 +34,8 @@ const RegistrationComplete = () => {
 export default RegistrationComplete;
 
 const Container = styled.div`
-  height: 980.72px;
   justify-items: center;
+  padding-bottom: 181.61px;
 `;
 const Ellipse = styled.div`
   display: flex;
@@ -49,12 +49,6 @@ const Ellipse = styled.div`
     --main-gradation,
     linear-gradient(90deg, #b30505 0%, #9819c3 100%)
   );
-`;
-const CheckIcon = styled.img`
-  width: 196.684px;
-  height: 143.675px;
-  flex-shrink: 0;
-  fill: var(--main_white, #fff);
 `;
 const CompleteMsg = styled.div`
   color: var(--main_white, #fff);
@@ -80,6 +74,7 @@ const BackToHomeBtn = styled.button`
   width: 300px;
   height: 52px;
   flex-shrink: 0;
+  border: none;
   border-radius: 15px;
   background: var(--main_purple, #9819c3);
   margin-top: 59.51px;
