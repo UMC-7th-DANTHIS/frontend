@@ -108,7 +108,7 @@ export default MypageLayout;
 const MainContainer = styled.div`
     background-color: black;
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
 `;
 
 const SidebarContainer = styled.div`
@@ -117,6 +117,7 @@ const SidebarContainer = styled.div`
     flex-direction: row;
     margin-left: 98px;
     margin-top: 47px;
+
 `;
 
 const Sidebar = styled.div`
@@ -154,6 +155,6 @@ const MenuItem = styled.div`
 
 const ContentContainer = styled.div`
     flex: 1;
-    background-color: gray;
+    background-color: black;
     /* color: white; */
 `;
