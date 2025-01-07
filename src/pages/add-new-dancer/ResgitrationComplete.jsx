@@ -1,8 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import Check from "../../assets/check.svg";
+import { useNavigate } from "react-router-dom";
 
 const RegistrationComplete = () => {
+  const navigate = useNavigate();
+
   return (
     <Container>
       <Ellipse>
@@ -13,7 +16,15 @@ const RegistrationComplete = () => {
         운영진의 검토 이후 댄서로 등록될 수 있어요. {"\n"}
         등록 신청에 감사드려요 :)
       </DetailMsg>
-      <BackToHomeBtn type="button" onClick={() => {}}>
+      <BackToHomeBtn
+        type="button"
+        onClick={() =>
+          navigate("/", {
+            replace: false,
+            state: {},
+          })
+        }
+      >
         <BackToHomeBtnMsg>홈 화면으로 돌아가기</BackToHomeBtnMsg>
       </BackToHomeBtn>
     </Container>
@@ -72,6 +83,10 @@ const BackToHomeBtn = styled.button`
   border-radius: 15px;
   background: var(--main_purple, #9819c3);
   margin-top: 59.51px;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 const BackToHomeBtnMsg = styled.div`
   color: var(--main_white, #fff);
