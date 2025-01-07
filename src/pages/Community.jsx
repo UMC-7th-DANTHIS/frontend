@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import dummyList from "../store/dummyList";
+import dummyList from "../store/community/dummyList";
 
 const Community = () => {
   const [data, setData] = useState([]);

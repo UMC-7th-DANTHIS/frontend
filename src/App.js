@@ -3,6 +3,7 @@ import "./App.css";
 import MainLayout from "./layout/MainLayout";
 import MainPage from "./pages/MainPage";
 import Community from "./pages/Community";
+import DummyContent from "./pages/CommunityPost";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path="/" element={<MainLayout />}>
           <Route path="/" element={<MainPage />} />
           <Route path="community" element={<Community />} />
+          <Route path="community/:path" element={<DummyContent />} />
         </Route>
       </Routes>
     </Router>
