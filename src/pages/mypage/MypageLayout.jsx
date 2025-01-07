@@ -40,28 +40,57 @@ const MypageLayout = () => {
             <SidebarContainer>
                 <Sidebar />
                 <SidebarMenu>
-                    <MenuItem onClick={() => setSelectedMenu('내가 찜한 수업')}>
+                    <MenuItem
+                        onClick={() => setSelectedMenu('내가 찜한 수업')}
+                        isActive={selectedMenu === '내가 찜한 수업'}
+                    >
                         내가 찜한 수업
                     </MenuItem>
-                    <MenuItem onClick={() => setSelectedMenu('내가 찜한 댄서')}>
+                    <MenuItem
+                        onClick={() => setSelectedMenu('내가 찜한 댄서')}
+                        isActive={selectedMenu === '내가 찜한 댄서'}
+                    >
                         내가 찜한 댄서
                     </MenuItem>
-                    <MenuItem onClick={() => setSelectedMenu('채팅한 유저 목록')}>
+                    <MenuItem
+                        onClick={() => setSelectedMenu('채팅한 유저 목록')}
+                        isActive={selectedMenu === '채팅한 유저 목록'}
+                    >
                         채팅한 유저 목록
                     </MenuItem>
-                    <MenuItem onClick={() => setSelectedMenu('내가 등록한 수업')}>
+
+                    <MenuItem
+                        onClick={() => setSelectedMenu('내가 등록한 수업')}
+                        isActive={selectedMenu === '내가 등록한 수업'}
+                    >
                         내가 등록한 수업
                     </MenuItem>
-                    <MenuItem onClick={() => setSelectedMenu('수업 후기 작성하기')}>
+
+                    <MenuItem
+                        onClick={() => setSelectedMenu('수업 후기 작성하기')}
+                        isActive={selectedMenu === '수업 후기 작성하기'}
+                    >
                         수업 후기 작성하기
                     </MenuItem>
-                    <MenuItem onClick={() => setSelectedMenu('내가 쓴 게시글 / 댓글')}>
-                        내가 쓴 게시글 / 댓글
+
+                    <MenuItem
+                        onClick={() => setSelectedMenu('내가 쓴 게시글/댓글')}
+                        isActive={selectedMenu === '내가 쓴 게시글/댓글'}
+                    >
+                        내가 쓴 게시글/댓글
                     </MenuItem>
-                    <MenuItem onClick={() => setSelectedMenu('프로필 수정')}>
+
+                    <MenuItem
+                        onClick={() => setSelectedMenu('프로필 수정')}
+                        isActive={selectedMenu === '프로필 수정'}
+                    >
                         프로필 수정
                     </MenuItem>
-                    <MenuItem onClick={() => setSelectedMenu('계정 및 정보')}>
+
+                    <MenuItem
+                        onClick={() => setSelectedMenu('계정 및 정보')}
+                        isActive={selectedMenu === '계정 및 정보'}
+                    >
                         계정 및 정보
                     </MenuItem>
                 </SidebarMenu>
@@ -77,7 +106,7 @@ const MypageLayout = () => {
 export default MypageLayout;
 
 const MainContainer = styled.div`
-    background-color: gray;
+    background-color: black;
     display: flex;
     height: 100vh;
 `;
@@ -111,23 +140,20 @@ const MenuItem = styled.div`
     color: #B2B2B2;
     transition: all 0.3s ease;
 
-    &:hover {
-        color: #ffffff;
-        font-size: 24px;
-        font-weight: 600;
-        letter-spacing: -1.2px;
-    }
-
     ${({ isActive }) =>
         isActive &&
         `
-        color: #ffffff;
+        color: #fff;
         font-size: 24px;
+        font-style: normal;
         font-weight: 600;
+        letter-spacing: -1.2px;
     `}
 `;
+
 
 const ContentContainer = styled.div`
     flex: 1;
     background-color: gray;
+    /* color: white; */
 `;
