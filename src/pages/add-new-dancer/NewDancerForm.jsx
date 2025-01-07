@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import DefaultProfile from "../../assets/profile.svg";
+import DefaultProfileImage from "../../assets/profile.svg";
+import { ReactComponent as RadioBtnOn } from "../../assets/buttons/radio-button-on.svg";
+import { ReactComponent as RadioBtnOff } from "../../assets/buttons/radio-button-off.svg";
 
 const NewDancerForm = ({ onRegister }) => {
   const [name, setName] = useState("");
@@ -8,8 +10,8 @@ const NewDancerForm = ({ onRegister }) => {
   const [introduction, setIntroduction] = useState("");
   const [genres, setGenres] = useState([]);
   const [history, setHistory] = useState("");
-  const [profileImg, setProfileImg] = useState(DefaultProfile);
-  const [toggleDefaultImg, setToggleDefaultImg] = useState(false);
+  const [profileImg, setProfileImg] = useState(DefaultProfileImage);
+  const [isToggledRadio, setIsToggledRadio] = useState(true);
 
   // 장르 선택 핸들러
   const handleSelectGenre = (genre) => {
@@ -22,13 +24,23 @@ const NewDancerForm = ({ onRegister }) => {
   };
 
   // 파일 업로드 핸들러
-  const handleUploadFile = (e) => {};
+  const handleUploadFile = (e) => {
+    const file = e.target.files[0]; // 파일 가져오기
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImg(reader.result); // profileImg 업데이트
+      };
+      reader.readAsDataURL(file);
+      setIsToggledRadio(false);
+    }
+  };
 
   // 디폴트 이미지 사용 라디오 버튼 핸들러
-  const handleToggleDefaultImg = () => {
-    setToggleDefaultImg((prev) => !prev);
-    if (!toggleDefaultImg) {
-      setProfileImg(DefaultProfile);
+  const handleToggleRadio = () => {
+    setIsToggledRadio((prev) => !prev);
+    if (!isToggledRadio) {
+      setProfileImg(DefaultProfileImage);
     }
   };
 
@@ -42,10 +54,9 @@ const NewDancerForm = ({ onRegister }) => {
       genres,
       history,
       profileImg,
-      toggleDefaultImg, // 필요한가?
     };
     onRegister(formData);
-    console.log("ok");
+    console.log(formData); // 임시
   };
 
   return (
@@ -78,40 +89,74 @@ const NewDancerForm = ({ onRegister }) => {
         <div>
           <Label>장르</Label>
           <GenreWrapper>
-            <GenreBtn type="button" onClick={() => handleSelectGenre("힙합")}>
+            <GenreBtn
+              type="button"
+              selected={genres.includes("힙합")}
+              onClick={() => handleSelectGenre("힙합")}
+            >
               #힙합
             </GenreBtn>
             <GenreBtn
               type="button"
+              selected={genres.includes("걸스힙합")}
               onClick={() => handleSelectGenre("걸스힙합")}
             >
               #걸스힙합
             </GenreBtn>
-            <GenreBtn type="button" onClick={() => handleSelectGenre("팝핑")}>
+            <GenreBtn
+              type="button"
+              selected={genres.includes("팝핑")}
+              onClick={() => handleSelectGenre("팝핑")}
+            >
               #팝핑
             </GenreBtn>
-            <GenreBtn type="button" onClick={() => handleSelectGenre("락킹")}>
+            <GenreBtn
+              type="button"
+              selected={genres.includes("락킹")}
+              onClick={() => handleSelectGenre("락킹")}
+            >
               #락킹
             </GenreBtn>
-            <GenreBtn type="button" onClick={() => handleSelectGenre("왁킹")}>
+            <GenreBtn
+              type="button"
+              selected={genres.includes("왁킹")}
+              onClick={() => handleSelectGenre("왁킹")}
+            >
               #왁킹
             </GenreBtn>
             <GenreBtn
               type="button"
+              selected={genres.includes("걸리시/힙")}
               onClick={() => handleSelectGenre("걸리시/힙")}
             >
               #걸리시/힙
             </GenreBtn>
-            <GenreBtn type="button" onClick={() => handleSelectGenre("크럼프")}>
+            <GenreBtn
+              type="button"
+              selected={genres.includes("크럼프")}
+              onClick={() => handleSelectGenre("크럼프")}
+            >
               #크럼프
             </GenreBtn>
-            <GenreBtn type="button" onClick={() => handleSelectGenre("텃팅")}>
+            <GenreBtn
+              type="button"
+              selected={genres.includes("텃팅")}
+              onClick={() => handleSelectGenre("텃팅")}
+            >
               #텃팅
             </GenreBtn>
-            <GenreBtn type="button" onClick={() => handleSelectGenre("코레오")}>
+            <GenreBtn
+              type="button"
+              selected={genres.includes("코레오")}
+              onClick={() => handleSelectGenre("코레오")}
+            >
               #코레오
             </GenreBtn>
-            <GenreBtn type="button" onClick={() => handleSelectGenre("K-pop")}>
+            <GenreBtn
+              type="button"
+              selected={genres.includes("K-pop")}
+              onClick={() => handleSelectGenre("K-pop")}
+            >
               #K-pop
             </GenreBtn>
           </GenreWrapper>
@@ -127,23 +172,27 @@ const NewDancerForm = ({ onRegister }) => {
         <div>
           <Label>댄서 프로필 사진</Label>
           <ProfileWrapper>
-            <img src={profileImg} alt="Profile Image" />
-            <FileUploadWrapper>
-              <UploadBtn
+            <ImageContainer>
+              <img src={profileImg} alt="New Profile Image" />
+            </ImageContainer>
+            <FileUploadContainer>
+              <UploadBtn htmlFor="file">
+                <FileUploadText>파일 업로드</FileUploadText>
+              </UploadBtn>
+              <HiddenInput
                 type="file"
+                id="file"
                 onChange={handleUploadFile}
                 accept="image/*"
               />
 
-              <RadioDefaultWrapper>
-                <RadioBtn
-                  type="checkbox"
-                  checked={toggleDefaultImg}
-                  onChange={handleToggleDefaultImg}
-                />
-                <RadioMsg>기본 이미지 사용하기</RadioMsg>
-              </RadioDefaultWrapper>
-            </FileUploadWrapper>
+              <UseDefaultContainer>
+                <RadioWrapper onClick={handleToggleRadio}>
+                  {isToggledRadio ? <RadioBtnOn /> : <RadioBtnOff />}
+                </RadioWrapper>
+                <UseDefaultImgMsg>기본 이미지 사용하기</UseDefaultImgMsg>
+              </UseDefaultContainer>
+            </FileUploadContainer>
           </ProfileWrapper>
         </div>
       </InfoContainer>
@@ -181,30 +230,6 @@ const Notice = styled.div`
   line-height: normal;
   margin-top: 42.71px;
   margin-bottom: 34.06px;
-`;
-const RegBtn = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 300px;
-  height: 52px;
-  flex-shrink: 0;
-  border: none;
-  border-radius: 15px;
-  background: var(--main_purple, #9819c3);
-
-  &:hover {
-    cursor: pointer;
-  }
-`;
-const RegBtnMsg = styled.span`
-  color: var(--main_white, #fff);
-  text-align: center;
-  font-family: Pretendard;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
 `;
 const GenreWrapper = styled.div`
   width: 514px;
@@ -272,8 +297,13 @@ const GenreBtn = styled.button`
   align-items: center;
   gap: 8px;
   border-radius: 4px;
-  border: 1px solid var(--sub_light-gray, #ddd);
-  background-color: transparent;
+  border: 1px solid
+    ${(props) =>
+      props.selected
+        ? "var(--main_purple, #9819C3)"
+        : "var(--sub_light-gray, #ddd)"};
+  background-color: ${(props) =>
+    props.selected ? "var(--main_purple, #9819C3)" : "transparent"};
 
   color: var(--sub_light-gray, #ddd);
   text-align: center;
@@ -285,19 +315,40 @@ const GenreBtn = styled.button`
 
   &:hover {
     cursor: pointer;
+    border: 1px solid var(--main_purple, #9819c3);
   }
 
   &:nth-last-child(1) {
     grid-column: 2;
   }
 `;
-const FileUploadWrapper = styled.div`
+const ImageContainer = styled.div`
+  width: 160px;
+  height: 160px;
+  flex-shrink: 0;
+  border-radius: 2px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; // 비율 유지
+  }
+`;
+// 파일 업로드
+const FileUploadContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   padding: 43px 0 47px 36px;
 `;
-const UploadBtn = styled.input`
+const UploadBtn = styled.label`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 300px;
   height: 36px;
   flex-shrink: 0;
@@ -305,6 +356,11 @@ const UploadBtn = styled.input`
   border: 1px solid var(--sub_light-gray, #ddd);
   background-color: transparent;
 
+  &:hover {
+    cursor: pointer;
+  }
+`;
+const FileUploadText = styled.div`
   color: var(--text_secondary-gray, #b2b2b2);
   text-align: center;
   font-family: Pretendard;
@@ -313,19 +369,21 @@ const UploadBtn = styled.input`
   font-weight: 500;
   line-height: normal;
 `;
-const RadioDefaultWrapper = styled.div`
+const HiddenInput = styled.input`
+  display: none;
+`;
+const UseDefaultContainer = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: 15px;
   align-items: center;
 `;
-const RadioBtn = styled.input`
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  margin: 0;
+// 기본 이미지 사용 라디오오
+const RadioWrapper = styled.div`
+  display: flex;
+  cursor: pointer;
 `;
-const RadioMsg = styled.div`
+const UseDefaultImgMsg = styled.div`
   margin-left: 14px;
   color: var(--main_white, #fff);
   text-align: center;
@@ -333,5 +391,30 @@ const RadioMsg = styled.div`
   font-size: 15px;
   font-style: normal;
   font-weight: 500;
+  line-height: normal;
+`;
+// 제출 버튼
+const RegBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 52px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 15px;
+  background: var(--main_purple, #9819c3);
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+const RegBtnMsg = styled.span`
+  color: var(--main_white, #fff);
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
   line-height: normal;
 `;

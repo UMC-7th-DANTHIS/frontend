@@ -38,6 +38,6 @@ const AddDancerTitle = styled.div`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin-top: 65.72px; // 질문
-  margin-bottom: 69.93px; // 질문
+  margin-top: 65.72px;
+  margin-bottom: 69.93px;
 `;
