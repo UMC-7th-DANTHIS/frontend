@@ -182,7 +182,7 @@ const Notice = styled.div`
   margin-top: 42.71px;
   margin-bottom: 34.06px;
 `;
-const RegBtn = styled.div`
+const RegBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
