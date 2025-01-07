@@ -136,12 +136,12 @@ const NewDancerForm = ({ onRegister }) => {
               />
 
               <RadioDefaultWrapper>
-                <RadioDefaultImage
+                <RadioBtn
                   type="checkbox"
                   checked={toggleDefaultImg}
                   onChange={handleToggleDefaultImg}
                 />
-                <UseDefaultImage>기본 이미지 사용하기</UseDefaultImage>
+                <RadioMsg>기본 이미지 사용하기</RadioMsg>
               </RadioDefaultWrapper>
             </FileUploadWrapper>
           </ProfileWrapper>
@@ -319,13 +319,13 @@ const RadioDefaultWrapper = styled.div`
   margin-top: 15px;
   align-items: center;
 `;
-const RadioDefaultImage = styled.input`
+const RadioBtn = styled.input`
   width: 20px;
   height: 20px;
   flex-shrink: 0;
   margin: 0;
 `;
-const UseDefaultImage = styled.div`
+const RadioMsg = styled.div`
   margin-left: 14px;
   color: var(--main_white, #fff);
   text-align: center;
