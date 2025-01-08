@@ -14,6 +14,8 @@ const MainLayout = () => {
   );
 };
 
-const Container = styled.div``;
+const Container = styled.div`
+width : 1440px;
+`;
 
 export default MainLayout;
