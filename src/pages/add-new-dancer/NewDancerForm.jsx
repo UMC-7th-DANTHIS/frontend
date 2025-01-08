@@ -61,7 +61,7 @@ const NewDancerForm = ({ onRegister }) => {
 
   return (
     <FormContainer onSubmit={handleSubmit}>
-      <InfoContainer>
+      <InputContainer>
         <div>
           <Label>댄서 네임</Label>
           <InputBox
@@ -187,19 +187,19 @@ const NewDancerForm = ({ onRegister }) => {
               />
 
               <UseDefaultContainer>
-                <RadioWrapper onClick={handleToggleRadio}>
+                <RadioBtn onClick={handleToggleRadio}>
                   {isToggledRadio ? <RadioBtnOn /> : <RadioBtnOff />}
-                </RadioWrapper>
-                <UseDefaultImgMsg>기본 이미지 사용하기</UseDefaultImgMsg>
+                </RadioBtn>
+                <UseDefaultImgText>기본 이미지 사용하기</UseDefaultImgText>
               </UseDefaultContainer>
             </FileUploadContainer>
           </ProfileWrapper>
         </div>
-      </InfoContainer>
+      </InputContainer>
 
       <Notice>*댄서 등록은 내부 운영팀의 심사를 통해 최종 승인됩니다.</Notice>
       <RegBtn type="submit">
-        <RegBtnMsg>댄서 등록하기</RegBtnMsg>
+        <RegBtnText>댄서 등록하기</RegBtnText>
       </RegBtn>
     </FormContainer>
   );
@@ -211,7 +211,7 @@ const FormContainer = styled.form`
   justify-items: center;
   padding-bottom: 142.79px;
 `;
-const InfoContainer = styled.div`
+const InputContainer = styled.div`
   width: 900px;
   flex-shrink: 0;
   padding-top: 58.23px;
@@ -379,11 +379,11 @@ const UseDefaultContainer = styled.div`
   align-items: center;
 `;
 // 기본 이미지 사용 라디오오
-const RadioWrapper = styled.div`
+const RadioBtn = styled.div`
   display: flex;
   cursor: pointer;
 `;
-const UseDefaultImgMsg = styled.div`
+const UseDefaultImgText = styled.div`
   margin-left: 14px;
   color: var(--main_white, #fff);
   text-align: center;
@@ -409,7 +409,7 @@ const RegBtn = styled.button`
     cursor: pointer;
   }
 `;
-const RegBtnMsg = styled.span`
+const RegBtnText = styled.span`
   color: var(--main_white, #fff);
   text-align: center;
   font-family: Pretendard;
