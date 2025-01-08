@@ -13,12 +13,14 @@ const DancerRegistration = () => {
 
   return (
     <Container>
-      <AddDancerTitle>댄서 등록</AddDancerTitle>
-      {!isRegistered ? (
-        <NewDancerForm onRegister={handleRegister} />
-      ) : (
-        <RegistrationComplete />
-      )}
+      <Registration>
+        <Title>댄서 등록</Title>
+        {!isRegistered ? (
+          <NewDancerForm onRegister={handleRegister} />
+        ) : (
+          <RegistrationComplete />
+        )}
+      </Registration>
     </Container>
   );
 };
@@ -26,12 +28,16 @@ const DancerRegistration = () => {
 export default DancerRegistration;
 
 const Container = styled.div`
-  width: 1440px;
+  display: flex;
   background-color: black;
-  justify-items: center;
+  justify-content: center;
   border-top: 1px solid white; // 임시
 `;
-const AddDancerTitle = styled.div`
+const Registration = styled.div`
+  width: 1440px;
+  justify-items: center;
+`;
+const Title = styled.div`
   color: var(--main_white, #fff);
   font-family: Pretendard;
   font-size: 48px;

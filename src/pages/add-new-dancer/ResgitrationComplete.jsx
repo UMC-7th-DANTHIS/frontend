@@ -11,11 +11,11 @@ const RegistrationComplete = () => {
       <Ellipse>
         <img src={Check} alt="Check Icon" />
       </Ellipse>
-      <CompleteMsg>댄서 등록 신청이 완료되었어요!</CompleteMsg>
-      <DetailMsg>
+      <Complete>댄서 등록 신청이 완료되었어요!</Complete>
+      <Detail>
         운영진의 검토 이후 댄서로 등록될 수 있어요. {"\n"}
         등록 신청에 감사드려요 :)
-      </DetailMsg>
+      </Detail>
       <BackToHomeBtn
         type="button"
         onClick={() =>
@@ -25,7 +25,7 @@ const RegistrationComplete = () => {
           })
         }
       >
-        <BackToHomeBtnMsg>홈 화면으로 돌아가기</BackToHomeBtnMsg>
+        <BackToHomeBtnText>홈 화면으로 돌아가기</BackToHomeBtnText>
       </BackToHomeBtn>
     </Container>
   );
@@ -50,7 +50,7 @@ const Ellipse = styled.div`
     linear-gradient(90deg, #b30505 0%, #9819c3 100%)
   );
 `;
-const CompleteMsg = styled.div`
+const Complete = styled.div`
   color: var(--main_white, #fff);
   font-family: Pretendard;
   font-size: 30px;
@@ -60,7 +60,7 @@ const CompleteMsg = styled.div`
   margin-top: 70.96px;
   margin-bottom: 40px;
 `;
-const DetailMsg = styled.div`
+const Detail = styled.div`
   color: var(--text_secondary-gray, #b2b2b2);
   text-align: center;
   font-family: Pretendard;
@@ -83,7 +83,7 @@ const BackToHomeBtn = styled.button`
     cursor: pointer;
   }
 `;
-const BackToHomeBtnMsg = styled.div`
+const BackToHomeBtnText = styled.div`
   color: var(--main_white, #fff);
   text-align: center;
   font-family: Pretendard;
