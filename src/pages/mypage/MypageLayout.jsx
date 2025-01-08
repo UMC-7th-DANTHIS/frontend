@@ -112,7 +112,7 @@ const MainContainer = styled.div`
 `;
 
 const SidebarContainer = styled.div`
-    width: 300px;
+    width: 210px;
     display: flex;
     flex-direction: row;
     margin-left: 98px;
@@ -156,5 +156,4 @@ const MenuItem = styled.div`
 const ContentContainer = styled.div`
     flex: 1;
     background-color: black;
-    /* color: white; */
 `;
