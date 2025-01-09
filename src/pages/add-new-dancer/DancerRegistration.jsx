@@ -31,7 +31,6 @@ const Container = styled.div`
   display: flex;
   background-color: black;
   justify-content: center;
-  border-top: 1px solid white; // 임시
 `;
 const Registration = styled.div`
   width: 1440px;
@@ -44,6 +43,6 @@ const Title = styled.div`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin-top: 65.72px;
-  margin-bottom: 69.93px;
+  margin-top: 33px;
+  margin-bottom: 70px;
 `;
