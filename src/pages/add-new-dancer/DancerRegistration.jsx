@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import NewDancerForm from "./NewDancerForm";
 import RegistrationComplete from "./ResgitrationComplete";

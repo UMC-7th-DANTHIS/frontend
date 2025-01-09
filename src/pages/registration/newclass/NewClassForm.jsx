@@ -2,20 +2,53 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const NewClassForm = ({ onRegister }) => {
+  const [formState, setFormState] = useState({
+    name: "",
+    price: "",
+    level: 0,
+    genres: [],
+    description: "",
+    recommendedFor: "",
+    images: [],
+    video: "",
+  });
+
+  // 등록 폼 상태 업데이트
+  const updateForm = (key, value) => {
+    setFormState((prev) => ({ ...prev, [key]: value }));
+  };
+
   // 수업 등록 폼 제출 핸들러
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = {};
-    onRegister(formData);
-    console.log(formData); // 임시
+    onRegister(formState);
+    console.log(formState); // 임시
   };
+
+  const LabeledInput = ({ label, value, onChange, placeholder }) => (
+    <div>
+      <Label>{label}</Label>
+      <InputBox value={value} onChange={onChange} placeholder={placeholder} />
+    </div>
+  );
 
   return (
     <FormContainer onSubmit={handleSubmit}>
       <InputContainer>
+        <LabeledInput
+          label="수업 이름"
+          value={formState.name}
+          onChange={(value) => updateForm("name", value)}
+          placeholder="수업 이름을 입력하세요"
+        />
+        <LabeledInput
+          label="회당 가격"
+          value={formState.price}
+          onChange={(value) => updateForm("price", value)}
+          placeholder="회당 가격을 입력하세요"
+        />
         <div>
-          <Label>수업 이름</Label>
-          <InputBox onChange={(e) => {}} placeholder="수업 이름을 입력하세요" />
+          <Label>난이도</Label>
         </div>
       </InputContainer>
 
@@ -43,17 +76,6 @@ const InputContainer = styled.div`
   justify-items: center;
   border-radius: 25px;
   border: 2px solid var(--main_purple, #9819c3);
-`;
-const Notice = styled.div`
-  color: var(--text_secondary-gray, #b2b2b2);
-  text-align: center;
-  font-family: Pretendard;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  margin-top: 42.71px;
-  margin-bottom: 34.06px;
 `;
 const Label = styled.div`
   margin-bottom: 10px;
@@ -133,6 +155,17 @@ const GenreBtn = styled.button`
   &:nth-last-child(1) {
     grid-column: 2;
   }
+`;
+const Notice = styled.div`
+  color: var(--text_secondary-gray, #b2b2b2);
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-top: 42.71px;
+  margin-bottom: 34.06px;
 `;
 // 제출 버튼
 const RegBtn = styled.button`
