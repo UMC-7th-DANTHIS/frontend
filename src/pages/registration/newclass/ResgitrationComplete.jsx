@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Check from "../../assets/check.svg";
+import Check from "../../../assets/check.svg";
 import { useNavigate } from "react-router-dom";
 
 const RegistrationComplete = () => {

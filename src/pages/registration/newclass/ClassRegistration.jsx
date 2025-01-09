@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import NewClassForm from "./NewClassForm";
 import RegistrationComplete from "./ResgitrationComplete";
