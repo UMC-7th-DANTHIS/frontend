@@ -15,7 +15,7 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="/mypage" element={<MypageLayout />} />
           <Route path="community" element={<Community />} />
-          <Route path="community/:path" element={<DummyContent />} />
+          <Route path="post" element={<DummyContent />} />
           <Route path="dancerregister" element={<DancerRegistration />} />
         </Route>
       </Routes>
