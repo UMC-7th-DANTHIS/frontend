@@ -1,34 +1,65 @@
 import React from "react";
 import styled from "styled-components";
+import { ReactComponent as StarFilled } from "../../../assets/buttons/starlevel_filled.svg";
+import { ReactComponent as StarNonfilled } from "../../../assets/buttons/starlevel_nonfilled.svg";
 
-const InputBox = ({ label, value, onChange, placeholder }) => {
+const Input = ({ label, value, onChange, placeholder }) => {
   return (
     <div>
       <Label>{label}</Label>
-      <Input value={value} onChange={onChange} placeholder={placeholder} />
+      <InputBox value={value} onChange={onChange} placeholder={placeholder} />
     </div>
   );
 };
 
-const TextareaBox = ({ label, value, onChange, placeholder }) => {
+const Textarea = ({ label, value, onChange, placeholder }) => {
   return (
     <div>
       <Label>{label}</Label>
-      <Textarea value={value} onChange={onChange} placeholder={placeholder} />
+      <TextareaBox
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+      />
     </div>
   );
 };
 
-const UrlBox = ({ value, onChange, placeholder }) => {
+const StarRating = ({ label, value, updateForm }) => {
+  const totalStars = 5;
+
   return (
-    <UrlContainer>
-      <Label>URL</Label>
-      <UrlInput value={value} onChange={onChange} placeholder={placeholder} />
-    </UrlContainer>
+    <div>
+      <Label>{label}</Label>
+      <StarsContainer>
+        {Array.from({ length: totalStars }, (_, index) => {
+          const isFilled = index < value; // value == 2 이면 index 0, 1이 true
+
+          return (
+            <StarBtn key={index} onClick={() => updateForm("level", index + 1)}>
+              {isFilled ? <StarFilled /> : <StarNonfilled />}
+            </StarBtn>
+          );
+        })}
+      </StarsContainer>
+    </div>
   );
 };
 
-export { InputBox, TextareaBox, UrlBox };
+const ShortInput = ({ label, value, onChange, placeholder }) => {
+  return (
+    <ShortContainer>
+      <Label>{label}</Label>
+      <ShortInputBox
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+      />
+    </ShortContainer>
+  );
+};
+
+export { Input, Textarea, StarRating, ShortInput };
 
 const Label = styled.div`
   margin-left: 8px;
@@ -39,7 +70,7 @@ const Label = styled.div`
   font-weight: 600;
   line-height: normal;
 `;
-const Input = styled.input`
+const InputBox = styled.input`
   width: 525px;
   flex-shrink: 0;
   margin-top: 10px;
@@ -57,7 +88,7 @@ const Input = styled.input`
   font-weight: 300;
   line-height: normal;
 `;
-const Textarea = styled.textarea`
+const TextareaBox = styled.textarea`
   width: 525px;
   height: 466px;
   flex-shrink: 0;
@@ -76,14 +107,23 @@ const Textarea = styled.textarea`
   font-weight: 300;
   line-height: normal;
 `;
-const UrlContainer = styled.div`
+const StarsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 588px;
+  margin: 9px 0 28px 8px;
+`;
+const StarBtn = styled.div`
+  cursor: "pointer";
+`;
+const ShortContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
   width: 589px;
 `;
-const UrlInput = styled.input`
+const ShortInputBox = styled.input`
   width: 435px;
   height: 18px;
   flex-shrink: 0;
