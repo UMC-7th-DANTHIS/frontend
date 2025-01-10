@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { InputBox, TextareaBox, UrlBox } from "../components/Inputs";
+import { Input, Textarea, StarRating, ShortInput } from "../components/Inputs";
 import GenreSelector from "../components/GenreSelector";
 import FileUploader from "../components/FileUploader";
 import SubmitButton from "../components/SubmitButton";
@@ -35,32 +35,34 @@ const ClassForm = ({ onRegister }) => {
   return (
     <FormContainer onSubmit={handleSubmit}>
       <InputContainer>
-        <InputBox
+        <Input
           label="수업 이름"
           value={formState.name}
           onChange={(e) => updateForm("name", e.target.value)}
           placeholder="수업 이름을 입력하세요"
         />
-        <InputBox
+        <Input
           label="회당 가격"
           value={formState.price}
           onChange={(e) => updateForm("price", e.target.value)}
           placeholder="회당 가격을 입력하세요"
         />
-        <div>
-          <Label>난이도</Label>
-        </div>
+        <StarRating
+          label="난이도"
+          value={formState.level}
+          updateForm={updateForm}
+        />
         <GenreSelector
           selectedGenres={formState.genres}
           updateForm={updateForm}
         />
-        <TextareaBox
+        <Textarea
           label="수업 소개"
           value={formState.description}
           onChange={(e) => updateForm("description", e.target.value)}
           placeholder="시간, 장소, 가격 등 수업에 대한 자세한 소개를 입력하세요"
         />
-        <TextareaBox
+        <Textarea
           label="수업 추천 대상"
           value={formState.recommendedFor}
           onChange={(e) => updateForm("recommendedFor", e.target.value)}
@@ -87,7 +89,8 @@ const ClassForm = ({ onRegister }) => {
         <VideoUploadWrapper>
           <FileUploader Icon={VedioIcon} accept="video/*" />
         </VideoUploadWrapper>
-        <UrlBox
+        <ShortInput
+          label="URL"
           value={formState.url}
           onChange={(e) => updateForm("url", e.target.value)}
           placeholder="동영상 링크를 붙여넣으세요"
