@@ -28,6 +28,13 @@ const Textarea = ({ label, value, onChange, placeholder }) => {
 const StarRating = ({ label, value, updateForm }) => {
   const totalStars = 5;
 
+  const handleSelect = (index) => {
+    // 클릭한 별이 현재 level과 같으면 선택 해제,
+    // 아니면 선택
+    const newValue = index + 1 === value ? index : index + 1;
+    updateForm("level", newValue);
+  };
+
   return (
     <div>
       <Label>{label}</Label>
@@ -36,7 +43,7 @@ const StarRating = ({ label, value, updateForm }) => {
           const isFilled = index < value; // value == 2 이면 index 0, 1이 true
 
           return (
-            <StarBtn key={index} onClick={() => updateForm("level", index + 1)}>
+            <StarBtn key={index} onClick={() => handleSelect(index)}>
               {isFilled ? <StarFilled /> : <StarNonfilled />}
             </StarBtn>
           );
@@ -114,7 +121,9 @@ const StarsContainer = styled.div`
   margin: 9px 0 28px 8px;
 `;
 const StarBtn = styled.div`
-  cursor: "pointer";
+  &:hover {
+    cursor: pointer;
+  }
 `;
 const ShortContainer = styled.div`
   display: flex;
