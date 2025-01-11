@@ -9,10 +9,10 @@ const ImagesUploader = ({ images, updateForm }) => {
     <Container>
       {Array.from({ length: totalImages }, (_, index) => (
         <div key={index}>
-          <Rectangle htmlFor="file">
+          <Rectangle htmlFor="image">
             <PictureIcon />
           </Rectangle>
-          <HiddenInput type="file" id="file" accept="image/*"></HiddenInput>
+          <HiddenInput type="file" id="image" accept="image/*"></HiddenInput>
         </div>
       ))}
     </Container>
