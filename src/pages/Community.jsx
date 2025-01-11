@@ -60,7 +60,7 @@ const Community = () => {
               {">"}
             </PageCursor>
           </PageContainer>
-          <WriteButton>글쓰기</WriteButton>
+          <WriteButton onClick={() => navigate("/edit")}>글쓰기</WriteButton>
         </ListsContainer>
       </ContentContainer>
     </Container>
