@@ -10,7 +10,6 @@ const VideoUploader = ({ video, updateForm }) => {
   // 파일 업로드 핸들러
   const handleUploadFile = (e) => {
     const file = e.target.files[0]; // 파일 가져오기
-    console.log(file);
 
     if (file && file.type.startsWith("video/")) {
       updateForm("video", file);
@@ -28,7 +27,7 @@ const VideoUploader = ({ video, updateForm }) => {
       <Container>
         <Rectangle htmlFor="video">
           {video === null && <VideoIcon />}
-          {preview && <Preview src={preview} controls />}
+          {preview && <video src={preview} controls />}
         </Rectangle>
         {/* 파일 선택 */}
         <HiddenInput
@@ -78,7 +77,4 @@ const Rectangle = styled.label`
 `;
 const HiddenInput = styled.input`
   display: none;
-`;
-const Preview = styled.video`
-  width: 100%;
 `;

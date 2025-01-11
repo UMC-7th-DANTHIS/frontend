@@ -14,7 +14,7 @@ const ClassForm = ({ onRegister }) => {
     genres: [],
     description: "",
     recommendedFor: "",
-    images: [],
+    images: [null, null, null],
     video: null,
     url: "",
   });
