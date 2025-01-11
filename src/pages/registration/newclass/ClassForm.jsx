@@ -20,7 +20,7 @@ const ClassForm = ({ onRegister }) => {
   });
 
   // 등록 폼 상태 업데이트
-  const updateForm = (key, value) => {
+  const handleFormChange = (key, value) => {
     setFormState((prev) => ({ ...prev, [key]: value }));
   };
 
@@ -37,34 +37,34 @@ const ClassForm = ({ onRegister }) => {
         <Input
           label="수업 이름"
           value={formState.name}
-          onChange={(e) => updateForm("name", e.target.value)}
+          onChange={(e) => handleFormChange("name", e.target.value)}
           placeholder="수업 이름을 입력하세요"
         />
         <Input
           label="회당 가격"
           value={formState.price}
-          onChange={(e) => updateForm("price", e.target.value)}
+          onChange={(e) => handleFormChange("price", e.target.value)}
           placeholder="회당 가격을 입력하세요"
         />
         <StarRating
           label="난이도"
           value={formState.level}
-          updateForm={updateForm}
+          handleFormChange={handleFormChange}
         />
         <GenreSelector
           selectedGenres={formState.genres}
-          updateForm={updateForm}
+          handleFormChange={handleFormChange}
         />
         <Textarea
           label="수업 소개"
           value={formState.description}
-          onChange={(e) => updateForm("description", e.target.value)}
+          onChange={(e) => handleFormChange("description", e.target.value)}
           placeholder="시간, 장소, 가격 등 수업에 대한 자세한 소개를 입력하세요"
         />
         <Textarea
           label="수업 추천 대상"
           value={formState.recommendedFor}
-          onChange={(e) => updateForm("recommendedFor", e.target.value)}
+          onChange={(e) => handleFormChange("recommendedFor", e.target.value)}
           placeholder="이 수업은 누구에게 추천하며, 그 이유를 입력하세요"
         />
         <NoticedLabel>
@@ -73,7 +73,10 @@ const ClassForm = ({ onRegister }) => {
           </Label>
           <Notice>*수업 사진이 없는 경우, 댄서 사진을 업로드 해주세요</Notice>
         </NoticedLabel>
-        <ImagesUploader images={formState.images} updateForm={updateForm} />
+        <ImagesUploader
+          images={formState.images}
+          handleFormChange={handleFormChange}
+        />
         <NoticedLabel>
           <Label>수업 영상</Label>
           <Notice>
@@ -81,7 +84,10 @@ const ClassForm = ({ onRegister }) => {
             {"\n"} *수업 영상이 없는 경우, 댄서 영상을 업로드 해주세요
           </Notice>
         </NoticedLabel>
-        <VideoUploader video={formState.video} updateForm={updateForm} />
+        <VideoUploader
+          video={formState.video}
+          handleFormChange={handleFormChange}
+        />
       </InputContainer>
 
       <Notice>

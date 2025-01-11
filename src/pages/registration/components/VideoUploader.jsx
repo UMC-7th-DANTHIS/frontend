@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { ShortInput } from "./Inputs";
 import { ReactComponent as VideoIcon } from "../../../assets/video.svg";
 
-const VideoUploader = ({ video, updateForm }) => {
+const VideoUploader = ({ video, handleFormChange }) => {
   const [preview, setPreview] = useState(""); // 미리보기 url
   const [url, setUrl] = useState("");
 
@@ -12,7 +12,7 @@ const VideoUploader = ({ video, updateForm }) => {
     const file = e.target.files[0]; // 파일 가져오기
 
     if (file && file.type.startsWith("video/")) {
-      updateForm("video", file);
+      handleFormChange("video", file);
       setPreview(URL.createObjectURL(file)); // 미리보기 url 생성
     }
   };

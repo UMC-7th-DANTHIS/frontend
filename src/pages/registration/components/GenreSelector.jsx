@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const GenreSelector = ({ selectedGenres, updateForm }) => {
+const GenreSelector = ({ selectedGenres, handleFormChange }) => {
   const genres = [
     "힙합",
     "걸스힙합",
@@ -21,7 +21,7 @@ const GenreSelector = ({ selectedGenres, updateForm }) => {
       ? selectedGenres.filter((g) => g !== genre) // 장르 제거
       : [...selectedGenres, genre]; // 장르 추가
 
-    updateForm("genres", updatedGenres);
+    handleFormChange("genres", updatedGenres);
   };
 
   return (
