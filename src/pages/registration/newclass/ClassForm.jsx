@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Input, Textarea, StarRating, ShortInput } from "../components/Inputs";
+import { Input, Textarea, StarRating } from "../components/Inputs";
 import GenreSelector from "../components/GenreSelector";
 import ImagesUploader from "../components/ImagesUploader";
 import VideoUploader from "../components/VideoUploader";
@@ -15,7 +15,7 @@ const ClassForm = ({ onRegister }) => {
     description: "",
     recommendedFor: "",
     images: [],
-    video: "",
+    video: null,
     url: "",
   });
 
@@ -81,13 +81,7 @@ const ClassForm = ({ onRegister }) => {
             {"\n"} *수업 영상이 없는 경우, 댄서 영상을 업로드 해주세요
           </Notice>
         </NoticedLabel>
-        <VideoUploader updateForm={updateForm} />
-        <ShortInput
-          label="URL"
-          value={formState.url}
-          onChange={(e) => updateForm("url", e.target.value)}
-          placeholder="동영상 링크를 붙여넣으세요"
-        />
+        <VideoUploader video={formState.video} updateForm={updateForm} />
       </InputContainer>
 
       <Notice>
