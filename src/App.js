@@ -8,6 +8,10 @@ import CommunityPost from "./pages/Community/CommunityPost";
 import DancerRegistration from "./pages/add-new-dancer/DancerRegistration";
 import ClassRegistration from "./pages/registration/newclass/ClassRegistration";
 import CommunityEdit from "./pages/Community/CommunityEdit";
+import SearchLayout from "./layout/SearchLayout";
+import SearchClass from "./components/Search/SearchClass";
+import SearchDancer from "./components/Search/SearchDancer";
+import SearchCommunity from "./components/Search/SearchCommunity";
 
 function App() {
   return (
@@ -21,6 +25,11 @@ function App() {
           <Route path="dancerregister" element={<DancerRegistration />} />
           <Route path="classregister" element={<ClassRegistration />} />
           <Route path="edit" element={<CommunityEdit />} />
+          <Route path="search" element={<SearchLayout />}>
+            <Route path="class" element={<SearchClass />} />
+            <Route path="dancer" element={<SearchDancer />} />
+            <Route path="community" element={<SearchCommunity />} />
+          </Route>
         </Route>
       </Routes>
     </Router>

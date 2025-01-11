@@ -2,10 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import Logo from "../assets/logo.svg";
 import Outline from "../assets/outline.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Searchicon from "../assets/searchicon.svg";
 
 const Topbar = () => {
+  const navigate = useNavigate();
+
   return (
     <Container>
       <TopContainer>
@@ -15,7 +17,11 @@ const Topbar = () => {
           <Search>
             <SearchInput placeholder="검색어를 입력하세요" />
             <SearchButton>
-              <SearchIcon src={Searchicon} alt="search" />
+              <SearchIcon
+                src={Searchicon}
+                alt="search"
+                onClick={() => navigate("/search/class")}
+              />
             </SearchButton>
           </Search>
         </LoginContainer>
