@@ -71,6 +71,10 @@ const Rectangle = styled.label`
     height: 100%;
     object-fit: cover; // 비율 유지
   }
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 const HiddenInput = styled.input`
   display: none;
