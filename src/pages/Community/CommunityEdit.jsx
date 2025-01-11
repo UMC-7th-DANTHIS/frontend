@@ -1,19 +1,30 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const CommunityEdit = () => {
+  const navigate = useNavigate();
+
   return (
     <Container>
       <ContentContainer>
         <TopHeader>커뮤니티 글 작성</TopHeader>
         <Content>
-          <ContentTitle>제목</ContentTitle>
-          <ContentMain>내용</ContentMain>
+          <TitleArea>
+            <ContentTitle>제목</ContentTitle>
+            <TitleInput placeholder="제목을 입력하세요." />
+          </TitleArea>
+          <ContentArea>
+            <ContentMain>내용</ContentMain>
+            <ContentInput placeholder="내용을 입력하세요." />
+          </ContentArea>
         </Content>
         <ButtonContainer>
           <ImageButton>사진</ImageButton>
           <RightButtons>
-            <CancelButton>취소</CancelButton>
+            <CancelButton onClick={() => navigate("/community")}>
+              취소
+            </CancelButton>
             <SubmitButton>작성</SubmitButton>
           </RightButtons>
         </ButtonContainer>
@@ -71,6 +82,11 @@ const ContentTitle = styled.div`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+`;
+
+const TitleArea = styled.div`
+  display: flex;
+  justify-content: space-between;
 
   border-bottom: 1.5px solid #b2b2b2;
 
@@ -80,43 +96,60 @@ const ContentTitle = styled.div`
 `;
 
 const TitleInput = styled.input`
-  width: 100%;
-  margin-top: 10px;
-  padding: 10px;
-  font-size: 16px;
-  color: white;
-  background-color: #000;
-  border: 1px solid #b2b2b2;
-  border-radius: 5px;
+  border: transparent;
+  background-color: transparent;
   outline: none;
 
-  &::placeholder {
-    color: #b2b2b2;
-  }
-`;
-
-const ContentTextArea = styled.textarea`
-  width: 100%;
-  height: 300px;
-  margin-top: 10px;
-  padding: 10px;
-  font-size: 16px;
   color: white;
-  background-color: #000;
-  border: 1px solid #b2b2b2;
-  border-radius: 5px;
-  resize: none;
-  outline: none;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 
   &::placeholder {
-    color: #b2b2b2;
+    color: #4d4d4d;
+    font-size: 14px;
   }
+
+  width: 92%;
+  height: 100%;
 `;
 
-const ContentMain = styled.div`
+const ContentArea = styled.div`
+  display: flex;
+  justify-content: space-between;
+
   padding-top: 15px;
   padding-left: 9px;
 
+  display: flex;
+`;
+
+const ContentInput = styled.textarea`
+  background-color: transparent;
+  border: transparent;
+  resize: none;
+  outline: none;
+
+  color: white;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  &::placeholder {
+    color: #4d4d4d;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  width: 92%;
+  height: 390px;
+`;
+
+const ContentMain = styled.div`
   color: #fff;
   font-size: 18px;
   font-style: normal;

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import dummyContent from "../store/community/dummyContent";
+import dummyContent from "../../store/community/dummyContent";
 
 const CommunityPost = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState({});
 
   useEffect(() => {
@@ -63,7 +65,9 @@ const CommunityPost = () => {
             <button>작성</button>
           </CommentInput>
         </CommentSection>
-        <BackButton>글 목록으로</BackButton>
+        <BackButton onClick={() => navigate("/community")}>
+          글 목록으로
+        </BackButton>
       </Wrapper>
     </Container>
   );
@@ -264,6 +268,7 @@ const BackButton = styled.div`
   background-color: #ddd;
   color: #4d4d4d;
   text-align: center;
+  cursor: pointer;
 
   font-size: 15px;
   font-style: normal;
