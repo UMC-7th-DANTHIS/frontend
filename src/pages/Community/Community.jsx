@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import dummyList from "../store/community/dummyList";
+import dummyList from "../../store/community/dummyList";
 
 const Community = () => {
   const [data, setData] = useState([]);
@@ -60,7 +60,7 @@ const Community = () => {
               {">"}
             </PageCursor>
           </PageContainer>
-          <WriteButton>글쓰기</WriteButton>
+          <WriteButton onClick={() => navigate("/edit")}>글쓰기</WriteButton>
         </ListsContainer>
       </ContentContainer>
     </Container>
