@@ -94,6 +94,10 @@ const InputBox = styled.input`
   font-style: normal;
   font-weight: 300;
   line-height: normal;
+
+  &:hover {
+    border: 1px solid var(--main_purple, #9819c3);
+  }
 `;
 const TextareaBox = styled.textarea`
   width: 525px;
@@ -113,6 +117,10 @@ const TextareaBox = styled.textarea`
   font-style: normal;
   font-weight: 300;
   line-height: normal;
+
+  &:hover {
+    border: 1px solid var(--main_purple, #9819c3);
+  }
 `;
 const StarsContainer = styled.div`
   display: flex;
@@ -149,4 +157,8 @@ const ShortInputBox = styled.input`
   font-style: normal;
   font-weight: 300;
   line-height: normal;
+
+  &:hover {
+    border: 1px solid var(--main_purple, #9819c3);
+  }
 `;
