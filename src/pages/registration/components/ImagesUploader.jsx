@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as PictureIcon } from "../../../assets/picture.svg";
 
-const ImagesUploader = ({ images, updateForm }) => {
+const ImagesUploader = ({ images, handleFormChange }) => {
   const totalImages = 3;
 
   // 이미지 업로드 핸들러
@@ -13,7 +13,7 @@ const ImagesUploader = ({ images, updateForm }) => {
       const updatedImages = images.map((image, i) =>
         i === index ? file : image
       );
-      updateForm("images", updatedImages);
+      handleFormChange("images", updatedImages);
     }
   };
 
