@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Input, Textarea, StarRating, ShortInput } from "../components/Inputs";
 import GenreSelector from "../components/GenreSelector";
-import FileUploader from "../components/FileUploader";
+import ImagesUploader from "../components/ImagesUploader";
+import VideoUploader from "../components/VideoUploader";
 import SubmitButton from "../components/SubmitButton";
-import { ReactComponent as PictureIcon } from "../../../assets/picture.svg";
-import { ReactComponent as VedioIcon } from "../../../assets/vedio.svg";
 
 const ClassForm = ({ onRegister }) => {
   const [formState, setFormState] = useState({
@@ -15,7 +14,7 @@ const ClassForm = ({ onRegister }) => {
     genres: [],
     description: "",
     recommendedFor: "",
-    images: ["", "", ""], // 수업 사진 3개
+    images: [],
     video: "",
     url: "",
   });
@@ -74,11 +73,7 @@ const ClassForm = ({ onRegister }) => {
           </Label>
           <Notice>*수업 사진이 없는 경우, 댄서 사진을 업로드 해주세요</Notice>
         </NoticedLabel>
-        <ImageUploadWrapper>
-          {formState.images.map((image, index) => (
-            <FileUploader key={index} Icon={PictureIcon} accept="image/*" />
-          ))}
-        </ImageUploadWrapper>
+        <ImagesUploader images={formState.images} updateForm={updateForm} />
         <NoticedLabel>
           <Label>수업 영상</Label>
           <Notice>
@@ -86,9 +81,7 @@ const ClassForm = ({ onRegister }) => {
             {"\n"} *수업 영상이 없는 경우, 댄서 영상을 업로드 해주세요
           </Notice>
         </NoticedLabel>
-        <VideoUploadWrapper>
-          <FileUploader Icon={VedioIcon} accept="video/*" />
-        </VideoUploadWrapper>
+        <VideoUploader updateForm={updateForm} />
         <ShortInput
           label="URL"
           value={formState.url}
@@ -127,24 +120,6 @@ const NoticedLabel = styled.div`
   align-items: center;
   justify-content: flex-start;
   width: 589px;
-`;
-const ImageUploadWrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 13.5px;
-  width: 627px;
-  height: 200px;
-  flex-shrink: 0;
-  margin-top: 32px;
-  margin-bottom: 63px;
-`;
-const VideoUploadWrapper = styled.div`
-  display: flex;
-  width: 589px;
-  height: 200px;
-  flex-shrink: 0;
-  margin-top: 25px;
-  margin-bottom: 46px;
 `;
 const Label = styled.div`
   margin-left: 8px;
