@@ -6,6 +6,7 @@ import MypageLayout from "./pages/mypage/MypageLayout";
 import Community from "./pages/Community";
 import DummyContent from "./pages/CommunityPost";
 import DancerRegistration from "./pages/add-new-dancer/DancerRegistration"; // +
+import ClassRegistration from "./pages/registration/newclass/ClassRegistration";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="community" element={<Community />} />
           <Route path="post" element={<DummyContent />} />
           <Route path="dancerregister" element={<DancerRegistration />} />
+          <Route path="classregister" element={<ClassRegistration />} />
         </Route>
       </Routes>
     </Router>
