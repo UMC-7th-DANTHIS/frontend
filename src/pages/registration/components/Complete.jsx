@@ -1,21 +1,18 @@
 import React from "react";
 import styled from "styled-components";
-import Check from "../../assets/check.svg";
+import { ReactComponent as Check } from "../../../assets/check.svg";
 import { useNavigate } from "react-router-dom";
 
-const RegistrationComplete = () => {
+const Complete = ({ title, detail }) => {
   const navigate = useNavigate();
 
   return (
     <Container>
       <Ellipse>
-        <img src={Check} alt="Check Icon" />
+        <Check alt="Check Icon" />
       </Ellipse>
-      <Title>댄서 등록 신청이 완료되었어요!</Title>
-      <Detail>
-        운영진의 검토 이후 댄서로 등록될 수 있어요. {"\n"}
-        등록 신청에 감사드려요 :)
-      </Detail>
+      <Title>{title}</Title>
+      <Detail>{detail}</Detail>
       <HomeBtn
         type="button"
         onClick={() =>
@@ -31,11 +28,11 @@ const RegistrationComplete = () => {
   );
 };
 
-export default RegistrationComplete;
+export default Complete;
 
 const Container = styled.div`
   justify-items: center;
-  padding-bottom: 181.61px;
+  padding-bottom: 182px;
 `;
 const Ellipse = styled.div`
   display: flex;
@@ -57,7 +54,7 @@ const Title = styled.div`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin-top: 70.96px;
+  margin-top: 70px;
   margin-bottom: 40px;
 `;
 const Detail = styled.div`
@@ -77,7 +74,7 @@ const HomeBtn = styled.button`
   border: none;
   border-radius: 15px;
   background: var(--main_purple, #9819c3);
-  margin-top: 59.51px;
+  margin-top: 60px;
 
   &:hover {
     cursor: pointer;
