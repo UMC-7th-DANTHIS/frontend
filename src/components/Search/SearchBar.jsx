@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Searchicon from "../../assets/searchicon.svg";
 
 const SearchBar = () => {
+  const [select, setSelect] = useState("");
+
+  const handleCategoryClick = (category) => setSelect(category);
+
+  console.log(select);
+
   return (
     <Container>
       <InputContainer>
@@ -27,13 +33,33 @@ const SearchBar = () => {
           <DownHash>#감성적인</DownHash>
         </DownContainer>
       </HashTagContainer>
+      <SelectContainer>
+        <SelectText
+          className={select === "class" ? "active" : ""}
+          onClick={() => handleCategoryClick("class")}
+        >
+          수업
+        </SelectText>
+        <SelectText
+          className={select === "dancer" ? "active" : ""}
+          onClick={() => handleCategoryClick("dancer")}
+        >
+          댄서
+        </SelectText>
+        <SelectText
+          className={select === "community" ? "active" : ""}
+          onClick={() => handleCategoryClick("community")}
+        >
+          커뮤니티
+        </SelectText>
+      </SelectContainer>
     </Container>
   );
 };
 
 const Container = styled.div`
   width: 100%;
-  height: 330px;
+  height: 386px;
   background-color: black;
 `;
 
@@ -137,6 +163,25 @@ const DownHash = styled.div`
   color: #b2b2b2;
 `;
 
-const SelectContainer = styled.div``;
+const SelectContainer = styled.div`
+  display: flex;
+  margin-left: 147px;
+  margin-top: 75px;
+  gap: 65px;
+`;
+
+const SelectText = styled.span`
+  height: 26px;
+
+  color: #4d4d4d;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+
+  &:active {
+    color: white;
+  }
+`;
 
 export default SearchBar;
