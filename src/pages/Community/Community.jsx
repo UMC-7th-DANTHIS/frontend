@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import dummyList from "../store/dummyList";
+import dummyList from "../../store/community/dummyList";
 
 const Community = () => {
   const [data, setData] = useState([]);
   const [pagenum, setPagenum] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setData(dummyList);
@@ -27,7 +30,9 @@ const Community = () => {
           {data?.map((list) => (
             <ListContainer>
               <NoList>{list.No}</NoList>
-              <TitleList>{list.Title}</TitleList>
+              <TitleList onClick={() => navigate("/post")}>
+                {list.Title}
+              </TitleList>
               <DateList>{list.DateAt}</DateList>
               <SeeList>{list.See}</SeeList>
             </ListContainer>
@@ -55,7 +60,7 @@ const Community = () => {
               {">"}
             </PageCursor>
           </PageContainer>
-          <WriteButton>글쓰기</WriteButton>
+          <WriteButton onClick={() => navigate("/edit")}>글쓰기</WriteButton>
         </ListsContainer>
       </ContentContainer>
     </Container>
@@ -67,7 +72,6 @@ const Container = styled.div`
   background-color: black;
   justify-items: center;
   padding: 73px 204px 184px 206px;
-  border-top: 1px solid white;
 `;
 
 const ContentContainer = styled.div`
