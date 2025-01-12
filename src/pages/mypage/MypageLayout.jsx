@@ -10,97 +10,97 @@ import MyEditProfile from './components/MyEditProfile';
 import MyInfo from './components/MyInfo';
 
 const MypageLayout = () => {
-    const [selectedMenu, setSelectedMenu] = useState('내가 찜한 수업');
+  const [selectedMenu, setSelectedMenu] = useState('내가 찜한 수업');
 
-    const renderContent = () => {
-        switch (selectedMenu) {
-            case '내가 찜한 수업':
-                return <MyLikeClass />;
-            case '내가 찜한 댄서':
-                return <MyLikeDancer />;
-            case '채팅한 유저 목록':
-                return <MyChatList />;
-            case '내가 등록한 수업':
-                return <MyRegisterClass />;
-            case '수업 후기 작성하기':
-                return <MyReview />;
-            case '내가 쓴 게시글 / 댓글':
-                return <MyComments />;
-            case '프로필 수정':
-                return <MyEditProfile />;
-            case '계정 및 정보':
-                return <MyInfo />;
-            default:
-                return <MyLikeClass />
-        }
-    };
+  const renderContent = () => {
+    switch (selectedMenu) {
+      case '내가 찜한 수업':
+        return <MyLikeClass />;
+      case '내가 찜한 댄서':
+        return <MyLikeDancer />;
+      case '채팅한 유저 목록':
+        return <MyChatList />;
+      case '내가 등록한 수업':
+        return <MyRegisterClass />;
+      case '수업 후기 작성하기':
+        return <MyReview />;
+      case '내가 쓴 게시글 / 댓글':
+        return <MyComments />;
+      case '프로필 수정':
+        return <MyEditProfile />;
+      case '계정 및 정보':
+        return <MyInfo />;
+      default:
+        return <MyLikeClass />
+    }
+  };
 
-    return (
-        <MainContainer>
-            <SidebarContainer>
-                <Sidebar />
-                <SidebarMenu>
-                    <MenuItem
-                        onClick={() => setSelectedMenu('내가 찜한 수업')}
-                        isActive={selectedMenu === '내가 찜한 수업'}
-                    >
-                        내가 찜한 수업
-                    </MenuItem>
-                    <MenuItem
-                        onClick={() => setSelectedMenu('내가 찜한 댄서')}
-                        isActive={selectedMenu === '내가 찜한 댄서'}
-                    >
-                        내가 찜한 댄서
-                    </MenuItem>
-                    <MenuItem
-                        onClick={() => setSelectedMenu('채팅한 유저 목록')}
-                        isActive={selectedMenu === '채팅한 유저 목록'}
-                    >
-                        채팅한 유저 목록
-                    </MenuItem>
+  return (
+    <MainContainer>
+      <SidebarContainer>
+        <Sidebar />
+        <SidebarMenu>
+          <MenuItem
+            onClick={() => setSelectedMenu('내가 찜한 수업')}
+            isActive={selectedMenu === '내가 찜한 수업'}
+          >
+            내가 찜한 수업
+          </MenuItem>
+          <MenuItem
+            onClick={() => setSelectedMenu('내가 찜한 댄서')}
+            isActive={selectedMenu === '내가 찜한 댄서'}
+          >
+            내가 찜한 댄서
+          </MenuItem>
+          <MenuItem
+            onClick={() => setSelectedMenu('채팅한 유저 목록')}
+            isActive={selectedMenu === '채팅한 유저 목록'}
+          >
+            채팅한 유저 목록
+          </MenuItem>
 
-                    <MenuItem
-                        onClick={() => setSelectedMenu('내가 등록한 수업')}
-                        isActive={selectedMenu === '내가 등록한 수업'}
-                    >
-                        내가 등록한 수업
-                    </MenuItem>
+          <MenuItem
+            onClick={() => setSelectedMenu('내가 등록한 수업')}
+            isActive={selectedMenu === '내가 등록한 수업'}
+          >
+            내가 등록한 수업
+          </MenuItem>
 
-                    <MenuItem
-                        onClick={() => setSelectedMenu('수업 후기 작성하기')}
-                        isActive={selectedMenu === '수업 후기 작성하기'}
-                    >
-                        수업 후기 작성하기
-                    </MenuItem>
+          <MenuItem
+            onClick={() => setSelectedMenu('수업 후기 작성하기')}
+            isActive={selectedMenu === '수업 후기 작성하기'}
+          >
+            수업 후기 작성하기
+          </MenuItem>
 
-                    <MenuItem
-                        onClick={() => setSelectedMenu('내가 쓴 게시글/댓글')}
-                        isActive={selectedMenu === '내가 쓴 게시글/댓글'}
-                    >
-                        내가 쓴 게시글/댓글
-                    </MenuItem>
+          <MenuItem
+            onClick={() => setSelectedMenu('내가 쓴 게시글/댓글')}
+            isActive={selectedMenu === '내가 쓴 게시글/댓글'}
+          >
+            내가 쓴 게시글/댓글
+          </MenuItem>
 
-                    <MenuItem
-                        onClick={() => setSelectedMenu('프로필 수정')}
-                        isActive={selectedMenu === '프로필 수정'}
-                    >
-                        프로필 수정
-                    </MenuItem>
+          <MenuItem
+            onClick={() => setSelectedMenu('프로필 수정')}
+            isActive={selectedMenu === '프로필 수정'}
+          >
+            프로필 수정
+          </MenuItem>
 
-                    <MenuItem
-                        onClick={() => setSelectedMenu('계정 및 정보')}
-                        isActive={selectedMenu === '계정 및 정보'}
-                    >
-                        계정 및 정보
-                    </MenuItem>
-                </SidebarMenu>
-            </SidebarContainer>
+          <MenuItem
+            onClick={() => setSelectedMenu('계정 및 정보')}
+            isActive={selectedMenu === '계정 및 정보'}
+          >
+            계정 및 정보
+          </MenuItem>
+        </SidebarMenu>
+      </SidebarContainer>
 
-            <ContentContainer>
-                {renderContent()}
-            </ContentContainer>
-        </MainContainer>
-    );
+      <ContentContainer>
+        {renderContent()}
+      </ContentContainer>
+    </MainContainer>
+  );
 };
 
 export default MypageLayout;
@@ -142,8 +142,8 @@ const MenuItem = styled.div`
     transition: all 0.3s ease;
 
     ${({ isActive }) =>
-        isActive &&
-        `
+    isActive &&
+    `
         color: #fff;
         font-size: 24px;
         font-style: normal;
