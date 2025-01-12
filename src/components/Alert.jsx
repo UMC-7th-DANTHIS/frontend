@@ -3,28 +3,28 @@ import styled from 'styled-components';
 import { ReactComponent as CloseIcon } from "../assets/buttons/close-button.svg"
 
 const Alert = ({ title, message, onClose, messageColor, messagesize, ContainerWidth, ContainerHeight, AlertWidth, AlertHeight, showButtons }) => (
-    <AlertOverlay>
-        {/* 검정색 배경부분 width랑 height 설정 */}
-        <AlertContainer width={AlertWidth} height={AlertHeight} >
-            <CloseButton onClick={onClose}>
-                <CloseIcon />
-            </CloseButton>
-            {/* 흰색 부분 width랑 height 설정 */}
-            <TextContainer width={ContainerWidth} height={ContainerHeight}>
-                {/* 제목 */}
-                <AlertTitle>{title}</AlertTitle>
-                {/* 내용이랑 text 색 설정 / 기본색은 검정 */}
-                <AlertMessage color={messageColor} fontSize={messagesize}>{message}</AlertMessage>
-            </TextContainer>
-            {/* 예 아니요 버튼 유무 true/false로 설정 */}
-            {showButtons && (
-                <Buttons>
-                    <Cancel onClick={onClose}> 아니요 </Cancel>
-                    <Confirm onClick={onClose}> 예 </Confirm>
-                </Buttons>
-            )}
-        </AlertContainer>
-    </AlertOverlay>
+  <AlertOverlay>
+    {/* 검정색 배경부분 width랑 height 설정 */}
+    <AlertContainer width={AlertWidth} height={AlertHeight} >
+      <CloseButton onClick={onClose}>
+        <CloseIcon />
+      </CloseButton>
+      {/* 흰색 부분 width랑 height 설정 */}
+      <TextContainer width={ContainerWidth} height={ContainerHeight}>
+        {/* 제목 */}
+        <AlertTitle>{title}</AlertTitle>
+        {/* 내용이랑 text 색 설정 / 기본색은 검정 */}
+        <AlertMessage color={messageColor} fontSize={messagesize}>{message}</AlertMessage>
+      </TextContainer>
+      {/* 예 아니요 버튼 유무 true/false로 설정 */}
+      {showButtons && (
+        <Buttons>
+          <Cancel onClick={onClose}> 아니요 </Cancel>
+          <Confirm onClick={onClose}> 예 </Confirm>
+        </Buttons>
+      )}
+    </AlertContainer>
+  </AlertOverlay>
 );
 
 export default Alert;
