@@ -6,7 +6,7 @@ import { ReactComponent as StarNonfilled } from "../../../assets/buttons/starlev
 const Input = ({ label, value, onChange, placeholder }) => {
   return (
     <div>
-      <Label>{label}</Label>
+      {label && <Label>{label}</Label>}
       <InputBox value={value} onChange={onChange} placeholder={placeholder} />
     </div>
   );
