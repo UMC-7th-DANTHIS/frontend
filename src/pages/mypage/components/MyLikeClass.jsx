@@ -3,15 +3,15 @@ import styled from 'styled-components';
 import sampleImage from '../../../assets/image.png'
 
 const MyLikeClass = () => {
-    return (
-        <ClassContainer>
-            {Array.from({ length: 6 }).map((_, index) => (
-                <ClassList key={index}>
-                    <Image src={sampleImage} alt={`Class ${index + 1}`} />
-                </ClassList>
-            ))}
-        </ClassContainer>
-    );
+  return (
+    <ClassContainer>
+      {Array.from({ length: 6 }).map((_, index) => (
+        <ClassList key={index}>
+          <Image src={sampleImage} alt={`Class ${index + 1}`} />
+        </ClassList>
+      ))}
+    </ClassContainer>
+  );
 };
 
 export default MyLikeClass;

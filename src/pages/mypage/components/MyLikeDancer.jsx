@@ -3,15 +3,15 @@ import styled from 'styled-components'
 import sampleImage from '../../../assets/image.png'
 
 const MyLikeDancer = () => {
-    return (
-        <DancerContainer>
-            {Array.from({ length: 6 }).map((_, index) => (
-                <DancerList key={index}>
-                    <Image src={sampleImage} alt={`Class ${index + 1}`} />
-                </DancerList>
-            ))}
-        </DancerContainer>
-    );
+  return (
+    <DancerContainer>
+      {Array.from({ length: 6 }).map((_, index) => (
+        <DancerList key={index}>
+          <Image src={sampleImage} alt={`Class ${index + 1}`} />
+        </DancerList>
+      ))}
+    </DancerContainer>
+  );
 }
 
 export default MyLikeDancer
