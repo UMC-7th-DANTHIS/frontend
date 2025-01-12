@@ -14,7 +14,6 @@ const DancerForm = ({ onRegister }) => {
     genres: [],
     history: "",
     images: [null, null, null, null],
-    isToggledRadio: true,
   });
 
   // 등록 폼 상태 업데이트
