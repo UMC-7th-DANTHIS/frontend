@@ -1,6 +1,6 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 const CommunityEdit = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const CommunityEdit = () => {
         <ButtonContainer>
           <ImageButton>사진</ImageButton>
           <RightButtons>
-            <CancelButton onClick={() => navigate("/community")}>
+            <CancelButton onClick={() => navigate('/community')}>
               취소
             </CancelButton>
             <SubmitButton>작성</SubmitButton>
@@ -45,7 +45,7 @@ const CommunityEdit = () => {
 
 const Container = styled.div`
   background-color: #000000;
-  height: 1197px;
+  padding-bottom: 100px;
 `;
 
 const TopHeader = styled.div`
