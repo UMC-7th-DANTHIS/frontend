@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import NewDancerForm from "./NewDancerForm";
-import RegistrationComplete from "./ResgitrationComplete";
+import DancerForm from "./DancerForm";
+import Complete from "../components/Complete";
 
 const DancerRegistration = () => {
   const [isRegistered, setIsRegistered] = useState(false);
+
+  // 등록 완료 메시지
+  const title = "댄서 등록 신청이 완료되었어요!";
+  const detail =
+    "운영진의 검토 이후 댄서로 등록될 수 있어요. \n등록 신청에 감사드려요 :)";
 
   const handleRegister = () => {
     // 댄서 등록 처리
@@ -16,9 +21,9 @@ const DancerRegistration = () => {
       <Registration>
         <Title>댄서 등록</Title>
         {!isRegistered ? (
-          <NewDancerForm onRegister={handleRegister} />
+          <DancerForm onRegister={handleRegister} />
         ) : (
-          <RegistrationComplete />
+          <Complete title={title} detail={detail} />
         )}
       </Registration>
     </Container>
