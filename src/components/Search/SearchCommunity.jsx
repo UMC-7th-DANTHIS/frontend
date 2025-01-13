@@ -35,9 +35,10 @@ const CommunityLists = styled.div`
 
 const CommunityList = styled.div`
   display: flex;
+  padding-left: 114px;
+  padding-right: 114px;
   padding-top: 41px;
   padding-bottom: 41px;
-  padding-left: 43px;
 
   border-bottom: 1px solid #ddd;
 
@@ -48,8 +49,13 @@ const CommunityList = styled.div`
 
 const TextContainer = styled.div`
   flex-direction: column;
-  margin-left: 38px;
-  margin-bottom: 12px;
+  border: 1px solid #dddddd;
+  border-radius: 10px;
+
+  padding-left: 50px;
+  padding-right: 39px;
+  padding-top: 29px;
+  padding-bottom: 29px;
 
   color: white;
   font-style: normal;
