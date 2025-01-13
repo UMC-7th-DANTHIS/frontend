@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import Logo from "../assets/logo.svg";
-import Outline from "../assets/outline.svg";
-import { Link, useNavigate } from "react-router-dom";
-import Searchicon from "../assets/searchicon.svg";
+import React from 'react';
+import styled from 'styled-components';
+import Logo from '../assets/logo.svg';
+import Outline from '../assets/outline.svg';
+import { Link, useNavigate } from 'react-router-dom';
+import Searchicon from '../assets/searchicon.svg';
 
 const Topbar = () => {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ const Topbar = () => {
               <SearchIcon
                 src={Searchicon}
                 alt="search"
-                onClick={() => navigate("/search/class")}
+                onClick={() => navigate('/search')}
               />
             </SearchButton>
           </Search>

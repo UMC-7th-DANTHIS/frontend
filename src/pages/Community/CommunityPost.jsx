@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import dummyContent from "../../store/community/dummyContent";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import dummyContent from '../../store/community/dummyContent';
 
 const CommunityPost = () => {
   const navigate = useNavigate();
@@ -33,7 +33,7 @@ const CommunityPost = () => {
             <button>🗑</button>
           </PostActions>
           <PostMeta>
-            <span>작성자 : {data[0]?.Author}</span>{" "}
+            <span>작성자 : {data[0]?.Author}</span>{' '}
           </PostMeta>
         </PostInfo>
         <Content>
@@ -65,7 +65,7 @@ const CommunityPost = () => {
             <button>작성</button>
           </CommentInput>
         </CommentSection>
-        <BackButton onClick={() => navigate("/community")}>
+        <BackButton onClick={() => navigate('/community')}>
           글 목록으로
         </BackButton>
       </Wrapper>
@@ -78,6 +78,7 @@ export default CommunityPost;
 const Container = styled.div`
   padding-top: 30px;
   background-color: #000000;
+  padding-bottom: 100px;
 `;
 
 const Wrapper = styled.div`
