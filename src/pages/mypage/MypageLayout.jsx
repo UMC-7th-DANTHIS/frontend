@@ -24,7 +24,7 @@ const MypageLayout = () => {
         return <MyRegisterClass />;
       case '수업 후기 작성하기':
         return <MyReview />;
-      case '내가 쓴 게시글 / 댓글':
+      case '내가 쓴 게시글/댓글':
         return <MyComments />;
       case '프로필 수정':
         return <MyEditProfile />;
@@ -116,7 +116,7 @@ const SidebarContainer = styled.div`
     display: flex;
     flex-direction: row;
     margin-left: 98px;
-    margin-top: 47px;
+    margin-top: 17px;
 
 `;
 
