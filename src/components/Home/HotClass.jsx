@@ -21,6 +21,7 @@ export default HotClass;
 
 const Container = styled.div`
   margin-top: 120px;
+  border-bottom: 2px solid #4d4d4d;
 `;
 
 const Header = styled.div`
