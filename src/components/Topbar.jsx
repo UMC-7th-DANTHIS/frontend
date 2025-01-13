@@ -8,10 +8,16 @@ import Searchicon from "../assets/searchicon.svg";
 const Topbar = () => {
   const navigate = useNavigate();
 
+  const handleClick = () =>{
+    navigate("/");
+  }
+
   return (
     <Container>
       <TopContainer>
+        <LogoBtn onClick={handleClick}>
         <LogoImg src={Logo} alt="logo" />
+        </LogoBtn>
         <LoginContainer>
           <Login>LOGIN</Login>
           <Search>
@@ -59,6 +65,11 @@ const TopContainer = styled.div`
   align-items: center;
 `;
 
+const LogoBtn = styled.button`
+background : none;
+border : none;
+cursor : pointer;
+`
 const LogoImg = styled.img`
   display: flex;
   width: 218px;
