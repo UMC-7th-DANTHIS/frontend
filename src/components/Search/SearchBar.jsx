@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import Searchicon from "../../assets/searchicon.svg";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import Searchicon from '../../assets/searchicon.svg';
 
 const SearchBar = () => {
-  const [select, setSelect] = useState("");
+  const [select, setSelect] = useState('');
 
   const handleCategoryClick = (category) => setSelect(category);
 
@@ -35,20 +35,20 @@ const SearchBar = () => {
       </HashTagContainer>
       <SelectContainer>
         <SelectText
-          className={select === "class" ? "active" : ""}
-          onClick={() => handleCategoryClick("class")}
+          className={select === 'class' ? 'active' : ''}
+          onClick={() => handleCategoryClick('class')}
         >
           수업
         </SelectText>
         <SelectText
-          className={select === "dancer" ? "active" : ""}
-          onClick={() => handleCategoryClick("dancer")}
+          className={select === 'dancer' ? 'active' : ''}
+          onClick={() => handleCategoryClick('dancer')}
         >
           댄서
         </SelectText>
         <SelectText
-          className={select === "community" ? "active" : ""}
-          onClick={() => handleCategoryClick("community")}
+          className={select === 'community' ? 'active' : ''}
+          onClick={() => handleCategoryClick('community')}
         >
           커뮤니티
         </SelectText>

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import dummyList from "../../store/community/dummyList";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import dummyList from '../../store/community/dummyList';
 
 const Community = () => {
   const [data, setData] = useState([]);
@@ -30,7 +30,7 @@ const Community = () => {
           {data?.map((list) => (
             <ListContainer>
               <NoList>{list.No}</NoList>
-              <TitleList onClick={() => navigate("/post")}>
+              <TitleList onClick={() => navigate('/post')}>
                 {list.Title}
               </TitleList>
               <DateList>{list.DateAt}</DateList>
@@ -41,12 +41,12 @@ const Community = () => {
             <PageCursor
               onClick={() => handlePageClick(Math.max(1, currentPage - 1))}
             >
-              {"<"}
+              {'<'}
             </PageCursor>
             {Array.from({ length: pagenum }, (_, i) => i + 1).map((page) => (
               <PageNumber
                 key={page}
-                className={page === currentPage ? "active" : ""}
+                className={page === currentPage ? 'active' : ''}
                 onClick={() => handlePageClick(page)}
               >
                 {page}
@@ -57,10 +57,10 @@ const Community = () => {
                 handlePageClick(Math.min(pagenum, currentPage + 1))
               }
             >
-              {">"}
+              {'>'}
             </PageCursor>
           </PageContainer>
-          <WriteButton onClick={() => navigate("/edit")}>글쓰기</WriteButton>
+          <WriteButton onClick={() => navigate('/edit')}>글쓰기</WriteButton>
         </ListsContainer>
       </ContentContainer>
     </Container>
