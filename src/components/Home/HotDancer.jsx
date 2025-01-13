@@ -36,9 +36,6 @@ const HotDancer = () => {
           <Slide>
             <Placeholder>Placeholder 6</Placeholder>
           </Slide>
-          <Slide>
-            <Placeholder>Placeholder 7</Placeholder>
-          </Slide>
         </Slider>
       </CarouselContainer>
     </Container>
@@ -51,14 +48,19 @@ const sliderSettings = {
   dots: false,
   infinite: true,
   speed: 3000,
-  slidesToShow: 7,
+  slidesToShow: 6,
   slidesToScroll: 1,
   autoplay: true,
   autoplaySpeed: 1,
   cssEase: 'linear'
 };
 
-const Container = styled.div``;
+const Container = styled.div`
+  margin-left: 100px;
+  margin-right: 100px;
+
+  border-bottom: 2px solid #4d4d4d;
+`;
 
 const CarouselContainer = styled.div`
   margin-top: 73px;
