@@ -89,31 +89,17 @@ const InfoContainer = styled.div`
 `;
 
 const LeftSection = styled.div`
-<<<<<<< HEAD
   display: flex;
   flex-direction: column;
   margin-right: 150px;
-  margin-top: 157px;
+  margin-top: 127px;
 `;
 
 const RightSection = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 150px;
-  margin-top: 157px;
-=======
-    display: flex;
-    flex-direction: column;
-    margin-right: 150px;
-    margin-top: 127px;
-`;
-
-const RightSection = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-left: 150px;
-    margin-top: 127px;
->>>>>>> dev
+  margin-top: 127px;
 `;
 
 const MenuItem = styled.div`
