@@ -89,6 +89,7 @@ const InfoContainer = styled.div`
 `;
 
 const LeftSection = styled.div`
+<<<<<<< HEAD
   display: flex;
   flex-direction: column;
   margin-right: 150px;
@@ -100,6 +101,19 @@ const RightSection = styled.div`
   flex-direction: column;
   margin-left: 150px;
   margin-top: 157px;
+=======
+    display: flex;
+    flex-direction: column;
+    margin-right: 150px;
+    margin-top: 127px;
+`;
+
+const RightSection = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-left: 150px;
+    margin-top: 127px;
+>>>>>>> dev
 `;
 
 const MenuItem = styled.div`
@@ -121,7 +135,7 @@ const Divider = styled.div`
   width: 1px;
   height: 220px;
   background-color: #4d4d4d;
-  margin-top: 141px;
+  margin-top: 111px;
 `;
 
 const ColoredText = styled.span`

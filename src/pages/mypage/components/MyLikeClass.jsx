@@ -20,7 +20,7 @@ const ClassContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 280px); 
     gap: 50px; 
-    margin-top: 70px;
+    margin-top: 40px;
     justify-content: center; 
 
 `;
