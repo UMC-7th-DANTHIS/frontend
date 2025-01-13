@@ -87,7 +87,7 @@ const ReviewContainer = styled.div`
     flex-direction: column;
     background-color: black;
     color: #fff;
-    margin-top: 68px;
+    margin-top: 38px;
     margin-left: 147px;
 `;
 

@@ -93,14 +93,14 @@ const LeftSection = styled.div`
     display: flex;
     flex-direction: column;
     margin-right: 150px;
-    margin-top: 157px;
+    margin-top: 127px;
 `;
 
 const RightSection = styled.div`
     display: flex;
     flex-direction: column;
     margin-left: 150px;
-    margin-top: 157px;
+    margin-top: 127px;
 `;
 
 const MenuItem = styled.div`
@@ -122,7 +122,7 @@ const Divider = styled.div`
     width: 1px;
     height: 220px;
     background-color: #4D4D4D;
-    margin-top: 141px;
+    margin-top: 111px;
 `;
 
 const ColoredText = styled.span`

@@ -32,7 +32,7 @@ const ChatContainer = styled.div`
     justify-content: center;
     flex-direction: column;
     gap: 32px;
-    margin-top: 55px;
+    margin-top: 25px;
 `;
 
 const ChatList = styled.div`
