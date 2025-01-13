@@ -1,26 +1,27 @@
 import React from 'react'
 import styled from 'styled-components'
 import { ReactComponent as Arrow } from "../../../assets/arrow.svg"
+import sampleImage from '../../../assets/image.png'
 
 
 const MyChatList = () => {
-    return (
-        <ChatContainer>
-            {Array.from({ length: 5 }).map((_, index) => (
-                <ChatList key={index}>
-                    <ListItem>
-                        <ListImage> 이미지</ListImage>
-                        <ListName> 써니 </ListName>
-                        <ArrowContainer>
-                            <Arrow />
-                        </ArrowContainer>
+  return (
+    <ChatContainer>
+      {Array.from({ length: 5 }).map((_, index) => (
+        <ChatList key={index}>
+          <ListItem>
+            <ListImage src={sampleImage} alt="Profile" />
+            <ListName> 써니 </ListName>
+            <ArrowContainer>
+              <Arrow />
+            </ArrowContainer>
 
-                    </ListItem>
+          </ListItem>
 
-                </ChatList>
-            ))}
-        </ChatContainer>
-    )
+        </ChatList>
+      ))}
+    </ChatContainer>
+  )
 }
 
 export default MyChatList
@@ -51,7 +52,7 @@ const ListItem = styled.div`
     align-items: center;
 `
 
-const ListImage = styled.div`
+const ListImage = styled.img`
     width: 50px;
     height: 50px;
     flex-shrink: 0;
