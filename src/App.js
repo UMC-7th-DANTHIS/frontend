@@ -5,7 +5,7 @@ import MainPage from "./pages/MainPage";
 import MypageLayout from "./pages/mypage/MypageLayout";
 import Community from "./pages/Community/Community";
 import CommunityPost from "./pages/Community/CommunityPost";
-import DancerRegistration from "./pages/add-new-dancer/DancerRegistration";
+import DancerRegistration from "./pages/registration/newdancer/DancerRegistration";
 import ClassRegistration from "./pages/registration/newclass/ClassRegistration";
 import CommunityEdit from "./pages/Community/CommunityEdit";
 import SearchLayout from "./layout/SearchLayout";
