@@ -8,12 +8,9 @@ import CommunityPost from './pages/Community/CommunityPost';
 import DancerRegistration from './pages/registration/newdancer/DancerRegistration';
 import ClassRegistration from './pages/registration/newclass/ClassRegistration';
 import CommunityEdit from './pages/Community/CommunityEdit';
-import SearchLayout from './layout/SearchLayout';
-import SearchClass from './components/Search/SearchClass';
-import SearchDancer from './components/Search/SearchDancer';
-import SearchCommunity from './components/Search/SearchCommunity';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
+import SearchPage from './pages/SearchPage';
 import SignupPage1 from './pages/Signup1';
 import SignupPage2 from './pages/Signup2';
 import SignupPage3 from './pages/Signup3';
@@ -40,11 +37,7 @@ function App() {
           <Route path="dancerregister" element={<DancerRegistration />} />
           <Route path="classregister" element={<ClassRegistration />} />
           <Route path="edit" element={<CommunityEdit />} />
-          <Route path="search" element={<SearchLayout />}>
-            <Route path="class" element={<SearchClass />} />
-            <Route path="dancer" element={<SearchDancer />} />
-            <Route path="community" element={<SearchCommunity />} />
-          </Route>
+          <Route path="search" element={<SearchPage />} />
         </Route>
       </Routes>
     </Router>

@@ -2,13 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Searchicon from '../../assets/searchicon.svg';
 
-const SearchBar = () => {
-  const [select, setSelect] = useState('');
-
-  const handleCategoryClick = (category) => setSelect(category);
-
-  console.log(select);
-
+const SearchBar = ({ select, handleCategoryClick }) => {
   return (
     <Container>
       <InputContainer>
@@ -172,6 +166,7 @@ const SelectContainer = styled.div`
 
 const SelectText = styled.span`
   height: 26px;
+  cursor: pointer;
 
   color: #4d4d4d;
   font-size: 22px;
@@ -179,7 +174,7 @@ const SelectText = styled.span`
   font-weight: 600;
   line-height: normal;
 
-  &:active {
+  &.active {
     color: white;
   }
 `;

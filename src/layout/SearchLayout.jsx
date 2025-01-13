@@ -1,7 +1,7 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-import styled from "styled-components";
-import SearchBar from "../components/Search/SearchBar";
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import styled from 'styled-components';
+import SearchBar from '../components/Search/SearchBar';
 
 const SearchLayout = () => {
   return (
