@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { ReactComponent as PictureIcon } from "../../../assets/picture.svg";
 
 const ImagesUploader = ({ images, handleFormChange }) => {
-  const totalImages = 3;
+  const totalImages = 4;
 
   // 이미지 업로드 핸들러
   const handleUploadFile = (e, index) => {
@@ -48,10 +48,10 @@ export default ImagesUploader;
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 13.5px;
-  width: 627px;
-  height: 200px;
+  width: 588px;
+  height: 140px;
   flex-shrink: 0;
   margin-top: 32px;
   margin-bottom: 63px;
