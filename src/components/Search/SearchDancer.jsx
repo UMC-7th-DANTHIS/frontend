@@ -31,9 +31,7 @@ const SearchDancer = () => {
   );
 };
 
-const Container = styled.div`
-  background-color: black;
-`;
+const Container = styled.div``;
 
 const ClassLists = styled.div`
   border-top: 2px solid #ddd;
