@@ -7,7 +7,7 @@ const UserDancer = () => {
       <Circle1 />
       <Circle2 />
       <Circle3 />
-      <Title>나를 위한 맞춤형 추천</Title>
+      <Title>Test용 입니다</Title>
       <Circle4 />
       <Circle5 />
       <Circle6 />
