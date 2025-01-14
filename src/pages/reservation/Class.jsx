@@ -84,6 +84,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-top: 30px;
   background-color: black;
 `;
 const TitleWrapper = styled.div`
