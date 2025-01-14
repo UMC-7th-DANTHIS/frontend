@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import dummyClass from '../../store/reservation/dummyClass';
+import dummyClasses from '../../store/reservation/dummyClasses';
 import { ReactComponent as Line } from '../../assets/shape/line.svg';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
 
@@ -17,13 +18,19 @@ const Reservation = () => {
     'K-pop'
   ];
   const [selectedGenre, setSelectedGenre] = useState(genres[0]);
-  const filteredClasses = dummyClass.filter(
+  const filteredClasses = dummyClasses.filter(
     (cls) => cls.genre === selectedGenre
   );
+  const navigate = useNavigate();
 
   // 장르 선택 핸들러
   const handleGenreClick = (genre) => {
     setSelectedGenre(genre);
+  };
+
+  // 수업 선택 핸들러
+  const handleClassClick = (classId) => {
+    navigate(`/classreservation/${classId}`);
   };
 
   return (
@@ -39,7 +46,7 @@ const Reservation = () => {
       <Line />
       <Classes>
         {filteredClasses.map((cls) => (
-          <Class key={cls.id}>
+          <Class key={cls.id} onClick={() => handleClassClick(cls.id)}>
             <p>{cls.name}</p>
           </Class>
         ))}

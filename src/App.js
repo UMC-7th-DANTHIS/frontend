@@ -16,6 +16,7 @@ import SignupPage2 from './pages/Signup2';
 import SignupPage3 from './pages/Signup3';
 import SignupPage4 from './pages/Signup4';
 import Reservation from './pages/reservation/Reservation';
+import Class from './pages/reservation/Class';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="edit" element={<CommunityEdit />} />
           <Route path="search" element={<SearchPage />} />
           <Route path="classreservation" element={<Reservation />} />
+          <Route path="classreservation/:classId" element={<Class />} />
         </Route>
       </Routes>
     </Router>
