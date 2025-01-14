@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import dummyClass from '../../store/reservation/dummyClass';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
@@ -70,7 +70,7 @@ const Class = () => {
           </Tab>
         ))}
       </Tabs>
-      {currentTab === 0 && <Detail />}
+      {currentTab === 0 && <Detail data={data} />}
       {currentTab === 1 && <Review />}
       {currentTab === 2 && <Rating />}
     </Container>
@@ -196,7 +196,7 @@ const Tabs = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: 1200px;
+  width: 1240px;
   height: 86.005px;
   flex-shrink: 0;
   border-radius: 20px 20px 0px 0px;
@@ -206,7 +206,7 @@ const Tab = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 400px;
+  width: 410px;
   height: 85px;
 
   ${({ $isActive }) =>
@@ -218,6 +218,10 @@ const Tab = styled.div`
     border-left: 3px solid var(--main_purple, #9819c3);
     background: var(--main_black, #000);
     box-shadow: 0px 8px 16px 0px var(--main_purple, #9819c3) inset;`}
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 const TabText = styled.div`
   color: var(--main_white, #fff);
