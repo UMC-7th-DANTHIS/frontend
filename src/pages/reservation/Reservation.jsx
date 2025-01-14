@@ -31,14 +31,8 @@ const Reservation = () => {
       <Sidebar>
         {genres.map((genre) => (
           <GenreWrapper key={genre} onClick={() => handleGenreClick(genre)}>
-            {selectedGenre === genre ? (
-              <>
-                <FocusedCircle />
-                <FocusedGenre>{genre}</FocusedGenre>
-              </>
-            ) : (
-              <Genre>{genre}</Genre>
-            )}
+            {selectedGenre === genre && <FocusedCircle />}
+            <Genre $isActive={selectedGenre === genre}>{genre}</Genre>
           </GenreWrapper>
         ))}
       </Sidebar>
@@ -74,6 +68,10 @@ const GenreWrapper = styled.div`
   align-items: center;
   width: 197px;
   margin-bottom: 50px;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 const Genre = styled.div`
   color: var(--text_secondary-gray, #b2b2b2);
@@ -83,16 +81,15 @@ const Genre = styled.div`
   font-weight: 500;
   line-height: normal;
   letter-spacing: -1.2px;
-`;
-const FocusedGenre = styled.div`
-  margin-left: 13px;
-  color: var(--main_white, #fff);
-  font-family: Pretendard;
-  font-size: 30px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  letter-spacing: -1.5px;
+  transition: all 0.3s ease;
+
+  ${({ $isActive }) =>
+    $isActive &&
+    `margin-left: 13px;
+    color: var(--main_white, #fff);
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: -1.5px;`}
 `;
 const Classes = styled.div`
   display: grid;
@@ -113,4 +110,8 @@ const Class = styled.div`
   border-radius: 3px;
   background: url(<path-to-image>) lightgray -103.255px -0.232px / 184.09%
     100.815% no-repeat;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
