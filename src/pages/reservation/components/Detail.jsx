@@ -21,12 +21,14 @@ const Detail = ({ data }) => {
       <InfoContainer>
         <Title>수업 사진</Title>
         <Images>
-          {data.images.map((image) => (
-            <Image src={image} />
+          {data.images.map((image, index) => (
+            <Image key={index} src={image} />
           ))}
         </Images>
       </InfoContainer>
-      <MoreAboutDancer>Parana 댄서에 대해 더 알고싶다면?</MoreAboutDancer>
+      <InfoContainer>
+        <MoreAboutDancer>Parana 댄서에 대해 더 알고싶다면?</MoreAboutDancer>
+      </InfoContainer>
     </Container>
   );
 };
