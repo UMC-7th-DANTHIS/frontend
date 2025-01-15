@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import dummyClass from '../../store/reservation/dummyClass';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
 import Level from './components/Level';
-import Detail from './components/Detail';
-import Review from './components/Review';
-import Rating from './components/Rating';
+import DetailTab from './components/DetailTab';
+import ReviewTab from './components/ReviewTab';
+import RatingTab from './components/RatingTab';
 
 const Class = () => {
   // const { classId } = useParams();
@@ -70,9 +70,9 @@ const Class = () => {
           </Tab>
         ))}
       </Tabs>
-      {currentTab === 0 && <Detail data={data} />}
-      {currentTab === 1 && <Review />}
-      {currentTab === 2 && <Rating />}
+      {currentTab === 0 && <DetailTab data={data} />}
+      {currentTab === 1 && <ReviewTab />}
+      {currentTab === 2 && <RatingTab />}
     </Container>
   );
 };
