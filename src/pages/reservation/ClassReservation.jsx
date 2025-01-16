@@ -65,7 +65,7 @@ const ClassReservation = () => {
             $isActive={currentTab === index}
             onClick={() => handleTabChange(index)}
           >
-            <TabText>{element.name}</TabText>
+            {element.name}
           </Tab>
         ))}
       </Tabs>
@@ -207,6 +207,14 @@ const Tab = styled.div`
   align-items: center;
   width: 410px;
   height: 85px;
+  color: var(--main_white, #fff);
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 50px; /* 178.571% */
+  letter-spacing: -1.4px;
 
   ${({ $isActive }) =>
     $isActive &&
@@ -221,14 +229,4 @@ const Tab = styled.div`
   &:hover {
     cursor: pointer;
   }
-`;
-const TabText = styled.div`
-  color: var(--main_white, #fff);
-  text-align: center;
-  font-family: Pretendard;
-  font-size: 28px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 50px; /* 178.571% */
-  letter-spacing: -1.4px;
 `;
