@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const Detail = ({ data }) => {
   return (
     <Container>
-      <VideoWrapper></VideoWrapper>
+      <Video></Video>
       <InfoContainer>
         <Title>📢 수업 소개</Title>
         <Text>{data.description}</Text>
@@ -22,7 +22,9 @@ const Detail = ({ data }) => {
         <Title>수업 사진</Title>
         <Images>
           {data.images.map((image, index) => (
-            <Image key={index} src={image} />
+            <Image key={index}>
+              {image && <img src={image} alt={`class #${index}`} />}
+            </Image>
           ))}
         </Images>
       </InfoContainer>
@@ -43,7 +45,7 @@ const Container = styled.div`
   width: 1240px;
   padding: 77px 108px;
 `;
-const VideoWrapper = styled.div`
+const Video = styled.div`
   width: 1024px;
   height: 560px;
   margin-bottom: 50px;

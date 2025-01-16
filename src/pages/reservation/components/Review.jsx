@@ -10,7 +10,7 @@ const Review = ({ review }) => {
   return (
     <Container>
       <InfoWrapper>
-        <Image />
+        <ProfileImage></ProfileImage>
         <Data>
           <Name>{review.name}</Name>
           <Title>{review.title}</Title>
@@ -34,7 +34,9 @@ const Review = ({ review }) => {
       {review.images && (
         <Images>
           {review.images.map((image, index) => (
-            <ImageContainer key={index} src={image}></ImageContainer>
+            <Image key={index}>
+              {image && <img src={image} alt={`review #${index}`} />}
+            </Image>
           ))}
         </Images>
       )}
@@ -66,7 +68,7 @@ const Data = styled.div`
   align-items: flex-start;
   margin-left: 10px;
 `;
-const Image = styled.div`
+const ProfileImage = styled.div`
   width: 120px;
   height: 120px;
   border-radius: 4px;
@@ -148,7 +150,7 @@ const Images = styled.div`
   gap: 38px;
   margin: 24px 42px 0 42px;
 `;
-const ImageContainer = styled.div`
+const Image = styled.div`
   width: 160px;
   height: 160px;
   border-radius: 4px;
