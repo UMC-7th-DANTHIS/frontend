@@ -14,7 +14,6 @@ const Class = () => {
   const data = dummyClass.find((cls) => cls.id === Number(classId));
 
   const [isLiked, setIsLiked] = useState(false);
-
   const [currentTab, setCurrentTab] = useState(0);
   const menu = [
     { name: '상세정보', content: 'Tab menu ONE' },
