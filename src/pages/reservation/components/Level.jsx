@@ -9,7 +9,7 @@ const Level = ({ level }) => {
   return (
     <LevelContainer>
       <Text>난이도 : </Text>
-      <StarsWrapper>
+      <Stars>
         {Array.from({ length: totalStars }, (_, index) =>
           index < level ? (
             <StarFilled key={index} />
@@ -17,7 +17,7 @@ const Level = ({ level }) => {
             <StarNonfilled key={index} />
           )
         )}
-      </StarsWrapper>
+      </Stars>
     </LevelContainer>
   );
 };
@@ -38,7 +38,7 @@ const Text = styled.div`
   line-height: 50px; /* 178.571% */
   letter-spacing: -1.4px;
 `;
-const StarsWrapper = styled.div`
+const Stars = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
