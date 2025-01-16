@@ -8,7 +8,7 @@ import DetailTab from './components/tabs/DetailTab';
 import ReviewTab from './components/tabs/ReviewTab';
 import RatingTab from './components/tabs/RatingTab';
 
-const Class = () => {
+const ClassReservation = () => {
   // const { classId } = useParams();
   const classId = 1; // 임시
   const data = dummyClass.find((cls) => cls.id === Number(classId));
@@ -76,7 +76,7 @@ const Class = () => {
   );
 };
 
-export default Class;
+export default ClassReservation;
 
 const Container = styled.div`
   display: flex;

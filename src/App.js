@@ -15,8 +15,8 @@ import SignupPage1 from './pages/Signup1';
 import SignupPage2 from './pages/Signup2';
 import SignupPage3 from './pages/Signup3';
 import SignupPage4 from './pages/Signup4';
-import Reservation from './pages/reservation/Reservation';
-import Class from './pages/reservation/Class';
+import ClassBoard from './pages/reservation/ClassBoard';
+import ClassReservation from './pages/reservation/ClassReservation';
 
 function App() {
   return (
@@ -36,8 +36,11 @@ function App() {
           <Route path="classregister" element={<ClassRegistration />} />
           <Route path="edit" element={<CommunityEdit />} />
           <Route path="search" element={<SearchPage />} />
-          <Route path="classreservation" element={<Reservation />} />
-          <Route path="classreservation/:classId" element={<Class />} />
+          <Route path="classreservation" element={<ClassBoard />} />
+          <Route
+            path="classreservation/:classId"
+            element={<ClassReservation />}
+          />
         </Route>
       </Routes>
     </Router>

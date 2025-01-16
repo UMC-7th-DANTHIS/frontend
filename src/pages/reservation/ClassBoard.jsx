@@ -5,7 +5,7 @@ import dummyClasses from '../../store/reservation/dummyClasses';
 import { ReactComponent as Line } from '../../assets/shape/line.svg';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
 
-const Reservation = () => {
+const ClassBoard = () => {
   const genres = [
     '힙합',
     '걸스힙합',
@@ -55,7 +55,7 @@ const Reservation = () => {
   );
 };
 
-export default Reservation;
+export default ClassBoard;
 
 const Container = styled.div`
   display: flex;
