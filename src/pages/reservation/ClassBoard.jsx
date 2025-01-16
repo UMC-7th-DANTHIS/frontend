@@ -47,7 +47,9 @@ const ClassBoard = () => {
       <Classes>
         {filteredClasses.map((cls) => (
           <Class key={cls.id} onClick={() => handleClassClick(cls.id)}>
-            <p>{cls.name}</p>
+            <Image></Image>
+            <Title>{cls.title}</Title>
+            <Dancer>{cls.dancer}</Dancer>
           </Class>
         ))}
       </Classes>
@@ -62,6 +64,7 @@ const Container = styled.div`
   flex-direction: row;
   background-color: black;
   justify-content: center;
+  padding-bottom: 50px; // 임시
 `;
 const Sidebar = styled.div`
   display: flex;
@@ -100,25 +103,59 @@ const Genre = styled.div`
 `;
 const Classes = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 50px 40px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(auto-fill, 333px);
   width: 880px;
-  height: 430px;
-  margin-top: 14px;
-  margin-left: 80px;
+  height: 800px; // 임시 712px
+  margin-top: 38px;
+  margin-left: 65px;
+
+  overflow-y: auto;
+  -ms-overflow-style: none; /* 1. Internet Explorer에서 스크롤바 숨기기 */
+  scrollbar-width: none; /* 2. Firefox에서 스크롤바 숨기기 */
+  &::-webkit-scrollbar {
+    display: none; /* 3. Chrome, Safari에서 스크롤바 숨기기 */
+  }
 `;
 const Class = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 190px;
-  height: 190px;
-  flex-shrink: 0;
-  border-radius: 3px;
-  background: url(<path-to-image>) lightgray -103.255px -0.232px / 184.09%
-    100.815% no-repeat;
+  margin-bottom: 54px;
 
   &:hover {
     cursor: pointer;
   }
+`;
+const Image = styled.div`
+  width: 220px;
+  height: 220px;
+  border-radius: 10px;
+  background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; // 비율 유지
+  }
+`;
+const Title = styled.div`
+  margin-top: 9px;
+  color: #fff;
+  font-family: Pretendard;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -1.2px;
+`;
+const Dancer = styled.div`
+  color: var(--text_secondary-gray, #b2b2b2);
+  font-family: Pretendard;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.9px;
 `;
