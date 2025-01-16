@@ -108,7 +108,7 @@ const Classes = styled.div`
   width: 880px;
   height: 800px; // 임시 712px
   margin-top: 38px;
-  margin-left: 65px;
+  margin-left: 36px;
 
   overflow-y: auto;
   -ms-overflow-style: none; /* 1. Internet Explorer에서 스크롤바 숨기기 */
