@@ -103,6 +103,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   margin-left: 25px;
+  margin-bottom: 200px;
 `;
 
 const TextContainer = styled.div`
@@ -138,6 +139,7 @@ const CommentContainer = styled.div`
   box-shadow: 0px 0px 5px #9819c3;
   margin-bottom: 20px;
   margin-left: 29px;
+
 `;
 
 const ContentsContainer = styled.div`
@@ -157,6 +159,7 @@ const CommentContents = styled.p`
   font-size: 18px;
   font-weight: 500;
   line-height: normal;
+
 `;
 
 
