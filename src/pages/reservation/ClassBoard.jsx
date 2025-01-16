@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import dummyClasses from '../../store/reservation/dummyClasses';
@@ -18,10 +18,12 @@ const ClassBoard = () => {
     'K-pop'
   ];
   const [selectedGenre, setSelectedGenre] = useState(genres[0]);
-  const filteredClasses = dummyClasses.filter(
-    (cls) => cls.genre === selectedGenre
-  );
+  const [data, setData] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setData(dummyClasses.filter((cls) => cls.genre === selectedGenre));
+  }, [selectedGenre]);
 
   // 장르 선택 핸들러
   const handleGenreClick = (genre) => {
@@ -45,7 +47,7 @@ const ClassBoard = () => {
       </Sidebar>
       <Line />
       <Classes>
-        {filteredClasses.map((cls) => (
+        {data.map((cls) => (
           <Class key={cls.id} onClick={() => handleClassClick(cls.id)}>
             <Image></Image>
             <Title>{cls.title}</Title>
