@@ -5,11 +5,11 @@ const Detail = ({ data }) => {
   return (
     <Container>
       <Video></Video>
-      <InfoContainer>
+      <Section>
         <Title>📢 수업 소개</Title>
         <Text>{data.description}</Text>
-      </InfoContainer>
-      <InfoContainer>
+      </Section>
+      <Section>
         <Title>👍🏻 이 수업은 이런 분들에게 추천해요!</Title>
         <Text>{data.recommendedFor}</Text>
         <Tags>
@@ -17,8 +17,8 @@ const Detail = ({ data }) => {
             <Tag key={tag}>{tag}</Tag>
           ))}
         </Tags>
-      </InfoContainer>
-      <InfoContainer>
+      </Section>
+      <Section>
         <Title>수업 사진</Title>
         <Images>
           {data.images.map((image, index) => (
@@ -27,10 +27,10 @@ const Detail = ({ data }) => {
             </Image>
           ))}
         </Images>
-      </InfoContainer>
-      <InfoContainer>
+      </Section>
+      <Section>
         <MoreAboutDancer>Parana 댄서에 대해 더 알고싶다면?</MoreAboutDancer>
-      </InfoContainer>
+      </Section>
     </Container>
   );
 };
@@ -58,7 +58,7 @@ const Video = styled.div`
     object-fit: cover; // 비율 유지
   }
 `;
-const InfoContainer = styled.div`
+const Section = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
