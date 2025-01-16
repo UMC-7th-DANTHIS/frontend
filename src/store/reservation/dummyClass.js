@@ -11,7 +11,8 @@ const dummyClass = [
     recommendedFor:
       '1. 많은 수강생과 함께 수업 듣기 부담스러우신 분\n2. 1:1로 체계적으로 배워보고 싶으신 분\n3. 학원 방문에 어려움이 있으신 분',
     tags: ['#스근한', '#섹시'],
-    images: [null, null, null]
+    images: [null, null, null],
+    rate: 4.0
   },
   {
     id: 2,
@@ -25,7 +26,8 @@ const dummyClass = [
     recommendedFor:
       '많은 수강생과 함께 수업 듣기 부담스러우신 분\n1:1로 체계적으로 배워보고 싶으신 분\n학원 방문에 어려움이 있으신 분',
     tags: ['#스근한', '#섹시'],
-    images: [null, null, null]
+    images: [null, null, null],
+    rate: 3.0
   }
 ];
 
