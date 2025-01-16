@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import dummyClass from '../../store/reservation/dummyClass';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
 import Level from './components/Level';
-import DetailTab from './components/DetailTab';
-import ReviewTab from './components/ReviewTab';
-import RatingTab from './components/RatingTab';
+import DetailTab from './components/tabs/DetailTab';
+import ReviewTab from './components/tabs/ReviewTab';
+import RatingTab from './components/tabs/RatingTab';
 
 const Class = () => {
   // const { classId } = useParams();
