@@ -71,7 +71,7 @@ const ClassReservation = () => {
       </Tabs>
       {currentTab === 0 && <DetailTab data={data} />}
       {currentTab === 1 && <ReviewTab />}
-      {currentTab === 2 && <RatingTab />}
+      {currentTab === 2 && <RatingTab data={data} />}
     </Container>
   );
 };
