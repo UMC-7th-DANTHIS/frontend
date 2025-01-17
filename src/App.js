@@ -11,12 +11,13 @@ import CommunityEdit from './pages/Community/CommunityEdit';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SearchPage from './pages/SearchPage';
-import SignupPage1 from './pages/Signup1';
-import SignupPage2 from './pages/Signup2';
-import SignupPage3 from './pages/Signup3';
-import SignupPage4 from './pages/Signup4';
 import ClassBoard from './pages/reservation/ClassBoard';
 import ClassReservation from './pages/reservation/ClassReservation';
+import SignupPage1 from './pages/Signup/Signup1';
+import SignupPage2 from './pages/Signup/Signup2';
+import SignupPage3 from './pages/Signup/Signup3';
+import SignupPage4 from './pages/Signup/Signup4';
+import DancerProfile from './pages/DancerProfile';
 
 function App() {
   return (
@@ -41,6 +42,8 @@ function App() {
             path="classreservation/:classId"
             element={<ClassReservation />}
           />
+          <Route path="/dancerprofile" element={<DancerProfile />} />
+
         </Route>
       </Routes>
     </Router>

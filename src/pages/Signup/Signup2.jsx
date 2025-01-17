@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
-import Shape1 from '../assets/shape/shape1.svg'
-import Shape2 from '../assets/shape/shape2.svg'
-import Profileimg from '../assets/profileimg.svg'
+import Shape1 from '../../assets/shape/shape1.svg'
+import Shape2 from '../../assets/shape/shape2.svg'
+import Profileimg from '../../assets/profileimg.svg'
 
 const Signup2 = () =>{
   const [nickname, setNickname] = useState("");
