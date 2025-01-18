@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import Profile from './components/Profile'
+import IntroduceTab from './components/IntroduceTab'
+import ClassTab from './components/ClassTab'
 
 const DancerProfile = () => {
   const [activeTab, setActiveTab] = useState("소개");
@@ -17,8 +19,8 @@ const DancerProfile = () => {
         </Tab>
       </TabContainer>
       <ContentContainer>
-        {activeTab ==="소개" && <div> </div>}
-        {activeTab ==="등록된 수업업" && <div> </div>}
+        {activeTab ==="소개" && <IntroduceTab />}
+        {activeTab ==="등록된 수업" && <ClassTab />}
 
       </ContentContainer>
        
@@ -74,9 +76,7 @@ border-left: 3px solid var(--main_purple, #9819C3);
 background: var(--main_black, #000);
 box-shadow: 0px 8px 16px 0px var(--main_purple, #9819C3) inset;
 background-color: ${(props) => (props.active ? "black" : "#9819C3")};
-
-  //border: ${(props) => (props.active ? "2px solid purple" : "2px solid transparent")};
-  transition: all 0.3s;
+transition: all 0.3s;
 ` 
 
 const ContentContainer=styled.div`

@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import CircleIcon from '../../../assets/shape/circle.svg'
-
+import DancerPic from '../../../assets/dummyphoto/dancer.svg'
 
 const Profile = () => {
   const [isLiked, setIsLiked] = useState(false);
@@ -25,7 +25,7 @@ const Profile = () => {
       <Name>Parana</Name>
     </NameContainer>
     <ProfileContainer>
-      <Dancerimg />
+      <Dancerimg src={DancerPic} />
       <InfoContainer>
       <Title>Instagram</Title>
       <Content>{data[0].instagram}</Content>
@@ -85,12 +85,12 @@ letter-spacing: -1.5px;
 margin-left : 10.84px;
 `
 
-const Dancerimg = styled.div`
+const Dancerimg = styled.img`
 width: 250px;
 height: 250px;
 flex-shrink: 0;
 border-radius: 10px;
-background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+//background: url(<path-to-image>) lightgray 50% / cover no-repeat;
 `
 
 const InfoContainer=styled.div`
