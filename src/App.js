@@ -17,7 +17,7 @@ import SignupPage1 from './pages/Signup/Signup1';
 import SignupPage2 from './pages/Signup/Signup2';
 import SignupPage3 from './pages/Signup/Signup3';
 import SignupPage4 from './pages/Signup/Signup4';
-import DancerProfile from './pages/DancerProfile';
+import DancerProfile from './pages/profile/DancerProfile';
 
 function App() {
   return (
