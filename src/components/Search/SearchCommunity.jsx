@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import dummyCommunity from '../../store/dummyCommunity';
+import dummyCommunity from '../../store/search/dummyCommunity';
 
 const SearchCommunity = () => {
   const [data, setData] = useState([]);

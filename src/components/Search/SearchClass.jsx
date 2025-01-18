@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import dummyClass from '../../store/dummyClass';
+import dummyClass from '../../store/search/dummyClass';
 
 const SearchClass = () => {
   const [data, setData] = useState([]);

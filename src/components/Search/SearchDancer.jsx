@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import dummyDancer from '../../store/dummyDancer';
+import dummyDancer from '../../store/search/dummyDancer';
 
 const SearchDancer = () => {
   const [data, setData] = useState([]);
