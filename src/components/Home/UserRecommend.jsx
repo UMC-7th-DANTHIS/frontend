@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const UserRecommend = () => {
+const UserRecommend = ({ dummyUserDancer, dummyUserClass }) => {
+  console.log(dummyUserDancer);
+
   return (
     <Container>
       <HeadContainer>
@@ -14,6 +16,15 @@ const UserRecommend = () => {
         <Circle6 />
       </HeadContainer>
       <Header>00 님의 스타일에 맞는 댄서를 소개할게요</Header>
+      <DancerContainer>
+        {dummyUserDancer?.map((Dancer) => (
+          <DancerContent>
+            <DancerImage src={Dancer.Image} alt={'프로필 이미지'} />
+            <DancerName>{Dancer.Dancer}</DancerName>
+            <DancerGenre>{Dancer.Genre}</DancerGenre>
+          </DancerContent>
+        ))}
+      </DancerContainer>
     </Container>
   );
 };
@@ -138,7 +149,38 @@ const Header = styled.div`
   line-height: normal;
 `;
 
-const ContentContainer = styled.div`
+const DancerContainer = styled.div`
   display: flex;
   gap: 39px;
+  padding-bottom: 87px;
+  border-bottom: 2px solid #4d4d4d;
+  margin-bottom: 87px;
 `;
+
+const DancerContent = styled.div`
+  text-align: center;
+`;
+
+const DancerImage = styled.img`
+  width: 280px;
+  height: 380px;
+  flex-shrink: 0;
+
+  border-radius: 380px;
+  margin-bottom: 27px;
+`;
+
+const DancerName = styled.div`
+  color: white;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 10px;
+`;
+
+const DancerGenre = styled.div`
+  color: #b2b2b2;
+  font-size: 20px;
+  font-weight: 600;
+`;
+
+const ClassContainer = styled.div``;

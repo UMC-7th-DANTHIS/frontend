@@ -5,12 +5,18 @@ import HotDancer from '../components/Home/HotDancer';
 import HotClass from '../components/Home/HotClass';
 import UserRecommend from '../components/Home/UserRecommend';
 
+import dummyUserDancer from '../store/main/dummyUserDancer';
+import dummyUserClass from '../store/main/dummyUserClass';
+
 const HomePage = () => {
+  const dancers = Array.isArray(dummyUserDancer) ? dummyUserDancer : [];
+  const classes = Array.isArray(dummyUserClass) ? dummyUserClass : [];
+
   return (
     <Container>
       <HotDancer />
       <HotClass />
-      <UserRecommend />
+      <UserRecommend dummyUserDancer={dancers} dummyUserClass={classes} />
     </Container>
   );
 };
