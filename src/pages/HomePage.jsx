@@ -3,14 +3,14 @@ import styled from 'styled-components';
 
 import HotDancer from '../components/Home/HotDancer';
 import HotClass from '../components/Home/HotClass';
-import UserDancer from '../components/Home/UserDancer';
+import UserRecommend from '../components/Home/UserRecommend';
 
 const HomePage = () => {
   return (
     <Container>
       <HotDancer />
       <HotClass />
-      <UserDancer />
+      <UserRecommend />
     </Container>
   );
 };
