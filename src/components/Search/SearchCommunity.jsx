@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import dummyCommunity from '../../store/search/dummyCommunity';
+import Pagination from '../Pagination';
 
 const SearchCommunity = () => {
   const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     setData(dummyCommunity);
@@ -22,6 +24,14 @@ const SearchCommunity = () => {
           </CommunityList>
         ))}
       </CommunityLists>
+      <PaginationContainer>
+        <Pagination
+          dataLength={120}
+          perData={5}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      </PaginationContainer>
     </Container>
   );
 };
@@ -71,6 +81,10 @@ const Title = styled.div`
 const Content = styled.div`
   font-size: 18px;
   font-weight: 500;
+`;
+
+const PaginationContainer = styled.div`
+  margin-left: 100px;
 `;
 
 export default SearchCommunity;
