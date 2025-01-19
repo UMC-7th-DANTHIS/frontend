@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import dummyDancer from '../../store/dummyDancer';
+import dummyDancer from '../../store/search/dummyDancer';
+import Pagination from '../Pagination';
 
 const SearchDancer = () => {
   const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     setData(dummyDancer);
@@ -27,6 +29,14 @@ const SearchDancer = () => {
           </ClassList>
         ))}
       </ClassLists>
+      <PaginationContainer>
+        <Pagination
+          dataLength={120}
+          perData={5}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      </PaginationContainer>
     </Container>
   );
 };
@@ -66,6 +76,10 @@ const TextContainer = styled.div`
   font-style: normal;
   font-weight: 600;
   line-height: 40px;
+`;
+
+const PaginationContainer = styled.div`
+  margin-left: 100px;
 `;
 
 const TextContent = styled.div``;
