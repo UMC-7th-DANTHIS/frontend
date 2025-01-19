@@ -3,19 +3,23 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import dummyList from '../../store/community/dummyList';
 
+import Pagination from '../../components/Pagination';
+
 const Community = () => {
   const [data, setData] = useState([]);
-  const [pagenum, setPagenum] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     setData(dummyList);
-    setPagenum(10);
   });
 
-  const handlePageClick = (page) => setCurrentPage(page);
+  // Json 데이터의 개수
+  const testData = 24;
+
+  // 한 번에 보여줄 Json 데이터의 개수
+  const testPerData = 10;
 
   return (
     <Container>
@@ -37,29 +41,12 @@ const Community = () => {
               <SeeList>{list.See}</SeeList>
             </ListContainer>
           ))}
-          <PageContainer>
-            <PageCursor
-              onClick={() => handlePageClick(Math.max(1, currentPage - 1))}
-            >
-              {'<'}
-            </PageCursor>
-            {Array.from({ length: pagenum }, (_, i) => i + 1).map((page) => (
-              <PageNumber
-                key={page}
-                className={page === currentPage ? 'active' : ''}
-                onClick={() => handlePageClick(page)}
-              >
-                {page}
-              </PageNumber>
-            ))}
-            <PageCursor
-              onClick={() =>
-                handlePageClick(Math.min(pagenum, currentPage + 1))
-              }
-            >
-              {'>'}
-            </PageCursor>
-          </PageContainer>
+          <Pagination
+            dataLength={testData}
+            perData={testPerData}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
           <WriteButton onClick={() => navigate('/edit')}>글쓰기</WriteButton>
         </ListsContainer>
       </ContentContainer>
