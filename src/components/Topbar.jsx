@@ -12,6 +12,10 @@ const Topbar = () => {
     navigate("/");
   }
 
+  const handleNavigate= () => {
+    navigate("/login")
+  }
+
   return (
     <Container>
       <TopContainer>
@@ -19,7 +23,7 @@ const Topbar = () => {
         <LogoImg src={Logo} alt="logo" />
         </LogoBtn>
         <LoginContainer>
-          <Login>LOGIN</Login>
+          <Login onClick = {handleNavigate}>LOGIN</Login>
           <Search>
             <SearchInput placeholder="검색어를 입력하세요" />
             <SearchButton>
@@ -97,6 +101,7 @@ const Login = styled.button`
   height: 20px;
   margin-left: 627px;
   margin-top: 8px;
+  cursor : pointer;
 `;
 const Search = styled.div`
   display: flex;
