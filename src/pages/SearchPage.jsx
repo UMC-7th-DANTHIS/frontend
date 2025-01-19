@@ -8,15 +8,8 @@ import SearchCommunity from '../components/Search/SearchCommunity';
 
 const SearchPage = () => {
   const [select, setSelect] = useState('class');
-  const [pagenum, setPagenum] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
 
   const handleCategoryClick = (category) => setSelect(category);
-  const handlePageClick = (page) => setCurrentPage(page);
-
-  useEffect(() => {
-    setPagenum(10);
-  });
 
   return (
     <Container>
@@ -25,27 +18,6 @@ const SearchPage = () => {
         {select === 'class' && <SearchClass />}
         {select === 'dancer' && <SearchDancer />}
         {select === 'community' && <SearchCommunity />}
-        <PageContainer>
-          <PageCursor
-            onClick={() => handlePageClick(Math.max(1, currentPage - 1))}
-          >
-            {'<'}
-          </PageCursor>
-          {Array.from({ length: pagenum }, (_, i) => i + 1).map((page) => (
-            <PageNumber
-              key={page}
-              className={page === currentPage ? 'active' : ''}
-              onClick={() => handlePageClick(page)}
-            >
-              {page}
-            </PageNumber>
-          ))}
-          <PageCursor
-            onClick={() => handlePageClick(Math.min(pagenum, currentPage + 1))}
-          >
-            {'>'}
-          </PageCursor>
-        </PageContainer>
       </ContentContainer>
     </Container>
   );
@@ -53,7 +25,7 @@ const SearchPage = () => {
 
 const Container = styled.div`
   background-color: black;
-  padding-bottom: 100px;
+  padding-bottom: 150px;
 `;
 
 const ContentContainer = styled.div`

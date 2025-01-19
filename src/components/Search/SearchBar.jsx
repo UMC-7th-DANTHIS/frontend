@@ -118,7 +118,7 @@ const UpperContainer = styled.div`
 `;
 
 const UpperHash = styled.div`
-  padding: 0px 34.5px;
+  padding: 0px 33px;
   justify-content: center;
   align-items: center;
 
@@ -141,7 +141,7 @@ const DownContainer = styled.div`
 `;
 
 const DownHash = styled.div`
-  padding: 0px 36.7px;
+  padding: 0px 35px;
   justify-content: center;
   align-items: center;
 

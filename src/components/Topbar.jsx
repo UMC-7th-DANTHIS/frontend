@@ -8,22 +8,22 @@ import Searchicon from '../assets/searchicon.svg';
 const Topbar = () => {
   const navigate = useNavigate();
 
-  const handleClick = () =>{
-    navigate("/");
-  }
+  const handleClick = () => {
+    navigate('/');
+  };
 
-  const handleNavigate= () => {
-    navigate("/login")
-  }
+  const handleNavigate = () => {
+    navigate('/login');
+  };
 
   return (
     <Container>
       <TopContainer>
         <LogoBtn onClick={handleClick}>
-        <LogoImg src={Logo} alt="logo" />
+          <LogoImg src={Logo} alt="logo" />
         </LogoBtn>
         <LoginContainer>
-          <Login onClick = {handleNavigate}>LOGIN</Login>
+          <Login onClick={handleNavigate}>LOGIN</Login>
           <Search>
             <SearchInput placeholder="검색어를 입력하세요" />
             <SearchButton>
@@ -70,10 +70,10 @@ const TopContainer = styled.div`
 `;
 
 const LogoBtn = styled.button`
-background : none;
-border : none;
-cursor : pointer;
-`
+  background: none;
+  border: none;
+  cursor: pointer;
+`;
 const LogoImg = styled.img`
   display: flex;
   width: 218px;
@@ -101,7 +101,7 @@ const Login = styled.button`
   height: 20px;
   margin-left: 627px;
   margin-top: 8px;
-  cursor : pointer;
+  cursor: pointer;
 `;
 const Search = styled.div`
   display: flex;
