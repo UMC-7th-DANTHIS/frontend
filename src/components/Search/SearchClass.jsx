@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import dummyClass from '../../store/search/dummyClass';
+import Pagination from '../Pagination';
 
 const SearchClass = () => {
   const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     setData(dummyClass);
@@ -29,6 +31,14 @@ const SearchClass = () => {
           </ClassList>
         ))}
       </ClassLists>
+      <PaginationContainer>
+        <Pagination
+          dataLength={120}
+          perData={5}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      </PaginationContainer>
     </Container>
   );
 };
@@ -73,5 +83,9 @@ const TextContainer = styled.div`
 `;
 
 const TextContent = styled.div``;
+
+const PaginationContainer = styled.div`
+  margin-left: 100px;
+`;
 
 export default SearchClass;

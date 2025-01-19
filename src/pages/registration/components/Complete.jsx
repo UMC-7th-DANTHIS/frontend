@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { ReactComponent as Check } from "../../../assets/check.svg";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import styled from 'styled-components';
+import { ReactComponent as Check } from '../../../assets/check.svg';
+import { useNavigate } from 'react-router-dom';
 
 const Complete = ({ title, detail }) => {
   const navigate = useNavigate();
@@ -16,9 +16,9 @@ const Complete = ({ title, detail }) => {
       <HomeBtn
         type="button"
         onClick={() =>
-          navigate("/", {
+          navigate('/', {
             replace: false,
-            state: {},
+            state: {}
           })
         }
       >

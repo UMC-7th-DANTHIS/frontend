@@ -41,7 +41,12 @@ const Pagination = ({ dataLength, perData, currentPage, setCurrentPage }) => {
       ))}
       <PageCursor
         onClick={() => handlePageUp((layer + 1) * 10 + 1)}
-        className={layer === Math.floor(dataLength / perData) ? 'inactive' : ''}
+        className={
+          layer === Math.floor(dataLength / perData) ||
+          dataLength === (layer + 1) * 10
+            ? 'inactive'
+            : ''
+        }
       >
         {'>'}
       </PageCursor>
