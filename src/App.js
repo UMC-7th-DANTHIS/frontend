@@ -17,6 +17,7 @@ import SignupPage1 from './pages/Signup/Signup1';
 import SignupPage2 from './pages/Signup/Signup2';
 import SignupPage3 from './pages/Signup/Signup3';
 import SignupPage4 from './pages/Signup/Signup4';
+import ProfileList from './pages/profile/ProfileList';
 import DancerProfile from './pages/profile/DancerProfile';
 
 function App() {
@@ -42,7 +43,8 @@ function App() {
             path="classreservation/:classId"
             element={<ClassReservation />}
           />
-          <Route path="/dancerprofile" element={<DancerProfile />} />
+          <Route path="/dancerprofile" element={<ProfileList />} />
+          <Route path="/dancerprofile/:dancerId" element={<DancerProfile />} />
 
         </Route>
       </Routes>
