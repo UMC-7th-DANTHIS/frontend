@@ -48,7 +48,7 @@ const dummyContent = [
     Content:
       "지금 너네 집 앞인데 안 자면 잠깐 나와 oh yeah 하늘에 별이 많길래 잠깐 같이 걷고 싶었어 oh 지금 우린 like 청춘 영화 속 한 장면 파란 무드로 말할게 Without you Late nights Don’t mean a thing, yeah Sunsets Don’t mean a thing, yeah Shining stars Don’t mean a thing, too Woah woah With you Late nights It's full of starlight Sunsets It's full of dreams, yeah So let’s go see the stars right now Woo woo 오늘이 새삼스러워 매일 밤을 뒤척이게 잠을 깨우던 너와 둘이 손을 잡고 있어 Oh baby I'll never let go of your hand 지금 우린 like 낡은 빈티지 청바지 입은 진지한 청춘이야 Without you Late nights Don’t mean a thing, yeah Sunsets Don’t mean a thing, yeah Shining stars Don’t mean a thing, too Woah woah With you Late nights It's full of starlight Sunsets It's full of dreams, yeah So let’s go see the stars right now 이 새벽 속에 취했어 영원을 약속하고 싶어 널 내 품에 끌어안고선 이 밤이 안 갔음 좋겠어 I need somebody No I only need you come on 매일 노래해 I love you 어? 뭐야 마이크 켜놓고 있었네? Without you Late nights Don’t mean a thing, yeah Sunsets Don’t mean a thing, yeah Shining stars Don’t mean a thing, too Woah woah With you Late nights It's full of starlight Sunsets It's full of dreams, yeah So let’s go see the stars right now",
     DateAt: '24.11.27 15:03',
-    See: '10,000',
+    See: '11',
     Comment: [
       {
         No: 1,
