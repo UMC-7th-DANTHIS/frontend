@@ -37,6 +37,7 @@ const MyInfo = () => {
                 </span>
               }
               onClose={hideLogoutAlert}
+              mariginsize="45px"
               ContainerWidth="280px"
               ContainerHeight="108px"
               AlertWidth="392px"
