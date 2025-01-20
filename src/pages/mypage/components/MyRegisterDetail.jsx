@@ -1,11 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { ReactComponent as FocusedCircle } from "../../../assets/shape/focusedcircle.svg"
 import SampleImage from '../../../assets/image.png'
 import { ReactComponent as PlusButton } from "../../../assets/buttons/plus-button.svg"
-
+import { ReactComponent as Ask } from "../../../assets/buttons/ask.svg"
+import AskAlert from '../../../components/AskAlert'
 
 const MyRegisterDetail = () => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
   return (
     <ClassContainer>
       <ItemContainer>
@@ -27,11 +37,20 @@ const MyRegisterDetail = () => {
               <PlusButton width={16} height={16} />
             </IconContainer>
 
-            <TextContainer>
-              <MainText>수업을 수강한 유저를 추가하고 리뷰를 받아보세요!</MainText>
-              <SubText>*강사가 수업을 수강했음을 증명한 유저만 해당 수업에 대한 리뷰를 남길 수 있습니다</SubText>
-              <SubText>*무분별한 리뷰 작성을 막기 위해 한 번 추가한 유저는 운영진 문의를 통해서만 삭제할 수 있습니다</SubText>
-            </TextContainer>
+            <AddIconContainer>
+              <TextContainer>
+                <MainText>수업을 수강한 유저를 추가하고 리뷰를 받아보세요!</MainText>
+                <SubText>*강사가 수업을 수강했음을 증명한 유저만 해당 수업에 대한 리뷰를 남길 수 있습니다</SubText>
+                <SubText>*무분별한 리뷰 작성을 막기 위해 한 번 추가한 유저는 운영진 문의를 통해서만 삭제할 수 있습니다</SubText>
+              </TextContainer>
+              <AskContainer
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              >
+                <Ask />
+                {isHovered && <AskAlert />}
+              </AskContainer>
+            </AddIconContainer>
           </ReviewSection>
         </ContentSection>
 
@@ -151,6 +170,18 @@ const TextContainer = styled.div`
   flex-direction: column;
 `;
 
+const AddIconContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+const AskContainer = styled.div`
+  position: relative;
+  margin-top: 43px;
+  margin-left: 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+`
 const MainText = styled.div`
   color: #FFF;
   font-size: 20px;
