@@ -2,11 +2,13 @@ import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as StarFilled } from "../../../assets/shape/filledYellowStar.svg"
 import { ReactComponent as StarNonfilled } from '../../../assets/shape/nonfilledYellowStar.svg';
+import Alert from '../../../components/Alert';
 
 const MyReview = () => {
   const [starStates, setStarStates] = useState(Array(5).fill(false));
   const [selectedImage, setSelectedImage] = useState(null);
   const photoInputRef = useRef(null);
+  const [showAlert, setShowAlert] = useState(false);
 
   const toggleStar = (index) => {
     setStarStates((prev) =>
@@ -19,6 +21,15 @@ const MyReview = () => {
     if (file) {
       setSelectedImage(URL.createObjectURL(file));
     }
+  };
+
+  const handleClickCancel = (e) => {
+    setShowAlert(true);
+  };
+
+  const hideClickCancel = () => {
+    console.log('이거 왜 안됨 ')
+    setShowAlert(false);
   };
 
   return (
@@ -75,7 +86,37 @@ const MyReview = () => {
 
       <FinalSection>
         <Buttons>
-          <CancelButton>취소</CancelButton>
+          <CancelButton onClick={handleClickCancel}>
+            취소
+            {showAlert && (
+              <Alert
+                message={
+                  <span>
+                    <span>
+                      해당 페이지를 벗어나면 <br />
+                    </span>
+
+                    <span>
+                      작성 중인 글이 <ColoredText> 모두 삭제 </ColoredText> 됩니다 <br />
+                    </span>
+
+                    <span>
+                      떠나시겠습니까?
+                    </span>
+                  </span>
+                }
+                onClose={hideClickCancel}
+                ContainerWidth="280px"
+                ContainerHeight="108px"
+                mariginsize="24px"
+                AlertWidth="392px"
+                AlertHeight="260px"
+                showButtons={true}
+                confirmLabel="남기"
+                cancelLabel="떠나기"
+              />
+            )}
+          </CancelButton>
           <SubmitButton>작성</SubmitButton>
         </Buttons>
       </FinalSection>
@@ -277,3 +318,8 @@ const SubmitButton = styled.button`
     cursor: pointer;
     font-weight: 600;
 `;
+
+//alert
+const ColoredText = styled.span`
+  color: #A60F62;
+`
