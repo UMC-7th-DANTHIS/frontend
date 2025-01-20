@@ -33,44 +33,4 @@ const ContentContainer = styled.div`
   margin-right: 120px;
 `;
 
-const PageContainer = styled.div`
-  display: flex;
-
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  margin-top: 56px;
-`;
-
-const PageCursor = styled.div`
-  display: inline-block;
-  font-size: 20px;
-  font-weight: bold;
-  color: #9819c3;
-  cursor: pointer;
-  margin: 0 20px;
-`;
-
-const PageNumber = styled.div`
-  display: inline-block;
-  font-size: 18px;
-  color: white;
-  margin: 5px;
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-  text-align: center;
-  cursor: pointer;
-  border-radius: 50%;
-
-  &:hover {
-    color: #9819c3;
-  }
-
-  &.active {
-    background-color: #9819c3;
-    color: white;
-  }
-`;
-
 export default SearchPage;

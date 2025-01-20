@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import Alert from '../../components/Alert';
+
 const CommunityEdit = () => {
   const navigate = useNavigate();
+  const [fileName, setFileName] = useState('');
+  const [previews, setPreviews] = useState([]);
+
+  const content =
+    '해당 페이지를 벗어나면 작성 중인 글이 모두 삭제됩니다 떠나시겠습니까?';
+
+  const handleFileChange = (event) => {
+    const selectedFiles = Array.from(event.target.files);
+    const previewUrls = selectedFiles.map((file) => URL.createObjectURL(file));
+    setPreviews(previewUrls);
+    setFileName(selectedFiles);
+  };
 
   return (
     <Container>
@@ -18,9 +32,24 @@ const CommunityEdit = () => {
             <ContentMain>내용</ContentMain>
             <ContentInput placeholder="내용을 입력하세요." />
           </ContentArea>
+          {fileName.length > 0 && (
+            <ImageContainer>
+              {previews.map((src, index) => (
+                <Image key={index} src={src} alt={`preview-${index}`} />
+              ))}
+            </ImageContainer>
+          )}
         </Content>
         <ButtonContainer>
-          <ImageButton>사진</ImageButton>
+          <ImageInput>
+            사진
+            <input
+              type="file"
+              multiple
+              onChange={handleFileChange}
+              accept="image/*"
+            />
+          </ImageInput>
           <RightButtons>
             <CancelButton onClick={() => navigate('/community')}>
               취소
@@ -39,6 +68,16 @@ const CommunityEdit = () => {
           </CautionText>
         </CatuionContainer>
       </ContentContainer>
+      {/* <Alert
+        message={content}
+        showButtons={true}
+        RefuseText={'떠나기'}
+        OkayText={'남기'}
+        ContainerWidth={280}
+        ContainerHeight={108}
+        AlertWidth={392}
+        AlertHeight={280}
+      /> */}
     </Container>
   );
 };
@@ -73,7 +112,7 @@ const Content = styled.div`
   border-radius: 10px;
 
   width: 900px;
-  height: 500px;
+  height: 100%;
 `;
 
 const ContentTitle = styled.div`
@@ -120,6 +159,7 @@ const ContentArea = styled.div`
   justify-content: space-between;
 
   padding-top: 15px;
+  margin-bottom: 49px;
   padding-left: 9px;
 
   display: flex;
@@ -166,22 +206,27 @@ const ButtonContainer = styled.div`
   margin-right: 14px;
 `;
 
-const ImageButton = styled.button`
+const ImageInput = styled.label`
+  display: inline-block;
   background-color: transparent;
   border: 2px solid #9819c3;
   color: #ffffff;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
-
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  text-align: center;
 
   &:hover {
     background-color: #9819c3;
     color: #fff;
+  }
+
+  input[type='file'] {
+    display: none;
   }
 `;
 
@@ -240,6 +285,33 @@ const CatuionContainer = styled.div`
 
 const CautionText = styled.div`
   margin-bottom: 5px;
+`;
+
+const ImageContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-left: 20px;
+  margin-bottom: 46px;
+
+  width: 900px;
+  height: 200px;
+`;
+
+const Image = styled.img`
+  background-color: white;
+  border-radius: 7px;
+  width: 200px;
+  height: 200px;
+`;
+
+const PreviewImage = styled.img`
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin: 10px;
+  border-radius: 5px;
+  border: 2px solid #9819c3;
 `;
 
 export default CommunityEdit;
