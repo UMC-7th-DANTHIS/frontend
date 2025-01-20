@@ -14,11 +14,7 @@ const Pagination = ({ dataLength, perData, currentPage, setCurrentPage }) => {
   const [layer, setLayer] = useState(0);
 
   const filteredDataLength =
-    dataLength <= perData
-      ? 1
-      : dataLength <= perData * 10
-        ? Math.ceil(dataLength / 10)
-        : Math.ceil(dataLength / perData);
+    dataLength <= perData ? 1 : Math.ceil(dataLength / perData);
 
   const handlePageClick = (page) => setCurrentPage(page);
 
