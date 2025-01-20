@@ -74,14 +74,16 @@ const Signup2 = () =>{
           <Label>성별</Label>
           <RadioGroup>
           <RadioLabel>
+          <LabelText>남</LabelText>
         <RadioInput type="radio" name="gender" value="남" />
-        <LabelText>남</LabelText>
         <CustomCircle />
         
+       
       </RadioLabel>
+
       <RadioLabel>
+      <LabelText>여</LabelText>
         <RadioInput type="radio" name="gender" value="여" />
-        <LabelText>여</LabelText>
         <CustomCircle />
       </RadioLabel>
           </RadioGroup>
@@ -121,9 +123,10 @@ const Signup2 = () =>{
     <UploadContainer>
       <UploadButton htmlFor="file-upload">파일 업로드</UploadButton>
       <HiddenInput type="file" id="file-upload" />
+
       <RadioWrapper>
       <RadioLabel>
-        <RadioInput type="radio" name="profile" value="기본이미지 사용하기" />
+        <RadioInput type="checkbox" name="profile" value="기본이미지 사용하기" />
         <CustomCircle1 />
         <LabelText1>기본 이미지 사용하기</LabelText1>
       </RadioLabel>
@@ -333,6 +336,11 @@ line-height: normal;
 margin-top : 10px;
 
 `;
+const RadioWrapper = styled.div`
+  display: flex;
+  align-items: center;
+ margin-top : 10px;
+`;
 
 const RadioGroup = styled.div`
   display: flex;
@@ -342,6 +350,7 @@ const RadioGroup = styled.div`
 const RadioLabel = styled.label`
   display: flex;
   align-items: center;
+  justify-content: center;
   cursor: pointer;
   color : white;
 `;
@@ -364,16 +373,25 @@ const CustomCircle = styled.span`
   position: relative;
   margin-left : 13px;
   ${RadioInput}:checked + & {
-    background-color: #a020f0; /* 선택된 경우 내부 색상 변경 */
+     background-color:white; /* 선택된 경우 내부 색상 변경 */
   }
 
   ${RadioInput}:checked + &::after {
     content: "";
-    width: 10px;
-    height: 10px;
-    background-color: white; /* 선택된 상태의 중앙 원 */
+    width: 12px;
+    height: 12px;
+    background-color: #A60F62; /* 선택된 상태의 중앙 원 */
     border-radius: 50%;
     position: absolute;
+  }
+
+  /* 초기 상태로 돌아가기 */
+  ${RadioInput}:not(:checked) + & {
+    background-color: white;
+  }
+
+  ${RadioInput}:not(:checked) + &::after {
+    content: none; /* 선택 해제 시 중앙 원 제거 */
   }
 `;
 const CustomCircle1 = styled.span`
@@ -381,7 +399,6 @@ const CustomCircle1 = styled.span`
   height: 20px;
   border: 2px solid #A60F62; /* 외곽선 색상 */
   background : white;
-
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -389,17 +406,19 @@ const CustomCircle1 = styled.span`
   margin-right: 8px;
   position: relative;
   ${RadioInput}:checked + & {
-    background-color: #a020f0; /* 선택된 경우 내부 색상 변경 */
+    background-color:white; /* 선택된 경우 내부 색상 변경 */
   }
 
   ${RadioInput}:checked + &::after {
     content: "";
-    width: 10px;
-    height: 10px;
-    background-color: white; /* 선택된 상태의 중앙 원 */
+    width: 12px;
+    height: 12px;
+    background-color: #A60F62; /* 선택된 상태의 중앙 원 */
     border-radius: 50%;
     position: absolute;
   }
+
+   
 `;
 
 const LabelText = styled.span`
@@ -476,11 +495,6 @@ const HiddenInput = styled.input`
   color : white;
 `;
 
-const RadioWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top : 10px;
-`;
 
 const NextButton = styled.button`
 width: 300px;
