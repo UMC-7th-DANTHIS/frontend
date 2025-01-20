@@ -20,7 +20,10 @@ const CommunityEdit = () => {
           </ContentArea>
         </Content>
         <ButtonContainer>
-          <ImageButton>사진</ImageButton>
+          <ImageInput>
+            사진
+            <input type="file" />
+          </ImageInput>
           <RightButtons>
             <CancelButton onClick={() => navigate('/community')}>
               취소
@@ -166,22 +169,27 @@ const ButtonContainer = styled.div`
   margin-right: 14px;
 `;
 
-const ImageButton = styled.button`
+const ImageInput = styled.label`
+  display: inline-block;
   background-color: transparent;
   border: 2px solid #9819c3;
   color: #ffffff;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
-
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  text-align: center;
 
   &:hover {
     background-color: #9819c3;
     color: #fff;
+  }
+
+  input[type='file'] {
+    display: none;
   }
 `;
 
