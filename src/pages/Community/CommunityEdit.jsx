@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const CommunityEdit = () => {
   const navigate = useNavigate();
+  const [fileName, setFileName] = useState('');
+  const [previews, setPreviews] = useState([]);
+
+  console.log(fileName);
+
+  const handleFileChange = (event) => {
+    const selectedFiles = Array.from(event.target.files);
+    const previewUrls = selectedFiles.map((file) => URL.createObjectURL(file));
+    setPreviews(previewUrls);
+    setFileName(selectedFiles);
+  };
 
   return (
     <Container>
@@ -18,11 +29,23 @@ const CommunityEdit = () => {
             <ContentMain>내용</ContentMain>
             <ContentInput placeholder="내용을 입력하세요." />
           </ContentArea>
+          {fileName.length > 0 && (
+            <ImageContainer>
+              {previews.map((src, index) => (
+                <Image key={index} src={src} alt={`preview-${index}`} />
+              ))}
+            </ImageContainer>
+          )}
         </Content>
         <ButtonContainer>
           <ImageInput>
             사진
-            <input type="file" />
+            <input
+              type="file"
+              multiple
+              onChange={handleFileChange}
+              accept="image/*"
+            />
           </ImageInput>
           <RightButtons>
             <CancelButton onClick={() => navigate('/community')}>
@@ -76,7 +99,7 @@ const Content = styled.div`
   border-radius: 10px;
 
   width: 900px;
-  height: 500px;
+  height: 100%;
 `;
 
 const ContentTitle = styled.div`
@@ -123,6 +146,7 @@ const ContentArea = styled.div`
   justify-content: space-between;
 
   padding-top: 15px;
+  margin-bottom: 49px;
   padding-left: 9px;
 
   display: flex;
@@ -248,6 +272,33 @@ const CatuionContainer = styled.div`
 
 const CautionText = styled.div`
   margin-bottom: 5px;
+`;
+
+const ImageContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-left: 20px;
+  margin-bottom: 46px;
+
+  width: 900px;
+  height: 200px;
+`;
+
+const Image = styled.img`
+  background-color: white;
+  border-radius: 7px;
+  width: 200px;
+  height: 200px;
+`;
+
+const PreviewImage = styled.img`
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin: 10px;
+  border-radius: 5px;
+  border: 2px solid #9819c3;
 `;
 
 export default CommunityEdit;
