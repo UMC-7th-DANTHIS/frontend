@@ -5,17 +5,18 @@ import dummyCommunity from '../../store/search/dummyCommunity';
 import Pagination from '../Pagination';
 
 const SearchCommunity = () => {
-  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const perData = 5;
 
-  useEffect(() => {
-    setData(dummyCommunity);
-  });
+  const filteredList = dummyCommunity.slice(
+    perData * (currentPage - 1),
+    perData * currentPage
+  );
 
   return (
     <Container>
       <CommunityLists>
-        {data?.map((list) => (
+        {filteredList?.map((list) => (
           <CommunityList>
             <TextContainer>
               <Title>{list.Title}</Title>
@@ -26,8 +27,8 @@ const SearchCommunity = () => {
       </CommunityLists>
       <PaginationContainer>
         <Pagination
-          dataLength={120}
-          perData={5}
+          dataLength={dummyCommunity.length}
+          perData={perData}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />

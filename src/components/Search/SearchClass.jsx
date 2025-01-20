@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import dummyClass from '../../store/search/dummyClass';
 import Pagination from '../Pagination';
 
 const SearchClass = () => {
-  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const perData = 5;
 
-  useEffect(() => {
-    setData(dummyClass);
-  });
+  const filteredList = dummyClass.slice(
+    perData * (currentPage - 1),
+    perData * currentPage
+  );
 
   return (
     <Container>
       <ClassLists>
-        {data?.map((list) => (
+        {filteredList?.map((list) => (
           <ClassList>
             <ImgContainer
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkpq_VnExTApuWh7iJNkdXdqeZciuAVoZF8A&s"
@@ -33,8 +34,8 @@ const SearchClass = () => {
       </ClassLists>
       <PaginationContainer>
         <Pagination
-          dataLength={101}
-          perData={5}
+          dataLength={dummyClass.length}
+          perData={perData}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
