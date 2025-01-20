@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import dummyClasses from '../../store/reservation/dummyClasses';
-import { ReactComponent as Line } from '../../assets/shape/line.svg';
-import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
+import dummyClasses from '../../../store/reservation/dummyClasses';
+import { ReactComponent as Line } from '../../../assets/shape/line.svg';
+import { ReactComponent as FocusedCircle } from '../../../assets/shape/focusedcircle.svg';
 
 const ClassBoard = () => {
   const genres = [
@@ -32,9 +32,12 @@ const ClassBoard = () => {
   };
 
   // 수업 선택 핸들러
-  const handleClassClick = (classId) => {
-    navigate(`/classreservation/${classId}`);
-  };
+  // const handleDancerClick = (dancerId) => {
+  //   navigate(`/dancerprofile/${dancerId}`);
+  // };
+
+  const handleDancerClick =(dancerId) => 
+  { navigate(`/dancerprofile/${dancerId}`);}
 
   return (
     <Container>
@@ -49,9 +52,9 @@ const ClassBoard = () => {
       <Line />
       <Classes>
         {data.map((cls) => (
-          <Class key={cls.id} onClick={() => handleClassClick(cls.id)}>
+          <Class key={cls.id} onClick={() => handleDancerClick(cls.id)}>
             <Image></Image>
-            <Title>{cls.title}</Title>
+            {/* <Title>{cls.title}</Title> */}
             <Dancer>{cls.dancer}</Dancer>
           </Class>
         ))}
@@ -154,11 +157,13 @@ const Title = styled.div`
   letter-spacing: -1.2px;
 `;
 const Dancer = styled.div`
-  color: var(--text_secondary-gray, #b2b2b2);
-  font-family: Pretendard;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  letter-spacing: -0.9px;
+  color: #FFF;
+font-family: Pretendard;
+font-size: 24px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+letter-spacing: -1.2px;
+margin-top : 9px;
+margin-bottom : 21px;
 `;
