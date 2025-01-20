@@ -4,13 +4,20 @@ import styled from 'styled-components';
 import MyRegisterDetail from './MyRegisterDetail';
 import { ReactComponent as WriteIcon } from "../../../assets/shape/write.svg"
 import { ReactComponent as TrashIcon } from "../../../assets/shape/trash.svg"
+import { useNavigate } from 'react-router-dom';
 
 const MyRegisterClass = () => {
   const [selectedClass, setSelectedClass] = useState(null);
+  const navigate = useNavigate();
 
   const handleImageClick = (index) => {
     setSelectedClass(index);
   };
+
+  const gotoRegister = () => {
+    navigate('/classregister');
+  }
+
 
   return (
     <>
@@ -24,7 +31,7 @@ const MyRegisterClass = () => {
               <Image src={sampleImage} alt={`Class ${index + 1}`} />
               <TitleText> The Seed- Aurora </TitleText>
               <IconContainer>
-                <WriteIcon />
+                <WriteIcon onClick={gotoRegister} />
                 <TrashIcon />
               </IconContainer>
             </ClassList>
