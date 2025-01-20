@@ -265,9 +265,9 @@ const BackButton = styled.div`
   margin-top: 17px;
   padding-top: 9px;
   border-radius: 10px;
-  border: 1px solid #4d4d4d;
-  background-color: #ddd;
-  color: #4d4d4d;
+  border: 1px solid #bf00ff;
+  background-color: transparent;
+  color: #bf00ff;
   text-align: center;
   cursor: pointer;
 
