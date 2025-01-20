@@ -12,7 +12,9 @@ const Alert = ({
   ContainerHeight,
   AlertWidth,
   AlertHeight,
-  showButtons
+  showButtons,
+  RefuseText,
+  OkayText
 }) => (
   <AlertOverlay>
     {/* 검정색 배경부분 width랑 height 설정 */}
@@ -32,8 +34,8 @@ const Alert = ({
       {/* 예 아니요 버튼 유무 true/false로 설정 */}
       {showButtons && (
         <Buttons>
-          <Cancel onClick={onClose}> 아니요 </Cancel>
-          <Confirm onClick={onClose}> 예 </Confirm>
+          <Cancel onClick={onClose}> {RefuseText} </Cancel>
+          <Confirm onClick={onClose}> {OkayText} </Confirm>
         </Buttons>
       )}
     </AlertContainer>

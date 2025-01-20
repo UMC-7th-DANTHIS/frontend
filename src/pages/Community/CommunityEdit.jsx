@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import Alert from '../../components/Alert';
+
 const CommunityEdit = () => {
   const navigate = useNavigate();
   const [fileName, setFileName] = useState('');
   const [previews, setPreviews] = useState([]);
 
-  console.log(fileName);
+  const content =
+    '해당 페이지를 벗어나면 작성 중인 글이 모두 삭제됩니다 떠나시겠습니까?';
 
   const handleFileChange = (event) => {
     const selectedFiles = Array.from(event.target.files);
@@ -65,6 +68,16 @@ const CommunityEdit = () => {
           </CautionText>
         </CatuionContainer>
       </ContentContainer>
+      {/* <Alert
+        message={content}
+        showButtons={true}
+        RefuseText={'떠나기'}
+        OkayText={'남기'}
+        ContainerWidth={280}
+        ContainerHeight={108}
+        AlertWidth={392}
+        AlertHeight={280}
+      /> */}
     </Container>
   );
 };
