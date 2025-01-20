@@ -23,7 +23,8 @@ const MyRegisterClass = () => {
 
           <ReviewSection>
             <IconContainer>
-              <PlusButton width={34} height={34} />
+              <IconText> 유저 추가 </IconText>
+              <PlusButton width={16} height={16} />
             </IconContainer>
 
             <TextContainer>
@@ -123,8 +124,27 @@ const ReviewSection = styled.div`
   gap: 10px;
 `;
 
+const IconText = styled.div`
+  color: #FFF;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.8px;
+`
+
 const IconContainer = styled.div`
   margin-top: 36px;
+  display: inline-flex;
+  width: 82px;
+  height: 19px;
+  padding: 6px 12px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+  border-radius: 37px;
+  border: 1px solid #9819C3;
+  cursor: pointer;
 `
 const TextContainer = styled.div`
   display: flex;
