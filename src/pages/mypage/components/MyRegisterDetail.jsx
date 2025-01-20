@@ -5,9 +5,11 @@ import SampleImage from '../../../assets/image.png'
 import { ReactComponent as PlusButton } from "../../../assets/buttons/plus-button.svg"
 import { ReactComponent as Ask } from "../../../assets/buttons/ask.svg"
 import AskAlert from '../../../components/AskAlert'
+import UserOverlay from '../../../components/UserOverlay'
 
 const MyRegisterDetail = () => {
   const [isHovered, setIsHovered] = useState(false);
+  const [showRegisterUser, setShowRegisterUser] = useState(false);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -16,6 +18,15 @@ const MyRegisterDetail = () => {
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
+
+  const handleAddOverlay = () => {
+    setShowRegisterUser(true);
+  }
+
+  const hideAddOverlay = () => {
+    setShowRegisterUser(false);
+  }
+
   return (
     <ClassContainer>
       <ItemContainer>
@@ -34,8 +45,12 @@ const MyRegisterDetail = () => {
           <ReviewSection>
             <IconContainer>
               <IconText> 유저 추가 </IconText>
-              <PlusButton width={16} height={16} />
+              <PlusButton width={16} height={16} onClick={handleAddOverlay} />
+              {showRegisterUser &&
+                <UserOverlay onclose={hideAddOverlay} />}
+
             </IconContainer>
+
 
             <AddIconContainer>
               <TextContainer>
