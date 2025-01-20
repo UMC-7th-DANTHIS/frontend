@@ -3,9 +3,13 @@ import styled from 'styled-components';
 import Profile from './components/Profile';
 import IntroduceTab from './components/IntroduceTab';
 import ClassTab from './components/ClassTab';
+import dummyClasses from '../../store/reservation/dummyClasses';
 
 const DancerProfile = () => {
   const [activeTab, setActiveTab] = useState('소개');
+  const dancerId = 1; // 임시
+  //const data = dummyClass.find((cls) => cls.id === Number(classId));
+
   return (
     <Layout>
       <Profile />
