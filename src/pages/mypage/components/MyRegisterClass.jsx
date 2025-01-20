@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { ReactComponent as GradationCircle } from "../../../assets/gradationcircle.svg"
+import { ReactComponent as FocusedCircle } from "../../../assets/shape/focusedcircle.svg"
 import SampleImage from '../../../assets/image.png'
-import { ReactComponent as PlusButton2 } from "../../../assets/buttons/plus-button2.svg";
+import { ReactComponent as PlusButton } from "../../../assets/buttons/plus-button.svg"
 
 
 const MyRegisterClass = () => {
@@ -11,7 +11,7 @@ const MyRegisterClass = () => {
       <ItemContainer>
         <HeaderContainer>
           <IconWrapper>
-            <GradationCircle />
+            <FocusedCircle width={20} height={20} />
           </IconWrapper>
           <Label>Parana 걸스힙합 클래스</Label>
         </HeaderContainer>
@@ -23,7 +23,7 @@ const MyRegisterClass = () => {
 
           <ReviewSection>
             <IconContainer>
-              <PlusButton2 />
+              <PlusButton width={34} height={34} />
             </IconContainer>
 
             <TextContainer>
