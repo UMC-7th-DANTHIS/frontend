@@ -1,30 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import dummyContent from '../../store/community/dummyContent';
 
 const CommunityPost = () => {
   const navigate = useNavigate();
-  const [data, setData] = useState({});
+  const location = useLocation();
+  const { list } = location.state;
 
-  useEffect(() => {
-    setData(dummyContent);
-  });
+  const filteredPost = dummyContent.filter((num) => num.No === list.No);
+  const post = filteredPost[0];
 
   return (
     <Container>
       <Wrapper>
         <PostHeader>
-          <div>{data[0]?.Title}</div>
+          <div>{post?.Title}</div>
         </PostHeader>
 
         <PostInfo>
           <PostStats>
-            <span>👁 {data[0]?.See}</span>
-            <span>💬 {data[0]?.Comment.length}</span>
+            <span>👁 {post?.See}</span>
+            <span>💬 {post?.Comment?.length}</span>
           </PostStats>
           <PostMeta>
-            <span>작성일 : {data[0]?.DateAt}</span>
+            <span>작성일 : {post?.DateAt}</span>
           </PostMeta>
         </PostInfo>
         <PostInfo>
@@ -33,18 +33,18 @@ const CommunityPost = () => {
             <button>🗑</button>
           </PostActions>
           <PostMeta>
-            <span>작성자 : {data[0]?.Author}</span>{' '}
+            <span>작성자 : {post?.Author}</span>{' '}
           </PostMeta>
         </PostInfo>
         <Content>
           <p>
-            {data[0]?.Content}
+            {post?.Content}
             <br />
           </p>
         </Content>
 
         <CommentSection>
-          {data[0]?.Comment.map((comment) => (
+          {post?.Comment?.map((comment) => (
             <Comment>
               <CommentProfile>
                 <CommentImage

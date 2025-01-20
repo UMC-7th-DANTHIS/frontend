@@ -30,7 +30,14 @@ const Community = () => {
           {filteredList?.map((list) => (
             <ListContainer>
               <NoList>{list.No}</NoList>
-              <TitleList onClick={() => navigate('/post')}>
+              <TitleList
+                onClick={() =>
+                  navigate(`/community/${list.No}`, {
+                    replace: false,
+                    state: { list }
+                  })
+                }
+              >
                 {list.Title}
               </TitleList>
               <DateList>{list.DateAt}</DateList>

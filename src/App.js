@@ -32,7 +32,7 @@ function App() {
           <Route path="/signup2" element={<SignupPage2 />} />
           <Route path="/signup3" element={<SignupPage3 />} />
           <Route path="/signup4" element={<SignupPage4 />} />
-          <Route path="post" element={<CommunityPost />} />
+          <Route path="community/:no" element={<CommunityPost />} />
           <Route path="dancerregister" element={<DancerRegistration />} />
           <Route path="classregister" element={<ClassRegistration />} />
           <Route path="edit" element={<CommunityEdit />} />
@@ -43,7 +43,6 @@ function App() {
             element={<ClassReservation />}
           />
           <Route path="/dancerprofile" element={<DancerProfile />} />
-
         </Route>
       </Routes>
     </Router>
