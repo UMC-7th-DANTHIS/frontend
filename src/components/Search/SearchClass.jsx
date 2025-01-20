@@ -33,7 +33,7 @@ const SearchClass = () => {
       </ClassLists>
       <PaginationContainer>
         <Pagination
-          dataLength={120}
+          dataLength={101}
           perData={5}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
