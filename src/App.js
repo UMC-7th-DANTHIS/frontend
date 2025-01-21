@@ -17,6 +17,7 @@ import SignupPage1 from './pages/Signup/Signup1';
 import SignupPage2 from './pages/Signup/Signup2';
 import SignupPage3 from './pages/Signup/Signup3';
 import SignupPage4 from './pages/Signup/Signup4';
+import ProfileList from './pages/profile/ProfileList';
 import DancerProfile from './pages/profile/DancerProfile';
 
 function App() {
@@ -32,7 +33,7 @@ function App() {
           <Route path="/signup2" element={<SignupPage2 />} />
           <Route path="/signup3" element={<SignupPage3 />} />
           <Route path="/signup4" element={<SignupPage4 />} />
-          <Route path="post" element={<CommunityPost />} />
+          <Route path="community/:no" element={<CommunityPost />} />
           <Route path="dancerregister" element={<DancerRegistration />} />
           <Route path="classregister" element={<ClassRegistration />} />
           <Route path="edit" element={<CommunityEdit />} />
@@ -42,8 +43,8 @@ function App() {
             path="classreservation/:classId"
             element={<ClassReservation />}
           />
-          <Route path="/dancerprofile" element={<DancerProfile />} />
-
+          <Route path="/dancerprofile" element={<ProfileList />} />
+          <Route path="/dancerprofile/:dancerId" element={<DancerProfile />} />
         </Route>
       </Routes>
     </Router>
