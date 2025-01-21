@@ -6,6 +6,7 @@ import { ReactComponent as PlusButton } from "../../../assets/buttons/plus-butto
 import { ReactComponent as Ask } from "../../../assets/buttons/ask.svg"
 import AskAlert from '../../../components/AskAlert'
 import UserOverlay from '../../../components/UserOverlay'
+import Pagination from '../../../components/Pagination'
 
 const MyRegisterDetail = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -28,63 +29,70 @@ const MyRegisterDetail = () => {
   }
 
   return (
-    <ClassContainer>
-      <ItemContainer>
-        <HeaderContainer>
-          <IconWrapper>
-            <FocusedCircle width={20} height={20} />
-          </IconWrapper>
-          <Label>Parana 걸스힙합 클래스</Label>
-        </HeaderContainer>
+    <>
+      <ClassContainer>
+        <ItemContainer>
+          <HeaderContainer>
+            <IconWrapper>
+              <FocusedCircle width={20} height={20} />
+            </IconWrapper>
+            <Label>Parana 걸스힙합 클래스</Label>
+          </HeaderContainer>
 
-        <ContentSection>
-          <ImageContainer>
-            <Image src={SampleImage} />
-          </ImageContainer>
+          <ContentSection>
+            <ImageContainer>
+              <Image src={SampleImage} />
+            </ImageContainer>
 
-          <ReviewSection>
-            <IconContainer>
-              <IconText> 유저 추가 </IconText>
-              <PlusButton width={16} height={16} onClick={handleAddOverlay} />
-              {showRegisterUser &&
-                <UserOverlay onclose={hideAddOverlay} />}
+            <ReviewSection>
+              <IconContainer>
+                <IconText> 유저 추가 </IconText>
+                <PlusButton width={16} height={16} onClick={handleAddOverlay} />
+                {showRegisterUser &&
+                  <UserOverlay onclose={hideAddOverlay} />}
 
-            </IconContainer>
+              </IconContainer>
 
 
-            <AddIconContainer>
-              <TextContainer>
-                <MainText>수업을 수강한 유저를 추가하고 리뷰를 받아보세요!</MainText>
-                <SubText>*강사가 수업을 수강했음을 증명한 유저만 해당 수업에 대한 리뷰를 남길 수 있습니다</SubText>
-                <SubText>*무분별한 리뷰 작성을 막기 위해 한 번 추가한 유저는 운영진 문의를 통해서만 삭제할 수 있습니다</SubText>
-              </TextContainer>
-              <AskContainer
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-              >
-                <Ask />
-                {isHovered && <AskAlert />}
-              </AskContainer>
-            </AddIconContainer>
-          </ReviewSection>
-        </ContentSection>
+              <AddIconContainer>
+                <TextContainer>
+                  <MainText>수업을 수강한 유저를 추가하고 리뷰를 받아보세요!</MainText>
+                  <SubText>*강사가 수업을 수강했음을 증명한 유저만 해당 수업에 대한 리뷰를 남길 수 있습니다</SubText>
+                  <SubText>*무분별한 리뷰 작성을 막기 위해 한 번 추가한 유저는 운영진 문의를 통해서만 삭제할 수 있습니다</SubText>
+                </TextContainer>
+                <AskContainer
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <Ask />
+                  {isHovered && <AskAlert />}
+                </AskContainer>
+              </AddIconContainer>
+            </ReviewSection>
+          </ContentSection>
 
-        <Divider />
+          <Divider />
 
-        <CheckUserContainer>
-          <Label> 이 수업을 수강한 유저 </Label>
-          <UserImage>
-            {Array.from({ length: 5 }).map((_, index) => (
-              <ImageList key={index}>
-                <ListImage src={SampleImage} alt={`Class ${index + 1}`} />
-                <UserName> 써니 </UserName>
-              </ImageList>
-            ))}
-          </UserImage>
-        </CheckUserContainer>
+          <CheckUserContainer>
+            <Label> 이 수업을 수강한 유저 </Label>
+            <UserImage>
+              {Array.from({ length: 5 }).map((_, index) => (
+                <ImageList key={index}>
+                  <ListImage src={SampleImage} alt={`Class ${index + 1}`} />
+                  <UserName> 써니 </UserName>
+                </ImageList>
+              ))}
+            </UserImage>
+          </CheckUserContainer>
 
-      </ItemContainer>
-    </ClassContainer>
+        </ItemContainer>
+      </ClassContainer>
+
+      <PaginationContainer>
+        <Pagination dataLength={10} perData={6} />
+      </PaginationContainer>
+
+    </>
   );
 };
 
@@ -253,7 +261,9 @@ const UserName = styled.div`
   margin-left: 22px;
   margin-top: 13px;
 `
-
+const PaginationContainer = styled.div`
+  margin-bottom: 256px;
+`
 //
 const NoDancer = styled.div`
   display: flex;
