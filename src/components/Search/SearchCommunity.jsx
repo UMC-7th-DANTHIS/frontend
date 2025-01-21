@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+
+import imgDesc from '../../assets/Search/imageDescript.svg';
 
 import dummyCommunity from '../../store/search/dummyCommunity';
 import Pagination from '../Pagination';
@@ -20,6 +22,9 @@ const SearchCommunity = () => {
           <CommunityList>
             <TextContainer>
               <Title>{list.Title}</Title>
+              <ImgDescriptContainer>
+                <ImgDescript src={imgDesc} alt={'사진 있어요'} />
+              </ImgDescriptContainer>
               <Content>{list.Content.slice(0, 300)}</Content>
             </TextContainer>
           </CommunityList>
@@ -74,9 +79,21 @@ const TextContainer = styled.div`
 `;
 
 const Title = styled.div`
+  display: inline-block;
   font-size: 22px;
   font-weight: 600;
   margin-bottom: 12px;
+`;
+
+const ImgDescriptContainer = styled.div`
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  padding-left: 10px;
+`;
+
+const ImgDescript = styled.img`
+  margin-top: 3px;
 `;
 
 const Content = styled.div`
