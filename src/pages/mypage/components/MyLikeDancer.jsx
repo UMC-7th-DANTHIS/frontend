@@ -10,6 +10,7 @@ const MyLikeDancer = () => {
         {Array.from({ length: 6 }).map((_, index) => (
           <DancerList key={index}>
             <Image src={sampleImage} alt={`Class ${index + 1}`} />
+            <Dancer> DancerName </Dancer>
           </DancerList>
         ))}
       </DancerContainer>
@@ -36,10 +37,8 @@ const DancerList = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 280px;
-  height: 280px;
   border-radius: 10px;
-  background-color: #333;
+  flex-direction: column;
 `;
 
 const Image = styled.img`
@@ -49,6 +48,15 @@ const Image = styled.img`
   border-radius: 10px;
 `;
 
+
+const Dancer = styled.div`
+  color: #FFF;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -1.2px;
+  margin-top: 5px;
+`
 const PaginationContainer = styled.div`
   margin-bottom: 246px;
   margin-left: 50px;
