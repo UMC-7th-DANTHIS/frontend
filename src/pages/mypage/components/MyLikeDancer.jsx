@@ -25,8 +25,9 @@ export default MyLikeDancer
 
 const DancerContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 280px); 
-  gap: 50px; 
+  grid-template-columns: repeat(3, 220px); 
+  column-gap: 110px;
+  row-gap: 78px;
   margin-top: 40px;
   justify-content: center; 
 
@@ -42,8 +43,8 @@ const DancerList = styled.div`
 `;
 
 const Image = styled.img`
-  width: 280px;
-  height: 280px;
+  width: 220px;
+  height: 220px;
   object-fit: cover;
   border-radius: 10px;
 `;
