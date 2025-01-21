@@ -6,20 +6,16 @@ import dummyList from '../../store/community/dummyList';
 import Pagination from '../../components/Pagination';
 
 const Community = () => {
-  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const perData = 10;
+  const filteredList = dummyList.slice(
+    perData * (currentPage - 1),
+    perData * currentPage
+  );
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setData(dummyList);
-  });
-
-  // Json 데이터의 개수
-  const testData = 24;
-
-  // 한 번에 보여줄 Json 데이터의 개수
-  const testPerData = 10;
+  useEffect(() => {});
 
   return (
     <Container>
@@ -31,10 +27,17 @@ const Community = () => {
           <See>조회수</See>
         </TopBorder>
         <ListsContainer>
-          {data?.map((list) => (
+          {filteredList?.map((list) => (
             <ListContainer>
               <NoList>{list.No}</NoList>
-              <TitleList onClick={() => navigate('/post')}>
+              <TitleList
+                onClick={() =>
+                  navigate(`/community/${list.No}`, {
+                    replace: false,
+                    state: { list }
+                  })
+                }
+              >
                 {list.Title}
               </TitleList>
               <DateList>{list.DateAt}</DateList>
@@ -42,8 +45,8 @@ const Community = () => {
             </ListContainer>
           ))}
           <Pagination
-            dataLength={testData}
-            perData={testPerData}
+            dataLength={dummyList.length}
+            perData={perData}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
           />
