@@ -5,6 +5,7 @@ import MyRegisterDetail from './MyRegisterDetail';
 import { ReactComponent as WriteIcon } from "../../../assets/shape/write.svg"
 import { ReactComponent as TrashIcon } from "../../../assets/shape/trash.svg"
 import { useNavigate } from 'react-router-dom';
+import Pagination from '../../../components/Pagination';
 
 const MyRegisterClass = () => {
   const [selectedClass, setSelectedClass] = useState(null);
@@ -36,7 +37,12 @@ const MyRegisterClass = () => {
               </IconContainer>
             </ClassList>
           ))}
+          <PaginationContainer>
+            <Pagination dataLength={10} perData={6} />
+          </PaginationContainer>
         </ClassContainer>
+
+
       ) : (
         <MyRegisterDetail index={selectedClass} />
       )}
@@ -85,4 +91,8 @@ const IconContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 11px;
+`
+
+const PaginationContainer = styled.div`
+  margin-bottom: 166px;
 `
