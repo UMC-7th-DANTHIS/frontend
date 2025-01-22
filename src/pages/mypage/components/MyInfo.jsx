@@ -3,10 +3,12 @@ import styled from 'styled-components';
 import { ReactComponent as InfoArrow } from '../../../assets/infoarrow.svg';
 import Alert from '../../../components/Alert';
 import AgreeAlert from '../../../components/AgreeAlert';
+import Quit from './Quit';
 
 const MyInfo = () => {
   const [showLogoutAlert, setShowLogoutAlert] = useState(false);
   const [showAgreeAlert, setShowAgreeAlert] = useState(false);
+  const [currentComponent, setCurrentComponent] = useState('info');
 
   const handleLogoutAlert = () => {
     setShowLogoutAlert(true);
@@ -23,6 +25,14 @@ const MyInfo = () => {
   const hideAgreeAlert = () => {
     setShowAgreeAlert(false);
   };
+
+  const gotoQuit = () => {
+    setCurrentComponent('quit');
+  };
+
+  if (currentComponent === 'quit') {
+    return <Quit />;
+  }
 
   return (
     <InfoContainer>
@@ -49,7 +59,7 @@ const MyInfo = () => {
         </MenuItem>
         <MenuItem>
           <MenuText>회원탈퇴</MenuText>
-          <InfoArrow />
+          <InfoArrow onClick={gotoQuit} />
         </MenuItem>
       </LeftSection>
 
