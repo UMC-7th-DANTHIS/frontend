@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Searchicon from '../../assets/searchicon.svg';
 
-const SearchBar = ({ select, handleCategoryClick }) => {
+const SearchBar = ({ select, handleCategoryClick, temp, handleNowContent }) => {
   const [selectedFilter, setSelectedFilter] = useState([]);
 
   const category = [
@@ -28,10 +28,12 @@ const SearchBar = ({ select, handleCategoryClick }) => {
     }
   };
 
+  const handleSearch = (e) => handleNowContent(e.target.value);
+
   return (
     <Container>
       <InputContainer>
-        <Input defaultValue="Tania" />
+        <Input defaultValue={temp} onChange={(e) => handleSearch(e)} />
         <SearchButton>
           <SearchIcon src={Searchicon} alt="search" />
         </SearchButton>
