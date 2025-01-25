@@ -22,9 +22,11 @@ const SearchCommunity = () => {
           <CommunityList>
             <TextContainer>
               <Title>{list.Title}</Title>
-              <ImgDescriptContainer>
-                <ImgDescript src={imgDesc} alt={'사진 있어요'} />
-              </ImgDescriptContainer>
+              {list.Image && (
+                <ImgDescriptContainer>
+                  <ImgDescript src={imgDesc} alt={'사진 있어요'} />
+                </ImgDescriptContainer>
+              )}
               <Content>{list.Content.slice(0, 300)}</Content>
             </TextContainer>
           </CommunityList>
