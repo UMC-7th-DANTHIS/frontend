@@ -8,39 +8,58 @@ const Alert = ({
   onClose,
   messageColor,
   messagesize,
+  mariginsize, //margin-top 설정
   ContainerWidth,
   ContainerHeight,
   AlertWidth,
   AlertHeight,
   showButtons,
-  RefuseText,
-  OkayText
-}) => (
-  <AlertOverlay>
-    {/* 검정색 배경부분 width랑 height 설정 */}
-    <AlertContainer width={AlertWidth} height={AlertHeight}>
-      <CloseButton onClick={onClose}>
-        <CloseIcon />
-      </CloseButton>
-      {/* 흰색 부분 width랑 height 설정 */}
-      <TextContainer width={ContainerWidth} height={ContainerHeight}>
-        {/* 제목 */}
-        <AlertTitle>{title}</AlertTitle>
-        {/* 내용이랑 text 색 설정 / 기본색은 검정 */}
-        <AlertMessage color={messageColor} fontSize={messagesize}>
-          {message}
-        </AlertMessage>
-      </TextContainer>
-      {/* 예 아니요 버튼 유무 true/false로 설정 */}
-      {showButtons && (
-        <Buttons>
-          <Cancel onClick={onClose}> {RefuseText} </Cancel>
-          <Confirm onClick={onClose}> {OkayText} </Confirm>
-        </Buttons>
-      )}
-    </AlertContainer>
-  </AlertOverlay>
-);
+  confirmLabel = "예",
+  cancelLabel = "아니요"
+}) => {
+  const handleClick = (e) => {
+    e.stopPropagation();
+    if (onClose) {
+      onClose();
+    }
+  };
+
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  return (
+    <AlertOverlay onClick={handleOverlayClick}>
+      <AlertContainer width={AlertWidth} height={AlertHeight} onClick={e => e.stopPropagation()}>
+        <CloseButton onClick={handleClick}>
+          <CloseIcon />
+        </CloseButton>
+        {/* 흰색 부분 width랑 height 설정 */}
+        <TextContainer width={ContainerWidth} height={ContainerHeight}>
+          {/* 제목 */}
+          {title && <AlertTitle>{title}</AlertTitle>}
+          {/* 내용이랑 text 색 설정 / 기본색은 검정 */}
+          <AlertMessage
+            color={messageColor}
+            fontSize={messagesize}
+            margintop={mariginsize}
+          >
+            {message}
+          </AlertMessage>
+        </TextContainer>
+        {/* 예 아니요 버튼 유무 true/false로 설정 */}
+        {showButtons && (
+          <Buttons>
+            <Cancel onClick={handleClick}>{cancelLabel}</Cancel>
+            <Confirm onClick={handleClick}>{confirmLabel}</Confirm>
+          </Buttons>
+        )}
+      </AlertContainer>
+    </AlertOverlay>
+  );
+};
 
 export default Alert;
 
@@ -80,6 +99,7 @@ const CloseButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1000;
 `;
 
 const TextContainer = styled.div`
@@ -104,7 +124,7 @@ const AlertTitle = styled.h2`
   align-items: center;
 `;
 
-const AlertMessage = styled.p`
+const AlertMessage = styled.div`
   font-size: ${({ fontSize }) => fontSize || '16px'};
   /* font-size: 16px; */
   font-weight: 600;
@@ -112,6 +132,7 @@ const AlertMessage = styled.p`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: ${({ margintop }) => margintop || ''};
 `;
 
 const Buttons = styled.div`
