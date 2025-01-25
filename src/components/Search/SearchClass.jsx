@@ -32,7 +32,7 @@ const SearchClass = () => {
               <TextContent>가격 : {list.Price} / 회당</TextContent>
               <StarsContainer>
                 <TextContent>난이도 : </TextContent>
-                {Array.from({ length: list.Level }, (_, index) => {
+                {Array.from({ length: 5 }, (_, index) => {
                   const isFilled = index < list.Level;
 
                   return (
@@ -97,7 +97,9 @@ const TextContainer = styled.div`
   line-height: 40px;
 `;
 
-const TextContent = styled.div``;
+const TextContent = styled.div`
+  margin-right: 5px;
+`;
 
 const PaginationContainer = styled.div`
   margin-left: 100px;
@@ -110,9 +112,7 @@ const StarsContainer = styled.div`
 `;
 
 const StarBtn = styled.div`
-  &:hover {
-    cursor: pointer;
-  }
+  margin-top: 3px;
 `;
 
 export default SearchClass;
