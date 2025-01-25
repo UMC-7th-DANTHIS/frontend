@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import SearchBar from '../components/Search/SearchBar';
@@ -8,16 +9,29 @@ import SearchCommunity from '../components/Search/SearchCommunity';
 
 const SearchPage = () => {
   const [select, setSelect] = useState('class');
+  const [temp, setTemp] = useState('');
+  const location = useLocation();
+  const { search } = location.state;
+
+  useEffect = () => {
+    search && handleNowContent(search);
+  };
 
   const handleCategoryClick = (category) => setSelect(category);
+  const handleNowContent = (content) => setTemp(content);
 
   return (
     <Container>
-      <SearchBar select={select} handleCategoryClick={handleCategoryClick} />
+      <SearchBar
+        select={select}
+        handleCategoryClick={handleCategoryClick}
+        temp={temp}
+        handleNowContent={handleNowContent}
+      />
       <ContentContainer>
-        {select === 'class' && <SearchClass />}
-        {select === 'dancer' && <SearchDancer />}
-        {select === 'community' && <SearchCommunity />}
+        {select === 'class' && <SearchClass temp={temp} />}
+        {select === 'dancer' && <SearchDancer temp={temp} />}
+        {select === 'community' && <SearchCommunity temp={temp} />}
       </ContentContainer>
     </Container>
   );
