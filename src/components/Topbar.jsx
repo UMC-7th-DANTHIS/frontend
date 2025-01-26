@@ -36,7 +36,7 @@ const Topbar = () => {
               <SearchIcon
                 src={Searchicon}
                 alt="search"
-                onClick={() => navigate('/search', { state: { search } })}
+                onClick={() => navigate(`/search?query=${search}`)}
               />
             </SearchButton>
           </Search>

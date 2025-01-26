@@ -9,10 +9,17 @@ import SearchCommunity from '../components/Search/SearchCommunity';
 
 const SearchPage = () => {
   const location = useLocation();
-  const { search } = location.state;
+  const queryParams = new URLSearchParams(location.search);
+  const searchQuery = queryParams.get('query');
 
   const [select, setSelect] = useState('class');
-  const [temp, setTemp] = useState(search);
+  const [temp, setTemp] = useState(searchQuery);
+
+  useEffect(() => {
+    if (temp !== searchQuery) {
+      setTemp(searchQuery);
+    }
+  }, [location]);
 
   const handleCategoryClick = (category) => setSelect(category);
   const handleNowContent = (content) => setTemp(content);
