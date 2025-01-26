@@ -33,7 +33,7 @@ const SearchBar = ({ select, handleCategoryClick, temp, handleNowContent }) => {
   return (
     <Container>
       <InputContainer>
-        <Input defaultValue={temp} onChange={(e) => handleSearch(e)} />
+        <Input value={temp} onChange={(e) => handleSearch(e)} />
         <SearchButton>
           <SearchIcon src={Searchicon} alt="search" />
         </SearchButton>
