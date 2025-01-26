@@ -126,7 +126,7 @@ const BoardContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 38px 36px;
+  margin: 38px 0 160px 36px;
 `;
 const Classes = styled.div`
   display: grid;
