@@ -7,7 +7,7 @@ import Pagination from '../../../../components/Pagination';
 const ReviewTab = () => {
   const [reviews, setReviews] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const perData = 2; // 페이지 당 보여질 요소 개수
+  const perData = 5; // 페이지 당 보여질 요소 개수
 
   useEffect(() => {
     setReviews(dummyReviews);
