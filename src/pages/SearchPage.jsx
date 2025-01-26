@@ -8,14 +8,11 @@ import SearchDancer from '../components/Search/SearchDancer';
 import SearchCommunity from '../components/Search/SearchCommunity';
 
 const SearchPage = () => {
-  const [select, setSelect] = useState('class');
-  const [temp, setTemp] = useState('');
   const location = useLocation();
   const { search } = location.state;
 
-  useEffect = () => {
-    search && handleNowContent(search);
-  };
+  const [select, setSelect] = useState('class');
+  const [temp, setTemp] = useState(search);
 
   const handleCategoryClick = (category) => setSelect(category);
   const handleNowContent = (content) => setTemp(content);
