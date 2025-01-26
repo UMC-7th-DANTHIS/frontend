@@ -87,7 +87,8 @@ const TextContainer = styled.div`
 `;
 
 const PaginationContainer = styled.div`
-  margin-left: 100px;
+  margin-left: 348px;
+  margin-top: 91px;
 `;
 
 const TextContent = styled.div``;

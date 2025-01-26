@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import SearchBar from '../components/Search/SearchBar';
@@ -8,18 +8,17 @@ import SearchDancer from '../components/Search/SearchDancer';
 import SearchCommunity from '../components/Search/SearchCommunity';
 
 const SearchPage = () => {
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const searchQuery = queryParams.get('query');
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get('query');
 
   const [select, setSelect] = useState('class');
-  const [temp, setTemp] = useState(searchQuery);
+  const [temp, setTemp] = useState(query);
 
   useEffect(() => {
-    if (temp !== searchQuery) {
-      setTemp(searchQuery);
+    if (query) {
+      setTemp(query);
     }
-  }, [location]);
+  }, [query]);
 
   const handleCategoryClick = (category) => setSelect(category);
   const handleNowContent = (content) => setTemp(content);

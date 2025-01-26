@@ -5,7 +5,7 @@ import Outline from '../assets/outline.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import Searchicon from '../assets/searchicon.svg';
 
-const Topbar = () => {
+const Topbar = ({ onSearch }) => {
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
 
@@ -18,6 +18,12 @@ const Topbar = () => {
   };
 
   const handleSearchText = (e) => setSearch(e.target.value);
+
+  const handleSearch = () => {
+    if (search.trim()) {
+      onSearch(search.trim());
+    }
+  };
 
   return (
     <Container>
@@ -36,7 +42,7 @@ const Topbar = () => {
               <SearchIcon
                 src={Searchicon}
                 alt="search"
-                onClick={() => navigate(`/search?query=${search}`)}
+                onClick={handleSearch}
               />
             </SearchButton>
           </Search>

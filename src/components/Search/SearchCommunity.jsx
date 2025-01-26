@@ -111,7 +111,8 @@ const Content = styled.div`
 `;
 
 const PaginationContainer = styled.div`
-  margin-left: 100px;
+  margin-left: 348px;
+  margin-top: 91px;
 `;
 
 export default SearchCommunity;
