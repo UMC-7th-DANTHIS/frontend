@@ -184,7 +184,7 @@ const DancerImage = styled.img`
   height: 380px;
   flex-shrink: 0;
 
-  border-radius: 380px;
+  border-radius: 50%;
   margin-bottom: 27px;
 `;
 
