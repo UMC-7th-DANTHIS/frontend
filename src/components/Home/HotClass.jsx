@@ -92,6 +92,7 @@ const SliderContainer = styled.div`
 
 const SlideWrapper = styled.div`
   display: flex;
+  padding-left: 90px;
   flex-direction: row;
   gap: 20px;
   transform: translateX(${(props) => -props.currentIndex * 420}px);
