@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import dummyDancer from '../../store/search/dummyDancer';
 import Pagination from '../Pagination';
 
 const SearchDancer = () => {
-  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const perData = 5;
 
-  useEffect(() => {
-    setData(dummyDancer);
-  });
+  const filteredList = dummyDancer.slice(
+    perData * (currentPage - 1),
+    perData * currentPage
+  );
 
   return (
     <Container>
       <ClassLists>
-        {data?.map((list) => (
+        {filteredList?.map((list) => (
           <ClassList>
             <ImgContainer
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkpq_VnExTApuWh7iJNkdXdqeZciuAVoZF8A&s"
@@ -31,8 +32,8 @@ const SearchDancer = () => {
       </ClassLists>
       <PaginationContainer>
         <Pagination
-          dataLength={120}
-          perData={5}
+          dataLength={dummyDancer.length}
+          perData={perData}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />

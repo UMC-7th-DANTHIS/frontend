@@ -1,24 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+
+import imgDesc from '../../assets/Search/imageDescript.svg';
 
 import dummyCommunity from '../../store/search/dummyCommunity';
 import Pagination from '../Pagination';
 
 const SearchCommunity = () => {
-  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const perData = 5;
 
-  useEffect(() => {
-    setData(dummyCommunity);
-  });
+  const filteredList = dummyCommunity.slice(
+    perData * (currentPage - 1),
+    perData * currentPage
+  );
 
   return (
     <Container>
       <CommunityLists>
-        {data?.map((list) => (
+        {filteredList?.map((list) => (
           <CommunityList>
             <TextContainer>
               <Title>{list.Title}</Title>
+              {list.Image && (
+                <ImgDescriptContainer>
+                  <ImgDescript src={imgDesc} alt={'사진 있어요'} />
+                </ImgDescriptContainer>
+              )}
               <Content>{list.Content.slice(0, 300)}</Content>
             </TextContainer>
           </CommunityList>
@@ -26,8 +34,8 @@ const SearchCommunity = () => {
       </CommunityLists>
       <PaginationContainer>
         <Pagination
-          dataLength={120}
-          perData={5}
+          dataLength={dummyCommunity.length}
+          perData={perData}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
@@ -73,9 +81,21 @@ const TextContainer = styled.div`
 `;
 
 const Title = styled.div`
+  display: inline-block;
   font-size: 22px;
   font-weight: 600;
   margin-bottom: 12px;
+`;
+
+const ImgDescriptContainer = styled.div`
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  padding-left: 10px;
+`;
+
+const ImgDescript = styled.img`
+  margin-top: 3px;
 `;
 
 const Content = styled.div`
