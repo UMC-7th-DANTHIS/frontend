@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ReactComponent as StarFilled } from '../../../../assets/start_fill.svg';
-import { ReactComponent as StarNonfilled } from '../../../../assets/star_nonfill.svg';
+import { ReactComponent as StarFilled } from '../../../../assets/shape/filledYellowStar.svg';
+import { ReactComponent as StarNonfilled } from '../../../../assets/shape/nonfilledYellowStar.svg';
 
 const Rating = ({ data }) => {
   const totalStars = 5;
