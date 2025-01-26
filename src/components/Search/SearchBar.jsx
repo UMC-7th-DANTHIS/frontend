@@ -1,31 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Searchicon from '../../assets/searchicon.svg';
 
-const SearchBar = ({ select, handleCategoryClick }) => {
+const SearchBar = ({ select, handleCategoryClick, temp, handleNowContent }) => {
+  const [selectedFilter, setSelectedFilter] = useState([]);
+
+  const category = [
+    '강렬한',
+    '나른한',
+    '에너제틱',
+    '유산소',
+    '빡센',
+    '감성적인',
+    '기본기',
+    '통통튀는',
+    '무거운',
+    '아프로',
+    '뚝딱이',
+    '취미'
+  ];
+
+  const handleClick = (tag) => {
+    if (selectedFilter.includes(tag)) {
+      setSelectedFilter(selectedFilter.filter((item) => item !== tag));
+    } else {
+      setSelectedFilter([...selectedFilter, tag]);
+    }
+  };
+
+  const handleSearch = (e) => handleNowContent(e.target.value);
+
   return (
     <Container>
       <InputContainer>
-        <Input defaultValue="Tania" />
+        <Input defaultValue={temp} onChange={(e) => handleSearch(e)} />
         <SearchButton>
           <SearchIcon src={Searchicon} alt="search" />
         </SearchButton>
       </InputContainer>
       <HashTagContainer>
-        <UpperContainer>
-          <UpperHash>#스근한</UpperHash>
-          <UpperHash>#에너제틱</UpperHash>
-          <UpperHash>#섹시</UpperHash>
-          <UpperHash>#맨발</UpperHash>
-          <UpperHash>#유산소</UpperHash>
-        </UpperContainer>
-        <DownContainer>
-          <DownHash>#무거운</DownHash>
-          <DownHash>#아프로</DownHash>
-          <DownHash>#강렬한</DownHash>
-          <DownHash>#재즈/컨템포러리</DownHash>
-          <DownHash>#감성적인</DownHash>
-        </DownContainer>
+        {category.map((tag, index) => (
+          <HashTag
+            onClick={() => handleClick(tag)}
+            active={selectedFilter.includes(tag)}
+            key={index}
+          >
+            # {tag}
+          </HashTag>
+        ))}
       </HashTagContainer>
       <SelectContainer>
         <SelectText
@@ -53,7 +75,7 @@ const SearchBar = ({ select, handleCategoryClick }) => {
 
 const Container = styled.div`
   width: 100%;
-  height: 386px;
+  height: 376px;
   background-color: black;
 `;
 
@@ -103,64 +125,21 @@ const SearchIcon = styled.img`
 `;
 
 const HashTagContainer = styled.div`
-  margin-left: 303px;
-  margin-right: 303px;
-  margin-top: 35px;
-  margin-bottom: 76px;
+  margin-left: 205px;
+  margin-right: 85px;
+  margin-top: 30px;
+  margin-bottom: 92px;
 
-  width: 833px;
+  display: inline-block;
+  flex-direction: row;
+
+  width: 1100px;
   height: 124px;
-`;
-
-const UpperContainer = styled.div`
-  display: flex;
-  gap: 46px;
-`;
-
-const UpperHash = styled.div`
-  padding: 0px 33px;
-  justify-content: center;
-  align-items: center;
-
-  border-radius: 80px;
-  border: 2px solid #bf00ff;
-
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 50px;
-  letter-spacing: -1px;
-
-  color: #b2b2b2;
-`;
-
-const DownContainer = styled.div`
-  display: flex;
-  gap: 15px;
-  margin-top: 24px;
-`;
-
-const DownHash = styled.div`
-  padding: 0px 35px;
-  justify-content: center;
-  align-items: center;
-
-  border-radius: 80px;
-  border: 2px solid #bf00ff;
-
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 50px;
-  letter-spacing: -1px;
-
-  color: #b2b2b2;
 `;
 
 const SelectContainer = styled.div`
   display: flex;
   margin-left: 147px;
-  margin-top: 75px;
   gap: 65px;
 `;
 
@@ -177,6 +156,27 @@ const SelectText = styled.span`
   &.active {
     color: white;
   }
+`;
+
+const HashTag = styled.div`
+  display: inline-block;
+
+  width: 154px;
+  height: 50px;
+  margin-right: 20px;
+  margin-bottom: 14px;
+
+  border-radius: 80px;
+  border: 2px solid #bf00ff;
+
+  text-align: center;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 50px;
+
+  background-color: ${({ active }) => (active ? '#BF00FF' : 'transparent')};
+  color: ${({ active }) => (active ? '#fff' : '#B2B2B2')};
 `;
 
 export default SearchBar;

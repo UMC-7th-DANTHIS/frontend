@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as PostArrow } from '../../../assets/postarrow.svg';
+import Pagination from '../../../components/Pagination';
 
 const MyComments = () => {
   const [activeTab, setActiveTab] = useState('게시글');
@@ -56,6 +57,7 @@ const MyComments = () => {
           </ContentsContainer>
         </CommentContainer>
       ));
+
     }
     if (activeTab === '댓글') {
       return comments.map((comments, index) => (
@@ -74,25 +76,32 @@ const MyComments = () => {
   };
 
   return (
-    <Container>
-      <TextContainer>
-        <Tab
-          isActive={activeTab === '게시글'}
-          onClick={() => setActiveTab('게시글')}
-        >
-          게시글
-        </Tab>
-        <Tab
-          isActive={activeTab === '댓글'}
-          onClick={() => setActiveTab('댓글')}
-        >
-          댓글
-        </Tab>
-      </TextContainer>
+    <>
+      <Container>
+        <TextContainer>
+          <Tab
+            isActive={activeTab === '게시글'}
+            onClick={() => setActiveTab('게시글')}
+          >
+            게시글
+          </Tab>
+          <Tab
+            isActive={activeTab === '댓글'}
+            onClick={() => setActiveTab('댓글')}
+          >
+            댓글
+          </Tab>
+        </TextContainer>
 
-      <Divider />
-      {renderContents()}
-    </Container>
+        <Divider />
+        {renderContents()}
+      </Container>
+
+      <PaginationContainer>
+        <Pagination dataLength={10} perData={6} />
+      </PaginationContainer>
+    </>
+
   );
 };
 
@@ -103,7 +112,6 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   margin-left: 25px;
-  margin-bottom: 200px;
 `;
 
 const TextContainer = styled.div`
@@ -200,3 +208,6 @@ const SeePost = styled.p`
   margin-right: 9px; 
 `;
 
+const PaginationContainer = styled.div`
+  margin-bottom: 157px;
+`
