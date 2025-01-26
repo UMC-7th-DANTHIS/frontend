@@ -63,7 +63,7 @@ const Tab = styled.div`
   font-weight: 600;
   line-height: 50px; /* 178.571% */
   letter-spacing: -1.4px;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
   border-radius: 20px 20px 0px 0px;
   border-top: 3px solid var(--main_purple, #9819c3);
   border-right: 3px solid var(--main_purple, #9819c3);
