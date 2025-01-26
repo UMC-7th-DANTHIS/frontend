@@ -133,7 +133,6 @@ const Classes = styled.div`
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(auto-fill, 333px);
   width: 880px;
-  height: 999px;
 `;
 const Class = styled(Link)`
   display: flex;
