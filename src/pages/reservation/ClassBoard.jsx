@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import dummyClasses from '../../store/reservation/dummyClasses';
 import { ReactComponent as Line } from '../../assets/shape/line.svg';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
+import Pagination from '../../components/Pagination';
+import thumbnail from '../../assets/dummyphoto/class.svg'; // 임시
 
 const ClassBoard = () => {
   const genres = [
@@ -19,11 +21,12 @@ const ClassBoard = () => {
     'K-pop'
   ];
   const [selectedGenre, setSelectedGenre] = useState(genres[0]);
-  const [data, setData] = useState([]);
+  const [classes, setClasses] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setData(dummyClasses.filter((cls) => cls.genre === selectedGenre));
+    setClasses(dummyClasses.filter((cls) => cls.genre === selectedGenre));
   }, [selectedGenre]);
 
   // 장르 선택 핸들러
@@ -34,6 +37,14 @@ const ClassBoard = () => {
   // 수업 선택 핸들러
   const handleClassClick = (classId) => {
     navigate(`/classreservation/${classId}`);
+  };
+
+  // 현재 페이지에 보여질 요소 계산
+  const getCurrentPageData = () => {
+    const startIndex = (currentPage - 1) * 6;
+    const endIndex = startIndex + 6;
+
+    return classes.slice(startIndex, endIndex);
   };
 
   return (
@@ -47,15 +58,25 @@ const ClassBoard = () => {
         ))}
       </Sidebar>
       <Line />
-      <Classes>
-        {data.map((cls) => (
-          <Class key={cls.id} onClick={() => handleClassClick(cls.id)}>
-            <Image></Image>
-            <Title>{cls.title}</Title>
-            <Dancer>{cls.dancer}</Dancer>
-          </Class>
-        ))}
-      </Classes>
+      <BoardContainer>
+        <Classes>
+          {getCurrentPageData().map((cls) => (
+            <Class key={cls.id} onClick={() => handleClassClick(cls.id)}>
+              <Image>
+                <img src={thumbnail} alt={`class #${cls.id} thumbnail`} />
+              </Image>
+              <Title>{cls.title}</Title>
+              <Dancer>{cls.dancer}</Dancer>
+            </Class>
+          ))}
+        </Classes>
+        <Pagination
+          dataLength={classes.length}
+          perData={6}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      </BoardContainer>
     </Container>
   );
 };
@@ -67,7 +88,6 @@ const Container = styled.div`
   flex-direction: row;
   background-color: black;
   justify-content: center;
-  padding-bottom: 50px; // 임시
 `;
 const Sidebar = styled.div`
   display: flex;
@@ -104,21 +124,18 @@ const Genre = styled.div`
     font-weight: 600;
     letter-spacing: -1.5px;`}
 `;
+const BoardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 38px 36px;
+`;
 const Classes = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(auto-fill, 333px);
   width: 880px;
-  height: 800px; // 임시 712px
-  margin-top: 38px;
-  margin-left: 36px;
-
-  overflow-y: auto;
-  -ms-overflow-style: none; /* 1. Internet Explorer에서 스크롤바 숨기기 */
-  scrollbar-width: none; /* 2. Firefox에서 스크롤바 숨기기 */
-  &::-webkit-scrollbar {
-    display: none; /* 3. Chrome, Safari에서 스크롤바 숨기기 */
-  }
+  height: 684px;
 `;
 const Class = styled.div`
   display: flex;
