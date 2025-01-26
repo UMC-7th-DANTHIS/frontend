@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import dummyClasses from '../../store/reservation/dummyClasses';
 import { ReactComponent as Line } from '../../assets/shape/line.svg';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
 import Pagination from '../../components/Pagination';
-import thumbnail from '../../assets/dummyphoto/class.svg'; // 임시
+import dancerImg from '../../assets/dummyphoto/dancer.svg';
 
 const ClassBoard = () => {
   const genres = [
@@ -23,7 +23,7 @@ const ClassBoard = () => {
   const [selectedGenre, setSelectedGenre] = useState(genres[0]);
   const [classes, setClasses] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const navigate = useNavigate();
+  const perData = 9;
 
   useEffect(() => {
     setClasses(dummyClasses.filter((cls) => cls.genre === selectedGenre));
@@ -34,15 +34,10 @@ const ClassBoard = () => {
     setSelectedGenre(genre);
   };
 
-  // 수업 선택 핸들러
-  const handleClassClick = (classId) => {
-    navigate(`/classreservation/${classId}`);
-  };
-
   // 현재 페이지에 보여질 요소 계산
   const getCurrentPageData = () => {
-    const startIndex = (currentPage - 1) * 6;
-    const endIndex = startIndex + 6;
+    const startIndex = (currentPage - 1) * perData;
+    const endIndex = startIndex + perData;
 
     return classes.slice(startIndex, endIndex);
   };
@@ -61,9 +56,12 @@ const ClassBoard = () => {
       <BoardContainer>
         <Classes>
           {getCurrentPageData().map((cls) => (
-            <Class key={cls.id} onClick={() => handleClassClick(cls.id)}>
+            <Class to={`/classreservation/${cls.id}`} key={cls.id}>
               <Image>
-                <img src={thumbnail} alt={`class #${cls.id} thumbnail`} />
+                <img
+                  src={cls.thumbnail ? cls.thumbnail : dancerImg}
+                  alt={`class #${cls.id} thumbnail`}
+                />
               </Image>
               <Title>{cls.title}</Title>
               <Dancer>{cls.dancer}</Dancer>
@@ -72,7 +70,7 @@ const ClassBoard = () => {
         </Classes>
         <Pagination
           dataLength={classes.length}
-          perData={6}
+          perData={perData}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
@@ -135,13 +133,14 @@ const Classes = styled.div`
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(auto-fill, 333px);
   width: 880px;
-  height: 684px;
+  height: 999px;
 `;
-const Class = styled.div`
+const Class = styled(Link)`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-decoration-line: none;
   margin-bottom: 54px;
 
   &:hover {
