@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Review from '../Review';
 import dummyReviews from '../../../../store/reservation/dummyReviews';
-import Pagination from '../Pagination';
+import Pagination from '../../../../components/Pagination';
 
 const ReviewTab = () => {
   const [reviews, setReviews] = useState([]);
@@ -13,8 +13,6 @@ const ReviewTab = () => {
     setReviews(dummyReviews);
   }, []);
 
-  const totalPages = Math.ceil(reviews.length / perData); // 총 페이지 개수
-
   // 현재 페이지에 보여질 요소 계산
   const getCurrentPageData = () => {
     const startIndex = (currentPage - 1) * perData;
@@ -23,18 +21,16 @@ const ReviewTab = () => {
     return reviews.slice(startIndex, endIndex);
   };
 
-  // 페이지네이션 핸들러
-  const handlePageClick = (page) => setCurrentPage(page);
-
   return (
     <Container>
       {getCurrentPageData().map((review, index) => (
         <Review key={index} review={review} />
       ))}
       <Pagination
+        dataLength={reviews.length}
+        perData={perData}
         currentPage={currentPage}
-        totalPages={totalPages}
-        handlePageClick={handlePageClick}
+        setCurrentPage={setCurrentPage}
       />
     </Container>
   );
