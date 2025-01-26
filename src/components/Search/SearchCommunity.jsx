@@ -5,6 +5,7 @@ import imgDesc from '../../assets/Search/imageDescript.svg';
 
 import dummyCommunity from '../../store/search/dummyCommunity';
 import Pagination from '../Pagination';
+import SearchNothing from './SearchNothing';
 
 const SearchCommunity = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,29 +18,35 @@ const SearchCommunity = () => {
 
   return (
     <Container>
-      <CommunityLists>
-        {filteredList?.map((list) => (
-          <CommunityList>
-            <TextContainer>
-              <Title>{list.Title}</Title>
-              {list.Image && (
-                <ImgDescriptContainer>
-                  <ImgDescript src={imgDesc} alt={'사진 있어요'} />
-                </ImgDescriptContainer>
-              )}
-              <Content>{list.Content.slice(0, 300)}</Content>
-            </TextContainer>
-          </CommunityList>
-        ))}
-      </CommunityLists>
-      <PaginationContainer>
-        <Pagination
-          dataLength={dummyCommunity.length}
-          perData={perData}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-      </PaginationContainer>
+      {filteredList ? (
+        <>
+          <CommunityLists>
+            {filteredList?.map((list) => (
+              <CommunityList>
+                <TextContainer>
+                  <Title>{list.Title}</Title>
+                  {list.Image && (
+                    <ImgDescriptContainer>
+                      <ImgDescript src={imgDesc} alt={'사진 있어요'} />
+                    </ImgDescriptContainer>
+                  )}
+                  <Content>{list.Content.slice(0, 300)}</Content>
+                </TextContainer>
+              </CommunityList>
+            ))}
+          </CommunityLists>
+          <PaginationContainer>
+            <Pagination
+              dataLength={dummyCommunity.length}
+              perData={perData}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+          </PaginationContainer>
+        </>
+      ) : (
+        <SearchNothing />
+      )}
     </Container>
   );
 };

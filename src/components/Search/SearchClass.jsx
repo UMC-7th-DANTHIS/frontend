@@ -19,7 +19,7 @@ const SearchClass = () => {
 
   return (
     <Container>
-      {!filteredList ? (
+      {filteredList ? (
         <>
           <ClassLists>
             {filteredList?.map((list) => (
