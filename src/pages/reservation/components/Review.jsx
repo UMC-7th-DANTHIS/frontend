@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as StarFilled } from '../../../assets/shape/filledYellowStar.svg';
 import { ReactComponent as StarNonfilled } from '../../../assets/shape/nonfilledYellowStar.svg';
@@ -7,10 +8,22 @@ import { ReactComponent as GotoIcon } from '../../../assets/shape/gotoicon.svg';
 const Review = ({ review }) => {
   const totalStars = 5;
 
+  const formatDate = (date) => {
+    if (typeof date === 'string') {
+      date = new Date(date);
+    }
+
+    return new Intl.DateTimeFormat('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    }).format(date);
+  };
+
   return (
     <Container>
       <InfoWrapper>
-        <ProfileImage></ProfileImage>
+        <ProfileImage />
         <Data>
           <Name>{review.name}</Name>
           <Title>{review.title}</Title>
@@ -22,15 +35,21 @@ const Review = ({ review }) => {
                 </Star>
               ))}
             </Stars>
-            <Date>{review.date}</Date>
+            <Date>{formatDate(review.date)}</Date>
           </RatingAndDate>
         </Data>
       </InfoWrapper>
-      <ViewDetailWrapper>
+      <ViewDetailLink>
         <ViewDetail>자세히 보기</ViewDetail>
         <GotoIcon />
-      </ViewDetailWrapper>
-      <Detail>{review.detail}</Detail>
+      </ViewDetailLink>
+
+      <Detail>
+        {review.detail.length > 680
+          ? `${review.detail.slice(0, 680)} ...`
+          : review.detail}
+      </Detail>
+
       {review.images && (
         <Images>
           {review.images.map((image, index) => (
@@ -68,7 +87,7 @@ const Data = styled.div`
   align-items: flex-start;
   margin-left: 10px;
 `;
-const ProfileImage = styled.div`
+const ProfileImage = styled.img`
   width: 120px;
   height: 120px;
   border-radius: 4px;
@@ -115,25 +134,25 @@ const Date = styled.div`
   line-height: 20px; /* 166.667% */
   letter-spacing: -0.6px;
 `;
-const ViewDetailWrapper = styled.div`
+const ViewDetailLink = styled(Link)`
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: 7px;
   margin: 0 38px 18px auto;
-  color: var(--highlight_blue, #07f);
-  text-align: center;
-  font-family: Pretendard;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
+  text-decoration-line: none;
 
   &:hover {
     cursor: pointer;
   }
 `;
 const ViewDetail = styled.div`
-  margin-right: 7px;
+  color: var(--highlight_blue, #07f);
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 `;
 const Detail = styled.div`
   margin: 0 20px;
