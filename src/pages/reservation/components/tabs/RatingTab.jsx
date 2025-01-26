@@ -2,20 +2,28 @@ import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as StarFilled } from '../../../../assets/shape/filledYellowStar.svg';
 import { ReactComponent as StarNonfilled } from '../../../../assets/shape/nonfilledYellowStar.svg';
+import { ReactComponent as StarHalf } from '../../../../assets/shape/circle.svg';
 
 const Rating = ({ data }) => {
   const totalStars = 5;
+
+  const getRatingStars = (rate) => {
+    const fullStars = Math.floor(rate); // 채워진 별 개수
+    const hasHalfStar = rate % 1 !== 0; // 반 개짜리 별 필요 여부
+    const emptyStars = totalStars - fullStars - (hasHalfStar ? 1 : 0); // 빈 별 개수
+
+    return [
+      ...Array(fullStars).fill(<StarFilled width="120px" height="120px" />),
+      ...(hasHalfStar ? [<StarHalf width="120px" height="120px" />] : []),
+      ...Array(emptyStars).fill(<StarNonfilled width="120px" height="120px" />)
+    ];
+  };
+
   return (
     <Container>
       <Stars>
-        {Array.from({ length: totalStars }, (_, index) => (
-          <Star key={index}>
-            {index < data.rate ? (
-              <StarFilled width="120px" height="120px" />
-            ) : (
-              <StarNonfilled width="120px" height="120px" />
-            )}
-          </Star>
+        {getRatingStars(data.rate).map((star, index) => (
+          <Star key={index}>{star}</Star>
         ))}
       </Stars>
       <RatingNumber>{data.rate.toFixed(1)}</RatingNumber>
