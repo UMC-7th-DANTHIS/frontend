@@ -66,9 +66,11 @@ const Pagination = ({ dataLength, perData, currentPage, setCurrentPage }) => {
 const PageContainer = styled.div`
   display: inline-block;
   width: 514px;
+  margin-left: 250px;
   text-align: center;
   justify-content: center;
   align-items: center;
+  margin-top: 56px;
 `;
 
 const PageCursor = styled.div`
