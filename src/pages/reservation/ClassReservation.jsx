@@ -25,7 +25,7 @@ const ClassReservation = () => {
         <Title>{data.title}</Title>
       </TitleWrapper>
       <Summary>
-        <ImageWrapper></ImageWrapper>
+        <Image src={data.dancerImg} alt={`dancer #${data.id}`} />
         <InfoContainer>
           <Text>강사 : {data.dancer}</Text>
           <Text>장르 : {data.genre}</Text>
@@ -83,8 +83,9 @@ const Summary = styled.div`
   justify-content: center;
   align-items: center;
   padding: 38px;
+  padding-bottom: 53px;
 `;
-const ImageWrapper = styled.div`
+const Image = styled.img`
   width: 298px;
   height: 298px;
   border-radius: 10px;
