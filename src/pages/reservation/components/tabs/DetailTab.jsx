@@ -1,10 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Detail = ({ data }) => {
   return (
     <Container>
-      <Video></Video>
+      <Video src={null} alt={`${data.dancer}의 ${data.title}> 수업 영상`} />
       <Section>
         <Title>📢 수업 소개</Title>
         <Text>{data.description}</Text>
@@ -21,15 +22,21 @@ const Detail = ({ data }) => {
       <Section>
         <Title>수업 사진</Title>
         <Images>
-          {data.images.map((image, index) => (
-            <Image key={index}>
-              {image && <img src={image} alt={`class #${index}`} />}
-            </Image>
-          ))}
+          {data.images.length > 0 ? (
+            data.images.map((image, index) => (
+              <Image key={index}>
+                {image && <img src={image} alt={`class #${index}`} />}
+              </Image>
+            ))
+          ) : (
+            <Image src={data.dancerImg} />
+          )}
         </Images>
       </Section>
       <Section>
-        <MoreAboutDancer>Parana 댄서에 대해 더 알고싶다면?</MoreAboutDancer>
+        <MoreAboutDancer to={`/dancerprofile/${data.dancerId}`}>
+          Parana 댄서에 대해 더 알고싶다면?
+        </MoreAboutDancer>
       </Section>
     </Container>
   );
@@ -45,7 +52,7 @@ const Container = styled.div`
   width: 1240px;
   padding: 77px 108px;
 `;
-const Video = styled.div`
+const Video = styled.video`
   width: 1024px;
   height: 560px;
   margin-bottom: 50px;
@@ -123,13 +130,13 @@ const Image = styled.img`
     object-fit: cover; // 비율 유지
   }
 `;
-const MoreAboutDancer = styled.button`
+const MoreAboutDancer = styled(Link)`
   display: flex;
-  width: 448px;
-  height: 60px;
-  padding: 15px 47px 15px 57px;
   justify-content: center;
   align-items: center;
+  width: 448px;
+  height: 60px;
+  text-decoration-line: none;
   border-radius: 15px;
   border: 2px solid var(--main_white, #fff);
   background: var(--main_purple, #9819c3);
