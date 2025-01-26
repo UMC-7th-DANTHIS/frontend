@@ -1,21 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import dummyClass from '../../store/search/dummyClass';
 import Pagination from '../Pagination';
 
-const SearchClass = () => {
-  const [data, setData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+import { ReactComponent as StarFilled } from '../../assets/buttons/starlevel_filled.svg';
+import { ReactComponent as StarNonfilled } from '../../assets/buttons/starlevel_nonfilled.svg';
 
-  useEffect(() => {
-    setData(dummyClass);
-  });
+const SearchClass = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const perData = 5;
+
+  const filteredList = dummyClass.slice(
+    perData * (currentPage - 1),
+    perData * currentPage
+  );
 
   return (
     <Container>
       <ClassLists>
-        {data?.map((list) => (
+        {filteredList?.map((list) => (
           <ClassList>
             <ImgContainer
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkpq_VnExTApuWh7iJNkdXdqeZciuAVoZF8A&s"
@@ -26,15 +30,26 @@ const SearchClass = () => {
               <TextContent>수업 강사 : {list.Dancer}</TextContent>
               <TextContent>장르 : {list.Genre}</TextContent>
               <TextContent>가격 : {list.Price} / 회당</TextContent>
-              <TextContent>난이도 : {list.Level} / 5</TextContent>
+              <StarsContainer>
+                <TextContent>난이도 : </TextContent>
+                {Array.from({ length: 5 }, (_, index) => {
+                  const isFilled = index < list.Level;
+
+                  return (
+                    <StarBtn key={index}>
+                      {isFilled ? <StarFilled /> : <StarNonfilled />}
+                    </StarBtn>
+                  );
+                })}
+              </StarsContainer>
             </TextContainer>
           </ClassList>
         ))}
       </ClassLists>
       <PaginationContainer>
         <Pagination
-          dataLength={120}
-          perData={5}
+          dataLength={dummyClass.length}
+          perData={perData}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
@@ -82,10 +97,22 @@ const TextContainer = styled.div`
   line-height: 40px;
 `;
 
-const TextContent = styled.div``;
+const TextContent = styled.div`
+  margin-right: 5px;
+`;
 
 const PaginationContainer = styled.div`
   margin-left: 100px;
+`;
+
+const StarsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 588px;
+`;
+
+const StarBtn = styled.div`
+  margin-top: 3px;
 `;
 
 export default SearchClass;
