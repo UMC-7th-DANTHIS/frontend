@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import SearchBar from '../components/Search/SearchBar';
@@ -8,16 +9,29 @@ import SearchCommunity from '../components/Search/SearchCommunity';
 
 const SearchPage = () => {
   const [select, setSelect] = useState('class');
+  const [temp, setTemp] = useState('');
+  const location = useLocation();
+  const { search } = location.state;
+
+  useEffect = () => {
+    search && handleNowContent(search);
+  };
 
   const handleCategoryClick = (category) => setSelect(category);
+  const handleNowContent = (content) => setTemp(content);
 
   return (
     <Container>
-      <SearchBar select={select} handleCategoryClick={handleCategoryClick} />
+      <SearchBar
+        select={select}
+        handleCategoryClick={handleCategoryClick}
+        temp={temp}
+        handleNowContent={handleNowContent}
+      />
       <ContentContainer>
-        {select === 'class' && <SearchClass />}
-        {select === 'dancer' && <SearchDancer />}
-        {select === 'community' && <SearchCommunity />}
+        {select === 'class' && <SearchClass temp={temp} />}
+        {select === 'dancer' && <SearchDancer temp={temp} />}
+        {select === 'community' && <SearchCommunity temp={temp} />}
       </ContentContainer>
     </Container>
   );
@@ -31,46 +45,6 @@ const Container = styled.div`
 const ContentContainer = styled.div`
   margin-left: 120px;
   margin-right: 120px;
-`;
-
-const PageContainer = styled.div`
-  display: flex;
-
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  margin-top: 56px;
-`;
-
-const PageCursor = styled.div`
-  display: inline-block;
-  font-size: 20px;
-  font-weight: bold;
-  color: #9819c3;
-  cursor: pointer;
-  margin: 0 20px;
-`;
-
-const PageNumber = styled.div`
-  display: inline-block;
-  font-size: 18px;
-  color: white;
-  margin: 5px;
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-  text-align: center;
-  cursor: pointer;
-  border-radius: 50%;
-
-  &:hover {
-    color: #9819c3;
-  }
-
-  &.active {
-    background-color: #9819c3;
-    color: white;
-  }
 `;
 
 export default SearchPage;

@@ -1,12 +1,14 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { ReactComponent as StarFill } from "../../../assets/start_fill.svg";
-import { ReactComponent as StarNonFill } from "../../../assets/star_nonfill.svg";
+import { ReactComponent as StarFilled } from "../../../assets/shape/filledYellowStar.svg"
+import { ReactComponent as StarNonfilled } from '../../../assets/shape/nonfilledYellowStar.svg';
+import Alert from '../../../components/Alert';
 
 const MyReview = () => {
   const [starStates, setStarStates] = useState(Array(5).fill(false));
   const [selectedImage, setSelectedImage] = useState(null);
   const photoInputRef = useRef(null);
+  const [showAlert, setShowAlert] = useState(false);
 
   const toggleStar = (index) => {
     setStarStates((prev) =>
@@ -19,6 +21,15 @@ const MyReview = () => {
     if (file) {
       setSelectedImage(URL.createObjectURL(file));
     }
+  };
+
+  const handleClickCancel = (e) => {
+    setShowAlert(true);
+  };
+
+  const hideClickCancel = () => {
+    console.log('이거 왜 안됨 ')
+    setShowAlert(false);
   };
 
   return (
@@ -49,21 +60,10 @@ const MyReview = () => {
           onChange={handleImageChange}
         />
         {selectedImage && <PreviewImage src={selectedImage} alt="selected image" />}
-      </PhotoSection>
-
-      <RatingSection>
-        <RatingTitle>별점 평가</RatingTitle>
-        <Stars>
-          {starStates.map((isFilled, index) => (
-            <Star key={index} onClick={() => toggleStar(index)}>
-              {isFilled ? <StarFill /> : <StarNonFill />}
-            </Star>
-          ))}
-        </Stars>
-      </RatingSection>
-
-      <FinalSection>
         <Warning>
+          <li>
+            * 사진은 최대 4장까지 등록 가능합니다.
+          </li>
           <li>
             * 과도한 비방 및 욕설이 포함된 게시글은 신고에 의해 무통보 삭제될 수 있습니다.
           </li>
@@ -71,8 +71,52 @@ const MyReview = () => {
             * 초상권, 저작권 침해 및 기타 위반한 게시글은 관리자에 의해 무통보 삭제될 수 있습니다.
           </li>
         </Warning>
+      </PhotoSection>
+
+      <RatingSection>
+        <RatingTitle>별점 평가</RatingTitle>
+        <Stars>
+          {starStates.map((isFilled, index) => (
+            <Star key={index} onClick={() => toggleStar(index)}>
+              {isFilled ? <StarFilled width={50} height={50} /> : <StarNonfilled width={50} height={50} />}
+            </Star>
+          ))}
+        </Stars>
+      </RatingSection>
+
+      <FinalSection>
         <Buttons>
-          <CancelButton>취소</CancelButton>
+          <CancelButton onClick={handleClickCancel}>
+            취소
+            {showAlert && (
+              <Alert
+                message={
+                  <span>
+                    <span>
+                      해당 페이지를 벗어나면 <br />
+                    </span>
+
+                    <span>
+                      작성 중인 글이 <ColoredText> 모두 삭제 </ColoredText> 됩니다 <br />
+                    </span>
+
+                    <span>
+                      떠나시겠습니까?
+                    </span>
+                  </span>
+                }
+                onClose={hideClickCancel}
+                ContainerWidth="280px"
+                ContainerHeight="108px"
+                mariginsize="24px"
+                AlertWidth="392px"
+                AlertHeight="260px"
+                showButtons={true}
+                confirmLabel="남기"
+                cancelLabel="떠나기"
+              />
+            )}
+          </CancelButton>
           <SubmitButton>작성</SubmitButton>
         </Buttons>
       </FinalSection>
@@ -175,6 +219,8 @@ const PhotoButton = styled.button`
     height: 36px;
     background-color: transparent;
     color: #fff;
+    font-weight: 600;
+    font-size: 16px;
     border: 2px solid #9819C3;
     border-radius: 10px;
     cursor: pointer;
@@ -225,6 +271,7 @@ const FinalSection = styled.div`
     margin-bottom: 244px;
     gap: 24px;
     margin-top: 57px;
+    justify-content: space-around;
 `;
 
 const Warning = styled.div`
@@ -233,6 +280,7 @@ const Warning = styled.div`
     font-size: 12px;
     font-weight: 400;
     list-style: none;
+    margin-top: 21px;
 
     li {
         margin-bottom: 5px;
@@ -253,6 +301,7 @@ const CancelButton = styled.button`
     border: 2px solid #9819C3;
     border-radius: 10px;
     cursor: pointer;
+    font-weight: 600;
 
     &:hover {
         background-color: #9819C3;
@@ -267,4 +316,10 @@ const SubmitButton = styled.button`
     border: 2px solid #9819C3;
     border-radius: 10px;
     cursor: pointer;
+    font-weight: 600;
 `;
+
+//alert
+const ColoredText = styled.span`
+  color: #A60F62;
+`
