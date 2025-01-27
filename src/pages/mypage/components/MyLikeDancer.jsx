@@ -1,27 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import sampleImage from '../../../assets/image.png'
 import Pagination from '../../../components/Pagination';
+import dummyDancer from '../../../store/mypage/dummyDancer';
 
 const MyLikeDancer = () => {
+  const data = dummyDancer;
+  const [currentPage, setCurrentPage] = useState(1);
+  const perData = 6;
+  const filteredList = data.slice(
+    perData * (currentPage - 1),
+    perData * currentPage
+  );
+
   return (
     <>
       <DancerContainer>
-        {Array.from({ length: 6 }).map((_, index) => (
-          <DancerList key={index}>
-            <Image src={sampleImage} alt={`Class ${index + 1}`} />
-            <Dancer> DancerName </Dancer>
+        {filteredList.map((data) => (
+          <DancerList key={data.id}>
+            <Image src={data.images[0] || sampleImage} alt={data.id} />
+            <Dancer> {data.dancerName} </Dancer>
           </DancerList>
         ))}
       </DancerContainer>
       <PaginationContainer>
-        <Pagination dataLength={10} perData={6} />
+        <Pagination dataLength={data.length} perData={perData} currentPage={currentPage}
+          setCurrentPage={setCurrentPage} />
       </PaginationContainer>
     </>
   );
 }
 
-export default MyLikeDancer
+export default MyLikeDancer;
 
 const DancerContainer = styled.div`
   display: grid;
@@ -32,7 +42,6 @@ const DancerContainer = styled.div`
   justify-content: center; 
 
 `;
-
 
 const DancerList = styled.div`
   display: flex;
@@ -48,7 +57,6 @@ const Image = styled.img`
   object-fit: cover;
   border-radius: 10px;
 `;
-
 
 const Dancer = styled.div`
   color: #FFF;

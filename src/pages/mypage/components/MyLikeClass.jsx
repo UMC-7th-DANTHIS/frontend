@@ -1,22 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import sampleImage from '../../../assets/image.png'
 import Pagination from '../../../components/Pagination';
+import dummyClass from '../../../store/mypage/dummyClass';
 
 const MyLikeClass = () => {
+  const data = dummyClass;
+  const [currentPage, setCurrentPage] = useState(1);
+  const perData = 6;
+  const filteredList = data.slice(
+    perData * (currentPage - 1),
+    perData * currentPage
+  );
+
   return (
     <>
       <ClassContainer>
-        {Array.from({ length: 6 }).map((_, index) => (
-          <ClassList key={index}>
-            <Image src={sampleImage} alt={`Class ${index + 1}`} />
-            <Title> The Seed - Aurora  </Title>
-            <Singer> Parana </Singer>
+        {filteredList.map((data) => (
+          <ClassList key={data.id}>
+            <Image src={data.images[0] || sampleImage} alt={data.id} />
+            <Title>{data.className}</Title>
+            <Singer>{data.dancerName}</Singer>
           </ClassList>
         ))}
       </ClassContainer>
       <PaginationContainer>
-        <Pagination dataLength={10} perData={6} />
+        <Pagination dataLength={data.length} perData={perData} currentPage={currentPage}
+          setCurrentPage={setCurrentPage} />
       </PaginationContainer>
     </>
   );
