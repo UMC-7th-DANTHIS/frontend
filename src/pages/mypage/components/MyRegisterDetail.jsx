@@ -7,10 +7,13 @@ import { ReactComponent as Ask } from "../../../assets/buttons/ask.svg"
 import AskAlert from '../../../components/AskAlert'
 import UserOverlay from '../../../components/UserOverlay'
 import Pagination from '../../../components/Pagination'
+import MyRegisterClass from './MyRegisterClass'
 
-const MyRegisterDetail = () => {
+const MyRegisterDetail = ({ index, data }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [showRegisterUser, setShowRegisterUser] = useState(false);
+  const [currentComponent, setCurrentComponent] = useState('detail');
+  const classData = data.danceClasses.find((danceClass) => danceClass.id === index);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -28,81 +31,83 @@ const MyRegisterDetail = () => {
     setShowRegisterUser(false);
   }
 
+  const goToClassList = () => {
+    setCurrentComponent('classList');
+  };
+
   return (
     <>
-      <ClassContainer>
-        <ItemContainer>
-          <HeaderContainer>
-            <IconWrapper>
-              <FocusedCircle width={20} height={20} />
-            </IconWrapper>
-            <Label>Parana 걸스힙합 클래스</Label>
-          </HeaderContainer>
+      {currentComponent === 'detail' && classData ? (
+        <ClassContainer>
+          <ItemContainer>
+            <HeaderContainer>
+              <IconWrapper>
+                <FocusedCircle width={20} height={20} />
+              </IconWrapper>
+              <Label>{classData.className}</Label>
+            </HeaderContainer>
 
-          <ContentSection>
-            <ImageContainer>
-              <Image src={SampleImage} />
-            </ImageContainer>
+            <ContentSection>
+              <ImageContainer>
+                <Image src={SampleImage} />
+              </ImageContainer>
 
-            <ReviewSection>
-              <IconContainer>
-                <IconText> 유저 추가 </IconText>
-                <PlusButton width={16} height={16} onClick={handleAddOverlay} />
-                {showRegisterUser &&
-                  <UserOverlay onclose={hideAddOverlay} />}
+              <ReviewSection>
+                <IconContainer>
+                  <IconText> 유저 추가 </IconText>
+                  <PlusButton width={16} height={16} onClick={handleAddOverlay} />
+                  {showRegisterUser &&
+                    <UserOverlay onclose={hideAddOverlay} />}
+                </IconContainer>
 
-              </IconContainer>
 
+                <AddIconContainer>
+                  <TextContainer>
+                    <MainText>수업을 수강한 유저를 추가하고 리뷰를 받아보세요!</MainText>
+                    <SubText>*강사가 수업을 수강했음을 증명한 유저만 해당 수업에 대한 리뷰를 남길 수 있습니다</SubText>
+                    <SubText>*무분별한 리뷰 작성을 막기 위해 한 번 추가한 유저는 운영진 문의를 통해서만 삭제할 수 있습니다</SubText>
+                  </TextContainer>
+                  <AskContainer
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <Ask />
+                    {isHovered && <AskAlert />}
+                  </AskContainer>
+                </AddIconContainer>
+              </ReviewSection>
+            </ContentSection>
 
-              <AddIconContainer>
-                <TextContainer>
-                  <MainText>수업을 수강한 유저를 추가하고 리뷰를 받아보세요!</MainText>
-                  <SubText>*강사가 수업을 수강했음을 증명한 유저만 해당 수업에 대한 리뷰를 남길 수 있습니다</SubText>
-                  <SubText>*무분별한 리뷰 작성을 막기 위해 한 번 추가한 유저는 운영진 문의를 통해서만 삭제할 수 있습니다</SubText>
-                </TextContainer>
-                <AskContainer
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <Ask />
-                  {isHovered && <AskAlert />}
-                </AskContainer>
-              </AddIconContainer>
-            </ReviewSection>
-          </ContentSection>
+            <Divider />
 
-          <Divider />
+            <CheckUserContainer>
+              <Label> 이 수업을 수강한 유저 </Label>
+              <UserImage>
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <ImageList key={index}>
+                    <ListImage src={SampleImage} alt={`Class ${index + 1}`} />
+                    <UserName> 써니 </UserName>
+                  </ImageList>
+                ))}
+              </UserImage>
+            </CheckUserContainer>
 
-          <CheckUserContainer>
-            <Label> 이 수업을 수강한 유저 </Label>
-            <UserImage>
-              {Array.from({ length: 5 }).map((_, index) => (
-                <ImageList key={index}>
-                  <ListImage src={SampleImage} alt={`Class ${index + 1}`} />
-                  <UserName> 써니 </UserName>
-                </ImageList>
-              ))}
-            </UserImage>
-          </CheckUserContainer>
+            <PaginationContainer>
+              <Pagination dataLength={10} perData={6} />
+            </PaginationContainer>
 
-        </ItemContainer>
-      </ClassContainer>
+            <GoBack onClick={goToClassList}>
+              수업 목록으로
+            </GoBack>
 
-      <PaginationContainer>
-        <Pagination dataLength={10} perData={6} />
-      </PaginationContainer>
-
+          </ItemContainer>
+        </ClassContainer>
+      ) : (
+        <MyRegisterClass />
+      )}
     </>
   );
 };
-
-{/* <Noregister>
-<Text> 내가 등록한 수업이 존재하지 않습니다. </Text>
-<Button> 댄스 수업 등록하러 가기 </Button>
-</Noregister>
-<NoDancer>
-<Text> 댄서로 등록된 사용자에게 열리는 서비스입니다. </Text>
-</NoDancer> */}
 
 
 export default MyRegisterDetail;
@@ -262,42 +267,21 @@ const UserName = styled.div`
   margin-top: 13px;
 `
 const PaginationContainer = styled.div`
-  margin-bottom: 256px;
-`
-//
-const NoDancer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 249px;
+  margin-bottom: 32px;
 `
 
-const Text = styled.div`
-  color: #FFF;
-  text-align: center;
-  font-size: 32px;
-  font-weight: 500;
-`
-
-const Noregister = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 231px;
-`
-
-const Button = styled.button`
-  width: 474px;
-  height: 66px;
+const GoBack = styled.button`
+  margin-bottom: 193px;
+  width: 100px;
+  height: 36px;
   flex-shrink: 0;
-  border-radius: 15px;
-  background: #9819C3;
-  color: white;
-  border: 1px solid #9819C3;
-  font-size: 28px;
-  font-weight: 600;
+  border-radius: 10px;
+  border: 1px solid #BF00FF;
+  background: transparent;
+  color: #BF00FF;
   text-align: center;
-  margin-top: 27px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: normal;
   cursor: pointer;
 `
