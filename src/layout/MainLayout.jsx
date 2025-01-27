@@ -1,14 +1,20 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Topbar from '../components/Topbar';
 import Footer from '../components/Footer';
 
 const MainLayout = () => {
+  const navigate = useNavigate();
+
+  const handleSearch = (query) => {
+    navigate(`/search?query=${query}`);
+  };
+
   return (
     <>
       <Container>
-        <Topbar />
+        <Topbar onSearch={handleSearch} />
         <Outlet />
         <Footer />
       </Container>
