@@ -4,31 +4,18 @@ import styled from 'styled-components';
 import dummyClass from '../../store/reservation/dummyClass';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
 import Level from './components/Level';
-import DetailTab from './components/tabs/DetailTab';
-import ReviewTab from './components/tabs/ReviewTab';
-import RatingTab from './components/tabs/RatingTab';
+import TabMenu from './components/TabMenu';
 
 const ClassReservation = () => {
-  // const { classId } = useParams();
+  // const { classId- } = useParams();
   const classId = 1; // 임시
   const data = dummyClass.find((cls) => cls.id === Number(classId));
 
   const [isLiked, setIsLiked] = useState(false);
-  const [currentTab, setCurrentTab] = useState(0);
-  const menu = [
-    { name: '상세정보', content: 'Tab menu ONE' },
-    { name: '리뷰', content: 'Tab menu TWO' },
-    { name: '별점', content: 'Tab menu THREE' }
-  ];
 
   // 수업 찜 버튼 핸들러
   const handleLikeClick = () => {
     setIsLiked(!isLiked);
-  };
-
-  // 탭 메뉴 핸들러
-  const handleTabChange = (index) => {
-    setCurrentTab(index);
   };
 
   return (
@@ -38,7 +25,7 @@ const ClassReservation = () => {
         <Title>{data.title}</Title>
       </TitleWrapper>
       <Summary>
-        <ImageWrapper></ImageWrapper>
+        <Image src={data.dancerImg} alt={`dancer #${data.id}`} />
         <InfoContainer>
           <Text>강사 : {data.dancer}</Text>
           <Text>장르 : {data.genre}</Text>
@@ -58,20 +45,7 @@ const ClassReservation = () => {
           </LikeBtn>
         </BtnContainer>
       </Summary>
-      <Tabs>
-        {menu.map((element, index) => (
-          <Tab
-            key={index}
-            $isActive={currentTab === index}
-            onClick={() => handleTabChange(index)}
-          >
-            {element.name}
-          </Tab>
-        ))}
-      </Tabs>
-      {currentTab === 0 && <DetailTab data={data} />}
-      {currentTab === 1 && <ReviewTab />}
-      {currentTab === 2 && <RatingTab data={data} />}
+      <TabMenu data={data} />
     </Container>
   );
 };
@@ -103,15 +77,15 @@ const Title = styled.div`
   line-height: normal;
   letter-spacing: -1.5px;
 `;
-
 const Summary = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   padding: 38px;
+  padding-bottom: 53px;
 `;
-const ImageWrapper = styled.div`
+const Image = styled.img`
   width: 298px;
   height: 298px;
   border-radius: 10px;
@@ -190,43 +164,4 @@ const BtnText = styled.span`
   font-weight: 600;
   line-height: 50px; /* 208.333% */
   letter-spacing: -1.2px;
-`;
-const Tabs = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 1240px;
-  height: 86.005px;
-  flex-shrink: 0;
-  border-radius: 20px 20px 0px 0px;
-  background: var(--main_purple, #9819c3);
-`;
-const Tab = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 410px;
-  height: 85px;
-  color: var(--main_white, #fff);
-  text-align: center;
-  font-family: Pretendard;
-  font-size: 28px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 50px; /* 178.571% */
-  letter-spacing: -1.4px;
-
-  ${({ $isActive }) =>
-    $isActive &&
-    `
-    border-radius: 20px 20px 0px 0px;
-    border-top: 3px solid var(--main_purple, #9819c3);
-    border-right: 3px solid var(--main_purple, #9819c3);
-    border-left: 3px solid var(--main_purple, #9819c3);
-    background: var(--main_black, #000);
-    box-shadow: 0px 8px 16px 0px var(--main_purple, #9819c3) inset;`}
-
-  &:hover {
-    cursor: pointer;
-  }
 `;

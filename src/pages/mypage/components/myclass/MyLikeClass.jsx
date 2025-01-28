@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import sampleImage from '../../../assets/image.png'
-import Pagination from '../../../components/Pagination';
-import dummyClass from '../../../store/mypage/dummyClass';
+import sampleImage from '../../../../assets/image.png'
+import Pagination from '../../../../components/Pagination';
+import dummyClass from '../../../../store/mypage/dummyClass';
 
 const MyLikeClass = () => {
   const data = dummyClass;
@@ -41,7 +41,6 @@ const ClassContainer = styled.div`
     margin-top: 40px;
     justify-content: center; 
     align-items: center;
-
 `;
 
 const ClassList = styled.div`
@@ -83,5 +82,8 @@ const Image = styled.img`
 
 const PaginationContainer = styled.div`
   margin-bottom: 205px;
-  margin-left: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
 `
