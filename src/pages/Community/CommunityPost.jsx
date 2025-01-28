@@ -3,6 +3,12 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import dummyContent from '../../store/community/dummyContent';
 
+import ViewPhoto from '../../assets/Community/ViewPhoto.svg';
+import CommentPhoto from '../../assets/Community/CommentPhoto.svg';
+import Edit from '../../assets/Community/EditButton.svg';
+import Delete from '../../assets/Community/DeleteButton.svg';
+import Alert from '../../assets/Community/SirenButton.svg';
+
 const CommunityPost = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,7 +26,8 @@ const CommunityPost = () => {
 
         <PostInfo>
           <PostStats>
-            <span>👁 {post?.See}</span>
+            <ViewContainer src={ViewPhoto} alt={'그럴리없다'} />
+            <TextContainer>{post?.See}</TextContainer>
             <span>💬 {post?.Comment?.length}</span>
           </PostStats>
           <PostMeta>
@@ -116,7 +123,6 @@ const PostInfo = styled.div`
 
 const PostStats = styled.div`
   display: flex;
-  gap: 20px;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -129,6 +135,21 @@ const PostStats = styled.div`
     align-items: center;
     gap: 5px;
   }
+`;
+
+const ViewContainer = styled.img`
+  display: flex;
+  width: 28px;
+  height: 28px;
+`;
+
+const TextContainer = styled.div`
+  display: flex;
+
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
 `;
 
 const PostActions = styled.div`
@@ -184,7 +205,6 @@ const ImageContainer = styled.div`
 `;
 
 const Image = styled.img`
-  background-color: white;
   border-radius: 7px;
   width: 200px;
   height: 200px;
