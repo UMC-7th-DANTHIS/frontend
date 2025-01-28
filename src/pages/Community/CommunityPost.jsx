@@ -37,10 +37,15 @@ const CommunityPost = () => {
           </PostMeta>
         </PostInfo>
         <Content>
-          <p>
-            {post?.Content}
-            <br />
-          </p>
+          {post?.Content}
+          {post?.Image && (
+            <ImageContainer>
+              {post?.Image.map((image) => (
+                <Image src={image} alt={'이미지'} />
+              ))}
+            </ImageContainer>
+          )}
+          <br />
         </Content>
 
         <CommentSection>
@@ -164,6 +169,25 @@ const Content = styled.div`
     line-height: 1.5;
     font-size: 1em;
   }
+`;
+
+const ImageContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+
+  margin-top: 45px;
+  margin-left: 20px;
+
+  width: 900px;
+  height: 200px;
+`;
+
+const Image = styled.img`
+  background-color: white;
+  border-radius: 7px;
+  width: 200px;
+  height: 200px;
 `;
 
 const CommentSection = styled.div`
