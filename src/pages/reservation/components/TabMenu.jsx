@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import DetailTab from './tabs/DetailTab';
-import ReviewTab from './tabs/ReviewTab';
-import RatingTab from './tabs/RatingTab';
+import DetailTab from './tabs/detail/DetailTab';
+import ReviewTab from './tabs/review/ReviewTab';
+import RatingTab from './tabs/rating/RatingTab';
 
 const TabMenu = ({ data }) => {
   const [currentTab, setCurrentTab] = useState(0);

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Review from '../Review';
-import dummyReviews from '../../../../store/reservation/dummyReviews';
-import Pagination from '../../../../components/Pagination';
+import Review from './Review';
+import dummyReviews from '../../../../../store/reservation/dummyReviews';
+import Pagination from '../../../../../components/Pagination';
 
 const ReviewTab = () => {
   const [reviews, setReviews] = useState([]);
