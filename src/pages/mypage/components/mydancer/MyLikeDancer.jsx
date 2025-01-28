@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import sampleImage from '../../../assets/image.png'
-import Pagination from '../../../components/Pagination';
-import dummyDancer from '../../../store/mypage/dummyDancer';
+import sampleImage from '../../../../assets/image.png'
+import Pagination from '../../../../components/Pagination';
+import dummyDancer from '../../../../store/mypage/dummyDancer';
 
 const MyLikeDancer = () => {
   const data = dummyDancer;

@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { ReactComponent as StarFilled } from "../../../assets/shape/filledYellowStar.svg"
-import { ReactComponent as StarNonfilled } from '../../../assets/shape/nonfilledYellowStar.svg';
-import Alert from '../../../components/Alert';
+import { ReactComponent as StarFilled } from "../../../../assets/shape/filledYellowStar.svg"
+import { ReactComponent as StarNonfilled } from '../../../../assets/shape/nonfilledYellowStar.svg';
+import Alert from '../../../../components/Alert';
 
 const MyReview = () => {
   const [starStates, setStarStates] = useState(Array(5).fill(false));
@@ -28,7 +28,6 @@ const MyReview = () => {
   };
 
   const hideClickCancel = () => {
-    console.log('이거 왜 안됨 ')
     setShowAlert(false);
   };
 

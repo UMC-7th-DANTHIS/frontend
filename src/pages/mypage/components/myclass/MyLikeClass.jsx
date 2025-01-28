@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import sampleImage from '../../../assets/image.png'
-import Pagination from '../../../components/Pagination';
-import dummyClass from '../../../store/mypage/dummyClass';
+import sampleImage from '../../../../assets/image.png'
+import Pagination from '../../../../components/Pagination';
+import dummyClass from '../../../../store/mypage/dummyClass';
 
 const MyLikeClass = () => {
   const data = dummyClass;
