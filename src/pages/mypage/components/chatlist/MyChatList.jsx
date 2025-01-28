@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import { ReactComponent as Arrow } from "../../../assets/arrow.svg"
-import sampleImage from '../../../assets/image.png'
-import Pagination from '../../../components/Pagination'
+import { ReactComponent as Arrow } from "../../../../assets/arrow.svg"
+import sampleImage from '../../../../assets/image.png'
+import Pagination from '../../../../components/Pagination'
 
 
 const MyChatList = () => {
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const perData = 6;
+  // const filteredList = data.slice(
+  //   perData * (currentPage - 1),
+  //   perData * currentPage
+  // );
   return (
     <>
       <ChatContainer>
@@ -23,9 +29,10 @@ const MyChatList = () => {
           </ChatList>
         ))}
       </ChatContainer>
-      <PaginationContainer>
-        <Pagination dataLength={10} perData={6} />
-      </PaginationContainer>
+      {/* <PaginationContainer>
+        <Pagination dataLength={data.length} perData={perData} currentPage={currentPage}
+          setCurrentPage={setCurrentPage} />
+      </PaginationContainer> */}
     </>
 
 

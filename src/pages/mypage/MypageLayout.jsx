@@ -1,14 +1,14 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import MyLikeClass from './components/MyLikeClass';
-import MyLikeDancer from './components/MyLikeDancer';
-import MyChatList from './components/MyChatList';
-import MyRegisterClass from './components/MyRegisterClass';
-import MyReview from './components/MyReview';
-import MyComments from './components/MyComments';
-import MyEditProfile from './components/MyEditProfile';
-import MyInfo from './components/MyInfo';
+import MyLikeClass from './components/myclass/MyLikeClass';
+import MyLikeDancer from './components/mydancer/MyLikeDancer';
+import MyChatList from './components/chatlist/MyChatList';
+import MyRegisterClass from './components/registerclass/MyRegisterClass';
+import MyReview from './components/review/MyReview';
+import MyComments from './components/comment/MyComments';
+import MyEditProfile from './components/editprofile/MyEditProfile';
+import MyInfo from './components/info/MyInfo';
 
 const menuMapping = {
   'myclasses': <MyLikeClass />,

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import Profileimg from '../../../assets/profileimg.svg'
-import MypageGenre from './MypageGenre';
+import Profileimg from '../../../../assets/profileimg.svg'
 import styled from 'styled-components';
+import MypageGenre from '../MypageGenre';
 
 const ProfileUser = () => {
   const [nickname, setNickname] = useState('');

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { ReactComponent as PostArrow } from '../../../assets/postarrow.svg';
-import dummyPost from '../../../store/mypage/dummyPost';
-import dummyComments from '../../../store/mypage/dummyComments';
+import { ReactComponent as PostArrow } from '../../../../assets/postarrow.svg';
+import dummyPost from '../../../../store/mypage/dummyPost';
+import dummyComments from '../../../../store/mypage/dummyComments';
 
 const MyComments = () => {
   const [activeTab, setActiveTab] = useState('게시글');

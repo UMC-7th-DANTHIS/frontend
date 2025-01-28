@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { ReactComponent as InfoArrow } from '../../../assets/infoarrow.svg';
-import Alert from '../../../components/Alert';
-import AgreeAlert from '../../../components/AgreeAlert';
-import Quit from './Quit';
+import { ReactComponent as InfoArrow } from '../../../../assets/infoarrow.svg';
+import Alert from '../../../../components/Alert';
+import AgreeAlert from '../../../../components/AgreeAlert';
+import Quit from '../Quit';
 
 const MyInfo = () => {
   const [showLogoutAlert, setShowLogoutAlert] = useState(false);
