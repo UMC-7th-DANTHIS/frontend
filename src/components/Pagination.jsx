@@ -13,6 +13,9 @@ import styled from 'styled-components';
 const Pagination = ({ dataLength, perData, currentPage, setCurrentPage }) => {
   const [layer, setLayer] = useState(0);
 
+  const filteredDataLength =
+    dataLength <= perData ? 1 : Math.ceil(dataLength / perData);
+
   const handlePageClick = (page) => setCurrentPage(page);
 
   const handlePageDown = (num) => {
@@ -36,7 +39,9 @@ const Pagination = ({ dataLength, perData, currentPage, setCurrentPage }) => {
       {Array.from(
         {
           length:
-            dataLength - layer * 10 >= 10 ? 10 : (dataLength - layer * 10) % 10
+            filteredDataLength - layer * 10 >= 10
+              ? 10
+              : (filteredDataLength - layer * 10) % 10
         },
         (_, i) => layer * 10 + i + 1
       ).map((page) => (
@@ -50,12 +55,7 @@ const Pagination = ({ dataLength, perData, currentPage, setCurrentPage }) => {
       ))}
       <PageCursor
         onClick={() => handlePageUp((layer + 1) * 10 + 1)}
-        className={
-          layer === Math.floor(dataLength / perData) ||
-          dataLength === (layer + 1) * 10
-            ? 'inactive'
-            : ''
-        }
+        className={filteredDataLength <= (layer + 1) * 10 ? 'inactive' : ''}
       >
         {'>'}
       </PageCursor>
@@ -66,11 +66,9 @@ const Pagination = ({ dataLength, perData, currentPage, setCurrentPage }) => {
 const PageContainer = styled.div`
   display: inline-block;
   width: 514px;
-  margin-left: 250px;
   text-align: center;
   justify-content: center;
   align-items: center;
-  margin-top: 56px;
 `;
 
 const PageCursor = styled.div`

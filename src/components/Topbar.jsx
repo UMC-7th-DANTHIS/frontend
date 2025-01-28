@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Logo from '../assets/logo.svg';
 import Outline from '../assets/outline.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import Searchicon from '../assets/searchicon.svg';
 
-const Topbar = () => {
+const Topbar = ({ onSearch }) => {
   const navigate = useNavigate();
+  const [search, setSearch] = useState('');
 
   const handleClick = () => {
     navigate('/');
@@ -14,6 +15,14 @@ const Topbar = () => {
 
   const handleNavigate = () => {
     navigate('/login');
+  };
+
+  const handleSearchText = (e) => setSearch(e.target.value);
+
+  const handleSearch = () => {
+    if (search.trim()) {
+      onSearch(search.trim());
+    }
   };
 
   return (
@@ -25,12 +34,15 @@ const Topbar = () => {
         <LoginContainer>
           <Login onClick={handleNavigate}>LOGIN</Login>
           <Search>
-            <SearchInput placeholder="검색어를 입력하세요" />
+            <SearchInput
+              placeholder="검색어를 입력하세요"
+              onChange={(e) => handleSearchText(e)}
+            />
             <SearchButton>
               <SearchIcon
                 src={Searchicon}
                 alt="search"
-                onClick={() => navigate('/search')}
+                onClick={handleSearch}
               />
             </SearchButton>
           </Search>

@@ -1,42 +1,50 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import dummyDancer from '../../store/search/dummyDancer';
 import Pagination from '../Pagination';
+import SearchNothing from './SearchNothing';
 
 const SearchDancer = () => {
-  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const perData = 5;
 
-  useEffect(() => {
-    setData(dummyDancer);
-  });
+  const filteredList = dummyDancer.slice(
+    perData * (currentPage - 1),
+    perData * currentPage
+  );
 
   return (
     <Container>
-      <ClassLists>
-        {data?.map((list) => (
-          <ClassList>
-            <ImgContainer
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkpq_VnExTApuWh7iJNkdXdqeZciuAVoZF8A&s"
-              alt="프로필 이미지"
+      {filteredList ? (
+        <>
+          <ClassLists>
+            {filteredList?.map((list) => (
+              <ClassList>
+                <ImgContainer
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkpq_VnExTApuWh7iJNkdXdqeZciuAVoZF8A&s"
+                  alt="프로필 이미지"
+                />
+                <TextContainer>
+                  <TextContent>{list.Dancer}</TextContent>
+                  <TextContent>Instagram : {list.Instagram}</TextContent>
+                  <TextContent>주 장르 : {list.Genre}</TextContent>
+                </TextContainer>
+              </ClassList>
+            ))}
+          </ClassLists>
+          <PaginationContainer>
+            <Pagination
+              dataLength={dummyDancer.length}
+              perData={perData}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
             />
-            <TextContainer>
-              <TextContent>{list.Dancer}</TextContent>
-              <TextContent>Instagram : {list.Instagram}</TextContent>
-              <TextContent>주 장르 : {list.Genre}</TextContent>
-            </TextContainer>
-          </ClassList>
-        ))}
-      </ClassLists>
-      <PaginationContainer>
-        <Pagination
-          dataLength={120}
-          perData={5}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-      </PaginationContainer>
+          </PaginationContainer>
+        </>
+      ) : (
+        <SearchNothing />
+      )}
     </Container>
   );
 };
@@ -79,7 +87,8 @@ const TextContainer = styled.div`
 `;
 
 const PaginationContainer = styled.div`
-  margin-left: 100px;
+  margin-left: 348px;
+  margin-top: 91px;
 `;
 
 const TextContent = styled.div``;

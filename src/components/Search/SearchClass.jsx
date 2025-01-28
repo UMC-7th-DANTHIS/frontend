@@ -1,44 +1,66 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import dummyClass from '../../store/search/dummyClass';
 import Pagination from '../Pagination';
+import SearchNothing from './SearchNothing';
+
+import { ReactComponent as StarFilled } from '../../assets/buttons/starlevel_filled.svg';
+import { ReactComponent as StarNonfilled } from '../../assets/buttons/starlevel_nonfilled.svg';
 
 const SearchClass = () => {
-  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const perData = 5;
 
-  useEffect(() => {
-    setData(dummyClass);
-  });
+  const filteredList = dummyClass.slice(
+    perData * (currentPage - 1),
+    perData * currentPage
+  );
 
   return (
     <Container>
-      <ClassLists>
-        {data?.map((list) => (
-          <ClassList>
-            <ImgContainer
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkpq_VnExTApuWh7iJNkdXdqeZciuAVoZF8A&s"
-              alt="프로필 이미지"
+      {filteredList ? (
+        <>
+          <ClassLists>
+            {filteredList?.map((list) => (
+              <ClassList>
+                <ImgContainer
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkpq_VnExTApuWh7iJNkdXdqeZciuAVoZF8A&s"
+                  alt="프로필 이미지"
+                />
+                <TextContainer>
+                  <TextContent>{list.Title}</TextContent>
+                  <TextContent>수업 강사 : {list.Dancer}</TextContent>
+                  <TextContent>장르 : {list.Genre}</TextContent>
+                  <TextContent>가격 : {list.Price} / 회당</TextContent>
+                  <StarsContainer>
+                    <TextContent>난이도 : </TextContent>
+                    {Array.from({ length: 5 }, (_, index) => {
+                      const isFilled = index < list.Level;
+
+                      return (
+                        <StarBtn key={index}>
+                          {isFilled ? <StarFilled /> : <StarNonfilled />}
+                        </StarBtn>
+                      );
+                    })}
+                  </StarsContainer>
+                </TextContainer>
+              </ClassList>
+            ))}
+          </ClassLists>
+          <PaginationContainer>
+            <Pagination
+              dataLength={dummyClass.length}
+              perData={perData}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
             />
-            <TextContainer>
-              <TextContent>{list.Title}</TextContent>
-              <TextContent>수업 강사 : {list.Dancer}</TextContent>
-              <TextContent>장르 : {list.Genre}</TextContent>
-              <TextContent>가격 : {list.Price} / 회당</TextContent>
-              <TextContent>난이도 : {list.Level} / 5</TextContent>
-            </TextContainer>
-          </ClassList>
-        ))}
-      </ClassLists>
-      <PaginationContainer>
-        <Pagination
-          dataLength={120}
-          perData={5}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-      </PaginationContainer>
+          </PaginationContainer>
+        </>
+      ) : (
+        <SearchNothing />
+      )}
     </Container>
   );
 };
@@ -82,10 +104,23 @@ const TextContainer = styled.div`
   line-height: 40px;
 `;
 
-const TextContent = styled.div``;
+const TextContent = styled.div`
+  margin-right: 5px;
+`;
 
 const PaginationContainer = styled.div`
-  margin-left: 100px;
+  margin-left: 348px;
+  margin-top: 91px;
+`;
+
+const StarsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 588px;
+`;
+
+const StarBtn = styled.div`
+  margin-top: 3px;
 `;
 
 export default SearchClass;

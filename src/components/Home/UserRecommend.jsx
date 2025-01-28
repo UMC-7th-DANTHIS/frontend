@@ -8,7 +8,11 @@ const UserRecommend = ({ dummyUserDancer, dummyUserClass }) => {
         <Circle1 />
         <Circle2 />
         <Circle3 />
-        <Title>나를 위한 맞춤형 추천</Title>
+        <Title>
+          <TitleText>
+            <Text>나를 위한 맞춤형 추천</Text>
+          </TitleText>
+        </Title>
         <Circle4 />
         <Circle5 />
         <Circle6 />
@@ -116,6 +120,31 @@ const Circle6 = styled.div`
   margin-left: 20px;
 `;
 
+const TitleText = styled.div`
+  width: 100%;
+  height: 100%;
+
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  background: black;
+  border-radius: 78px;
+
+  color: white;
+
+  font-size: 44px;
+  font-weight: 700;
+  line-height: normal;
+`;
+
+const Text = styled.div`
+  padding-top: 15px;
+
+  background: linear-gradient(to right, #b30505, #9819c3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+`;
+
 const Title = styled.div`
   width: 520px;
   height: 90px;
@@ -125,34 +154,12 @@ const Title = styled.div`
   align-items: center;
   position: relative;
 
+  border-radius: 73px;
+
   background: linear-gradient(to right, #b30505, #9819c3);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  padding: 3px;
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border: 3px solid transparent;
-    border-radius: 73px;
-    background: linear-gradient(to right, #b30505, #9819c3);
-    z-index: -1;
-    mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-    -webkit-mask-composite: destination-out;
-  }
-
-  font-size: 44px;
-  font-weight: 700;
-  line-height: normal;
+  box-sizing: border-box;
 `;
 
 const Header = styled.div`
@@ -184,7 +191,7 @@ const DancerImage = styled.img`
   height: 380px;
   flex-shrink: 0;
 
-  border-radius: 380px;
+  border-radius: 50%;
   margin-bottom: 27px;
 `;
 

@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { ReactComponent as StarFilled } from "../../../assets/buttons/starlevel_filled.svg";
-import { ReactComponent as StarNonfilled } from "../../../assets/buttons/starlevel_nonfilled.svg";
+import React from 'react';
+import styled from 'styled-components';
+import { ReactComponent as StarFilled } from '../../../assets/buttons/starlevel_filled.svg';
+import { ReactComponent as StarNonfilled } from '../../../assets/buttons/starlevel_nonfilled.svg';
 
 const Input = ({ label, value, onChange, placeholder }) => {
   return (
@@ -32,7 +32,7 @@ const StarRating = ({ label, value, handleFormChange }) => {
     // 클릭한 별이 현재 level과 같으면 선택 해제,
     // 아니면 선택
     const newValue = index + 1 === value ? index : index + 1;
-    handleFormChange("level", newValue);
+    handleFormChange('level', newValue);
   };
 
   return (
