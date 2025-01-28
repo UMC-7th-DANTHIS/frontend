@@ -33,6 +33,7 @@ const ReviewBox = styled.div`
   box-shadow: 0px 0px 5px #9819C3;
   display: flex;
   flex-direction: column;
+  justify-content: center;
 `;
 
 const BoxTitle = styled.div`
