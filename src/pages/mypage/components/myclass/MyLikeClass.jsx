@@ -41,7 +41,6 @@ const ClassContainer = styled.div`
     margin-top: 40px;
     justify-content: center; 
     align-items: center;
-
 `;
 
 const ClassList = styled.div`

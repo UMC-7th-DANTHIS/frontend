@@ -49,7 +49,7 @@ const MainContainer = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  flex: 1;
+  width: 880px;
   background-color: black;
 `;
 
