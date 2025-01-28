@@ -1,18 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const HotClass = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const classes = [
+    'Placeholder 1',
+    'Placeholder 2',
+    'Placeholder 3',
+    'Placeholder 4',
+    'Placeholder 5'
+  ];
+
+  const handleNext = () => {
+    if (currentIndex < classes.length - 3) {
+      setCurrentIndex(currentIndex + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    }
+  };
+
   return (
     <Container>
       <Header>유행하는 수업을 한눈에</Header>
       <Glow />
-      <ImgContainer>
-        <LeftButton>{'<'}</LeftButton>
-        <Image>Placeholder 1</Image>
-        <Image>Placeholder 2</Image>
-        <Image>Placeholder 3</Image>
-        <RightButton>{'>'}</RightButton>
-      </ImgContainer>
+      <SliderContainer>
+        <ClickArea onClick={handlePrev} position="left" />
+        <SlideWrapper currentIndex={currentIndex}>
+          {classes.map((item, index) => (
+            <Image
+              key={index}
+              visible={index >= currentIndex && index < currentIndex + 3}
+            >
+              {item}
+            </Image>
+          ))}
+        </SlideWrapper>
+        <ClickArea onClick={handleNext} position="right" />
+      </SliderContainer>
     </Container>
   );
 };
@@ -53,46 +82,43 @@ const Glow = styled.div`
   border-radius: 50%;
 `;
 
-const ImgContainer = styled.div`
+const SliderContainer = styled.div`
+  position: relative;
   display: flex;
+  align-items: center;
+  margin-bottom: 58px;
+  overflow: hidden;
+`;
+
+const SlideWrapper = styled.div`
+  display: flex;
+  padding-left: 90px;
   flex-direction: row;
   gap: 20px;
-
-  margin-bottom: 58px;
-`;
-
-const LeftButton = styled.div`
-  width: 70px;
-  align-content: center;
-  text-align: right;
-  color: white;
-  font-size: 36px;
-  font-weight: bold;
-
-  cursor: pointer;
-`;
-
-const RightButton = styled.div`
-  width: 91px;
-  align-content: center;
-  color: white;
-  font-size: 36px;
-  font-weight: bold;
-
-  cursor: pointer;
+  transform: translateX(${(props) => -props.currentIndex * 420}px);
+  transition: transform 0.3s ease;
 `;
 
 const Image = styled.div`
   width: 400px;
   height: 400px;
   border-radius: 10px;
-
   background-color: #ddd;
-  border-radius: 10px;
-
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 32px;
   font-weight: bold;
+  flex-shrink: 0;
+  opacity: ${(props) => (props.visible ? 1 : 0.5)};
+`;
+
+const ClickArea = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  ${(props) => (props.position === 'left' ? 'left: 0;' : 'right: 0;')}
+  width: 90px;
+  cursor: pointer;
+  z-index: 1;
 `;
