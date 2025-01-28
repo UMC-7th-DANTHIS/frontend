@@ -6,20 +6,16 @@ import dummyList from '../../store/community/dummyList';
 import Pagination from '../../components/Pagination';
 
 const Community = () => {
-  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const perData = 10;
+  const filteredList = dummyList.slice(
+    perData * (currentPage - 1),
+    perData * currentPage
+  );
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setData(dummyList);
-  });
-
-  // Json 데이터의 개수
-  const testData = 24;
-
-  // 한 번에 보여줄 Json 데이터의 개수
-  const testPerData = 10;
+  useEffect(() => {});
 
   return (
     <Container>
@@ -31,23 +27,32 @@ const Community = () => {
           <See>조회수</See>
         </TopBorder>
         <ListsContainer>
-          {data?.map((list) => (
+          {filteredList?.map((list) => (
             <ListContainer>
               <NoList>{list.No}</NoList>
-              <TitleList onClick={() => navigate('/post')}>
+              <TitleList
+                onClick={() =>
+                  navigate(`/community/${list.No}`, {
+                    replace: false,
+                    state: { list }
+                  })
+                }
+              >
                 {list.Title}
               </TitleList>
               <DateList>{list.DateAt}</DateList>
               <SeeList>{list.See}</SeeList>
             </ListContainer>
           ))}
-          <Pagination
-            dataLength={testData}
-            perData={testPerData}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
-          <WriteButton onClick={() => navigate('/edit')}>글쓰기</WriteButton>
+          <PaginationContainer>
+            <Pagination
+              dataLength={dummyList.length}
+              perData={perData}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+            <WriteButton onClick={() => navigate('/edit')}>글쓰기</WriteButton>
+          </PaginationContainer>
         </ListsContainer>
       </ContentContainer>
     </Container>
@@ -148,45 +153,9 @@ const SeeList = styled.span`
   text-align: center;
 `;
 
-const PageContainer = styled.div`
-  display: inline-block;
-  width: 514px;
-  margin-left: 250px;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
+const PaginationContainer = styled.div`
   margin-top: 56px;
-`;
-
-const PageCursor = styled.div`
-  display: inline-block;
-  font-size: 20px;
-  font-weight: bold;
-  color: #9819c3;
-  cursor: pointer;
-  margin: 0 20px;
-`;
-
-const PageNumber = styled.div`
-  display: inline-block;
-  font-size: 18px;
-  color: white;
-  margin: 5px;
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-  text-align: center;
-  cursor: pointer;
-  border-radius: 50%;
-
-  &:hover {
-    color: #9819c3;
-  }
-
-  &.active {
-    background-color: #9819c3;
-    color: white;
-  }
+  margin-left: 250px;
 `;
 
 const WriteButton = styled.button`

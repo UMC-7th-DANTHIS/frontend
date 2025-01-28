@@ -1,67 +1,30 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as PostArrow } from '../../../assets/postarrow.svg';
+import dummyPost from '../../../store/mypage/dummyPost';
+import dummyComments from '../../../store/mypage/dummyComments';
 
 const MyComments = () => {
   const [activeTab, setActiveTab] = useState('게시글');
-
-  const post = [
-    {
-      title: 'Tania의 노래 추천_더럽게 못됐어 모든 게 변했어 멀쩡했던 사람 하나를 너가 다 베려놨어',
-      contents:
-        'BOYNEXTDOOR - ABCDLOVE / ABCDLOVE 라더니 이제 와 바꾸려니 먹고 있지 애를 되돌려줘 내 ABCDLOVE 아님 새로운 사랑을 그려주세요 쉽게 쉽게 외우던 쉬운 영어 단어도 이젠 모르겠어 내가 알던 LOVE 의미 바뀌어 버렸어 다시 배워야 할 판이야 Oh 더럽게 못됐어 Oh 모든 게 변했어 멀쩡했던 사람 하나를 너가 다 베려놨어 달과 별이었던',
-    },
-    {
-      title: 'Tania의 노래 추천_더럽게 못됐어 모든 게 변했어 멀쩡했던 사람 하나를 너가 다 베려놨어',
-      contents:
-        'BOYNEXTDOOR - ABCDLOVE / ABCDLOVE 라더니 이제 와 바꾸려니 먹고 있지 애를 되돌려줘 내 ABCDLOVE 아님 새로운 사랑을 그려주세요 쉽게 쉽게 외우던 쉬운 영어 단어도 이젠 모르겠어 내가 알던 LOVE 의미 바뀌어 버렸어 다시 배워야 할 판이야 Oh 더럽게 못됐어 Oh 모든 게 변했어 멀쩡했던 사람 하나를 너가 다 베려놨어 달과 별이었던',
-    },
-    {
-      title: 'Tania의 노래 추천_더럽게 못됐어 모든 게 변했어 멀쩡했던 사람 하나를 너가 다 베려놨어',
-      contents:
-        'BOYNEXTDOOR - ABCDLOVE / ABCDLOVE 라더니 이제 와 바꾸려니 먹고 있지 애를 되돌려줘 내 ABCDLOVE 아님 새로운 사랑을 그려주세요 쉽게 쉽게 외우던 쉬운 영어 단어도 이젠 모르겠어 내가 알던 LOVE 의미 바뀌어 버렸어 다시 배워야 할 판이야 Oh 더럽게 못됐어 Oh 모든 게 변했어 멀쩡했던 사람 하나를 너가 다 베려놨어 달과 별이었던',
-    },
-    {
-      title: 'Tania의 노래 추천_더럽게 못됐어 모든 게 변했어 멀쩡했던 사람 하나를 너가 다 베려놨어',
-      contents:
-        'BOYNEXTDOOR - ABCDLOVE / ABCDLOVE 라더니 이제 와 바꾸려니 먹고 있지 애를 되돌려줘 내 ABCDLOVE 아님 새로운 사랑을 그려주세요 쉽게 쉽게 외우던 쉬운 영어 단어도 이젠 모르겠어 내가 알던 LOVE 의미 바뀌어 버렸어 다시 배워야 할 판이야 Oh 더럽게 못됐어 Oh 모든 게 변했어 멀쩡했던 사람 하나를 너가 다 베려놨어 달과 별이었던',
-    },
-  ];
-
-  const comments = [
-    {
-      title: '보이넥스트도어의 ABCDLOVE 많관부'
-    },
-    {
-      title: '보이넥스트도어의 ABCDLOVE 많관부'
-    },
-    {
-      title: '보이넥스트도어의 ABCDLOVE 많관부'
-    },
-    {
-      title: '보이넥스트도어의 ABCDLOVE 많관부'
-    },
-    {
-      title: '보이넥스트도어의 ABCDLOVE 많관부'
-    },
-  ]
+  const post = dummyPost;
+  const comments = dummyComments;
 
   const renderContents = () => {
     if (activeTab === '게시글') {
-      return post.map((post, index) => (
-        <CommentContainer key={index}>
+      return post.map((post) => (
+        <CommentContainer key={post.id}>
           <ContentsContainer>
             <CommentTitle>{post.title}</CommentTitle>
-            <CommentContents>{post.contents}</CommentContents>
+            <CommentContents>{post.content}</CommentContents>
           </ContentsContainer>
         </CommentContainer>
       ));
     }
     if (activeTab === '댓글') {
-      return comments.map((comments, index) => (
-        <CommentsContainer key={index}>
+      return comments.map((comments) => (
+        <CommentsContainer key={comments.id}>
           <ContentContainer>
-            <Title>{comments.title}</Title>
+            <Title>{comments.content}</Title>
             <SeepostContainer>
               <SeePost> 게시물 보기 </SeePost>
               <PostArrow />
@@ -132,7 +95,8 @@ const Divider = styled.div`
 
 const CommentContainer = styled.div`
   width: 971px;
-  height: 160px;
+  height: auto; // 이 부분 얘기
+  /* height: 160px; */
   flex-shrink: 0;
   border: 1px solid #ddd;
   border-radius: 10px;
@@ -199,4 +163,5 @@ const SeePost = styled.p`
   line-height: normal;
   margin-right: 9px; 
 `;
+
 

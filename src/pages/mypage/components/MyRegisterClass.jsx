@@ -1,227 +1,118 @@
-import React from 'react'
-import styled from 'styled-components'
-import { ReactComponent as GradationCircle } from "../../../assets/gradationcircle.svg"
-import SampleImage from '../../../assets/image.png'
-import { ReactComponent as PlusButton2 } from "../../../assets/buttons/plus-button2.svg";
+import React, { useState } from 'react';
+import sampleImage from '../../../assets/image.png';
+import styled from 'styled-components';
+import MyRegisterDetail from './MyRegisterDetail';
+import { ReactComponent as WriteIcon } from "../../../assets/shape/write.svg"
+import { ReactComponent as TrashIcon } from "../../../assets/shape/trash.svg"
+import { useNavigate } from 'react-router-dom';
+import Pagination from '../../../components/Pagination';
+import dummyRegister from '../../../store/mypage/dummyRegister';
+import NoRegister from './NoRegister';
 
+const MyRegisterClass = ({ registeredClass }) => {
+  const [selectedClass, setSelectedClass] = useState(null);
+  const navigate = useNavigate();
+  const data = dummyRegister;
 
-const MyRegisterClass = () => {
+  const handleImageClick = (index) => {
+    setSelectedClass(index);
+  };
+
+  const gotoRegister = () => {
+    navigate('/classregister');
+  }
+
   return (
-    <ClassContainer>
-      <ItemContainer>
-        <HeaderContainer>
-          <IconWrapper>
-            <GradationCircle />
-          </IconWrapper>
-          <Label>Parana 걸스힙합 클래스</Label>
-        </HeaderContainer>
+    <PageWrapper>
+      {selectedClass === null ? (
+        <>
+          {data.danceClasses.length > 0 ? (
+            <ClassContainer>
+              {data.danceClasses.map((danceClass) => (
+                <ClassList key={danceClass.id} onClick={() => handleImageClick(danceClass.id)} >
+                  <Image src={danceClass.images[0] || sampleImage} alt={danceClass.className} />
+                  <ContentWrapper>
+                    <TitleText>{danceClass.className}</TitleText>
+                    <IconContainer>
+                      <WriteIcon onClick={(e) => { gotoRegister() }} />
+                      <TrashIcon />
+                    </IconContainer>
+                  </ContentWrapper>
+                </ClassList>
+              ))}
 
-        <ContentSection>
-          <ImageContainer>
-            <Image src={SampleImage} />
-          </ImageContainer>
+            </ClassContainer>
+          ) : (
+            <NoRegister />
+          )}
+          {/* <PaginationContainer>
+            <Pagination dataLength={10} perData={6} />
+          </PaginationContainer> */}
+        </>
+      ) : (
+        <MyRegisterDetail index={selectedClass} data={data} />
 
-          <ReviewSection>
-            <IconContainer>
-              <PlusButton2 />
-            </IconContainer>
-
-            <TextContainer>
-              <MainText>수업을 수강한 유저를 추가하고 리뷰를 받아보세요!</MainText>
-              <SubText>*강사가 수업을 수강했음을 증명한 유저만 해당 수업에 대한 리뷰를 남길 수 있습니다</SubText>
-              <SubText>*무분별한 리뷰 작성을 막기 위해 한 번 추가한 유저는 운영진 문의를 통해서만 삭제할 수 있습니다</SubText>
-            </TextContainer>
-          </ReviewSection>
-        </ContentSection>
-
-        <Divider />
-
-        <CheckUserContainer>
-          <Label> 이 수업을 수강한 유저 </Label>
-          <UserImage>
-            {Array.from({ length: 5 }).map((_, index) => (
-              <ImageList key={index}>
-                <ListImage src={SampleImage} alt={`Class ${index + 1}`} />
-                <UserName> 써니 </UserName>
-              </ImageList>
-            ))}
-          </UserImage>
-        </CheckUserContainer>
-
-      </ItemContainer>
-    </ClassContainer>
+      )}
+    </PageWrapper>
   );
 };
 
-{/* <Noregister>
-<Text> 내가 등록한 수업이 존재하지 않습니다. </Text>
-<Button> 댄스 수업 등록하러 가기 </Button>
-</Noregister>
-<NoDancer>
-<Text> 댄서로 등록된 사용자에게 열리는 서비스입니다. </Text>
-</NoDancer> */}
+export default MyRegisterClass;
 
-
-export default MyRegisterClass
+const PageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
 
 const ClassContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 220px);
+  column-gap: 110px;
+  justify-content: center;
+  margin-top: 40px;
+`;
+
+const ClassList = styled.div`
+  width: 220px;
+  cursor: pointer;
+`;
+
+const Image = styled.img`
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 10px;
+`;
+
+const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 16px;
   align-items: center;
+  gap: 8px;
+  margin-top: 9px;
 `;
 
-const ItemContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-`;
-
-const HeaderContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 15px;
-`;
-
-const IconWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-
-const Label = styled.div`
-  color: white;
+const TitleText = styled.div`
+  color: #FFF;
   font-size: 24px;
   font-weight: 600;
   line-height: normal;
   letter-spacing: -1.2px;
-`;
-
-const ContentSection = styled.div`
-  display: flex;
-  gap: 15px;
-  margin-left: 35px;
-`;
-
-const ImageContainer = styled.div`
-  width: 160px;
-  height: 160px;
-  overflow: hidden;
-  border-radius: 8px;
-`;
-
-const Image = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
-const ReviewSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  white-space: nowrap;          
+  overflow: hidden;            
+  text-overflow: ellipsis; 
 `;
 
 const IconContainer = styled.div`
-  margin-top: 36px;
-`
-const TextContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const MainText = styled.div`
-  color: #FFF;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-`;
-
-const SubText = styled.div`
-  color:  #B2B2B2;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 24px;
-`;
-
-const Divider = styled.div`
-  height: 1px;
-  width: 898px;
-  background-color: #DDD;
-  margin-top: 41px;
-  margin-bottom: 29px;
-`;
-
-const CheckUserContainer = styled.div`
-  margin-left: 35px;
-`
-
-const UserImage = styled.div`
-  margin-top: 29px;
-`
-
-const ImageList = styled.div`
-  margin-left: 19px;
   display: flex;
   flex-direction: row;
-`
+  gap: 11px;
+  margin-bottom: 49px;
+`;
 
-const ListImage = styled.img`
-  width: 50px;
-  height: 50px;
-  border-radius: 6px;
-  object-fit: cover;
-  margin-bottom: 50px;
-`
-
-const UserName = styled.div`
-  color: #FFF;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 600;
-  line-height: normal;
-  letter-spacing: -1px;
-  margin-left: 22px;
-  margin-top: 13px;
-`
-
-//
-const NoDancer = styled.div`
+const PaginationContainer = styled.div`
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin-top: 249px;
-`
-
-const Text = styled.div`
-  color: #FFF;
-  text-align: center;
-  font-size: 32px;
-  font-weight: 500;
-`
-
-const Noregister = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 231px;
-`
-
-const Button = styled.button`
-  width: 474px;
-  height: 66px;
-  flex-shrink: 0;
-  border-radius: 15px;
-  background: #9819C3;
-  color: white;
-  border: 1px solid #9819C3;
-  font-size: 28px;
-  font-weight: 600;
-  text-align: center;
-  margin-top: 27px;
-  cursor: pointer;
-`
+`;
