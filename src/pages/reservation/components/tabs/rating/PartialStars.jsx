@@ -180,7 +180,7 @@ const stars = {
 
 const PartialStars = ({ level, width = '120px', height = '120px' }) => {
   const Star = stars[`star${level}`];
-  return Star ? React.cloneElement(Star, { width, height }) : null;
+  return Star && React.cloneElement(Star, { width, height }); // svg 복제 후 width, height 속성 추가
 };
 
 export default PartialStars;
