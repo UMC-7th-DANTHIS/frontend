@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import sampleImage from '../../../assets/image.png'
-import Pagination from '../../../components/Pagination';
-import dummyDancer from '../../../store/mypage/dummyDancer';
+import sampleImage from '../../../../assets/image.png'
+import Pagination from '../../../../components/Pagination';
+import dummyDancer from '../../../../store/mypage/dummyDancer';
 
 const MyLikeDancer = () => {
   const data = dummyDancer;
@@ -68,5 +68,8 @@ const Dancer = styled.div`
 `
 const PaginationContainer = styled.div`
   margin-bottom: 246px;
-  margin-left: 50px;
+  margin-top: 96px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
