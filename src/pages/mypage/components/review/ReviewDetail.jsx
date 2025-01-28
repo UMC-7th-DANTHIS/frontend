@@ -127,6 +127,7 @@ export default ReviewDetail;
 const Container = styled.div`
     display: flex;
     flex-direction: row;
+    background-color: black;
 `
 
 const ReviewContainer = styled.div`
