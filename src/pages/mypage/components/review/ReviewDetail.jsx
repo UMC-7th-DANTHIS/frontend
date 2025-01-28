@@ -59,6 +59,7 @@ const ReviewDetail = () => {
       <Container>
         <MypageSidebar selectedMenu={selectedMenu} onMenuClick={handleMenuClick} />
 
+
         {classData && (
           <ReviewContainer>
             <ClassTitle>{classData.className}</ClassTitle>
@@ -125,6 +126,7 @@ export default ReviewDetail;
 
 const Container = styled.div`
     display: flex;
+    flex-direction: row;
 `
 
 const ReviewContainer = styled.div`
@@ -133,7 +135,8 @@ const ReviewContainer = styled.div`
     background-color: black;
     color: #fff;
     margin-top: 38px;
-    margin-left: 147px;
+    width: 880px;
+
 `;
 
 const ClassTitle = styled.div`
@@ -142,8 +145,8 @@ const ClassTitle = styled.div`
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-    text-align: center;
     margin-bottom: 23px;
+    margin-left: 200px;
 `
 
 const Title = styled.div`
@@ -158,13 +161,14 @@ const Title = styled.div`
 
 const Notice = styled.div`
     color:#B2B2B2;
-    text-align: right;
     font-size: 14px;
     font-style: normal;
     font-weight: 300;
     line-height: normal;
     list-style: none;
     margin-bottom: 10px;
+    text-align: right;
+    margin-right: 220px;
 `
 
 
@@ -187,7 +191,7 @@ const FinalSection = styled.div`
     margin-bottom: 244px;
     gap: 24px;
     margin-top: 21px;
-    justify-content: flex-end;
+    margin-left: 519px;
 `;
 
 const Buttons = styled.div`
