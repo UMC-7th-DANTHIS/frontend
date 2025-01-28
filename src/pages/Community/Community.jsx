@@ -44,13 +44,15 @@ const Community = () => {
               <SeeList>{list.See}</SeeList>
             </ListContainer>
           ))}
-          <Pagination
-            dataLength={dummyList.length}
-            perData={perData}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
-          <WriteButton onClick={() => navigate('/edit')}>글쓰기</WriteButton>
+          <PaginationContainer>
+            <Pagination
+              dataLength={dummyList.length}
+              perData={perData}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+            <WriteButton onClick={() => navigate('/edit')}>글쓰기</WriteButton>
+          </PaginationContainer>
         </ListsContainer>
       </ContentContainer>
     </Container>
@@ -151,45 +153,9 @@ const SeeList = styled.span`
   text-align: center;
 `;
 
-const PageContainer = styled.div`
-  display: inline-block;
-  width: 514px;
-  margin-left: 250px;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
+const PaginationContainer = styled.div`
   margin-top: 56px;
-`;
-
-const PageCursor = styled.div`
-  display: inline-block;
-  font-size: 20px;
-  font-weight: bold;
-  color: #9819c3;
-  cursor: pointer;
-  margin: 0 20px;
-`;
-
-const PageNumber = styled.div`
-  display: inline-block;
-  font-size: 18px;
-  color: white;
-  margin: 5px;
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-  text-align: center;
-  cursor: pointer;
-  border-radius: 50%;
-
-  &:hover {
-    color: #9819c3;
-  }
-
-  &.active {
-    background-color: #9819c3;
-    color: white;
-  }
+  margin-left: 250px;
 `;
 
 const WriteButton = styled.button`

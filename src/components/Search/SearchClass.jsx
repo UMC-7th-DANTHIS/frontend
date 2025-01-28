@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import dummyClass from '../../store/search/dummyClass';
 import Pagination from '../Pagination';
+import SearchNothing from './SearchNothing';
 
 import { ReactComponent as StarFilled } from '../../assets/buttons/starlevel_filled.svg';
 import { ReactComponent as StarNonfilled } from '../../assets/buttons/starlevel_nonfilled.svg';
@@ -18,42 +19,48 @@ const SearchClass = () => {
 
   return (
     <Container>
-      <ClassLists>
-        {filteredList?.map((list) => (
-          <ClassList>
-            <ImgContainer
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkpq_VnExTApuWh7iJNkdXdqeZciuAVoZF8A&s"
-              alt="프로필 이미지"
-            />
-            <TextContainer>
-              <TextContent>{list.Title}</TextContent>
-              <TextContent>수업 강사 : {list.Dancer}</TextContent>
-              <TextContent>장르 : {list.Genre}</TextContent>
-              <TextContent>가격 : {list.Price} / 회당</TextContent>
-              <StarsContainer>
-                <TextContent>난이도 : </TextContent>
-                {Array.from({ length: 5 }, (_, index) => {
-                  const isFilled = index < list.Level;
+      {filteredList ? (
+        <>
+          <ClassLists>
+            {filteredList?.map((list) => (
+              <ClassList>
+                <ImgContainer
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkpq_VnExTApuWh7iJNkdXdqeZciuAVoZF8A&s"
+                  alt="프로필 이미지"
+                />
+                <TextContainer>
+                  <TextContent>{list.Title}</TextContent>
+                  <TextContent>수업 강사 : {list.Dancer}</TextContent>
+                  <TextContent>장르 : {list.Genre}</TextContent>
+                  <TextContent>가격 : {list.Price} / 회당</TextContent>
+                  <StarsContainer>
+                    <TextContent>난이도 : </TextContent>
+                    {Array.from({ length: 5 }, (_, index) => {
+                      const isFilled = index < list.Level;
 
-                  return (
-                    <StarBtn key={index}>
-                      {isFilled ? <StarFilled /> : <StarNonfilled />}
-                    </StarBtn>
-                  );
-                })}
-              </StarsContainer>
-            </TextContainer>
-          </ClassList>
-        ))}
-      </ClassLists>
-      <PaginationContainer>
-        <Pagination
-          dataLength={dummyClass.length}
-          perData={perData}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-      </PaginationContainer>
+                      return (
+                        <StarBtn key={index}>
+                          {isFilled ? <StarFilled /> : <StarNonfilled />}
+                        </StarBtn>
+                      );
+                    })}
+                  </StarsContainer>
+                </TextContainer>
+              </ClassList>
+            ))}
+          </ClassLists>
+          <PaginationContainer>
+            <Pagination
+              dataLength={dummyClass.length}
+              perData={perData}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+          </PaginationContainer>
+        </>
+      ) : (
+        <SearchNothing />
+      )}
     </Container>
   );
 };
@@ -102,7 +109,8 @@ const TextContent = styled.div`
 `;
 
 const PaginationContainer = styled.div`
-  margin-left: 100px;
+  margin-left: 348px;
+  margin-top: 91px;
 `;
 
 const StarsContainer = styled.div`
