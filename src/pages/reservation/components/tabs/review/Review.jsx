@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { ReactComponent as StarFilled } from '../../../assets/shape/filledYellowStar.svg';
-import { ReactComponent as StarNonfilled } from '../../../assets/shape/nonfilledYellowStar.svg';
-import { ReactComponent as GotoIcon } from '../../../assets/shape/gotoicon.svg';
+import { ReactComponent as StarFilled } from '../../../../../assets/shape/filledYellowStar.svg';
+import { ReactComponent as StarNonfilled } from '../../../../../assets/shape/nonfilledYellowStar.svg';
+import { ReactComponent as GotoIcon } from '../../../../../assets/shape/gotoicon.svg';
 
 const Review = ({ review }) => {
   const totalStars = 5;

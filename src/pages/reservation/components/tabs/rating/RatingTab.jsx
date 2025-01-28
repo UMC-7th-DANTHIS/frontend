@@ -1,31 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ReactComponent as StarFilled } from '../../../../assets/shape/filledYellowStar.svg';
-import { ReactComponent as StarNonfilled } from '../../../../assets/shape/nonfilledYellowStar.svg';
-import { ReactComponent as StarHalf } from '../../../../assets/shape/nonfilledYellowStar.svg';
+import PartialStars from './PartialStars';
 
 const Rating = ({ data }) => {
   const totalStars = 5;
 
   const getRatingStars = (rate) => {
-    const fullStars = Math.floor(rate); // 채워진 별 개수
-    const hasHalfStar = rate % 1 !== 0; // 반 개짜리 별 필요 여부
-    const emptyStars = totalStars - fullStars - (hasHalfStar ? 1 : 0); // 빈 별 개수
+    return Array.from({ length: totalStars }, (_, index) => {
+      const remainingRate = rate - index;
+      const percentage = Math.max(0, Math.min(1, remainingRate));
 
-    return [
-      ...Array(fullStars).fill(<StarFilled width="120px" height="120px" />),
-      ...(hasHalfStar ? [<StarHalf width="120px" height="120px" />] : []),
-      ...Array(emptyStars).fill(<StarNonfilled width="120px" height="120px" />)
-    ];
+      const starIndex = Math.round(percentage * 10);
+      return (
+        <Star key={index}>
+          <PartialStars level={starIndex} width="120px" height="120px" />
+        </Star>
+      );
+    });
   };
 
   return (
     <Container>
-      <Stars>
-        {getRatingStars(data.rate).map((star, index) => (
-          <Star key={index}>{star}</Star>
-        ))}
-      </Stars>
+      <Stars>{getRatingStars(data.rate)}</Stars>
       <RatingNumber>{data.rate.toFixed(1)}</RatingNumber>
       <Notice>
         이 수업을 수강하셨나요? 직접 이 수업에 대한 만족도를 평가해보세요!
