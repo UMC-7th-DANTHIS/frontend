@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import ForDancer1 from '../../assets/main/ForStyleDancer/ForDancer1.svg';
+import ForDancer2 from '../../assets/main/ForStyleDancer/ForDancer2.svg';
+import ForDancer3 from '../../assets/main/ForStyleDancer/ForDancer3.svg';
+import ForDancer4 from '../../assets/main/ForStyleDancer/ForDancer4.svg';
+
 const UserRecommend = ({ dummyUserDancer, dummyUserClass }) => {
   return (
     <Container>
@@ -191,6 +196,7 @@ const DancerImage = styled.img`
   height: 380px;
   flex-shrink: 0;
 
+  background-color: white;
   border-radius: 50%;
   margin-bottom: 27px;
 `;
