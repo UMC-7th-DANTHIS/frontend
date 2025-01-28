@@ -1,23 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ReactComponent as StarFilled } from '../../../../assets/shape/filledYellowStar.svg';
-import { ReactComponent as StarNonfilled } from '../../../../assets/shape/nonfilledYellowStar.svg';
+import PartialStars from './PartialStars';
 
 const Rating = ({ data }) => {
   const totalStars = 5;
+
+  const getRatingStars = (rate) => {
+    return Array.from({ length: totalStars }, (_, index) => {
+      const remainingRate = rate - index;
+      const percentage = Math.max(0, Math.min(1, remainingRate));
+
+      const starIndex = Math.round(percentage * 10);
+      return (
+        <Star key={index}>
+          <PartialStars level={starIndex} width="120px" height="120px" />
+        </Star>
+      );
+    });
+  };
+
   return (
     <Container>
-      <Stars>
-        {Array.from({ length: totalStars }, (_, index) => (
-          <Star key={index}>
-            {index < data.rate ? (
-              <StarFilled width="120px" height="120px" />
-            ) : (
-              <StarNonfilled width="120px" height="120px" />
-            )}
-          </Star>
-        ))}
-      </Stars>
+      <Stars>{getRatingStars(data.rate)}</Stars>
       <RatingNumber>{data.rate.toFixed(1)}</RatingNumber>
       <Notice>
         이 수업을 수강하셨나요? 직접 이 수업에 대한 만족도를 평가해보세요!
