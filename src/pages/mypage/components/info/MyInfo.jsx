@@ -88,7 +88,8 @@ export default MyInfo;
 const InfoContainer = styled.div`
   display: flex;
   background-color: black;
-  margin-left: 150px;
+  align-items: center;
+  justify-content: center;
 `;
 
 const LeftSection = styled.div`
