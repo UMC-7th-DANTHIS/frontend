@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
-import MypageGenre from './MypageGenre';
-import DancerPicture from './DancerPicture';
+import MypageGenre from '../MypageGenre';
+import DancerPicture from '../DancerPicture';
 
 const ProfileDancer = () => {
 

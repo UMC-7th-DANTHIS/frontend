@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { ReactComponent as PostArrow } from '../../../assets/postarrow.svg';
-import dummyPost from '../../../store/mypage/dummyPost';
-import dummyComments from '../../../store/mypage/dummyComments';
+import { ReactComponent as PostArrow } from '../../../../assets/postarrow.svg';
+import dummyPost from '../../../../store/mypage/dummyPost';
+import dummyComments from '../../../../store/mypage/dummyComments';
 
 const MyComments = () => {
   const [activeTab, setActiveTab] = useState('게시글');
@@ -37,36 +37,44 @@ const MyComments = () => {
   };
 
   return (
-    <Container>
-      <TextContainer>
-        <Tab
-          isActive={activeTab === '게시글'}
-          onClick={() => setActiveTab('게시글')}
-        >
-          게시글
-        </Tab>
-        <Tab
-          isActive={activeTab === '댓글'}
-          onClick={() => setActiveTab('댓글')}
-        >
-          댓글
-        </Tab>
-      </TextContainer>
+    <AllContainer>
+      <Container>
+        <TextContainer>
+          <Tab
+            isActive={activeTab === '게시글'}
+            onClick={() => setActiveTab('게시글')}
+          >
+            게시글
+          </Tab>
+          <Tab
+            isActive={activeTab === '댓글'}
+            onClick={() => setActiveTab('댓글')}
+          >
+            댓글
+          </Tab>
+        </TextContainer>
 
-      <Divider />
-      {renderContents()}
-    </Container>
+        <Divider />
+        {renderContents()}
+      </Container>
+    </AllContainer>
   );
 };
 
 export default MyComments;
 
+const AllContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 100px;
+`
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left: 25px;
-  margin-bottom: 200px;
+  align-items:flex-start;
 `;
 
 const TextContainer = styled.div`
@@ -128,8 +136,8 @@ const CommentContents = styled.p`
 
 
 const CommentsContainer = styled.div`
-  width: 971.34px;
-  height: 110.641px;
+  width: 971px;
+  height: 110px;
   flex-shrink: 0;
   border: 1px solid #DDD;
   box-shadow: 0px 0px 5px #9819c3;
