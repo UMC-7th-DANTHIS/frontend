@@ -191,6 +191,7 @@ const DancerImage = styled.img`
   height: 380px;
   flex-shrink: 0;
 
+  background-color: white;
   border-radius: 50%;
   margin-bottom: 27px;
 `;
@@ -223,6 +224,7 @@ const ClassImage = styled.img`
   display: inline-block;
   width: 200px;
   height: 200px;
+  background-color: white;
 
   border-radius: 10px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);

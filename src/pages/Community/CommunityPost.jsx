@@ -3,6 +3,12 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import dummyContent from '../../store/community/dummyContent';
 
+import ViewPhoto from '../../assets/Community/ViewPhoto.svg';
+import CommentPhoto from '../../assets/Community/CommentPhoto.svg';
+import Edit from '../../assets/Community/EditButton.svg';
+import Delete from '../../assets/Community/DeleteButton.svg';
+import Alert from '../../assets/Community/SirenButton.svg';
+
 const CommunityPost = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,8 +26,10 @@ const CommunityPost = () => {
 
         <PostInfo>
           <PostStats>
-            <span>👁 {post?.See}</span>
-            <span>💬 {post?.Comment?.length}</span>
+            <ViewContainer src={ViewPhoto} alt={'그럴리없다'} />
+            <TextContainer>{post?.See}</TextContainer>
+            <ViewContainer src={CommentPhoto} alt={'그럴리없다'} />
+            <TextContainer>{post?.Comment?.length}</TextContainer>
           </PostStats>
           <PostMeta>
             <span>작성일 : {post?.DateAt}</span>
@@ -29,18 +37,23 @@ const CommunityPost = () => {
         </PostInfo>
         <PostInfo>
           <PostActions>
-            <button>✏</button>
-            <button>🗑</button>
+            <ButtonContainer src={Edit} alt={'그럴리없다'} />
+            <ButtonContainer src={Delete} alt={'그럴리없다'} />
           </PostActions>
           <PostMeta>
             <span>작성자 : {post?.Author}</span>{' '}
           </PostMeta>
         </PostInfo>
         <Content>
-          <p>
-            {post?.Content}
-            <br />
-          </p>
+          {post?.Content}
+          {post?.Image && (
+            <ImageContainer>
+              {post?.Image.map((image) => (
+                <Image src={image} alt={'이미지'} />
+              ))}
+            </ImageContainer>
+          )}
+          <br />
         </Content>
 
         <CommentSection>
@@ -55,7 +68,7 @@ const CommunityPost = () => {
                   <CommentDate>{comment.DateAt}</CommentDate>
                   <CommentAuthor>{comment.Author}</CommentAuthor>
                 </CommentDetails>
-                <ReportButton>⚠</ReportButton>
+                <ReportButton src={Alert} alt={'그럴리없다'} />
               </CommentProfile>
               <CommentContent>{comment.Content}</CommentContent>
             </Comment>
@@ -106,12 +119,10 @@ const PostInfo = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
 `;
 
 const PostStats = styled.div`
   display: flex;
-  gap: 20px;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -126,10 +137,36 @@ const PostStats = styled.div`
   }
 `;
 
+const ViewContainer = styled.img`
+  display: flex;
+  width: 28px;
+  height: 28px;
+
+  margin-right: 5px;
+`;
+
+const ButtonContainer = styled.img`
+  display: flex;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+`;
+
+const TextContainer = styled.div`
+  display: flex;
+
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  margin-right: 10px;
+`;
+
 const PostActions = styled.div`
   display: flex;
   gap: 10px;
-  margin-left: 50px;
+
+  margin-left: 10px;
 
   button {
     background-color: transparent;
@@ -166,6 +203,24 @@ const Content = styled.div`
   }
 `;
 
+const ImageContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+
+  margin-top: 45px;
+  margin-left: 20px;
+
+  width: 900px;
+  height: 200px;
+`;
+
+const Image = styled.img`
+  border-radius: 7px;
+  width: 200px;
+  height: 200px;
+`;
+
 const CommentSection = styled.div`
   padding-top: 47px;
   border-top: 1px solid #d9d9d9;
@@ -198,7 +253,7 @@ const CommentDetails = styled.div`
   flex: 1;
 `;
 
-const ReportButton = styled.button`
+const ReportButton = styled.img`
   background-color: transparent;
   border: none;
   color: red;

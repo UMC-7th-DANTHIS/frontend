@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import HotClass1 from '../../assets/main/NowHotClass/HotDancer1.svg';
+import HotClass2 from '../../assets/main/NowHotClass/HotDancer2.svg';
+import HotClass3 from '../../assets/main/NowHotClass/HotDancer3.svg';
+import HotClass4 from '../../assets/main/NowHotClass/HotDancer4.svg';
+
 const HotClass = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const classes = [
-    'Placeholder 1',
-    'Placeholder 2',
-    'Placeholder 3',
-    'Placeholder 4',
-    'Placeholder 5'
-  ];
+  const classes = [HotClass1, HotClass2, HotClass3, HotClass4];
 
   const handleNext = () => {
     if (currentIndex < classes.length - 3) {
@@ -32,12 +31,10 @@ const HotClass = () => {
         <ClickArea onClick={handlePrev} position="left" />
         <SlideWrapper currentIndex={currentIndex}>
           {classes.map((item, index) => (
-            <Image
-              key={index}
+            <HotImage
+              src={item}
               visible={index >= currentIndex && index < currentIndex + 3}
-            >
-              {item}
-            </Image>
+            />
           ))}
         </SlideWrapper>
         <ClickArea onClick={handleNext} position="right" />
@@ -99,7 +96,7 @@ const SlideWrapper = styled.div`
   transition: transform 0.3s ease;
 `;
 
-const Image = styled.div`
+const HotImage = styled.img`
   width: 400px;
   height: 400px;
   border-radius: 10px;
