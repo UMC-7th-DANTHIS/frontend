@@ -11,6 +11,10 @@ const Signup2 = () =>{
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [isNicknameValid, setIsNicknameValid] = useState(null); 
+  const [preview, setPreview] = useState(null);
+  const [isDefaultImage, setIsDefaultImage] = useState(false); // 기본 이미지 여부 상태
+  const [uploadedImage, setUploadedImage] = useState(null); // 업로드된 이미지
+
 
   const handleNicknameCheck = () => {
     // 닉네임 중복 확인 로직 (예: 서버 요청)
@@ -28,6 +32,22 @@ const Signup2 = () =>{
   };
 
   const handleGenderChange = (e) => setGender(e.target.value);
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setUploadedImage(reader.result); // 업로드된 이미지 설정
+        setIsDefaultImage(false); // 기본 이미지를 해제
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+   const handleCheckboxChange = (event) => {
+    setIsDefaultImage(event.target.checked); // 체크박스 상태 업데이트
+  };
 
   return (
     <Layout>
@@ -118,15 +138,21 @@ const Signup2 = () =>{
           <Label>프로필 사진</Label>
           <ProfileContainer>
        <ProfileImageWrapper>
-      <ProfileImage src={Profileimg} alt="프로필 이미지" />
+         {/* 업로드한 이미지 미리보기 */}
+         {isDefaultImage || !uploadedImage ? (
+           <ProfileImage src={Profileimg} alt="프로필 이미지" />
+         ) : (
+     
+      <ProfileImage src={uploadedImage} alt="프로필 이미지" />
+         )}
     </ProfileImageWrapper>
     <UploadContainer>
+    <HiddenInput type="file" id="file-upload" accept="image/*" onChange={handleFileUpload} />
       <UploadButton htmlFor="file-upload">파일 업로드</UploadButton>
-      <HiddenInput type="file" id="file-upload" />
-
+  
       <RadioWrapper>
       <RadioLabel>
-        <RadioInput type="checkbox" name="profile" value="기본이미지 사용하기" />
+        <RadioInput type="checkbox" name="profile" value="기본이미지 사용하기" onchange ={handleCheckboxChange} />
         <CustomCircle1 />
         <LabelText1>기본 이미지 사용하기</LabelText1>
       </RadioLabel>
@@ -452,7 +478,7 @@ const ProfileImageWrapper = styled.div`
   width: 160px;
   height: 160px;
   //border: 1px solid #666;
-  //border-radius: 8px;
+  border-radius: 5px;
   overflow: hidden;
 `;
 
@@ -476,7 +502,7 @@ font-weight: 500;
 line-height: normal;
 `;
 
-const UploadButton = styled.button`
+const UploadButton = styled.label`
    width: 300px;
 height: 36px;
 flex-shrink: 0;
@@ -486,6 +512,9 @@ flex-shrink: 0;
   border-radius: 4px;
   text-align: center;
   cursor: pointer;
+  justify-content: center;
+  align-items : center;
+  display : flex;
 
 
 `;

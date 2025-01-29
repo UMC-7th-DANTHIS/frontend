@@ -50,6 +50,7 @@ const TabContainer = styled.div`
   align-items: center;
   margin-left: 100px;
   justify-content: center;
+  margin-right : 100px;
 `;
 
 const Tab = styled.div`
@@ -69,7 +70,7 @@ const Tab = styled.div`
   letter-spacing: -1.2px;
   cursor: pointer;
   border-radius: 20px 20px 0px 0px;
-  border-top: 3px solid var(--main_purple, #9819c3);
+  //border-top: 3px solid var(--main_purple, #9819c3);
   border-right: 3px solid var(--main_purple, #9819c3);
   border-left: 3px solid var(--main_purple, #9819c3);
   background: var(--main_black, #000);

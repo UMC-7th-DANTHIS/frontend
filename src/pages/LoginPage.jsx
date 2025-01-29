@@ -1,14 +1,44 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+import axios from 'axios'
 import styled from 'styled-components'
 import LoginImg from "../assets/LoginButton.svg"
 import LogoImg from "../assets/logo.svg"
 import SignupImg from "../assets/signup.svg"
 
 const LoginPage = () => {
+  
+  //const link = `https://api.danthis.site/auth/login/kakao`;
+  const REST_API_KEY = '5404b0149b95af5aeca51b6c4d4dd9e4';
+  const REDIRECT_URI = 'http://localhost:3000/oauth/kakao/callback';
+  const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  
+  //const code = new URL(document.location.toString()).searchParams.get('code');
+  
+  const loginHandler = () => {
+    window.location.href = link;
+  };
+
+  // useEffect(() => {
+  //   const code = new URL(window.location.href).searchParams.get("code"); // 인가 코드 추출
+  //   console.log(code);
+  //   if (code) {
+  //     axios.post(`https://api.danthis.site/auth/login/kakao?code=${code}`)
+  //       .then((response) => {
+  //         console.log("로그인 성공!", response.data);
+  //         localStorage.setItem("token", response.data.access_token); // 토큰 저장
+  //         //navigate("/home"); // 로그인 성공 후 홈으로 이동
+  //       })
+  //       .catch((error) => {
+  //         console.error("로그인 실패", error);
+  //       });
+  //   }
+  // }, []);
+ 
+
   return (
     <Layout>
       <LoginTitle>로그인</LoginTitle>
-      <LoginBtn>
+      <LoginBtn onClick={loginHandler}>
       <Login src={LoginImg} alt = "로그인하러가기" />
       </LoginBtn>
       <Line />
@@ -49,6 +79,7 @@ const LoginBtn = styled.button`
 background : none;
 border : none;
 margin-top : 48.72px;
+cursor : pointer;
 
 `
 
