@@ -4,10 +4,12 @@ import Logo from '../assets/logo.svg';
 import Outline from '../assets/outline.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import Searchicon from '../assets/searchicon.svg';
+import Mypageicon from '../assets/buttons/mypageButton.svg';
 
 const Topbar = ({ onSearch }) => {
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
+  const [login, setLogin] = useState(true);
 
   const handleClick = () => {
     navigate('/');
@@ -32,7 +34,14 @@ const Topbar = ({ onSearch }) => {
           <LogoImg src={Logo} alt="logo" />
         </LogoBtn>
         <LoginContainer>
-          <Login onClick={handleNavigate}>LOGIN</Login>
+          {login ? (
+            <Login onClick={handleNavigate}>LOGIN</Login>
+          ) : (
+            <MyPageContainer>
+              <MyPageImg src={Mypageicon} alt={'안녕하세용'} />
+              <MyPage>My Page</MyPage>
+            </MyPageContainer>
+          )}
           <Search>
             <SearchInput
               placeholder="검색어를 입력하세요"
@@ -75,9 +84,11 @@ const Container = styled.div`
 
 const TopContainer = styled.div`
   display: flex;
+  justify-content: space-between;
   flex-direction: row;
   height: 104px;
-  justify-content: center;
+  margin-left: 90px;
+  margin-right: 90px;
   align-items: center;
 `;
 
@@ -86,19 +97,21 @@ const LogoBtn = styled.button`
   border: none;
   cursor: pointer;
 `;
+
 const LogoImg = styled.img`
-  display: flex;
+  display: inline-block;
   width: 218px;
   height: 56px;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
-  //margin-top : 24px;
-  //margin-left : 98px;
 `;
+
 const LoginContainer = styled.div`
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
+  align-items: center;
+  align-content: center;
 `;
 
 const Login = styled.button`
@@ -111,19 +124,38 @@ const Login = styled.button`
   line-height: normal;
   width: 64px;
   height: 20px;
-  margin-left: 627px;
-  margin-top: 8px;
   cursor: pointer;
 `;
+
+const MyPageContainer = styled.div`
+  display: inline-flex;
+  cursor: pointer;
+  align-items: center;
+`;
+
+const MyPageImg = styled.img`
+  width: 40px;
+  height: 40px;
+`;
+
+const MyPage = styled.button`
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  background: none;
+  color: white;
+  border: none;
+`;
+
 const Search = styled.div`
-  display: flex;
+  display: inline-flex;
   margin-left: 20px;
   width: 315px;
   height: 36px;
   flex-shrink: 0;
   border-radius: 43px;
   border: 2px solid var(--main-gradation, #b30505);
-  /* margin-top : 10px; */
 `;
 
 const SearchInput = styled.input`
@@ -131,7 +163,7 @@ const SearchInput = styled.input`
   color: white;
   border: none;
   width: 100%;
-  //text-align : center;
+
   outline: none;
   &:focus {
     border: none;
