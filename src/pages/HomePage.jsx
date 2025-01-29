@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import HotDancer from '../components/Home/HotDancer';
-import HotClass from '../components/Home/HotClass';
-import UserRecommend from '../components/Home/UserRecommend';
+import HotDancer from './Home/HotDancer';
+import HotClass from './Home/HotClass';
+import UserRecommend from './Home/UserRecommend';
 
 import dummyUserDancer from '../store/main/dummyUserDancer';
 import dummyUserClass from '../store/main/dummyUserClass';
