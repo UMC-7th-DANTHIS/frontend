@@ -222,7 +222,10 @@ const CheckboxWrapper = styled.div`
 const Checkbox = styled.input`
   position: absolute;
   opacity: 0; /* 기본 체크박스 숨기기 */
-  z-index: -1;
+  //z-index: -1;
+  display : flex;
+  align-items: center;
+  justify-content : center;
 `;
 
 const CustomCircle = styled.label`
@@ -233,21 +236,28 @@ const CustomCircle = styled.label`
   display: flex;
   justify-content: center;
   align-items: center;
+  background : white;
   cursor: pointer;
+  position : relative;
 
   &:after {
     content: "";
-    width: 24px;
-    height: 24px;
+    width: 18px;
+    height: 18px;
     background-color: #A60F62;
     border-radius: 50%;
     opacity: 0;
     transition: opacity 0.2s ease;
+    position : absolute;
+    top: 50%; /* 부모의 50% */
+    left: 50%; /* 부모의 50% */
+    transform: translate(-50%, -50%); /* 중심으로 이동 */
   }
 
-  /* 체크박스가 체크되었을 때 */
+  //체크박스가 체크되었을 때
   input:checked + &::after {
     opacity: 1;
+    position : absolute;
   }
 `;
 
