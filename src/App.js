@@ -20,6 +20,7 @@ import SignupPage4 from './pages/Signup/Signup4';
 import ProfileList from './pages/profile/ProfileList';
 import DancerProfile from './pages/profile/DancerProfile';
 import ReviewDetail from './pages/mypage/components/review/ReviewDetail';
+import KakaoRedirectHandler from './pages/KakaoRedirectHandler';
 
 function App() {
   return (
@@ -30,6 +31,8 @@ function App() {
           <Route path="/mypage" element={<MypageLayout />} />
           <Route path="community" element={<Community />} />
           <Route path="/login" element={<LoginPage />} />
+        <Route path="/oauth/kakao/callback" element={<KakaoRedirectHandler />} />
+
           <Route path="/signup1" element={<SignupPage1 />} />
           <Route path="/signup2" element={<SignupPage2 />} />
           <Route path="/signup3" element={<SignupPage3 />} />

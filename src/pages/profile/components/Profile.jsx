@@ -11,12 +11,16 @@ const Profile = () => {
   };
   
   const data = [
-    { id: 1, instagram :"paranaaa_88", genre : "코레오, 재즈, 걸스힙합", introduce : "코레오, 재즈 전문 댄서 파라나입니다! 잘 부탁드려요 :)"},
+    { id: 1, instagram :"paranaaa_88", genre : "코레오, 재즈, 걸스힙합", introduce : "코레오, 재즈 전문 댄서 파라나입니다! 잘 부탁드려요 :) Danthis에서 춤에 진심인 분들과 많이 소통하고 성장하고자 노력 중이에요! "},
     { id: 2, instagram :"paranaaa_88", genre : "코레오, 재즈, 걸스힙합", introduce : "코레오, 재즈 전문 댄서 파라나입니다! 잘 부탁드려요 :)"},
     { id: 3, instagram :"paranaaa_88", genre : "코레오, 재즈, 걸스힙합", introduce : "코레오, 재즈 전문 댄서 파라나입니다! 잘 부탁드려요 :)"},
 
-  
   ];
+
+   // 소개글 포맷팅 함수
+   const formatIntroduce = (text, maxLength = 32) => {
+    return text.match(new RegExp(`.{1,${maxLength}}`, 'g')).join('\n');
+  };
 
   return (
     <Layout>
@@ -32,7 +36,7 @@ const Profile = () => {
       <Title>주 장르</Title>
       <Content>{data[0].genre}</Content>
       <Title>한 마디 소개글</Title>
-      <Content>{data[0].introduce}</Content>
+      <Content>{formatIntroduce(data[0].introduce)}</Content>
     
       </InfoContainer>
       <ButtonContainer>
@@ -103,9 +107,11 @@ justify-content : center;
 
 const ButtonContainer=styled.div`
 margin-left : 67px;
+margin-right : 150px;
 display : flex;
 flex-direction : column;
 justify-content : center;
+align-items : flex-end;
 `
 
 const Title = styled.div`
@@ -126,7 +132,8 @@ font-weight: 500;
 line-height: 30px;
 letter-spacing: -0.9px;
 margin-bottom : 30px;
-
+white-space: pre-wrap; /* 줄바꿈 처리 */
+word-break: break-word; /* 긴 단어 줄바꿈 */
 &:last-child{
   margin-bottom: 0;
 }
