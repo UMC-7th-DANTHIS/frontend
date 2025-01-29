@@ -20,43 +20,49 @@ const MyEditProfile = () => {
   };
 
   return (
-    <Container>
-      <TextContainer>
-        <Tab
-          isActive={activeTab === '유저'}
-          onClick={() => setActiveTab('유저')}
-        >
-          유저
-        </Tab>
-        <Tab
-          isActive={activeTab === '댄서'}
-          onClick={() => setActiveTab('댄서')}
-        >
-          댄서
-        </Tab>
-      </TextContainer>
+    <AllContent>
+      <Container>
+        <TextContainer>
+          <Tab
+            isActive={activeTab === '유저'}
+            onClick={() => setActiveTab('유저')}
+          >
+            유저
+          </Tab>
+          <Tab
+            isActive={activeTab === '댄서'}
+            onClick={() => setActiveTab('댄서')}
+          >
+            댄서
+          </Tab>
+        </TextContainer>
 
-      <Divider />
-      {renderContents()}
-    </Container>
+        <Divider />
+        {renderContents()}
+      </Container>
+    </AllContent>
   );
 };
 
 export default MyEditProfile;
 
+const AllContent = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left: 25px;
-
+  align-items:flex-start;
 `;
 
 const TextContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 45px;
-  margin-left: 130px;
 
 `;
 
@@ -74,7 +80,7 @@ const Divider = styled.div`
   border: 2px solid #ddd;
   background-color: #ddd;
   margin-top: 13px;
-  margin-left: 101px;
   margin-bottom: 39px;
+
 `;
 

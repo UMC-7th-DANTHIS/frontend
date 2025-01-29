@@ -23,7 +23,11 @@ const MainLayout = () => {
 };
 
 const Container = styled.div`
-  width: 1440px;
+  /* width: 1440px; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background-color: black;
 `;
 

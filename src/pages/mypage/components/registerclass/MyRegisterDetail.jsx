@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { ReactComponent as FocusedCircle } from "../../../assets/shape/focusedcircle.svg"
-import SampleImage from '../../../assets/image.png'
-import { ReactComponent as PlusButton } from "../../../assets/buttons/plus-button.svg"
-import { ReactComponent as Ask } from "../../../assets/buttons/ask.svg"
-import AskAlert from '../../../components/AskAlert'
-import UserOverlay from '../../../components/UserOverlay'
-import Pagination from '../../../components/Pagination'
+import { ReactComponent as FocusedCircle } from "../../../../assets/shape/focusedcircle.svg"
+import SampleImage from '../../../../assets/image.png'
+import { ReactComponent as PlusButton } from "../../../../assets/buttons/plus-button.svg"
+import { ReactComponent as Ask } from "../../../../assets/buttons/ask.svg"
+import AskAlert from '../../../../components/AskAlert'
+import UserOverlay from '../../../../components/UserOverlay'
+import Pagination from '../../../../components/Pagination'
 import MyRegisterClass from './MyRegisterClass'
 
 const MyRegisterDetail = ({ index, data }) => {
