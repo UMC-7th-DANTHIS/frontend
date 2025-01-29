@@ -24,14 +24,8 @@ const Alert = ({
     }
   };
 
-  const handleOverlayClick = (e) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
-
   return (
-    <AlertOverlay onClick={handleOverlayClick}>
+    <AlertOverlay>
       <AlertContainer width={AlertWidth} height={AlertHeight} onClick={e => e.stopPropagation()}>
         <CloseButton onClick={handleClick}>
           <CloseIcon />

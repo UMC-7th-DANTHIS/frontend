@@ -19,6 +19,7 @@ import SignupPage3 from './pages/Signup/Signup3';
 import SignupPage4 from './pages/Signup/Signup4';
 import ProfileList from './pages/profile/ProfileList';
 import DancerProfile from './pages/profile/DancerProfile';
+import ReviewDetail from './pages/mypage/components/review/ReviewDetail';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           />
           <Route path="/dancerprofile" element={<ProfileList />} />
           <Route path="/dancerprofile/:dancerId" element={<DancerProfile />} />
+          <Route path="/review/:id" element={<ReviewDetail />} />
         </Route>
       </Routes>
     </Router>
