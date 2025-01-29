@@ -11,6 +11,10 @@ const Signup2 = () =>{
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [isNicknameValid, setIsNicknameValid] = useState(null); 
+  const [preview, setPreview] = useState(null);
+  const [isDefaultImage, setIsDefaultImage] = useState(false); // 기본 이미지 여부 상태
+  const [uploadedImage, setUploadedImage] = useState(null); // 업로드된 이미지
+
 
   const handleNicknameCheck = () => {
     // 닉네임 중복 확인 로직 (예: 서버 요청)
@@ -28,6 +32,22 @@ const Signup2 = () =>{
   };
 
   const handleGenderChange = (e) => setGender(e.target.value);
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setUploadedImage(reader.result); // 업로드된 이미지 설정
+        setIsDefaultImage(false); // 기본 이미지를 해제
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+   const handleCheckboxChange = (event) => {
+    setIsDefaultImage(event.target.checked); // 체크박스 상태 업데이트
+  };
 
   return (
     <Layout>
@@ -74,14 +94,16 @@ const Signup2 = () =>{
           <Label>성별</Label>
           <RadioGroup>
           <RadioLabel>
+          <LabelText>남</LabelText>
         <RadioInput type="radio" name="gender" value="남" />
-        <LabelText>남</LabelText>
         <CustomCircle />
         
+       
       </RadioLabel>
+
       <RadioLabel>
+      <LabelText>여</LabelText>
         <RadioInput type="radio" name="gender" value="여" />
-        <LabelText>여</LabelText>
         <CustomCircle />
       </RadioLabel>
           </RadioGroup>
@@ -116,14 +138,21 @@ const Signup2 = () =>{
           <Label>프로필 사진</Label>
           <ProfileContainer>
        <ProfileImageWrapper>
-      <ProfileImage src={Profileimg} alt="프로필 이미지" />
+         {/* 업로드한 이미지 미리보기 */}
+         {isDefaultImage || !uploadedImage ? (
+           <ProfileImage src={Profileimg} alt="프로필 이미지" />
+         ) : (
+     
+      <ProfileImage src={uploadedImage} alt="프로필 이미지" />
+         )}
     </ProfileImageWrapper>
     <UploadContainer>
+    <HiddenInput type="file" id="file-upload" accept="image/*" onChange={handleFileUpload} />
       <UploadButton htmlFor="file-upload">파일 업로드</UploadButton>
-      <HiddenInput type="file" id="file-upload" />
+  
       <RadioWrapper>
       <RadioLabel>
-        <RadioInput type="radio" name="profile" value="기본이미지 사용하기" />
+        <RadioInput type="checkbox" name="profile" value="기본이미지 사용하기" onchange ={handleCheckboxChange} />
         <CustomCircle1 />
         <LabelText1>기본 이미지 사용하기</LabelText1>
       </RadioLabel>
@@ -333,6 +362,11 @@ line-height: normal;
 margin-top : 10px;
 
 `;
+const RadioWrapper = styled.div`
+  display: flex;
+  align-items: center;
+ margin-top : 10px;
+`;
 
 const RadioGroup = styled.div`
   display: flex;
@@ -342,6 +376,7 @@ const RadioGroup = styled.div`
 const RadioLabel = styled.label`
   display: flex;
   align-items: center;
+  justify-content: center;
   cursor: pointer;
   color : white;
 `;
@@ -364,16 +399,25 @@ const CustomCircle = styled.span`
   position: relative;
   margin-left : 13px;
   ${RadioInput}:checked + & {
-    background-color: #a020f0; /* 선택된 경우 내부 색상 변경 */
+     background-color:white; /* 선택된 경우 내부 색상 변경 */
   }
 
   ${RadioInput}:checked + &::after {
     content: "";
-    width: 10px;
-    height: 10px;
-    background-color: white; /* 선택된 상태의 중앙 원 */
+    width: 12px;
+    height: 12px;
+    background-color: #A60F62; /* 선택된 상태의 중앙 원 */
     border-radius: 50%;
     position: absolute;
+  }
+
+  /* 초기 상태로 돌아가기 */
+  ${RadioInput}:not(:checked) + & {
+    background-color: white;
+  }
+
+  ${RadioInput}:not(:checked) + &::after {
+    content: none; /* 선택 해제 시 중앙 원 제거 */
   }
 `;
 const CustomCircle1 = styled.span`
@@ -381,7 +425,6 @@ const CustomCircle1 = styled.span`
   height: 20px;
   border: 2px solid #A60F62; /* 외곽선 색상 */
   background : white;
-
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -389,17 +432,19 @@ const CustomCircle1 = styled.span`
   margin-right: 8px;
   position: relative;
   ${RadioInput}:checked + & {
-    background-color: #a020f0; /* 선택된 경우 내부 색상 변경 */
+    background-color:white; /* 선택된 경우 내부 색상 변경 */
   }
 
   ${RadioInput}:checked + &::after {
     content: "";
-    width: 10px;
-    height: 10px;
-    background-color: white; /* 선택된 상태의 중앙 원 */
+    width: 12px;
+    height: 12px;
+    background-color: #A60F62; /* 선택된 상태의 중앙 원 */
     border-radius: 50%;
     position: absolute;
   }
+
+   
 `;
 
 const LabelText = styled.span`
@@ -433,7 +478,7 @@ const ProfileImageWrapper = styled.div`
   width: 160px;
   height: 160px;
   //border: 1px solid #666;
-  //border-radius: 8px;
+  border-radius: 5px;
   overflow: hidden;
 `;
 
@@ -457,7 +502,7 @@ font-weight: 500;
 line-height: normal;
 `;
 
-const UploadButton = styled.button`
+const UploadButton = styled.label`
    width: 300px;
 height: 36px;
 flex-shrink: 0;
@@ -467,6 +512,9 @@ flex-shrink: 0;
   border-radius: 4px;
   text-align: center;
   cursor: pointer;
+  justify-content: center;
+  align-items : center;
+  display : flex;
 
 
 `;
@@ -476,11 +524,6 @@ const HiddenInput = styled.input`
   color : white;
 `;
 
-const RadioWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top : 10px;
-`;
 
 const NextButton = styled.button`
 width: 300px;
