@@ -10,6 +10,8 @@ const Topbar = ({ onSearch }) => {
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [login, setLogin] = useState(true);
+  const [searchPlaceholder, setSearchPlaceholder] =
+    useState('검색어를 입력하세요');
 
   const handleClick = () => {
     navigate('/');
@@ -19,11 +21,17 @@ const Topbar = ({ onSearch }) => {
     navigate('/login');
   };
 
-  const handleSearchText = (e) => setSearch(e.target.value);
+  const handleSearchInput = (e) => {
+    const value = e.target.value;
+    if (value.length < 20) {
+      setSearch(value);
+    }
+  };
 
   const handleSearch = () => {
     if (search.trim()) {
       onSearch(search.trim());
+      setSearch('');
     }
   };
 
@@ -44,15 +52,18 @@ const Topbar = ({ onSearch }) => {
           )}
           <Search>
             <SearchInput
-              placeholder="검색어를 입력하세요"
-              onChange={(e) => handleSearchText(e)}
+              placeholder={searchPlaceholder}
+              onFocus={() => setSearchPlaceholder('')}
+              onBlur={() => setSearchPlaceholder('검색어를 입력하세요')}
+              onChange={(e) => handleSearchInput(e)}
+              value={search}
+              maxLength={20}
             />
-            <SearchButton>
-              <SearchIcon
-                src={Searchicon}
-                alt="search"
-                onClick={handleSearch}
-              />
+            <SearchButton
+              onClick={handleSearch}
+              disabled={search.trim() === ''}
+            >
+              <SearchIcon src={Searchicon} alt="search" />
             </SearchButton>
           </Search>
         </LoginContainer>
@@ -177,7 +188,14 @@ const SearchButton = styled.button`
   margin-right: 16px;
   display: flex;
   align-items: center;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 `;
+
 const SearchIcon = styled.img`
   width: 16px;
   height: 16px;
