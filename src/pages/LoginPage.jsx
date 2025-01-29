@@ -15,6 +15,8 @@ const LoginPage = () => {
   //const code = new URL(document.location.toString()).searchParams.get('code');
   
   const loginHandler = () => {
+    console.log("🔹 카카오 로그인 요청 URL:", link); // URL 확인
+
     window.location.href = link;
   };
 
