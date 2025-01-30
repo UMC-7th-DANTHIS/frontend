@@ -18,9 +18,9 @@ const MyRegisterClass = ({ registeredClass }) => {
   const [idDelete, setIdDelete] = useState(null);
 
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const perData = 6;
-  // const filteredList = data.slice(
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const perData = 10;
+  // const filteredList = dummyRegister.slice(
   //   perData * (currentPage - 1),
   //   perData * currentPage
   // );
@@ -63,7 +63,7 @@ const MyRegisterClass = ({ registeredClass }) => {
             <ClassContainer>
               {data.danceClasses.map((danceClass) => (
                 <ClassList key={danceClass.id} >
-                  <Image src={danceClass.images[0] || sampleImage} alt={danceClass.className} onClick={() => handleImageClick(danceClass.id)} />
+                  <Image src={danceClass.images[0] || sampleImage} alt={danceClass.id} onClick={() => handleImageClick(danceClass.id)} />
                   <ContentWrapper>
                     <TitleText>{danceClass.className}</TitleText>
                     <IconContainer>
@@ -150,6 +150,7 @@ const Image = styled.img`
   height: 220px;
   object-fit: cover;
   border-radius: 10px;
+  background-color: white;
 `;
 
 const ContentWrapper = styled.div`
