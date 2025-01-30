@@ -68,7 +68,11 @@ const CommunityPost = () => {
                   <CommentDate>{comment.DateAt}</CommentDate>
                   <CommentAuthor>{comment.Author}</CommentAuthor>
                 </CommentDetails>
-                <ReportButton src={Alert} alt={'그럴리없다'} />
+                {true ? (
+                  <ReportButton src={Alert} alt={'그럴리없다'} />
+                ) : (
+                  <ButtonContainer src={Delete} alt={'그럴리없다'} />
+                )}
               </CommentProfile>
               <CommentContent>{comment.Content}</CommentContent>
             </Comment>
@@ -258,12 +262,7 @@ const ReportButton = styled.img`
   background-color: transparent;
   border: none;
   color: red;
-  font-size: 20px;
   cursor: pointer;
-
-  &:hover {
-    color: #ff4444;
-  }
 `;
 
 const CommentDate = styled.div`
