@@ -6,7 +6,7 @@ import HotClass2 from '../../assets/main/NowHotClass/HotDancer2.svg';
 import HotClass3 from '../../assets/main/NowHotClass/HotDancer3.svg';
 import HotClass4 from '../../assets/main/NowHotClass/HotDancer4.svg';
 
-const HotClass = () => {
+const PassiveCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const classes = [HotClass1, HotClass2, HotClass3, HotClass4];
@@ -24,60 +24,20 @@ const HotClass = () => {
   };
 
   return (
-    <Container>
-      <Header>유행하는 수업을 한눈에</Header>
-      <Glow />
-      <SliderContainer>
-        <ClickArea onClick={handlePrev} position="left" />
-        <SlideWrapper currentIndex={currentIndex}>
-          {classes.map((item, index) => (
-            <HotImage
-              src={item}
-              visible={index >= currentIndex && index < currentIndex + 3}
-            />
-          ))}
-        </SlideWrapper>
-        <ClickArea onClick={handleNext} position="right" />
-      </SliderContainer>
-    </Container>
+    <SliderContainer>
+      <ClickArea onClick={handlePrev} position="left" />
+      <SlideWrapper currentIndex={currentIndex}>
+        {classes.map((item, index) => (
+          <HotImage
+            src={item}
+            visible={index >= currentIndex && index < currentIndex + 3}
+          />
+        ))}
+      </SlideWrapper>
+      <ClickArea onClick={handleNext} position="right" />
+    </SliderContainer>
   );
 };
-
-export default HotClass;
-
-const Container = styled.div`
-  margin-top: 120px;
-  border-bottom: 2px solid #4d4d4d;
-`;
-
-const Header = styled.div`
-  margin-left: 96.5px;
-  margin-bottom: 21px;
-  position: relative;
-  z-index: 1;
-
-  color: white;
-  font-size: 36px;
-  font-weight: 600;
-  line-height: normal;
-`;
-
-const Glow = styled.div`
-  position: relative;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-180%);
-  width: 356px;
-  height: 18px;
-
-  background: radial-gradient(
-    ellipse at center,
-    #9819c3 100%,
-    transparent 100%
-  );
-  filter: blur(3px);
-  border-radius: 50%;
-`;
 
 const SliderContainer = styled.div`
   position: relative;
@@ -119,3 +79,5 @@ const ClickArea = styled.div`
   cursor: pointer;
   z-index: 1;
 `;
+
+export default PassiveCarousel;

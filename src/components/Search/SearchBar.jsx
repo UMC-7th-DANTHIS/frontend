@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Searchicon from '../../assets/searchicon.svg';
 
 const SearchBar = ({ select, handleCategoryClick, temp, handleNowContent }) => {
-  const [selectedFilter, setSelectedFilter] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState('');
 
   const category = [
     '강렬한',
@@ -21,10 +21,10 @@ const SearchBar = ({ select, handleCategoryClick, temp, handleNowContent }) => {
   ];
 
   const handleClick = (tag) => {
-    if (selectedFilter.includes(tag)) {
-      setSelectedFilter(selectedFilter.filter((item) => item !== tag));
+    if (selectedFilter === tag) {
+      setSelectedFilter('');
     } else {
-      setSelectedFilter([...selectedFilter, tag]);
+      setSelectedFilter(tag);
     }
   };
 
