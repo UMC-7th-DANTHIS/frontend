@@ -77,6 +77,7 @@ const AlertOverlay = styled.div`
 
 const AlertContainer = styled.div`
   position: relative;
+  justify-items: center;
   background-color: black;
   border-radius: 23px;
   width: ${({ width }) => width || 'auto'};

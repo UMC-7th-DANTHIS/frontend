@@ -11,8 +11,8 @@ const SingleBtnAlert = ({
   mariginsize = '24px', // margin-top 설정
   ContainerWidth = '280px',
   ContainerHeight = '108px',
-  AlertWidth = '392px',
-  AlertHeight = '260px',
+  AlertWidth = '386px',
+  AlertHeight = '254px',
   showButtons,
   confirmLabel = '확인'
 }) => {
