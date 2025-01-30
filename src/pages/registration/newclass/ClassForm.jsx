@@ -35,59 +35,87 @@ const ClassForm = ({ onRegister }) => {
   return (
     <FormContainer onSubmit={handleSubmit}>
       <InputContainer>
+        <LabelWrapper>
+          <Label>수업 이름</Label>
+        </LabelWrapper>
         <Input
           label="수업 이름"
           value={formState.name}
           onChange={(e) => handleFormChange('name', e.target.value)}
-          placeholder="수업 이름을 입력하세요"
+          placeholder="수업 이름을 입력하세요."
+          maxLength={20}
         />
+        <LabelWrapper>
+          <Label>회당 가격</Label>
+        </LabelWrapper>
         <Input
           label="회당 가격"
           value={formState.price}
           onChange={(e) => handleFormChange('price', e.target.value)}
-          placeholder="회당 가격을 입력하세요"
+          placeholder="회당 가격을 입력하세요."
+          maxLength={10}
         />
+        <LabelWrapper>
+          <Label>난이도</Label>
+        </LabelWrapper>
         <StarRating
           label="난이도"
           value={formState.level}
           handleFormChange={handleFormChange}
         />
+        <LabelWrapper>
+          <Label>장르</Label>
+        </LabelWrapper>
         <GenreSelector
           selectedGenres={formState.genres}
           handleFormChange={handleFormChange}
         />
+        <LabelWrapper>
+          <Label>수업 소개</Label>
+          <Notice>* 최대 1000자까지 입력 가능합니다.</Notice>
+        </LabelWrapper>
         <Textarea
           label="수업 소개"
           value={formState.description}
           onChange={(e) => handleFormChange('description', e.target.value)}
-          placeholder="시간, 장소, 가격 등 수업에 대한 자세한 소개를 입력하세요"
+          placeholder="시간, 장소, 가격 등 수업에 대한 자세한 소개를 입력하세요."
+          maxLength={1000}
         />
+        <LabelWrapper>
+          <Label>수업 추천 대상</Label>
+          <Notice>* 최대 1000자까지 입력 가능합니다.</Notice>
+        </LabelWrapper>
         <Textarea
           label="수업 추천 대상"
           value={formState.recommendedFor}
           onChange={(e) => handleFormChange('recommendedFor', e.target.value)}
-          placeholder="이 수업은 누구에게 추천하며, 그 이유를 입력하세요"
+          placeholder="이 수업은 누구에게 추천하며, 그 이유를 입력하세요."
+          maxLength={1000}
         />
-        <NoticedLabel>
+        <LabelWrapper>
+          <Label>해시태그</Label>
+        </LabelWrapper>
+
+        <LabelWrapper>
           <Label>수업 사진</Label>
           <Notice>
-            {'\n\n'} *최대 4장까지 등록 가능합니다
-            {'\n'} *가장 첫 번째로 등록된 사진이 프로필로 사용됩니다
-            {'\n'} *등록된 사진이 없는 경우, 댄서 등록 시 사용한 사진으로 자동
-            등록됩니다
+            {'\n\n'} * 최대 3장까지 등록 가능합니다.
+            {'\n'} * 가장 첫 번째로 등록된 사진이 썸네일로 사용됩니다.
+            {'\n'} * 등록된 사진이 없는 경우, 댄서 등록 시 사용한 사진으로 자동
+            등록됩니다.
           </Notice>
-        </NoticedLabel>
+        </LabelWrapper>
         <ImagesUploader
           images={formState.images}
           handleFormChange={handleFormChange}
         />
-        <NoticedLabel>
+        <LabelWrapper>
           <Label>수업 영상</Label>
           <Notice>
-            {'\n'} *영상 파일 혹은 url 중 하나의 형식을 선택해 업로드 해주세요{' '}
-            {'\n'} *수업 영상이 없는 경우, 댄서 영상을 업로드 해주세요
+            {'\n'} * 영상 파일 혹은 url 중 하나의 형식을 선택해 업로드 해주세요.
+            {'\n'} * 수업 영상이 없는 경우, 댄서 영상을 업로드 해주세요.
           </Notice>
-        </NoticedLabel>
+        </LabelWrapper>
         <VideoUploader
           video={formState.video}
           handleFormChange={handleFormChange}
@@ -118,9 +146,9 @@ const InputContainer = styled.div`
   border-radius: 25px;
   border: 2px solid var(--main_purple, #9819c3);
 `;
-const NoticedLabel = styled.div`
-  display: grid;
-  grid-template-columns: 165px auto;
+const LabelWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: flex-start;
   width: 589px;
@@ -135,6 +163,7 @@ const Label = styled.div`
   line-height: normal;
 `;
 const Notice = styled.div`
+  margin-left: 20px;
   color: var(--text_secondary-gray, #b2b2b2);
   font-family: Pretendard;
   font-size: 14px;
