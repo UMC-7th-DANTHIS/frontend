@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { ShortInput } from "./Inputs";
-import { ReactComponent as VideoIcon } from "../../../assets/video.svg";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { UrlInput } from './Inputs';
+import { ReactComponent as VideoIcon } from '../../../assets/video.svg';
 
 const VideoUploader = ({ video, handleFormChange }) => {
-  const [preview, setPreview] = useState(""); // 미리보기 url
-  const [url, setUrl] = useState("");
+  const [preview, setPreview] = useState(''); // 미리보기 url
+  const [url, setUrl] = useState('');
 
   // 파일 업로드 핸들러
   const handleUploadFile = (e) => {
     const file = e.target.files[0]; // 파일 가져오기
 
-    if (file && file.type.startsWith("video/")) {
-      handleFormChange("video", file);
+    if (file && file.type.startsWith('video/')) {
+      handleFormChange('video', file);
       setPreview(URL.createObjectURL(file)); // 미리보기 url 생성
     }
   };
@@ -37,11 +37,10 @@ const VideoUploader = ({ video, handleFormChange }) => {
           onChange={handleUploadFile}
         />
       </Container>
-      <ShortInput
-        label="URL"
+      <UrlInput
         value={url}
         onChange={(e) => handleUrlChange(e)}
-        placeholder="동영상 링크를 붙여넣으세요"
+        placeholder="동영상 링크를 붙여넣으세요."
       />
     </>
   );
