@@ -22,7 +22,7 @@ const MyChatList = () => {
         {data.map((chat) => (
           <ChatList key={chat.id}>
             <ListItem>
-              <ListImage src={sampleImage} alt="Profile" />
+              <ListImage src={chat.images[0] || sampleImage} alt="Profile" />
               <ListName> {chat.username} </ListName>
               <ArrowContainer>
                 <Arrow />
