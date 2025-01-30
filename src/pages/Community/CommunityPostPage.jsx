@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import CommunityComment from '../../store/community/CommunityComment';
+import ImageModal from '../../components/Comunity/ImageModal';
 
 import ViewPhoto from '../../assets/Community/ViewPhoto.svg';
 import CommentPhoto from '../../assets/Community/CommentPhoto.svg';
@@ -14,6 +15,9 @@ const CommunityPostPage = () => {
   const location = useLocation();
   const { selectedPost } = location.state || {};
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [imgUrl, setImgUrl] = useState('');
+
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
     const year = String(date.getFullYear()).slice(-2);
@@ -22,86 +26,100 @@ const CommunityPostPage = () => {
     return `${year}-${month}-${day}`;
   };
 
+  const handleModal = (imgUrl) => {
+    setImgUrl(imgUrl);
+    setIsModalOpen(true);
+  };
+
   const comment = CommunityComment.filter(
     (num) => num.post_id === selectedPost?.id
   );
 
   return (
-    <Container>
-      <Wrapper>
-        <PostHeader>
-          <div>{selectedPost?.title}</div>
-        </PostHeader>
+    <>
+      <Container>
+        <Wrapper>
+          <PostHeader>
+            <div>{selectedPost?.title}</div>
+          </PostHeader>
 
-        <PostInfo>
-          <PostStats>
-            <ViewContainer src={ViewPhoto} alt={'그럴리없다'} />
-            <TextContainer>{selectedPost?.views}</TextContainer>
-            <ViewContainer src={CommentPhoto} alt={'그럴리없다'} />
-            <TextContainer>{comment?.length}</TextContainer>
-          </PostStats>
-          <PostMeta>
-            <span>작성일 : {formatDate(selectedPost?.created_at)}</span>
-          </PostMeta>
-        </PostInfo>
-        <PostInfo>
-          {true ? (
-            <PostActions>
-              <ButtonContainer src={Edit} alt={'그럴리없다'} />
-              <ButtonContainer src={Delete} alt={'그럴리없다'} />
-            </PostActions>
-          ) : (
-            <PostActions>
-              <ReportButton src={Alert} alt={'그럴리없다'} />
-            </PostActions>
-          )}
-          <PostMeta>
-            <span>작성자 : {selectedPost?.user_id}</span>{' '}
-          </PostMeta>
-        </PostInfo>
-        <Content>
-          {selectedPost?.content}
-          {selectedPost?.image.length && (
-            <ImageContainer>
-              {selectedPost?.image.map((img) => (
-                <Image src={img} alt={'이미지'} />
-              ))}
-            </ImageContainer>
-          )}
-          <br />
-        </Content>
+          <PostInfo>
+            <PostStats>
+              <ViewContainer src={ViewPhoto} alt={'그럴리없다'} />
+              <TextContainer>{selectedPost?.views}</TextContainer>
+              <ViewContainer src={CommentPhoto} alt={'그럴리없다'} />
+              <TextContainer>{comment?.length}</TextContainer>
+            </PostStats>
+            <PostMeta>
+              <span>작성일 : {formatDate(selectedPost?.created_at)}</span>
+            </PostMeta>
+          </PostInfo>
+          <PostInfo>
+            {true ? (
+              <PostActions>
+                <ButtonContainer src={Edit} alt={'그럴리없다'} />
+                <ButtonContainer src={Delete} alt={'그럴리없다'} />
+              </PostActions>
+            ) : (
+              <PostActions>
+                <ReportButton src={Alert} alt={'그럴리없다'} />
+              </PostActions>
+            )}
+            <PostMeta>
+              <span>작성자 : {selectedPost?.user_id}</span>{' '}
+            </PostMeta>
+          </PostInfo>
+          <Content>
+            {selectedPost?.content}
+            {selectedPost?.image.length && (
+              <ImageContainer>
+                {selectedPost?.image.map((img) => (
+                  <Image
+                    src={img}
+                    alt={'이미지'}
+                    onClick={() => handleModal(img)}
+                  />
+                ))}
+              </ImageContainer>
+            )}
+            <br />
+          </Content>
 
-        <CommentSection>
-          {comment?.map((comment) => (
-            <Comment>
-              <CommentProfile>
-                <CommentImage
-                  src="https://via.placeholder.com/50"
-                  alt="프로필 이미지"
-                />
-                <CommentDetails>
-                  <CommentDate>{formatDate(comment.created_at)}</CommentDate>
-                  <CommentAuthor>{comment.user_id}</CommentAuthor>
-                </CommentDetails>
-                {true ? (
-                  <ReportButton src={Alert} alt={'그럴리없다'} />
-                ) : (
-                  <ButtonContainer src={Delete} alt={'그럴리없다'} />
-                )}
-              </CommentProfile>
-              <CommentContent>{comment.content}</CommentContent>
-            </Comment>
-          ))}
-          <CommentInput>
-            <input type="text" placeholder="댓글을 입력해주세요" />
-            <button>작성</button>
-          </CommentInput>
-        </CommentSection>
-        <BackButton onClick={() => navigate('/community')}>
-          글 목록으로
-        </BackButton>
-      </Wrapper>
-    </Container>
+          <CommentSection>
+            {comment?.map((comment) => (
+              <Comment>
+                <CommentProfile>
+                  <CommentImage
+                    src="https://via.placeholder.com/50"
+                    alt="프로필 이미지"
+                  />
+                  <CommentDetails>
+                    <CommentDate>{formatDate(comment.created_at)}</CommentDate>
+                    <CommentAuthor>{comment.user_id}</CommentAuthor>
+                  </CommentDetails>
+                  {true ? (
+                    <ReportButton src={Alert} alt={'그럴리없다'} />
+                  ) : (
+                    <ButtonContainer src={Delete} alt={'그럴리없다'} />
+                  )}
+                </CommentProfile>
+                <CommentContent>{comment.content}</CommentContent>
+              </Comment>
+            ))}
+            <CommentInput>
+              <input type="text" placeholder="댓글을 입력해주세요" />
+              <button>작성</button>
+            </CommentInput>
+          </CommentSection>
+          <BackButton onClick={() => navigate('/community')}>
+            글 목록으로
+          </BackButton>
+        </Wrapper>
+      </Container>
+      {isModalOpen && (
+        <ImageModal imgUrl={imgUrl} setIsModalOpen={setIsModalOpen} />
+      )}
+    </>
   );
 };
 
