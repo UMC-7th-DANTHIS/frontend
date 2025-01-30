@@ -103,14 +103,14 @@ const DancerForm = ({ onRegister }) => {
 
         <LabelWrapper>
           <Label>한 마디 소개글</Label>
-          <Notice>* 최대 80자까지 입력 가능합니다.</Notice>
+          <Notice>* 최대 60자까지 입력 가능합니다.</Notice>
         </LabelWrapper>
         <Input
           label="한 마디 소개글"
           value={formState.introduction}
           onChange={(e) => handleFormChange('introduction', e.target.value)}
           placeholder="한 마디 소개글을 입력하세요."
-          maxLength={80}
+          maxLength={60}
         />
 
         <LabelWrapper>
