@@ -1,16 +1,33 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const EditContent = ({ fileName, previews }) => {
+const EditContent = ({
+  fileName,
+  previews,
+  title,
+  setTitle,
+  content,
+  setContent
+}) => {
   return (
     <Content>
       <TitleArea>
         <ContentTitle>제목</ContentTitle>
-        <TitleInput placeholder="제목을 입력하세요." />
+        <TitleInput
+          placeholder="제목을 입력하세요."
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          maxLength={50}
+        />
       </TitleArea>
       <ContentArea>
         <ContentMain>내용</ContentMain>
-        <ContentInput placeholder="내용을 입력하세요." />
+        <ContentInput
+          placeholder="내용을 입력하세요."
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          maxLength={1000}
+        />
       </ContentArea>
       {fileName.length > 0 && (
         <ImageContainer>

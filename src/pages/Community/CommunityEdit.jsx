@@ -7,6 +7,9 @@ const CommunityEdit = () => {
   const [fileName, setFileName] = useState('');
   const [previews, setPreviews] = useState([]);
 
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+
   const handleFileChange = (event) => {
     const selectedFiles = Array.from(event.target.files);
     const previewUrls = selectedFiles.map((file) => URL.createObjectURL(file));
@@ -18,7 +21,14 @@ const CommunityEdit = () => {
     <Container>
       <ContentContainer>
         <TopHeader>커뮤니티 글 작성</TopHeader>
-        <EditContent fileName={fileName} previews={previews} />
+        <EditContent
+          fileName={fileName}
+          previews={previews}
+          title={title}
+          setTitle={setTitle}
+          content={content}
+          setContent={setContent}
+        />
         <EditFooter handleFileChange={handleFileChange} />
       </ContentContainer>
     </Container>

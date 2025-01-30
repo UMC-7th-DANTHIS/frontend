@@ -12,11 +12,20 @@ const CommunityPostPage = () => {
   const { selectedPost } = location.state || {};
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [commentCaution, setCommentCaution] = useState(true);
   const [imgUrl, setImgUrl] = useState('');
+  const [commentText, setCommentText] = useState('');
 
   const handleModal = (imgUrl) => {
     setImgUrl(imgUrl);
     setIsModalOpen(true);
+  };
+
+  const handleCommentChange = (e) => {
+    setCommentText(e.target.value);
+    if (e.target.value.length > 200 || e.target.value.length === 0)
+      setCommentCaution(true);
+    else setCommentCaution(false);
   };
 
   const comment = CommunityComment.filter(
@@ -40,8 +49,17 @@ const CommunityPostPage = () => {
               <PostComment comment={comment} />
             ))}
             <CommentInput>
-              <input type="text" placeholder="댓글을 입력해주세요" />
-              <button>작성</button>
+              <input
+                type="text"
+                placeholder="댓글을 입력해주세요"
+                value={commentText}
+                onChange={handleCommentChange}
+              />
+              {commentCaution ? (
+                <inactivebutton>작성</inactivebutton>
+              ) : (
+                <button>작성</button>
+              )}
             </CommentInput>
           </CommentSection>
           <BackButton onClick={() => navigate('/community')}>
@@ -114,6 +132,15 @@ const CommentInput = styled.div`
     color: white;
     border-radius: 10px;
     cursor: pointer;
+  }
+
+  inactivebutton {
+    padding: 9px 17px;
+    background-color: grey;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    cursor: inactive;
   }
 `;
 
