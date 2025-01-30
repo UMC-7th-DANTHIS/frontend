@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Input, Textarea, StarRating } from '../components/Inputs';
+import { Input, Textarea } from '../components/Inputs';
+import StarRating from '../components/StarRating';
 import GenreSelector from '../components/GenreSelector';
 import ImagesUploader from '../components/ImagesUploader';
 import VideoUploader from '../components/VideoUploader';
@@ -14,7 +15,7 @@ const ClassForm = ({ onRegister }) => {
     genres: [],
     description: '',
     recommendedFor: '',
-    images: [null, null, null, null],
+    images: [null, null, null],
     video: null,
     url: ''
   });
