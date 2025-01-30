@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { ReactComponent as Arrow } from "../../../../assets/arrow.svg"
 import sampleImage from '../../../../assets/image.png'
 import Pagination from '../../../../components/Pagination'
+import dummyChat from '../../../../store/mypage/dummyChat'
 
 
 const MyChatList = () => {
@@ -12,14 +13,17 @@ const MyChatList = () => {
   //   perData * (currentPage - 1),
   //   perData * currentPage
   // );
+
+  const data = dummyChat;
+
   return (
     <>
       <ChatContainer>
-        {Array.from({ length: 5 }).map((_, index) => (
-          <ChatList key={index}>
+        {data.map((chat) => (
+          <ChatList key={chat.id}>
             <ListItem>
               <ListImage src={sampleImage} alt="Profile" />
-              <ListName> 써니 </ListName>
+              <ListName> {chat.username} </ListName>
               <ArrowContainer>
                 <Arrow />
               </ArrowContainer>
