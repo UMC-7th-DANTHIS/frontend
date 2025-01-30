@@ -4,11 +4,14 @@ import { Input, Textarea } from '../components/Inputs';
 import GenreSelector from '../components/GenreSelector';
 import ImagesUploader from '../components/ImagesUploader';
 import SubmitButton from '../components/SubmitButton';
+import ConfirmLeaveAlert from '../../../components/ConfirmLeaveAlert';
 import SingleBtnAlert from '../../../components/SingleBtnAlert';
+import useConfirmLeave from '../../../hooks/useConfirmLeave';
 
 const DancerForm = ({ onRegister }) => {
   const [isValid, setIsValid] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
+  const [showInvalidAlert, setShowInvalidAlert] = useState(false);
+  const [showLeaveAlert, setShowLeaveAlert] = useState(false);
   const [formState, setFormState] = useState({
     name: '',
     instagramId: '',
@@ -18,6 +21,9 @@ const DancerForm = ({ onRegister }) => {
     history: '',
     images: [null, null, null]
   });
+
+  // 뒤로 가기 방지 팝업 경고
+  useConfirmLeave({ setAlert: setShowLeaveAlert });
 
   // 유효성 검사 (임시)
   useEffect(() => {
@@ -58,7 +64,7 @@ const DancerForm = ({ onRegister }) => {
       onRegister(formState);
       console.log(formState); // 임시
     } else {
-      setShowAlert(true); // 제출 불가능한 상태에서 클릭 시도하면 팝업창 생성
+      setShowInvalidAlert(true); // 제출 불가능한 상태에서 클릭 시도하면 팝업창 생성
     }
   };
 
@@ -150,7 +156,7 @@ const DancerForm = ({ onRegister }) => {
       <Notice>* 댄서 등록은 내부 운영팀의 심사를 통해 최종 승인됩니다.</Notice>
       <SubmitButton text="댄서 등록하기" />
 
-      {showAlert && (
+      {showInvalidAlert && (
         <SingleBtnAlert
           message={
             <AlertText>
@@ -159,8 +165,22 @@ const DancerForm = ({ onRegister }) => {
               입력했는지 확인해주세요.
             </AlertText>
           }
-          onClose={() => setShowAlert(false)}
+          onClose={() => setShowInvalidAlert(false)}
           mariginsize="33px"
+          showButtons={true}
+        />
+      )}
+      {showLeaveAlert && (
+        <ConfirmLeaveAlert
+          message={
+            <AlertText>
+              해당 페이지를 벗어나면{'\n'}
+              작성 중인 정보가 <ColoredText> 모두 삭제</ColoredText>됩니다.
+              {'\n'}
+              떠나시겠습니까?
+            </AlertText>
+          }
+          onClose={() => setShowLeaveAlert(false)}
           showButtons={true}
         />
       )}
@@ -213,6 +233,9 @@ const AlertText = styled.span`
   text-align: center;
   font-family: Pretendard;
   font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 21px;
   white-space: pre-line;
 `;
 const ColoredText = styled.span`
