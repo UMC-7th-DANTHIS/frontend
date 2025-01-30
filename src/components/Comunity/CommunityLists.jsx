@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import CommunityPost from '../../store/community/CommunityPost';
 import Pagination from '../../components/Pagination';
 import CommunityList from './CommunityList';
 
-const CommunityLists = ({ CommunityPost, handleSelectPost }) => {
+const CommunityLists = () => {
   const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -18,7 +19,7 @@ const CommunityLists = ({ CommunityPost, handleSelectPost }) => {
   return (
     <ListsContainer>
       {filteredList?.map((list) => (
-        <CommunityList list={list} handleSelectPost={handleSelectPost} />
+        <CommunityList list={list} />
       ))}
       <PaginationContainer>
         <Pagination

@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import ImageDescript from '../../assets/Search/imageDescript.svg';
 import CommentPhoto from '../../assets/Community/CommentPhoto.svg';
+
 import CommunityComment from '../../store/community/CommunityComment';
 
-const CommunityList = ({ list, handleSelectPost }) => {
-  const post = list;
-  const comment = CommunityComment.filter((num) => num.post_id === post.id);
+const CommunityList = ({ list }) => {
+  const navigate = useNavigate();
+  const comment = CommunityComment.filter((num) => num.post_id === list.id);
+
+  const handleNavigate = (list) => {
+    navigate(`/community/${list.id}`, { state: { selectedPost: list } });
+  };
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
@@ -20,12 +26,12 @@ const CommunityList = ({ list, handleSelectPost }) => {
   return (
     <ListContainer>
       <NoList>{list.id}</NoList>
-      {list.image ? (
+      {list.image.length ? (
         <ImageYes src={ImageDescript} alt={'그림있으요'} />
       ) : (
         <ImageNo />
       )}
-      <TitleList onClick={() => handleSelectPost(list)}>
+      <TitleList onClick={() => handleNavigate(list)}>
         {list.title}
         {comment ? (
           <>
@@ -114,7 +120,8 @@ const ViewPeople = styled.div`
 
 const DateList = styled.span`
   display: inline-flex;
-  width: 60px;
+  width: 95px;
+  margin-left: 25px;
   text-align: center;
 `;
 

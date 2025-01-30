@@ -3,6 +3,7 @@ import './App.css';
 import MainLayout from './layout/MainLayout';
 import MypageLayout from './pages/mypage/MypageLayout';
 import Community from './pages/CommunityPage';
+import CommunityPost from './pages/Community/CommunityPostPage';
 import DancerRegistration from './pages/registration/newdancer/DancerRegistration';
 import ClassRegistration from './pages/registration/newclass/ClassRegistration';
 import CommunityEdit from './pages/Community/CommunityEdit';
@@ -28,6 +29,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/mypage" element={<MypageLayout />} />
           <Route path="community" element={<Community />} />
+          <Route path="community/:id" element={<CommunityPost />} />
           <Route path="/login" element={<LoginPage />} />
           <Route
             path="/oauth/kakao/callback"
