@@ -4,7 +4,7 @@ const CommunityPost = [
     user_id: 4,
     title: 'Sample Title 1',
     content: 'This is the content of post 1.',
-    image: 'https://example.com/image1.jpg',
+    image: '',
     views: 344,
     created_at: '2025-01-29T14:55:06.671004'
   },
@@ -180,3 +180,5 @@ const CommunityPost = [
     created_at: '2024-12-23T14:55:06.671593'
   }
 ];
+
+export default CommunityPost;

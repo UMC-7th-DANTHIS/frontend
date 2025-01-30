@@ -448,3 +448,5 @@ const CommunityComment = [
     created_at: '2024-11-13T14:55:06.671602'
   }
 ];
+
+export default CommunityComment;

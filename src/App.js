@@ -1,10 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import MainLayout from './layout/MainLayout';
-import MainPage from './pages/MainPage';
 import MypageLayout from './pages/mypage/MypageLayout';
-import Community from './pages/Community/Community';
-import CommunityPost from './pages/Community/CommunityPost';
+import Community from './pages/CommunityPage';
 import DancerRegistration from './pages/registration/newdancer/DancerRegistration';
 import ClassRegistration from './pages/registration/newclass/ClassRegistration';
 import CommunityEdit from './pages/Community/CommunityEdit';
@@ -31,13 +29,15 @@ function App() {
           <Route path="/mypage" element={<MypageLayout />} />
           <Route path="community" element={<Community />} />
           <Route path="/login" element={<LoginPage />} />
-        <Route path="/oauth/kakao/callback" element={<KakaoRedirectHandler />} />
+          <Route
+            path="/oauth/kakao/callback"
+            element={<KakaoRedirectHandler />}
+          />
 
           <Route path="/signup1" element={<SignupPage1 />} />
           <Route path="/signup2" element={<SignupPage2 />} />
           <Route path="/signup3" element={<SignupPage3 />} />
           <Route path="/signup4" element={<SignupPage4 />} />
-          <Route path="community/:no" element={<CommunityPost />} />
           <Route path="dancerregister" element={<DancerRegistration />} />
           <Route path="classregister" element={<ClassRegistration />} />
           <Route path="edit" element={<CommunityEdit />} />
