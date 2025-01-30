@@ -1,39 +1,44 @@
+import ForClass1 from '../../assets/main/ForStyleClass/ForClass1.svg';
+import ForClass2 from '../../assets/main/ForStyleClass/ForClass2.svg';
+import ForClass3 from '../../assets/main/ForStyleClass/ForClass3.svg';
+import ForClass4 from '../../assets/main/ForStyleClass/ForClass4.svg';
+
 const dummyClass = [
   {
     id: 1,
     className: 'The Seed - Aurora',
     dancerName: 'Parana',
-    images: [null, null, null]
+    images: [ForClass1, null, null]
   },
   {
     id: 2,
     className: 'Smoke - Dynamic Duo',
     dancerName: 'Parana',
-    images: [null, null, null]
+    images: [ForClass2, null, null]
   },
   {
     id: 3,
     className: 'APT. - Learner class',
     dancerName: 'Yechan',
-    images: [null, null, null]
+    images: [ForClass3, null, null]
   },
   {
     id: 4,
     className: 'EZ - Master class',
     dancerName: 'Funky Y',
-    images: [null, null, null]
+    images: [ForClass4, null, null]
   },
   {
     id: 5,
     className: 'LEGO Hiphop class',
     dancerName: 'Lego',
-    images: [null, null, null]
+    images: [ForClass1, null, null]
   },
   {
     id: 6,
     className: 'Sneakers - ITZY',
     dancerName: 'Koi',
-    images: [null, null, null]
+    images: [ForClass2, null, null]
   }
 ];
 

@@ -51,7 +51,6 @@ const ClassList = styled.div`
     /* width: 280px;
     height: 280px; */
     border-radius: 10px;
-    /* background-color: #333; */
 `;
 
 const Title = styled.div`
@@ -78,6 +77,7 @@ const Image = styled.img`
   height: 220px;
   object-fit: cover;
   border-radius: 10px;
+  background-color: white;
 `;
 
 const PaginationContainer = styled.div`
