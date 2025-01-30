@@ -36,10 +36,16 @@ const CommunityPost = () => {
           </PostMeta>
         </PostInfo>
         <PostInfo>
-          <PostActions>
-            <ButtonContainer src={Edit} alt={'그럴리없다'} />
-            <ButtonContainer src={Delete} alt={'그럴리없다'} />
-          </PostActions>
+          {true ? (
+            <PostActions>
+              <ButtonContainer src={Edit} alt={'그럴리없다'} />
+              <ButtonContainer src={Delete} alt={'그럴리없다'} />
+            </PostActions>
+          ) : (
+            <PostActions>
+              <ReportButton src={Alert} alt={'그럴리없다'} />
+            </PostActions>
+          )}
           <PostMeta>
             <span>작성자 : {post?.Author}</span>{' '}
           </PostMeta>
