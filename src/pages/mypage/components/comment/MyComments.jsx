@@ -15,7 +15,7 @@ const MyComments = () => {
         <CommentContainer key={post.id}>
           <ContentsContainer>
             <CommentTitle>{post.title}</CommentTitle>
-            <CommentContents>{post.content}</CommentContents>
+            <CommentContents>{post.content.length > 210 ? post.content.slice(0, 210) + "..." : post.content}</CommentContents>
           </ContentsContainer>
         </CommentContainer>
       ));
@@ -103,8 +103,7 @@ const Divider = styled.div`
 
 const CommentContainer = styled.div`
   width: 971px;
-  height: auto; // 이 부분 얘기
-  /* height: 160px; */
+  height: 160px;
   flex-shrink: 0;
   border: 1px solid #ddd;
   border-radius: 10px;
