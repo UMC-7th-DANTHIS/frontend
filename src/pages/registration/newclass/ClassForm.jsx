@@ -106,6 +106,7 @@ const ClassForm = ({ onRegister }) => {
           </Notice>
         </LabelWrapper>
         <ImagesUploader
+          isFor="class"
           images={formState.images}
           handleFormChange={handleFormChange}
         />

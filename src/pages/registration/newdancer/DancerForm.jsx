@@ -148,6 +148,7 @@ const DancerForm = ({ onRegister }) => {
           </Notice>
         </LabelWrapper>
         <ImagesUploader
+          isFor="dancer"
           images={formState.images}
           handleFormChange={handleFormChange}
         />
