@@ -38,16 +38,17 @@ const Textarea = ({ label, value, onChange, placeholder, maxLength }) => {
       />
       {isExeedingMaxLength && (
         <WarningMessage>
-          {label}은 최대 {maxLength}자까지 입력 가능합니다.
+          {addPostposition(label)} 최대 {maxLength}자까지 입력 가능합니다.
         </WarningMessage>
       )}
     </Container>
   );
 };
 
-const ShortInput = ({ value, onChange, placeholder }) => {
+const UrlInput = ({ value, onChange, placeholder }) => {
   return (
     <ShortContainer>
+      <Label>URL</Label>
       <ShortInputBox
         value={value}
         onChange={onChange}
@@ -57,7 +58,7 @@ const ShortInput = ({ value, onChange, placeholder }) => {
   );
 };
 
-export { Input, Textarea, ShortInput };
+export { Input, Textarea, UrlInput };
 
 const Container = styled.div`
   position: relative;
@@ -129,6 +130,15 @@ const ShortContainer = styled.div`
   justify-content: flex-end;
   align-items: center;
   width: 589px;
+`;
+const Label = styled.div`
+  margin-left: 8px;
+  color: var(--main_white, #fff);
+  font-family: Pretendard;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 `;
 const ShortInputBox = styled.input`
   width: 435px;
