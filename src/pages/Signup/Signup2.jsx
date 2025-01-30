@@ -1,9 +1,10 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import Shape1 from '../../assets/shape/shape1.svg'
 import Shape2 from '../../assets/shape/shape2.svg'
 import Profileimg from '../../assets/profileimg.svg'
+import api from '../../api/api'
 
 const Signup2 = () =>{
   const [nickname, setNickname] = useState("");
@@ -15,6 +16,7 @@ const Signup2 = () =>{
   const [isDefaultImage, setIsDefaultImage] = useState(false); // 기본 이미지 여부 상태
   const [uploadedImage, setUploadedImage] = useState(null); // 업로드된 이미지
 
+  const [user, setUser] = useState(null);
 
   const handleNicknameCheck = () => {
     // 닉네임 중복 확인 로직 (예: 서버 요청)
@@ -48,6 +50,22 @@ const Signup2 = () =>{
    const handleCheckboxChange = (event) => {
     setIsDefaultImage(event.target.checked); // 체크박스 상태 업데이트
   };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await api.get("/users/me"); // 🔹 API 요청 (토큰 자동 포함)
+        console.log("✅ 유저 정보:", response.data);
+        setUser(response.data.data);
+        setNickname(response.data.data.nickname || ""); // 닉네임 값 설정
+        setEmail(response.data.data.email  || "");
+      } catch (error) {
+        console.error("❌ 유저 정보를 불러오는 중 오류 발생:", error);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   return (
     <Layout>

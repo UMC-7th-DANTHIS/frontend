@@ -14,11 +14,18 @@ const Footer = () => {
           <Text1>email. tuyu000@naver.com</Text1>
         </TextContainer>
         <LogoContainer>
-          <Logo src={Logoimg} />
+          <Logo src={Logoimg} alt="Logo" />
         </LogoContainer>
       </TopContainer>
       <BottomContainer>
-        <InstagramBtn src={Instagram} />
+        <a
+          href="https://www.instagram.com/mlnl_s"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <InstagramBtn src={Instagram} />{' '}
+        </a>
+
         <Text2>서비스 이용약관</Text2>
         <Text2>개인정보 처리방침</Text2>
       </BottomContainer>
@@ -83,6 +90,7 @@ const LogoContainer = styled.div`
   flex-shrink: 0;
   margin-left: 1055px;
 `;
+
 const Logo = styled.img`
   width: 138.464px;
   height: 35.569px;
