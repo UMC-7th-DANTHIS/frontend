@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import ImageDescript from '../../assets/Search/imageDescript.svg';
+import CommentPhoto from '../../assets/Community/CommentPhoto.svg';
 import dummyList from '../../store/community/dummyList';
 
 import Pagination from '../../components/Pagination';
@@ -30,6 +32,11 @@ const Community = () => {
           {filteredList?.map((list) => (
             <ListContainer>
               <NoList>{list.No}</NoList>
+              {!list.Image ? (
+                <ImageYes src={ImageDescript} alt={'그림있으요'} />
+              ) : (
+                <ImageNo />
+              )}
               <TitleList
                 onClick={() =>
                   navigate(`/community/${list.No}`, {
@@ -39,6 +46,14 @@ const Community = () => {
                 }
               >
                 {list.Title}
+                {list.See ? (
+                  <>
+                    <ViewDescript src={CommentPhoto} alt={'댓글있으요'} />
+                    <ViewPeople>{list.See}</ViewPeople>
+                  </>
+                ) : (
+                  ''
+                )}
               </TitleList>
               <DateList>{list.DateAt}</DateList>
               <SeeList>{list.See}</SeeList>
@@ -124,11 +139,28 @@ const NoList = styled.span`
   text-align: center;
 `;
 
-const TitleList = styled.button`
+const ImageYes = styled.img`
   display: inline-block;
-  margin-left: 60px;
-  width: 678px;
-  text-align: center;
+  margin-left: 50px;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+`;
+
+const ImageNo = styled.div`
+  display: inline-block;
+  margin-left: 50px;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  background-color: transparent;
+`;
+
+const TitleList = styled.button`
+  display: inline-flex;
+  margin-left: 5px;
+  width: 667px;
+  text-align: start;
   border: 0;
   background-color: transparent;
   color: white;
@@ -137,6 +169,25 @@ const TitleList = styled.button`
   font-weight: 400;
   line-height: normal;
   cursor: pointer;
+`;
+
+const ViewDescript = styled.img`
+  display: inline-flex;
+  justify-content: center;
+  margin-left: 10px;
+  width: 16px;
+  height: 16px;
+`;
+
+const ViewPeople = styled.div`
+  display: inline-flex;
+  color: #ddd;
+  margin-left: 5px;
+
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
 `;
 
 const DateList = styled.span`
@@ -148,7 +199,7 @@ const DateList = styled.span`
 
 const SeeList = styled.span`
   display: inline-block;
-  margin-left: 55px;
+  margin-left: 48px;
   width: 65px;
   text-align: center;
 `;
