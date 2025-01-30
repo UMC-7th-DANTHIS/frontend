@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as PictureIcon } from '../../../assets/picture.svg';
 import { ReactComponent as EditIcon } from '../../../assets/shape/write.svg';
@@ -7,9 +7,8 @@ import MainBox from './MainBox';
 
 const ImagesUploader = ({ isFor, images, handleFormChange }) => {
   const totalImages = 3;
-  const [label, setLabel] = useState(
-    isFor === 'dancer' ? 'Profile' : isFor === 'class' ? 'Thumbnail' : ''
-  );
+  const label =
+    isFor === 'dancer' ? 'Profile' : isFor === 'class' ? 'Thumbnail' : '';
 
   // 이미지 업로드 핸들러
   const handleUploadFile = (e, index) => {
