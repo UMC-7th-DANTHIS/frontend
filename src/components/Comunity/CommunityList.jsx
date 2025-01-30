@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import ImageDescript from '../../assets/Search/imageDescript.svg';
 import CommentPhoto from '../../assets/Community/CommentPhoto.svg';
 
+import formatDate from '../../api/formatDate';
 import CommunityComment from '../../store/community/CommunityComment';
 
 const CommunityList = ({ list }) => {
@@ -13,14 +14,6 @@ const CommunityList = ({ list }) => {
 
   const handleNavigate = (list) => {
     navigate(`/community/${list.id}`, { state: { selectedPost: list } });
-  };
-
-  const formatDate = (timestamp) => {
-    const date = new Date(timestamp);
-    const year = String(date.getFullYear()).slice(-2);
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
   };
 
   return (
@@ -64,6 +57,7 @@ const ListContainer = styled.div`
 const NoList = styled.span`
   display: inline-block;
   width: 17px;
+  margin-right: 40px;
   text-align: center;
 `;
 
@@ -87,7 +81,7 @@ const ImageNo = styled.div`
 const TitleList = styled.button`
   display: inline-flex;
   margin-left: 5px;
-  width: 667px;
+  width: 627px;
   text-align: start;
   border: 0;
   background-color: transparent;

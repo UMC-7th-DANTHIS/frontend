@@ -71,15 +71,4 @@ const CloseButton = styled.button`
   }
 `;
 
-const ImageCounter = styled.div`
-  position: absolute;
-  bottom: 10px;
-  text-align: center;
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  font-size: 14px;
-  padding: 5px 10px;
-  border-radius: 10px;
-`;
-
 export default ImageModal;
