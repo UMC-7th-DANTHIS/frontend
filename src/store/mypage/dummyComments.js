@@ -7,7 +7,8 @@ const dummyComments = [
   {
     id: 2,
     postId: 101,
-    content: '보이넥스트도어의 오늘만 ILOVEYOU 많관부'
+    content:
+      '보이넥스트도어의 오늘만 ILOVEYOU 많관부 보이넥스트도어의 오늘만 ILOVEYOU 많관부 보이넥스트도어의 오늘만 ILOVEYOU 많관부 보이넥스트도어의 오늘만 ILOVEYOU 많관부 보이넥스트도어의 오늘만 ILOVEYOU 많관부 '
   },
   {
     id: 3,
@@ -16,6 +17,11 @@ const dummyComments = [
   },
   {
     id: 4,
+    postId: 103,
+    content: '보이넥스트도어의 오늘만 ILOVEYOU 많관부'
+  },
+  {
+    id: 5,
     postId: 103,
     content: '보이넥스트도어의 오늘만 ILOVEYOU 많관부'
   }
