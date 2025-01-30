@@ -43,6 +43,7 @@ const SearchPage = () => {
 const Container = styled.div`
   background-color: black;
   padding-bottom: 150px;
+  width: 1440px;
 `;
 
 const ContentContainer = styled.div`

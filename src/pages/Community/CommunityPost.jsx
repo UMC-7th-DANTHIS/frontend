@@ -92,6 +92,7 @@ const Container = styled.div`
   padding-top: 30px;
   background-color: #000000;
   padding-bottom: 100px;
+  width: 1440px;
 `;
 
 const Wrapper = styled.div`
