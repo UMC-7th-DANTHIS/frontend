@@ -3,34 +3,13 @@ import styled from 'styled-components';
 
 import CommunityLists from '../components/Comunity/CommunityLists';
 import ListTopBar from '../components/Comunity/ListTopBar';
-import CommunityPost from '../store/community/CommunityPost';
-import CommunityPostPage from './Community/CommunityPostPage';
 
 const Community = () => {
-  const [selectedPost, setSelectedPost] = useState(null);
-
-  const handleSelectPost = (post) => setSelectedPost(post);
-  const handleSelectDelete = () => setSelectedPost(null);
-
-  console.log(selectedPost);
-
   return (
     <Container>
       <ContentContainer>
-        {selectedPost ? (
-          <CommunityPostPage
-            selectedPost={selectedPost}
-            handleSelectDelete={handleSelectDelete}
-          />
-        ) : (
-          <>
-            <ListTopBar />
-            <CommunityLists
-              CommunityPost={CommunityPost}
-              handleSelectPost={handleSelectPost}
-            />
-          </>
-        )}
+        <ListTopBar />
+        <CommunityLists />
       </ContentContainer>
     </Container>
   );

@@ -9,27 +9,22 @@ import Edit from '../../assets/Community/EditButton.svg';
 import Delete from '../../assets/Community/DeleteButton.svg';
 import Alert from '../../assets/Community/SirenButton.svg';
 
-const CommunityPostPage = ({ selectedPost, handleSelectDelete }) => {
+const CommunityPostPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { selectedPost } = location.state || {};
+
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    const year = String(date.getFullYear()).slice(-2);
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
 
   const comment = CommunityComment.filter(
-    (num) => num.post_id === selectedPost.id
+    (num) => num.post_id === selectedPost?.id
   );
-
-  console.log(selectedPost);
-
-  useEffect(() => {
-    const handlePopState = () => {
-      handleSelectDelete();
-      navigate('/community');
-    };
-
-    window.addEventListener('popstate', handlePopState);
-
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, [handleSelectDelete, navigate]);
 
   return (
     <Container>
@@ -46,7 +41,7 @@ const CommunityPostPage = ({ selectedPost, handleSelectDelete }) => {
             <TextContainer>{comment?.length}</TextContainer>
           </PostStats>
           <PostMeta>
-            <span>작성일 : {selectedPost?.created_at}</span>
+            <span>작성일 : {formatDate(selectedPost?.created_at)}</span>
           </PostMeta>
         </PostInfo>
         <PostInfo>
@@ -66,7 +61,7 @@ const CommunityPostPage = ({ selectedPost, handleSelectDelete }) => {
         </PostInfo>
         <Content>
           {selectedPost?.content}
-          {selectedPost?.image && (
+          {selectedPost?.image.length && (
             <ImageContainer>
               {selectedPost?.image.map((img) => (
                 <Image src={img} alt={'이미지'} />
@@ -85,7 +80,7 @@ const CommunityPostPage = ({ selectedPost, handleSelectDelete }) => {
                   alt="프로필 이미지"
                 />
                 <CommentDetails>
-                  <CommentDate>{comment.created_at}</CommentDate>
+                  <CommentDate>{formatDate(comment.created_at)}</CommentDate>
                   <CommentAuthor>{comment.user_id}</CommentAuthor>
                 </CommentDetails>
                 {true ? (
@@ -102,7 +97,7 @@ const CommunityPostPage = ({ selectedPost, handleSelectDelete }) => {
             <button>작성</button>
           </CommentInput>
         </CommentSection>
-        <BackButton onClick={() => handleSelectDelete()}>
+        <BackButton onClick={() => navigate('/community')}>
           글 목록으로
         </BackButton>
       </Wrapper>
