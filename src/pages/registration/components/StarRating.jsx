@@ -13,34 +13,22 @@ const StarRating = ({ label, value, handleFormChange }) => {
   };
 
   return (
-    <div>
-      <Label>{label}</Label>
-      <StarsContainer>
-        {Array.from({ length: totalStars }, (_, index) => {
-          const isFilled = index < value; // value == 2 이면 index 0, 1이 true
+    <StarsContainer>
+      {Array.from({ length: totalStars }, (_, index) => {
+        const isFilled = index < value; // value == 2 이면 index 0, 1이 true
 
-          return (
-            <StarBtn key={index} onClick={() => handleSelect(index)}>
-              {isFilled ? <StarFilled /> : <StarNonfilled />}
-            </StarBtn>
-          );
-        })}
-      </StarsContainer>
-    </div>
+        return (
+          <StarBtn key={index} onClick={() => handleSelect(index)}>
+            {isFilled ? <StarFilled /> : <StarNonfilled />}
+          </StarBtn>
+        );
+      })}
+    </StarsContainer>
   );
 };
 
 export default StarRating;
 
-const Label = styled.div`
-  margin-left: 8px;
-  color: var(--main_white, #fff);
-  font-family: Pretendard;
-  font-size: 22px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-`;
 const StarsContainer = styled.div`
   display: flex;
   flex-direction: row;
