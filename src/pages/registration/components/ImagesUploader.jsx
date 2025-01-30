@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as PictureIcon } from '../../../assets/picture.svg';
-import ProfileBox from './ProfileBox';
 import { ReactComponent as EditIcon } from '../../../assets/shape/write.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/shape/trash.svg';
+import MainBox from './MainBox';
 
-const ImagesUploader = ({ images, handleFormChange }) => {
+const ImagesUploader = ({ isFor, images, handleFormChange }) => {
   const totalImages = 3;
+  const [label, setLabel] = useState(
+    isFor === 'dancer' ? 'Profile' : isFor === 'class' ? 'Thumbnail' : ''
+  );
 
   // 이미지 업로드 핸들러
   const handleUploadFile = (e, index) => {
@@ -37,8 +40,8 @@ const ImagesUploader = ({ images, handleFormChange }) => {
     <Container>
       {Array.from({ length: totalImages }, (_, index) => (
         <ImageWrapper key={index}>
-          {/* ProfileBox는 가장 첫번째 사진에만 있는 프로필 박스 */}
-          {index === 0 && <ProfileBox />}
+          {/* MainBox는 가장 첫번째 사진에만 있는 박스 */}
+          {index === 0 && <MainBox label={label} />}
           <Image htmlFor={`image-${index}`} $needPointer={!images[index]}>
             {images[index] === null && <PictureIcon />}
             {images[index] && (
