@@ -14,7 +14,10 @@ const MyRegisterClass = ({ registeredClass }) => {
   const [selectedClass, setSelectedClass] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
   const navigate = useNavigate();
-  const data = dummyRegister;
+  const [data, setData] = useState(dummyRegister);
+  const [idDelete, setIdDelete] = useState(null);
+
+
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 6;
   // const filteredList = data.slice(
@@ -30,13 +33,27 @@ const MyRegisterClass = ({ registeredClass }) => {
     navigate('/classregister');
   }
 
-  const handleShowAlert = () => {
+  const handleShowAlert = (id) => {
     setShowAlert(true);
+    setIdDelete(id);
+    console.log("id", id)
   }
 
   const hideShowAlert = () => {
     setShowAlert(false);
   }
+
+  const handleDelete = () => {
+    setData((prevData) => ({
+      ...prevData,
+      danceClasses: prevData.danceClasses.filter(
+        (danceClass) => danceClass.id !== idDelete
+      ),
+    }));
+    console.log("삭제완료");
+    setShowAlert(false);
+  };
+
 
   return (
     <PageWrapper>
@@ -53,7 +70,7 @@ const MyRegisterClass = ({ registeredClass }) => {
                       <WriteIcon onClick={(e) => { gotoRegister() }} />
                       <TrashIcon onClick={(e) => {
                         e.stopPropagation();
-                        handleShowAlert();
+                        handleShowAlert(danceClass.id);
                       }} />
                       {showAlert && (
                         <Alert
@@ -81,6 +98,7 @@ const MyRegisterClass = ({ registeredClass }) => {
                           showButtons={true}
                           confirmLabel="취소"
                           cancelLabel="삭제하기"
+                          onCancel={handleDelete}
                         />
                       )}
                     </IconContainer>
