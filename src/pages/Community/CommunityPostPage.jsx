@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import dummyContent from '../../store/community/dummyContent';
+import CommunityComment from '../../store/community/CommunityComment';
 
 import ViewPhoto from '../../assets/Community/ViewPhoto.svg';
 import CommentPhoto from '../../assets/Community/CommentPhoto.svg';
@@ -9,30 +9,44 @@ import Edit from '../../assets/Community/EditButton.svg';
 import Delete from '../../assets/Community/DeleteButton.svg';
 import Alert from '../../assets/Community/SirenButton.svg';
 
-const CommunityPost = () => {
+const CommunityPostPage = ({ selectedPost, handleSelectDelete }) => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { list } = location.state;
 
-  const filteredPost = dummyContent.filter((num) => num.No === list.No);
-  const post = filteredPost[0];
+  const comment = CommunityComment.filter(
+    (num) => num.post_id === selectedPost.id
+  );
+
+  console.log(selectedPost);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      handleSelectDelete();
+      navigate('/community');
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [handleSelectDelete, navigate]);
 
   return (
     <Container>
       <Wrapper>
         <PostHeader>
-          <div>{post?.Title}</div>
+          <div>{selectedPost?.title}</div>
         </PostHeader>
 
         <PostInfo>
           <PostStats>
             <ViewContainer src={ViewPhoto} alt={'그럴리없다'} />
-            <TextContainer>{post?.See}</TextContainer>
+            <TextContainer>{selectedPost?.views}</TextContainer>
             <ViewContainer src={CommentPhoto} alt={'그럴리없다'} />
-            <TextContainer>{post?.Comment?.length}</TextContainer>
+            <TextContainer>{comment?.length}</TextContainer>
           </PostStats>
           <PostMeta>
-            <span>작성일 : {post?.DateAt}</span>
+            <span>작성일 : {selectedPost?.created_at}</span>
           </PostMeta>
         </PostInfo>
         <PostInfo>
@@ -47,15 +61,15 @@ const CommunityPost = () => {
             </PostActions>
           )}
           <PostMeta>
-            <span>작성자 : {post?.Author}</span>{' '}
+            <span>작성자 : {selectedPost?.user_id}</span>{' '}
           </PostMeta>
         </PostInfo>
         <Content>
-          {post?.Content}
-          {post?.Image && (
+          {selectedPost?.content}
+          {selectedPost?.image && (
             <ImageContainer>
-              {post?.Image.map((image) => (
-                <Image src={image} alt={'이미지'} />
+              {selectedPost?.image.map((img) => (
+                <Image src={img} alt={'이미지'} />
               ))}
             </ImageContainer>
           )}
@@ -63,7 +77,7 @@ const CommunityPost = () => {
         </Content>
 
         <CommentSection>
-          {post?.Comment?.map((comment) => (
+          {comment?.map((comment) => (
             <Comment>
               <CommentProfile>
                 <CommentImage
@@ -71,8 +85,8 @@ const CommunityPost = () => {
                   alt="프로필 이미지"
                 />
                 <CommentDetails>
-                  <CommentDate>{comment.DateAt}</CommentDate>
-                  <CommentAuthor>{comment.Author}</CommentAuthor>
+                  <CommentDate>{comment.created_at}</CommentDate>
+                  <CommentAuthor>{comment.user_id}</CommentAuthor>
                 </CommentDetails>
                 {true ? (
                   <ReportButton src={Alert} alt={'그럴리없다'} />
@@ -80,7 +94,7 @@ const CommunityPost = () => {
                   <ButtonContainer src={Delete} alt={'그럴리없다'} />
                 )}
               </CommentProfile>
-              <CommentContent>{comment.Content}</CommentContent>
+              <CommentContent>{comment.content}</CommentContent>
             </Comment>
           ))}
           <CommentInput>
@@ -88,7 +102,7 @@ const CommunityPost = () => {
             <button>작성</button>
           </CommentInput>
         </CommentSection>
-        <BackButton onClick={() => navigate('/community')}>
+        <BackButton onClick={() => handleSelectDelete()}>
           글 목록으로
         </BackButton>
       </Wrapper>
@@ -96,7 +110,7 @@ const CommunityPost = () => {
   );
 };
 
-export default CommunityPost;
+export default CommunityPostPage;
 
 const Container = styled.div`
   padding-top: 30px;
