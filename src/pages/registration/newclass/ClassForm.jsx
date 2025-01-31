@@ -6,6 +6,7 @@ import GenreSelector from '../components/GenreSelector';
 import ImagesUploader from '../components/ImagesUploader';
 import VideoUploader from '../components/VideoUploader';
 import SubmitButton from '../components/SubmitButton';
+import TagSelector from '../components/TagSelector';
 
 const ClassForm = ({ onRegister }) => {
   const [formState, setFormState] = useState({
@@ -15,6 +16,7 @@ const ClassForm = ({ onRegister }) => {
     genres: [],
     description: '',
     recommendedFor: '',
+    tags: [],
     images: [null, null, null],
     video: null,
     url: ''
@@ -95,6 +97,10 @@ const ClassForm = ({ onRegister }) => {
         <LabelWrapper>
           <Label>해시태그</Label>
         </LabelWrapper>
+        <TagSelector
+          selectedTags={formState.tags}
+          handleFormChange={handleFormChange}
+        />
 
         <LabelWrapper>
           <Label>수업 사진</Label>
