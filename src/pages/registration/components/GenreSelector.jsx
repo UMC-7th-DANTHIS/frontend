@@ -14,6 +14,7 @@ const GenreSelector = ({ selectedGenres, handleFormChange }) => {
     '코레오',
     'K-pop'
   ];
+  const maxGenresLength = 2;
 
   // 장르 선택 핸들러
   const handleSelect = (genre) => {
@@ -21,7 +22,7 @@ const GenreSelector = ({ selectedGenres, handleFormChange }) => {
 
     if (selectedGenres.includes(genre)) {
       updatedGenres = selectedGenres.filter((g) => g !== genre);
-    } else if (selectedGenres.length < 2) {
+    } else if (selectedGenres.length < maxGenresLength) {
       updatedGenres = [...selectedGenres, genre];
     } else {
       return;
