@@ -22,9 +22,10 @@ const MypageGenre = () => {
     setSelectedGenres((prevSelectedGenres) => {
       if (prevSelectedGenres.includes(genre)) {
         return prevSelectedGenres.filter((selected) => selected !== genre);
-      } else {
+      } else if (prevSelectedGenres.length < 5) {
         return [...prevSelectedGenres, genre];
       }
+      return prevSelectedGenres;
     });
   };
 
