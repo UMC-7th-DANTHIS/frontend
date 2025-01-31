@@ -1,20 +1,36 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import EditFooter from '../../components/Comunity/EditFooter';
 import EditContent from '../../components/Comunity/EditContent';
 
+const MAX_IMAGES = 4;
+
 const CommunityEdit = () => {
-  const [fileName, setFileName] = useState('');
+  const location = useLocation();
+  const { selectedPost } = location.state || {};
+
+  const [fileName, setFileName] = useState([]);
   const [previews, setPreviews] = useState([]);
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
   const handleFileChange = (event) => {
-    const selectedFiles = Array.from(event.target.files);
-    const previewUrls = selectedFiles.map((file) => URL.createObjectURL(file));
-    setPreviews(previewUrls);
-    setFileName(selectedFiles);
+    const files = Array.from(event.target.files);
+    const availableSlots = MAX_IMAGES - previews.length;
+    const newImageURLs = files
+      .slice(0, availableSlots)
+      .map((file) => URL.createObjectURL(file));
+
+    if (previews.length + newImageURLs.length > MAX_IMAGES) {
+    }
+
+    setPreviews((prev) => [...prev, ...newImageURLs]);
+    setFileName((prev) => [
+      ...prev,
+      ...files.map((_, idx) => `uploaded-image-${idx + 1}`)
+    ]);
   };
 
   return (
@@ -23,11 +39,14 @@ const CommunityEdit = () => {
         <TopHeader>커뮤니티 글 작성</TopHeader>
         <EditContent
           fileName={fileName}
+          setFileName={setFileName}
           previews={previews}
+          setPreviews={setPreviews}
           title={title}
           setTitle={setTitle}
           content={content}
           setContent={setContent}
+          selectedPost={selectedPost}
         />
         <EditFooter handleFileChange={handleFileChange} />
       </ContentContainer>

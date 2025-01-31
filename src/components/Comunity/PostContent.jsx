@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import formatDate from '../../api/formatDate';
@@ -10,6 +11,8 @@ import Delete from '../../assets/Community/DeleteButton.svg';
 import Alert from '../../assets/Community/SirenButton.svg';
 
 const PostContent = ({ comment, handleModal, selectedPost }) => {
+  const navigate = useNavigate();
+
   return (
     <>
       <PostInfo>
@@ -26,7 +29,11 @@ const PostContent = ({ comment, handleModal, selectedPost }) => {
       <PostInfo>
         {true ? (
           <PostActions>
-            <ButtonContainer src={Edit} alt={'그럴리없다'} />
+            <ButtonContainer
+              onClick={() => navigate('/edit', { state: { selectedPost } })}
+              src={Edit}
+              alt={'그럴리없다'}
+            />
             <ButtonContainer src={Delete} alt={'그럴리없다'} />
           </PostActions>
         ) : (
