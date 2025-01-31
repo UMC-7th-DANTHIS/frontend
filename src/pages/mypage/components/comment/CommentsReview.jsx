@@ -1,15 +1,11 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as StarFilled } from '../../../../assets/shape/filledYellowStar.svg';
 import { ReactComponent as StarNonfilled } from '../../../../assets/shape/nonfilledYellowStar.svg';
-import dummyReviews from '../../../../store/reservation/dummyReviews';
 import { ReactComponent as ExistPhoto } from '../../../../assets/photo.svg';
 
-const CommentsReview = () => {
+const CommentsReview = ({ review }) => {
   const totalStars = 5;
-  const reviews = dummyReviews;
-  const navigate = useNavigate();
 
   const formatDate = (date) => {
     if (typeof date === 'string') {
@@ -29,35 +25,33 @@ const CommentsReview = () => {
 
   return (
     <Container>
-      {reviews.map((review) => (
-        <ReviewWrapper key={review.id}>
-          <InfoWrapper>
-            <Data>
-              <TitleandPhoto>
-                <Title>{review.title}</Title>
-                {review.images && review.images.filter(image => image !== null).length > 0 && (
-                  <ExistPhoto width={16} height={16} />
-                )}
-              </TitleandPhoto>
+      <ReviewWrapper key={review.id}>
+        <InfoWrapper>
+          <Data>
+            <TitleandPhoto>
+              <Title>{review.title}</Title>
+              {review.images && review.images.filter(image => image !== null).length > 0 && (
+                <ExistPhoto width={16} height={16} />
+              )}
+            </TitleandPhoto>
 
-              <RatingAndDate>
-                <Stars>
-                  {Array.from({ length: totalStars }, (_, index) => (
-                    <Star key={index}>
-                      {index < review.rate ? <StarFilled /> : <StarNonfilled />}
-                    </Star>
-                  ))}
-                </Stars>
-                <Date>{formatDate(review.date)}</Date>
-              </RatingAndDate>
-            </Data>
-          </InfoWrapper>
+            <RatingAndDate>
+              <Stars>
+                {Array.from({ length: totalStars }, (_, index) => (
+                  <Star key={index}>
+                    {index < review.rate ? <StarFilled /> : <StarNonfilled />}
+                  </Star>
+                ))}
+              </Stars>
+              <Date>{formatDate(review.date)}</Date>
+            </RatingAndDate>
+          </Data>
+        </InfoWrapper>
 
-          <Detail>
-            {CuttingDetail(review.detail)}
-          </Detail>
-        </ReviewWrapper>
-      ))}
+        <Detail>
+          {CuttingDetail(review.detail)}
+        </Detail>
+      </ReviewWrapper>
     </Container>
   );
 };
@@ -77,8 +71,8 @@ const ReviewWrapper = styled.div`
   width: 100%;
   height: 222px;
   border-radius: 10px;
-  border: 1px solid var(--sub_light-gray, #ddd);
-  box-shadow: 0px 0px 5px 2px var(--main_purple, #9819c3);
+  border: 1px solid #ddd;
+  box-shadow: 0px 0px 5px 2px #9819c3;
   margin-bottom: 30px;
 `;
 

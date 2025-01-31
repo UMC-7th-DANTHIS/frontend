@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import dummyContent from '../../../../store/community/dummyContent';
 import { useNavigate } from 'react-router-dom';
 import CommentsReview from './CommentsReview';
+import ReviewPage from './ReviewPage';
 
 const MyComments = () => {
   const [activeTab, setActiveTab] = useState('게시글');
@@ -22,7 +23,8 @@ const MyComments = () => {
     }
     if (activeTab === '리뷰') {
       return (
-        <CommentsReview />
+        <ReviewPage />
+        // <CommentsReview />
       )
     }
   };
