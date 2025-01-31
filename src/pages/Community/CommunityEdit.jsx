@@ -23,9 +23,6 @@ const CommunityEdit = () => {
       .slice(0, availableSlots)
       .map((file) => URL.createObjectURL(file));
 
-    if (previews.length + newImageURLs.length > MAX_IMAGES) {
-    }
-
     setPreviews((prev) => [...prev, ...newImageURLs]);
     setFileName((prev) => [
       ...prev,

@@ -2,8 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import MainLayout from './layout/MainLayout';
 import MypageLayout from './pages/mypage/MypageLayout';
+import CommunityLayout from './layout/CommunityLayout';
 import Community from './pages/CommunityPage';
-import CommunityPost from './pages/Community/CommunityPostPage';
+import CommunityPostPage from './pages/Community/CommunityPostPage';
 import DancerRegistration from './pages/registration/newdancer/DancerRegistration';
 import ClassRegistration from './pages/registration/newclass/ClassRegistration';
 import CommunityEdit from './pages/Community/CommunityEdit';
@@ -28,8 +29,11 @@ function App() {
         <Route path="/" element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/mypage" element={<MypageLayout />} />
-          <Route path="community" element={<Community />} />
-          <Route path="community/:id" element={<CommunityPost />} />
+          <Route path="/community" element={<CommunityLayout />}>
+            <Route path="" element={<Community />} />
+            <Route path=":id" element={<CommunityPostPage />} />
+            <Route path="edit" element={<CommunityEdit />} />
+          </Route>
           <Route path="/login" element={<LoginPage />} />
           <Route
             path="/oauth/kakao/callback"
@@ -42,7 +46,6 @@ function App() {
           <Route path="/signup4" element={<SignupPage4 />} />
           <Route path="dancerregister" element={<DancerRegistration />} />
           <Route path="classregister" element={<ClassRegistration />} />
-          <Route path="edit" element={<CommunityEdit />} />
           <Route path="search" element={<SearchPage />} />
           <Route path="classreservation" element={<ClassBoard />} />
           <Route
