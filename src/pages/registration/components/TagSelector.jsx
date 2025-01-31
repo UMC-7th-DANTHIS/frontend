@@ -68,11 +68,12 @@ const TagBtn = styled.button`
   gap: 8px;
   border-radius: 80px;
   border: 2px solid var(--text_purple, #bf00ff);
-  background-color: ${(props) =>
-    props.selected ? 'var(--text_purple, #BF00FF)' : 'transparent'};
+  background-color: ${(props) => (props.selected ? 'white' : 'transparent')};
 
   color: ${(props) =>
-    props.selected ? 'white' : 'var(--text_secondary-gray, #b2b2b2)'};
+    props.selected
+      ? 'var(--text_purple, #BF00FF)'
+      : 'var(--text_secondary-gray, #b2b2b2)'};
   font-family: Pretendard;
   font-size: 20px;
   font-style: normal;
@@ -82,6 +83,6 @@ const TagBtn = styled.button`
 
   &:hover {
     cursor: pointer;
-    color: white;
+    color: var(--text_purple, #bf00ff);
   }
 `;
