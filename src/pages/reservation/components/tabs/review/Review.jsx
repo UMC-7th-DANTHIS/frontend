@@ -54,7 +54,7 @@ const Review = ({ review }) => {
         <Images>
           {review.images.map((image, index) => (
             <Image key={index}>
-              {image && <img src={image} alt={`review #${index}`} />}
+              {image && <Img src={image} alt={`review #${index}`} />}
             </Image>
           ))}
         </Images>
@@ -175,3 +175,9 @@ const Image = styled.div`
   border-radius: 4px;
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
 `;
+
+const Img = styled.img`
+  width: 160px;
+  height: 160px;
+  border-radius: 4px;
+`
