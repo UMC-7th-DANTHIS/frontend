@@ -161,4 +161,8 @@ const ShortInputBox = styled.input`
   &:hover {
     border: 1px solid var(--main_purple, #9819c3);
   }
+
+  &:focus::placeholder {
+    color: transparent;
+  }
 `;
