@@ -36,7 +36,7 @@ const Outline = styled.div`
 `;
 const Label = styled.div`
   position: absolute;
-  top: 213px;
+  top: 214px;
   left: ${({ $left }) => $left};
   padding: 2px 8px;
   border-radius: 7px 7px 0px 0px;
