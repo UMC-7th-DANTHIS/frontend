@@ -115,7 +115,7 @@ const ProfileUser = () => {
               <Label> 선호하는 댄스 장르가 무엇인가요?  </Label>
               <Text> * 최대 5개까지 선택 가능합니다. </Text>
             </DanceTextContainer>
-            <MypageGenre />
+            <MypageGenre genreSelect={5} />
           </DanceContainer>
 
         </ItemContainer>
