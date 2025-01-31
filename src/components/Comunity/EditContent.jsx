@@ -1,14 +1,41 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 const EditContent = ({
   fileName,
+  setFileName,
   previews,
+  setPreviews,
   title,
   setTitle,
   content,
-  setContent
+  setContent,
+  selectedPost
 }) => {
+  useEffect(() => {
+    if (selectedPost) {
+      setTitle(selectedPost.title || '');
+      setContent(selectedPost.content || '');
+      setFileName(
+        selectedPost.image
+          ? selectedPost.image.map((_, idx) => `image-${idx + 1}`)
+          : []
+      );
+      setPreviews(selectedPost.image || []);
+    }
+  }, [selectedPost, setTitle, setContent, setFileName, setPreviews]);
+
+  const handleImageUpload = (event) => {
+    const files = Array.from(event.target.files);
+    const newImageURLs = files.map((file) => URL.createObjectURL(file));
+
+    setPreviews((prev) => [...prev, ...newImageURLs]);
+    setFileName((prev) => [
+      ...prev,
+      ...files.map((_, idx) => `uploaded-image-${idx + 1}`)
+    ]);
+  };
+
   return (
     <Content>
       <TitleArea>
@@ -29,7 +56,7 @@ const EditContent = ({
           maxLength={1000}
         />
       </ContentArea>
-      {fileName.length > 0 && (
+      {previews.length > 0 && (
         <ImageContainer>
           {previews.map((src, index) => (
             <Image key={index} src={src} alt={`preview-${index}`} />
