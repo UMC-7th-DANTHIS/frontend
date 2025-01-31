@@ -64,7 +64,7 @@ const DancerForm = ({ onRegister }) => {
       onRegister(formState);
       console.log(formState); // 임시
     } else {
-      setShowInvalidAlert(true); // 제출 불가능한 상태에서 클릭 시도하면 팝업창 생성
+      setShowInvalidAlert(true); // 제출 불가능한 상태에서 클릭 시도하면 팝업 경고 띄움
     }
   };
 
