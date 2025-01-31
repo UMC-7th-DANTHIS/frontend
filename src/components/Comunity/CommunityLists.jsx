@@ -17,12 +17,14 @@ const CommunityLists = () => {
         <CommunityList list={list} />
       ))}
       <PaginationContainer>
-        <Pagination
-          dataLength={CommunityPost.length}
-          perData={perData}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
+        <PaginationWrapper>
+          <Pagination
+            dataLength={CommunityPost.length}
+            perData={perData}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </PaginationWrapper>
         <WriteButton onClick={() => navigate('edit')}>글쓰기</WriteButton>
       </PaginationContainer>
     </ListsContainer>
@@ -35,20 +37,32 @@ const ListsContainer = styled.div`
   height: 100%;
 `;
 
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 56px;
+  width: 100%;
+  position: relative;
+`;
+
+const PaginationWrapper = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
 const WriteButton = styled.button`
-  display: inline-block;
-  margin-left: 186px;
   width: 80px;
   height: 40px;
   background-color: #9819c3;
   color: white;
   font-size: 16px;
-  font-style: normal;
   font-weight: 600;
-  line-height: normal;
   border: none;
   border-radius: 10px;
   cursor: pointer;
+  margin-left: auto;
 
   &:hover {
     background-color: #b327d1;
@@ -57,11 +71,6 @@ const WriteButton = styled.button`
   &:active {
     background-color: #6e0f88;
   }
-`;
-
-const PaginationContainer = styled.div`
-  margin-top: 56px;
-  margin-left: 250px;
 `;
 
 export default CommunityLists;
