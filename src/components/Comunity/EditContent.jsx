@@ -68,7 +68,7 @@ const EditContent = ({
 };
 
 const Content = styled.div`
-  margin-top: 44px;
+  margin-top: 10px;
   padding-left: 50px;
   padding-right: 50px;
   border: 2px solid #9819c3;

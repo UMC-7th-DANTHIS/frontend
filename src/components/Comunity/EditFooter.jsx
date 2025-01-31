@@ -8,15 +8,28 @@ const EditFooter = ({ handleFileChange }) => {
   return (
     <>
       <ButtonContainer>
-        <ImageInput>
-          사진
-          <input
-            type="file"
-            multiple
-            onChange={handleFileChange}
-            accept="image/*"
-          />
-        </ImageInput>
+        <LeftButtons>
+          <ImageInput>
+            사진
+            <input
+              type="file"
+              multiple
+              onChange={handleFileChange}
+              accept="image/*"
+            />
+          </ImageInput>
+          <CatuionContainer>
+            <CautionText>*사진은 최대 4장까지 등록 가능합니다.</CautionText>
+            <CautionText>
+              * 과도한 비방 및 욕설이 포함된 게시글은 신고에 의해 무통보 삭제될
+              수 있습니다.
+            </CautionText>
+            <CautionText>
+              * 초상권, 저작권 침해 및 기타 위법한 게시글은 관리자에 의해 무통보
+              삭제될 수 있습니다.
+            </CautionText>
+          </CatuionContainer>
+        </LeftButtons>
         <RightButtons>
           <CancelButton onClick={() => navigate('/community')}>
             취소
@@ -24,24 +37,11 @@ const EditFooter = ({ handleFileChange }) => {
           <SubmitButton>작성</SubmitButton>
         </RightButtons>
       </ButtonContainer>
-      <CatuionContainer>
-        <CautionText>
-          * 과도한 비방 및 욕설이 포함된 게시글은 신고에 의해 무통보 삭제될 수
-          있습니다.
-        </CautionText>
-        <CautionText>
-          * 초상권, 저작권 침해 및 기타 위법한 게시글은 관리자에 의해 무통보
-          삭제될 수 있습니다.
-        </CautionText>
-      </CatuionContainer>
     </>
   );
 };
 
 const CatuionContainer = styled.div`
-  margin-left: 40px;
-  margin-top: 20px;
-
   color: white;
   font-size: 12px;
   font-style: normal;
@@ -49,9 +49,7 @@ const CatuionContainer = styled.div`
   line-height: normal;
 `;
 
-const CautionText = styled.div`
-  margin-bottom: 5px;
-`;
+const CautionText = styled.div``;
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -63,12 +61,12 @@ const ButtonContainer = styled.div`
 `;
 
 const ImageInput = styled.label`
-  display: inline-block;
+  display: inline-flex;
   background-color: transparent;
   border: 2px solid #9819c3;
   color: #ffffff;
   padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 16px;
   font-style: normal;
@@ -86,6 +84,11 @@ const ImageInput = styled.label`
   }
 `;
 
+const LeftButtons = styled.div`
+  display: flex;
+  gap: 30px;
+`;
+
 const RightButtons = styled.div`
   display: flex;
   gap: 10px;
@@ -96,7 +99,7 @@ const CancelButton = styled.button`
   border: 2px solid #9819c3;
   color: #ffffff;
   padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
 
   font-size: 16px;
@@ -115,7 +118,7 @@ const SubmitButton = styled.button`
   border: none;
   color: #fff;
   padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
 
   font-size: 16px;
