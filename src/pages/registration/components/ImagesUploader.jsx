@@ -20,6 +20,8 @@ const ImagesUploader = ({ isFor, images, handleFormChange }) => {
       );
       handleFormChange('images', updatedImages);
     }
+
+    e.target.value = '';
   };
 
   // 파일 객체 URL 변환
@@ -47,7 +49,7 @@ const ImagesUploader = ({ isFor, images, handleFormChange }) => {
               <img src={getPreview(images[index])} alt={`class-${index}`} />
             )}
           </Image>
-          {/* 이미지가 업로드 안 된 상태에서만 클릭 가능 */}
+          {/* 이미지가 업로드 안 된 상태에서만 박스 클릭 가능 */}
           {!images[index] && (
             <HiddenInput
               type="file"
@@ -56,7 +58,7 @@ const ImagesUploader = ({ isFor, images, handleFormChange }) => {
               onChange={(e) => handleUploadFile(e, index)}
             ></HiddenInput>
           )}
-          {/* 이미지가 업로드 된 상태에서만 수정/삭제 아이콘 표시 */}
+          {/* 이미지가 업로드 된 상태에서만 수정/삭제 버튼 표시 */}
           {images[index] && (
             <Tools>
               <Icon htmlFor={`edit-image-${index}`}>
