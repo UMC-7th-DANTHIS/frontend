@@ -16,6 +16,7 @@ const CommunityPostPage = () => {
   const [commentCaution, setCommentCaution] = useState(true);
   const [imgUrl, setImgUrl] = useState('');
   const [commentText, setCommentText] = useState('');
+  const [cautionText, setCautionText] = useState('');
 
   const handleModal = (imgUrl) => {
     setImgUrl(imgUrl);
@@ -27,6 +28,15 @@ const CommunityPostPage = () => {
     if (e.target.value.length > 200 || e.target.value.length === 0)
       setCommentCaution(true);
     else setCommentCaution(false);
+  };
+
+  const handleCaution = (e) => {
+    setCommentText(e.target.value);
+    if (e.target.value.length > 200)
+      setCautionText('댓글은 최대 200자까지 입력 가능합니다.');
+    else if (e.target.value.length === 0)
+      setCautionText('댓글을 최소 1자 이상 입력하셔야 합니다.');
+    else setCautionText(null);
   };
 
   const comment = CommunityComment.filter(
@@ -69,14 +79,15 @@ const CommunityPostPage = () => {
                 type="text"
                 placeholder="댓글을 입력해주세요"
                 value={commentText}
-                onChange={handleCommentChange}
+                onChange={handleCaution}
               />
-              {commentCaution ? (
+              {cautionText ? (
                 <inactivebutton>작성</inactivebutton>
               ) : (
                 <button>작성</button>
               )}
             </CommentInput>
+            <CautionContainer> {cautionText || '\u00A0'}</CautionContainer>
           </CommentSection>
           <BackButton onClick={() => navigate('/community')}>
             글 목록으로
@@ -138,23 +149,26 @@ const CommentInput = styled.div`
     border-radius: 8px;
     background-color: transparent;
     color: white;
+    font-size: 16px;
   }
 
   button {
-    padding: 9px 17px;
+    padding: 13px 18px;
     background-color: #9819c3;
     border: none;
     color: white;
     border-radius: 10px;
+    font-size: 16px;
     cursor: pointer;
   }
 
   inactivebutton {
-    padding: 9px 17px;
+    padding: 13px 18px;
     background-color: grey;
     border: none;
     color: white;
     border-radius: 10px;
+    font-size: 16px;
     cursor: inactive;
   }
 `;
@@ -162,7 +176,6 @@ const CommentInput = styled.div`
 const BackButton = styled.div`
   width: 90px;
   height: 27px;
-  margin-top: 17px;
   padding-top: 9px;
   border-radius: 10px;
   border: 1px solid #bf00ff;
@@ -185,4 +198,13 @@ const PaginationContainer = styled.div`
   padding-top: 32px;
 
   border-top: 1.5px solid #d9d9d9;
+`;
+
+const CautionContainer = styled.div`
+  margin-top: 10px;
+  padding-right: 86px;
+  min-height: 20px;
+  color: #f00;
+  font-size: 14px;
+  text-align: right;
 `;
