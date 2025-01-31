@@ -5,6 +5,7 @@ import CommunityComment from '../../store/community/CommunityComment';
 import ImageModal from '../../components/Comunity/ImageModal';
 import PostComment from '../../components/Comunity/PostComment';
 import PostContent from '../../components/Comunity/PostContent';
+import Pagination from '../../components/Pagination';
 
 const CommunityPostPage = () => {
   const navigate = useNavigate();
@@ -32,6 +33,13 @@ const CommunityPostPage = () => {
     (num) => num.post_id === selectedPost?.id
   );
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const perData = 10;
+  const filteredComment = comment.slice(
+    perData * (currentPage - 1),
+    perData * currentPage
+  );
+
   return (
     <>
       <Container>
@@ -45,9 +53,17 @@ const CommunityPostPage = () => {
             selectedPost={selectedPost}
           />
           <CommentSection>
-            {comment?.map((comment) => (
+            {filteredComment?.map((comment) => (
               <PostComment comment={comment} />
             ))}
+            <PaginationContainer>
+              <Pagination
+                dataLength={comment.length}
+                perData={perData}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            </PaginationContainer>
             <CommentInput>
               <input
                 type="text"
@@ -111,7 +127,6 @@ const CommentSection = styled.div`
 
 const CommentInput = styled.div`
   padding-top: 23px;
-  border-top: 1.5px solid #d9d9d9;
   display: flex;
   gap: 20px;
 
@@ -160,4 +175,14 @@ const BackButton = styled.div`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+`;
+
+const PaginationContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 49px;
+  padding-top: 32px;
+
+  border-top: 1.5px solid #d9d9d9;
 `;
