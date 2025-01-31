@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
+import Close from '../../assets/buttons/CloseButton.svg';
+
 const EditContent = ({
-  fileName,
   setFileName,
   previews,
   setPreviews,
@@ -25,15 +26,8 @@ const EditContent = ({
     }
   }, [selectedPost, setTitle, setContent, setFileName, setPreviews]);
 
-  const handleImageUpload = (event) => {
-    const files = Array.from(event.target.files);
-    const newImageURLs = files.map((file) => URL.createObjectURL(file));
-
-    setPreviews((prev) => [...prev, ...newImageURLs]);
-    setFileName((prev) => [
-      ...prev,
-      ...files.map((_, idx) => `uploaded-image-${idx + 1}`)
-    ]);
+  const handleRemoveImage = (index) => {
+    setPreviews((prev) => prev.filter((_, i) => i !== index));
   };
 
   return (
@@ -59,7 +53,13 @@ const EditContent = ({
       {previews.length > 0 && (
         <ImageContainer>
           {previews.map((src, index) => (
-            <Image key={index} src={src} alt={`preview-${index}`} />
+            <ImageWrapper key={index}>
+              <CloseButton
+                src={Close}
+                onClick={() => handleRemoveImage(index)}
+              />
+              <Image src={src} alt={`preview-${index}`} />
+            </ImageWrapper>
           ))}
         </ImageContainer>
       )}
@@ -162,20 +162,33 @@ const ContentMain = styled.div`
 
 const ImageContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
   gap: 20px;
   margin-left: 20px;
   margin-bottom: 46px;
+`;
 
-  width: 900px;
+const ImageWrapper = styled.div`
+  position: relative;
+  width: 200px;
   height: 200px;
 `;
 
 const Image = styled.img`
-  background-color: white;
+  width: 100%;
+  height: 100%;
   border-radius: 7px;
-  width: 200px;
-  height: 200px;
+  object-fit: cover;
+`;
+
+const CloseButton = styled.img`
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  border: none;
+  width: 27px;
+  height: 27px;
+  cursor: pointer;
 `;
 
 export default EditContent;
