@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { ReactComponent as PostArrow } from '../../../../assets/postarrow.svg';
 import dummyContent from '../../../../store/community/dummyContent';
 import { useNavigate } from 'react-router-dom';
+import CommentsReview from './CommentsReview';
 
 const MyComments = () => {
   const [activeTab, setActiveTab] = useState('게시글');
   const post = dummyContent;
-  const comments = dummyContent;
   const navigate = useNavigate();
 
   const renderContents = () => {
@@ -21,33 +20,11 @@ const MyComments = () => {
         </CommentContainer>
       ));
     }
-    if (activeTab === '댓글') {
-      return comments.map(post =>
-        post.Comment.map(comment => (
-          <CommentsContainer key={comment.No}>
-            <ContentContainer>
-              <Title>
-                {comment.Content.length > 100 ? (
-                  <>
-                    {comment.Content.slice(0, 51)}
-                    <br />
-                    {comment.Content.slice(51, 100)}
-                  </>
-                ) : (
-                  comment.Content
-                )}
-              </Title>
-            </ContentContainer>
-
-            <SeepostContainer issingleLine={comment.Content.length < 60} onClick={() => navigate('/community')} >
-              <SeePost> 게시물 보기 </SeePost>
-              <PostArrow stroke='#0077FF' />
-            </SeepostContainer>
-          </CommentsContainer>
-        ))
-      );
+    if (activeTab === '리뷰') {
+      return (
+        <CommentsReview />
+      )
     }
-
   };
 
   return (
@@ -61,10 +38,10 @@ const MyComments = () => {
             게시글
           </Tab>
           <Tab
-            isActive={activeTab === '댓글'}
-            onClick={() => setActiveTab('댓글')}
+            isActive={activeTab === '리뷰'}
+            onClick={() => setActiveTab('리뷰')}
           >
-            댓글
+            리뷰
           </Tab>
         </TextContainer>
 
@@ -149,43 +126,12 @@ const CommentContents = styled.p`
 `;
 
 
-const CommentsContainer = styled.div`
-  width: 971px;
-  height: 110px;
+const BoxContainer = styled.div`
+  width: 970px;
+  height: 222px;
   flex-shrink: 0;
   border: 1px solid #DDD;
-  box-shadow: 0px 0px 5px #9819c3;
-  margin-bottom: 20px; 
-  margin-left: 29px;
+  box-shadow:0px 0px 5px #9819C3;
   border-radius: 10px;
-`;
-
-const ContentContainer = styled.div`
-  padding: 29px 22px 0 50px;
 
 `
-
-const Title = styled.div`
-  color: white;
-  font-size: 22px;
-  font-weight: 600;
-  padding-right: 110px;
-`
-
-const SeepostContainer = styled.div`
-  display: flex;
-  align-items: center; 
-  justify-content: flex-end;
-  margin-right: 22px;
-  cursor: pointer;
-  margin-top: ${(props) => (props.issingleLine ? '16px' : '-9px')};
-`;
-
-const SeePost = styled.div`
-  color: #0077FF;
-  font-weight: 500;
-  line-height: normal;
-  margin-right: 9px; 
-`;
-
-
