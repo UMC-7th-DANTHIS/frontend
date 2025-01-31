@@ -34,6 +34,12 @@ const CommunityEdit = () => {
     <Container>
       <ContentContainer>
         <TopHeader>커뮤니티 글 작성</TopHeader>
+        <InfoContainer>
+          <InfoText>*제목은 최대 50자까지 입력 가능합니다.</InfoText>
+        </InfoContainer>
+        <InfoContainer>
+          <InfoText>*내용은 최대 1000자까지 입력 가능합니다.</InfoText>
+        </InfoContainer>
         <EditContent
           fileName={fileName}
           setFileName={setFileName}
@@ -71,6 +77,16 @@ const ContentContainer = styled.div`
   margin-left: 235px;
   margin-right: 205px;
   height: 100%;
+`;
+
+const InfoContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const InfoText = styled.div`
+  color: #b2b2b2;
+  font-size: 14px;
 `;
 
 export default CommunityEdit;
