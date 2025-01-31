@@ -30,7 +30,9 @@ const PostContent = ({ comment, handleModal, selectedPost }) => {
         {true ? (
           <PostActions>
             <ButtonContainer
-              onClick={() => navigate('/edit', { state: { selectedPost } })}
+              onClick={() =>
+                navigate('/community/edit', { state: { selectedPost } })
+              }
               src={Edit}
               alt={'그럴리없다'}
             />

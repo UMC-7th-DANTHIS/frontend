@@ -1,20 +1,15 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import styled from 'styled-components';
 
-import CommunityPost from '../../store/community/CommunityPost';
 import Pagination from '../../components/Pagination';
 import CommunityList from './CommunityList';
 
 const CommunityLists = () => {
   const navigate = useNavigate();
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const perData = 10;
-  const filteredList = CommunityPost.slice(
-    perData * (currentPage - 1),
-    perData * currentPage
-  );
+  const { filteredList, currentPage, perData, setCurrentPage, CommunityPost } =
+    useOutletContext();
 
   return (
     <ListsContainer>
@@ -28,7 +23,7 @@ const CommunityLists = () => {
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
-        <WriteButton onClick={() => navigate('/edit')}>글쓰기</WriteButton>
+        <WriteButton onClick={() => navigate('edit')}>글쓰기</WriteButton>
       </PaginationContainer>
     </ListsContainer>
   );
