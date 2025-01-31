@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { UrlInput } from './Inputs';
 import { ReactComponent as VideoIcon } from '../../../assets/video.svg';
+import { ReactComponent as DeleteIcon } from '../../../assets/shape/trash.svg';
 
 const VideoUploader = ({ video, handleFormChange }) => {
   const [preview, setPreview] = useState(''); // 미리보기 url
@@ -15,11 +16,22 @@ const VideoUploader = ({ video, handleFormChange }) => {
       handleFormChange('video', file);
       setPreview(URL.createObjectURL(file)); // 미리보기 url 생성
     }
+
+    e.target.value = '';
   };
 
   // url 업로드 핸들러
   const handleUrlChange = (e) => {
     setUrl(e.target.value);
+  };
+
+  // 비디오 삭제 핸들러
+  const deleteVideo = () => {
+    handleFormChange('video', null);
+    if (preview) {
+      URL.revokeObjectURL(preview);
+      setPreview('');
+    }
   };
 
   return (
@@ -36,6 +48,12 @@ const VideoUploader = ({ video, handleFormChange }) => {
           accept="video/*"
           onChange={handleUploadFile}
         />
+        {/* 비디오가 업로드 된 상태에서만 삭제 버튼 표시 */}
+        {video && (
+          <Icon onClick={() => deleteVideo()}>
+            <DeleteIcon />
+          </Icon>
+        )}
       </Container>
       <UrlInput
         value={url}
@@ -49,13 +67,14 @@ const VideoUploader = ({ video, handleFormChange }) => {
 export default VideoUploader;
 
 const Container = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 589px;
   height: 200px;
   flex-shrink: 0;
   margin-top: 25px;
-  margin-bottom: 46px;
+  margin-bottom: 60px;
 `;
 const Rectangle = styled.label`
   display: flex;
@@ -80,4 +99,10 @@ const Rectangle = styled.label`
 `;
 const HiddenInput = styled.input`
   display: none;
+`;
+const Icon = styled.div`
+  position: absolute;
+  top: 214px;
+  left: 278px;
+  cursor: pointer;
 `;
