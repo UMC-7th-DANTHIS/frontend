@@ -12,7 +12,7 @@ const KakaoRedirectHandler = () => {
     if (!code || isProcessing) return;
 
     setIsProcessing(true);
-
+    
     api
       .post(
         `${process.env.REACT_APP_API_BASE_URI}/auth/login/kakao?code=${code}`
