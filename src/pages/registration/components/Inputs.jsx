@@ -1,62 +1,54 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ReactComponent as StarFilled } from '../../../assets/buttons/starlevel_filled.svg';
-import { ReactComponent as StarNonfilled } from '../../../assets/buttons/starlevel_nonfilled.svg';
 
-const Input = ({ label, value, onChange, placeholder }) => {
+// 은/는 처리 함수
+const addPostposition = (word) => {
+  const hasJongseong = (word) => {
+    const lastChar = word[word.length - 1];
+    const code = lastChar.charCodeAt(0);
+    return (code - 0xac00) % 28 !== 0;
+  };
+  return hasJongseong(word) ? `${word}은` : `${word}는`;
+};
+
+const Input = ({ label, value, onChange, placeholder, maxLength }) => {
+  const isExeedingMaxLength = maxLength && value.length > maxLength;
+
   return (
-    <div>
-      {label && <Label>{label}</Label>}
+    <Container>
       <InputBox value={value} onChange={onChange} placeholder={placeholder} />
-    </div>
+      {isExeedingMaxLength && (
+        <WarningMessage>
+          {addPostposition(label)} 최대 {maxLength}자까지 입력 가능합니다.
+        </WarningMessage>
+      )}
+    </Container>
   );
 };
 
-const Textarea = ({ label, value, onChange, placeholder }) => {
+const Textarea = ({ label, value, onChange, placeholder, maxLength }) => {
+  const isExeedingMaxLength = maxLength && value.length > maxLength;
+
   return (
-    <div>
-      <Label>{label}</Label>
+    <Container>
       <TextareaBox
         value={value}
         onChange={onChange}
         placeholder={placeholder}
       />
-    </div>
+      {isExeedingMaxLength && (
+        <WarningMessage>
+          {addPostposition(label)} 최대 {maxLength}자까지 입력 가능합니다.
+        </WarningMessage>
+      )}
+    </Container>
   );
 };
 
-const StarRating = ({ label, value, handleFormChange }) => {
-  const totalStars = 5;
-
-  const handleSelect = (index) => {
-    // 클릭한 별이 현재 level과 같으면 선택 해제,
-    // 아니면 선택
-    const newValue = index + 1 === value ? index : index + 1;
-    handleFormChange('level', newValue);
-  };
-
-  return (
-    <div>
-      <Label>{label}</Label>
-      <StarsContainer>
-        {Array.from({ length: totalStars }, (_, index) => {
-          const isFilled = index < value; // value == 2 이면 index 0, 1이 true
-
-          return (
-            <StarBtn key={index} onClick={() => handleSelect(index)}>
-              {isFilled ? <StarFilled /> : <StarNonfilled />}
-            </StarBtn>
-          );
-        })}
-      </StarsContainer>
-    </div>
-  );
-};
-
-const ShortInput = ({ label, value, onChange, placeholder }) => {
+const UrlInput = ({ value, onChange, placeholder }) => {
   return (
     <ShortContainer>
-      <Label>{label}</Label>
+      <Label>URL</Label>
       <ShortInputBox
         value={value}
         onChange={onChange}
@@ -66,16 +58,10 @@ const ShortInput = ({ label, value, onChange, placeholder }) => {
   );
 };
 
-export { Input, Textarea, StarRating, ShortInput };
+export { Input, Textarea, UrlInput };
 
-const Label = styled.div`
-  margin-left: 8px;
-  color: var(--main_white, #fff);
-  font-family: Pretendard;
-  font-size: 22px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
+const Container = styled.div`
+  position: relative;
 `;
 const InputBox = styled.input`
   width: 525px;
@@ -87,8 +73,6 @@ const InputBox = styled.input`
   border: 1px solid var(--sub_light-gray, #ddd);
   background-color: transparent;
   color: var(--text_secondary-gray, #b2b2b2);
-
-  /* 입력창/내용 */
   font-family: Pretendard;
   font-size: 20px;
   font-style: normal;
@@ -97,6 +81,10 @@ const InputBox = styled.input`
 
   &:hover {
     border: 1px solid var(--main_purple, #9819c3);
+  }
+
+  &:focus::placeholder {
+    color: transparent;
   }
 `;
 const TextareaBox = styled.textarea`
@@ -110,8 +98,6 @@ const TextareaBox = styled.textarea`
   border: 1px solid var(--sub_light-gray, #ddd);
   background-color: transparent;
   color: var(--text_secondary-gray, #b2b2b2);
-
-  /* 입력창/내용 */
   font-family: Pretendard;
   font-size: 20px;
   font-style: normal;
@@ -121,17 +107,22 @@ const TextareaBox = styled.textarea`
   &:hover {
     border: 1px solid var(--main_purple, #9819c3);
   }
-`;
-const StarsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 588px;
-  margin: 9px 0 28px 8px;
-`;
-const StarBtn = styled.div`
-  &:hover {
-    cursor: pointer;
+
+  &:focus::placeholder {
+    color: transparent;
   }
+`;
+const WarningMessage = styled.div`
+  position: absolute;
+  bottom: 5px;
+  right: 0px;
+  color: var(--highlight_red, #f00);
+  text-align: right;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 `;
 const ShortContainer = styled.div`
   display: flex;
@@ -139,6 +130,15 @@ const ShortContainer = styled.div`
   justify-content: flex-end;
   align-items: center;
   width: 589px;
+`;
+const Label = styled.div`
+  margin-left: 8px;
+  color: var(--main_white, #fff);
+  font-family: Pretendard;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 `;
 const ShortInputBox = styled.input`
   width: 435px;
@@ -160,5 +160,9 @@ const ShortInputBox = styled.input`
 
   &:hover {
     border: 1px solid var(--main_purple, #9819c3);
+  }
+
+  &:focus::placeholder {
+    color: transparent;
   }
 `;
