@@ -1,30 +1,22 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import dummyContent from '../../../../store/community/dummyContent';
-import { useNavigate } from 'react-router-dom';
-import CommentsReview from './CommentsReview';
 import ReviewPage from './ReviewPage';
+import CommentPost from './CommentPost';
 
 const MyComments = () => {
   const [activeTab, setActiveTab] = useState('게시글');
-  const post = dummyContent;
-  const navigate = useNavigate();
+
 
   const renderContents = () => {
     if (activeTab === '게시글') {
-      return post.map((post) => (
-        <CommentContainer key={post.No} onClick={console.log(post.No)}>
-          <ContentsContainer onClick={() => navigate('/community')}>
-            <CommentTitle>{post.Title}</CommentTitle>
-            <CommentContents>{post.Content.length > 210 ? post.Content.slice(0, 209) + "..." : post.Content}</CommentContents>
-          </ContentsContainer>
-        </CommentContainer>
-      ));
+      return (
+        <CommentPost />
+      )
     }
     if (activeTab === '리뷰') {
       return (
         <ReviewPage />
-        // <CommentsReview />
+
       )
     }
   };
