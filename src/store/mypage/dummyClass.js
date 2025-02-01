@@ -39,6 +39,24 @@ const dummyClass = [
     className: 'Sneakers - ITZY',
     dancerName: 'Koi',
     images: [ForClass2, null, null]
+  },
+  {
+    id: 7,
+    className: 'Sneakers - ITZY',
+    dancerName: 'Koi',
+    images: [ForClass2, null, null]
+  },
+  {
+    id: 8,
+    className: 'Sneakers - ITZY',
+    dancerName: 'Koi',
+    images: [ForClass2, null, null]
+  },
+  {
+    id: 9,
+    className: 'Sneakers - ITZY',
+    dancerName: 'Koi',
+    images: [ForClass2, null, null]
   }
 ];
 

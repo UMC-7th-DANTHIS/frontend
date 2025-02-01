@@ -1,33 +1,45 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import sampleImage from '../../../../assets/image.png'
 import Pagination from '../../../../components/Pagination';
 import dummyClass from '../../../../store/mypage/dummyClass';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
+
 
 const MyLikeClass = () => {
-  const data = dummyClass;
+  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 6;
   const filteredList = data.slice(
     perData * (currentPage - 1),
     perData * currentPage
   );
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setData(dummyClass);
+      setIsLoading(false);
+    }, 6000);
+  }, []);
 
   return (
     <>
-      <ClassContainer>
-        {filteredList.map((data) => (
-          <ClassList key={data.id}>
-            <Image src={data.images[0] || sampleImage} alt={data.id} />
-            <Title>{data.className}</Title>
-            <Singer>{data.dancerName}</Singer>
-          </ClassList>
-        ))}
-      </ClassContainer>
-      <PaginationContainer>
-        <Pagination dataLength={data.length} perData={perData} currentPage={currentPage}
-          setCurrentPage={setCurrentPage} />
-      </PaginationContainer>
+      <LoadingSpinner isLoading={isLoading}>
+        <ClassContainer>
+          {filteredList.map((data) => (
+            <ClassList key={data.id}>
+              <Image src={data.images[0] || sampleImage} alt={data.id} />
+              <Title>{data.className}</Title>
+              <Singer>{data.dancerName}</Singer>
+            </ClassList>
+          ))}
+        </ClassContainer>
+        <PaginationContainer>
+          <Pagination dataLength={data.length} perData={perData} currentPage={currentPage}
+            setCurrentPage={setCurrentPage} />
+        </PaginationContainer>
+      </LoadingSpinner>
     </>
   );
 };
