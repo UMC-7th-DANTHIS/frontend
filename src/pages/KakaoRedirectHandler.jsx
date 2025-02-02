@@ -1,8 +1,7 @@
-import { useEffect,useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import api from '../api/api'
-
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import api from '../api/api';
 
 const KakaoRedirectHandler = () => {
   const navigate = useNavigate();
@@ -13,8 +12,11 @@ const KakaoRedirectHandler = () => {
     if (!code || isProcessing) return;
 
     setIsProcessing(true);
-   
-    api.post(`/auth/login/kakao?code=${code}`)
+    
+    api
+      .post(
+        `${process.env.REACT_APP_API_BASE_URI}/auth/login/kakao?code=${code}`
+      )
       .then((response) => {
         console.log('카카오 로그인 응답:', response.data); // 🔹 전체 응답 확인
 

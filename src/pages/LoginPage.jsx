@@ -22,9 +22,6 @@ const LoginPage = () => {
     window.location.href = link;
   };
 
-
- 
-
   return (
     <Layout>
       <LoginTitle>로그인</LoginTitle>

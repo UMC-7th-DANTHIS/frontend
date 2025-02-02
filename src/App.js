@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import MainLayout from './layout/MainLayout';
-import MainPage from './pages/MainPage';
 import MypageLayout from './pages/mypage/MypageLayout';
-import Community from './pages/Community/Community';
-import CommunityPost from './pages/Community/CommunityPost';
+import CommunityLayout from './layout/CommunityLayout';
+import Community from './pages/CommunityPage';
+import CommunityPostPage from './pages/Community/CommunityPostPage';
 import DancerRegistration from './pages/registration/newdancer/DancerRegistration';
 import ClassRegistration from './pages/registration/newclass/ClassRegistration';
 import CommunityEdit from './pages/Community/CommunityEdit';
@@ -29,18 +29,23 @@ function App() {
         <Route path="/" element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/mypage" element={<MypageLayout />} />
-          <Route path="community" element={<Community />} />
+          <Route path="/community" element={<CommunityLayout />}>
+            <Route path="" element={<Community />} />
+            <Route path=":id" element={<CommunityPostPage />} />
+            <Route path="edit" element={<CommunityEdit />} />
+          </Route>
           <Route path="/login" element={<LoginPage />} />
-        <Route path="/oauth/kakao/callback" element={<KakaoRedirectHandler />} />
+          <Route
+            path="/oauth/kakao/callback"
+            element={<KakaoRedirectHandler />}
+          />
 
           <Route path="/signup1" element={<SignupPage1 />} />
           <Route path="/signup2" element={<SignupPage2 />} />
           <Route path="/signup3" element={<SignupPage3 />} />
           <Route path="/signup4" element={<SignupPage4 />} />
-          <Route path="community/:no" element={<CommunityPost />} />
           <Route path="dancerregister" element={<DancerRegistration />} />
           <Route path="classregister" element={<ClassRegistration />} />
-          <Route path="edit" element={<CommunityEdit />} />
           <Route path="search" element={<SearchPage />} />
           <Route path="classreservation" element={<ClassBoard />} />
           <Route
