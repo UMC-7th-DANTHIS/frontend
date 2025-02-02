@@ -6,6 +6,7 @@ import GenreSelector from '../components/GenreSelector';
 import ImagesUploader from '../components/ImagesUploader';
 import VideoUploader from '../components/VideoUploader';
 import SubmitButton from '../components/SubmitButton';
+
 import TagSelector from '../components/TagSelector';
 import ConfirmLeaveAlert from '../../../components/ConfirmLeaveAlert';
 import SingleBtnAlert from '../../../components/SingleBtnAlert';
@@ -169,7 +170,6 @@ const ClassForm = ({ onRegister }) => {
         *댄스 수업 등록은 내부 운영팀의 심사를 통해 최종 승인됩니다.
       </Notice>
       <SubmitButton text="댄스 수업 등록하기" />
-
       {showInvalidAlert && (
         <SingleBtnAlert
           message={

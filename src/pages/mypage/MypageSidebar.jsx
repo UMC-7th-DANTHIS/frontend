@@ -40,7 +40,7 @@ const MypageSidebar = ({ selectedMenu, onMenuClick }) => {
           onClick={() => onMenuClick('mycomments')}
           isActive={selectedMenu === 'mycomments'}
         >
-          내가 쓴 게시글/댓글
+          내가 쓴 게시글/리뷰
         </MenuItem>
         <MenuItem
           onClick={() => onMenuClick('editprofile')}

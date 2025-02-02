@@ -85,6 +85,7 @@ const Image = styled.img`
   object-fit: cover;
   border-radius: 10px;
   cursor: pointer;
+  background-color: white;
 `;
 
 const PaginationContainer = styled.div`

@@ -111,7 +111,8 @@ const Content = styled.div`
 `;
 
 const PaginationContainer = styled.div`
-  margin-left: 348px;
+  display: flex;
+  justify-content: center;
   margin-top: 91px;
 `;
 

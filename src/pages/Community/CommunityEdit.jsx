@@ -1,83 +1,58 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import EditFooter from '../../components/Comunity/EditFooter';
+import EditContent from '../../components/Comunity/EditContent';
 
-import Alert from '../../components/Alert';
+const MAX_IMAGES = 4;
 
 const CommunityEdit = () => {
-  const navigate = useNavigate();
-  const [fileName, setFileName] = useState('');
+  const location = useLocation();
+  const { selectedPost } = location.state || {};
+
+  const [fileName, setFileName] = useState([]);
   const [previews, setPreviews] = useState([]);
 
-  const content =
-    '해당 페이지를 벗어나면 작성 중인 글이 모두 삭제됩니다 떠나시겠습니까?';
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
 
   const handleFileChange = (event) => {
-    const selectedFiles = Array.from(event.target.files);
-    const previewUrls = selectedFiles.map((file) => URL.createObjectURL(file));
-    setPreviews(previewUrls);
-    setFileName(selectedFiles);
+    const files = Array.from(event.target.files);
+    const availableSlots = MAX_IMAGES - previews.length;
+    const newImageURLs = files
+      .slice(0, availableSlots)
+      .map((file) => URL.createObjectURL(file));
+
+    setPreviews((prev) => [...prev, ...newImageURLs]);
+    setFileName((prev) => [
+      ...prev,
+      ...files.map((_, idx) => `uploaded-image-${idx + 1}`)
+    ]);
   };
 
   return (
     <Container>
       <ContentContainer>
         <TopHeader>커뮤니티 글 작성</TopHeader>
-        <Content>
-          <TitleArea>
-            <ContentTitle>제목</ContentTitle>
-            <TitleInput placeholder="제목을 입력하세요." />
-          </TitleArea>
-          <ContentArea>
-            <ContentMain>내용</ContentMain>
-            <ContentInput placeholder="내용을 입력하세요." />
-          </ContentArea>
-          {fileName.length > 0 && (
-            <ImageContainer>
-              {previews.map((src, index) => (
-                <Image key={index} src={src} alt={`preview-${index}`} />
-              ))}
-            </ImageContainer>
-          )}
-        </Content>
-        <ButtonContainer>
-          <ImageInput>
-            사진
-            <input
-              type="file"
-              multiple
-              onChange={handleFileChange}
-              accept="image/*"
-            />
-          </ImageInput>
-          <RightButtons>
-            <CancelButton onClick={() => navigate('/community')}>
-              취소
-            </CancelButton>
-            <SubmitButton>작성</SubmitButton>
-          </RightButtons>
-        </ButtonContainer>
-        <CatuionContainer>
-          <CautionText>
-            * 과도한 비방 및 욕설이 포함된 게시글은 신고에 의해 무통보 삭제될 수
-            있습니다.
-          </CautionText>
-          <CautionText>
-            * 초상권, 저작권 침해 및 기타 위법한 게시글은 관리자에 의해 무통보
-            삭제될 수 있습니다.
-          </CautionText>
-        </CatuionContainer>
+        <InfoContainer>
+          <InfoText>*제목은 최대 50자까지 입력 가능합니다.</InfoText>
+        </InfoContainer>
+        <InfoContainer>
+          <InfoText>*내용은 최대 1000자까지 입력 가능합니다.</InfoText>
+        </InfoContainer>
+        <EditContent
+          fileName={fileName}
+          setFileName={setFileName}
+          previews={previews}
+          setPreviews={setPreviews}
+          title={title}
+          setTitle={setTitle}
+          content={content}
+          setContent={setContent}
+          selectedPost={selectedPost}
+        />
+        <EditFooter handleFileChange={handleFileChange} />
       </ContentContainer>
-      {/* <Alert
-        message={content}
-        showButtons={true}
-        RefuseText={'떠나기'}
-        OkayText={'남기'}
-        ContainerWidth={280}
-        ContainerHeight={108}
-        AlertWidth={392}
-        AlertHeight={280}
-      /> */}
     </Container>
   );
 };
@@ -102,6 +77,16 @@ const ContentContainer = styled.div`
   margin-left: 235px;
   margin-right: 205px;
   height: 100%;
+`;
+
+const InfoContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const InfoText = styled.div`
+  color: #b2b2b2;
+  font-size: 14px;
 `;
 
 const Content = styled.div`
