@@ -12,12 +12,15 @@ const KakaoRedirectHandler = () => {
     if (!code || isProcessing) return;
 
     setIsProcessing(true);
-    
-    api
-      .post(
-        `${process.env.REACT_APP_API_BASE_URI}/auth/login/kakao?code=${code}`
-      )
-      .then((response) => {
+   
+   // axios.post(`${process.env.REACT_APP_API_BASE_URL}/auth/login/kakao?code=${code}`, {}, { withCredentials: true }) // ✅ 쿼리 스트링 방식 유지
+      
+    axios.post(`${process.env.REACT_APP_API_BASE_URL}/auth/login/kakao?code=${code}`, {}, { 
+      withCredentials: true,
+      headers: { "Content-Type": "application/json" } // 🔥 `Authorization`을 추가하지 않음!
+    })
+   .then((response) => {
+
         console.log('카카오 로그인 응답:', response.data); // 🔹 전체 응답 확인
 
         if (response.data.data.accessToken) {

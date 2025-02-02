@@ -1,50 +1,99 @@
 import axios from "axios";
 
-// Axios 인스턴스 생성
+// 🔹 Axios 인스턴스 생성
 const api = axios.create({
-  baseURL:  process.env.REACT_APP_API_BASE_URL,
-  withCredentials: true, // 쿠키 포함 (RefreshToken 서버에서 관리)
+  baseURL: process.env.REACT_APP_API_BASE_URL,
+  withCredentials: true,
   headers: { "Content-Type": "application/json" },
 });
 
-//요청 인터셉터 설정 (모든 요청에 Access Token 추가)
+// 🔹 토큰 관리 함수
+const getAccessToken = () => localStorage.getItem("token");
+const setAccessToken = (token) => localStorage.setItem("token", token);
+const removeAccessToken = () => localStorage.removeItem("token");
+
+// 🔹 요청 인터셉터: 항상 최신 Access Token 사용
 api.interceptors.request.use(
-  (config) => {
-    const accessToken = localStorage.getItem("token");
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
+  async (config) => {
+    const latestAccessToken = await new Promise((resolve) =>
+      setTimeout(() => resolve(getAccessToken()), 50) //  50ms 후 최신 토큰 반영
+    );
+
+    if (latestAccessToken) {
+      config.headers.Authorization = `Bearer ${latestAccessToken}`;
     }
+
+    console.log("🔹 API 요청 직전 최신 Access Token:", config.headers.Authorization);
+    
     return config;
   },
   (error) => Promise.reject(error)
 );
 
-//응답 인터셉터 설정 (401, 403 오류 발생 시 토큰 갱신)
+// 🔹 토큰 갱신 상태 변수
+let isRefreshing = false;
+let refreshSubscribers = [];
+
+// 🔹 토큰 갱신 함수
+const refreshToken = async () => {
+  try {
+    console.log("🔄 Access Token 만료됨, 새 토큰 요청 중...");
+    const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/auth/reissue`, {
+      withCredentials: true,
+    });
+
+    const newAccessToken = response.data?.accessToken || response.data?.data?.accessToken;
+
+    if (!newAccessToken) throw new Error("❌ 새 Access Token을 받지 못함");
+
+    console.log("✅ 새 Access Token 발급:", newAccessToken);
+    
+
+    // 🔹 최신 토큰 저장 후 모든 요청에서 사용 보장
+    setAccessToken(newAccessToken);
+    api.defaults.headers.common["Authorization"] = `Bearer ${newAccessToken}`; // 즉시 반영
+
+    // 🔹 대기 중이던 요청들 최신 토큰으로 실행
+    refreshSubscribers.forEach((callback) => callback(newAccessToken));
+    refreshSubscribers = [];
+
+    return newAccessToken;
+  } catch (error) {
+    console.error("❌ 리프레시 토큰 만료됨 → 재로그인 필요");
+    removeAccessToken();
+    window.location.href = "/login";
+    throw error;
+  } finally {
+    isRefreshing = false;
+  }
+};
+
+// 🔹 응답 인터셉터: 401 발생 시 자동 토큰 갱신 처리
 api.interceptors.response.use(
-  (response) => response, // 정상 응답은 그대로 반환
+  (response) => response,
   async (error) => {
-    if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-      console.warn(" Access Token 만료됨, 새 토큰 요청 중...");
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      if (isRefreshing) {
+        return new Promise((resolve) => {
+          refreshSubscribers.push((newToken) => {
+            originalRequest.headers.Authorization = `Bearer ${newToken}`;
+            resolve(api(originalRequest)); //  최신 토큰으로 기존 요청 재시도
+          });
+        });
+      }
+
+      isRefreshing = true;
 
       try {
-        // 새로운 토큰 요청
-        const refreshResponse = await axios.get("https://api.danthis.site/auth/reissue", {
-          withCredentials: true, //  리프레시 토큰은 쿠키에서 관리
-        });
-
-        const newAccessToken = refreshResponse.data.accessToken;
-        console.log("새 Access Token 발급:", newAccessToken);
-
-        //새 토큰을 localStorage에 저장
-        localStorage.setItem("token", newAccessToken);
-
-        // 원래 요청을 새로운 토큰으로 다시 실행
-        error.config.headers.Authorization = `Bearer ${newAccessToken}`;
-        return axios(error.config);
-      } catch (reissueError) {
-        console.error("리프레시 토큰 만료됨, 재로그인 필요");
-        localStorage.removeItem("token"); // 토큰 삭제
-        window.location.href = "/"; // 로그인 페이지로 이동
+        const newToken = await refreshToken();
+        originalRequest.headers.Authorization = `Bearer ${newToken}`; //  최신 토큰 적용
+        return api(originalRequest); // 기존 요청 다시 실행
+      } catch (refreshError) {
+        return Promise.reject(refreshError);
       }
     }
 
@@ -52,4 +101,4 @@ api.interceptors.response.use(
   }
 );
 
-export default api; //이걸 import해서 사용하면 됨!
+export default api;
