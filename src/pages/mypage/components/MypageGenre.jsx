@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-const MypageGenre = () => {
+const MypageGenre = ({ genreSelect }) => {
   const genres = [
     "힙합",
     "걸스힙합",
@@ -22,9 +22,10 @@ const MypageGenre = () => {
     setSelectedGenres((prevSelectedGenres) => {
       if (prevSelectedGenres.includes(genre)) {
         return prevSelectedGenres.filter((selected) => selected !== genre);
-      } else {
+      } else if (prevSelectedGenres.length < genreSelect) {
         return [...prevSelectedGenres, genre];
       }
+      return prevSelectedGenres;
     });
   };
 

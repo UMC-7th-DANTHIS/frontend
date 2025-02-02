@@ -1,17 +1,20 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 const Quit = () => {
+  const navigate = useNavigate();
+
   return (
     <QuitContainer>
       <Title> 회원 탈퇴 </Title>
       <Content> 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요</Content>
-      <QuitButton> 탈퇴하기 </QuitButton>
+      <QuitButton onClick={() => navigate('/')}> 탈퇴하기 </QuitButton>
     </QuitContainer>
   )
 }
 
-export default Quit
+export default Quit;
 
 const QuitContainer = styled.div`
   display: flex;

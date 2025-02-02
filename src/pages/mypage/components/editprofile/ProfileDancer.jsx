@@ -37,7 +37,7 @@ const ProfileDancer = () => {
               <Label> 장르 </Label>
               <Text> * 최대 2개까지 선택 가능합니다 </Text>
             </OpenChatItemContainer>
-            <MypageGenre />
+            <MypageGenre genreSelect={2} />
           </GenreContainer>
 
           <DancerRecord>
