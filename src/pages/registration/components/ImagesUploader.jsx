@@ -9,6 +9,8 @@ const ImagesUploader = ({ isFor, images, handleFormChange }) => {
   const totalImages = 3;
   const label =
     isFor === 'dancer' ? 'Profile' : isFor === 'class' ? 'Thumbnail' : '';
+  const fieldName =
+    isFor === 'dancer' ? 'dancerImages' : isFor === 'class' ? 'images' : '';
 
   // 이미지 업로드 핸들러
   const handleUploadFile = (e, index) => {
@@ -19,7 +21,7 @@ const ImagesUploader = ({ isFor, images, handleFormChange }) => {
       const updatedImages = images.map((image, i) =>
         i === index ? imageUrl : image
       );
-      handleFormChange('dancerImages', updatedImages);
+      handleFormChange(fieldName, updatedImages);
     }
 
     e.target.value = '';
@@ -28,7 +30,7 @@ const ImagesUploader = ({ isFor, images, handleFormChange }) => {
   // 이미지 삭제 핸들러
   const deleteImage = (index) => {
     const updatedImages = images.map((image, i) => (i === index ? '' : image));
-    handleFormChange('dancerImages', updatedImages);
+    handleFormChange(fieldName, updatedImages);
   };
 
   return (
