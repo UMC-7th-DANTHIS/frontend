@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
+import axiosInstance from '../api/axios-instance';
 
 import SearchBar from '../components/Search/SearchBar';
 import SearchClass from '../components/Search/SearchClass';
@@ -11,7 +12,7 @@ const SearchPage = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('query');
 
-  const [select, setSelect] = useState('class');
+  const [select, setSelect] = useState('classes');
   const [temp, setTemp] = useState(query);
 
   useEffect(() => {
@@ -19,6 +20,17 @@ const SearchPage = () => {
       setTemp(query);
     }
   }, [query]);
+
+  const handleSearchData = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/search/${select}?query=${temp}`
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleCategoryClick = (category) => setSelect(category);
   const handleNowContent = (content) => setTemp(content);
@@ -30,11 +42,12 @@ const SearchPage = () => {
         handleCategoryClick={handleCategoryClick}
         temp={temp}
         handleNowContent={handleNowContent}
+        handleSearchData={handleSearchData}
       />
       <ContentContainer>
-        {select === 'class' && <SearchClass temp={temp} />}
-        {select === 'dancer' && <SearchDancer temp={temp} />}
-        {select === 'community' && <SearchCommunity temp={temp} />}
+        {select === 'classes' && <SearchClass temp={temp} />}
+        {select === 'dancers' && <SearchDancer temp={temp} />}
+        {select === 'posts' && <SearchCommunity temp={temp} />}
       </ContentContainer>
     </Container>
   );

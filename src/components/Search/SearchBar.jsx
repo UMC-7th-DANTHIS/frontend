@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Searchicon from '../../assets/searchicon.svg';
 
-const SearchBar = ({ select, handleCategoryClick, temp, handleNowContent }) => {
+const SearchBar = ({
+  select,
+  handleCategoryClick,
+  temp,
+  handleNowContent,
+  handleSearchData
+}) => {
   const [selectedFilter, setSelectedFilter] = useState('');
 
   const category = [
@@ -28,14 +34,20 @@ const SearchBar = ({ select, handleCategoryClick, temp, handleNowContent }) => {
     }
   };
 
-  const handleSearch = (e) => handleNowContent(e.target.value);
+  const handleSearch = (e) => {
+    handleNowContent(e.target.value);
+  };
 
   return (
     <Container>
       <InputContainer>
         <Input value={temp} onChange={(e) => handleSearch(e)} />
         <SearchButton>
-          <SearchIcon src={Searchicon} alt="search" />
+          <SearchIcon
+            src={Searchicon}
+            alt="search"
+            onClick={() => handleSearchData()}
+          />
         </SearchButton>
       </InputContainer>
       <HashTagContainer>
@@ -51,20 +63,20 @@ const SearchBar = ({ select, handleCategoryClick, temp, handleNowContent }) => {
       </HashTagContainer>
       <SelectContainer>
         <SelectText
-          className={select === 'class' ? 'active' : ''}
-          onClick={() => handleCategoryClick('class')}
+          className={select === 'classes' ? 'active' : ''}
+          onClick={() => handleCategoryClick('classes')}
         >
           수업
         </SelectText>
         <SelectText
-          className={select === 'dancer' ? 'active' : ''}
-          onClick={() => handleCategoryClick('dancer')}
+          className={select === 'dancers' ? 'active' : ''}
+          onClick={() => handleCategoryClick('dancers')}
         >
           댄서
         </SelectText>
         <SelectText
-          className={select === 'community' ? 'active' : ''}
-          onClick={() => handleCategoryClick('community')}
+          className={select === 'posts' ? 'active' : ''}
+          onClick={() => handleCategoryClick('posts')}
         >
           커뮤니티
         </SelectText>
