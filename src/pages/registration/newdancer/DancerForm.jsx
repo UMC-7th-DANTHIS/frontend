@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Input, Textarea } from '../components/Inputs';
-import GenreSelector from '../components/GenreSelector';
+import { GenreSelectorDancer } from '../components/GenreSelector';
 import ImagesUploader from '../components/ImagesUploader';
 import SubmitButton from '../components/SubmitButton';
 import ConfirmLeaveAlert from '../../../components/ConfirmLeaveAlert';
@@ -141,7 +141,7 @@ const DancerForm = ({ setIsRegistered }) => {
           <Label>주 장르</Label>
           <Notice>* 최대 2개까지 선택 가능합니다.</Notice>
         </LabelWrapper>
-        <GenreSelector
+        <GenreSelectorDancer
           selectedGenres={formState.preferredGenres}
           handleFormChange={handleFormChange}
         />
