@@ -62,11 +62,11 @@ const MypageSidebar = ({ selectedMenu, onMenuClick }) => {
 export default MypageSidebar;
 
 const SidebarContainer = styled.div`
-  width: 399px;
+  width: 350px;
   display: flex;
   flex-direction: row;
   margin-top: 17px;
- 
+  margin-left: 96px;
 `;
 
 const Sidebar = styled.div`
