@@ -36,7 +36,8 @@ const ClassForm = ({ setIsRegistered }) => {
     const isClassNameValid =
       formState.className.trim().length > 0 &&
       formState.className.trim().length <= 20;
-    const isPricePerSessionValid = formState.pricePerSession >= 0;
+    const isPricePerSessionValid =
+      !isNaN(formState.pricePerSession) && formState.pricePerSession >= 0;
     const isDifficultyValid = formState.difficulty > -1;
     const isGenreValid = formState.genre > 0;
     const isDescriptionValid = formState.description.length <= 1000;
