@@ -6,12 +6,14 @@ import { ReactComponent as StarNonfilled } from '../../../../../assets/shape/non
 import { ReactComponent as GotoIcon } from '../../../../../assets/shape/gotoicon.svg';
 import { formatDate } from '../../../formatDate';
 
-const Review = ({ review }) => {
+const Review = ({ review, page }) => {
   const navigate = useNavigate();
   const totalStars = 5;
 
   const handleDetailClick = () => {
-    navigate(`/uploadedreview/${review.id}`);
+    navigate(`/uploadedreview/${review.id}`, {
+      state: { fromReviewTab: true, page }
+    });
   };
 
   return (

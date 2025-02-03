@@ -1,13 +1,24 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Review from './Review';
 import dummyReviews from '../../../../../store/reservation/dummyReviews';
 import Pagination from '../../../../../components/Pagination';
 
 const ReviewTab = () => {
+  const location = useLocation();
   const [reviews, setReviews] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5; // 페이지 당 보여질 요소 개수
+
+  const { fromReviewDetail, page } = location.state || {};
+  console.log('arrived at: ', page);
+
+  useEffect(() => {
+    if (fromReviewDetail && page) {
+      setCurrentPage(page);
+    }
+  }, [page]);
 
   useEffect(() => {
     setReviews(dummyReviews);
@@ -24,7 +35,7 @@ const ReviewTab = () => {
   return (
     <Container>
       {getCurrentPageData().map((review, index) => (
-        <Review key={index} review={review} />
+        <Review key={index} review={review} page={currentPage} />
       ))}
       <Pagination
         dataLength={reviews.length}

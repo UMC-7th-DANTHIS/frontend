@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 // import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import dummyReviews from '../../store/reservation/dummyReviews';
@@ -11,7 +11,10 @@ const ReviewDetailPage = () => {
   // const { reviewId } = useParams();
   const reviewId = 1; // 임시
   const navigate = useNavigate();
+  const location = useLocation();
+  const { fromReviewTab, page } = location.state || {};
 
+  console.log('previous page: ', page);
   const [review, setReview] = useState([]);
 
   useEffect(() => {
@@ -19,7 +22,9 @@ const ReviewDetailPage = () => {
   }, []);
 
   const handleBackClick = () => {
-    navigate(`/classreservation/${review.classId}?tab=reviews`);
+    navigate(`/classreservation/${review.id}?tab=reviews`, {
+      state: { fromReviewDetail: true, page }
+    });
   };
 
   return (

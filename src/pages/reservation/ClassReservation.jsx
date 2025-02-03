@@ -15,25 +15,27 @@ const ClassReservation = () => {
 
   const [isLiked, setIsLiked] = useState(false);
 
-  const [currentTab, setCurrentTab] = useState(0);
+  const [currentTab, setCurrentTab] = useState(1);
   const [searchParams] = useSearchParams();
   const tabParam = searchParams.get('tab');
-  const initialTab = tabParam ? Number(tabParam) : 0;
   const navigate = useNavigate();
 
   const tab = [
-    { name: '상세정보', key: 'detail' },
-    { name: '리뷰', key: 'reviews' },
-    { name: '별점', key: 'rating' }
+    { id: 1, name: '상세정보', query: 'detail' },
+    { id: 2, name: '리뷰', query: 'reviews' },
+    { id: 3, name: '별점', query: 'rating' }
   ];
 
   useEffect(() => {
+    const curTabIndex = tab.findIndex((t) => t.query === tabParam);
+    setCurrentTab(curTabIndex);
+
     if (!tabParam) {
       navigate(`/classreservation/${classId}?tab=detail`);
     } else {
       navigate(`/classreservation/${classId}?tab=${tabParam}`);
     }
-  }, [tabParam, navigate, classId]);
+  }, [tabParam]);
 
   // 수업 찜 버튼 핸들러
   const handleLikeClick = () => {
@@ -43,7 +45,7 @@ const ClassReservation = () => {
   // 탭 메뉴 핸들러
   const handleTabChange = (index) => {
     setCurrentTab(index);
-    navigate(`/classreservation/${classId}?tab=${tab[index].key}`);
+    navigate(`/classreservation/${classId}?tab=${tab[index].query}`);
   };
 
   return (
