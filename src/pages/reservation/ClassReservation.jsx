@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
-import dummyClass from '../../store/reservation/dummyClass';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
 import Level from './components/Level';
 import DetailTab from './components/tabs/detail/DetailTab';
@@ -17,6 +16,19 @@ const ClassReservation = () => {
   const [isLiked, setIsLiked] = useState(false);
   const [currentTab, setCurrentTab] = useState(0);
 
+  const genres = [
+    { id: 1, name: '힙합' },
+    { id: 2, name: '걸스힙합' },
+    { id: 3, name: '팝핑' },
+    { id: 4, name: '락킹' },
+    { id: 5, name: '왁킹' },
+    { id: 6, name: '걸리시/힐' },
+    { id: 7, name: '크럼프' },
+    { id: 8, name: '텃팅' },
+    { id: 9, name: '코레오' },
+    { id: 10, name: 'K-pop' }
+  ];
+
   const [searchParams] = useSearchParams();
   const urlTabQuery = searchParams.get('tab');
   const tab = [
@@ -24,6 +36,11 @@ const ClassReservation = () => {
     { name: '리뷰', query: 'reviews' },
     { name: '별점', query: 'rating' }
   ];
+
+  // 가격 포맷 함수
+  const formatPrice = (price) => {
+    return price ? price.toLocaleString('ko-KR') : '0';
+  };
 
   useEffect(() => {
     const fetchClass = async () => {
@@ -76,8 +93,10 @@ const ClassReservation = () => {
         />
         <InfoContainer>
           <Text>강사 : {classData.dancer?.name}</Text>
-          <Text>장르 : {classData?.genre}</Text>
-          <Text>가격 : {classData?.pricePerSession}원 / 회당</Text>
+          <Text>
+            장르 : {genres.find((g) => g.id === classData?.genre)?.name}
+          </Text>
+          <Text>가격 : {formatPrice(classData?.pricePerSession)}원 / 회당</Text>
           <Level level={classData?.difficulty} />
         </InfoContainer>
         <BtnContainer>
@@ -105,8 +124,8 @@ const ClassReservation = () => {
         ))}
       </Tabs>
       {currentTab === 0 && <DetailTab classData={classData} />}
-      {/* {currentTab === 1 && <ReviewTab />}
-      {currentTab === 2 && <RatingTab />} */}
+      {/* {currentTab === 1 && <ReviewTab />}*/}
+      {currentTab === 2 && <RatingTab />}
     </Container>
   );
 };
