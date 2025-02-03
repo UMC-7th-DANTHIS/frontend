@@ -2,31 +2,30 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Input, Textarea } from '../components/Inputs';
 import StarRating from '../components/StarRating';
-import GenreSelector from '../components/GenreSelector';
+import { GenreSelectorClass } from '../components/GenreSelector';
 import ImagesUploader from '../components/ImagesUploader';
 import VideoUploader from '../components/VideoUploader';
 import SubmitButton from '../components/SubmitButton';
-
 import TagSelector from '../components/TagSelector';
 import ConfirmLeaveAlert from '../../../components/ConfirmLeaveAlert';
 import SingleBtnAlert from '../../../components/SingleBtnAlert';
 import useConfirmLeave from '../../../hooks/useConfirmLeave';
+import api from '../../../api/api';
 
-const ClassForm = ({ onRegister }) => {
+const ClassForm = ({ setIsRegistered }) => {
   const [isValid, setIsValid] = useState(false);
   const [showInvalidAlert, setShowInvalidAlert] = useState(false);
   const [showLeaveAlert, setShowLeaveAlert] = useState(false);
   const [formState, setFormState] = useState({
-    name: '',
-    price: '',
-    level: 0,
-    genres: [],
+    className: '',
+    pricePerSession: '',
+    difficulty: 0,
+    genre: 0,
     description: '',
-    recommendedFor: '',
-    tags: [],
-    images: [null, null, null],
-    video: null,
-    url: ''
+    targetAudience: '',
+    hashtags: [],
+    images: ['', '', ''],
+    videoUrl: ''
   });
 
   // 뒤로 가기 방지 팝업 경고
@@ -34,24 +33,26 @@ const ClassForm = ({ onRegister }) => {
 
   // 유효성 검사 (임시)
   useEffect(() => {
-    const isNameValid =
-      formState.name.trim().length > 0 && formState.name.trim().length <= 20;
-    const isPriceValid =
-      formState.price.trim().length > 0 && formState.price.trim().length <= 10;
-    const isGenresValid =
-      formState.genres.length > 0 && formState.genres.length <= 2;
+    const isClassNameValid =
+      formState.className.trim().length > 0 &&
+      formState.className.trim().length <= 20;
+    const isPricePerSessionValid = formState.pricePerSession >= 0;
+    const isDifficultyValid = formState.difficulty > -1;
+    const isGenreValid = formState.genre > 0;
     const isDescriptionValid = formState.description.length <= 1000;
-    const isRecommendedForValid = formState.recommendedFor.length <= 1000;
-    const isTagsValid = formState.tags.length > 0 && formState.tags.length <= 3;
+    const isTargetAudienceValid = formState.targetAudience.length <= 1000;
+    const isHashtagsValid =
+      formState.hashtags.length > 0 && formState.hashtags.length <= 3;
 
     // 모든 필드가 유효하면 true
     setIsValid(
-      isNameValid &&
-        isPriceValid &&
-        isGenresValid &&
+      isClassNameValid &&
+        isPricePerSessionValid &&
+        isDifficultyValid &&
+        isGenreValid &&
         isDescriptionValid &&
-        isRecommendedForValid &&
-        isTagsValid
+        isTargetAudienceValid &&
+        isHashtagsValid
     );
   }, [formState]);
 
@@ -60,15 +61,41 @@ const ClassForm = ({ onRegister }) => {
     setFormState((prev) => ({ ...prev, [key]: value }));
   };
 
+  // 댄스 수업 정보 등록
+  const postClass = async (data) => {
+    try {
+      const response = await api.post('/dance-classes', data, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      console.log('댄스 수업 등록 성공:', response.data);
+      setIsRegistered(true);
+    } catch (error) {
+      console.error(
+        '댄스 수업 등록 실패:',
+        error.response?.data || error.message
+      );
+    }
+  };
+
   // 수업 등록 폼 제출 핸들러
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (isValid) {
-      onRegister(formState);
-      console.log(formState); // 임시
-    } else {
-      setShowInvalidAlert(true); // 제출 불가능한 상태에서 클릭 시도하면 팝업 경고 띄움
+
+    // pricePerSession을 숫자로 변환
+    const updatedFormState = {
+      ...formState,
+      pricePerSession: Number(formState.pricePerSession) || 0 // 빈 값이면 0 처리
+    };
+
+    if (!isValid) {
+      setShowInvalidAlert(true);
+      return;
     }
+
+    console.log(updatedFormState);
+    postClass(updatedFormState);
   };
 
   return (
@@ -79,8 +106,8 @@ const ClassForm = ({ onRegister }) => {
         </LabelWrapper>
         <Input
           label="수업 이름"
-          value={formState.name}
-          onChange={(e) => handleFormChange('name', e.target.value)}
+          value={formState.className}
+          onChange={(e) => handleFormChange('className', e.target.value)}
           placeholder="수업 이름을 입력하세요."
           maxLength={20}
         />
@@ -89,8 +116,8 @@ const ClassForm = ({ onRegister }) => {
         </LabelWrapper>
         <Input
           label="회당 가격"
-          value={formState.price}
-          onChange={(e) => handleFormChange('price', e.target.value)}
+          value={formState.pricePerSession}
+          onChange={(e) => handleFormChange('pricePerSession', e.target.value)}
           placeholder="회당 가격을 입력하세요."
           maxLength={10}
         />
@@ -99,14 +126,14 @@ const ClassForm = ({ onRegister }) => {
         </LabelWrapper>
         <StarRating
           label="난이도"
-          value={formState.level}
+          value={formState.difficulty}
           handleFormChange={handleFormChange}
         />
         <LabelWrapper>
           <Label>장르</Label>
         </LabelWrapper>
-        <GenreSelector
-          selectedGenres={formState.genres}
+        <GenreSelectorClass
+          selectedGenre={formState.genre}
           handleFormChange={handleFormChange}
         />
         <LabelWrapper>
@@ -126,8 +153,8 @@ const ClassForm = ({ onRegister }) => {
         </LabelWrapper>
         <Textarea
           label="수업 추천 대상"
-          value={formState.recommendedFor}
-          onChange={(e) => handleFormChange('recommendedFor', e.target.value)}
+          value={formState.targetAudience}
+          onChange={(e) => handleFormChange('targetAudience', e.target.value)}
           placeholder="이 수업은 누구에게 추천하며, 그 이유를 입력하세요."
           maxLength={1000}
         />
@@ -135,7 +162,7 @@ const ClassForm = ({ onRegister }) => {
           <Label>해시태그</Label>
         </LabelWrapper>
         <TagSelector
-          selectedTags={formState.tags}
+          selectedTags={formState.hashtags}
           handleFormChange={handleFormChange}
         />
 
@@ -161,7 +188,7 @@ const ClassForm = ({ onRegister }) => {
           </Notice>
         </LabelWrapper>
         <VideoUploader
-          video={formState.video}
+          video={formState.videoUrl}
           handleFormChange={handleFormChange}
         />
       </InputContainer>
