@@ -1,10 +1,28 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import PartialStars from './PartialStars';
+import api from '../../../../../api/api';
 
-const Rating = ({ data }) => {
+const Rating = () => {
+  const [ratingData, setRatingData] = useState([]);
+  const { classId } = useParams();
   const totalStars = 5;
+
+  useEffect(() => {
+    const fetchClass = async () => {
+      try {
+        const response = await api.get(`/dance-classes/${classId}/rating`);
+        console.log(`✅ 별점 정보:`, response.data.data);
+
+        setRatingData(response.data.data);
+      } catch (error) {
+        console.error('❌ 별점 정보를 불러오는 중 오류 발생:', error);
+      }
+    };
+
+    fetchClass();
+  }, [classId]);
 
   const getRatingStars = (rate) => {
     return Array.from({ length: totalStars }, (_, index) => {
@@ -22,8 +40,8 @@ const Rating = ({ data }) => {
 
   return (
     <Container>
-      <Stars>{getRatingStars(data.rate)}</Stars>
-      <RatingNumber>{data.rate.toFixed(1)}</RatingNumber>
+      <Stars>{getRatingStars(ratingData?.averageRating)}</Stars>
+      <RatingNumber>{ratingData.averageRating?.toFixed(1)}</RatingNumber>
       <Notice>
         이 수업을 수강하셨나요? 직접 이 수업에 대한 만족도를 평가해보세요!
       </Notice>
