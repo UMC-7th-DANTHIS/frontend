@@ -40,7 +40,7 @@ const ClassBoard = () => {
     };
 
     fetchClasses();
-  }, [selectedGenre]);
+  }, [selectedGenre, currentPage]);
 
   // 장르 선택 핸들러
   const handleGenreClick = (genre) => {
