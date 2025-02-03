@@ -108,7 +108,6 @@ const DancerForm = ({ setIsRegistered }) => {
           value={formState.instargramId}
           onChange={(e) => handleFormChange('instargramId', e.target.value)}
           placeholder="Instagram 아이디를 입력하세요."
-          maxLength={20}
         />
 
         <LabelWrapper>
@@ -122,7 +121,6 @@ const DancerForm = ({ setIsRegistered }) => {
           value={formState.openChatUrl}
           onChange={(e) => handleFormChange('openChatUrl', e.target.value)}
           placeholder="카카오톡 오픈채팅방 링크를 입력하세요."
-          maxLength={255}
         />
 
         <LabelWrapper>
@@ -134,7 +132,6 @@ const DancerForm = ({ setIsRegistered }) => {
           value={formState.bio}
           onChange={(e) => handleFormChange('bio', e.target.value)}
           placeholder="한 마디 소개글을 입력하세요."
-          maxLength={60}
         />
 
         <LabelWrapper>
@@ -155,7 +152,6 @@ const DancerForm = ({ setIsRegistered }) => {
           value={formState.history}
           onChange={(e) => handleFormChange('history', e.target.value)}
           placeholder="댄서 이력을 입력하세요."
-          maxLength={1000}
         />
 
         <LabelWrapper>

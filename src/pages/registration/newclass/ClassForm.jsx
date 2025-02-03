@@ -119,7 +119,6 @@ const ClassForm = ({ setIsRegistered }) => {
           value={formState.pricePerSession}
           onChange={(e) => handleFormChange('pricePerSession', e.target.value)}
           placeholder="회당 가격을 입력하세요."
-          maxLength={10}
         />
         <LabelWrapper>
           <Label>난이도</Label>
@@ -145,7 +144,6 @@ const ClassForm = ({ setIsRegistered }) => {
           value={formState.description}
           onChange={(e) => handleFormChange('description', e.target.value)}
           placeholder="시간, 장소, 가격 등 수업에 대한 자세한 소개를 입력하세요."
-          maxLength={1000}
         />
         <LabelWrapper>
           <Label>수업 추천 대상</Label>
@@ -156,7 +154,6 @@ const ClassForm = ({ setIsRegistered }) => {
           value={formState.targetAudience}
           onChange={(e) => handleFormChange('targetAudience', e.target.value)}
           placeholder="이 수업은 누구에게 추천하며, 그 이유를 입력하세요."
-          maxLength={1000}
         />
         <LabelWrapper>
           <Label>해시태그</Label>
