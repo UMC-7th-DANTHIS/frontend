@@ -113,7 +113,7 @@ const DancerForm = ({ setIsRegistered }) => {
         <LabelWrapper>
           <Label>오픈채팅방 링크</Label>
           <Notice>
-            * 유저들과의 채팅이 이루어질 오픈채팅방 링크를 입력해주세요.
+            *유저들과의 채팅이 이루어질 오픈채팅방 링크를 입력해주세요.
           </Notice>
         </LabelWrapper>
         <Input
@@ -125,7 +125,7 @@ const DancerForm = ({ setIsRegistered }) => {
 
         <LabelWrapper>
           <Label>한 마디 소개글</Label>
-          <Notice>* 최대 60자까지 입력 가능합니다.</Notice>
+          <Notice>*최대 60자까지 입력 가능합니다.</Notice>
         </LabelWrapper>
         <Input
           label="한 마디 소개글"
@@ -136,7 +136,7 @@ const DancerForm = ({ setIsRegistered }) => {
 
         <LabelWrapper>
           <Label>주 장르</Label>
-          <Notice>* 최대 2개까지 선택 가능합니다.</Notice>
+          <Notice>*최대 2개까지 선택 가능합니다.</Notice>
         </LabelWrapper>
         <GenreSelectorDancer
           selectedGenres={formState.preferredGenres}
@@ -145,7 +145,7 @@ const DancerForm = ({ setIsRegistered }) => {
 
         <LabelWrapper>
           <Label>댄서 이력</Label>
-          <Notice>* 최대 1000자까지 입력 가능합니다.</Notice>
+          <Notice>*최대 1000자까지 입력 가능합니다.</Notice>
         </LabelWrapper>
         <Textarea
           label="댄서 이력"
@@ -157,7 +157,7 @@ const DancerForm = ({ setIsRegistered }) => {
         <LabelWrapper $long>
           <Label>댄서 사진</Label>
           <Notice>
-            * 최대 3장까지 등록 가능합니다. {'\n'}* 가장 첫 번째로 등록된 사진이
+            *최대 3장까지 등록 가능합니다. {'\n'}*가장 첫 번째로 등록된 사진이
             프로필로 사용됩니다.
           </Notice>
         </LabelWrapper>
@@ -168,7 +168,7 @@ const DancerForm = ({ setIsRegistered }) => {
         />
       </InputContainer>
 
-      <Notice>* 댄서 등록은 내부 운영팀의 심사를 통해 최종 승인됩니다.</Notice>
+      <Notice>*댄서 등록은 내부 운영팀의 심사를 통해 최종 승인됩니다.</Notice>
       <SubmitButton text="댄서 등록하기" />
 
       {showInvalidAlert && (

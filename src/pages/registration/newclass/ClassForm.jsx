@@ -130,6 +130,7 @@ const ClassForm = ({ setIsRegistered }) => {
         />
         <LabelWrapper>
           <Label>장르</Label>
+          <Notice>*최대 1개까지 선택 가능합니다.</Notice>
         </LabelWrapper>
         <GenreSelectorClass
           selectedGenre={formState.genre}
@@ -137,7 +138,7 @@ const ClassForm = ({ setIsRegistered }) => {
         />
         <LabelWrapper>
           <Label>수업 소개</Label>
-          <Notice>* 최대 1000자까지 입력 가능합니다.</Notice>
+          <Notice>*최대 1000자까지 입력 가능합니다.</Notice>
         </LabelWrapper>
         <Textarea
           label="수업 소개"
@@ -147,7 +148,7 @@ const ClassForm = ({ setIsRegistered }) => {
         />
         <LabelWrapper>
           <Label>수업 추천 대상</Label>
-          <Notice>* 최대 1000자까지 입력 가능합니다.</Notice>
+          <Notice>*최대 1000자까지 입력 가능합니다.</Notice>
         </LabelWrapper>
         <Textarea
           label="수업 추천 대상"
@@ -157,6 +158,7 @@ const ClassForm = ({ setIsRegistered }) => {
         />
         <LabelWrapper>
           <Label>해시태그</Label>
+          <Notice>*최대 3개까지 선택 가능합니다.</Notice>
         </LabelWrapper>
         <TagSelector
           selectedTags={formState.hashtags}
@@ -166,9 +168,9 @@ const ClassForm = ({ setIsRegistered }) => {
         <LabelWrapper $long>
           <Label>수업 사진</Label>
           <Notice>
-            * 최대 3장까지 등록 가능합니다.
-            {'\n'} * 가장 첫 번째로 등록된 사진이 썸네일로 사용됩니다.
-            {'\n'} * 등록된 사진이 없는 경우, 댄서 등록 시 사용한 사진으로 자동
+            *최대 3장까지 등록 가능합니다.
+            {'\n'} *가장 첫 번째로 등록된 사진이 썸네일로 사용됩니다.
+            {'\n'} *등록된 사진이 없는 경우, 댄서 등록 시 사용한 사진으로 자동
             등록됩니다.
           </Notice>
         </LabelWrapper>
@@ -180,8 +182,8 @@ const ClassForm = ({ setIsRegistered }) => {
         <LabelWrapper $long>
           <Label>수업 영상</Label>
           <Notice>
-            * 영상 파일 혹은 url 중 하나의 형식을 선택해 업로드 해주세요.
-            {'\n'} * 수업 영상이 없는 경우, 댄서 영상을 업로드 해주세요.
+            *영상 파일 혹은 url 중 하나의 형식을 선택해 업로드 해주세요.
+            {'\n'} *수업 영상이 없는 경우, 댄서 영상을 업로드 해주세요.
           </Notice>
         </LabelWrapper>
         <VideoUploader
