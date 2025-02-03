@@ -31,11 +31,11 @@ const ClassBoard = () => {
         const response = await api.get(
           `/dance-classes?genre=${genreId}&page=${currentPage}`
         );
-        console.log(`✅ 수업 정보:`, response.data.data);
+        console.log(`✅ 장르별 수업 정보:`, response.data.data);
 
         setClasses(response.data.data.danceClasses);
       } catch (error) {
-        console.error('❌ 수업 정보를 불러오는 중 오류 발생:', error);
+        console.error('❌ 장르별 수업 정보를 불러오는 중 오류 발생:', error);
       }
     };
 

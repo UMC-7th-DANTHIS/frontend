@@ -2,39 +2,59 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const Detail = ({ data }) => {
+const Detail = ({ classData }) => {
+  const tags = [
+    { id: 1, name: '강렬한' },
+    { id: 2, name: '나른한' },
+    { id: 3, name: '에너제틱' },
+    { id: 4, name: '기본기' },
+    { id: 5, name: '통통튀는' },
+    { id: 6, name: '무거운' },
+    { id: 7, name: '유산소' },
+    { id: 8, name: '빡센' },
+    { id: 9, name: '감성적인' },
+    { id: 10, name: '아프로' },
+    { id: 11, name: '뚝딱이' },
+    { id: 12, name: '취미' }
+  ];
+
   return (
     <Container>
-      <Video src={null} alt={`${data.dancer}의 ${data.title}> 수업 영상`} />
+      <Video
+        src={classData.details?.videoUrl}
+        alt={`${classData.dancer?.name}의 ${classData?.className}> 수업 영상`}
+      />
       <Section>
         <Title>📢 수업 소개</Title>
-        <Text>{data.description}</Text>
+        <Text>{classData.details?.description}</Text>
       </Section>
       <Section>
         <Title>👍🏻 이 수업은 이런 분들에게 추천해요!</Title>
-        <Text>{data.recommendedFor}</Text>
+        <Text>{classData.details?.targetAudience}</Text>
         <Tags>
-          {data.tags.map((tag) => (
-            <Tag key={tag}>{tag}</Tag>
-          ))}
+          {classData.details?.hashtags.map((tag) => {
+            const tagName = tags.find((t) => t.id === tag)?.name;
+            return tagName ? <Tag key={tag}>#{tagName}</Tag> : null;
+          })}
         </Tags>
       </Section>
       <Section>
         <Title>수업 사진</Title>
         <Images>
-          {data.images.length > 0 ? (
-            data.images.map((image, index) => (
-              <Image key={index}>
-                {image && <img src={image} alt={`class #${index}`} />}
-              </Image>
-            ))
+          {classData.details?.danceClassImages.length > 0 ? (
+            classData.details?.danceClassImages.map(
+              (image, index) =>
+                image && (
+                  <Image key={index} src={image} alt={`class #${index}`} />
+                )
+            )
           ) : (
-            <Image src={data.dancerImg} />
+            <Image src={classData.dancer?.profileImage} />
           )}
         </Images>
       </Section>
       <Section>
-        <MoreAboutDancer to={`/dancerprofile/${data.dancerId}`}>
+        <MoreAboutDancer to={`/dancerprofile/${1}`}>
           Parana 댄서에 대해 더 알고싶다면?
         </MoreAboutDancer>
       </Section>
@@ -96,7 +116,7 @@ const Tags = styled.div`
 `;
 const Tag = styled.div`
   display: inline-flex;
-  padding: 4px 30px;
+  padding: 4px 38px;
   justify-content: center;
   align-items: center;
   margin-right: 28px;

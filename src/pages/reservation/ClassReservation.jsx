@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import dummyClass from '../../store/reservation/dummyClass';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
@@ -7,11 +7,12 @@ import Level from './components/Level';
 import DetailTab from './components/tabs/detail/DetailTab';
 import ReviewTab from './components/tabs/review/ReviewTab';
 import RatingTab from './components/tabs/rating/RatingTab';
+import api from '../../api/api';
 
 const ClassReservation = () => {
   const navigate = useNavigate();
-  const classId = 1; // 임시
-  const data = dummyClass.find((cls) => cls.id === Number(classId)); // 임시
+  const { classId } = useParams();
+  const [classData, setClassData] = useState([]);
 
   const [isLiked, setIsLiked] = useState(false);
   const [currentTab, setCurrentTab] = useState(0);
@@ -23,6 +24,21 @@ const ClassReservation = () => {
     { name: '리뷰', query: 'reviews' },
     { name: '별점', query: 'rating' }
   ];
+
+  useEffect(() => {
+    const fetchClass = async () => {
+      try {
+        const response = await api.get(`/dance-classes/${classId}`);
+        console.log(`✅ 수업 정보:`, response.data.data);
+
+        setClassData(response.data.data);
+      } catch (error) {
+        console.error('❌ 수업 정보를 불러오는 중 오류 발생:', error);
+      }
+    };
+
+    fetchClass();
+  }, [classId]);
 
   // URL의 tab 쿼리에 맞추어 currentTab을 변경
   // 돌아오기 버튼으로 돌아오는 상황을 위해 setCurrentTab을 여기서 핸들링
@@ -51,15 +67,18 @@ const ClassReservation = () => {
     <Container>
       <TitleWrapper>
         <FocusedCircle />
-        <Title>{data.title}</Title>
+        <Title>{classData?.className}</Title>
       </TitleWrapper>
       <Summary>
-        <Image src={data.dancerImg} alt={`dancer #${data.id}`} />
+        <Image
+          src={classData.dancer?.profileImage}
+          alt={`dancer profile of class #${classData?.id}`}
+        />
         <InfoContainer>
-          <Text>강사 : {data.dancer}</Text>
-          <Text>장르 : {data.genre}</Text>
-          <Text>가격 : {data.price}원 / 회당</Text>
-          <Level level={data.level} />
+          <Text>강사 : {classData.dancer?.name}</Text>
+          <Text>장르 : {classData?.genre}</Text>
+          <Text>가격 : {classData?.pricePerSession}원 / 회당</Text>
+          <Level level={classData?.difficulty} />
         </InfoContainer>
         <BtnContainer>
           <ChatBtn type="button">
@@ -85,9 +104,9 @@ const ClassReservation = () => {
           </Tab>
         ))}
       </Tabs>
-      {currentTab === 0 && <DetailTab data={data} />}
-      {currentTab === 1 && <ReviewTab />}
-      {currentTab === 2 && <RatingTab data={data} />}
+      {currentTab === 0 && <DetailTab classData={classData} />}
+      {/* {currentTab === 1 && <ReviewTab />}
+      {currentTab === 2 && <RatingTab />} */}
     </Container>
   );
 };
