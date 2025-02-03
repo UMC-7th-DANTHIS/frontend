@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PartialStars from './PartialStars';
 
@@ -26,7 +27,7 @@ const Rating = ({ data }) => {
       <Notice>
         이 수업을 수강하셨나요? 직접 이 수업에 대한 만족도를 평가해보세요!
       </Notice>
-      <GotoReview>후기 작성하러 가기</GotoReview>
+      <MoveReview to={`/mypage?menu=myreview`}>후기 작성하러 가기</MoveReview>
     </Container>
   );
 };
@@ -68,7 +69,10 @@ const Notice = styled.div`
   font-weight: 600;
   line-height: normal;
 `;
-const GotoReview = styled.button`
+const MoveReview = styled(Link)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 360px;
   height: 52px;
   margin: 37px;
@@ -76,6 +80,9 @@ const GotoReview = styled.button`
   border: 4px solid var(--main_purple, #9819c3);
   box-shadow: 0px 0px 4px 0px #b30505;
   background: transparent;
+  cursor: pointer;
+
+  text-decoration-line: none;
   color: var(--main_white, #fff);
   text-align: center;
   font-family: Pretendard;
@@ -83,8 +90,4 @@ const GotoReview = styled.button`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-
-  &:hover {
-    cursor: pointer;
-  }
 `;
