@@ -79,12 +79,6 @@ const InfoWrapper = styled.div`
   align-items: center;
   width: 900px;
 `;
-const View = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 5px;
-`;
 const Tool = styled.div`
   display: flex;
   flex-direction: row;

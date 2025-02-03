@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as StarFilled } from '../../../../../assets/shape/filledYellowStar.svg';
 import { ReactComponent as StarNonfilled } from '../../../../../assets/shape/nonfilledYellowStar.svg';
@@ -28,10 +27,10 @@ const Review = ({ review }) => {
           </RatingAndDate>
         </Data>
       </InfoWrapper>
-      <ViewDetailLink to={`/uploadedreview/${review.id}`}>
+      <ViewDetailButton>
         <ViewDetail>자세히 보기</ViewDetail>
         <GotoIcon />
-      </ViewDetailLink>
+      </ViewDetailButton>
 
       <Detail>
         {review.detail.length > 680
@@ -123,13 +122,14 @@ const Date = styled.div`
   line-height: 20px; /* 166.667% */
   letter-spacing: -0.6px;
 `;
-const ViewDetailLink = styled(Link)`
+const ViewDetailButton = styled.button`
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 7px;
   margin: 0 38px 18px auto;
-  text-decoration-line: none;
+  background: transparent;
+  border: none;
   transition: all 0.3s ease;
 
   &:hover {
@@ -137,7 +137,7 @@ const ViewDetailLink = styled(Link)`
     transform: translateY(-1px);
   }
 `;
-const ViewDetail = styled.div`
+const ViewDetail = styled.span`
   color: var(--highlight_blue, #07f);
   font-family: Pretendard;
   font-size: 12px;
