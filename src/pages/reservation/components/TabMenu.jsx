@@ -1,26 +1,31 @@
 import React, { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import DetailTab from './tabs/detail/DetailTab';
 import ReviewTab from './tabs/review/ReviewTab';
 import RatingTab from './tabs/rating/RatingTab';
 
-const TabMenu = ({ data }) => {
-  const [currentTab, setCurrentTab] = useState(0);
-  const menu = [
-    { name: '상세정보', content: 'Tab menu ONE' },
-    { name: '리뷰', content: 'Tab menu TWO' },
-    { name: '별점', content: 'Tab menu THREE' }
+const TabMenu = ({ data, initialTab }) => {
+  const navigate = useNavigate();
+  const [currentTab, setCurrentTab] = useState(initialTab);
+  const tab = [
+    { name: '상세정보', key: 'detail' },
+    { name: '리뷰', key: 'reviews' },
+    { name: '별점', key: 'rating' }
   ];
+
+  const classId = useParams().classId;
 
   // 탭 메뉴 핸들러
   const handleTabChange = (index) => {
     setCurrentTab(index);
+    navigate(`/classreservation/${classId}?tab=${tab[index].key}`);
   };
 
   return (
     <>
       <Container>
-        {menu.map((element, index) => (
+        {tab.map((element, index) => (
           <Tab
             key={index}
             $isActive={currentTab === index}

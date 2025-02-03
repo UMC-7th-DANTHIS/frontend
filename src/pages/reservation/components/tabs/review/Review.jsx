@@ -4,21 +4,10 @@ import styled from 'styled-components';
 import { ReactComponent as StarFilled } from '../../../../../assets/shape/filledYellowStar.svg';
 import { ReactComponent as StarNonfilled } from '../../../../../assets/shape/nonfilledYellowStar.svg';
 import { ReactComponent as GotoIcon } from '../../../../../assets/shape/gotoicon.svg';
+import { formatDate } from '../../../formatDate';
 
 const Review = ({ review }) => {
   const totalStars = 5;
-
-  const formatDate = (date) => {
-    if (typeof date === 'string') {
-      date = new Date(date);
-    }
-
-    return new Intl.DateTimeFormat('ko-KR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit'
-    }).format(date);
-  };
 
   return (
     <Container>
@@ -39,7 +28,7 @@ const Review = ({ review }) => {
           </RatingAndDate>
         </Data>
       </InfoWrapper>
-      <ViewDetailLink>
+      <ViewDetailLink to={`/uploadedreview/${review.id}`}>
         <ViewDetail>자세히 보기</ViewDetail>
         <GotoIcon />
       </ViewDetailLink>
@@ -54,7 +43,7 @@ const Review = ({ review }) => {
         <Images>
           {review.images.map((image, index) => (
             <Image key={index}>
-              {image && <Img src={image} alt={`review #${index}`} />}
+              {image && <img src={image} alt={`review #${index}`} />}
             </Image>
           ))}
         </Images>
@@ -141,9 +130,11 @@ const ViewDetailLink = styled(Link)`
   gap: 7px;
   margin: 0 38px 18px auto;
   text-decoration-line: none;
+  transition: all 0.3s ease;
 
   &:hover {
     cursor: pointer;
+    transform: translateY(-1px);
   }
 `;
 const ViewDetail = styled.div`
@@ -174,10 +165,10 @@ const Image = styled.div`
   height: 160px;
   border-radius: 4px;
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
-`;
 
-const Img = styled.img`
-  width: 160px;
-  height: 160px;
-  border-radius: 4px;
-`
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; // 비율 유지
+  }
+`;

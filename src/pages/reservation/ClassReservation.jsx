@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 // import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import dummyClass from '../../store/reservation/dummyClass';
@@ -12,6 +13,17 @@ const ClassReservation = () => {
   const data = dummyClass.find((cls) => cls.id === Number(classId));
 
   const [isLiked, setIsLiked] = useState(false);
+
+  const [searchParams] = useSearchParams();
+  const tabParam = searchParams.get('tab');
+  const initialTab = tabParam ? Number(tabParam) : 0;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!tabParam) {
+      navigate(`/classreservation/${classId}?tab=detail`);
+    }
+  }, [tabParam, navigate, classId]);
 
   // 수업 찜 버튼 핸들러
   const handleLikeClick = () => {
@@ -45,7 +57,7 @@ const ClassReservation = () => {
           </LikeBtn>
         </BtnContainer>
       </Summary>
-      <TabMenu data={data} />
+      <TabMenu data={data} initialTab={initialTab} />
     </Container>
   );
 };
