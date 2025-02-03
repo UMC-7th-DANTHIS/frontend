@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-// import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import dummyClass from '../../store/reservation/dummyClass';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
@@ -10,41 +9,41 @@ import ReviewTab from './components/tabs/review/ReviewTab';
 import RatingTab from './components/tabs/rating/RatingTab';
 
 const ClassReservation = () => {
+  const navigate = useNavigate();
   const classId = 1; // 임시
-  const data = dummyClass.find((cls) => cls.id === Number(classId));
+  const data = dummyClass.find((cls) => cls.id === Number(classId)); // 임시
 
   const [isLiked, setIsLiked] = useState(false);
+  const [currentTab, setCurrentTab] = useState(0);
 
-  const [currentTab, setCurrentTab] = useState(1);
   const [searchParams] = useSearchParams();
-  const tabParam = searchParams.get('tab');
-  const navigate = useNavigate();
-
+  const urlTabQuery = searchParams.get('tab');
   const tab = [
-    { id: 1, name: '상세정보', query: 'detail' },
-    { id: 2, name: '리뷰', query: 'reviews' },
-    { id: 3, name: '별점', query: 'rating' }
+    { name: '상세정보', query: 'detail' },
+    { name: '리뷰', query: 'reviews' },
+    { name: '별점', query: 'rating' }
   ];
 
+  // URL의 tab 쿼리에 맞추어 currentTab을 변경
+  // 돌아오기 버튼으로 돌아오는 상황을 위해 setCurrentTab을 여기서 핸들링
   useEffect(() => {
-    const curTabIndex = tab.findIndex((t) => t.query === tabParam);
+    const curTabIndex = tab.findIndex((t) => t.query === urlTabQuery);
     setCurrentTab(curTabIndex);
 
-    if (!tabParam) {
+    if (!urlTabQuery) {
       navigate(`/classreservation/${classId}?tab=detail`);
     } else {
-      navigate(`/classreservation/${classId}?tab=${tabParam}`);
+      navigate(`/classreservation/${classId}?tab=${urlTabQuery}`);
     }
-  }, [tabParam]);
+  }, [urlTabQuery]);
 
   // 수업 찜 버튼 핸들러
   const handleLikeClick = () => {
     setIsLiked(!isLiked);
   };
 
-  // 탭 메뉴 핸들러
+  // 탭 메뉴 선택 핸들러
   const handleTabChange = (index) => {
-    setCurrentTab(index);
     navigate(`/classreservation/${classId}?tab=${tab[index].query}`);
   };
 

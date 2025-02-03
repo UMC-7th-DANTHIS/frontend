@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-// import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import dummyReviews from '../../store/reservation/dummyReviews';
 import { ReactComponent as EditIcon } from '../../assets/shape/write.svg';
@@ -8,23 +7,23 @@ import { ReactComponent as DeleteIcon } from '../../assets/shape/trash.svg';
 import { formatDateWithTime } from './formatDate';
 
 const ReviewDetailPage = () => {
-  // const { reviewId } = useParams();
   const reviewId = 1; // 임시
   const navigate = useNavigate();
   const location = useLocation();
-  const { fromReviewTab, page } = location.state || {};
-
-  console.log('previous page: ', page);
   const [review, setReview] = useState([]);
+  const { fromReviewTab, page } = location.state || {}; // 페이지네이션을 기억해 둠
 
   useEffect(() => {
     setReview(dummyReviews.find((review) => review.id === reviewId));
   }, []);
 
+  // 돌아가기 버튼 핸들러
   const handleBackClick = () => {
-    navigate(`/classreservation/${review.id}?tab=reviews`, {
-      state: { fromReviewDetail: true, page }
-    });
+    if (fromReviewTab) {
+      navigate(`/classreservation/${review.id}?tab=reviews`, {
+        state: { fromReviewDetail: true, page } // 페이지네이션 정보 재전달
+      });
+    }
   };
 
   return (

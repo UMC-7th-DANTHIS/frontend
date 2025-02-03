@@ -12,7 +12,7 @@ const Review = ({ review, page }) => {
 
   const handleDetailClick = () => {
     navigate(`/uploadedreview/${review.id}`, {
-      state: { fromReviewTab: true, page }
+      state: { fromReviewTab: true, page } // 페이지네이션 정보 전달
     });
   };
 
@@ -45,7 +45,6 @@ const Review = ({ review, page }) => {
           ? `${review.detail.slice(0, 680)} ...`
           : review.detail}
       </Detail>
-
       {review.images && (
         <Images>
           {review.images.map((image, index) => (
