@@ -1,52 +1,55 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { UrlInput } from './Inputs';
 import { ReactComponent as VideoIcon } from '../../../assets/video.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/shape/trash.svg';
 
 const VideoUploader = ({ video, handleFormChange }) => {
-  const [preview, setPreview] = useState(''); // 미리보기 url
+  const [fileUrl, setFileUrl] = useState('');
   const [url, setUrl] = useState('');
 
-  // 파일 업로드 핸들러
-  const handleUploadFile = (e) => {
+  useEffect(() => {
+    handleFormChange('videoUrl', fileUrl);
+  }, [fileUrl]);
+
+  useEffect(() => {
+    handleFormChange('videoUrl', url);
+  }, [url]);
+
+  const handleFileChange = (e) => {
     const file = e.target.files[0]; // 파일 가져오기
 
     if (file && file.type.startsWith('video/')) {
-      handleFormChange('video', file);
-      setPreview(URL.createObjectURL(file)); // 미리보기 url 생성
+      setFileUrl(URL.createObjectURL(file)); // 미리보기 url 생성
     }
 
     e.target.value = '';
   };
 
-  // url 업로드 핸들러
-  const handleUrlChange = (e) => {
-    setUrl(e.target.value);
-  };
-
   // 비디오 삭제 핸들러
   const deleteVideo = () => {
-    handleFormChange('video', null);
-    if (preview) {
-      URL.revokeObjectURL(preview);
-      setPreview('');
+    handleFormChange('videoUrl', '');
+
+    if (fileUrl) {
+      URL.revokeObjectURL(fileUrl);
+      setFileUrl('');
     }
+    setUrl('');
   };
 
   return (
     <>
       <Container>
         <Rectangle htmlFor="video">
-          {video === null && <VideoIcon />}
-          {preview && <video src={preview} controls />}
+          {video === '' && <VideoIcon />}
+          {video && <video src={video} controls />}
         </Rectangle>
         {/* 파일 선택 */}
         <HiddenInput
           type="file"
           id="video"
           accept="video/*"
-          onChange={handleUploadFile}
+          onChange={handleFileChange}
         />
         {/* 비디오가 업로드 된 상태에서만 삭제 버튼 표시 */}
         {video && (
@@ -57,7 +60,7 @@ const VideoUploader = ({ video, handleFormChange }) => {
       </Container>
       <UrlInput
         value={url}
-        onChange={(e) => handleUrlChange(e)}
+        onChange={(e) => setUrl(e.target.value)}
         placeholder="동영상 링크를 붙여넣으세요."
       />
     </>
