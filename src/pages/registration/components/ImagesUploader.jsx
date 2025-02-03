@@ -15,26 +15,20 @@ const ImagesUploader = ({ isFor, images, handleFormChange }) => {
     const file = e.target.files[0]; // 파일 가져오기
 
     if (file && file.type.startsWith('image/')) {
+      const imageUrl = URL.createObjectURL(file); // URL 변환
       const updatedImages = images.map((image, i) =>
-        i === index ? file : image
+        i === index ? imageUrl : image
       );
-      handleFormChange('images', updatedImages);
+      handleFormChange('dancerImages', updatedImages);
     }
 
     e.target.value = '';
   };
 
-  // 파일 객체 URL 변환
-  const getPreview = (file) => {
-    return file instanceof File ? URL.createObjectURL(file) : file;
-  };
-
   // 이미지 삭제 핸들러
   const deleteImage = (index) => {
-    const updatedImages = images.map((image, i) =>
-      i === index ? null : image
-    );
-    handleFormChange('images', updatedImages);
+    const updatedImages = images.map((image, i) => (i === index ? '' : image));
+    handleFormChange('dancerImages', updatedImages);
   };
 
   return (
@@ -44,9 +38,9 @@ const ImagesUploader = ({ isFor, images, handleFormChange }) => {
           {/* MainBox는 가장 첫번째 사진에만 있는 박스 */}
           {index === 0 && <MainBox label={label} />}
           <Image htmlFor={`image-${index}`} $needPointer={!images[index]}>
-            {images[index] === null && <PictureIcon />}
+            {images[index] === '' && <PictureIcon />}
             {images[index] && (
-              <img src={getPreview(images[index])} alt={`class-${index}`} />
+              <img src={images[index]} alt={`class-${index}`} />
             )}
           </Image>
           {/* 이미지가 업로드 안 된 상태에서만 박스 클릭 가능 */}
