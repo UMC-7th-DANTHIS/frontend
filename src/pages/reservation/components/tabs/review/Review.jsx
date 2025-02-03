@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as StarFilled } from '../../../../../assets/shape/filledYellowStar.svg';
 import { ReactComponent as StarNonfilled } from '../../../../../assets/shape/nonfilledYellowStar.svg';
@@ -6,7 +7,12 @@ import { ReactComponent as GotoIcon } from '../../../../../assets/shape/gotoicon
 import { formatDate } from '../../../formatDate';
 
 const Review = ({ review }) => {
+  const navigate = useNavigate();
   const totalStars = 5;
+
+  const handleDetailClick = () => {
+    navigate(`/uploadedreview/${review.id}`);
+  };
 
   return (
     <Container>
@@ -27,7 +33,7 @@ const Review = ({ review }) => {
           </RatingAndDate>
         </Data>
       </InfoWrapper>
-      <ViewDetailButton>
+      <ViewDetailButton onClick={handleDetailClick}>
         <ViewDetail>자세히 보기</ViewDetail>
         <GotoIcon />
       </ViewDetailButton>

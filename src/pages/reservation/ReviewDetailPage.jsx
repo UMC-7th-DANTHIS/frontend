@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 // import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import dummyReviews from '../../store/reservation/dummyReviews';
@@ -9,12 +10,17 @@ import { formatDateWithTime } from './formatDate';
 const ReviewDetailPage = () => {
   // const { reviewId } = useParams();
   const reviewId = 1; // 임시
+  const navigate = useNavigate();
 
   const [review, setReview] = useState([]);
 
   useEffect(() => {
     setReview(dummyReviews.find((review) => review.id === reviewId));
   }, []);
+
+  const handleBackClick = () => {
+    navigate(`/classreservation/${review.classId}?tab=reviews`);
+  };
 
   return (
     <Container>
@@ -41,7 +47,7 @@ const ReviewDetailPage = () => {
       </ImagesContainer>
       <DividerLine />
       <ButtonSection>
-        <GoBackButton>돌아가기</GoBackButton>
+        <GoBackButton onClick={handleBackClick}>돌아가기</GoBackButton>
       </ButtonSection>
     </Container>
   );
