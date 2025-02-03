@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Searchicon from '../assets/searchicon.svg';
 import Mypageicon from '../assets/buttons/mypageButton.svg';
 
-const Topbar = ({ onSearch }) => {
+const Topbar = ({ onSearch, token }) => {
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [login, setLogin] = useState(true);
@@ -42,10 +42,10 @@ const Topbar = ({ onSearch }) => {
           <LogoImg src={Logo} alt="logo" />
         </LogoBtn>
         <LoginContainer>
-          {login ? (
+          {!token ? (
             <Login onClick={handleNavigate}>LOGIN</Login>
           ) : (
-            <MyPageContainer>
+            <MyPageContainer onClick={() => navigate('/mypage')}>
               <MyPageImg src={Mypageicon} alt={'안녕하세용'} />
               <MyPage>My Page</MyPage>
             </MyPageContainer>
