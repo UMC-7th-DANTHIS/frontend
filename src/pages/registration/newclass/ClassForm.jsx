@@ -163,10 +163,10 @@ const ClassForm = ({ setIsRegistered }) => {
           handleFormChange={handleFormChange}
         />
 
-        <LabelWrapper>
+        <LabelWrapper $long>
           <Label>수업 사진</Label>
           <Notice>
-            {'\n\n'} * 최대 3장까지 등록 가능합니다.
+            * 최대 3장까지 등록 가능합니다.
             {'\n'} * 가장 첫 번째로 등록된 사진이 썸네일로 사용됩니다.
             {'\n'} * 등록된 사진이 없는 경우, 댄서 등록 시 사용한 사진으로 자동
             등록됩니다.
@@ -177,10 +177,10 @@ const ClassForm = ({ setIsRegistered }) => {
           images={formState.images}
           handleFormChange={handleFormChange}
         />
-        <LabelWrapper>
+        <LabelWrapper $long>
           <Label>수업 영상</Label>
           <Notice>
-            {'\n'} * 영상 파일 혹은 url 중 하나의 형식을 선택해 업로드 해주세요.
+            * 영상 파일 혹은 url 중 하나의 형식을 선택해 업로드 해주세요.
             {'\n'} * 수업 영상이 없는 경우, 댄서 영상을 업로드 해주세요.
           </Notice>
         </LabelWrapper>
@@ -245,7 +245,7 @@ const InputContainer = styled.div`
 const LabelWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: ${({ $long }) => ($long ? 'center' : 'flex-end')};
   justify-content: flex-start;
   width: 589px;
 `;
@@ -260,6 +260,7 @@ const Label = styled.div`
 `;
 const Notice = styled.div`
   margin-left: 20px;
+  margin-bottom: 1px;
   color: var(--text_secondary-gray, #b2b2b2);
   font-family: Pretendard;
   font-size: 14px;

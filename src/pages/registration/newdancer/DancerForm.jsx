@@ -154,7 +154,7 @@ const DancerForm = ({ setIsRegistered }) => {
           placeholder="댄서 이력을 입력하세요."
         />
 
-        <LabelWrapper>
+        <LabelWrapper $long>
           <Label>댄서 사진</Label>
           <Notice>
             * 최대 3장까지 등록 가능합니다. {'\n'}* 가장 첫 번째로 등록된 사진이
@@ -211,7 +211,6 @@ const FormContainer = styled.form`
 `;
 const InputContainer = styled.div`
   width: 900px;
-  flex-shrink: 0;
   padding-top: 63px;
   margin-bottom: 43px;
   justify-items: center;
@@ -221,7 +220,7 @@ const InputContainer = styled.div`
 const LabelWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: ${({ $long }) => ($long ? 'center' : 'flex-end')};
   justify-content: flex-start;
   width: 589px;
 `;
@@ -236,6 +235,7 @@ const Label = styled.div`
 `;
 const Notice = styled.div`
   margin-left: 20px;
+  margin-bottom: 1px;
   color: var(--text_secondary-gray, #b2b2b2);
   font-family: Pretendard;
   font-size: 14px;
