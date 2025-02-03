@@ -5,29 +5,45 @@ import styled from 'styled-components';
 import dummyClass from '../../store/reservation/dummyClass';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
 import Level from './components/Level';
-import TabMenu from './components/TabMenu';
+import DetailTab from './components/tabs/detail/DetailTab';
+import ReviewTab from './components/tabs/review/ReviewTab';
+import RatingTab from './components/tabs/rating/RatingTab';
 
 const ClassReservation = () => {
-  // const { classId- } = useParams();
   const classId = 1; // 임시
   const data = dummyClass.find((cls) => cls.id === Number(classId));
 
   const [isLiked, setIsLiked] = useState(false);
 
+  const [currentTab, setCurrentTab] = useState(0);
   const [searchParams] = useSearchParams();
   const tabParam = searchParams.get('tab');
   const initialTab = tabParam ? Number(tabParam) : 0;
   const navigate = useNavigate();
 
+  const tab = [
+    { name: '상세정보', key: 'detail' },
+    { name: '리뷰', key: 'reviews' },
+    { name: '별점', key: 'rating' }
+  ];
+
   useEffect(() => {
     if (!tabParam) {
       navigate(`/classreservation/${classId}?tab=detail`);
+    } else {
+      navigate(`/classreservation/${classId}?tab=${tabParam}`);
     }
   }, [tabParam, navigate, classId]);
 
   // 수업 찜 버튼 핸들러
   const handleLikeClick = () => {
     setIsLiked(!isLiked);
+  };
+
+  // 탭 메뉴 핸들러
+  const handleTabChange = (index) => {
+    setCurrentTab(index);
+    navigate(`/classreservation/${classId}?tab=${tab[index].key}`);
   };
 
   return (
@@ -57,7 +73,20 @@ const ClassReservation = () => {
           </LikeBtn>
         </BtnContainer>
       </Summary>
-      <TabMenu data={data} initialTab={initialTab} />
+      <Tabs>
+        {tab.map((element, index) => (
+          <Tab
+            key={index}
+            $isActive={currentTab === index}
+            onClick={() => handleTabChange(index)}
+          >
+            {element.name}
+          </Tab>
+        ))}
+      </Tabs>
+      {currentTab === 0 && <DetailTab data={data} />}
+      {currentTab === 1 && <ReviewTab />}
+      {currentTab === 2 && <RatingTab data={data} />}
     </Container>
   );
 };
@@ -176,4 +205,41 @@ const BtnText = styled.span`
   font-weight: 600;
   line-height: 50px; /* 208.333% */
   letter-spacing: -1.2px;
+`;
+const Tabs = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 1240px;
+  height: 86px;
+  flex-shrink: 0;
+  border-radius: 20px 20px 0px 0px;
+  background: var(--main_purple, #9819c3);
+`;
+const Tab = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 410px;
+  height: 83px;
+  color: var(--main_white, #fff);
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 50px; /* 178.571% */
+  letter-spacing: -1.4px;
+  transition: all 0.3s ease;
+  border-radius: 20px 20px 0px 0px;
+  border-top: 3px solid var(--main_purple, #9819c3);
+  border-right: 3px solid var(--main_purple, #9819c3);
+  border-left: 3px solid var(--main_purple, #9819c3);
+  box-shadow: 0px 8px 16px 0px var(--main_purple, #9819c3) inset;
+
+  ${({ $isActive }) => $isActive && `background: var(--main_black, #000);`}
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
