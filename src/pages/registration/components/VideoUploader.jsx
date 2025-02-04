@@ -10,7 +10,6 @@ const VideoUploader = ({ video, handleFormChange }) => {
   const [url, setUrl] = useState('');
 
   useEffect(() => {
-    console.log('ok: ', fileUrl || url);
     handleFormChange('videoUrl', fileUrl || url);
   }, [fileUrl, url]);
 
@@ -64,7 +63,6 @@ const VideoUploader = ({ video, handleFormChange }) => {
     e.target.value = ''; // 파일 선택 초기화
   };
 
-  // 유튜브 url 업로드
   const getYoutubeEmbedUrl = (link) => {
     const match = link.match(
       /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/live\/)([\w-]{11})/
