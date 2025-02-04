@@ -160,8 +160,6 @@ const Class = styled(Link)`
   }
 `;
 const Image = styled.div`
-  box-sizing: border-box;
-  padding: 10px;
   width: 220px;
   height: 220px;
   border-radius: 10px;
