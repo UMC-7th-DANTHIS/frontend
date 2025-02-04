@@ -1,99 +1,142 @@
-import React, { useState } from 'react'
-import Profileimg from '../../../../assets/profileimg.svg'
+import React, { useState } from 'react';
+import Profileimg from '../../../../assets/profileimg.svg';
 import styled from 'styled-components';
 import MypageGenre from '../MypageGenre';
 
 const ProfileUser = () => {
-  const [nickname, setNickname] = useState('');
   const [nicknameStatus, setNicknameStatus] = useState(null);
-
   const [isDefaultImage, setIsDefaultImage] = useState(false);
+  const [file, setFile] = useState(null);
+  const [formState, setFormState] = useState({
+    nickname: '',
+    gender: [],
+    email: '',
+    phone: '',
+    images: [null],
+    genre: [],
+  });
 
   const handleRadioChange = () => {
-    setIsDefaultImage((prevState) => !prevState);
+    setIsDefaultImage(true);
+    setFile(null);
+    setFormState((prev) => ({
+      ...prev,
+      images: [Profileimg],
+    }));
   };
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      setFormState((prev) => ({
+        ...prev,
+        images: [URL.createObjectURL(selectedFile)],
+      }));
       setIsDefaultImage(false);
     }
   };
 
-  const handleNicknameChange = (e) => {
-    setNickname(e.target.value);
-    setNicknameStatus(null);
+
+  const handleFileUploadClick = () => {
+    document.getElementById("file-upload").click();
+  };
+
+
+  const handleFormChange = (key, value) => {
+    setFormState((prev) => ({ ...prev, [key]: value }));
   };
 
   const handleDoubleCheck = () => {
-    if (nickname === '사용중') {
+    if (formState.nickname === '사용중') {
       setNicknameStatus('다른 유저와 중복되는 닉네임입니다.');
-    } else if (nickname.trim() === '') {
+    } else if (formState.nickname.trim() === '') {
       setNicknameStatus('닉네임을 입력해주세요.');
     } else {
       setNicknameStatus('사용 가능한 닉네임입니다.');
     }
   };
+
+  const handleSaveProfile = (e) => {
+    e.preventDefault();
+    console.log("저장할 데이터:", formState);
+  }
+
   return (
     <AllContainer>
       <UserContainer>
         <ItemContainer>
           <NicknameContainer>
-            <Label> 닉네임 </Label>
+            <Label>닉네임</Label>
             <InputContainer>
               <ErrorContainer>
                 <Input
                   type="text"
                   placeholder="닉네임을 입력하세요."
-                  value={nickname}
-                  onChange={handleNicknameChange}
+                  value={formState.nickname}
+                  onChange={(e) => handleFormChange('nickname', e.target.value)}
                 />
-                {nicknameStatus && <ErrorText>{nicknameStatus}</ErrorText>}
+                <ErrorText error={nicknameStatus === "다른 유저와 중복되는 닉네임입니다."}>
+                  {nicknameStatus}
+                </ErrorText>
               </ErrorContainer>
               <DoubleCheck onClick={handleDoubleCheck}>중복확인</DoubleCheck>
-
             </InputContainer>
-
           </NicknameContainer>
 
           <GenderContainer>
             <GenderLabel>성별</GenderLabel>
             <RadioLabel>
               남
-              <RadioInput type="radio" name="gender" value="남" />
+              <RadioInput
+                type="radio"
+                name="gender"
+                value="남"
+                checked={formState.gender === "남"}
+                onChange={() => handleFormChange("gender", "남")}
+              />
             </RadioLabel>
             <RadioLabel>
               여
-              <RadioInput type="radio" name="gender" value="여" />
+              <RadioInput
+                type="radio"
+                name="gender"
+                value="여"
+                checked={formState.gender === "여"}
+                onChange={() => handleFormChange("gender", "여")}
+              />
+
             </RadioLabel>
           </GenderContainer>
 
           <EmailContainer>
-            <Label> 이메일 </Label>
-            <EmailInput type="text" placeholder="이메일을 입력하세요." />
+            <Label>이메일</Label>
+            <EmailInput type="text" placeholder="이메일을 입력하세요." value={formState.email} onChange={(e) => { handleFormChange('email', e.target.value) }} />
           </EmailContainer>
 
-
           <PhoneContainer>
-            <Label> 전화번호 </Label>
-            <EmailInput type="text" placeholder="전화번호를 입력하세요." />
+            <Label>전화번호</Label>
+            <EmailInput type="text" placeholder="전화번호를 입력하세요." value={formState.phone} onChange={(e) => { handleFormChange('phone', e.target.value) }} />
           </PhoneContainer>
-
 
           <ImageContainer>
             <Label>프로필 사진</Label>
             <ProfileContainer>
               <ProfileImageWrapper>
-                <ProfileImage
-                  src={Profileimg} alt="프로필 이미지" />
+
+                <ProfileImage src={formState.images[0] || Profileimg} alt="프로필 이미지" />
               </ProfileImageWrapper>
               <UploadContainer>
-                <UploadButton htmlFor="file-upload">파일 업로드</UploadButton>
+                <UploadButton type="button" onClick={handleFileUploadClick}>
+                  파일 업로드
+                </UploadButton>
                 <HiddenInput
                   type="file"
                   id="file-upload"
+                  accept="image/*"
                   onChange={handleFileChange}
                 />
+
                 <RadioWrapper>
                   <RadioLabel>
                     <RadioInput
@@ -112,21 +155,26 @@ const ProfileUser = () => {
 
           <DanceContainer>
             <DanceTextContainer>
-              <Label> 선호하는 댄스 장르가 무엇인가요?  </Label>
-              <Text> * 최대 5개까지 선택 가능합니다. </Text>
+              <Label>선호하는 댄스 장르가 무엇인가요?</Label>
+              <Text>* 최대 5개까지 선택 가능합니다.</Text>
             </DanceTextContainer>
-            <MypageGenre genreSelect={5} />
-          </DanceContainer>
+            <MypageGenre
+              genreSelect={5}
+              onGenreChange={(selectedGenres) => {
+                handleFormChange('genre', selectedGenres);
+              }}
+            />
 
+          </DanceContainer>
         </ItemContainer>
       </UserContainer>
-      <SaveButton> 프로필 저장 </SaveButton>
+      <SaveButton type="submit" onClick={handleSaveProfile}>프로필 저장</SaveButton>
     </AllContainer>
-  )
-
-}
+  );
+};
 
 export default ProfileUser;
+
 
 const AllContainer = styled.div`
   display: flex;
@@ -213,7 +261,7 @@ const ErrorContainer = styled.div`
 `
 
 const ErrorText = styled.div`
-  color: ${props => (props.error ? '#FF0000' : '#00DD0B')};
+  color: ${(props) => (props.error ? "#FF0000" : "#00DD0B")};
   font-size: 14px;
   font-weight: 400;
   margin-top: 9px;
@@ -337,7 +385,7 @@ const UploadButton = styled.button`
 `;
 
 const HiddenInput = styled.input`
-  display: none;
+  visibility: hidden;
   color : white;
 `;
 
