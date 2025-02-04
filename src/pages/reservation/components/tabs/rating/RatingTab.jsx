@@ -13,7 +13,6 @@ const Rating = () => {
     const fetchClass = async () => {
       try {
         const response = await api.get(`/dance-classes/${classId}/rating`);
-        console.log(`✅ 별점 정보:`, response.data.data);
 
         setRatingData(response.data.data);
       } catch (error) {
