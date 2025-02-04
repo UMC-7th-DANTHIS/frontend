@@ -1,12 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Alert from '../../../../components/Alert';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import dummyClass from '../../../../store/mypage/dummyClass';
 import MypageSidebar from '../../MypageSidebar';
 import ReviewForm from './ReviewForm';
-import PhotoUpload from './PhotoUpload';
-import StarRating from './StarRating';
+import ReviewStar from './ReviewStar';
+
+
 
 const ReviewDetail = () => {
   const location = useLocation();
@@ -28,7 +29,7 @@ const ReviewDetail = () => {
     setClassData(selectedClass);
   }, [id]);
 
-  const handelReview = (e) => setReview(e.target.value);
+  const handleReview = (e) => setReview(e.target.value);
   const handleTitle = (e) => setTitle(e.target.value);
 
   const handleSubmit = (e) => {
@@ -44,11 +45,6 @@ const ReviewDetail = () => {
 
   const toggleStar = (index) => {
     setStarStates((prev) => prev.map((state, i) => (i === index ? !state : state)));
-  };
-
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    if (file) setSelectedImage(URL.createObjectURL(file));
   };
 
   const handleClickCancel = () => setShowAlert(true);
@@ -73,18 +69,9 @@ const ReviewDetail = () => {
               title={title}
               review={review}
               handleTitle={handleTitle}
-              handelReview={handelReview}
+              handleReview={handleReview}
             />
-
-            <PhotoUpload selectedImage={selectedImage} setSelectedImage={setSelectedImage} />
-
-            {/* <PreviewImageContainer>
-              {selectedImage && (
-                <PreviewImage src={selectedImage} alt="selected image" />
-              )}
-            </PreviewImageContainer> */}
-
-            <StarRating starStates={starStates} toggleStar={toggleStar} />
+            <ReviewStar starStates={starStates} toggleStar={toggleStar} />
 
             <FinalSection>
               <Buttons>
@@ -128,6 +115,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: row;
     background-color: black;
+    width: 1440px;
 `
 
 const ReviewContainer = styled.div`
@@ -137,7 +125,7 @@ const ReviewContainer = styled.div`
     color: #fff;
     margin-top: 38px;
     width: 880px;
-
+    margin-left: 50px;
 `;
 
 const ClassTitle = styled.div`
@@ -171,18 +159,6 @@ const Notice = styled.div`
     text-align: right;
     margin-right: 220px;
 `
-
-
-const PreviewImageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-const PreviewImage = styled.img`
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 10px;
-`;
 
 
 // 버튼 및 경고
