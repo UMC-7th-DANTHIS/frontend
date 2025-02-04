@@ -68,12 +68,11 @@ const Container = styled.div`
 const ReviewWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 222px;
+  height: 200px;
   border-radius: 10px;
   border: 1px solid #ddd;
   box-shadow: 0px 0px 5px 2px #9819c3;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
 `;
 
 const InfoWrapper = styled.div`
@@ -87,7 +86,7 @@ const Data = styled.div`
   justify-content: center;
   align-items: flex-start;
   margin-left: 50px;
-  margin-top: 9px;
+  margin-top: 15px;
 `;
 
 const TitleandPhoto = styled.div`
@@ -136,6 +135,6 @@ const Detail = styled.div`
   font-weight: 400;
   margin-left: 50px;
   margin-top: 20px;
-  margin-bottom: 36px;
   margin-right: 46px;
+  margin-bottom: 30px;
 `;
