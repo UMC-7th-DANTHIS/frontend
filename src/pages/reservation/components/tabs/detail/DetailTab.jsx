@@ -18,12 +18,34 @@ const Detail = ({ classData }) => {
     { id: 12, name: '취미' }
   ];
 
+  const getYoutubeEmbedUrl = (link) => {
+    const match = link.match(
+      /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/live\/)([\w-]{11})/
+    );
+    return match ? `https://www.youtube.com/embed/${match[1]}` : '';
+  };
+
   return (
     <Container>
-      <Video
-        src={classData.details?.videoUrl}
-        alt={`${classData.dancer?.name}의 ${classData?.className}> 수업 영상`}
-      />
+      <Video>
+        {(classData.details?.videoUrl &&
+          classData.details?.videoUrl.includes('youtube.com')) ||
+        classData.details?.videoUrl.includes('youtu.be') ? (
+          <Iframe
+            src={getYoutubeEmbedUrl(classData.details?.videoUrl)}
+            title="YouTube Video"
+            allowFullScreen
+          />
+        ) : (
+          classData.details?.videoUrl && (
+            <video
+              src={classData.details?.videoUrl}
+              alt={`${classData.dancer?.name}의 ${classData?.className}> 수업 영상`}
+              controls
+            />
+          )
+        )}
+      </Video>
       <Section>
         <Title>📢 수업 소개</Title>
         <Text>{classData.details?.description}</Text>
@@ -72,11 +94,14 @@ const Container = styled.div`
   width: 1240px;
   padding: 77px 108px;
 `;
-const Video = styled.video`
+const Video = styled.div`
+  position: relative;
   width: 1024px;
   height: 560px;
   margin-bottom: 50px;
+  border: none;
   border-radius: 3px;
+  overflow: hidden;
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
 
   video {
@@ -84,6 +109,13 @@ const Video = styled.video`
     height: 100%;
     object-fit: cover; // 비율 유지
   }
+`;
+const Iframe = styled.iframe`
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 100%;
+  height: 101%;
 `;
 const Section = styled.div`
   display: flex;
