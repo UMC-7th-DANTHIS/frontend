@@ -112,10 +112,10 @@ const Video = styled.div`
 `;
 const Iframe = styled.iframe`
   position: absolute;
-  top: -2px;
-  left: -2px;
+  top: -1px;
+  left: -1px;
   width: 100%;
-  height: 101%;
+  height: 100%;
 `;
 const Section = styled.div`
   display: flex;
