@@ -46,7 +46,6 @@ const ClassReservation = () => {
     const fetchClass = async () => {
       try {
         const response = await api.get(`/dance-classes/${classId}`);
-        console.log(`✅ 수업 정보:`, response.data.data);
 
         setClassData(response.data.data);
       } catch (error) {

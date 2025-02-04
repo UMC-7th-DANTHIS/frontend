@@ -31,7 +31,6 @@ const ClassBoard = () => {
         const response = await api.get(
           `/dance-classes?genre=${genreId}&page=${currentPage}`
         );
-        console.log(`✅ 장르별 수업 정보:`, response.data.data);
 
         setClasses(response.data.data.danceClasses);
       } catch (error) {
