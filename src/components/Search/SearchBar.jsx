@@ -38,6 +38,11 @@ const SearchBar = ({
     handleNowContent(e.target.value);
   };
 
+  const handleReSearch = (category) => {
+    handleCategoryClick(category);
+    handleSearchData();
+  };
+
   return (
     <Container>
       <InputContainer>
@@ -63,20 +68,20 @@ const SearchBar = ({
       </HashTagContainer>
       <SelectContainer>
         <SelectText
-          className={select === 'classes' ? 'active' : ''}
-          onClick={() => handleCategoryClick('classes')}
+          className={select === 'dance-classes' ? 'active' : ''}
+          onClick={() => handleReSearch('dance-classes')}
         >
           수업
         </SelectText>
         <SelectText
           className={select === 'dancers' ? 'active' : ''}
-          onClick={() => handleCategoryClick('dancers')}
+          onClick={() => handleReSearch('dancers')}
         >
           댄서
         </SelectText>
         <SelectText
           className={select === 'posts' ? 'active' : ''}
-          onClick={() => handleCategoryClick('posts')}
+          onClick={() => handleReSearch('posts')}
         >
           커뮤니티
         </SelectText>

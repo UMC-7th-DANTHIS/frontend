@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
-import axiosInstance from '../api/axios-instance';
+import useSearch from '../hooks/useSearch';
 
 import SearchBar from '../components/Search/SearchBar';
 import SearchClass from '../components/Search/SearchClass';
@@ -12,28 +12,32 @@ const SearchPage = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('query');
 
-  const [select, setSelect] = useState('classes');
-  const [temp, setTemp] = useState(query);
+  const [select, setSelect] = useState('dance-classes');
+  const [temp, setTemp] = useState(query || '');
+  const [searchQuery, setSearchQuery] = useState(null);
+
+  const { data, isLoading, isError } = useSearch(
+    searchQuery?.select,
+    searchQuery?.temp
+  );
+
+  console.log('검색 데이터:', data);
 
   useEffect(() => {
     if (query) {
       setTemp(query);
     }
+    setSearchQuery({ select: 'dance-classes', temp: query || '' });
   }, [query]);
-
-  const handleSearchData = async () => {
-    try {
-      const response = await axiosInstance.get(
-        `/search/${select}?query=${temp}`
-      );
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleCategoryClick = (category) => setSelect(category);
   const handleNowContent = (content) => setTemp(content);
+
+  const handleSearchData = () => {
+    if (select && temp) {
+      setSearchQuery({ select, temp });
+    }
+  };
 
   return (
     <Container>
@@ -45,9 +49,15 @@ const SearchPage = () => {
         handleSearchData={handleSearchData}
       />
       <ContentContainer>
-        {select === 'classes' && <SearchClass temp={temp} />}
-        {select === 'dancers' && <SearchDancer temp={temp} />}
-        {select === 'posts' && <SearchCommunity temp={temp} />}
+        {isLoading && <p>검색 중...</p>}
+        {isError && <p>오류 발생</p>}
+        {!isLoading && !isError && data && (
+          <>
+            {select === 'dance-classes' && <SearchClass data={data} />}
+            {select === 'dancers' && <SearchDancer data={data} />}
+            {select === 'posts' && <SearchCommunity data={data} />}
+          </>
+        )}
       </ContentContainer>
     </Container>
   );
