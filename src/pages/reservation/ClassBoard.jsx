@@ -65,12 +65,10 @@ const ClassBoard = () => {
         <Classes>
           {classes.map((cls) => (
             <Class to={`/classreservation/${cls.id}`} key={cls.id}>
-              <Image>
-                <img
-                  src={cls.thumbnailImage ? cls.thumbnailImage : dancerImg}
-                  alt={`class #${cls.id} thumbnail`}
-                />
-              </Image>
+              <Image
+                src={cls.thumbnailImage ? cls.thumbnailImage : dancerImg}
+                alt={`class #${cls.id} thumbnail`}
+              />
               <Title>{cls.className}</Title>
               <Dancer>{cls.dancerName}</Dancer>
             </Class>
@@ -159,7 +157,7 @@ const Class = styled(Link)`
     cursor: pointer;
   }
 `;
-const Image = styled.div`
+const Image = styled.img`
   width: 220px;
   height: 220px;
   border-radius: 10px;
