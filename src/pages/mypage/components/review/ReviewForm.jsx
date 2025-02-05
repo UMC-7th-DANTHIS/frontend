@@ -18,7 +18,7 @@ const ReviewForm = ({ title, review, handleTitle, handleReview }) => {
 
   return (
     <>
-      <ReviewBox hasImage={selectedImages.length > 0}>
+      <ReviewBox imageCount={selectedImages.length}>
         <BoxTitle>
           <Label>제목</Label>
           <Input
@@ -40,7 +40,7 @@ const ReviewForm = ({ title, review, handleTitle, handleReview }) => {
 
         {selectedImages.length > 0 && (
           <>
-            <Line />
+            <PhotoLine />
             <PreviewImageContainer>
               <ImageGrid>
                 {selectedImages.map((image, index) => (
@@ -67,16 +67,31 @@ const ReviewForm = ({ title, review, handleTitle, handleReview }) => {
 
 export default ReviewForm;
 
+const getReviewBoxHeight = (imageCount) => {
+  switch (imageCount) {
+    case 0:
+      return '400px';
+    case 1:
+    case 2:
+      return '882px';
+    case 3:
+    case 4:
+      return '1130px';
+    default:
+      return '400px';
+  }
+};
+
 const ReviewBox = styled.div`
   width: 660px;
-  height: ${props => props.hasImage ? '1130px' : '400px'};
+  height: ${props => getReviewBoxHeight(props.imageCount)};
   border: 2px solid #9819C3;
   border-radius: 10px;
   box-shadow: 0px 0px 5px #9819C3;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  transition: height 0.3s ease;
+  /* transition: height 0.3s ease; */
 `;
 
 const BoxTitle = styled.div`
@@ -93,6 +108,14 @@ const Line = styled.div`
   margin-top: 14px;
   margin-bottom: 14px;
 `;
+
+const PhotoLine = styled.div`
+  border: 1.5px solid #4D4D4D;
+  width: 555px;
+  margin-left: 59px;
+  margin-top: 14px;
+  margin-bottom: 27px;
+`
 
 const BoxContent = styled.div`
   display: flex;
@@ -145,7 +168,6 @@ const PreviewImageContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 13px;
-  margin-bottom: 91px;
 `;
 
 const ImageGrid = styled.div`
