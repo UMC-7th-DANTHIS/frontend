@@ -167,7 +167,7 @@ const FinalSection = styled.div`
     flex-direction: row;
     margin-bottom: 244px;
     gap: 24px;
-    margin-top: 21px;
+    margin-top: 75px;
     margin-left: 519px;
 `;
 
