@@ -99,15 +99,18 @@ const ClassReservation = () => {
           <Level level={classData?.difficulty} />
         </InfoContainer>
         <BtnContainer>
-          <ChatBtn type="button">
-            <BtnText>댄서와 1:1 채팅하기</BtnText>
-          </ChatBtn>
-          <LikeBtn type="button" onClick={() => handleLikeClick()}>
-            {isLiked ? (
+          <ChatBtn type="button">댄서와 1:1 채팅하기</ChatBtn>
+          <LikeBtn
+            type="button"
+            onClick={() => handleLikeClick()}
+            isLiked={isLiked}
+          >
+            {isLiked ? '찜한 수업 취소하기' : '수업 찜해놓기'}
+            {/* {isLiked ? (
               <BtnText>찜한 수업 취소하기</BtnText>
             ) : (
               <BtnText>수업 찜해놓기</BtnText>
-            )}
+            )} */}
           </LikeBtn>
         </BtnContainer>
       </Summary>
@@ -215,6 +218,15 @@ const ChatBtn = styled.button`
     linear-gradient(90deg, #b30505 0%, #9819c3 100%)
   );
 
+  color: #fff;
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 50px; /* 208.333% */
+  letter-spacing: -1.2px;
+
   &:hover {
     cursor: pointer;
   }
@@ -228,14 +240,10 @@ const LikeBtn = styled.button`
   gap: 8px;
   border-radius: 54px;
   border: 4px solid var(--main_purple, #9819c3);
-  background: transparent;
+  background: ${({ isLiked }) => (isLiked === true ? '#FFF' : 'transparent')};
 
-  &:hover {
-    cursor: pointer;
-  }
-`;
-const BtnText = styled.span`
-  color: #fff;
+  color: ${({ isLiked }) =>
+    isLiked === true ? 'var(--text_purple, #BF00FF)' : '#FFF'};
   text-align: center;
   font-family: Pretendard;
   font-size: 24px;
@@ -243,6 +251,11 @@ const BtnText = styled.span`
   font-weight: 600;
   line-height: 50px; /* 208.333% */
   letter-spacing: -1.2px;
+
+  &:hover {
+    cursor: pointer;
+    background: rgba(152, 25, 195, 0.4);
+  }
 `;
 const Tabs = styled.div`
   display: flex;
