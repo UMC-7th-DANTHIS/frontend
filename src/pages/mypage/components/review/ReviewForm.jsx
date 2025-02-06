@@ -25,6 +25,7 @@ const ReviewForm = ({ title, review, handleTitle, handleReview }) => {
             placeholder="제목을 입력하세요"
             value={title}
             onChange={handleTitle}
+            maxLength={50}
           />
         </BoxTitle>
         <Line />
@@ -35,6 +36,7 @@ const ReviewForm = ({ title, review, handleTitle, handleReview }) => {
             value={review}
             onChange={handleReview}
             hasImage={selectedImages.length > 0}
+            maxLength={1000}
           />
         </BoxContent>
 

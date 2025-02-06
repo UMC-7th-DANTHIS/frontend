@@ -7,8 +7,6 @@ import MypageSidebar from '../../MypageSidebar';
 import ReviewForm from './ReviewForm';
 import ReviewStar from './ReviewStar';
 
-
-
 const ReviewDetail = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -29,8 +27,13 @@ const ReviewDetail = () => {
     setClassData(selectedClass);
   }, [id]);
 
-  const handleReview = (e) => setReview(e.target.value);
-  const handleTitle = (e) => setTitle(e.target.value);
+  const handleReview = (e) => {
+    setReview(e.target.value);
+  }
+  const handleTitle = (e) => {
+
+    setTitle(e.target.value);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
