@@ -1,23 +1,73 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import Shape1 from '../../assets/shape/shape1.svg'
 import Shape2 from '../../assets/shape/shape2.svg'
-
+import AgreeAlert from '../../components/AgreeAlert'
 
 
 const Signup1 = () => {
+    const [showAgreeAlert, setShowAgreeAlert] = useState(false);
+    const [showPersonalAlert, setShowPersonalAlert] = useState(false);
+    const handleAgreeAlert = () => {
+      setShowAgreeAlert(true);
+    };
+  
+    const hideAgreeAlert = () => {
+      setShowAgreeAlert(false);
+    };
+
   const navigate = useNavigate();
 
   const handleNext = () => {
     navigate("/signup2"); // "/next" 경로로 이동
   };
 
-  const agreements = [
-    { id: 1, title: "이용약관 전체 동의", required: false },
-    { id: 2, title: "서비스 이용약관 동의", required: true },
-    { id: 3, title: "개인정보 처리방침 동의", required: true },
-  ];
+  const [agreements, setAgreements] = useState([
+    { id: 1, title: "이용약관 전체 동의", required: false, checked: false },
+    { id: 2, title: "서비스 이용약관 동의", required: true, checked: false },
+    { id: 3, title: "개인정보 처리방침 동의", required: true, checked: false },
+  ]);
+
+   // 전체 동의 체크박스 변경 핸들러
+   const handleAllCheck = () => {
+    const isAllChecked = !agreements[0].checked; // 현재 전체 동의 상태 반전
+    const updatedAgreements = agreements.map((item) => ({
+      ...item,
+      checked: isAllChecked,
+    }));
+    setAgreements(updatedAgreements);
+  };
+
+  // 개별 체크박스 변경 핸들러
+  const handleSingleCheck = (id) => {
+    const updatedAgreements = agreements.map((item) =>
+      item.id === id ? { ...item, checked: !item.checked } : item
+    );
+
+    // 개별 동의 항목이 모두 체크되었는지 확인
+    const allChecked = updatedAgreements
+      .slice(1)
+      .every((item) => item.checked);
+
+    // 전체 동의 상태도 함께 업데이트
+    updatedAgreements[0].checked = allChecked;
+
+    setAgreements(updatedAgreements);
+  };
+
+  // 필수 동의 항목(2,3번째)이 모두 체크되었는지 확인
+  const isNextDisabled = !(agreements[1].checked && agreements[2].checked);
+
+   // "자세히 보기" 클릭 시 특정 Alert 열기
+   const handleDetailClick = (id) => {
+    if (id === 2) {
+      setShowAgreeAlert(true);
+    } else if (id === 3) {
+      setShowPersonalAlert(true);
+    }
+  };
+
   return (
     <Layout>
       <SignupTitle> 회원가입 </SignupTitle>
@@ -51,10 +101,19 @@ const Signup1 = () => {
               <Title>
                 {item.title} {item.required && <RequiredTag>(필수)</RequiredTag>}
               </Title>
-              {index !== 0 && <Detail>자세히 보기 &gt;</Detail>}
+              {index !== 0 && (
+        <Detail onClick={() => handleDetailClick(item.id)}>자세히 보기 &gt;</Detail>
+      )}
             </TextContainer>
             <CheckboxWrapper>
-              <Checkbox id={`checkbox-${item.id}`} type="checkbox" />
+              <Checkbox
+                id={`checkbox-${item.id}`}
+                type="checkbox"
+                checked={item.checked}
+                onChange={() =>
+                  index === 0 ? handleAllCheck() : handleSingleCheck(item.id)
+                }
+              />
               <CustomCircle htmlFor={`checkbox-${item.id}`} />
             </CheckboxWrapper>
           </AgreementItem>
@@ -62,9 +121,24 @@ const Signup1 = () => {
            </>
         ))}
       </CheckForm>
-      <NextButton onClick = {handleNext}>
+      <NextButton onClick = {handleNext} disabled={isNextDisabled}>
         <Next>다음으로</Next>
       </NextButton>
+      {showAgreeAlert && (
+        <AgreeAlert
+          onClose={() => setShowAgreeAlert(false)}
+          title="서비스 이용약관"
+          message='서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구' 
+        />
+      )}
+
+      {showPersonalAlert && (
+        <AgreeAlert
+          onClose={() => setShowPersonalAlert(false)}
+          title="개인정보 처리방침"
+          message='개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침' 
+        />
+      )}
     </Layout>
   )
 }
@@ -143,12 +217,16 @@ flex-shrink: 0;
 border-radius: 25px;
 border: 2px solid var(--main_purple, #9819C3);
 margin-top : 47px;
+display : flex;
+flex-direction : column;
+
 `
 const AgreementItem = styled.div`
   display: flex;
   justify-content: space-between; /* 텍스트와 체크박스를 양 끝으로 */
   align-items: center;
-  padding-left : 323px;
+  //justify-content : center;
+  padding-left : 324px;
   padding-right : 340px;
   padding-top : 36px;
   padding-bottom : 30px;
@@ -163,7 +241,7 @@ const AgreementItem = styled.div`
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column; /* 제목과 자세히 보기를 세로로 정렬 */
-  margin-top : 10px;
+  //margin-top : 10px;
 `;
 
 const Title = styled.div`
@@ -185,8 +263,7 @@ font-size: 16px;
 font-style: normal;
 font-weight: 500;
 line-height: normal;
-
-
+cursor : pointer;
 `;
 
 
@@ -217,6 +294,9 @@ const CheckboxWrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+  justify-content : center;
+  width: auto; /* 필요시 추가 */
+  height: auto; /* 필요시 추가 */
 `;
 
 const Checkbox = styled.input`
@@ -231,7 +311,7 @@ const Checkbox = styled.input`
 const CustomCircle = styled.label`
   width: 24px;
   height: 24px;
-  border: 2px solid #A60F62;
+  border: 1.2px solid #A60F62;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -239,13 +319,14 @@ const CustomCircle = styled.label`
   background : white;
   cursor: pointer;
   position : relative;
-
+  aspect-ratio: 1/1; /* 비율 유지 */
   &:after {
     content: "";
-    width: 18px;
-    height: 18px;
+    width: 16.8px;
+    height: 16.8px;
     background-color: #A60F62;
     border-radius: 50%;
+    aspect-ratio: 1/1;
     opacity: 0;
     transition: opacity 0.2s ease;
     position : absolute;

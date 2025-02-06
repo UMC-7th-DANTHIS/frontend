@@ -9,8 +9,6 @@ const LoginPage = () => {
   const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
   const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
   
-  //const REST_API_KEY = '5404b0149b95af5aeca51b6c4d4dd9e4';
-  //const REDIRECT_URI = 'http://localhost:3000/oauth/kakao/callback';
   
   const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
   
