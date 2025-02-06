@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-const MypageGenre = ({ genreSelect }) => {
+const MypageGenre = ({ genreSelect, onGenreChange }) => {
   const genres = [
     "힙합",
     "걸스힙합",
@@ -28,6 +28,12 @@ const MypageGenre = ({ genreSelect }) => {
       return prevSelectedGenres;
     });
   };
+
+  useEffect(() => {
+    if (onGenreChange) {
+      onGenreChange(selectedGenres);
+    }
+  }, [selectedGenres]);
 
   return (
     <div>
