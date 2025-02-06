@@ -39,7 +39,7 @@ const CommentsReview = ({ review }) => {
               <Stars>
                 {Array.from({ length: totalStars }, (_, index) => (
                   <Star key={index}>
-                    {index < review.rate ? <StarFilled /> : <StarNonfilled />}
+                    {index < review.rate ? <StarFilled width={24} height={24} /> : <StarNonfilled width={24} height={24} />}
                   </Star>
                 ))}
               </Stars>
