@@ -103,14 +103,9 @@ const ClassReservation = () => {
           <LikeBtn
             type="button"
             onClick={() => handleLikeClick()}
-            isLiked={isLiked}
+            $isLiked={isLiked}
           >
             {isLiked ? '찜한 수업 취소하기' : '수업 찜해놓기'}
-            {/* {isLiked ? (
-              <BtnText>찜한 수업 취소하기</BtnText>
-            ) : (
-              <BtnText>수업 찜해놓기</BtnText>
-            )} */}
           </LikeBtn>
         </BtnContainer>
       </Summary>
@@ -240,10 +235,10 @@ const LikeBtn = styled.button`
   gap: 8px;
   border-radius: 54px;
   border: 4px solid var(--main_purple, #9819c3);
-  background: ${({ isLiked }) => (isLiked === true ? '#FFF' : 'transparent')};
+  background: ${({ $isLiked }) => ($isLiked === true ? '#FFF' : 'transparent')};
 
-  color: ${({ isLiked }) =>
-    isLiked === true ? 'var(--text_purple, #BF00FF)' : '#FFF'};
+  color: ${({ $isLiked }) =>
+    $isLiked === true ? 'var(--text_purple, #BF00FF)' : '#FFF'};
   text-align: center;
   font-family: Pretendard;
   font-size: 24px;
