@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Review from './Review';
-import dummyReviews from '../../../../../store/reservation/dummyReviews';
 import Pagination from '../../../../../components/Pagination';
+import api from '../../../../../api/api';
 
 const ReviewTab = () => {
   const location = useLocation();
   const [reviews, setReviews] = useState([]);
+  const { classId } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5; // 페이지 당 보여질 요소 개수
 
@@ -22,24 +23,28 @@ const ReviewTab = () => {
   }, [page]);
 
   useEffect(() => {
-    setReviews(dummyReviews);
-  }, []);
+    const fetchReviews = async () => {
+      try {
+        const response = await api.get(
+          `/dance-classes/${classId}/reviews?page=${currentPage}`
+        );
 
-  // 현재 페이지에 보여질 요소 계산
-  const getCurrentPageData = () => {
-    const startIndex = (currentPage - 1) * perData;
-    const endIndex = startIndex + perData;
+        setReviews(response.data.data);
+      } catch (error) {
+        console.error('❌ 리뷰 정보를 불러오는 중 오류 발생:', error);
+      }
+    };
 
-    return reviews.slice(startIndex, endIndex);
-  };
+    fetchReviews();
+  }, [classId]);
 
   return (
     <Container>
-      {getCurrentPageData().map((review, index) => (
+      {reviews.classReviews?.map((review, index) => (
         <Review key={index} review={review} page={currentPage} />
       ))}
       <Pagination
-        dataLength={reviews.length}
+        dataLength={reviews.pagination?.totalPages}
         perData={perData}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}

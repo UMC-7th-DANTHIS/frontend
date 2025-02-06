@@ -126,7 +126,7 @@ const ClassReservation = () => {
         ))}
       </Tabs>
       {currentTab === 0 && <DetailTab classData={classData} />}
-      {/* {currentTab === 1 && <ReviewTab />}*/}
+      {currentTab === 1 && <ReviewTab />}
       {currentTab === 2 && <RatingTab />}
     </Container>
   );

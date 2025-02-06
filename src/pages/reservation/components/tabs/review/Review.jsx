@@ -21,17 +21,21 @@ const Review = ({ review, page }) => {
       <InfoWrapper>
         <ProfileImage />
         <Data>
-          <Name>{review.name}</Name>
+          <Name>{review.author}</Name>
           <Title>{review.title}</Title>
           <RatingAndDate>
             <Stars>
               {Array.from({ length: totalStars }, (_, index) => (
                 <Star key={index}>
-                  {index < review.rate ? <StarFilled /> : <StarNonfilled />}
+                  {index < review.rating ? (
+                    <StarFilled width="24px" height="24px" />
+                  ) : (
+                    <StarNonfilled width="24px" height="24px" />
+                  )}
                 </Star>
               ))}
             </Stars>
-            <Date>{formatDate(review.date)}</Date>
+            <Date>{formatDate(review.createdAt)}</Date>
           </RatingAndDate>
         </Data>
       </InfoWrapper>
@@ -41,13 +45,13 @@ const Review = ({ review, page }) => {
       </ViewDetailButton>
 
       <Detail>
-        {review.detail.length > 680
-          ? `${review.detail.slice(0, 680)} ...`
-          : review.detail}
+        {review.content?.length > 680
+          ? `${review.content.slice(0, 680)} ...`
+          : review.content}
       </Detail>
       {review.images && (
         <Images>
-          {review.images.map((image, index) => (
+          {review.reviewImages.map((image, index) => (
             <Image key={index}>
               {image && <img src={image} alt={`review #${index}`} />}
             </Image>
