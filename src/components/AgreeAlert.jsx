@@ -89,6 +89,8 @@ const TextContainer = styled.div`
   margin-left: 52px;
   margin-right: 52px;
   margin-top: 70px;
+  overflow-x: scroll;
+  
 `;
 
 const Title = styled.div`
@@ -104,7 +106,6 @@ const Title = styled.div`
 const Message = styled.div`
   width: 372px;
   height: 272px;
-  overflow: scroll;
   display: flex;
   color: #000;
   text-align: center;
