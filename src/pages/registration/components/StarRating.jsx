@@ -9,7 +9,7 @@ const StarRating = ({ label, value, handleFormChange }) => {
     // 클릭한 별이 현재 level과 같으면 선택 해제,
     // 아니면 선택
     const newValue = index + 1 === value ? index : index + 1;
-    handleFormChange('level', newValue);
+    handleFormChange('difficulty', newValue);
   };
 
   return (

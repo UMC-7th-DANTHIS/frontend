@@ -1,47 +1,79 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { ReactComponent as PlusButton } from "../../../assets/buttons/plus-button.svg";
+import { ReactComponent as PictureIcon } from '../../../assets/picture.svg';
+import { ReactComponent as EditIcon } from '../../../assets/shape/write.svg';
+import { ReactComponent as DeleteIcon } from '../../../assets/shape/trash.svg';
+import PictureBox from './PictureBox';
 
-const DancerPicture = () => {
-  const [images, setImages] = useState([]);
 
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    if (files.length + images.length <= 4) {
-      setImages([...images, ...files]);
-    } else {
-      alert('최대 4장까지만 등록 가능합니다.');
+const DancerPicture = ({ isFor, images, handleFormChange }) => {
+  const maxImages = 3;
+  const label = isFor === 'edit' ? 'Profile' : '';
+
+  const handleUploadFile = (e, index) => {
+    const file = e.target.files[0];
+
+    if (file && file.type.startsWith('image/')) {
+      const updatedImages = images.map((image, i) =>
+        i === index ? file : image
+      );
+      handleFormChange('images', updatedImages);
     }
+
+    e.target.value = '';
+  };
+
+  const getPreview = (file) => {
+    return file ? URL.createObjectURL(file) : '';
+  };
+
+  const deleteImage = (index) => {
+    const updatedImages = images.map((image, i) =>
+      i === index ? null : image
+    );
+    handleFormChange('images', updatedImages);
   };
 
   return (
     <Container>
-      <Example imagesExist={images.length > 0}>
-        <ContentContainer>
-          {images.map((image, index) => (
-            <PreviewContainer key={index}>
+      {Array.from({ length: maxImages }, (_, index) => (
+        <ImageWrapper key={index}>
+          {index === 0 && <PictureBox label={label} />}
+          <ImageLabel htmlFor={`image-${index}`} $needPointer={!images[index]}>
+            {!images[index] && <PictureIcon />}
+            {images[index] && (
               <PreviewImage
-                src={URL.createObjectURL(image)}
-                alt={`preview-${index}`}
+                src={getPreview(images[index])}
+                alt={`image-${index}`}
               />
-            </PreviewContainer>
-          ))}
+            )}
+          </ImageLabel>
 
-          <IconContainer>
-            <PlusIconContainer>
-              <input
+          <HiddenInput
+            type="file"
+            id={`image-${index}`}
+            accept="image/*"
+            onChange={(e) => handleUploadFile(e, index)}
+          />
+
+          {images[index] && (
+            <Tools>
+              <IconLabel htmlFor={`edit-image-${index}`}>
+                <EditIcon />
+              </IconLabel>
+              <HiddenInput
                 type="file"
+                id={`edit-image-${index}`}
                 accept="image/*"
-                multiple
-                style={{ display: 'none' }}
-                onChange={handleImageChange}
-                id="fileInput"
+                onChange={(e) => handleUploadFile(e, index)}
               />
-              <PlusButton onClick={() => document.getElementById('fileInput').click()} />
-            </PlusIconContainer>
-          </IconContainer>
-        </ContentContainer>
-      </Example>
+              <IconButton onClick={() => deleteImage(index)}>
+                <DeleteIcon />
+              </IconButton>
+            </Tools>
+          )}
+        </ImageWrapper>
+      ))}
     </Container>
   );
 };
@@ -49,39 +81,59 @@ const DancerPicture = () => {
 export default DancerPicture;
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 44px;
+  margin-top: 11px;
 `;
 
-const Example = styled.div`
-  display: flex;
-  margin-top: ${(props) => (props.imagesExist ? '30px' : '0')};
-`;
-
-const ContentContainer = styled.div`
-  display: flex;
-  gap: 9px;
-`;
-
-const IconContainer = styled.div`
-  margin-left: 35px;
-`;
-
-const PlusIconContainer = styled.div`
-  display: flex;
-  cursor: pointer;
-  margin-top: 30px;
-`;
-
-const PreviewContainer = styled.div`
+const ImageWrapper = styled.div`
   position: relative;
-  width: 140px;
-  height: 140px;
+
+`;
+
+const ImageLabel = styled.label`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  width: 160px;
+  height: 160px;
+  border-radius: 7px;
+  background: #d9d9d9;
+  overflow: hidden;
+  margin-left: 12px;
+
+  ${({ $needPointer }) => $needPointer && `cursor: pointer;`}
+`;
+
+const HiddenInput = styled.input`
+  display: none;
+`;
+
+const Tools = styled.div`
+  position: absolute;
+  left: 54px;
+  display: flex;
+  flex-direction: row;
+`;
+
+const IconLabel = styled.label`
+  cursor: pointer;
+  margin: 5px;
+  margin-bottom: 0;
+`;
+
+const IconButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin: 5px;
+  margin-bottom: 0;
 `;
 
 const PreviewImage = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 160px;
+  height: 160px;
   object-fit: cover;
-  border-radius: 7px;
 `;

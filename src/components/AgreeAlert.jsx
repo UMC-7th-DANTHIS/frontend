@@ -3,7 +3,9 @@ import styled from 'styled-components'
 import { ReactComponent as CloseIcon } from '../assets/buttons/close-button.svg';
 
 const AgreeAlert = ({
-  onClose
+  onClose,
+  title,
+  message,
 }) => {
   const handleClick = (e) => {
     e.stopPropagation();
@@ -25,8 +27,8 @@ const AgreeAlert = ({
         </CloseButton>
 
         <TextContainer>
-          <Title> 서비스 이용약관 </Title>
-          <Message> 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 </Message>
+          <Title> {title}  </Title>
+          <Message> {message}  </Message>
         </TextContainer>
       </AlertContainer>
 
@@ -87,6 +89,8 @@ const TextContainer = styled.div`
   margin-left: 52px;
   margin-right: 52px;
   margin-top: 70px;
+  overflow-x: scroll;
+  
 `;
 
 const Title = styled.div`
@@ -102,7 +106,6 @@ const Title = styled.div`
 const Message = styled.div`
   width: 372px;
   height: 272px;
-  overflow: scroll;
   display: flex;
   color: #000;
   text-align: center;
