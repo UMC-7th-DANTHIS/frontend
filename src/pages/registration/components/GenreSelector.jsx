@@ -1,19 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const GenreSelector = ({ selectedGenres, handleFormChange }) => {
-  const genres = [
-    { id: 1, name: '힙합' },
-    { id: 2, name: '걸스힙합' },
-    { id: 3, name: '팝핑' },
-    { id: 4, name: '락킹' },
-    { id: 5, name: '왁킹' },
-    { id: 6, name: '걸리시/힐' },
-    { id: 7, name: '크럼프' },
-    { id: 8, name: '텃팅' },
-    { id: 9, name: '코레오' },
-    { id: 10, name: 'K-pop' }
-  ];
+const genres = [
+  { id: 1, name: '힙합' },
+  { id: 2, name: '걸스힙합' },
+  { id: 3, name: '팝핑' },
+  { id: 4, name: '락킹' },
+  { id: 5, name: '왁킹' },
+  { id: 6, name: '걸리시/힐' },
+  { id: 7, name: '크럼프' },
+  { id: 8, name: '텃팅' },
+  { id: 9, name: '코레오' },
+  { id: 10, name: 'K-pop' }
+];
+
+const GenreSelectorDancer = ({ selectedGenres, handleFormChange }) => {
   const maxGenresLength = 2;
 
   // 장르 선택 핸들러
@@ -47,7 +48,31 @@ const GenreSelector = ({ selectedGenres, handleFormChange }) => {
   );
 };
 
-export default GenreSelector;
+const GenreSelectorClass = ({ selectedGenre, handleFormChange }) => {
+  // 단일 선택
+  // 장르 선택 핸들러
+  const handleSelect = (genreId) => {
+    const updatedGenre = selectedGenre === genreId ? null : genreId;
+    handleFormChange('genre', updatedGenre);
+  };
+
+  return (
+    <GenreWrapper>
+      {genres.map((genre) => (
+        <GenreBtn
+          key={genre.id}
+          type="button"
+          selected={selectedGenre === genre.id}
+          onClick={() => handleSelect(genre.id)}
+        >
+          #{genre.name}
+        </GenreBtn>
+      ))}
+    </GenreWrapper>
+  );
+};
+
+export { GenreSelectorDancer, GenreSelectorClass };
 
 const GenreWrapper = styled.div`
   width: 514px;
