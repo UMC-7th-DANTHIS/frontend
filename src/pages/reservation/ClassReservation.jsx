@@ -53,8 +53,20 @@ const ClassReservation = () => {
       }
     };
 
+    const fetchLiked = async () => {
+      try {
+        const response = await api.get(`/users/dance-classes`);
+        response.data.data?.danceClasses.find(
+          (cls) => cls.id === Number(classId) && setIsLiked(true)
+        );
+      } catch (error) {
+        console.error('❌ 유저의 수업 찜 정보를 불러오는 중 오류 발생:', error);
+      }
+    };
+
     fetchClass();
-  }, [classId]);
+    fetchLiked();
+  }, [classId, isLiked]);
 
   // URL의 tab 쿼리에 맞추어 currentTab을 변경
   // 돌아오기 버튼으로 돌아오는 상황을 위해 setCurrentTab을 여기서 핸들링
@@ -69,9 +81,30 @@ const ClassReservation = () => {
     }
   }, [urlTabQuery]);
 
+  // 수업 찜 등록
+  const postLiked = async () => {
+    try {
+      await api.post(`/dance-classes/${classId}/favorite`);
+      setIsLiked(true);
+    } catch (error) {
+      console.error('❌ 수업 찜 등록 중 오류 발생:', error);
+    }
+  };
+
+  // 수업 찜 삭제
+  const deleteLiked = async () => {
+    try {
+      await api.delete(`/dance-classes/${classId}/favorite`);
+      setIsLiked(false);
+    } catch (error) {
+      console.error('❌ 수업 찜 해제 중 오류 발생:', error);
+    }
+  };
+
   // 수업 찜 버튼 핸들러
   const handleLikeClick = () => {
-    setIsLiked(!isLiked);
+    if (isLiked === false) postLiked();
+    else deleteLiked();
   };
 
   // 탭 메뉴 선택 핸들러
