@@ -36,7 +36,7 @@ const ReviewTab = () => {
     };
 
     fetchReviews();
-  }, [classId]);
+  }, [classId, currentPage]);
 
   return (
     <Container>
@@ -44,7 +44,7 @@ const ReviewTab = () => {
         <Review key={index} review={review} page={currentPage} />
       ))}
       <Pagination
-        dataLength={reviews.pagination?.totalPages}
+        dataLength={reviews.pagination?.totalReviews}
         perData={perData}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
