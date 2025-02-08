@@ -14,34 +14,39 @@ const ReviewTab = () => {
 
   const { fromReviewDetail, page } = location.state || {}; // 이동했던 페이지로부터 이전 페이지네이션 정보를 전달 받음
 
+  const fetchReviews = async (page) => {
+    try {
+      const response = await api.get(
+        `/dance-classes/${classId}/reviews?page=${page}`
+      );
+
+      setReviews(response.data.data);
+    } catch (error) {
+      console.error('❌ 리뷰 정보를 불러오는 중 오류 발생:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchReviews(currentPage);
+  }, [classId, currentPage]);
+
   // 이동했던 페이지로부터 이전 페이지네이션 정보를 받았을 경우
   // currentPage를 해당 페이지(이전 페이지)로 설정
   useEffect(() => {
     if (fromReviewDetail && page) {
       setCurrentPage(page);
+      fetchReviews(page);
     }
-  }, [page]);
-
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const response = await api.get(
-          `/dance-classes/${classId}/reviews?page=${currentPage}`
-        );
-
-        setReviews(response.data.data);
-      } catch (error) {
-        console.error('❌ 리뷰 정보를 불러오는 중 오류 발생:', error);
-      }
-    };
-
-    fetchReviews();
-  }, [classId, currentPage]);
+  }, [fromReviewDetail, page]);
 
   return (
     <Container>
       {reviews.classReviews?.map((review, index) => (
-        <Review key={index} review={review} page={currentPage} />
+        <Review
+          key={index}
+          review={review}
+          page={reviews.pagination?.currentPage}
+        />
       ))}
       <Pagination
         dataLength={reviews.pagination?.totalReviews}
