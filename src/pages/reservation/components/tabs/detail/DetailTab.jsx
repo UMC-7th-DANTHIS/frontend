@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { ReactComponent as Speaker } from '../../../../../assets/emoji/speaker.svg';
+import { ReactComponent as ThumbsUp } from '../../../../../assets/emoji/thumbsup.svg';
 
 const Detail = ({ classData }) => {
   const tags = [
@@ -47,11 +49,21 @@ const Detail = ({ classData }) => {
         )}
       </Video>
       <Section>
-        <Title>📢 수업 소개</Title>
+        <Title>
+          <Emoji>
+            <Speaker />
+          </Emoji>
+          수업 소개
+        </Title>
         <Text>{classData.details?.description}</Text>
       </Section>
       <Section>
-        <Title>👍🏻 이 수업은 이런 분들에게 추천해요!</Title>
+        <Title>
+          <Emoji>
+            <ThumbsUp />
+          </Emoji>
+          이 수업은 이런 분들에게 추천해요!
+        </Title>
         <Text>{classData.details?.targetAudience}</Text>
         <Tags>
           {classData.details?.hashtags.map((tag) => {
@@ -126,6 +138,9 @@ const Section = styled.div`
   white-space: pre-line;
 `;
 const Title = styled.div`
+  display: flex;
+  gap: 20px;
+  align-items: center;
   color: var(--main_white, #fff);
   font-family: Pretendard;
   font-size: 32px;
@@ -133,6 +148,9 @@ const Title = styled.div`
   font-weight: 700;
   line-height: 50px;
   letter-spacing: -1.6px;
+`;
+const Emoji = styled.span`
+  margin-top: 5px;
 `;
 const Text = styled.div`
   color: var(--main_white, #fff);
