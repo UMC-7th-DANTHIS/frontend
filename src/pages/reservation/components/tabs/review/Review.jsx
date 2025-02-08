@@ -49,7 +49,7 @@ const Review = ({ review, classId, page }) => {
           ? `${review.content.slice(0, 680)} ...`
           : review.content}
       </Detail>
-      {review.images && (
+      {review.reviewImages && (
         <Images>
           {review.reviewImages.map((image, index) => (
             <Image key={index}>
