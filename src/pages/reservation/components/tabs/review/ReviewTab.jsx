@@ -48,6 +48,7 @@ const ReviewTab = () => {
         <Review
           key={index}
           review={review}
+          classId={reviews?.id}
           page={reviews.pagination?.currentPage}
         />
       ))}

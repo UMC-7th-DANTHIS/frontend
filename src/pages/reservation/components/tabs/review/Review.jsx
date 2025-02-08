@@ -6,13 +6,13 @@ import { ReactComponent as StarNonfilled } from '../../../../../assets/shape/non
 import { ReactComponent as GotoIcon } from '../../../../../assets/shape/gotoicon.svg';
 import { formatDate } from '../../../formatDate';
 
-const Review = ({ review, page }) => {
+const Review = ({ review, classId, page }) => {
   const navigate = useNavigate();
   const totalStars = 5;
 
   const handleDetailClick = () => {
     navigate(`/uploadedreview/${review.id}`, {
-      state: { fromReviewTab: true, page } // 페이지네이션 정보 전달
+      state: { fromReviewTab: true, classId, page } // 페이지네이션 정보 전달
     });
   };
 

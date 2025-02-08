@@ -1,26 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import dummyReviews from '../../store/reservation/dummyReviews';
 import { ReactComponent as EditIcon } from '../../assets/shape/write.svg';
 import { ReactComponent as DeleteIcon } from '../../assets/shape/trash.svg';
 import { formatDateWithTime } from './formatDate';
+import api from '../../api/api';
 
 const ReviewDetailPage = () => {
-  const reviewId = 1; // 임시
   const navigate = useNavigate();
   const location = useLocation();
   const [review, setReview] = useState([]);
-  const { fromReviewTab, page } = location.state || {}; // 페이지네이션을 기억해 둠
+  const { reviewId } = useParams();
+  const { fromReviewTab, classId, page } = location.state || {}; // 페이지네이션을 기억해 둠
 
   useEffect(() => {
-    setReview(dummyReviews.find((review) => review.id === reviewId));
-  }, []);
+    const fetchReview = async () => {
+      try {
+        const response = await api.get(
+          `/dance-classes/${classId}/reviews/${reviewId}`
+        );
+        setReview(response.data.data);
+      } catch (error) {
+        console.error('❌ 리뷰 상세 정보를 불러오는 중 오류 발생:', error);
+      }
+    };
+    fetchReview();
+  }, [classId, reviewId]);
 
   // 돌아가기 버튼 핸들러
   const handleBackClick = () => {
     if (fromReviewTab) {
-      navigate(`/classreservation/${review.id}?tab=reviews`, {
+      navigate(`/classreservation/${classId}?tab=reviews`, {
         state: { fromReviewDetail: true, page } // 페이지네이션 정보 재전달
       });
     }
@@ -31,16 +41,14 @@ const ReviewDetailPage = () => {
       <Title>{review.title}</Title>
       <DividerLine />
       <InfoWrapper>
-        <InfoText>작성일 : {formatDateWithTime(review.date)}</InfoText>
-        <InfoText>작성자 : {review.name}</InfoText>
-      </InfoWrapper>
-      <InfoWrapper>
         <Tool>
           <EditIcon />
           <DeleteIcon />
         </Tool>
+        <InfoText>작성일 : {formatDateWithTime(review.createdAt)}</InfoText>
+        <InfoText>작성자 : {review.author}</InfoText>
       </InfoWrapper>
-      <Content>{review.detail}</Content>
+      <Content>{review.content}</Content>
       <ImagesContainer>
         {review.images &&
           review.images.map((image, index) => (
@@ -106,6 +114,7 @@ const InfoText = styled.div`
   line-height: normal;
 `;
 const Content = styled.div`
+  width: 900px;
   margin-top: 48px;
   margin-bottom: 78px;
   color: var(--main_white, #fff);
