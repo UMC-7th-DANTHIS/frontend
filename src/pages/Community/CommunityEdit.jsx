@@ -51,7 +51,12 @@ const CommunityEdit = () => {
           setContent={setContent}
           selectedPost={selectedPost}
         />
-        <EditFooter handleFileChange={handleFileChange} />
+        <EditFooter
+          handleFileChange={handleFileChange}
+          title={title}
+          content={content}
+          fileName={fileName}
+        />
       </ContentContainer>
     </Container>
   );
