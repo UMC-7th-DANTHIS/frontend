@@ -1,38 +1,23 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { ReactComponent as PostArrow } from '../../../../assets/postarrow.svg';
-import dummyPost from '../../../../store/mypage/dummyPost';
-import dummyComments from '../../../../store/mypage/dummyComments';
+import ReviewPage from './ReviewPage';
+import CommentPost from './CommentPost';
 
 const MyComments = () => {
   const [activeTab, setActiveTab] = useState('게시글');
-  const post = dummyPost;
-  const comments = dummyComments;
+
 
   const renderContents = () => {
     if (activeTab === '게시글') {
-      return post.map((post) => (
-        <CommentContainer key={post.id}>
-          <ContentsContainer>
-            <CommentTitle>{post.title}</CommentTitle>
-            <CommentContents>{post.content}</CommentContents>
-          </ContentsContainer>
-        </CommentContainer>
-      ));
+      return (
+        <CommentPost />
+      )
     }
-    if (activeTab === '댓글') {
-      return comments.map((comments) => (
-        <CommentsContainer key={comments.id}>
-          <ContentContainer>
-            <Title>{comments.content}</Title>
-            <SeepostContainer>
-              <SeePost> 게시물 보기 </SeePost>
-              <PostArrow />
-            </SeepostContainer>
+    if (activeTab === '리뷰') {
+      return (
+        <ReviewPage />
 
-          </ContentContainer>
-        </CommentsContainer>
-      ));
+      )
     }
   };
 
@@ -47,10 +32,10 @@ const MyComments = () => {
             게시글
           </Tab>
           <Tab
-            isActive={activeTab === '댓글'}
-            onClick={() => setActiveTab('댓글')}
+            isActive={activeTab === '리뷰'}
+            onClick={() => setActiveTab('리뷰')}
           >
-            댓글
+            리뷰
           </Tab>
         </TextContainer>
 
@@ -103,14 +88,14 @@ const Divider = styled.div`
 
 const CommentContainer = styled.div`
   width: 971px;
-  height: auto; // 이 부분 얘기
-  /* height: 160px; */
+  height: 160px;
   flex-shrink: 0;
   border: 1px solid #ddd;
   border-radius: 10px;
   box-shadow: 0px 0px 5px #9819c3;
   margin-bottom: 20px;
   margin-left: 29px;
+  cursor: pointer;
 
 `;
 
@@ -135,41 +120,12 @@ const CommentContents = styled.p`
 `;
 
 
-const CommentsContainer = styled.div`
-  width: 971px;
-  height: 110px;
+const BoxContainer = styled.div`
+  width: 970px;
+  height: 222px;
   flex-shrink: 0;
   border: 1px solid #DDD;
-  box-shadow: 0px 0px 5px #9819c3;
-  margin-bottom: 20px; 
-  margin-left: 29px;
+  box-shadow:0px 0px 5px #9819C3;
   border-radius: 10px;
-`;
 
-const ContentContainer = styled.div`
-  padding: 29px 22px 0 50px;
 `
-
-const Title = styled.div`
-  color: white;
-  font-size: 22px;
-  font-weight: 600;
-`
-
-const SeepostContainer = styled.div`
-  display: flex;
-  align-items: center; 
-  justify-content: flex-end;
-  margin-bottom: 20px;
-  margin-right: 22px;
-  cursor: pointer;
-`;
-
-const SeePost = styled.p`
-  color: #B2B2B2;
-  font-weight: 500;
-  line-height: normal;
-  margin-right: 9px; 
-`;
-
-

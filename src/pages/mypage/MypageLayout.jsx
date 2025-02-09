@@ -46,6 +46,7 @@ const MainContainer = styled.div`
   background-color: black;
   display: flex;
   min-height: 100vh;
+  width: 1440px;
 `;
 
 const ContentContainer = styled.div`

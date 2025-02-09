@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
 
-const PhotoUpload = ({ selectedImage, setSelectedImage }) => {
+const PhotoUpload = ({ setSelectedImage }) => {
   const photoInputRef = useRef(null);
 
   const handleImageChange = (event) => {

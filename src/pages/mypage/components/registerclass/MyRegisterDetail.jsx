@@ -8,12 +8,20 @@ import AskAlert from '../../../../components/AskAlert'
 import UserOverlay from '../../../../components/UserOverlay'
 import Pagination from '../../../../components/Pagination'
 import MyRegisterClass from './MyRegisterClass'
+import dummyRegister from '../../../../store/mypage/dummyRegister'
 
 const MyRegisterDetail = ({ index, data }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [showRegisterUser, setShowRegisterUser] = useState(false);
   const [currentComponent, setCurrentComponent] = useState('detail');
   const classData = data.danceClasses.find((danceClass) => danceClass.id === index);
+  const userData = dummyRegister;
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const perData = 10;
+  // const filteredList = userData.slice(
+  //   perData * (currentPage - 1),
+  //   perData * currentPage
+  // );
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -49,7 +57,7 @@ const MyRegisterDetail = ({ index, data }) => {
 
             <ContentSection>
               <ImageContainer>
-                <Image src={SampleImage} />
+                <Image src={classData.images[0] || SampleImage} />
               </ImageContainer>
 
               <ReviewSection>
@@ -83,18 +91,27 @@ const MyRegisterDetail = ({ index, data }) => {
             <CheckUserContainer>
               <Label> 이 수업을 수강한 유저 </Label>
               <UserImage>
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <ImageList key={index}>
-                    <ListImage src={SampleImage} alt={`Class ${index + 1}`} />
-                    <UserName> 써니 </UserName>
-                  </ImageList>
-                ))}
+                {userData.danceClasses.length > 0 ? (
+                  userData.danceClasses.map((danceClass) => (
+                    <ImageList key={danceClass.id}>
+                      <ListImage src={danceClass.users.images[0] || SampleImage} alt={'userImage'} />
+                      <UserName>{danceClass.users.username}</UserName>
+                    </ImageList>
+                  ))
+                ) : (
+                  <div>등록된 유저가 없습니다.</div>
+                )}
               </UserImage>
             </CheckUserContainer>
 
-            <PaginationContainer>
-              <Pagination dataLength={10} perData={6} />
-            </PaginationContainer>
+            {/* <PaginationContainer>
+              <Pagination
+                dataLength={filteredList}
+                perData={perData}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            </PaginationContainer> */}
 
             <GoBack onClick={goToClassList}>
               수업 목록으로
@@ -163,6 +180,7 @@ const Image = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  background-color: white;
 `;
 
 const ReviewSection = styled.div`
@@ -253,7 +271,7 @@ const ListImage = styled.img`
   height: 50px;
   border-radius: 6px;
   object-fit: cover;
-  margin-bottom: 50px;
+  margin-bottom: 37px;
 `
 
 const UserName = styled.div`

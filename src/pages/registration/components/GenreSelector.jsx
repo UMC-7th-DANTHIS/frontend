@@ -1,53 +1,78 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const GenreSelector = ({ selectedGenres, handleFormChange }) => {
-  const genres = [
-    '힙합',
-    '걸스힙합',
-    '팝핑',
-    '락킹',
-    '왁킹',
-    '걸리시/힐',
-    '크럼프',
-    '텃팅',
-    '코레오',
-    'K-pop'
-  ];
+const genres = [
+  { id: 1, name: '힙합' },
+  { id: 2, name: '걸스힙합' },
+  { id: 3, name: '팝핑' },
+  { id: 4, name: '락킹' },
+  { id: 5, name: '왁킹' },
+  { id: 6, name: '걸리시/힐' },
+  { id: 7, name: '크럼프' },
+  { id: 8, name: '텃팅' },
+  { id: 9, name: '코레오' },
+  { id: 10, name: 'K-pop' }
+];
+
+const GenreSelectorDancer = ({ selectedGenres, handleFormChange }) => {
   const maxGenresLength = 2;
 
   // 장르 선택 핸들러
-  const handleSelect = (genre) => {
+  const handleSelect = (genreId) => {
     let updatedGenres;
 
-    if (selectedGenres.includes(genre)) {
-      updatedGenres = selectedGenres.filter((g) => g !== genre);
+    if (selectedGenres.includes(genreId)) {
+      updatedGenres = selectedGenres.filter((id) => id !== genreId);
     } else if (selectedGenres.length < maxGenresLength) {
-      updatedGenres = [...selectedGenres, genre];
+      updatedGenres = [...selectedGenres, genreId];
     } else {
       return;
     }
 
-    handleFormChange('genres', updatedGenres);
+    handleFormChange('preferredGenres', updatedGenres);
   };
 
   return (
     <GenreWrapper>
       {genres.map((genre) => (
         <GenreBtn
-          key={genre}
+          key={genre.id}
           type="button"
-          selected={selectedGenres.includes(genre)}
-          onClick={() => handleSelect(genre)}
+          selected={selectedGenres.includes(genre.id)}
+          onClick={() => handleSelect(genre.id)}
         >
-          #{genre}
+          #{genre.name}
         </GenreBtn>
       ))}
     </GenreWrapper>
   );
 };
 
-export default GenreSelector;
+const GenreSelectorClass = ({ selectedGenre, handleFormChange }) => {
+  // 단일 선택
+  // 장르 선택 핸들러
+  const handleSelect = (genreId) => {
+    const updatedGenre = selectedGenre === genreId ? null : genreId;
+    handleFormChange('genre', updatedGenre);
+  };
+
+  return (
+    <GenreWrapper>
+      {genres.map((genre) => (
+        <GenreBtn
+          key={genre.id}
+          type="button"
+          selected={selectedGenre === genre.id}
+          onClick={() => handleSelect(genre.id)}
+        >
+          #{genre.name}
+        </GenreBtn>
+      ))}
+    </GenreWrapper>
+  );
+};
+
+export { GenreSelectorDancer, GenreSelectorClass };
 
 const GenreWrapper = styled.div`
   width: 514px;
