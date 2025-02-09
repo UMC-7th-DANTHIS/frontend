@@ -13,4 +13,5 @@ const ProfileList=()=> {
 export default ProfileList;
 
 const Layout = styled.div`
+display: flex;
 `
