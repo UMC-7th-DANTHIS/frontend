@@ -6,6 +6,7 @@ const Alert = ({
   title,
   message,
   onClose,
+  onCancel,
   messageColor,
   messagesize,
   mariginsize, //margin-top 설정
@@ -23,6 +24,13 @@ const Alert = ({
       onClose();
     }
   };
+
+  const handleCancel = (e) => {
+    e.stopPropagation();
+    if (onCancel) {
+      onCancel();
+    }
+  }
 
   return (
     <AlertOverlay>
@@ -46,7 +54,7 @@ const Alert = ({
         {/* 예 아니요 버튼 유무 true/false로 설정 */}
         {showButtons && (
           <Buttons>
-            <Cancel onClick={handleClick}>{cancelLabel}</Cancel>
+            <Cancel onClick={handleCancel}>{cancelLabel}</Cancel>
             <Confirm onClick={handleClick}>{confirmLabel}</Confirm>
           </Buttons>
         )}
