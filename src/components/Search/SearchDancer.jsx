@@ -5,7 +5,7 @@ import dummyDancer from '../../store/search/dummyDancer';
 import Pagination from '../Pagination';
 import SearchNothing from './SearchNothing';
 
-const SearchDancer = () => {
+const SearchDancer = ({ data }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5;
 
