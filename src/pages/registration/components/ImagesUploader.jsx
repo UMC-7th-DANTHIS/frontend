@@ -31,8 +31,6 @@ const ImagesUploader = ({ isFor, images, handleFormChange }) => {
       );
       return null;
     }
-
-    e.target.value = '';
   };
 
   // S3에 파일 업로드
@@ -50,8 +48,6 @@ const ImagesUploader = ({ isFor, images, handleFormChange }) => {
       console.error('❌ 업로드 실패:', error.message);
       return null;
     }
-
-    e.target.value = '';
   };
 
   // 이미지 업데이트 로직
@@ -76,14 +72,6 @@ const ImagesUploader = ({ isFor, images, handleFormChange }) => {
     }
 
     e.target.value = ''; // 파일 선택 초기화
-  };
-
-  // 이미지 삭제 핸들러
-  const deleteImage = (index) => {
-    const updatedImages = images.map((image, i) =>
-      i === index ? null : image
-    );
-    handleFormChange('images', updatedImages);
   };
 
   return (

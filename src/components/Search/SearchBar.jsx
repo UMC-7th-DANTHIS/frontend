@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Searchicon from '../../assets/searchicon.svg';
+import SingleBtnAlert from '../SingleBtnAlert';
 
 const SearchBar = ({
   select,
@@ -10,6 +11,7 @@ const SearchBar = ({
   handleSearchData
 }) => {
   const [selectedFilter, setSelectedFilter] = useState('');
+  const [showInvalidAlert, setShowInvalidAlert] = useState(false);
 
   const category = [
     '강렬한',
@@ -35,9 +37,14 @@ const SearchBar = ({
   };
 
   const handleSearch = (e) => {
-    handleNowContent(e.target.value);
-  };
+    const value = e.target.value;
 
+    if (value.length > 20) {
+      setShowInvalidAlert(true);
+    } else {
+      handleNowContent(value);
+    }
+  };
   const handleReSearch = (category) => {
     handleCategoryClick(category);
     handleSearchData();
@@ -46,7 +53,7 @@ const SearchBar = ({
   return (
     <Container>
       <InputContainer>
-        <Input value={temp} onChange={(e) => handleSearch(e)} />
+        <Input value={temp} onChange={handleSearch} />
         <SearchButton>
           <SearchIcon
             src={Searchicon}
@@ -86,6 +93,21 @@ const SearchBar = ({
           커뮤니티
         </SelectText>
       </SelectContainer>
+
+      {showInvalidAlert && (
+        <SingleBtnAlert
+          message={
+            <AlertText>
+              검색어는
+              <ColoredText>최대 20자</ColoredText>
+              까지 {'\n'} 입력 가능합니다.
+            </AlertText>
+          }
+          onClose={() => setShowInvalidAlert(false)}
+          mariginsize="33px"
+          showButtons={true}
+        />
+      )}
     </Container>
   );
 };
@@ -194,6 +216,20 @@ const HashTag = styled.div`
 
   background-color: ${({ active }) => (active ? '#BF00FF' : 'transparent')};
   color: ${({ active }) => (active ? '#fff' : '#B2B2B2')};
+`;
+
+const AlertText = styled.span`
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 21px;
+  white-space: pre-line;
+`;
+const ColoredText = styled.span`
+  color: #a60f62;
+  font-weight: bold;
 `;
 
 export default SearchBar;

@@ -28,8 +28,6 @@ const VideoUploader = ({ video, handleFormChange }) => {
       );
       return null;
     }
-
-    e.target.value = '';
   };
 
   // S3에 파일 업로드
@@ -72,20 +70,11 @@ const VideoUploader = ({ video, handleFormChange }) => {
     return match ? `https://www.youtube.com/embed/${match[1]}` : '';
   };
 
-  // // 비디오 삭제 핸들러
-  // const deleteVideo = () => {
-  //   handleFormChange('videoUrl', '');
-  //   setFileUrl('');
-  //   setUrl('');
-  // };
-
   // 비디오 삭제 핸들러
   const deleteVideo = () => {
-    handleFormChange('video', null);
-    if (preview) {
-      URL.revokeObjectURL(preview);
-      setPreview('');
-    }
+    handleFormChange('videoUrl', '');
+    setFileUrl('');
+    setUrl('');
   };
 
   return (

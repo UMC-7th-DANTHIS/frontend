@@ -17,7 +17,7 @@ const KakaoRedirectHandler = () => {
 
     axios
       .post(
-        `${process.env.REACT_APP_API_BASE_URL}/auth/login/kakao?code=${code}`,
+        `${process.env.REACT_APP_API_BASE_URI}/auth/login/kakao?code=${code}`,
         {},
         {
           withCredentials: true,
