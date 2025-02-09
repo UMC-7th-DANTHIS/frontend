@@ -45,6 +45,7 @@ const SearchBar = ({
       handleNowContent(value);
     }
   };
+
   const handleReSearch = (category) => {
     handleCategoryClick(category);
     handleSearchData();

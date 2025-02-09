@@ -5,6 +5,7 @@ import Outline from '../assets/outline.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import Searchicon from '../assets/searchicon.svg';
 import Mypageicon from '../assets/buttons/mypageButton.svg';
+import SingleBtnAlert from './SingleBtnAlert';
 
 const Topbar = ({ onSearch, token }) => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const Topbar = ({ onSearch, token }) => {
   const [login, setLogin] = useState(true);
   const [searchPlaceholder, setSearchPlaceholder] =
     useState('검색어를 입력하세요');
+  const [showInvalidAlert, setShowInvalidAlert] = useState(false);
 
   const handleClick = () => {
     navigate('/');
@@ -23,8 +25,18 @@ const Topbar = ({ onSearch, token }) => {
 
   const handleSearchInput = (e) => {
     const value = e.target.value;
-    if (value.length < 20) {
+
+    if (value.length > 20) {
+      setShowInvalidAlert(true);
+    } else {
       setSearch(value);
+      setShowInvalidAlert(false);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && search.trim() !== '') {
+      setTimeout(() => handleSearch(), 0);
     }
   };
 
@@ -55,9 +67,10 @@ const Topbar = ({ onSearch, token }) => {
               placeholder={searchPlaceholder}
               onFocus={() => setSearchPlaceholder('')}
               onBlur={() => setSearchPlaceholder('검색어를 입력하세요')}
+              onKeyDown={handleKeyDown}
               onChange={(e) => handleSearchInput(e)}
               value={search}
-              maxLength={20}
+              maxLength={21}
             />
             <SearchButton
               onClick={handleSearch}
@@ -78,6 +91,21 @@ const Topbar = ({ onSearch, token }) => {
       <OutlineContainer>
         <OutlineImg src={Outline} alt="outline" />
       </OutlineContainer>
+
+      {showInvalidAlert && (
+        <SingleBtnAlert
+          message={
+            <AlertText>
+              검색어는
+              <ColoredText>최대 20자</ColoredText>
+              까지 {'\n'} 입력 가능합니다.
+            </AlertText>
+          }
+          onClose={() => setShowInvalidAlert(false)}
+          mariginsize="33px"
+          showButtons={true}
+        />
+      )}
     </Container>
   );
 };
@@ -246,4 +274,18 @@ const OutlineImg = styled.img`
   height: auto;
   display: flex;
   position: relative; /* 부모 컨테이너 기준으로 정렬 */
+`;
+
+const AlertText = styled.span`
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 21px;
+  white-space: pre-line;
+`;
+const ColoredText = styled.span`
+  color: #a60f62;
+  font-weight: bold;
 `;
