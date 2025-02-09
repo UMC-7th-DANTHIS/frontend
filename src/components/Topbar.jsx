@@ -2,18 +2,27 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Logo from '../assets/logo.svg';
 import Outline from '../assets/outline.svg';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Searchicon from '../assets/searchicon.svg';
 import Mypageicon from '../assets/buttons/mypageButton.svg';
 import SingleBtnAlert from './SingleBtnAlert';
 
 const Topbar = ({ onSearch, token }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [search, setSearch] = useState('');
   const [login, setLogin] = useState(true);
   const [searchPlaceholder, setSearchPlaceholder] =
     useState('검색어를 입력하세요');
   const [showInvalidAlert, setShowInvalidAlert] = useState(false);
+
+  const menuItems = [
+    { path: '/classreservation', label: '댄스 수업 예약' },
+    { path: '/dancerprofile', label: '댄서 프로필' },
+    { path: '/community', label: '커뮤니티' },
+    { path: '/dancerregister', label: '댄서 등록' },
+    { path: '/classregister', label: '댄스 수업 등록' }
+  ];
 
   const handleClick = () => {
     navigate('/');
@@ -82,11 +91,15 @@ const Topbar = ({ onSearch, token }) => {
         </LoginContainer>
       </TopContainer>
       <MenuContainer>
-        <MenuItem to="/classreservation">댄스 수업 예약</MenuItem>
-        <MenuItem to="/dancerprofile">댄서 프로필</MenuItem>
-        <MenuItem to="/community">커뮤니티</MenuItem>
-        <MenuItem to="/dancerregister">댄서 등록</MenuItem>
-        <MenuItem to="/classregister">댄스 수업 등록</MenuItem>
+        {menuItems.map((item) => (
+          <MenuItem
+            key={item.path}
+            to={item.path}
+            className={location.pathname.startsWith(item.path) ? 'active' : ''}
+          >
+            {item.label}
+          </MenuItem>
+        ))}
       </MenuContainer>
       <OutlineContainer>
         <OutlineImg src={Outline} alt="outline" />
@@ -249,14 +262,20 @@ const MenuContainer = styled.div`
 const MenuItem = styled(Link)`
   color: var(--text_secondary-gray, #b2b2b2);
   text-align: center;
-  font-family: Pretendard;
   font-size: 24px;
-  font-style: normal;
   font-weight: 500;
-  line-height: normal;
   letter-spacing: -1.2px;
-  text-decoration: none; /* 기본 밑줄 제거 */
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 5px;
+
+  &.active {
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+  }
 `;
+
 const OutlineContainer = styled.div`
   /* width: 1440px;
 height: 156.195px; */
