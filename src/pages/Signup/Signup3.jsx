@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import Shape1 from '../../assets/shape/shape1.svg'
 import Shape2 from '../../assets/shape/shape2.svg'
 import Logoimg from '../../assets/logo.svg'
+import Searchicon from '../../assets/searchicon.svg'
+
 const Signup3 = () => {
     const [selectedGenres, setSelectedGenres] = useState([]);
     const [favoriteDancer, setFavoriteDancer] = useState("");
@@ -56,7 +58,10 @@ const Signup3 = () => {
   </MenuContainer>
   <Form>
     <Section>
+    <TitleBox>
     <Title>선호하는 댄스 장르가 무엇인가요?</Title>
+    <Select>*최대 5개까지 선택 가능합니다.</Select>
+    </TitleBox>
     <ButtonGrid>
     {genres.map((genre) => (
             <GenreButton
@@ -79,10 +84,17 @@ const Signup3 = () => {
           value={favoriteDancer}
           onChange={(e) => setFavoriteDancer(e.target.value)}
         />
+        <SearchButton
+              // onClick={handleSearch}
+              // disabled={search.trim() === ''}
+            >
+              <SearchIcon src={Searchicon} alt="search" />
+            </SearchButton>
+
         </Search>
       </Section>
 
-      <Section>
+      {/* <Section>
         <TitleContainer>
         <Logo src={Logoimg} />
         <Title1>가 추천하는 댄서</Title1>
@@ -98,7 +110,7 @@ const Signup3 = () => {
             </RecommendedDancerButton>
           ))}
         </ButtonGrid>
-      </Section>
+      </Section> */}
   </Form>
   <NextButton onClick = {handleNext}>
         <Next>가입 완료</Next>
@@ -186,8 +198,20 @@ margin-top : 86px;
 display : flex;
 flex-direction : column;
 
+
+`
+
+const TitleBox=styled.div`
+display : flex;
+flex-direction : row;
+margin-top : 52px;
+
+
 `
 const Section = styled.div`
+display : flex;
+flex-direction : column;
+
 `
 
 const Title = styled.div`
@@ -198,11 +222,10 @@ font-size: 22px;
 font-style: normal;
 font-weight: 600;
 line-height: normal;
-margin-top : 52px;
-margin-bottom : -20px;
 margin-left : 191px;
 display : flex;
 `
+
 const Title1 = styled.div`
 color: var(--main_white, #FFF);
 text-align: center;
@@ -213,26 +236,42 @@ font-weight: 600;
 line-height: normal;
 margin-bottom : -20px;
 `
+const Select = styled.div`
+color: var(--text_secondary-gray, #B2B2B2);
+font-family: Pretendard;
+font-size: 14px;
+font-style: normal;
+font-weight: 300;
+line-height: normal;
+margin-left : 20px;
+margin-top: 8px;
+`
 
 const ButtonGrid = styled.div`
-  margin-top : 28px;
-  padding-left : 193px;
-  padding-right : 193px;
+  margin-top : 11px;
+  margin-left : 193px;
+  margin-right : 193px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 10px;
-  align-items : center;
+  gap: 17px;
+  //align-items : center;
   justify-content : center;
+  margin-bottom : 63px;
 
+ /* 마지막 줄의 항목들만 선택 */
+ & > button:nth-last-child(-n + 2) {
+    justify-self: center; /* 마지막 줄의 버튼들을 중앙으로 정렬 */
+    margin-left : 170px;
+  }
 `;
 
 const GenreButton = styled.button`
   //padding: 10px;
   width : 160px;
   height : 34px;
-  margin-top : 23px;
-  border: 1px solid ${({ isSelected }) => (isSelected ? "#a020f0" : "#666")};
-  background-color: ${({ isSelected }) => (isSelected ? "#a020f0" : "transparent")};
+  margin-top : 16px;
+  border: 1px solid ${({ isSelected }) => (isSelected ? "#9819C3" : "#DDDDDD")};
+  background-color: ${({ isSelected }) => (isSelected ? "#9819C3" : "transparent")};
   color: white;
   border-radius: 4px;
   cursor: pointer;
@@ -244,58 +283,59 @@ font-style: normal;
 font-weight: 500;
 line-height: normal;
   &:hover {
-    background-color: #7e14c4;
+    border : 1px solid #9819C3; 
+  transition : 0.1s;
+   
   }
   align-items : center;
   justify-content : center;
   display : flex;
 `;
 
-const RecommendedDancerButton = styled(GenreButton)``;
+
 
 const Search = styled.div`
 display: flex;
 width: 514px;
 height: 60px;
-justify-content: center;
+justify-content: space-between;
 align-items: center;
 flex-shrink: 0;
 margin-top : 26px;
-padding-left : 193px;
-
+margin-left : 193px;
+border-radius: 8px;
+border: 1px solid #666;
+//padding-left : 38px;
 `
 const SearchInput = styled.input`
-  
   width: 100%;
-  padding: 10px;
-  border: 1px solid #666;
-  border-radius: 4px;
-  background-color: #222;
-  color: white;
-
+  padding: 38px;
+  background:none;
+  border : none;
+  color: var(--sub_light-gray, #DDD);
+font-family: Pretendard;
+font-size: 18px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
   &::placeholder {
-    color: #666;
+    color: #DDDDDD;
   }
 
   &:focus {
     border : none;
-   
+    outline: none;
   }
 `;
-
-const TitleContainer=styled.div`
-display : flex;
-flex-direction : row;
-margin-top : 52px;
-margin-bottom : -20px;
-margin-left : 191px;
+const SearchButton=styled.button`
+background : none;
+border : none;
+cursor : pointer;
+margin-right : 31px;
 `
-
-const Logo = styled.img`
-width: 92.96px;
-height: 23.88px;
-flex-shrink: 0;
-
+const SearchIcon=styled.img`
+width : 26px;
+height : 26px;
 `
 
 const NextButton = styled.button`
