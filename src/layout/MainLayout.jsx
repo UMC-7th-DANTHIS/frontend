@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Topbar from '../components/Topbar';
@@ -6,6 +6,19 @@ import Footer from '../components/Footer';
 
 const MainLayout = () => {
   const navigate = useNavigate();
+  const [token, setToken] = useState(() => localStorage.getItem('token'));
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const newToken = localStorage.getItem('token');
+      setToken(newToken);
+    };
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
 
   const handleSearch = (query) => {
     navigate(`/search?query=${query}`);
@@ -14,7 +27,7 @@ const MainLayout = () => {
   return (
     <>
       <Container>
-        <Topbar onSearch={handleSearch} />
+        <Topbar onSearch={handleSearch} token={token} />
         <Outlet />
         <Footer />
       </Container>

@@ -168,7 +168,7 @@ const DancerForm = ({ setIsRegistered }) => {
         />
       </InputContainer>
 
-      <Notice>*댄서 등록은 내부 운영팀의 심사를 통해 최종 승인됩니다.</Notice>
+      <Notice>* 댄서 등록은 내부 운영팀의 심사를 통해 최종 승인됩니다.</Notice>
       <SubmitButton text="댄서 등록하기" />
 
       {showInvalidAlert && (

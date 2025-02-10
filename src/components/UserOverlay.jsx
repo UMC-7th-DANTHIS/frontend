@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import SampleImage from '../assets/image.png';
-import { ReactComponent as PlusButton } from "../assets/buttons/plus-button.svg";
+import { ReactComponent as PlusButton } from '../assets/buttons/plus-button.svg';
 import dummyRegister from '../store/mypage/dummyRegister';
 
 const UserOverlay = ({ onclose }) => {
-  const userData = dummyRegister.danceClasses.map((danceClass) => danceClass.users);
+  const userData = dummyRegister.danceClasses.map(
+    (danceClass) => danceClass.users
+  );
   const limitedUsers = userData.slice(0, 5);
 
   return (
@@ -53,7 +55,7 @@ const ImageContainer = styled.div`
   gap: 40px;
   margin-top: 36px;
   margin-left: 56px;
-  margin-right:56px;
+  margin-right: 56px;
 `;
 
 const AllContainer = styled.div`

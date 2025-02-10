@@ -7,6 +7,8 @@ import PostComment from '../../components/Comunity/PostComment';
 import PostContent from '../../components/Comunity/PostContent';
 import Pagination from '../../components/Pagination';
 
+import ConfirmLeaveAlert from '../../components/ConfirmLeaveAlert';
+
 const CommunityPostPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -14,6 +16,8 @@ const CommunityPostPage = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentCaution, setCommentCaution] = useState(true);
+  const [showCancelAlert, setShowCancelAlert] = useState(false);
+
   const [imgUrl, setImgUrl] = useState('');
   const [commentText, setCommentText] = useState('');
   const [cautionText, setCautionText] = useState('');
@@ -37,6 +41,11 @@ const CommunityPostPage = () => {
     else if (e.target.value.length === 0)
       setCautionText('댓글을 최소 1자 이상 입력하셔야 합니다.');
     else setCautionText(null);
+  };
+
+  const handleCancel = () => {
+    if (commentText) setShowCancelAlert(true);
+    else navigate('/community');
   };
 
   const comment = CommunityComment.filter(
@@ -89,11 +98,25 @@ const CommunityPostPage = () => {
             </CommentInput>
             <CautionContainer> {cautionText || '\u00A0'}</CautionContainer>
           </CommentSection>
-          <BackButton onClick={() => navigate('/community')}>
-            글 목록으로
-          </BackButton>
+          <BackButton onClick={() => handleCancel()}>글 목록으로</BackButton>
         </Wrapper>
       </Container>
+
+      {showCancelAlert && (
+        <ConfirmLeaveAlert
+          message={
+            <AlertText>
+              해당 페이지를 벗어나면{'\n'}
+              작성 중인 정보가 <ColoredText> 모두 삭제</ColoredText>됩니다.
+              {'\n'}
+              떠나시겠습니까?
+            </AlertText>
+          }
+          onClose={() => setShowCancelAlert(false)}
+          showButtons={true}
+        />
+      )}
+
       {isModalOpen && (
         <ImageModal imgUrl={imgUrl} setIsModalOpen={setIsModalOpen} />
       )}
@@ -207,4 +230,18 @@ const CautionContainer = styled.div`
   color: #f00;
   font-size: 14px;
   text-align: right;
+`;
+
+const AlertText = styled.span`
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 21px;
+  white-space: pre-line;
+`;
+const ColoredText = styled.span`
+  color: #a60f62;
+  font-weight: bold;
 `;
