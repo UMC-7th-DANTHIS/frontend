@@ -1,70 +1,75 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import dummyClasses from '../../store/reservation/dummyClasses';
-import { ReactComponent as Line } from '../../assets/shape/line.svg';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
 import Pagination from '../../components/Pagination';
 import dancerImg from '../../assets/dummyphoto/dancer.svg';
+import api from '../../api/api';
 
 const ClassBoard = () => {
   const genres = [
-    '힙합',
-    '걸스힙합',
-    '팝핑',
-    '락킹',
-    '왁킹',
-    '걸리시/힐',
-    '크럼프',
-    '텃팅',
-    '코레오',
-    'K-pop'
+    { id: 1, name: '힙합' },
+    { id: 2, name: '걸스힙합' },
+    { id: 3, name: '팝핑' },
+    { id: 4, name: '락킹' },
+    { id: 5, name: '왁킹' },
+    { id: 6, name: '걸리시/힐' },
+    { id: 7, name: '크럼프' },
+    { id: 8, name: '텃팅' },
+    { id: 9, name: '코레오' },
+    { id: 10, name: 'K-pop' }
   ];
-  const [selectedGenre, setSelectedGenre] = useState(genres[0]);
+  const [selectedGenre, setSelectedGenre] = useState(genres[0].id);
   const [classes, setClasses] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 9;
 
   useEffect(() => {
-    setClasses(dummyClasses.filter((cls) => cls.genre === selectedGenre));
-  }, [selectedGenre]);
+    const fetchClasses = async () => {
+      try {
+        const genreId = selectedGenre;
+        const response = await api.get(
+          `/dance-classes?genre=${genreId}&page=${currentPage}`
+        );
+
+        setClasses(response.data.data.danceClasses);
+      } catch (error) {
+        console.error('❌ 장르별 수업 정보를 불러오는 중 오류 발생:', error);
+      }
+    };
+
+    fetchClasses();
+  }, [selectedGenre, currentPage]);
 
   // 장르 선택 핸들러
   const handleGenreClick = (genre) => {
     setSelectedGenre(genre);
   };
 
-  // 현재 페이지에 보여질 요소 계산
-  const getCurrentPageData = () => {
-    const startIndex = (currentPage - 1) * perData;
-    const endIndex = startIndex + perData;
-
-    return classes.slice(startIndex, endIndex);
-  };
-
   return (
     <Container>
       <Sidebar>
         {genres.map((genre) => (
-          <GenreWrapper key={genre} onClick={() => handleGenreClick(genre)}>
-            {selectedGenre === genre && <FocusedCircle />}
-            <Genre $isActive={selectedGenre === genre}>{genre}</Genre>
+          <GenreWrapper
+            key={genre.id}
+            onClick={() => handleGenreClick(genre.id)}
+          >
+            {selectedGenre === genre.id && <FocusedCircle />}
+            <Genre $isActive={selectedGenre === genre.id}>{genre.name}</Genre>
           </GenreWrapper>
         ))}
       </Sidebar>
       <Line />
       <BoardContainer>
         <Classes>
-          {getCurrentPageData().map((cls) => (
+          {classes.map((cls) => (
             <Class to={`/classreservation/${cls.id}`} key={cls.id}>
-              <Image>
-                <img
-                  src={cls.thumbnail ? cls.thumbnail : dancerImg}
-                  alt={`class #${cls.id} thumbnail`}
-                />
-              </Image>
-              <Title>{cls.title}</Title>
-              <Dancer>{cls.dancer}</Dancer>
+              <Image
+                src={cls.thumbnailImage ? cls.thumbnailImage : dancerImg}
+                alt={`class #${cls.id} thumbnail`}
+              />
+              <Title>{cls.className}</Title>
+              <Dancer>{cls.dancerName}</Dancer>
             </Class>
           ))}
         </Classes>
@@ -92,6 +97,11 @@ const Sidebar = styled.div`
   flex-direction: column;
   height: 900px;
   margin-top: 14px;
+`;
+const Line = styled.div`
+  width: 0px;
+  height: 770px;
+  border: 2px solid var(--main_purple, #9819c3);
 `;
 const GenreWrapper = styled.div`
   display: flex;
@@ -146,7 +156,7 @@ const Class = styled(Link)`
     cursor: pointer;
   }
 `;
-const Image = styled.div`
+const Image = styled.img`
   width: 220px;
   height: 220px;
   border-radius: 10px;

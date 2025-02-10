@@ -1,40 +1,94 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { ReactComponent as Speaker } from '../../../../../assets/emoji/speaker.svg';
+import { ReactComponent as ThumbsUp } from '../../../../../assets/emoji/thumbsup.svg';
 
-const Detail = ({ data }) => {
+const Detail = ({ classData }) => {
+  const tags = [
+    { id: 1, name: '강렬한' },
+    { id: 2, name: '나른한' },
+    { id: 3, name: '에너제틱' },
+    { id: 4, name: '기본기' },
+    { id: 5, name: '통통튀는' },
+    { id: 6, name: '무거운' },
+    { id: 7, name: '유산소' },
+    { id: 8, name: '빡센' },
+    { id: 9, name: '감성적인' },
+    { id: 10, name: '아프로' },
+    { id: 11, name: '뚝딱이' },
+    { id: 12, name: '취미' }
+  ];
+
+  const getYoutubeEmbedUrl = (link) => {
+    const match = link.match(
+      /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/live\/)([\w-]{11})/
+    );
+    return match ? `https://www.youtube.com/embed/${match[1]}` : '';
+  };
+
   return (
     <Container>
-      <Video src={null} alt={`${data.dancer}의 ${data.title}> 수업 영상`} />
+      <Video>
+        {(classData.details?.videoUrl &&
+          classData.details?.videoUrl.includes('youtube.com')) ||
+        classData.details?.videoUrl.includes('youtu.be') ? (
+          <Iframe
+            src={getYoutubeEmbedUrl(classData.details?.videoUrl)}
+            title="YouTube Video"
+            allowFullScreen
+          />
+        ) : (
+          classData.details?.videoUrl && (
+            <video
+              src={classData.details?.videoUrl}
+              alt={`${classData.dancer?.name}의 ${classData?.className}> 수업 영상`}
+              controls
+            />
+          )
+        )}
+      </Video>
       <Section>
-        <Title>📢 수업 소개</Title>
-        <Text>{data.description}</Text>
+        <Title>
+          <Emoji>
+            <Speaker />
+          </Emoji>
+          수업 소개
+        </Title>
+        <Text>{classData.details?.description}</Text>
       </Section>
       <Section>
-        <Title>👍🏻 이 수업은 이런 분들에게 추천해요!</Title>
-        <Text>{data.recommendedFor}</Text>
+        <Title>
+          <Emoji>
+            <ThumbsUp />
+          </Emoji>
+          이 수업은 이런 분들에게 추천해요!
+        </Title>
+        <Text>{classData.details?.targetAudience}</Text>
         <Tags>
-          {data.tags.map((tag) => (
-            <Tag key={tag}>{tag}</Tag>
-          ))}
+          {classData.details?.hashtags.map((tag) => {
+            const tagName = tags.find((t) => t.id === tag)?.name;
+            return tagName ? <Tag key={tag}>#{tagName}</Tag> : null;
+          })}
         </Tags>
       </Section>
       <Section>
         <Title>수업 사진</Title>
         <Images>
-          {data.images.length > 0 ? (
-            data.images.map((image, index) => (
-              <Image key={index}>
-                {image && <img src={image} alt={`class #${index}`} />}
-              </Image>
-            ))
+          {classData.details?.danceClassImages.length > 0 ? (
+            classData.details?.danceClassImages.map(
+              (image, index) =>
+                image && (
+                  <Image key={index} src={image} alt={`class #${index}`} />
+                )
+            )
           ) : (
-            <Image src={data.dancerImg} />
+            <Image src={classData.dancer?.profileImage} />
           )}
         </Images>
       </Section>
       <Section>
-        <MoreAboutDancer to={`/dancerprofile/${data.dancerId}`}>
+        <MoreAboutDancer to={`/dancerprofile/${1}`}>
           Parana 댄서에 대해 더 알고싶다면?
         </MoreAboutDancer>
       </Section>
@@ -52,11 +106,14 @@ const Container = styled.div`
   width: 1240px;
   padding: 77px 108px;
 `;
-const Video = styled.video`
+const Video = styled.div`
+  position: relative;
   width: 1024px;
   height: 560px;
   margin-bottom: 50px;
+  border: none;
   border-radius: 3px;
+  overflow: hidden;
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
 
   video {
@@ -64,6 +121,13 @@ const Video = styled.video`
     height: 100%;
     object-fit: cover; // 비율 유지
   }
+`;
+const Iframe = styled.iframe`
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 100%;
+  height: 100%;
 `;
 const Section = styled.div`
   display: flex;
@@ -74,6 +138,9 @@ const Section = styled.div`
   white-space: pre-line;
 `;
 const Title = styled.div`
+  display: flex;
+  gap: 20px;
+  align-items: center;
   color: var(--main_white, #fff);
   font-family: Pretendard;
   font-size: 32px;
@@ -81,6 +148,9 @@ const Title = styled.div`
   font-weight: 700;
   line-height: 50px;
   letter-spacing: -1.6px;
+`;
+const Emoji = styled.span`
+  margin-top: 5px;
 `;
 const Text = styled.div`
   color: var(--main_white, #fff);
@@ -96,7 +166,7 @@ const Tags = styled.div`
 `;
 const Tag = styled.div`
   display: inline-flex;
-  padding: 4px 30px;
+  padding: 4px 38px;
   justify-content: center;
   align-items: center;
   margin-right: 28px;

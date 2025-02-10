@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -10,8 +10,16 @@ import Edit from '../../assets/Community/EditButton.svg';
 import Delete from '../../assets/Community/DeleteButton.svg';
 import Alert from '../../assets/Community/SirenButton.svg';
 
+import ConfirmDeleteAlert from '../ConfirmDelete';
+
 const PostContent = ({ comment, handleModal, selectedPost }) => {
   const navigate = useNavigate();
+
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+
+  const handleDelete = () => {
+    setShowConfirmDelete(true);
+  };
 
   return (
     <>
@@ -36,7 +44,11 @@ const PostContent = ({ comment, handleModal, selectedPost }) => {
               src={Edit}
               alt={'그럴리없다'}
             />
-            <ButtonContainer src={Delete} alt={'그럴리없다'} />
+            <ButtonContainer
+              src={Delete}
+              alt={'그럴리없다'}
+              onClick={() => handleDelete()}
+            />
           </PostActions>
         ) : (
           <PostActions>
@@ -62,6 +74,21 @@ const PostContent = ({ comment, handleModal, selectedPost }) => {
         )}
         <br />
       </Content>
+
+      {showConfirmDelete && (
+        <ConfirmDeleteAlert
+          message={
+            <AlertText>
+              해당 게시글을 삭제하면{'\n'}
+              추후에 <ColoredText>복구가 불가</ColoredText>합니다.
+              {'\n'}
+              삭제 하시겠습니까?
+            </AlertText>
+          }
+          onClose={() => setShowConfirmDelete(false)}
+          showButtons={true}
+        />
+      )}
     </>
   );
 };
@@ -177,6 +204,20 @@ const ReportButton = styled.img`
   border: none;
   color: red;
   cursor: pointer;
+`;
+
+const AlertText = styled.span`
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 21px;
+  white-space: pre-line;
+`;
+const ColoredText = styled.span`
+  color: #a60f62;
+  font-weight: bold;
 `;
 
 export default PostContent;

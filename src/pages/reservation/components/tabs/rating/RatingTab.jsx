@@ -1,9 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import PartialStars from './PartialStars';
+import api from '../../../../../api/api';
 
-const Rating = ({ data }) => {
+const Rating = () => {
+  const [ratingData, setRatingData] = useState([]);
+  const { classId } = useParams();
   const totalStars = 5;
+
+  useEffect(() => {
+    const fetchClass = async () => {
+      try {
+        const response = await api.get(`/dance-classes/${classId}/rating`);
+
+        setRatingData(response.data.data);
+      } catch (error) {
+        console.error('❌ 별점 정보를 불러오는 중 오류 발생:', error);
+      }
+    };
+
+    fetchClass();
+  }, [classId]);
 
   const getRatingStars = (rate) => {
     return Array.from({ length: totalStars }, (_, index) => {
@@ -21,12 +39,12 @@ const Rating = ({ data }) => {
 
   return (
     <Container>
-      <Stars>{getRatingStars(data.rate)}</Stars>
-      <RatingNumber>{data.rate.toFixed(1)}</RatingNumber>
+      <Stars>{getRatingStars(ratingData?.averageRating)}</Stars>
+      <RatingNumber>{ratingData.averageRating?.toFixed(1)}</RatingNumber>
       <Notice>
         이 수업을 수강하셨나요? 직접 이 수업에 대한 만족도를 평가해보세요!
       </Notice>
-      <GotoReview>후기 작성하러 가기</GotoReview>
+      <MoveReview to={`/mypage?menu=myreview`}>후기 작성하러 가기</MoveReview>
     </Container>
   );
 };
@@ -68,7 +86,10 @@ const Notice = styled.div`
   font-weight: 600;
   line-height: normal;
 `;
-const GotoReview = styled.button`
+const MoveReview = styled(Link)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 360px;
   height: 52px;
   margin: 37px;
@@ -76,6 +97,9 @@ const GotoReview = styled.button`
   border: 4px solid var(--main_purple, #9819c3);
   box-shadow: 0px 0px 4px 0px #b30505;
   background: transparent;
+  cursor: pointer;
+
+  text-decoration-line: none;
   color: var(--main_white, #fff);
   text-align: center;
   font-family: Pretendard;
@@ -83,8 +107,4 @@ const GotoReview = styled.button`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-
-  &:hover {
-    cursor: pointer;
-  }
 `;
