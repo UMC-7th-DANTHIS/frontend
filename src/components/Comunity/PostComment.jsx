@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import formatDate from '../../api/formatDate';
-
 import Delete from '../../assets/Community/DeleteButton.svg';
 import Alert from '../../assets/Community/SirenButton.svg';
 

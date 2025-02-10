@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
+import useSearch from '../hooks/useSearch';
 
 import SearchBar from '../components/Search/SearchBar';
 import SearchClass from '../components/Search/SearchClass';
@@ -11,17 +12,32 @@ const SearchPage = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('query');
 
-  const [select, setSelect] = useState('class');
-  const [temp, setTemp] = useState(query);
+  const [select, setSelect] = useState('dance-classes');
+  const [temp, setTemp] = useState(query || '');
+  const [searchQuery, setSearchQuery] = useState(null);
+
+  const { data, isLoading, isError } = useSearch(
+    searchQuery?.select,
+    searchQuery?.temp
+  );
+
+  console.log('검색 데이터:', data);
 
   useEffect(() => {
     if (query) {
       setTemp(query);
     }
+    setSearchQuery({ select: 'dance-classes', temp: query || '' });
   }, [query]);
 
   const handleCategoryClick = (category) => setSelect(category);
   const handleNowContent = (content) => setTemp(content);
+
+  const handleSearchData = () => {
+    if (select && temp) {
+      setSearchQuery({ select, temp });
+    }
+  };
 
   return (
     <Container>
@@ -30,11 +46,18 @@ const SearchPage = () => {
         handleCategoryClick={handleCategoryClick}
         temp={temp}
         handleNowContent={handleNowContent}
+        handleSearchData={handleSearchData}
       />
       <ContentContainer>
-        {select === 'class' && <SearchClass temp={temp} />}
-        {select === 'dancer' && <SearchDancer temp={temp} />}
-        {select === 'community' && <SearchCommunity temp={temp} />}
+        {isLoading && <p>검색 중...</p>}
+        {isError && <p>오류 발생</p>}
+        {!isLoading && !isError && data && (
+          <>
+            {select === 'dance-classes' && <SearchClass data={data} />}
+            {select === 'dancers' && <SearchDancer data={data} />}
+            {select === 'posts' && <SearchCommunity data={data} />}
+          </>
+        )}
       </ContentContainer>
     </Container>
   );

@@ -1,51 +1,161 @@
-import React, { useState } from 'react';
-// import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
-import dummyClass from '../../store/reservation/dummyClass';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
 import Level from './components/Level';
-import TabMenu from './components/TabMenu';
+import DetailTab from './components/tabs/detail/DetailTab';
+import ReviewTab from './components/tabs/review/ReviewTab';
+import RatingTab from './components/tabs/rating/RatingTab';
+import api from '../../api/api';
 
 const ClassReservation = () => {
-  // const { classId- } = useParams();
-  const classId = 1; // 임시
-  const data = dummyClass.find((cls) => cls.id === Number(classId));
+  const navigate = useNavigate();
+  const { classId } = useParams();
+  const [classData, setClassData] = useState([]);
 
   const [isLiked, setIsLiked] = useState(false);
+  const [currentTab, setCurrentTab] = useState(0);
+
+  const genres = [
+    { id: 1, name: '힙합' },
+    { id: 2, name: '걸스힙합' },
+    { id: 3, name: '팝핑' },
+    { id: 4, name: '락킹' },
+    { id: 5, name: '왁킹' },
+    { id: 6, name: '걸리시/힐' },
+    { id: 7, name: '크럼프' },
+    { id: 8, name: '텃팅' },
+    { id: 9, name: '코레오' },
+    { id: 10, name: 'K-pop' }
+  ];
+
+  const [searchParams] = useSearchParams();
+  const urlTabQuery = searchParams.get('tab');
+  const tab = [
+    { name: '상세정보', query: 'detail' },
+    { name: '리뷰', query: 'reviews' },
+    { name: '별점', query: 'rating' }
+  ];
+
+  // 가격 포맷 함수
+  const formatPrice = (price) => {
+    return price ? price.toLocaleString('ko-KR') : '0';
+  };
+
+  useEffect(() => {
+    const fetchClass = async () => {
+      try {
+        const response = await api.get(`/dance-classes/${classId}`);
+
+        setClassData(response.data.data);
+      } catch (error) {
+        console.error('❌ 수업 정보를 불러오는 중 오류 발생:', error);
+      }
+    };
+
+    const fetchLiked = async () => {
+      try {
+        const response = await api.get(`/users/dance-classes`);
+        response.data.data?.danceClasses.find(
+          (cls) => cls.id === Number(classId) && setIsLiked(true)
+        );
+      } catch (error) {
+        console.error('❌ 유저의 수업 찜 정보를 불러오는 중 오류 발생:', error);
+      }
+    };
+
+    fetchClass();
+    fetchLiked();
+  }, [classId, isLiked]);
+
+  // URL의 tab 쿼리에 맞추어 currentTab을 변경
+  // 돌아오기 버튼으로 돌아오는 상황을 위해 setCurrentTab을 여기서 핸들링
+  useEffect(() => {
+    const curTabIndex = tab.findIndex((t) => t.query === urlTabQuery);
+    setCurrentTab(curTabIndex);
+
+    if (!urlTabQuery) {
+      navigate(`/classreservation/${classId}?tab=detail`);
+    } else {
+      navigate(`/classreservation/${classId}?tab=${urlTabQuery}`);
+    }
+  }, [urlTabQuery]);
+
+  // 수업 찜 등록
+  const postLiked = async () => {
+    try {
+      await api.post(`/dance-classes/${classId}/favorite`);
+      setIsLiked(true);
+    } catch (error) {
+      console.error('❌ 수업 찜 등록 중 오류 발생:', error);
+    }
+  };
+
+  // 수업 찜 삭제
+  const deleteLiked = async () => {
+    try {
+      await api.delete(`/dance-classes/${classId}/favorite`);
+      setIsLiked(false);
+    } catch (error) {
+      console.error('❌ 수업 찜 해제 중 오류 발생:', error);
+    }
+  };
 
   // 수업 찜 버튼 핸들러
   const handleLikeClick = () => {
-    setIsLiked(!isLiked);
+    if (isLiked === false) postLiked();
+    else deleteLiked();
+  };
+
+  // 탭 메뉴 선택 핸들러
+  const handleTabChange = (index) => {
+    navigate(`/classreservation/${classId}?tab=${tab[index].query}`);
   };
 
   return (
     <Container>
       <TitleWrapper>
         <FocusedCircle />
-        <Title>{data.title}</Title>
+        <Title>{classData?.className}</Title>
       </TitleWrapper>
       <Summary>
-        <Image src={data.dancerImg} alt={`dancer #${data.id}`} />
+        <Image
+          src={classData.dancer?.profileImage}
+          alt={`dancer profile of class #${classData?.id}`}
+        />
         <InfoContainer>
-          <Text>강사 : {data.dancer}</Text>
-          <Text>장르 : {data.genre}</Text>
-          <Text>가격 : {data.price}원 / 회당</Text>
-          <Level level={data.level} />
+          <Text>강사 : {classData.dancer?.name}</Text>
+          <Text>
+            장르 : {genres.find((g) => g.id === classData?.genre)?.name}
+          </Text>
+          <Text>가격 : {formatPrice(classData?.pricePerSession)}원 / 회당</Text>
+          <Level level={classData?.difficulty} />
         </InfoContainer>
         <BtnContainer>
-          <ChatBtn type="button">
-            <BtnText>댄서와 1:1 채팅하기</BtnText>
-          </ChatBtn>
-          <LikeBtn type="button" onClick={() => handleLikeClick()}>
-            {isLiked ? (
-              <BtnText>찜한 수업 취소하기</BtnText>
-            ) : (
-              <BtnText>수업 찜해놓기</BtnText>
-            )}
+          <ChatBtn type="button">댄서와 1:1 채팅하기</ChatBtn>
+          <LikeBtn
+            type="button"
+            onClick={() => handleLikeClick()}
+            $isLiked={isLiked}
+          >
+            {isLiked ? '찜한 수업 취소하기' : '수업 찜해놓기'}
           </LikeBtn>
         </BtnContainer>
       </Summary>
-      <TabMenu data={data} />
+      <Tabs>
+        {tab.map((element, index) => (
+          <Tab
+            key={index}
+            $isActive={currentTab === index}
+            onClick={() => handleTabChange(index)}
+          >
+            {element.name}
+          </Tab>
+        ))}
+      </Tabs>
+      {currentTab === 0 && <DetailTab classData={classData} />}
+      {currentTab === 1 && <ReviewTab />}
+      {currentTab === 2 && <RatingTab />}
     </Container>
   );
 };
@@ -136,6 +246,15 @@ const ChatBtn = styled.button`
     linear-gradient(90deg, #b30505 0%, #9819c3 100%)
   );
 
+  color: #fff;
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 50px; /* 208.333% */
+  letter-spacing: -1.2px;
+
   &:hover {
     cursor: pointer;
   }
@@ -149,14 +268,10 @@ const LikeBtn = styled.button`
   gap: 8px;
   border-radius: 54px;
   border: 4px solid var(--main_purple, #9819c3);
-  background: transparent;
+  background: ${({ $isLiked }) => ($isLiked === true ? '#FFF' : 'transparent')};
 
-  &:hover {
-    cursor: pointer;
-  }
-`;
-const BtnText = styled.span`
-  color: #fff;
+  color: ${({ $isLiked }) =>
+    $isLiked === true ? 'var(--text_purple, #BF00FF)' : '#FFF'};
   text-align: center;
   font-family: Pretendard;
   font-size: 24px;
@@ -164,4 +279,46 @@ const BtnText = styled.span`
   font-weight: 600;
   line-height: 50px; /* 208.333% */
   letter-spacing: -1.2px;
+
+  &:hover {
+    cursor: pointer;
+    background: rgba(152, 25, 195, 0.4);
+  }
+`;
+const Tabs = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 1240px;
+  height: 86px;
+  flex-shrink: 0;
+  border-radius: 20px 20px 0px 0px;
+  background: var(--main_purple, #9819c3);
+`;
+const Tab = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 410px;
+  height: 83px;
+  color: var(--main_white, #fff);
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 50px; /* 178.571% */
+  letter-spacing: -1.4px;
+  transition: all 0.3s ease;
+  border-radius: 20px 20px 0px 0px;
+  border-top: 3px solid var(--main_purple, #9819c3);
+  border-right: 3px solid var(--main_purple, #9819c3);
+  border-left: 3px solid var(--main_purple, #9819c3);
+  box-shadow: 0px 8px 16px 0px var(--main_purple, #9819c3) inset;
+
+  ${({ $isActive }) => $isActive && `background: var(--main_black, #000);`}
+
+  &:hover {
+    cursor: pointer;
+  }
 `;

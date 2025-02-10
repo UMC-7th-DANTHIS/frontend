@@ -1,23 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as StarFilled } from '../../../../../assets/shape/filledYellowStar.svg';
 import { ReactComponent as StarNonfilled } from '../../../../../assets/shape/nonfilledYellowStar.svg';
 import { ReactComponent as GotoIcon } from '../../../../../assets/shape/gotoicon.svg';
+import { formatDate } from '../../../formatDate';
 
-const Review = ({ review }) => {
+const Review = ({ review, classId, page }) => {
+  const navigate = useNavigate();
   const totalStars = 5;
 
-  const formatDate = (date) => {
-    if (typeof date === 'string') {
-      date = new Date(date);
-    }
-
-    return new Intl.DateTimeFormat('ko-KR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit'
-    }).format(date);
+  const handleDetailClick = () => {
+    navigate(`/uploadedreview/${review.id}`, {
+      state: { fromReviewTab: true, classId, page } // 페이지네이션 정보 전달
+    });
   };
 
   return (
@@ -25,36 +21,39 @@ const Review = ({ review }) => {
       <InfoWrapper>
         <ProfileImage />
         <Data>
-          <Name>{review.name}</Name>
+          <Name>{review.author}</Name>
           <Title>{review.title}</Title>
           <RatingAndDate>
             <Stars>
               {Array.from({ length: totalStars }, (_, index) => (
                 <Star key={index}>
-                  {index < review.rate ? <StarFilled /> : <StarNonfilled />}
+                  {index < review.rating ? (
+                    <StarFilled width="24px" height="24px" />
+                  ) : (
+                    <StarNonfilled width="24px" height="24px" />
+                  )}
                 </Star>
               ))}
             </Stars>
-            <Date>{formatDate(review.date)}</Date>
+            <Date>{formatDate(review.createdAt)}</Date>
           </RatingAndDate>
         </Data>
       </InfoWrapper>
-      <ViewDetailLink>
+      <ViewDetailButton onClick={handleDetailClick}>
         <ViewDetail>자세히 보기</ViewDetail>
         <GotoIcon />
-      </ViewDetailLink>
+      </ViewDetailButton>
 
       <Detail>
-        {review.detail.length > 680
-          ? `${review.detail.slice(0, 680)} ...`
-          : review.detail}
+        {review.content?.length > 680
+          ? `${review.content.slice(0, 680)} ...`
+          : review.content}
       </Detail>
-
-      {review.images && (
+      {review.reviewImages && (
         <Images>
-          {review.images.map((image, index) => (
+          {review.reviewImages.map((image, index) => (
             <Image key={index}>
-              {image && <Img src={image} alt={`review #${index}`} />}
+              {image && <img src={image} alt={`review #${index}`} />}
             </Image>
           ))}
         </Images>
@@ -134,19 +133,22 @@ const Date = styled.div`
   line-height: 20px; /* 166.667% */
   letter-spacing: -0.6px;
 `;
-const ViewDetailLink = styled(Link)`
+const ViewDetailButton = styled.button`
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 7px;
   margin: 0 38px 18px auto;
-  text-decoration-line: none;
+  background: transparent;
+  border: none;
+  transition: all 0.3s ease;
 
   &:hover {
     cursor: pointer;
+    transform: translateY(-1px);
   }
 `;
-const ViewDetail = styled.div`
+const ViewDetail = styled.span`
   color: var(--highlight_blue, #07f);
   font-family: Pretendard;
   font-size: 12px;
@@ -174,10 +176,10 @@ const Image = styled.div`
   height: 160px;
   border-radius: 4px;
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
-`;
 
-const Img = styled.img`
-  width: 160px;
-  height: 160px;
-  border-radius: 4px;
-`
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; // 비율 유지
+  }
+`;

@@ -1,9 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import SingleBtnAlert from '../SingleBtnAlert';
+import ConfirmLeaveAlert from '../ConfirmLeaveAlert';
 
-const EditFooter = ({ handleFileChange }) => {
+const EditFooter = ({ handleFileChange, content, title, fileName }) => {
   const navigate = useNavigate();
+  const [showInvalidAlert, setShowInvalidAlert] = useState(false);
+  const [showCancelAlert, setShowCancelAlert] = useState(false);
+
+  const handleSubmit = () => {
+    if (!content || !title) setShowInvalidAlert(true);
+    else {
+      navigate('/community');
+    }
+  };
+
+  const handleCancel = () => {
+    if (content || title || fileName) setShowCancelAlert(true);
+    else {
+      navigate('/community');
+    }
+  };
 
   return (
     <>
@@ -31,12 +49,40 @@ const EditFooter = ({ handleFileChange }) => {
           </CatuionContainer>
         </LeftButtons>
         <RightButtons>
-          <CancelButton onClick={() => navigate('/community')}>
-            취소
-          </CancelButton>
-          <SubmitButton>작성</SubmitButton>
+          <CancelButton onClick={() => handleCancel()}>취소</CancelButton>
+          <SubmitButton onClick={() => handleSubmit()}>작성</SubmitButton>
         </RightButtons>
       </ButtonContainer>
+
+      {showInvalidAlert && (
+        <SingleBtnAlert
+          message={
+            <AlertText>
+              모든 항목을 {'\n'}
+              <ColoredText>적절하게 </ColoredText>
+              입력했는지 확인해주세요.
+            </AlertText>
+          }
+          onClose={() => setShowInvalidAlert(false)}
+          mariginsize="33px"
+          showButtons={true}
+        />
+      )}
+
+      {showCancelAlert && (
+        <ConfirmLeaveAlert
+          message={
+            <AlertText>
+              해당 페이지를 벗어나면{'\n'}
+              작성 중인 정보가 <ColoredText> 모두 삭제</ColoredText>됩니다.
+              {'\n'}
+              떠나시겠습니까?
+            </AlertText>
+          }
+          onClose={() => setShowCancelAlert(false)}
+          showButtons={true}
+        />
+      )}
     </>
   );
 };
@@ -129,6 +175,20 @@ const SubmitButton = styled.button`
   &:hover {
     background-color: #7c16a6;
   }
+`;
+
+const AlertText = styled.span`
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 21px;
+  white-space: pre-line;
+`;
+const ColoredText = styled.span`
+  color: #a60f62;
+  font-weight: bold;
 `;
 
 export default EditFooter;
