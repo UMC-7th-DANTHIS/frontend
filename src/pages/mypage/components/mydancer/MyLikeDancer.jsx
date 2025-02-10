@@ -12,7 +12,7 @@ const MyLikeDancer = () => {
 
   const { data, isLoading, isError, error } = useQuery(
     {
-      queryKey: ['dancers'],
+      queryKey: ['userdancers'],
       queryFn: async () => {
         const token = localStorage.getItem('token');
         const response = await api.get('/users/dancers', {
