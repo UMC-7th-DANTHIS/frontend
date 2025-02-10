@@ -1,3 +1,8 @@
+import review1 from '../../assets/CommunityPost/Community1.png';
+import review2 from '../../assets/CommunityPost/Community2.png';
+import review3 from '../../assets/CommunityPost/Community3.png';
+import review4 from '../../assets/CommunityPost/Community4.png';
+
 const dummyReviews = [
   {
     classId: 1,
@@ -8,7 +13,7 @@ const dummyReviews = [
     date: new Date(),
     detail:
       '680자를 넘는 리뷰 입니다! 680자는 생각보다 깁니다. 우하하 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴 ~~ 대충 리뷰 쏼라쏼랴. 얼마나 더 써야 680자를 넘길까요? 얼마나 더 써야 680자를 넘길까요? 얼마나 더 써야 680자를 넘길까요? 얼마나 더 써야 680자를 넘길까요?',
-    images: null
+    images: [review1, review2, review3, review4]
   },
   {
     classId: 1,

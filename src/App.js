@@ -21,6 +21,7 @@ import ProfileList from './pages/profile/ProfileList';
 import DancerProfile from './pages/profile/DancerProfile';
 import ReviewDetail from './pages/mypage/components/review/ReviewDetail';
 import KakaoRedirectHandler from './pages/KakaoRedirectHandler';
+import ReviewDetailPage from './pages/reservation/ReviewDetailPage';
 
 function App() {
   return (
@@ -51,6 +52,10 @@ function App() {
           <Route
             path="classreservation/:classId"
             element={<ClassReservation />}
+          />
+          <Route
+            path="uploadedreview/:reviewId"
+            element={<ReviewDetailPage />}
           />
           <Route path="/dancerprofile" element={<ProfileList />} />
           <Route path="/dancerprofile/:dancerId" element={<DancerProfile />} />
