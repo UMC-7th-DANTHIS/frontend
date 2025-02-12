@@ -1,22 +1,24 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import dummyDancer from '../../store/search/dummyDancer';
 import Pagination from '../Pagination';
 import SearchNothing from './SearchNothing';
 
-const SearchDancer = ({ data }) => {
+const SearchDancer = ({ data, isLoading }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5;
 
   return (
     <Container>
-      {data?.data.results.length > 0 ? (
+      {!isLoading && data?.data.results.length > 0 ? (
         <>
           <ClassLists>
             {data?.data.results.map((list) => (
               <ClassList>
-                <ImgContainer src={list.profileImage[0]} alt="프로필 이미지" />
+                <ImgContainer
+                  src={list.profileImage?.[0]}
+                  alt="프로필 이미지"
+                />
                 <TextContainer>
                   <TextContent>{list.name}</TextContent>
                   <TextContent>Instagram : {list.instagramId}</TextContent>
@@ -29,7 +31,7 @@ const SearchDancer = ({ data }) => {
           </ClassLists>
           <PaginationContainer>
             <Pagination
-              dataLength={dummyDancer.length}
+              dataLength={20}
               perData={perData}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}

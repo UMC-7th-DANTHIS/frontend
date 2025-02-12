@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import dummyClass from '../../store/search/dummyClass';
 import Pagination from '../Pagination';
 import SearchNothing from './SearchNothing';
 
 import { ReactComponent as StarFilled } from '../../assets/buttons/starlevel_filled.svg';
 import { ReactComponent as StarNonfilled } from '../../assets/buttons/starlevel_nonfilled.svg';
 
-const SearchClass = ({ data }) => {
+const SearchClass = ({ data, isLoading }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5;
 
   return (
     <Container>
-      {data?.data.results.length > 0 ? (
+      {!isLoading && data?.data.results.length > 0 ? (
         <>
           <ClassLists>
             {data?.data.results.map((list) => (
