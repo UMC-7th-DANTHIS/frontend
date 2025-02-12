@@ -8,7 +8,7 @@ import SearchNothing from './SearchNothing';
 import { ReactComponent as StarFilled } from '../../assets/buttons/starlevel_filled.svg';
 import { ReactComponent as StarNonfilled } from '../../assets/buttons/starlevel_nonfilled.svg';
 
-const SearchClass = () => {
+const SearchClass = ({ data }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5;
 
@@ -17,26 +17,27 @@ const SearchClass = () => {
     perData * currentPage
   );
 
+  console.log(data);
+
   return (
     <Container>
       {filteredList ? (
         <>
           <ClassLists>
-            {filteredList?.map((list) => (
+            {data?.data.results.map((list) => (
               <ClassList>
-                <ImgContainer
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkpq_VnExTApuWh7iJNkdXdqeZciuAVoZF8A&s"
-                  alt="프로필 이미지"
-                />
+                <ImgContainer src={list.classImage[0]} alt="프로필 이미지" />
                 <TextContainer>
-                  <TextContent>{list.Title}</TextContent>
-                  <TextContent>수업 강사 : {list.Dancer}</TextContent>
-                  <TextContent>장르 : {list.Genre}</TextContent>
-                  <TextContent>가격 : {list.Price} / 회당</TextContent>
+                  <TextContent>{list.className}</TextContent>
+                  <TextContent>수업 강사 : {list.dancer}</TextContent>
+                  <TextContent>장르 : {list.genre}</TextContent>
+                  <TextContent>
+                    가격 : {list.pricePerSession} / 회당
+                  </TextContent>
                   <StarsContainer>
                     <TextContent>난이도 : </TextContent>
                     {Array.from({ length: 5 }, (_, index) => {
-                      const isFilled = index < list.Level;
+                      const isFilled = index < list.difficulty;
 
                       return (
                         <StarBtn key={index}>
@@ -51,7 +52,7 @@ const SearchClass = () => {
           </ClassLists>
           <PaginationContainer>
             <Pagination
-              dataLength={dummyClass.length}
+              dataLength={20}
               perData={perData}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
@@ -89,6 +90,9 @@ const ClassList = styled.div`
 
 const ImgContainer = styled.img`
   border-radius: 10px;
+
+  width: 210px;
+  height: 210px;
 `;
 
 const TextContainer = styled.div`
