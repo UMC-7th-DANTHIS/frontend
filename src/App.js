@@ -10,7 +10,6 @@ import ClassRegistration from './pages/registration/newclass/ClassRegistration';
 import CommunityEdit from './pages/Community/CommunityEdit';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
-import SearchPage from './pages/SearchPage';
 import ClassBoard from './pages/reservation/ClassBoard';
 import ClassReservation from './pages/reservation/ClassReservation';
 import SignupPage1 from './pages/Signup/Signup1';
@@ -22,6 +21,8 @@ import DancerProfile from './pages/profile/DancerProfile';
 import ReviewDetail from './pages/mypage/components/review/ReviewDetail';
 import KakaoRedirectHandler from './pages/KakaoRedirectHandler';
 import ReviewDetailPage from './pages/reservation/ReviewDetailPage';
+import SearchLayout from './layout/SearchLayout';
+import SearchWrapper from './layout/SearchWrapper';
 
 function App() {
   return (
@@ -35,19 +36,20 @@ function App() {
             <Route path=":id" element={<CommunityPostPage />} />
             <Route path="edit" element={<CommunityEdit />} />
           </Route>
+          <Route path="/search/:select" element={<SearchLayout />}>
+            <Route index element={<SearchWrapper />} />
+          </Route>
           <Route path="/login" element={<LoginPage />} />
           <Route
             path="/oauth/kakao/callback"
             element={<KakaoRedirectHandler />}
           />
-
           <Route path="/signup1" element={<SignupPage1 />} />
           <Route path="/signup2" element={<SignupPage2 />} />
           <Route path="/signup3" element={<SignupPage3 />} />
           <Route path="/signup4" element={<SignupPage4 />} />
           <Route path="dancerregister" element={<DancerRegistration />} />
           <Route path="classregister" element={<ClassRegistration />} />
-          <Route path="search" element={<SearchPage />} />
           <Route path="classreservation" element={<ClassBoard />} />
           <Route
             path="classreservation/:classId"

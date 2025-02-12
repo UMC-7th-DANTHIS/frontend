@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
+
 import styled from 'styled-components';
 
 import Pagination from '../Pagination';
 import SearchNothing from './SearchNothing';
+import useSearch from '../../hooks/useSearch';
 
-const SearchDancer = ({ data, isLoading }) => {
+const SearchDancer = ({ query, select }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5;
+  const { data, isLoading } = useSearch(select, query);
 
   return (
     <Container>

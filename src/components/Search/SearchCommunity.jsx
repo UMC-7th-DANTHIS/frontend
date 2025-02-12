@@ -5,10 +5,12 @@ import imgDesc from '../../assets/Search/imageDescript.svg';
 
 import Pagination from '../Pagination';
 import SearchNothing from './SearchNothing';
+import useSearch from '../../hooks/useSearch';
 
-const SearchCommunity = ({ data, isLoading }) => {
+const SearchCommunity = ({ query, select }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5;
+  const { data, isLoading } = useSearch(select, query);
 
   return (
     <Container>
@@ -53,7 +55,6 @@ const CommunityLists = styled.div`
 `;
 
 const CommunityList = styled.div`
-  display: flex;
   padding-left: 114px;
   padding-right: 114px;
   padding-top: 41px;

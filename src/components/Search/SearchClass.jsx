@@ -3,13 +3,15 @@ import styled from 'styled-components';
 
 import Pagination from '../Pagination';
 import SearchNothing from './SearchNothing';
+import useSearch from '../../hooks/useSearch';
 
 import { ReactComponent as StarFilled } from '../../assets/buttons/starlevel_filled.svg';
 import { ReactComponent as StarNonfilled } from '../../assets/buttons/starlevel_nonfilled.svg';
 
-const SearchClass = ({ data, isLoading }) => {
+const SearchClass = ({ query, select }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5;
+  const { data, isLoading } = useSearch(select, query);
 
   return (
     <Container>
