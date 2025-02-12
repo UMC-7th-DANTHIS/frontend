@@ -1,48 +1,66 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import sampleImage from '../../../../assets/image.png'
+import sampleImage from '../../../../assets/errorImage.svg'
 import Pagination from '../../../../components/Pagination';
-import dummyClass from '../../../../store/mypage/dummyClass';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
-
+import { useQuery } from '@tanstack/react-query';
+import api from '../../../../api/api';
 
 const MyLikeClass = () => {
-  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const perData = 6;
-  const filteredList = data.slice(
-    perData * (currentPage - 1),
-    perData * currentPage
-  );
-  const [isLoading, setIsLoading] = useState(true);
+  const perData = 9;
 
-  useEffect(() => {
-    setTimeout(() => {
-      setData(dummyClass);
-      setIsLoading(false);
-    }, 6000);
-  }, []);
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['userclass'],
+    queryFn: async () => {
+      const token = localStorage.getItem('token');
+      const response = await api.get('/users/dance-classes', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // console.log(response.data.data.danceClasses);
+      return response.data.data.danceClasses || [];
+    },
+  });
+
+  const filteredList = data ? data.slice(perData * (currentPage - 1), perData * currentPage) : [];
+
+  if (isLoading) {
+    return <LoadingSpinner isLoading={isLoading} />;
+  }
+
+  if (isError) {
+    return <div>Error: {error?.message}</div>;
+  }
+
+  const handleImageError = (e) => {
+    e.target.src = sampleImage;
+  };
 
   return (
     <>
-      <LoadingSpinner isLoading={isLoading}>
-        <ClassContainer>
-          {filteredList.map((data) => (
-            <ClassList key={data.id}>
-              <Image src={data.images[0] || sampleImage} alt={data.id} />
-              <Title>{data.className}</Title>
-              <Singer>{data.dancerName}</Singer>
-            </ClassList>
-          ))}
-        </ClassContainer>
-        <PaginationContainer>
-          <Pagination dataLength={data.length} perData={perData} currentPage={currentPage}
-            setCurrentPage={setCurrentPage} />
-        </PaginationContainer>
-      </LoadingSpinner>
+      <ClassContainer>
+        {filteredList.map((danceClass) => (
+          <ClassList key={danceClass.id}>
+            <Image src={danceClass.images[0] || danceClass.images[1]} alt={danceClass.id} onError={handleImageError} />
+            <Title>{danceClass.className}</Title>
+            <Singer>{danceClass.dancerName}</Singer>
+          </ClassList>
+        ))}
+      </ClassContainer>
+      <PaginationContainer>
+        <Pagination
+          dataLength={data.length}
+          perData={perData}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      </PaginationContainer>
     </>
   );
 };
+
 
 export default MyLikeClass;
 
@@ -99,3 +117,4 @@ const PaginationContainer = styled.div`
   align-items: center;
   margin-top: 30px;
 `
+
