@@ -12,16 +12,9 @@ const SearchClass = ({ data }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5;
 
-  const filteredList = dummyClass.slice(
-    perData * (currentPage - 1),
-    perData * currentPage
-  );
-
-  console.log(data);
-
   return (
     <Container>
-      {filteredList ? (
+      {data?.data.results.length > 0 ? (
         <>
           <ClassLists>
             {data?.data.results.map((list) => (

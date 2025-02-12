@@ -9,26 +9,20 @@ const SearchDancer = ({ data }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5;
 
-  const filteredList = dummyDancer.slice(
-    perData * (currentPage - 1),
-    perData * currentPage
-  );
-
   return (
     <Container>
-      {filteredList ? (
+      {data?.data.results.length > 0 ? (
         <>
           <ClassLists>
-            {filteredList?.map((list) => (
+            {data?.data.results.map((list) => (
               <ClassList>
-                <ImgContainer
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkpq_VnExTApuWh7iJNkdXdqeZciuAVoZF8A&s"
-                  alt="프로필 이미지"
-                />
+                <ImgContainer src={list.profileImage[0]} alt="프로필 이미지" />
                 <TextContainer>
-                  <TextContent>{list.Dancer}</TextContent>
-                  <TextContent>Instagram : {list.Instagram}</TextContent>
-                  <TextContent>주 장르 : {list.Genre}</TextContent>
+                  <TextContent>{list.name}</TextContent>
+                  <TextContent>Instagram : {list.instagramId}</TextContent>
+                  <TextContent>
+                    주 장르 : {list.mainGenres.map((genre) => genre)}
+                  </TextContent>
                 </TextContainer>
               </ClassList>
             ))}
@@ -71,6 +65,9 @@ const ClassList = styled.div`
 
 const ImgContainer = styled.img`
   border-radius: 10px;
+
+  width: 210px;
+  height: 210px;
 `;
 
 const TextContainer = styled.div`
