@@ -45,8 +45,10 @@ const ReviewDetailPage = () => {
           <EditIcon />
           <DeleteIcon />
         </Tool>
-        <InfoText>작성일 : {formatDateWithTime(review.createdAt)}</InfoText>
-        <InfoText>작성자 : {review.author}</InfoText>
+        <Writer>
+          <InfoText>작성일 : {formatDateWithTime(review.createdAt)}</InfoText>
+          <InfoText>작성자 : {review.author}</InfoText>
+        </Writer>
       </InfoWrapper>
       <Content>{review.content}</Content>
       <ImagesContainer>
@@ -94,8 +96,14 @@ const InfoWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   width: 900px;
+`;
+const Writer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
 `;
 const Tool = styled.div`
   display: flex;
