@@ -15,7 +15,6 @@ import ConfirmDeleteAlert from '../ConfirmDelete';
 const PostContent = ({ comment, handleModal, selectedPost }) => {
   const navigate = useNavigate();
 
-  console.log(selectedPost);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
   const handleDelete = () => {
