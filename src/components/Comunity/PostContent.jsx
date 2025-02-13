@@ -15,6 +15,7 @@ import ConfirmDeleteAlert from '../ConfirmDelete';
 const PostContent = ({ comment, handleModal, selectedPost }) => {
   const navigate = useNavigate();
 
+  console.log(selectedPost);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
   const handleDelete = () => {
@@ -31,7 +32,7 @@ const PostContent = ({ comment, handleModal, selectedPost }) => {
           <TextContainer>{comment?.length}</TextContainer>
         </PostStats>
         <PostMeta>
-          <span>작성일 : {formatDate(selectedPost?.created_at)}</span>
+          <span>작성일 : {formatDate(selectedPost?.createdAt)}</span>
         </PostMeta>
       </PostInfo>
       <PostInfo>
@@ -42,28 +43,28 @@ const PostContent = ({ comment, handleModal, selectedPost }) => {
                 navigate('/community/edit', { state: { selectedPost } })
               }
               src={Edit}
-              alt={'그럴리없다'}
+              alt={'수정버튼'}
             />
             <ButtonContainer
               src={Delete}
-              alt={'그럴리없다'}
+              alt={'삭제버튼'}
               onClick={() => handleDelete()}
             />
           </PostActions>
         ) : (
           <PostActions>
-            <ReportButton src={Alert} alt={'그럴리없다'} />
+            <ReportButton src={Alert} alt={'신고버튼'} />
           </PostActions>
         )}
         <PostMeta>
-          <span>작성자 : {selectedPost?.user_id}</span>{' '}
+          <span>작성자 : {selectedPost?.author}</span>{' '}
         </PostMeta>
       </PostInfo>
       <Content>
         {selectedPost?.content}
-        {selectedPost?.image.length && (
+        {selectedPost?.images.length > 0 && (
           <ImageContainer>
-            {selectedPost?.image.map((img) => (
+            {selectedPost?.images.map((img) => (
               <Image
                 src={img}
                 alt={'이미지'}

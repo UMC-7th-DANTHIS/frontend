@@ -9,13 +9,10 @@ const PostComment = ({ comment }) => {
   return (
     <Comment>
       <CommentProfile>
-        <CommentImage
-          src="https://via.placeholder.com/50"
-          alt="프로필 이미지"
-        />
+        <CommentImage src={comment.userProfileImage} alt="프로필 이미지" />
         <CommentDetails>
-          <CommentDate>{formatDate(comment.created_at)}</CommentDate>
-          <CommentAuthor>{comment.user_id}</CommentAuthor>
+          <CommentDate>{formatDate(comment.createdAt)}</CommentDate>
+          <CommentAuthor>{comment.userName}</CommentAuthor>
         </CommentDetails>
         {true ? (
           <ReportButton src={Alert} alt={'그럴리없다'} />

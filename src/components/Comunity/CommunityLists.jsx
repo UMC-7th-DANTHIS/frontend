@@ -10,7 +10,6 @@ const CommunityLists = () => {
   const navigate = useNavigate();
 
   const { data, isLoading, isError } = useFetchList();
-  console.log(data);
 
   const { filteredList, currentPage, perData, setCurrentPage, CommunityPost } =
     useOutletContext();

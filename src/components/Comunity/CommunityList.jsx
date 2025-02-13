@@ -12,11 +12,11 @@ const CommunityList = ({ list }) => {
   const navigate = useNavigate();
 
   const { data: post, isLoading, isError } = useFetchList(list.postId);
+  const { data: com } = useFetchList(list.postId, 1);
+  console.log(com);
 
-  console.log(post);
-
-  const handleNavigate = (data) => {
-    navigate(`/community/${data.postId}`, { state: { selectedPost: data } });
+  const handleNavigate = (temp) => {
+    navigate(`/community/${temp.postId}`, { state: { selectedPost: temp } });
   };
 
   return (

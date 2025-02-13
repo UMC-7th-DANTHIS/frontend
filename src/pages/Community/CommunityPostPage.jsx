@@ -8,11 +8,21 @@ import PostContent from '../../components/Comunity/PostContent';
 import Pagination from '../../components/Pagination';
 
 import ConfirmLeaveAlert from '../../components/ConfirmLeaveAlert';
+import useFetchList from '../../hooks/useFetchList';
 
 const CommunityPostPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  // 게시물 정보 가져오기
   const { selectedPost } = location.state || {};
+
+  // 댓글 가져오기
+  const {
+    data: com,
+    isLoading,
+    isError
+  } = useFetchList(selectedPost.postId, 1);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentCaution, setCommentCaution] = useState(true);
@@ -48,16 +58,8 @@ const CommunityPostPage = () => {
     else navigate('/community');
   };
 
-  const comment = CommunityComment.filter(
-    (num) => num.post_id === selectedPost?.id
-  );
-
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 10;
-  const filteredComment = comment.slice(
-    perData * (currentPage - 1),
-    perData * currentPage
-  );
 
   return (
     <>
@@ -67,17 +69,17 @@ const CommunityPostPage = () => {
             <div>{selectedPost?.title}</div>
           </PostHeader>
           <PostContent
-            comment={comment}
+            comment={com?.data.comments}
             handleModal={handleModal}
             selectedPost={selectedPost}
           />
           <CommentSection>
-            {filteredComment?.map((comment) => (
+            {com?.data.comments.map((comment) => (
               <PostComment comment={comment} />
             ))}
             <PaginationContainer>
               <Pagination
-                dataLength={comment.length}
+                dataLength={10}
                 perData={perData}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
