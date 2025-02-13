@@ -104,6 +104,7 @@ const Writer = styled.div`
   flex-direction: column;
   align-items: flex-end;
   text-align: right;
+  gap: 8px;
 `;
 const Tool = styled.div`
   display: flex;
