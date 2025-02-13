@@ -3,15 +3,27 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import SingleBtnAlert from '../SingleBtnAlert';
 import ConfirmLeaveAlert from '../ConfirmLeaveAlert';
+import axiosInstance from '../../api/axios-instance';
 
 const EditFooter = ({ handleFileChange, content, title, fileName }) => {
   const navigate = useNavigate();
   const [showInvalidAlert, setShowInvalidAlert] = useState(false);
   const [showCancelAlert, setShowCancelAlert] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!content || !title) setShowInvalidAlert(true);
     else {
+      const postData = {
+        title: title,
+        content: content,
+        images: fileName ? fileName : []
+      };
+
+      try {
+        const response = await axiosInstance.post(`/community/posts`, postData);
+      } catch (error) {
+        console.log(error);
+      }
       navigate('/community');
     }
   };
