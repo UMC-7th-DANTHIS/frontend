@@ -6,39 +6,42 @@ import ImageDescript from '../../assets/Search/imageDescript.svg';
 import CommentPhoto from '../../assets/Community/CommentPhoto.svg';
 
 import formatDate from '../../api/formatDate';
-import CommunityComment from '../../store/community/CommunityComment';
+import useFetchList from '../../hooks/useFetchList';
 
 const CommunityList = ({ list }) => {
   const navigate = useNavigate();
-  const comment = CommunityComment.filter((num) => num.post_id === list.id);
 
-  const handleNavigate = (list) => {
-    navigate(`/community/${list.id}`, { state: { selectedPost: list } });
+  const { data: post, isLoading, isError } = useFetchList(list.postId);
+
+  console.log(post);
+
+  const handleNavigate = (data) => {
+    navigate(`/community/${data.postId}`, { state: { selectedPost: data } });
   };
 
   return (
     <ListContainer>
-      <NoList>{list.id}</NoList>
-      {list.image.length ? (
+      <NoList>{list?.postId}</NoList>
+      {post?.data.images.length ? (
         <ImageYes src={ImageDescript} alt={'그림있으요'} />
       ) : (
         <ImageNo />
       )}
-      <TitleList onClick={() => handleNavigate(list)}>
-        {list.title}
-        {comment ? (
+      <TitleList onClick={() => handleNavigate(post.data)}>
+        {post?.data.title}
+        {post?.data.commentCount > 0 ? (
           <>
             <ViewDescript src={CommentPhoto} alt={'댓글있으요'} />
-            <ViewPeople>{comment.length}</ViewPeople>
+            <ViewPeople>{post?.data.commentCount}</ViewPeople>
           </>
         ) : (
           ''
         )}
       </TitleList>
       <DateList>
-        <DateList>{formatDate(list.created_at)}</DateList>
+        <DateList>{formatDate(post?.data.createdAt)}</DateList>
       </DateList>
-      <SeeList>{list.views}</SeeList>
+      <SeeList>100</SeeList>
     </ListContainer>
   );
 };
@@ -114,14 +117,14 @@ const ViewPeople = styled.div`
 
 const DateList = styled.span`
   display: inline-flex;
-  width: 95px;
+  width: 100px;
   margin-left: 25px;
   text-align: center;
 `;
 
 const SeeList = styled.span`
   display: inline-block;
-  margin-left: 48px;
+  margin-left: 40px;
   width: 65px;
   text-align: center;
 `;
