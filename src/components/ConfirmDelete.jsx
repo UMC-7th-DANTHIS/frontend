@@ -7,6 +7,7 @@ const ConfirmDeleteAlert = ({
   title,
   message,
   onClose,
+  onConfirm,
   messageColor,
   messagesize,
   mariginsize = '22.5px', //margin-top 설정
@@ -51,7 +52,7 @@ const ConfirmDeleteAlert = ({
         {/* 예 아니요 버튼 유무 true/false로 설정 */}
         {showButtons && (
           <Buttons>
-            <Leave to="/">{deleteLabel}</Leave>
+            <Leave onClick={onConfirm}>{deleteLabel}</Leave>
             <Stay onClick={handleClick}>{cancelLabel}</Stay>
           </Buttons>
         )}

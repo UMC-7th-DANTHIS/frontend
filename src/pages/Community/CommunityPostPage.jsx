@@ -22,7 +22,7 @@ const CommunityPostPage = () => {
     data: com,
     isLoading,
     isError
-  } = useFetchList(selectedPost.postId, 1);
+  } = useFetchList(selectedPost?.postId, 1);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentCaution, setCommentCaution] = useState(true);
@@ -35,13 +35,6 @@ const CommunityPostPage = () => {
   const handleModal = (imgUrl) => {
     setImgUrl(imgUrl);
     setIsModalOpen(true);
-  };
-
-  const handleCommentChange = (e) => {
-    setCommentText(e.target.value);
-    if (e.target.value.length > 200 || e.target.value.length === 0)
-      setCommentCaution(true);
-    else setCommentCaution(false);
   };
 
   const handleCaution = (e) => {

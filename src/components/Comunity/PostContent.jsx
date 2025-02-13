@@ -11,14 +11,26 @@ import Delete from '../../assets/Community/DeleteButton.svg';
 import Alert from '../../assets/Community/SirenButton.svg';
 
 import ConfirmDeleteAlert from '../ConfirmDelete';
+import axiosInstance from '../../api/axios-instance';
 
 const PostContent = ({ comment, handleModal, selectedPost }) => {
   const navigate = useNavigate();
+
+  console.log(selectedPost);
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
   const handleDelete = () => {
     setShowConfirmDelete(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      await axiosInstance.delete(`/community/posts/${selectedPost.postId}`);
+      navigate('/community');
+    } catch (error) {
+      console.error('게시글 삭제 실패:', error);
+    }
   };
 
   return (
@@ -86,6 +98,7 @@ const PostContent = ({ comment, handleModal, selectedPost }) => {
             </AlertText>
           }
           onClose={() => setShowConfirmDelete(false)}
+          onConfirm={handleDeleteConfirm}
           showButtons={true}
         />
       )}
