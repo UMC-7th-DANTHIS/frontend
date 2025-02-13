@@ -17,7 +17,6 @@ const useSearch = (select, temp) => {
         const response = await axiosInstance.get(
           `/search/${select}?query=${temp}`
         );
-        console.log(response);
         setData(response.data);
       } catch (error) {
         setIsError(true);

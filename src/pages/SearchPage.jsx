@@ -53,9 +53,15 @@ const SearchPage = () => {
         {isError && <p>오류 발생</p>}
         {!isLoading && !isError && data && (
           <>
-            {select === 'dance-classes' && <SearchClass data={data} />}
-            {select === 'dancers' && <SearchDancer data={data} />}
-            {select === 'posts' && <SearchCommunity data={data} />}
+            {select === 'dance-classes' && (
+              <SearchClass data={data} isLoading={isLoading} />
+            )}
+            {select === 'dancers' && (
+              <SearchDancer data={data} isLoading={isLoading} />
+            )}
+            {select === 'posts' && (
+              <SearchCommunity data={data} isLoading={isLoading} />
+            )}
           </>
         )}
       </ContentContainer>
