@@ -5,7 +5,13 @@ import SingleBtnAlert from '../SingleBtnAlert';
 import ConfirmLeaveAlert from '../ConfirmLeaveAlert';
 import axiosInstance from '../../api/axios-instance';
 
-const EditFooter = ({ handleFileChange, content, title, fileName }) => {
+const EditFooter = ({
+  handleFileChange,
+  content,
+  title,
+  fileName,
+  selectedPost
+}) => {
   const navigate = useNavigate();
   const [showInvalidAlert, setShowInvalidAlert] = useState(false);
   const [showCancelAlert, setShowCancelAlert] = useState(false);
@@ -20,7 +26,13 @@ const EditFooter = ({ handleFileChange, content, title, fileName }) => {
       };
 
       try {
-        const response = await axiosInstance.post(`/community/posts`, postData);
+        if (selectedPost) {
+          const response = await axiosInstance.put(
+            `/community/posts/${selectedPost.postId}`,
+            postData
+          );
+          console.log(response);
+        } else await axiosInstance.post(`/community/posts`, postData);
       } catch (error) {
         console.log(error);
       }
