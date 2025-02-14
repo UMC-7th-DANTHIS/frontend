@@ -5,7 +5,19 @@ import formatDate from '../../api/formatDate';
 import Delete from '../../assets/Community/DeleteButton.svg';
 import Alert from '../../assets/Community/SirenButton.svg';
 
-const PostComment = ({ comment }) => {
+import axiosInstacne from '../../api/axios-instance';
+
+const PostComment = ({ comment, postId }) => {
+  const handleDelete = async () => {
+    try {
+      await axiosInstacne.delete(
+        `/community/posts/${postId}/comments/${comment.commentId}`
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Comment>
       <CommentProfile>
@@ -14,10 +26,14 @@ const PostComment = ({ comment }) => {
           <CommentDate>{formatDate(comment.createdAt)}</CommentDate>
           <CommentAuthor>{comment.userName}</CommentAuthor>
         </CommentDetails>
-        {true ? (
+        {false ? (
           <ReportButton src={Alert} alt={'그럴리없다'} />
         ) : (
-          <ButtonContainer src={Delete} alt={'그럴리없다'} />
+          <ButtonContainer
+            src={Delete}
+            alt={'그럴리없다'}
+            onClick={() => handleDelete()}
+          />
         )}
       </CommentProfile>
       <CommentContent>{comment.content}</CommentContent>

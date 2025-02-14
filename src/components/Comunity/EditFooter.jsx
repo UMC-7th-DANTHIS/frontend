@@ -31,7 +31,6 @@ const EditFooter = ({
             `/community/posts/${selectedPost.postId}`,
             postData
           );
-          console.log(response);
         } else await axiosInstance.post(`/community/posts`, postData);
       } catch (error) {
         console.log(error);

@@ -98,7 +98,7 @@ const CommunityPostPage = () => {
           />
           <CommentSection>
             {com?.data.comments.map((comment) => (
-              <PostComment comment={comment} />
+              <PostComment comment={comment} postId={selectedPost.postId} />
             ))}
             <PaginationContainer>
               <Pagination
