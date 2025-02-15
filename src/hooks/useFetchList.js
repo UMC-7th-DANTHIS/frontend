@@ -18,6 +18,7 @@ const useFetchList = (postId, comment, currentPage) => {
 
         // post 댓글 조회
         if (comment === 1 && postId) {
+          if (!currentPage) currentPage = 1;
           url = `/community/posts/${postId}/comments?page=${currentPage}`;
         }
 
@@ -28,6 +29,7 @@ const useFetchList = (postId, comment, currentPage) => {
 
         // post 목록 조회
         else {
+          if (!currentPage) currentPage = 1;
           url = `/community/posts?page=${currentPage}`;
         }
 

@@ -13,6 +13,8 @@ import useGet from '../../hooks/useGet';
 
 const CommunityPostPage = () => {
   const [comments, setComments] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const perData = 5;
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,7 +28,9 @@ const CommunityPostPage = () => {
     data: com,
     isLoading,
     isError
-  } = useFetchList(selectedPost?.postId, 1);
+  } = useFetchList(selectedPost?.postId, 1, currentPage);
+
+  console.log(com);
 
   useEffect(() => {
     if (com?.data?.comments) {
@@ -81,9 +85,6 @@ const CommunityPostPage = () => {
     }
   };
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const perData = 10;
-
   return (
     <>
       <Container>
@@ -107,7 +108,7 @@ const CommunityPostPage = () => {
             ))}
             <PaginationContainer>
               <Pagination
-                dataLength={10}
+                dataLength={com?.data.totalComments}
                 perData={perData}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}

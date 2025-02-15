@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-
-import CommunityPost from '../store/community/CommunityPost';
 import useFetchList from '../hooks/useFetchList';
 
 const CommunityLayout = () => {
