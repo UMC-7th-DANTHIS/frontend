@@ -39,20 +39,22 @@ const CommunityList = ({ list }) => {
       <DateList>
         <DateList>{formatDate(post?.data.createdAt)}</DateList>
       </DateList>
-      <SeeList>100</SeeList>
     </ListContainer>
   );
 };
 
 const ListContainer = styled.div`
   margin-top: 16px;
-  margin-left: 37px;
+  margin-left: 60px;
   height: 20px;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   color: white;
+
+  display: flex;
+  align-items: center;
 `;
 
 const NoList = styled.span`
@@ -82,7 +84,7 @@ const ImageNo = styled.div`
 const TitleList = styled.button`
   display: inline-flex;
   margin-left: 5px;
-  width: 627px;
+  width: 668px;
   text-align: start;
   border: 0;
   background-color: transparent;
@@ -117,13 +119,6 @@ const DateList = styled.span`
   display: inline-flex;
   width: 100px;
   margin-left: 25px;
-  text-align: center;
-`;
-
-const SeeList = styled.span`
-  display: inline-block;
-  margin-left: 40px;
-  width: 65px;
   text-align: center;
 `;
 

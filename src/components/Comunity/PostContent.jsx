@@ -35,10 +35,8 @@ const PostContent = ({ comment, handleModal, selectedPost, user }) => {
     <>
       <PostInfo>
         <PostStats>
-          <ViewContainer src={ViewPhoto} alt={'그럴리없다'} />
-          <TextContainer>{selectedPost?.views}</TextContainer>
           <ViewContainer src={CommentPhoto} alt={'그럴리없다'} />
-          <TextContainer>{comment?.length}</TextContainer>
+          <TextContainer>{comment?.length || 0}</TextContainer>
         </PostStats>
         <PostMeta>
           <span>작성일 : {formatDate(selectedPost?.createdAt)}</span>
@@ -131,6 +129,7 @@ const ViewContainer = styled.img`
   width: 28px;
   height: 28px;
 
+  margin-bottom: 5px;
   margin-right: 5px;
 `;
 
