@@ -19,6 +19,7 @@ const CommunityEdit = () => {
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
     const availableSlots = MAX_IMAGES - previews.length;
+
     const newImageURLs = files
       .slice(0, availableSlots)
       .map((file) => URL.createObjectURL(file));
@@ -26,10 +27,12 @@ const CommunityEdit = () => {
     setPreviews((prev) => [...prev, ...newImageURLs]);
     setFileName((prev) => [
       ...prev,
-      ...files.map((_, idx) => {
+      ...files.map((file) => {
         const array = new Uint32Array(4);
         window.crypto.getRandomValues(array);
-        return Array.from(array, (num) => num.toString(16)).join('');
+        const hash = Array.from(array, (num) => num.toString(16)).join('');
+        const extension = file.name.split('.').pop();
+        return `${hash}.${extension}`;
       })
     ]);
   };
@@ -60,7 +63,7 @@ const CommunityEdit = () => {
           title={title}
           content={content}
           fileName={fileName}
-          selectedPost={selectedPost}
+          previews={previews}
         />
       </ContentContainer>
     </Container>

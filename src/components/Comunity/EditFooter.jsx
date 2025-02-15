@@ -1,50 +1,87 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
+
 import SingleBtnAlert from '../SingleBtnAlert';
 import ConfirmLeaveAlert from '../ConfirmLeaveAlert';
+
 import axiosInstance from '../../api/axios-instance';
-import FetchImage from '../../hooks/FetchImage';
+import getPresignedUrls from '../../hooks/getPresignedUrls';
 
 const EditFooter = ({
   handleFileChange,
   content,
   title,
   fileName,
-  selectedPost
+  previews
 }) => {
   const navigate = useNavigate();
   const [showInvalidAlert, setShowInvalidAlert] = useState(false);
   const [showCancelAlert, setShowCancelAlert] = useState(false);
 
-  console.log(fileName);
+  console.log(previews);
 
   const handleSubmit = async () => {
     if (!content || !title) setShowInvalidAlert(true);
     else {
-      try {
-        FetchImage(fileName);
-      } catch (error) {
-        console.log(error);
+      const fileExtensions = fileName.map((name) =>
+        name.split('.').pop().toLowerCase()
+      );
+      const presignedUrls = await getPresignedUrls(fileExtensions);
+      console.log(presignedUrls);
+      console.log(previews);
+
+      if (!presignedUrls) return;
+
+      const uploadedImageUrls = [];
+
+      for (let i = 0; i < fileName.length; i++) {
+        const response = await fetch(previews[i]);
+        const blob = await response.blob();
+        const success = await uploadToS3(presignedUrls[i].presignedUrl, blob);
+
+        if (success) {
+          uploadedImageUrls.push(presignedUrls[i].fileUrl);
+        }
       }
 
-      const postData = {
-        title: title,
-        content: content,
-        images: fileName ? fileName : []
-      };
-
-      try {
-        if (selectedPost) {
-          const response = await axiosInstance.put(
-            `/community/posts/${selectedPost.postId}`,
-            postData
-          );
-        } else await axiosInstance.post(`/community/posts`, postData);
-      } catch (error) {
-        console.log(error);
+      if (uploadedImageUrls.length === fileName.length) {
+        await createPost(title, content, uploadedImageUrls);
+      } else {
+        alert(
+          '🚨 일부 이미지 업로드 실패로 인해 게시글 작성이 중단되었습니다.'
+        );
       }
+    }
+  };
+
+  const uploadToS3 = async (presignedUrl, file) => {
+    try {
+      const response = await axios.put(presignedUrl, file, {
+        headers: {
+          'Content-Type': file.type
+        }
+      });
+      return response.status === 200;
+    } catch (error) {
+      console.error('S3 업로드 실패:', error);
+      return false;
+    }
+  };
+
+  const createPost = async (title, content, uploadedImageUrls) => {
+    const postData = {
+      title,
+      content,
+      images: uploadedImageUrls
+    };
+
+    try {
+      await axiosInstance.post(`/community/posts`, postData);
       navigate('/community');
+    } catch (error) {
+      console.error('게시글 작성 실패:', error);
     }
   };
 

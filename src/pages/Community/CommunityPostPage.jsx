@@ -21,7 +21,6 @@ const CommunityPostPage = () => {
   const { selectedPost } = location.state || {};
   const { data: user } = useGet();
 
-  console.log(selectedPost);
   // 댓글 가져오기
   const {
     data: com,
