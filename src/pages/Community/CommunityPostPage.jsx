@@ -22,6 +22,8 @@ const CommunityPostPage = () => {
 
   // 게시물 정보 가져오기
   const { selectedPost } = location.state || {};
+
+  console.log(selectedPost);
   const { data: user } = useGet();
 
   // 댓글 가져오기
