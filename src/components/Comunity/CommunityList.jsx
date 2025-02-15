@@ -37,7 +37,7 @@ const CommunityList = ({ list }) => {
         )}
       </TitleList>
       <DateList>
-        <DateList>{formatDate(post?.data.createdAt)}</DateList>
+        <DateList>{formatDate(post?.data.createdAt, 3)}</DateList>
       </DateList>
     </ListContainer>
   );
@@ -118,7 +118,7 @@ const ViewPeople = styled.div`
 const DateList = styled.span`
   display: inline-flex;
   width: 100px;
-  margin-left: 25px;
+  margin-left: 27px;
   text-align: center;
 `;
 

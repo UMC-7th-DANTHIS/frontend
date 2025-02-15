@@ -23,7 +23,7 @@ const PostComment = ({ comment, postId, user }) => {
       <CommentProfile>
         <CommentImage src={comment.userProfileImage} alt="프로필 이미지" />
         <CommentDetails>
-          <CommentDate>{formatDate(comment.createdAt)}</CommentDate>
+          <CommentDate>{formatDate(comment.createdAt, 2)}</CommentDate>
           <CommentAuthor>{comment.userName}</CommentAuthor>
         </CommentDetails>
         {user?.data.nickname == comment.userName &&

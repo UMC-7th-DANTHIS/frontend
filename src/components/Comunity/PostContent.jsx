@@ -39,7 +39,7 @@ const PostContent = ({ comment, handleModal, selectedPost, user }) => {
           <TextContainer>{comment?.length || 0}</TextContainer>
         </PostStats>
         <PostMeta>
-          <span>작성일 : {formatDate(selectedPost?.createdAt)}</span>
+          <span>작성일 : {formatDate(selectedPost?.createdAt, 1)}</span>
         </PostMeta>
       </PostInfo>
       <PostInfo>
