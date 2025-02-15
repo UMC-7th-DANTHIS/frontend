@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useOutletContext } from 'react-router-dom';
 import styled from 'styled-components';
 import ImageModal from '../../components/Comunity/ImageModal';
 import PostComment from '../../components/Comunity/PostComment';
@@ -23,6 +23,7 @@ const CommunityPostPage = () => {
   // 게시물 정보 가져오기
   const { selectedPost } = location.state || {};
   const { data: user } = useGet();
+  const { setForceReload: setListReload } = useOutletContext();
 
   // 댓글 가져오기
   const {
@@ -96,6 +97,7 @@ const CommunityPostPage = () => {
             handleModal={handleModal}
             selectedPost={selectedPost}
             user={user}
+            setListReload={setListReload}
           />
           <CommentSection>
             {com?.data.comments.map((comment) => (

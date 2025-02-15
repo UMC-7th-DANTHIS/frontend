@@ -12,7 +12,13 @@ import Alert from '../../assets/Community/SirenButton.svg';
 import ConfirmDeleteAlert from '../ConfirmDelete';
 import axiosInstance from '../../api/axios-instance';
 
-const PostContent = ({ length, handleModal, selectedPost, user }) => {
+const PostContent = ({
+  length,
+  handleModal,
+  selectedPost,
+  user,
+  setListReload
+}) => {
   const navigate = useNavigate();
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
@@ -24,6 +30,7 @@ const PostContent = ({ length, handleModal, selectedPost, user }) => {
   const handleDeleteConfirm = async () => {
     try {
       await axiosInstance.delete(`/community/posts/${selectedPost.postId}`);
+      setListReload((prev) => !prev);
       navigate('/community');
     } catch (error) {
       console.error('게시글 삭제 실패:', error);
