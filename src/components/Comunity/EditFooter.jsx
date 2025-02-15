@@ -14,7 +14,9 @@ const EditFooter = ({
   content,
   title,
   fileName,
-  fileObjects
+  fileObjects,
+  forceReload,
+  setForceReload
 }) => {
   const navigate = useNavigate();
   const [showInvalidAlert, setShowInvalidAlert] = useState(false);
@@ -46,9 +48,7 @@ const EditFooter = ({
       if (uploadedImageUrls.length === fileName.length) {
         await createPost(title, content, uploadedImageUrls);
       } else {
-        alert(
-          '🚨 일부 이미지 업로드 실패로 인해 게시글 작성이 중단되었습니다.'
-        );
+        alert('일부 이미지 업로드 실패로 인해 게시글 작성이 중단되었습니다.');
       }
     }
   };
@@ -62,7 +62,7 @@ const EditFooter = ({
       });
       return response.status === 200;
     } catch (error) {
-      console.error('S3 업로드 실패:', error);
+      alert('S3 업로드 실패');
       return false;
     }
   };
@@ -76,9 +76,10 @@ const EditFooter = ({
 
     try {
       await axiosInstance.post(`/community/posts`, postData);
+      setForceReload((prev) => !prev);
       navigate('/community');
     } catch (error) {
-      console.error('게시글 작성 실패:', error);
+      alert('게시글 작성 실패');
     }
   };
 

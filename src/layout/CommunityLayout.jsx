@@ -4,13 +4,15 @@ import useFetchList from '../hooks/useFetchList';
 
 const CommunityLayout = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [forceReload, setForceReload] = useState(false);
+
   const perData = 10;
 
   const {
     data: lists,
     isLoading,
     isError
-  } = useFetchList(null, null, currentPage);
+  } = useFetchList(null, null, currentPage, forceReload);
 
   return (
     <>
@@ -19,7 +21,9 @@ const CommunityLayout = () => {
           lists: lists?.data,
           perData,
           currentPage,
-          setCurrentPage
+          setCurrentPage,
+          forceReload,
+          setForceReload
         }}
       />
     </>

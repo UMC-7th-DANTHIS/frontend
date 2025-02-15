@@ -26,8 +26,8 @@ const PostComment = ({ comment, postId, user }) => {
           <CommentDate>{formatDate(comment.createdAt, 2)}</CommentDate>
           <CommentAuthor>{comment.userName}</CommentAuthor>
         </CommentDetails>
-        {user?.data.nickname == comment.userName &&
-        user?.data.profileImage == comment.userProfileImage ? (
+        {user?.nickname == comment.userName &&
+        user?.profileImage == comment.userProfileImage ? (
           <ButtonContainer
             src={Delete}
             alt={'그럴리없다'}

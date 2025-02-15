@@ -13,6 +13,7 @@ import useGet from '../../hooks/useGet';
 
 const CommunityPostPage = () => {
   const [comments, setComments] = useState([]);
+  const [forceReload, setForceReload] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5;
 
@@ -28,7 +29,7 @@ const CommunityPostPage = () => {
     data: com,
     isLoading,
     isError
-  } = useFetchList(selectedPost?.postId, 1, currentPage);
+  } = useFetchList(selectedPost?.postId, 1, currentPage, forceReload);
 
   console.log(com);
 
@@ -67,18 +68,15 @@ const CommunityPostPage = () => {
   const handleCommentSubmit = async () => {
     if (!commentText.trim()) return;
 
-    const postData = {
-      content: commentText
-    };
-
     try {
       const response = await axiosInstance.post(
         `/community/posts/${selectedPost.postId}/comments`,
-        postData
+        { content: commentText }
       );
 
       setComments((prevComments) => [response.data, ...prevComments]);
 
+      setForceReload((prev) => !prev);
       setCommentText('');
     } catch (error) {
       console.log(error);

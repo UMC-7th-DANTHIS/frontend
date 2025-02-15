@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axiosInstance from '../api/axios-instance';
 
-const useFetchList = (postId, comment, currentPage) => {
+const useFetchList = (postId, comment, currentPage, forceReload) => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -43,7 +43,7 @@ const useFetchList = (postId, comment, currentPage) => {
     };
 
     fetchData();
-  }, [postId, comment, currentPage]);
+  }, [postId, comment, currentPage, forceReload]);
 
   return { data, isLoading, isError };
 };
