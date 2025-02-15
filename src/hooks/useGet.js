@@ -13,7 +13,7 @@ const useGet = () => {
 
       try {
         const response = await axiosInstance.get(`/users/me`);
-        setData(response.data);
+        setData(response.data.data);
       } catch (error) {
         setIsError(true);
       } finally {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation, useOutletContext } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import ImageModal from '../../components/Comunity/ImageModal';
 import PostComment from '../../components/Comunity/PostComment';

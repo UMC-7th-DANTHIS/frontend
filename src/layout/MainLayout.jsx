@@ -4,9 +4,12 @@ import styled from 'styled-components';
 import Topbar from '../components/Topbar';
 import Footer from '../components/Footer';
 
+import useGet from '../hooks/useGet';
+
 const MainLayout = () => {
   const navigate = useNavigate();
   const [token, setToken] = useState(() => localStorage.getItem('token'));
+  const { data: user, isLoading, isError } = useGet();
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -28,7 +31,7 @@ const MainLayout = () => {
     <>
       <Container>
         <Topbar onSearch={handleSearch} token={token} />
-        <Outlet />
+        <Outlet context={{ user }} />
         <Footer />
       </Container>
     </>
