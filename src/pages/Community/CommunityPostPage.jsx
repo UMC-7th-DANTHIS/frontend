@@ -93,6 +93,7 @@ const CommunityPostPage = () => {
             <div>{selectedPost?.title}</div>
           </PostHeader>
           <PostContent
+            length={com?.data.totalComments}
             comment={com?.data.comments}
             handleModal={handleModal}
             selectedPost={selectedPost}

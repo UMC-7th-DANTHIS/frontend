@@ -12,7 +12,7 @@ import Alert from '../../assets/Community/SirenButton.svg';
 import ConfirmDeleteAlert from '../ConfirmDelete';
 import axiosInstance from '../../api/axios-instance';
 
-const PostContent = ({ comment, handleModal, selectedPost, user }) => {
+const PostContent = ({ length, comment, handleModal, selectedPost, user }) => {
   const navigate = useNavigate();
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
@@ -35,7 +35,7 @@ const PostContent = ({ comment, handleModal, selectedPost, user }) => {
       <PostInfo>
         <PostStats>
           <ViewContainer src={CommentPhoto} alt={'그럴리없다'} />
-          <TextContainer>{comment?.length || 0}</TextContainer>
+          <TextContainer>{length || 0}</TextContainer>
         </PostStats>
         <PostMeta>
           <span>작성일 : {formatDate(selectedPost?.createdAt, 1)}</span>
