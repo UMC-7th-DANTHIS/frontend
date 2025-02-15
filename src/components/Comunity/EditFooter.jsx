@@ -14,13 +14,11 @@ const EditFooter = ({
   content,
   title,
   fileName,
-  previews
+  fileObjects
 }) => {
   const navigate = useNavigate();
   const [showInvalidAlert, setShowInvalidAlert] = useState(false);
   const [showCancelAlert, setShowCancelAlert] = useState(false);
-
-  console.log(previews);
 
   const handleSubmit = async () => {
     if (!content || !title) setShowInvalidAlert(true);
@@ -29,17 +27,16 @@ const EditFooter = ({
         name.split('.').pop().toLowerCase()
       );
       const presignedUrls = await getPresignedUrls(fileExtensions);
-      console.log(presignedUrls);
-      console.log(previews);
 
       if (!presignedUrls) return;
 
       const uploadedImageUrls = [];
 
-      for (let i = 0; i < fileName.length; i++) {
-        const response = await fetch(previews[i]);
-        const blob = await response.blob();
-        const success = await uploadToS3(presignedUrls[i].presignedUrl, blob);
+      for (let i = 0; i < fileObjects.length; i++) {
+        const success = await uploadToS3(
+          presignedUrls[i].presignedUrl,
+          fileObjects[i]
+        );
 
         if (success) {
           uploadedImageUrls.push(presignedUrls[i].fileUrl);
@@ -60,7 +57,7 @@ const EditFooter = ({
     try {
       const response = await axios.put(presignedUrl, file, {
         headers: {
-          'Content-Type': file.type
+          'Content-Type': file.type || 'image/jpeg'
         }
       });
       return response.status === 200;

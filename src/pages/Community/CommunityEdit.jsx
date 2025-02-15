@@ -12,6 +12,7 @@ const CommunityEdit = () => {
 
   const [fileName, setFileName] = useState([]);
   const [previews, setPreviews] = useState([]);
+  const [fileObjects, setFileObjects] = useState([]);
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -20,14 +21,14 @@ const CommunityEdit = () => {
     const files = Array.from(event.target.files);
     const availableSlots = MAX_IMAGES - previews.length;
 
-    const newImageURLs = files
-      .slice(0, availableSlots)
-      .map((file) => URL.createObjectURL(file));
+    const newImageFiles = files.slice(0, availableSlots);
+    const newImageURLs = newImageFiles.map((file) => URL.createObjectURL(file));
 
     setPreviews((prev) => [...prev, ...newImageURLs]);
+    setFileObjects((prev) => [...prev, ...newImageFiles]);
     setFileName((prev) => [
       ...prev,
-      ...files.map((file) => {
+      ...newImageFiles.map((file) => {
         const array = new Uint32Array(4);
         window.crypto.getRandomValues(array);
         const hash = Array.from(array, (num) => num.toString(16)).join('');
@@ -63,7 +64,7 @@ const CommunityEdit = () => {
           title={title}
           content={content}
           fileName={fileName}
-          previews={previews}
+          fileObjects={fileObjects}
         />
       </ContentContainer>
     </Container>
