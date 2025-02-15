@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useOutletContext } from 'react-router-dom';
 import styled from 'styled-components';
 import ImageModal from '../../components/Comunity/ImageModal';
 import PostComment from '../../components/Comunity/PostComment';
@@ -9,6 +9,7 @@ import Pagination from '../../components/Pagination';
 import ConfirmLeaveAlert from '../../components/ConfirmLeaveAlert';
 import useFetchList from '../../hooks/useFetchList';
 import axiosInstance from '../../api/axios-instance';
+import useGet from '../../hooks/useGet';
 
 const CommunityPostPage = () => {
   const [comments, setComments] = useState([]);
@@ -18,6 +19,7 @@ const CommunityPostPage = () => {
 
   // 게시물 정보 가져오기
   const { selectedPost } = location.state || {};
+  const { data: user } = useGet();
 
   // 댓글 가져오기
   const {
@@ -25,8 +27,6 @@ const CommunityPostPage = () => {
     isLoading,
     isError
   } = useFetchList(selectedPost?.postId, 1);
-
-  console.log(com);
 
   useEffect(() => {
     if (com?.data?.comments) {
@@ -95,10 +95,15 @@ const CommunityPostPage = () => {
             comment={com?.data.comments}
             handleModal={handleModal}
             selectedPost={selectedPost}
+            user={user}
           />
           <CommentSection>
             {com?.data.comments.map((comment) => (
-              <PostComment comment={comment} postId={selectedPost.postId} />
+              <PostComment
+                comment={comment}
+                postId={selectedPost.postId}
+                user={user}
+              />
             ))}
             <PaginationContainer>
               <Pagination

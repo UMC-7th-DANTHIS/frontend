@@ -7,14 +7,14 @@ import Alert from '../../assets/Community/SirenButton.svg';
 
 import axiosInstacne from '../../api/axios-instance';
 
-const PostComment = ({ comment, postId }) => {
+const PostComment = ({ comment, postId, user }) => {
   const handleDelete = async () => {
     try {
       await axiosInstacne.delete(
         `/community/posts/${postId}/comments/${comment.commentId}`
       );
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
 
@@ -26,14 +26,15 @@ const PostComment = ({ comment, postId }) => {
           <CommentDate>{formatDate(comment.createdAt)}</CommentDate>
           <CommentAuthor>{comment.userName}</CommentAuthor>
         </CommentDetails>
-        {false ? (
-          <ReportButton src={Alert} alt={'그럴리없다'} />
-        ) : (
+        {user.data.nickname == comment.userName &&
+        user.data.profileImage == comment.userProfileImage ? (
           <ButtonContainer
             src={Delete}
             alt={'그럴리없다'}
             onClick={() => handleDelete()}
           />
+        ) : (
+          <ReportButton src={Alert} alt={'그럴리없다'} />
         )}
       </CommentProfile>
       <CommentContent>{comment.content}</CommentContent>

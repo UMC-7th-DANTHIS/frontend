@@ -13,7 +13,7 @@ import Alert from '../../assets/Community/SirenButton.svg';
 import ConfirmDeleteAlert from '../ConfirmDelete';
 import axiosInstance from '../../api/axios-instance';
 
-const PostContent = ({ comment, handleModal, selectedPost }) => {
+const PostContent = ({ comment, handleModal, selectedPost, user }) => {
   const navigate = useNavigate();
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
@@ -45,7 +45,7 @@ const PostContent = ({ comment, handleModal, selectedPost }) => {
         </PostMeta>
       </PostInfo>
       <PostInfo>
-        {true ? (
+        {user?.data.nickname == selectedPost.author ? (
           <PostActions>
             <ButtonContainer
               onClick={() =>
