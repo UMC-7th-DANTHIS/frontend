@@ -6,52 +6,55 @@ import ImageDescript from '../../assets/Search/imageDescript.svg';
 import CommentPhoto from '../../assets/Community/CommentPhoto.svg';
 
 import formatDate from '../../api/formatDate';
-import CommunityComment from '../../store/community/CommunityComment';
+import useFetchList from '../../hooks/useFetchList';
 
 const CommunityList = ({ list }) => {
   const navigate = useNavigate();
-  const comment = CommunityComment.filter((num) => num.post_id === list.id);
 
-  const handleNavigate = (list) => {
-    navigate(`/community/${list.id}`, { state: { selectedPost: list } });
+  const { data: post, isLoading, isError } = useFetchList(list.postId);
+
+  const handleNavigate = (temp) => {
+    navigate(`/community/${temp.postId}`, { state: { selectedPost: temp } });
   };
 
   return (
     <ListContainer>
-      <NoList>{list.id}</NoList>
-      {list.image.length ? (
+      <NoList>{list?.postId}</NoList>
+      {post?.data.images.length ? (
         <ImageYes src={ImageDescript} alt={'그림있으요'} />
       ) : (
         <ImageNo />
       )}
-      <TitleList onClick={() => handleNavigate(list)}>
-        {list.title}
-        {comment ? (
+      <TitleList onClick={() => handleNavigate(post.data)}>
+        {post?.data.title}
+        {post?.data.commentCount > 0 ? (
           <>
             <ViewDescript src={CommentPhoto} alt={'댓글있으요'} />
-            <ViewPeople>{comment.length}</ViewPeople>
+            <ViewPeople>{post?.data.commentCount}</ViewPeople>
           </>
         ) : (
           ''
         )}
       </TitleList>
       <DateList>
-        <DateList>{formatDate(list.created_at)}</DateList>
+        <DateList>{formatDate(post?.data.createdAt, 3)}</DateList>
       </DateList>
-      <SeeList>{list.views}</SeeList>
     </ListContainer>
   );
 };
 
 const ListContainer = styled.div`
   margin-top: 16px;
-  margin-left: 37px;
+  margin-left: 60px;
   height: 20px;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   color: white;
+
+  display: flex;
+  align-items: center;
 `;
 
 const NoList = styled.span`
@@ -81,7 +84,7 @@ const ImageNo = styled.div`
 const TitleList = styled.button`
   display: inline-flex;
   margin-left: 5px;
-  width: 627px;
+  width: 668px;
   text-align: start;
   border: 0;
   background-color: transparent;
@@ -114,15 +117,8 @@ const ViewPeople = styled.div`
 
 const DateList = styled.span`
   display: inline-flex;
-  width: 95px;
-  margin-left: 25px;
-  text-align: center;
-`;
-
-const SeeList = styled.span`
-  display: inline-block;
-  margin-left: 48px;
-  width: 65px;
+  width: 100px;
+  margin-left: 27px;
   text-align: center;
 `;
 

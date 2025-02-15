@@ -56,6 +56,7 @@ const CommunityEdit = () => {
           title={title}
           content={content}
           fileName={fileName}
+          selectedPost={selectedPost}
         />
       </ContentContainer>
     </Container>

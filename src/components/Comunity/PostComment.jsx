@@ -5,22 +5,36 @@ import formatDate from '../../api/formatDate';
 import Delete from '../../assets/Community/DeleteButton.svg';
 import Alert from '../../assets/Community/SirenButton.svg';
 
-const PostComment = ({ comment }) => {
+import axiosInstacne from '../../api/axios-instance';
+
+const PostComment = ({ comment, postId, user }) => {
+  const handleDelete = async () => {
+    try {
+      await axiosInstacne.delete(
+        `/community/posts/${postId}/comments/${comment.commentId}`
+      );
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   return (
     <Comment>
       <CommentProfile>
-        <CommentImage
-          src="https://via.placeholder.com/50"
-          alt="프로필 이미지"
-        />
+        <CommentImage src={comment.userProfileImage} alt="프로필 이미지" />
         <CommentDetails>
-          <CommentDate>{formatDate(comment.created_at)}</CommentDate>
-          <CommentAuthor>{comment.user_id}</CommentAuthor>
+          <CommentDate>{formatDate(comment.createdAt, 2)}</CommentDate>
+          <CommentAuthor>{comment.userName}</CommentAuthor>
         </CommentDetails>
-        {true ? (
-          <ReportButton src={Alert} alt={'그럴리없다'} />
+        {user?.data.nickname == comment.userName &&
+        user?.data.profileImage == comment.userProfileImage ? (
+          <ButtonContainer
+            src={Delete}
+            alt={'그럴리없다'}
+            onClick={() => handleDelete()}
+          />
         ) : (
-          <ButtonContainer src={Delete} alt={'그럴리없다'} />
+          <ReportButton src={Alert} alt={'그럴리없다'} />
         )}
       </CommentProfile>
       <CommentContent>{comment.content}</CommentContent>
