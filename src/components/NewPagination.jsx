@@ -10,7 +10,12 @@ import styled from 'styled-components';
 // 제가 실제로 적용까지 이어서 하려고 했는데 CSS는 다 각기 다른 방식으로 작업하셔서 잘 모르겠습니다 ㅜㅜ
 // 그쪽 부분만 진행해주셨으면 좋겠습니다 ㅎ.ㅎ
 
-const Pagination = ({ dataLength, perData, currentPage, setCurrentPage }) => {
+const NewPagination = ({
+  dataLength,
+  perData,
+  currentPage,
+  setCurrentPage
+}) => {
   const [layer, setLayer] = useState(0);
 
   const filteredDataLength =
@@ -106,4 +111,4 @@ const PageNumber = styled.div`
   }
 `;
 
-export default Pagination;
+export default NewPagination;

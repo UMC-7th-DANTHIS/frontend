@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axiosInstance from '../api/axios-instance';
 
-const useFetchList = (postId, comment) => {
+const useFetchList = (postId, comment, currentPage) => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -18,7 +18,7 @@ const useFetchList = (postId, comment) => {
 
         // post 댓글 조회
         if (comment === 1 && postId) {
-          url = `/community/posts/${postId}/comments`;
+          url = `/community/posts/${postId}/comments?page=${currentPage}`;
         }
 
         // 단일 post 조회
@@ -28,7 +28,7 @@ const useFetchList = (postId, comment) => {
 
         // post 목록 조회
         else {
-          url = '/community/posts';
+          url = `/community/posts?page=${currentPage}`;
         }
 
         const response = await axiosInstance.get(url);
@@ -41,7 +41,7 @@ const useFetchList = (postId, comment) => {
     };
 
     fetchData();
-  }, [postId, comment]);
+  }, [postId, comment, currentPage]);
 
   return { data, isLoading, isError };
 };
