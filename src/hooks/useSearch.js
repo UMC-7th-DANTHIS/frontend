@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axiosInstance from '../api/axios-instance';
 
-const useSearch = (select, temp) => {
+const useSearch = (select, temp, currentPage) => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -15,7 +15,7 @@ const useSearch = (select, temp) => {
 
       try {
         const response = await axiosInstance.get(
-          `/search/${select}?query=${temp}`
+          `/search/${select}?query=${temp}&page=${currentPage}`
         );
         setData(response.data);
       } catch (error) {
@@ -26,7 +26,7 @@ const useSearch = (select, temp) => {
     };
 
     fetchData();
-  }, [select, temp]);
+  }, [select, temp, currentPage]);
 
   return { data, isLoading, isError };
 };

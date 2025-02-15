@@ -21,8 +21,6 @@ const SearchPage = () => {
     searchQuery?.temp
   );
 
-  console.log('검색 데이터:', data);
-
   useEffect(() => {
     if (query) {
       setTemp(query);
