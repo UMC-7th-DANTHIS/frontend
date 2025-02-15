@@ -11,7 +11,6 @@ const Topbar = ({ onSearch, token }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [search, setSearch] = useState('');
-  const [login, setLogin] = useState(true);
   const [searchPlaceholder, setSearchPlaceholder] =
     useState('검색어를 입력하세요');
   const [showInvalidAlert, setShowInvalidAlert] = useState(false);
