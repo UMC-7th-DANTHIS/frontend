@@ -17,6 +17,8 @@ const EditFooter = ({
   const [showInvalidAlert, setShowInvalidAlert] = useState(false);
   const [showCancelAlert, setShowCancelAlert] = useState(false);
 
+  console.log(fileName);
+
   const handleSubmit = async () => {
     if (!content || !title) setShowInvalidAlert(true);
     else {

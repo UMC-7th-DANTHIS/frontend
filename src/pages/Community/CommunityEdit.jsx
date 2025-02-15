@@ -26,7 +26,11 @@ const CommunityEdit = () => {
     setPreviews((prev) => [...prev, ...newImageURLs]);
     setFileName((prev) => [
       ...prev,
-      ...files.map((_, idx) => `uploaded-image-${idx + 1}`)
+      ...files.map((_, idx) => {
+        const array = new Uint32Array(4);
+        window.crypto.getRandomValues(array);
+        return Array.from(array, (num) => num.toString(16)).join('');
+      })
     ]);
   };
 
