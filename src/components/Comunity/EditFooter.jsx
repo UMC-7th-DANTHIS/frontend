@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import SingleBtnAlert from '../SingleBtnAlert';
 import ConfirmLeaveAlert from '../ConfirmLeaveAlert';
 import axiosInstance from '../../api/axios-instance';
+import FetchImage from '../../hooks/FetchImage';
 
 const EditFooter = ({
   handleFileChange,
@@ -19,6 +20,12 @@ const EditFooter = ({
   const handleSubmit = async () => {
     if (!content || !title) setShowInvalidAlert(true);
     else {
+      try {
+        FetchImage(fileName);
+      } catch (error) {
+        console.log(error);
+      }
+
       const postData = {
         title: title,
         content: content,

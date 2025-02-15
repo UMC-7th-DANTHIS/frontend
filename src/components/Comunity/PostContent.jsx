@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import formatDate from '../../api/formatDate';
 
-import ViewPhoto from '../../assets/Community/ViewPhoto.svg';
 import CommentPhoto from '../../assets/Community/CommentPhoto.svg';
 import Edit from '../../assets/Community/EditButton.svg';
 import Delete from '../../assets/Community/DeleteButton.svg';
@@ -43,7 +42,7 @@ const PostContent = ({ comment, handleModal, selectedPost, user }) => {
         </PostMeta>
       </PostInfo>
       <PostInfo>
-        {user?.data.nickname == selectedPost.author ? (
+        {user?.data.nickname == selectedPost?.author ? (
           <PostActions>
             <ButtonContainer
               onClick={() =>
