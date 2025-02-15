@@ -15,7 +15,6 @@ const EditFooter = ({
   title,
   fileName,
   fileObjects,
-  forceReload,
   setForceReload
 }) => {
   const navigate = useNavigate();

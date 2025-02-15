@@ -9,7 +9,7 @@ const MAX_IMAGES = 4;
 const CommunityEdit = () => {
   const location = useLocation();
   const { selectedPost } = location.state || {};
-  const { forceReload, setForceReload } = useOutletContext();
+  const { setForceReload } = useOutletContext();
 
   const [fileName, setFileName] = useState([]);
   const [previews, setPreviews] = useState([]);
@@ -66,7 +66,6 @@ const CommunityEdit = () => {
           content={content}
           fileName={fileName}
           fileObjects={fileObjects}
-          forceReload={forceReload}
           setForceReload={setForceReload}
         />
       </ContentContainer>

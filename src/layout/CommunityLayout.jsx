@@ -22,7 +22,6 @@ const CommunityLayout = () => {
           perData,
           currentPage,
           setCurrentPage,
-          forceReload,
           setForceReload
         }}
       />
