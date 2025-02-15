@@ -11,6 +11,7 @@ import axiosInstance from '../../api/axios-instance';
 
 const SearchCommunity = ({ query, select }) => {
   const navigate = useNavigate();
+
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5;
 

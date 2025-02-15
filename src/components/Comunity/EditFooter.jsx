@@ -18,9 +18,43 @@ const EditFooter = ({
   setForceReload
 }) => {
   const navigate = useNavigate();
+
   const [showInvalidAlert, setShowInvalidAlert] = useState(false);
   const [showCancelAlert, setShowCancelAlert] = useState(false);
 
+  // presignedUrl로 아마존 서버에 이미지 올리고 url 유효하게 하기
+  const uploadToS3 = async (presignedUrl, file) => {
+    try {
+      const response = await axios.put(presignedUrl, file, {
+        headers: {
+          'Content-Type': file.type || 'image/jpeg'
+        }
+      });
+      return response.status === 200;
+    } catch (error) {
+      alert('S3 업로드 실패');
+      return false;
+    }
+  };
+
+  // 게시물 post
+  const createPost = async (title, content, uploadedImageUrls) => {
+    const postData = {
+      title,
+      content,
+      images: uploadedImageUrls
+    };
+
+    try {
+      await axiosInstance.post(`/community/posts`, postData);
+      setForceReload((prev) => !prev);
+      navigate('/community');
+    } catch (error) {
+      alert('게시글 작성 실패');
+    }
+  };
+
+  // 이미지 서버에 올리기
   const handleSubmit = async () => {
     if (!content || !title) setShowInvalidAlert(true);
     else {
@@ -49,36 +83,6 @@ const EditFooter = ({
       } else {
         alert('일부 이미지 업로드 실패로 인해 게시글 작성이 중단되었습니다.');
       }
-    }
-  };
-
-  const uploadToS3 = async (presignedUrl, file) => {
-    try {
-      const response = await axios.put(presignedUrl, file, {
-        headers: {
-          'Content-Type': file.type || 'image/jpeg'
-        }
-      });
-      return response.status === 200;
-    } catch (error) {
-      alert('S3 업로드 실패');
-      return false;
-    }
-  };
-
-  const createPost = async (title, content, uploadedImageUrls) => {
-    const postData = {
-      title,
-      content,
-      images: uploadedImageUrls
-    };
-
-    try {
-      await axiosInstance.post(`/community/posts`, postData);
-      setForceReload((prev) => !prev);
-      navigate('/community');
-    } catch (error) {
-      alert('게시글 작성 실패');
     }
   };
 
@@ -252,6 +256,7 @@ const AlertText = styled.span`
   line-height: 21px;
   white-space: pre-line;
 `;
+
 const ColoredText = styled.span`
   color: #a60f62;
   font-weight: bold;

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, useOutletContext } from 'react-router-dom';
 import styled from 'styled-components';
+
 import ImageModal from '../../components/Comunity/ImageModal';
 import PostComment from '../../components/Comunity/PostComment';
 import PostContent from '../../components/Comunity/PostContent';
 import Pagination from '../../components/Pagination';
-
 import ConfirmLeaveAlert from '../../components/ConfirmLeaveAlert';
+
 import useFetchList from '../../hooks/useFetchList';
 import axiosInstance from '../../api/axios-instance';
 import useGet from '../../hooks/useGet';
@@ -80,7 +81,7 @@ const CommunityPostPage = () => {
       setForceReload((prev) => !prev);
       setCommentText('');
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
 
@@ -158,8 +159,6 @@ const CommunityPostPage = () => {
     </>
   );
 };
-
-export default CommunityPostPage;
 
 const Container = styled.div`
   padding-top: 30px;
@@ -280,3 +279,5 @@ const ColoredText = styled.span`
   color: #a60f62;
   font-weight: bold;
 `;
+
+export default CommunityPostPage;

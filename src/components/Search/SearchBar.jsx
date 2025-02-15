@@ -11,10 +11,11 @@ const SearchBar = ({
   handleNowContent,
   handleSearchData
 }) => {
+  const navigate = useNavigate();
+
   const [selectedFilter, setSelectedFilter] = useState('');
   const [showInvalidAlert, setShowInvalidAlert] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
 
   const category = [
     '강렬한',
@@ -116,8 +117,6 @@ const SearchBar = ({
     </Container>
   );
 };
-
-export default SearchBar;
 
 const Container = styled.div`
   width: 100%;
@@ -226,3 +225,5 @@ const ColoredText = styled.span`
   color: #a60f62;
   font-weight: bold;
 `;
+
+export default SearchBar;

@@ -23,10 +23,12 @@ const PostContent = ({
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
+  // 게시글에서 삭제버튼 눌렀을때
   const handleDelete = () => {
     setShowConfirmDelete(true);
   };
 
+  // 모달창에서 삭제버튼 눌렀을때
   const handleDeleteConfirm = async () => {
     try {
       await axiosInstance.delete(`/community/posts/${selectedPost.postId}`);
@@ -231,6 +233,7 @@ const AlertText = styled.span`
   line-height: 21px;
   white-space: pre-line;
 `;
+
 const ColoredText = styled.span`
   color: #a60f62;
   font-weight: bold;

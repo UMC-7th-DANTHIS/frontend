@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useOutletContext } from 'react-router-dom';
 import styled from 'styled-components';
+
 import EditFooter from '../../components/Comunity/EditFooter';
 import EditContent from '../../components/Comunity/EditContent';
 

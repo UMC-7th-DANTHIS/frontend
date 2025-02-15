@@ -21,9 +21,9 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
-
 const Container = styled.div`
   background-color: black;
   width: 1440px;
 `;
+
+export default HomePage;

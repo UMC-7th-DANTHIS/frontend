@@ -8,7 +8,6 @@ import ForClass from '../../components/Home/ForClass';
 
 const UserRecommend = ({ dummyUserDancer, dummyUserClass }) => {
   const { user } = useOutletContext();
-  console.log(user);
 
   return (
     <Container>
@@ -20,8 +19,6 @@ const UserRecommend = ({ dummyUserDancer, dummyUserClass }) => {
     </Container>
   );
 };
-
-export default UserRecommend;
 
 const Container = styled.div`
   margin-left: 100px;
@@ -41,3 +38,5 @@ const Header = styled.div`
   font-weight: 600;
   line-height: normal;
 `;
+
+export default UserRecommend;
