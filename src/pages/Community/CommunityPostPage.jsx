@@ -22,8 +22,6 @@ const CommunityPostPage = () => {
 
   // 게시물 정보 가져오기
   const { selectedPost } = location.state || {};
-
-  console.log(selectedPost);
   const { data: user } = useGet();
 
   // 댓글 가져오기
@@ -33,17 +31,17 @@ const CommunityPostPage = () => {
     isError
   } = useFetchList(selectedPost?.postId, 1, currentPage, forceReload);
 
-  console.log(com);
-
   useEffect(() => {
     if (com?.data?.comments) {
       setComments(com.data.comments);
     }
   }, [com]);
 
+  // 알람 모달창
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showCancelAlert, setShowCancelAlert] = useState(false);
 
+  // 이미지 처리
   const [imgUrl, setImgUrl] = useState('');
   const [commentText, setCommentText] = useState('');
   const [cautionText, setCautionText] = useState('');
@@ -101,20 +99,23 @@ const CommunityPostPage = () => {
           />
           <CommentSection>
             {com?.data.comments.map((comment) => (
-              <PostComment
-                comment={comment}
-                postId={selectedPost.postId}
-                user={user}
-              />
+              <>
+                <PostComment
+                  comment={comment}
+                  postId={selectedPost.postId}
+                  user={user}
+                  setForceReload={setForceReload}
+                />
+                <PaginationContainer>
+                  <Pagination
+                    dataLength={com?.data.totalComments}
+                    perData={perData}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                  />
+                </PaginationContainer>
+              </>
             ))}
-            <PaginationContainer>
-              <Pagination
-                dataLength={com?.data.totalComments}
-                perData={perData}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-              />
-            </PaginationContainer>
             <CommentInput>
               <input
                 type="text"

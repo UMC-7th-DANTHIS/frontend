@@ -7,12 +7,13 @@ import Alert from '../../assets/Community/SirenButton.svg';
 
 import axiosInstacne from '../../api/axios-instance';
 
-const PostComment = ({ comment, postId, user }) => {
+const PostComment = ({ comment, postId, user, setForceReload }) => {
   const handleDelete = async () => {
     try {
       await axiosInstacne.delete(
         `/community/posts/${postId}/comments/${comment.commentId}`
       );
+      setForceReload((prev) => !prev);
     } catch (error) {
       alert(error);
     }
