@@ -9,7 +9,8 @@ import useSearch from '../../hooks/useSearch';
 const SearchDancer = ({ query, select }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5;
-  const { data, isLoading } = useSearch(select, query);
+
+  const { data, isLoading } = useSearch(select, query, currentPage);
 
   return (
     <Container>
@@ -34,7 +35,7 @@ const SearchDancer = ({ query, select }) => {
           </ClassLists>
           <PaginationContainer>
             <Pagination
-              dataLength={20}
+              dataLength={data?.data.pagination.totalResults}
               perData={perData}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}

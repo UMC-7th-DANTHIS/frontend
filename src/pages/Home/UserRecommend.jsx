@@ -1,4 +1,5 @@
 import React from 'react';
+import { useOutletContext } from 'react-router-dom';
 import styled from 'styled-components';
 
 import ForUserBanner from '../../components/Home/ForUserBanner';
@@ -6,18 +7,18 @@ import ForDancer from '../../components/Home/ForDancer';
 import ForClass from '../../components/Home/ForClass';
 
 const UserRecommend = ({ dummyUserDancer, dummyUserClass }) => {
+  const { user } = useOutletContext();
+
   return (
     <Container>
       <ForUserBanner />
-      <Header>00 님의 스타일에 맞는 댄서를 소개할게요</Header>
+      <Header>{user?.nickname} 님의 스타일에 맞는 댄서를 소개할게요</Header>
       <ForDancer dummyUserDancer={dummyUserDancer} />
-      <Header>오로지 00 님을 위한 맞춤형 수업이에요</Header>
+      <Header>오로지 {user?.nickname}님을 위한 맞춤형 수업이에요</Header>
       <ForClass dummyUserClass={dummyUserClass} />
     </Container>
   );
 };
-
-export default UserRecommend;
 
 const Container = styled.div`
   margin-left: 100px;
@@ -37,3 +38,5 @@ const Header = styled.div`
   font-weight: 600;
   line-height: normal;
 `;
+
+export default UserRecommend;

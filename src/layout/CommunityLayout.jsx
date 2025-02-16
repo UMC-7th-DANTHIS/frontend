@@ -1,25 +1,29 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import CommunityPost from '../store/community/CommunityPost';
+import useFetchList from '../hooks/useFetchList';
 
 const CommunityLayout = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [forceReload, setForceReload] = useState(false);
+
   const perData = 10;
-  const filteredList = CommunityPost.slice(
-    perData * (currentPage - 1),
-    perData * currentPage
-  );
+
+  const {
+    data: lists,
+    isLoading,
+    isError
+  } = useFetchList(null, null, currentPage, forceReload);
 
   return (
     <>
       <Outlet
         context={{
-          filteredList,
+          lists: lists?.data,
           perData,
           currentPage,
           setCurrentPage,
-          CommunityPost
+          setForceReload
         }}
       />
     </>
