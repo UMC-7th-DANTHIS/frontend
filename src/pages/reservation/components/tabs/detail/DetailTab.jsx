@@ -92,7 +92,7 @@ const Detail = ({ classData }) => {
       </Section>
       <Section>
         <MoreAboutDancer to={`/dancerprofile/${1}`}>
-          Parana 댄서에 대해 더 알고싶다면?
+          {classData.dancer?.name} 댄서에 대해 더 알고싶다면?
         </MoreAboutDancer>
       </Section>
     </Container>
