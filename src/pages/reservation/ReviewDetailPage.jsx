@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as EditIcon } from '../../assets/shape/write.svg';
 import { ReactComponent as DeleteIcon } from '../../assets/shape/trash.svg';
+import { ReactComponent as Siren } from '../../assets/Community/SirenButton.svg';
 import { formatDateWithTime } from './formatDate';
 import api from '../../api/api';
 
@@ -10,22 +11,37 @@ const ReviewDetailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [review, setReview] = useState([]);
+  const [isUserAuthorMatch, setIsUserAuthorMatch] = useState(false);
   const { reviewId } = useParams();
   const { fromReviewTab, classId, page } = location.state || {}; // 페이지네이션을 기억해 둠
 
-  useEffect(() => {
-    const fetchReview = async () => {
-      try {
-        const response = await api.get(
-          `/dance-classes/${classId}/reviews/${reviewId}`
-        );
-        setReview(response.data.data);
-      } catch (error) {
-        console.error('❌ 리뷰 상세 정보를 불러오는 중 오류 발생:', error);
-      }
-    };
-    fetchReview();
+  // 리뷰 데이터 fetch
+  const fetchReview = useCallback(async () => {
+    try {
+      const response = await api.get(
+        `/dance-classes/${classId}/reviews/${reviewId}`
+      );
+      setReview(response.data.data);
+    } catch (error) {
+      console.error('❌ 리뷰 상세 정보를 불러오는 중 오류 발생:', error);
+    }
   }, [classId, reviewId]);
+
+  // 리뷰의 작성자가 유저 정보와 일치하는지 확인
+  const checkUserInfo = useCallback(async () => {
+    try {
+      const response = await api.get(`/users/me`);
+
+      if (response.data.data?.nickname === review?.author) {
+        setIsUserAuthorMatch(true);
+      }
+    } catch (error) {}
+  }, [review?.author]);
+
+  useEffect(() => {
+    fetchReview();
+    checkUserInfo();
+  }, [fetchReview, checkUserInfo]);
 
   // 돌아가기 버튼 핸들러
   const handleBackClick = () => {
@@ -41,10 +57,14 @@ const ReviewDetailPage = () => {
       <Title>{review.title}</Title>
       <DividerLine />
       <InfoWrapper>
-        <Tool>
-          <EditIcon />
-          <DeleteIcon />
-        </Tool>
+        {isUserAuthorMatch ? (
+          <Tool>
+            <EditIcon />
+            <DeleteIcon />
+          </Tool>
+        ) : (
+          <Siren />
+        )}
         <Writer>
           <InfoText>작성일 : {formatDateWithTime(review.createdAt)}</InfoText>
           <InfoText>작성자 : {review.author}</InfoText>
