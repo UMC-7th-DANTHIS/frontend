@@ -11,7 +11,7 @@ const Review = ({ review, classId, page }) => {
   const totalStars = 5;
 
   const handleDetailClick = () => {
-    navigate(`/uploadedreview/${review.id}`, {
+    navigate(`/classreservation/review/${review.id}`, {
       state: { fromReviewTab: true, classId, page } // 페이지네이션 정보 전달
     });
   };

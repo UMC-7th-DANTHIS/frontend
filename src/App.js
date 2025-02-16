@@ -56,7 +56,7 @@ function App() {
             element={<ClassReservation />}
           />
           <Route
-            path="uploadedreview/:reviewId"
+            path="/classreservation/review/:reviewId"
             element={<ReviewDetailPage />}
           />
           <Route path="/dancerprofile" element={<ProfileList />} />
