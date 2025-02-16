@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useNavigate, useLocation, useParams, Link } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as EditIcon } from '../../assets/shape/write.svg';
 import { ReactComponent as DeleteIcon } from '../../assets/shape/trash.svg';
@@ -7,13 +7,17 @@ import { ReactComponent as Siren } from '../../assets/Community/SirenButton.svg'
 import { formatDateWithTime } from './formatDate';
 import api from '../../api/api';
 import ConfirmDeleteAlert from '../../components/ConfirmDelete';
+import ImageModal from '../../components/Comunity/ImageModal';
 
 const ReviewDetailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [review, setReview] = useState([]);
   const [isUserAuthorMatch, setIsUserAuthorMatch] = useState(false);
+
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const { reviewId } = useParams();
   const { fromReviewTab, classId, page } = location.state || {}; // 페이지네이션을 기억해 둠
 
@@ -82,8 +86,11 @@ const ReviewDetailPage = () => {
       <ImagesContainer>
         {review.images &&
           review.images.map((image, index) => (
-            <Image key={index}>
+            <Image key={index} onClick={() => setIsModalOpen(true)}>
               <img src={image} alt={`review ${review.id} #${index}`} />
+              {isModalOpen && (
+                <ImageModal imgUrl={image} setIsModalOpen={setIsModalOpen} />
+              )}
             </Image>
           ))}
       </ImagesContainer>
@@ -195,6 +202,8 @@ const Image = styled.div`
   border: none;
   border-radius: 7px;
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+  cursor: pointer;
+
   img {
     width: 100%;
     height: 100%;
