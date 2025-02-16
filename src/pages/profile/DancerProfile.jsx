@@ -1,18 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Profile from './components/Profile';
 import IntroduceTab from './components/IntroduceTab';
 import ClassTab from './components/ClassTab';
+import api from '../../api/api';
 import dummyClasses from '../../store/reservation/dummyClasses';
 
 const DancerProfile = () => {
   const [activeTab, setActiveTab] = useState('소개');
-  const dancerId = 1; // 임시
+  const {dancerId} = useParams();
+  const [dancerData, setDancerData] = useState(null);
   //const data = dummyClass.find((cls) => cls.id === Number(classId));
+  
+
+  useEffect(() => {
+    // API 호출
+    const fetchDancerData = async () => {
+      try {
+        const response = await api.get(`/dancers/${dancerId}`);
+        if (response.data.code === 200) {
+          setDancerData(response.data.data);
+          console.log(response.data.data);
+        } else {
+          console.error('댄서 정보를 가져오는데 실패했습니다:', response.data.message);
+        }
+      } catch (error) {
+        console.error('API 호출 중 오류 발생:', error);
+      }
+    };
+
+    fetchDancerData();
+  }, [dancerId]);
 
   return (
     <Layout>
-      <Profile />
+      <Profile dancer={dancerData} />
       <TabContainer>
         <Tab active={activeTab === '소개'} onClick={() => setActiveTab('소개')}>
           소개
@@ -25,8 +48,8 @@ const DancerProfile = () => {
         </Tab>
       </TabContainer>
       <ContentContainer>
-        {activeTab === '소개' && <IntroduceTab />}
-        {activeTab === '등록된 수업' && <ClassTab />}
+        {activeTab === '소개' && <IntroduceTab dancer={dancerData}/>}
+        {activeTab === '등록된 수업' && <ClassTab classes={dancerData.classes}/>}
       </ContentContainer>
     </Layout>
   );

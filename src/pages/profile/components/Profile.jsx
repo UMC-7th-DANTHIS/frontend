@@ -1,21 +1,53 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components'
 import CircleIcon from '../../../assets/shape/circle.svg'
 import DancerPic from '../../../assets/dummyphoto/dancer.svg'
+import api from '../../../api/api'
 
-const Profile = () => {
+const Profile = ({dancer}) => {
   const [isLiked, setIsLiked] = useState(false);
+  const {dancerId} = useParams();
 
-  const handleLikeClick = () => {
-    setIsLiked((prev) => !prev); // 상태 토글
-  };
+ // dancer가 로드된 후 초기 찜 상태 설정
+ useEffect(() => {
+  if (dancer?.isLiked !== undefined) {
+    setIsLiked(dancer.isLiked);
+  }
+}, [dancer]);
+
+  if (!dancer) {
+    return <div>로딩 중...</div>; // dancer가 null일 때 로딩 메시지 표시
+  }
   
-  const data = [
-    { id: 1, instagram :"paranaaa_88", genre : "코레오, 재즈, 걸스힙합", introduce : "코레오, 재즈 전문 댄서 파라나입니다! 잘 부탁드려요 :) Danthis에서 춤에 진심인 분들과 많이 소통하고 성장하고자 노력 중이에요! "},
-    { id: 2, instagram :"paranaaa_88", genre : "코레오, 재즈, 걸스힙합", introduce : "코레오, 재즈 전문 댄서 파라나입니다! 잘 부탁드려요 :)"},
-    { id: 3, instagram :"paranaaa_88", genre : "코레오, 재즈, 걸스힙합", introduce : "코레오, 재즈 전문 댄서 파라나입니다! 잘 부탁드려요 :)"},
 
-  ];
+  const handleLikeClick = async () => {
+    try {
+      if (isLiked) {
+        // 찜 취소 API 호출
+        const response = await api.delete(`/users/${dancer.id}/favorite`);
+        if (response.data.code === 200) {
+          console.log('찜 취소 성공:', response.data.message);
+        } else {
+          console.error('찜 취소 실패:', response.data.message);
+        }
+      } else {
+        // 찜 추가 API 호출
+        const response = await api.post(`/users/${dancer.id}/favorite`);
+        if (response.data.code === 200) {
+          console.log('찜 성공:', response.data.message);
+        } else {
+          console.error('찜 실패:', response.data.message);
+        }
+      }
+
+      // 상태 토글
+      setIsLiked((prev) => !prev);
+    } catch (error) {
+      console.error('찜 상태 변경 중 오류 발생:', error.response?.data || error.message);
+    }
+  };
+
 
    // 소개글 포맷팅 함수
    const formatIntroduce = (text, maxLength = 32) => {
@@ -26,17 +58,17 @@ const Profile = () => {
     <Layout>
     <NameContainer>
       <Circle src={CircleIcon} />
-      <Name>Parana</Name>
+      <Name>{dancer.dancerName}</Name>
     </NameContainer>
     <ProfileContainer>
-      <Dancerimg src={DancerPic} />
+      <Dancerimg src={dancer.imageUrlList?.[0]} />
       <InfoContainer>
       <Title>Instagram</Title>
-      <Content>{data[0].instagram}</Content>
+      <Content>{dancer.instargramId}</Content>
       <Title>주 장르</Title>
-      <Content>{data[0].genre}</Content>
+      <Content>{dancer.favoriteGenres}</Content>
       <Title>한 마디 소개글</Title>
-      <Content>{formatIntroduce(data[0].introduce)}</Content>
+      <Content>{formatIntroduce(dancer.bio)}</Content>
     
       </InfoContainer>
       <ButtonContainer>
@@ -103,6 +135,7 @@ margin-left: 46px;
 display : flex;
 flex-direction : column;
 justify-content : center;
+width : 351px;
 `
 
 const ButtonContainer=styled.div`
