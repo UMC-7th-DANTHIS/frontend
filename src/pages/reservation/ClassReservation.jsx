@@ -59,7 +59,7 @@ const ClassReservation = () => {
 
     const fetchLiked = async () => {
       try {
-        const response = await api.get(`/users/dance-classes`);
+        const response = await api.get(`/users/wishlists`);
         response.data.data?.danceClasses.find(
           (cls) => cls.id === Number(classId) && setIsLiked(true)
         );
