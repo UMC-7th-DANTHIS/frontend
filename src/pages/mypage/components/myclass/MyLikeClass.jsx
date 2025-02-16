@@ -14,7 +14,7 @@ const MyLikeClass = () => {
     queryKey: ['userclass'],
     queryFn: async () => {
       const token = localStorage.getItem('token');
-      const response = await api.get('/users/dance-classes', {
+      const response = await api.get('/users/wishlists', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -43,7 +43,7 @@ const MyLikeClass = () => {
       <ClassContainer>
         {filteredList.map((danceClass) => (
           <ClassList key={danceClass.id}>
-            <Image src={danceClass.images[0] || danceClass.images[1]} alt={danceClass.id} onError={handleImageError} />
+            <Image src={danceClass.thumbnailImage[0] || danceClass.thumbnailImage[1]} alt={danceClass.id} onError={handleImageError} />
             <Title>{danceClass.className}</Title>
             <Singer>{danceClass.dancerName}</Singer>
           </ClassList>
