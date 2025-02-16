@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
-import useSearch from '../hooks/useSearch';
 
 import SearchBar from '../components/Search/SearchBar';
 import SearchClass from '../components/Search/SearchClass';
 import SearchDancer from '../components/Search/SearchDancer';
 import SearchCommunity from '../components/Search/SearchCommunity';
+
+import useSearch from '../hooks/useSearch';
 
 const SearchPage = () => {
   const [searchParams] = useSearchParams();
@@ -20,8 +21,6 @@ const SearchPage = () => {
     searchQuery?.select,
     searchQuery?.temp
   );
-
-  console.log('검색 데이터:', data);
 
   useEffect(() => {
     if (query) {

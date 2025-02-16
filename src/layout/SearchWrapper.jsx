@@ -1,4 +1,5 @@
 import { useParams, useSearchParams } from 'react-router-dom';
+
 import SearchClass from '../components/Search/SearchClass';
 import SearchCommunity from '../components/Search/SearchCommunity';
 import SearchDancer from '../components/Search/SearchDancer';

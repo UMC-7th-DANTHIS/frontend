@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+
 import Logo from '../assets/logo.svg';
 import Outline from '../assets/outline.svg';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Searchicon from '../assets/searchicon.svg';
 import Mypageicon from '../assets/buttons/mypageButton.svg';
+
 import SingleBtnAlert from './SingleBtnAlert';
 
 const Topbar = ({ onSearch, token }) => {
   const navigate = useNavigate();
   const location = useLocation();
+
   const [search, setSearch] = useState('');
-  const [login, setLogin] = useState(true);
   const [searchPlaceholder, setSearchPlaceholder] =
     useState('검색어를 입력하세요');
   const [showInvalidAlert, setShowInvalidAlert] = useState(false);
@@ -122,8 +124,6 @@ const Topbar = ({ onSearch, token }) => {
     </Container>
   );
 };
-
-export default Topbar;
 
 const Container = styled.div`
   display: flex;
@@ -304,7 +304,10 @@ const AlertText = styled.span`
   line-height: 21px;
   white-space: pre-line;
 `;
+
 const ColoredText = styled.span`
   color: #a60f62;
   font-weight: bold;
 `;
+
+export default Topbar;

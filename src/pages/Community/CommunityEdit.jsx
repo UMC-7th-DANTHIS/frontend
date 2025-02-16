@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useOutletContext } from 'react-router-dom';
 import styled from 'styled-components';
+
 import EditFooter from '../../components/Comunity/EditFooter';
 import EditContent from '../../components/Comunity/EditContent';
 
@@ -9,9 +10,11 @@ const MAX_IMAGES = 4;
 const CommunityEdit = () => {
   const location = useLocation();
   const { selectedPost } = location.state || {};
+  const { setForceReload } = useOutletContext();
 
   const [fileName, setFileName] = useState([]);
   const [previews, setPreviews] = useState([]);
+  const [fileObjects, setFileObjects] = useState([]);
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -19,14 +22,21 @@ const CommunityEdit = () => {
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
     const availableSlots = MAX_IMAGES - previews.length;
-    const newImageURLs = files
-      .slice(0, availableSlots)
-      .map((file) => URL.createObjectURL(file));
+
+    const newImageFiles = files.slice(0, availableSlots);
+    const newImageURLs = newImageFiles.map((file) => URL.createObjectURL(file));
 
     setPreviews((prev) => [...prev, ...newImageURLs]);
+    setFileObjects((prev) => [...prev, ...newImageFiles]);
     setFileName((prev) => [
       ...prev,
-      ...files.map((_, idx) => `uploaded-image-${idx + 1}`)
+      ...newImageFiles.map((file) => {
+        const array = new Uint32Array(4);
+        window.crypto.getRandomValues(array);
+        const hash = Array.from(array, (num) => num.toString(16)).join('');
+        const extension = file.name.split('.').pop();
+        return `${hash}.${extension}`;
+      })
     ]);
   };
 
@@ -56,7 +66,8 @@ const CommunityEdit = () => {
           title={title}
           content={content}
           fileName={fileName}
-          selectedPost={selectedPost}
+          fileObjects={fileObjects}
+          setForceReload={setForceReload}
         />
       </ContentContainer>
     </Container>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import imgDesc from '../../assets/Search/imageDescript.svg';
@@ -6,11 +7,26 @@ import imgDesc from '../../assets/Search/imageDescript.svg';
 import Pagination from '../Pagination';
 import SearchNothing from './SearchNothing';
 import useSearch from '../../hooks/useSearch';
+import axiosInstance from '../../api/axios-instance';
 
 const SearchCommunity = ({ query, select }) => {
+  const navigate = useNavigate();
+
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5;
-  const { data, isLoading } = useSearch(select, query);
+
+  const { data, isLoading } = useSearch(select, query, currentPage);
+
+  const handleNavigate = async (id) => {
+    try {
+      const response = await axiosInstance.get(`/community/posts/${id}`);
+      navigate(`/community/${id}`, {
+        state: { selectedPost: response.data.data }
+      });
+    } catch (error) {
+      alert('게시물 가져오기 실패');
+    }
+  };
 
   return (
     <Container>
@@ -18,7 +34,7 @@ const SearchCommunity = ({ query, select }) => {
         <>
           <CommunityLists>
             {data?.data.results.map((list) => (
-              <CommunityList>
+              <CommunityList onClick={() => handleNavigate(list.id)}>
                 <TextContainer>
                   <Title>{list.title}</Title>
                   {list.postImages && (
@@ -33,7 +49,7 @@ const SearchCommunity = ({ query, select }) => {
           </CommunityLists>
           <PaginationContainer>
             <Pagination
-              dataLength={20}
+              dataLength={data?.data.pagination.totalResults}
               perData={perData}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import PassiveCarousel from '../../components/Home/PassiveCarousel';
 
 const HotClass = () => {
@@ -11,8 +12,6 @@ const HotClass = () => {
     </Container>
   );
 };
-
-export default HotClass;
 
 const Container = styled.div`
   margin-top: 120px;
@@ -47,3 +46,5 @@ const Glow = styled.div`
   filter: blur(3px);
   border-radius: 50%;
 `;
+
+export default HotClass;

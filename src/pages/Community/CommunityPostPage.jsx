@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, useOutletContext } from 'react-router-dom';
 import styled from 'styled-components';
+
 import ImageModal from '../../components/Comunity/ImageModal';
 import PostComment from '../../components/Comunity/PostComment';
 import PostContent from '../../components/Comunity/PostContent';
 import Pagination from '../../components/Pagination';
-
 import ConfirmLeaveAlert from '../../components/ConfirmLeaveAlert';
+
 import useFetchList from '../../hooks/useFetchList';
 import axiosInstance from '../../api/axios-instance';
 import useGet from '../../hooks/useGet';
 
 const CommunityPostPage = () => {
   const [comments, setComments] = useState([]);
+  const [forceReload, setForceReload] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const perData = 5;
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,14 +24,14 @@ const CommunityPostPage = () => {
   // 게시물 정보 가져오기
   const { selectedPost } = location.state || {};
   const { data: user } = useGet();
+  const { setForceReload: setListReload } = useOutletContext();
 
-  console.log(selectedPost);
   // 댓글 가져오기
   const {
     data: com,
     isLoading,
     isError
-  } = useFetchList(selectedPost?.postId, 1);
+  } = useFetchList(selectedPost?.postId, 1, currentPage, forceReload);
 
   useEffect(() => {
     if (com?.data?.comments) {
@@ -35,9 +39,11 @@ const CommunityPostPage = () => {
     }
   }, [com]);
 
+  // 알람 모달창
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showCancelAlert, setShowCancelAlert] = useState(false);
 
+  // 이미지 처리
   const [imgUrl, setImgUrl] = useState('');
   const [commentText, setCommentText] = useState('');
   const [cautionText, setCautionText] = useState('');
@@ -64,26 +70,20 @@ const CommunityPostPage = () => {
   const handleCommentSubmit = async () => {
     if (!commentText.trim()) return;
 
-    const postData = {
-      content: commentText
-    };
-
     try {
       const response = await axiosInstance.post(
         `/community/posts/${selectedPost.postId}/comments`,
-        postData
+        { content: commentText }
       );
 
       setComments((prevComments) => [response.data, ...prevComments]);
 
+      setForceReload((prev) => !prev);
       setCommentText('');
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const perData = 10;
 
   return (
     <>
@@ -93,27 +93,32 @@ const CommunityPostPage = () => {
             <div>{selectedPost?.title}</div>
           </PostHeader>
           <PostContent
+            length={com?.data.totalComments}
             comment={com?.data.comments}
             handleModal={handleModal}
             selectedPost={selectedPost}
             user={user}
+            setListReload={setListReload}
           />
           <CommentSection>
             {com?.data.comments.map((comment) => (
-              <PostComment
-                comment={comment}
-                postId={selectedPost.postId}
-                user={user}
-              />
+              <>
+                <PostComment
+                  comment={comment}
+                  postId={selectedPost.postId}
+                  user={user}
+                  setForceReload={setForceReload}
+                />
+                <PaginationContainer>
+                  <Pagination
+                    dataLength={com?.data.totalComments}
+                    perData={perData}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                  />
+                </PaginationContainer>
+              </>
             ))}
-            <PaginationContainer>
-              <Pagination
-                dataLength={10}
-                perData={perData}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-              />
-            </PaginationContainer>
             <CommentInput>
               <input
                 type="text"
@@ -154,8 +159,6 @@ const CommunityPostPage = () => {
     </>
   );
 };
-
-export default CommunityPostPage;
 
 const Container = styled.div`
   padding-top: 30px;
@@ -276,3 +279,5 @@ const ColoredText = styled.span`
   color: #a60f62;
   font-weight: bold;
 `;
+
+export default CommunityPostPage;

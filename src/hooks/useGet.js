@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+
 import axiosInstance from '../api/axios-instance';
 
 const useGet = () => {
@@ -13,7 +14,7 @@ const useGet = () => {
 
       try {
         const response = await axiosInstance.get(`/users/me`);
-        setData(response.data);
+        setData(response.data.data);
       } catch (error) {
         setIsError(true);
       } finally {

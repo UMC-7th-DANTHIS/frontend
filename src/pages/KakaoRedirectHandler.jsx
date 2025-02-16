@@ -34,6 +34,7 @@ const KakaoRedirectHandler = () => {
           console.warn('Access Token이 응답에 없음', response.data);
         }
         navigate('/signup1');
+        window.location.reload();
       })
       .catch((error) => {
         console.error('로그인 실패', error.response?.data || error);

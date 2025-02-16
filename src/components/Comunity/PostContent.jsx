@@ -12,18 +12,27 @@ import Alert from '../../assets/Community/SirenButton.svg';
 import ConfirmDeleteAlert from '../ConfirmDelete';
 import axiosInstance from '../../api/axios-instance';
 
-const PostContent = ({ comment, handleModal, selectedPost, user }) => {
+const PostContent = ({
+  length,
+  handleModal,
+  selectedPost,
+  user,
+  setListReload
+}) => {
   const navigate = useNavigate();
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
+  // 게시글에서 삭제버튼 눌렀을때
   const handleDelete = () => {
     setShowConfirmDelete(true);
   };
 
+  // 모달창에서 삭제버튼 눌렀을때
   const handleDeleteConfirm = async () => {
     try {
       await axiosInstance.delete(`/community/posts/${selectedPost.postId}`);
+      setListReload((prev) => !prev);
       navigate('/community');
     } catch (error) {
       console.error('게시글 삭제 실패:', error);
@@ -35,14 +44,14 @@ const PostContent = ({ comment, handleModal, selectedPost, user }) => {
       <PostInfo>
         <PostStats>
           <ViewContainer src={CommentPhoto} alt={'그럴리없다'} />
-          <TextContainer>{comment?.length || 0}</TextContainer>
+          <TextContainer>{length || 0}</TextContainer>
         </PostStats>
         <PostMeta>
           <span>작성일 : {formatDate(selectedPost?.createdAt, 1)}</span>
         </PostMeta>
       </PostInfo>
       <PostInfo>
-        {user?.data.nickname == selectedPost?.author ? (
+        {user?.nickname == selectedPost?.author ? (
           <PostActions>
             <ButtonContainer
               onClick={() =>
@@ -224,6 +233,7 @@ const AlertText = styled.span`
   line-height: 21px;
   white-space: pre-line;
 `;
+
 const ColoredText = styled.span`
   color: #a60f62;
   font-weight: bold;

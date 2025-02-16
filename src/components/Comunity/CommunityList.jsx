@@ -2,16 +2,16 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import ImageDescript from '../../assets/Search/imageDescript.svg';
-import CommentPhoto from '../../assets/Community/CommentPhoto.svg';
-
 import formatDate from '../../api/formatDate';
 import useFetchList from '../../hooks/useFetchList';
+
+import ImageDescript from '../../assets/Search/imageDescript.svg';
+import CommentPhoto from '../../assets/Community/CommentPhoto.svg';
 
 const CommunityList = ({ list }) => {
   const navigate = useNavigate();
 
-  const { data: post, isLoading, isError } = useFetchList(list.postId);
+  const { data: post } = useFetchList(list.postId);
 
   const handleNavigate = (temp) => {
     navigate(`/community/${temp.postId}`, { state: { selectedPost: temp } });

@@ -1,12 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 import { ReactComponent as CloseIcon } from '../assets/buttons/close-button.svg';
 
-const AgreeAlert = ({
-  onClose,
-  title,
-  message,
-}) => {
+const AgreeAlert = ({ onClose, title, message }) => {
   const handleClick = (e) => {
     e.stopPropagation();
     if (onClose) {
@@ -19,6 +15,7 @@ const AgreeAlert = ({
       onClose();
     }
   };
+
   return (
     <AlertOverlay onClick={handleOverlayClick}>
       <AlertContainer>
@@ -27,16 +24,13 @@ const AgreeAlert = ({
         </CloseButton>
 
         <TextContainer>
-          <Title> {title}  </Title>
-          <Message> {message}  </Message>
+          <Title> {title} </Title>
+          <Message> {message} </Message>
         </TextContainer>
       </AlertContainer>
-
     </AlertOverlay>
-  )
-}
-
-export default AgreeAlert
+  );
+};
 
 const AlertOverlay = styled.div`
   position: fixed;
@@ -62,7 +56,6 @@ const AlertContainer = styled.div`
   border: 3px solid #a60f62;
   box-shadow: 0px 0px 11.9px 2px #a60f62;
 `;
-
 
 const CloseButton = styled.button`
   position: absolute;
@@ -90,7 +83,6 @@ const TextContainer = styled.div`
   margin-right: 52px;
   margin-top: 70px;
   overflow-x: scroll;
-  
 `;
 
 const Title = styled.div`
@@ -115,3 +107,5 @@ const Message = styled.div`
   line-height: 16px;
   padding: 26px 44px 0 44px;
 `;
+
+export default AgreeAlert;
