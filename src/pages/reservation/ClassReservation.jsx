@@ -84,6 +84,18 @@ const ClassReservation = () => {
     }
   }, [classId, urlTabQuery, navigate, tab]);
 
+  // 채팅 시작
+  const handleChatClick = () => {
+    const startChat = async () => {
+      try {
+        await api.post(`/chats/${50}/start`);
+      } catch (error) {
+        console.error('❌ 1:1 채팅 신청 중 오류 발생:', error);
+      }
+    };
+    startChat();
+  };
+
   // 수업 찜 등록
   const postLiked = async () => {
     try {
@@ -135,7 +147,9 @@ const ClassReservation = () => {
           <Level level={classData?.difficulty} />
         </InfoContainer>
         <BtnContainer>
-          <ChatBtn type="button">댄서와 1:1 채팅하기</ChatBtn>
+          <ChatBtn type="button" onClick={() => handleChatClick()}>
+            댄서와 1:1 채팅하기
+          </ChatBtn>
           <LikeBtn
             type="button"
             onClick={() => handleLikeClick()}
