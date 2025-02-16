@@ -19,7 +19,7 @@ const Container = styled.div`
   height: 488px;
   background-color: black;
   justify-items: center;
-  padding: 73px 204px 184px 206px;
+  padding: 20px 204px 180px 206px;
 `;
 
 const ContentContainer = styled.div`

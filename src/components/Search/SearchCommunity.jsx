@@ -3,41 +3,37 @@ import styled from 'styled-components';
 
 import imgDesc from '../../assets/Search/imageDescript.svg';
 
-import dummyCommunity from '../../store/search/dummyCommunity';
 import Pagination from '../Pagination';
 import SearchNothing from './SearchNothing';
+import useSearch from '../../hooks/useSearch';
 
-const SearchCommunity = () => {
+const SearchCommunity = ({ query, select }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5;
-
-  const filteredList = dummyCommunity.slice(
-    perData * (currentPage - 1),
-    perData * currentPage
-  );
+  const { data, isLoading } = useSearch(select, query);
 
   return (
     <Container>
-      {filteredList ? (
+      {!isLoading && data?.data.results.length ? (
         <>
           <CommunityLists>
-            {filteredList?.map((list) => (
+            {data?.data.results.map((list) => (
               <CommunityList>
                 <TextContainer>
-                  <Title>{list.Title}</Title>
-                  {list.Image && (
+                  <Title>{list.title}</Title>
+                  {list.postImages && (
                     <ImgDescriptContainer>
                       <ImgDescript src={imgDesc} alt={'사진 있어요'} />
                     </ImgDescriptContainer>
                   )}
-                  <Content>{list.Content.slice(0, 300)}</Content>
+                  <Content>{list?.content.slice(0, 300)}</Content>
                 </TextContainer>
               </CommunityList>
             ))}
           </CommunityLists>
           <PaginationContainer>
             <Pagination
-              dataLength={dummyCommunity.length}
+              dataLength={20}
               perData={perData}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
@@ -59,7 +55,6 @@ const CommunityLists = styled.div`
 `;
 
 const CommunityList = styled.div`
-  display: flex;
   padding-left: 114px;
   padding-right: 114px;
   padding-top: 41px;

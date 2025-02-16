@@ -21,7 +21,7 @@ const MainLayout = () => {
   }, []);
 
   const handleSearch = (query) => {
-    navigate(`/search?query=${query}`);
+    navigate(`/search/dance-classes?query=${query}`);
   };
 
   return (

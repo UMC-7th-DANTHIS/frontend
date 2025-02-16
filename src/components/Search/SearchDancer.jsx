@@ -1,41 +1,40 @@
 import React, { useState } from 'react';
+
 import styled from 'styled-components';
 
-import dummyDancer from '../../store/search/dummyDancer';
 import Pagination from '../Pagination';
 import SearchNothing from './SearchNothing';
+import useSearch from '../../hooks/useSearch';
 
-const SearchDancer = ({ data }) => {
+const SearchDancer = ({ query, select }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5;
-
-  const filteredList = dummyDancer.slice(
-    perData * (currentPage - 1),
-    perData * currentPage
-  );
+  const { data, isLoading } = useSearch(select, query);
 
   return (
     <Container>
-      {filteredList ? (
+      {!isLoading && data?.data.results.length > 0 ? (
         <>
           <ClassLists>
-            {filteredList?.map((list) => (
+            {data?.data.results.map((list) => (
               <ClassList>
                 <ImgContainer
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkpq_VnExTApuWh7iJNkdXdqeZciuAVoZF8A&s"
+                  src={list.profileImage?.[0]}
                   alt="프로필 이미지"
                 />
                 <TextContainer>
-                  <TextContent>{list.Dancer}</TextContent>
-                  <TextContent>Instagram : {list.Instagram}</TextContent>
-                  <TextContent>주 장르 : {list.Genre}</TextContent>
+                  <TextContent>{list.name}</TextContent>
+                  <TextContent>Instagram : {list.instagramId}</TextContent>
+                  <TextContent>
+                    주 장르 : {list.mainGenres.map((genre) => genre)}
+                  </TextContent>
                 </TextContainer>
               </ClassList>
             ))}
           </ClassLists>
           <PaginationContainer>
             <Pagination
-              dataLength={dummyDancer.length}
+              dataLength={20}
               perData={perData}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
@@ -71,6 +70,9 @@ const ClassList = styled.div`
 
 const ImgContainer = styled.img`
   border-radius: 10px;
+
+  width: 210px;
+  height: 210px;
 `;
 
 const TextContainer = styled.div`

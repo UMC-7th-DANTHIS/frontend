@@ -4,15 +4,15 @@ import styled from 'styled-components';
 
 import formatDate from '../../api/formatDate';
 
-import ViewPhoto from '../../assets/Community/ViewPhoto.svg';
 import CommentPhoto from '../../assets/Community/CommentPhoto.svg';
 import Edit from '../../assets/Community/EditButton.svg';
 import Delete from '../../assets/Community/DeleteButton.svg';
 import Alert from '../../assets/Community/SirenButton.svg';
 
 import ConfirmDeleteAlert from '../ConfirmDelete';
+import axiosInstance from '../../api/axios-instance';
 
-const PostContent = ({ comment, handleModal, selectedPost }) => {
+const PostContent = ({ comment, handleModal, selectedPost, user }) => {
   const navigate = useNavigate();
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
@@ -21,49 +21,56 @@ const PostContent = ({ comment, handleModal, selectedPost }) => {
     setShowConfirmDelete(true);
   };
 
+  const handleDeleteConfirm = async () => {
+    try {
+      await axiosInstance.delete(`/community/posts/${selectedPost.postId}`);
+      navigate('/community');
+    } catch (error) {
+      console.error('게시글 삭제 실패:', error);
+    }
+  };
+
   return (
     <>
       <PostInfo>
         <PostStats>
-          <ViewContainer src={ViewPhoto} alt={'그럴리없다'} />
-          <TextContainer>{selectedPost?.views}</TextContainer>
           <ViewContainer src={CommentPhoto} alt={'그럴리없다'} />
-          <TextContainer>{comment?.length}</TextContainer>
+          <TextContainer>{comment?.length || 0}</TextContainer>
         </PostStats>
         <PostMeta>
-          <span>작성일 : {formatDate(selectedPost?.created_at)}</span>
+          <span>작성일 : {formatDate(selectedPost?.createdAt, 1)}</span>
         </PostMeta>
       </PostInfo>
       <PostInfo>
-        {true ? (
+        {user?.data.nickname == selectedPost?.author ? (
           <PostActions>
             <ButtonContainer
               onClick={() =>
                 navigate('/community/edit', { state: { selectedPost } })
               }
               src={Edit}
-              alt={'그럴리없다'}
+              alt={'수정버튼'}
             />
             <ButtonContainer
               src={Delete}
-              alt={'그럴리없다'}
+              alt={'삭제버튼'}
               onClick={() => handleDelete()}
             />
           </PostActions>
         ) : (
           <PostActions>
-            <ReportButton src={Alert} alt={'그럴리없다'} />
+            <ReportButton src={Alert} alt={'신고버튼'} />
           </PostActions>
         )}
         <PostMeta>
-          <span>작성자 : {selectedPost?.user_id}</span>{' '}
+          <span>작성자 : {selectedPost?.author}</span>{' '}
         </PostMeta>
       </PostInfo>
       <Content>
         {selectedPost?.content}
-        {selectedPost?.image.length && (
+        {selectedPost?.images.length > 0 && (
           <ImageContainer>
-            {selectedPost?.image.map((img) => (
+            {selectedPost?.images.map((img) => (
               <Image
                 src={img}
                 alt={'이미지'}
@@ -86,6 +93,7 @@ const PostContent = ({ comment, handleModal, selectedPost }) => {
             </AlertText>
           }
           onClose={() => setShowConfirmDelete(false)}
+          onConfirm={handleDeleteConfirm}
           showButtons={true}
         />
       )}
@@ -120,6 +128,7 @@ const ViewContainer = styled.img`
   width: 28px;
   height: 28px;
 
+  margin-bottom: 5px;
   margin-right: 5px;
 `;
 
