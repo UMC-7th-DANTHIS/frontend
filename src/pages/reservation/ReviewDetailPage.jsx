@@ -7,7 +7,7 @@ import { ReactComponent as Siren } from '../../assets/Community/SirenButton.svg'
 import { formatDateWithTime } from './formatDate';
 import api from '../../api/api';
 import ConfirmDeleteAlert from '../../components/ConfirmDelete';
-import ImageModal from '../../components/Comunity/ImageModal';
+import ImageModal from '../../components/ImageModal';
 
 const ReviewDetailPage = () => {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ const ReviewDetailPage = () => {
   const [isUserAuthorMatch, setIsUserAuthorMatch] = useState(false);
 
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(null);
 
   const { reviewId } = useParams();
   const { fromReviewTab, classId, page } = location.state || {}; // 페이지네이션을 기억해 둠
@@ -84,15 +84,24 @@ const ReviewDetailPage = () => {
       </InfoWrapper>
       <Content>{review.content}</Content>
       <ImagesContainer>
-        {review.images &&
-          review.images.map((image, index) => (
-            <Image key={index} onClick={() => setIsModalOpen(true)}>
-              <img src={image} alt={`review ${review.id} #${index}`} />
-              {isModalOpen && (
-                <ImageModal imgUrl={image} setIsModalOpen={setIsModalOpen} />
-              )}
-            </Image>
-          ))}
+        <ImagesContainer>
+          {review.images &&
+            review.images.map((image, index) => (
+              <React.Fragment key={index}>
+                <Image
+                  src={image}
+                  alt={`review ${review.id} #${index}`}
+                  onClick={() => setIsModalOpen(index)}
+                />
+                {isModalOpen === index && (
+                  <ImageModal
+                    imgUrl={image}
+                    setIsModalOpen={() => setIsModalOpen(null)}
+                  />
+                )}
+              </React.Fragment>
+            ))}
+        </ImagesContainer>
       </ImagesContainer>
       <DividerLine />
       <ButtonSection>
@@ -196,7 +205,7 @@ const ImagesContainer = styled.div`
   gap: 20px;
   margin-bottom: 38px;
 `;
-const Image = styled.div`
+const Image = styled.img`
   width: 200px;
   height: 200px;
   border: none;
@@ -204,12 +213,7 @@ const Image = styled.div`
   overflow: hidden;
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
   cursor: pointer;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; // 비율 유지
-  }
+  object-fit: cover;
 `;
 const ButtonSection = styled.div`
   display: flex;
