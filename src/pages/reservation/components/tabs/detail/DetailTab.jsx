@@ -75,15 +75,18 @@ const Detail = ({ classData }) => {
       <Section>
         <Title>수업 사진</Title>
         <Images>
-          {classData.details?.danceClassImages.length > 0 ? (
+          {classData.details?.danceClassImages[0] === '' ? (
+            <Image
+              src={classData.dancer?.profileImage}
+              alt={`dancer profile of class #${classData?.id}`}
+            />
+          ) : (
             classData.details?.danceClassImages.map(
               (image, index) =>
                 image && (
                   <Image key={index} src={image} alt={`class #${index}`} />
                 )
             )
-          ) : (
-            <Image src={classData.dancer?.profileImage} />
           )}
         </Images>
       </Section>
