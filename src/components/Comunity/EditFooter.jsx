@@ -1,48 +1,88 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
+
 import SingleBtnAlert from '../SingleBtnAlert';
 import ConfirmLeaveAlert from '../ConfirmLeaveAlert';
+
 import axiosInstance from '../../api/axios-instance';
-import FetchImage from '../../hooks/FetchImage';
+import getPresignedUrls from '../../hooks/getPresignedUrls';
 
 const EditFooter = ({
   handleFileChange,
   content,
   title,
   fileName,
-  selectedPost
+  fileObjects,
+  setForceReload
 }) => {
   const navigate = useNavigate();
+
   const [showInvalidAlert, setShowInvalidAlert] = useState(false);
   const [showCancelAlert, setShowCancelAlert] = useState(false);
 
+  // presignedUrl로 아마존 서버에 이미지 올리고 url 유효하게 하기
+  const uploadToS3 = async (presignedUrl, file) => {
+    try {
+      const response = await axios.put(presignedUrl, file, {
+        headers: {
+          'Content-Type': file.type || 'image/jpeg'
+        }
+      });
+      return response.status === 200;
+    } catch (error) {
+      alert('S3 업로드 실패');
+      return false;
+    }
+  };
+
+  // 게시물 post
+  const createPost = async (title, content, uploadedImageUrls) => {
+    const postData = {
+      title,
+      content,
+      images: uploadedImageUrls
+    };
+
+    try {
+      await axiosInstance.post(`/community/posts`, postData);
+      setForceReload((prev) => !prev);
+      navigate('/community');
+    } catch (error) {
+      alert('게시글 작성 실패');
+    }
+  };
+
+  // 이미지 서버에 올리기
   const handleSubmit = async () => {
     if (!content || !title) setShowInvalidAlert(true);
     else {
-      try {
-        FetchImage(fileName);
-      } catch (error) {
-        console.log(error);
+      const fileExtensions = fileName.map((name) =>
+        name.split('.').pop().toLowerCase()
+      );
+      const presignedUrls = await getPresignedUrls(fileExtensions);
+
+      if (!presignedUrls) return;
+
+      const uploadedImageUrls = [];
+
+      for (let i = 0; i < fileObjects.length; i++) {
+        const success = await uploadToS3(
+          presignedUrls[i].presignedUrl,
+          fileObjects[i]
+        );
+
+        if (success) {
+          uploadedImageUrls.push(presignedUrls[i].fileUrl);
+        }
       }
 
-      const postData = {
-        title: title,
-        content: content,
-        images: fileName ? fileName : []
-      };
-
-      try {
-        if (selectedPost) {
-          const response = await axiosInstance.put(
-            `/community/posts/${selectedPost.postId}`,
-            postData
-          );
-        } else await axiosInstance.post(`/community/posts`, postData);
-      } catch (error) {
-        console.log(error);
+      if (uploadedImageUrls.length === fileName.length) {
+        await createPost(title, content, uploadedImageUrls);
+      } else {
+        alert('일부 이미지 업로드 실패로 인해 게시글 작성이 중단되었습니다.');
       }
-      navigate('/community');
     }
   };
 
@@ -216,6 +256,7 @@ const AlertText = styled.span`
   line-height: 21px;
   white-space: pre-line;
 `;
+
 const ColoredText = styled.span`
   color: #a60f62;
   font-weight: bold;

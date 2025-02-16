@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import useSearch from '../hooks/useSearch';
+
 import SearchBar from '../components/Search/SearchBar';
 
 const SearchLayout = () => {
+  const navigate = useNavigate();
+
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query');
-  const navigate = useNavigate();
 
   const [select, setSelect] = useState('dance-classes');
   const [temp, setTemp] = useState(query || '');
@@ -49,8 +50,6 @@ const SearchLayout = () => {
   );
 };
 
-export default SearchLayout;
-
 const Container = styled.div`
   background-color: black;
   padding-bottom: 150px;
@@ -61,3 +60,5 @@ const ContentContainer = styled.div`
   margin-left: 120px;
   margin-right: 120px;
 `;
+
+export default SearchLayout;

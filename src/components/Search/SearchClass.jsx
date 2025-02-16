@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import Pagination from '../Pagination';
-import SearchNothing from './SearchNothing';
-import useSearch from '../../hooks/useSearch';
-
 import { ReactComponent as StarFilled } from '../../assets/buttons/starlevel_filled.svg';
 import { ReactComponent as StarNonfilled } from '../../assets/buttons/starlevel_nonfilled.svg';
+
+import Pagination from '../Pagination';
+import SearchNothing from './SearchNothing';
+
+import useSearch from '../../hooks/useSearch';
 
 const SearchClass = ({ query, select }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5;
-  const { data, isLoading } = useSearch(select, query);
+
+  const { data, isLoading } = useSearch(select, query, currentPage);
 
   return (
     <Container>
@@ -46,7 +48,7 @@ const SearchClass = ({ query, select }) => {
           </ClassLists>
           <PaginationContainer>
             <Pagination
-              dataLength={20}
+              dataLength={data?.data.pagination.totalResults}
               perData={perData}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}

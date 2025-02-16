@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+
 import Topbar from '../components/Topbar';
 import Footer from '../components/Footer';
 
+import useGet from '../hooks/useGet';
+
 const MainLayout = () => {
   const navigate = useNavigate();
+
   const [token, setToken] = useState(() => localStorage.getItem('token'));
+  const { data: user, isLoading, isError } = useGet();
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -28,7 +33,7 @@ const MainLayout = () => {
     <>
       <Container>
         <Topbar onSearch={handleSearch} token={token} />
-        <Outlet />
+        <Outlet context={{ user }} />
         <Footer />
       </Container>
     </>
@@ -36,7 +41,6 @@ const MainLayout = () => {
 };
 
 const Container = styled.div`
-  /* width: 1440px; */
   display: flex;
   flex-direction: column;
   align-items: center;
