@@ -49,7 +49,7 @@ const ReviewTab = ({ tabRef }) => {
     <Container>
       {Array.isArray(reviews?.classReviews) &&
       reviews?.classReviews.length === 0 ? (
-        <NoReview>등록된 리뷰가 없습니다.</NoReview>
+        <Notice>등록된 리뷰가 없습니다.</Notice>
       ) : (
         <>
           {reviews.classReviews?.map((review, index) => (
@@ -82,10 +82,12 @@ const Container = styled.div`
   margin: 39px 0;
   min-height: 350px;
 `;
-const NoReview = styled.div`
-  color: #fff;
+const Notice = styled.div`
+  color: var(--main_white, #fff);
   text-align: center;
   font-family: Pretendard;
   font-size: 24px;
   font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 `;
