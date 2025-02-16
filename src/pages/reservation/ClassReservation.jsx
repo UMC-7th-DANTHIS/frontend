@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
@@ -31,11 +31,14 @@ const ClassReservation = () => {
 
   const [searchParams] = useSearchParams();
   const urlTabQuery = searchParams.get('tab');
-  const tab = [
-    { name: '상세정보', query: 'detail' },
-    { name: '리뷰', query: 'reviews' },
-    { name: '별점', query: 'rating' }
-  ];
+  const tab = useMemo(
+    () => [
+      { name: '상세정보', query: 'detail' },
+      { name: '리뷰', query: 'reviews' },
+      { name: '별점', query: 'rating' }
+    ],
+    []
+  );
 
   // 가격 포맷 함수
   const formatPrice = (price) => {
@@ -79,7 +82,7 @@ const ClassReservation = () => {
     } else {
       navigate(`/classreservation/${classId}?tab=${urlTabQuery}`);
     }
-  }, [urlTabQuery]);
+  }, [classId, urlTabQuery, navigate, tab]);
 
   // 수업 찜 등록
   const postLiked = async () => {
