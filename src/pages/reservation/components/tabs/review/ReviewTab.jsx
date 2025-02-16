@@ -47,20 +47,27 @@ const ReviewTab = ({ tabRef }) => {
 
   return (
     <Container>
-      {reviews.classReviews?.map((review, index) => (
-        <Review
-          key={index}
-          review={review}
-          classId={reviews?.id}
-          page={reviews.pagination?.currentPage}
-        />
-      ))}
-      <Pagination
-        dataLength={reviews.pagination?.totalReviews}
-        perData={perData}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-      />
+      {Array.isArray(reviews?.classReviews) &&
+      reviews?.classReviews.length === 0 ? (
+        <NoReview>등록된 리뷰가 없습니다.</NoReview>
+      ) : (
+        <>
+          {reviews.classReviews?.map((review, index) => (
+            <Review
+              key={index}
+              review={review}
+              classId={reviews?.id}
+              page={reviews.pagination?.currentPage}
+            />
+          ))}
+          <Pagination
+            dataLength={reviews.pagination?.totalReviews}
+            perData={perData}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </>
+      )}
     </Container>
   );
 };
@@ -73,4 +80,12 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   margin: 39px 0;
+  min-height: 350px;
+`;
+const NoReview = styled.div`
+  color: #fff;
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 24px;
+  font-style: normal;
 `;
