@@ -31,7 +31,7 @@ const ClassBoard = () => {
           `/dance-classes?genre=${genreId}&page=${currentPage}`
         );
 
-        setClasses(response.data.data.danceClasses);
+        setClasses(response.data?.data);
       } catch (error) {
         console.error('❌ 장르별 수업 정보를 불러오는 중 오류 발생:', error);
       }
@@ -61,7 +61,7 @@ const ClassBoard = () => {
       <Line />
       <BoardContainer>
         <Classes>
-          {classes.map((cls) => (
+          {classes.danceClasses?.map((cls) => (
             <Class to={`/classreservation/${cls.id}`} key={cls.id}>
               <Image
                 src={cls.thumbnailImage}
@@ -73,7 +73,7 @@ const ClassBoard = () => {
           ))}
         </Classes>
         <Pagination
-          dataLength={classes.length}
+          dataLength={classes.totalElements}
           perData={perData}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
