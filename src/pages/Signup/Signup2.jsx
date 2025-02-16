@@ -21,14 +21,28 @@ const Signup2 = () =>{
   const [user, setUser] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
 
-  const handleNicknameCheck = () => {
-    // 닉네임 중복 확인 로직 (예: 서버 요청)
-    if (nickname === "사용가능") {
-      setIsNicknameValid(true);
-    } else {
-      setIsNicknameValid(false);
+  const handleNicknameCheck = async () => {
+    try {
+      const response = await api.get(`/users/check-nickname?nickname=${nickname}`);
+      if (response.data.code === 200) {
+        if (response.data.data === true) {
+          setIsNicknameValid(true); // 사용 가능한 닉네임
+          console.log("사용 가능한 닉네임입니다.");
+        } else {
+          setIsNicknameValid(false); // 중복된 닉네임
+          console.log("중복된 닉네임입니다.");
+        }
+      } else {
+        console.error("닉네임 확인 요청 실패:", response.data.message);
+        setIsNicknameValid(false); // 기본적으로 유효하지 않다고 설정
+      }
+    } catch (error) {
+      console.error("닉네임 확인 중 오류 발생:", error);
+      setIsNicknameValid(false); // 기본적으로 유효하지 않다고 설정
     }
   };
+  
+  
 
    // 닉네임 유효성 검사 함수
    const validateNickname = (value) => {
@@ -104,8 +118,20 @@ const handlePhoneChange = (e) => {
     console.log("프로필 사진이 설정되지 않았습니다.");
     return;
   }
-    navigate("/signup3"); // "/next" 경로로 이동
+
+   // 2단계 데이터 로컬 저장
+   const signup2Data = {
+    nickname,
+    gender,
+    phone,
+    profileImage: isDefaultImage ? 'https://example.com/default-profile.jpg' : uploadedImage,
   };
+
+  localStorage.setItem('signup2Data', JSON.stringify(signup2Data)); // 로컬 저장
+  console.log(signup2Data);
+  navigate('/signup3'); // 다음 단계로 이동
+};
+   
 
    // 파일 업로드 처리
    const handleFileUpload = (event) => {
@@ -224,7 +250,7 @@ const handlePhoneChange = (e) => {
         <Field>
           <Label>프로필 사진</Label>
           <ProfileContainer>
-       <ProfileImageWrapper>
+      <ProfileImageWrapper>
          {/* 업로드한 이미지 미리보기 */}
          {isDefaultImage || !uploadedImage ? (
            <ProfileImage src={Profileimg} alt="프로필 이미지" />
@@ -467,6 +493,7 @@ font-weight: 600;
 line-height: normal;
 margin-top : 10px;
 margin-left : 21px;
+cursor : pointer;
 `
 
 const ValidMessage = styled.div`
