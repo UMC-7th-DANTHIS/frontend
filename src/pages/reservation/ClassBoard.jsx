@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
 import Pagination from '../../components/Pagination';
-import dancerImg from '../../assets/dummyphoto/dancer.svg';
 import api from '../../api/api';
 
 const ClassBoard = () => {
@@ -65,7 +64,7 @@ const ClassBoard = () => {
           {classes.map((cls) => (
             <Class to={`/classreservation/${cls.id}`} key={cls.id}>
               <Image
-                src={cls.thumbnailImage ? cls.thumbnailImage : dancerImg}
+                src={cls.thumbnailImage}
                 alt={`class #${cls.id} thumbnail`}
               />
               <Title>{cls.className}</Title>
