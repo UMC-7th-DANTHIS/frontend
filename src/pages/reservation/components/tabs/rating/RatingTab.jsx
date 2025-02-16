@@ -4,10 +4,13 @@ import styled from 'styled-components';
 import PartialStars from './PartialStars';
 import api from '../../../../../api/api';
 
-const Rating = () => {
+const Rating = ({ tabRef }) => {
   const [ratingData, setRatingData] = useState([]);
   const { classId } = useParams();
   const totalStars = 5;
+  if (tabRef.current) {
+    tabRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 
   useEffect(() => {
     const fetchClass = async () => {

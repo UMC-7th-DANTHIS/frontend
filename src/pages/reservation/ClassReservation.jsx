@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
@@ -31,6 +31,7 @@ const ClassReservation = () => {
 
   const [searchParams] = useSearchParams();
   const urlTabQuery = searchParams.get('tab');
+  const tabRef = useRef(null);
   const tab = useMemo(
     () => [
       { name: '상세정보', query: 'detail' },
@@ -159,7 +160,7 @@ const ClassReservation = () => {
           </LikeBtn>
         </BtnContainer>
       </Summary>
-      <Tabs>
+      <Tabs ref={tabRef}>
         {tab.map((element, index) => (
           <Tab
             key={index}
@@ -171,8 +172,8 @@ const ClassReservation = () => {
         ))}
       </Tabs>
       {currentTab === 0 && <DetailTab classData={classData} />}
-      {currentTab === 1 && <ReviewTab />}
-      {currentTab === 2 && <RatingTab />}
+      {currentTab === 1 && <ReviewTab tabRef={tabRef} />}
+      {currentTab === 2 && <RatingTab tabRef={tabRef} />}
     </Container>
   );
 };
