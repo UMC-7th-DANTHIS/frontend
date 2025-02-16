@@ -1,21 +1,23 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useNavigate, useLocation, useParams, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as EditIcon } from '../../assets/shape/write.svg';
 import { ReactComponent as DeleteIcon } from '../../assets/shape/trash.svg';
 import { ReactComponent as Siren } from '../../assets/Community/SirenButton.svg';
 import { formatDateWithTime } from './formatDate';
 import api from '../../api/api';
+import ConfirmDeleteAlert from '../../components/ConfirmDelete';
 
 const ReviewDetailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [review, setReview] = useState([]);
   const [isUserAuthorMatch, setIsUserAuthorMatch] = useState(false);
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const { reviewId } = useParams();
   const { fromReviewTab, classId, page } = location.state || {}; // 페이지네이션을 기억해 둠
 
-  // 리뷰 데이터 fetch
+  // 리뷰 데이터 받아오기
   const fetchReview = useCallback(async () => {
     try {
       const response = await api.get(
@@ -59,11 +61,17 @@ const ReviewDetailPage = () => {
       <InfoWrapper>
         {isUserAuthorMatch ? (
           <Tool>
-            <EditIcon />
-            <DeleteIcon />
+            <Button onClick={() => navigate(`/review/${review?.reviewId}`)}>
+              <EditIcon />
+            </Button>
+            <Button>
+              <DeleteIcon onClick={() => setShowDeleteAlert(true)} />
+            </Button>
           </Tool>
         ) : (
-          <Siren />
+          <Button>
+            <Siren />
+          </Button>
         )}
         <Writer>
           <InfoText>작성일 : {formatDateWithTime(review.createdAt)}</InfoText>
@@ -83,6 +91,21 @@ const ReviewDetailPage = () => {
       <ButtonSection>
         <GoBackButton onClick={handleBackClick}>돌아가기</GoBackButton>
       </ButtonSection>
+
+      {showDeleteAlert && (
+        <ConfirmDeleteAlert
+          message={
+            <AlertText>
+              해당 게시글을 삭제하면{'\n'}
+              추후에 <ColoredText>복구가 불가</ColoredText>합니다.
+              {'\n'}
+              삭제 하시겠습니까?
+            </AlertText>
+          }
+          onClose={() => setShowDeleteAlert(false)}
+          showButtons={true}
+        />
+      )}
     </Container>
   );
 };
@@ -132,6 +155,12 @@ const Tool = styled.div`
   justify-content: center;
   align-items: center;
   gap: 14px;
+`;
+const Button = styled.button`
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
 `;
 const InfoText = styled.div`
   color: var(--text_secondary-gray, #b2b2b2);
@@ -195,4 +224,17 @@ const GoBackButton = styled.button`
   font-weight: 600;
   line-height: normal;
   cursor: pointer;
+`;
+const AlertText = styled.span`
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 21px;
+  white-space: pre-line;
+`;
+const ColoredText = styled.span`
+  color: #a60f62;
+  font-weight: bold;
 `;
