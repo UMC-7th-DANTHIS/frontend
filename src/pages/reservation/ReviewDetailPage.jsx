@@ -201,6 +201,7 @@ const Image = styled.div`
   height: 200px;
   border: none;
   border-radius: 7px;
+  overflow: hidden;
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
   cursor: pointer;
 

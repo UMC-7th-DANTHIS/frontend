@@ -175,6 +175,7 @@ const Image = styled.div`
   width: 160px;
   height: 160px;
   border-radius: 4px;
+  overflow: hidden;
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
 
   img {
