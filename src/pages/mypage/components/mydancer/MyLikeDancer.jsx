@@ -8,11 +8,11 @@ import LoadingSpinner from '../../../../components/LoadingSpinner';
 
 const MyLikeDancer = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const perData = 6;
+  const perData = 9;
 
   const { data, isLoading, isError, error } = useQuery(
     {
-      queryKey: ['dancers'],
+      queryKey: ['userdancers'],
       queryFn: async () => {
         const token = localStorage.getItem('token');
         const response = await api.get('/users/dancers', {
