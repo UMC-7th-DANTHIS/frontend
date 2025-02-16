@@ -3,15 +3,45 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import SingleBtnAlert from '../SingleBtnAlert';
 import ConfirmLeaveAlert from '../ConfirmLeaveAlert';
+import axiosInstance from '../../api/axios-instance';
+import FetchImage from '../../hooks/FetchImage';
 
-const EditFooter = ({ handleFileChange, content, title, fileName }) => {
+const EditFooter = ({
+  handleFileChange,
+  content,
+  title,
+  fileName,
+  selectedPost
+}) => {
   const navigate = useNavigate();
   const [showInvalidAlert, setShowInvalidAlert] = useState(false);
   const [showCancelAlert, setShowCancelAlert] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!content || !title) setShowInvalidAlert(true);
     else {
+      try {
+        FetchImage(fileName);
+      } catch (error) {
+        console.log(error);
+      }
+
+      const postData = {
+        title: title,
+        content: content,
+        images: fileName ? fileName : []
+      };
+
+      try {
+        if (selectedPost) {
+          const response = await axiosInstance.put(
+            `/community/posts/${selectedPost.postId}`,
+            postData
+          );
+        } else await axiosInstance.post(`/community/posts`, postData);
+      } catch (error) {
+        console.log(error);
+      }
       navigate('/community');
     }
   };

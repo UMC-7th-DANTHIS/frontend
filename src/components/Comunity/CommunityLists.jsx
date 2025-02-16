@@ -4,16 +4,19 @@ import styled from 'styled-components';
 
 import Pagination from '../../components/Pagination';
 import CommunityList from './CommunityList';
+import useFetchList from '../../hooks/useFetchList';
 
 const CommunityLists = () => {
   const navigate = useNavigate();
+
+  const { data, isLoading, isError } = useFetchList();
 
   const { filteredList, currentPage, perData, setCurrentPage, CommunityPost } =
     useOutletContext();
 
   return (
     <ListsContainer>
-      {filteredList?.map((list) => (
+      {data?.data.posts.map((list) => (
         <CommunityList list={list} />
       ))}
       <PaginationContainer>

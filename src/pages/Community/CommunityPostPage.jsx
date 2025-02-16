@@ -1,21 +1,41 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation, useOutletContext } from 'react-router-dom';
 import styled from 'styled-components';
-import CommunityComment from '../../store/community/CommunityComment';
 import ImageModal from '../../components/Comunity/ImageModal';
 import PostComment from '../../components/Comunity/PostComment';
 import PostContent from '../../components/Comunity/PostContent';
 import Pagination from '../../components/Pagination';
 
 import ConfirmLeaveAlert from '../../components/ConfirmLeaveAlert';
+import useFetchList from '../../hooks/useFetchList';
+import axiosInstance from '../../api/axios-instance';
+import useGet from '../../hooks/useGet';
 
 const CommunityPostPage = () => {
+  const [comments, setComments] = useState([]);
+
   const navigate = useNavigate();
   const location = useLocation();
+
+  // 게시물 정보 가져오기
   const { selectedPost } = location.state || {};
+  const { data: user } = useGet();
+
+  console.log(selectedPost);
+  // 댓글 가져오기
+  const {
+    data: com,
+    isLoading,
+    isError
+  } = useFetchList(selectedPost?.postId, 1);
+
+  useEffect(() => {
+    if (com?.data?.comments) {
+      setComments(com.data.comments);
+    }
+  }, [com]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [commentCaution, setCommentCaution] = useState(true);
   const [showCancelAlert, setShowCancelAlert] = useState(false);
 
   const [imgUrl, setImgUrl] = useState('');
@@ -25,13 +45,6 @@ const CommunityPostPage = () => {
   const handleModal = (imgUrl) => {
     setImgUrl(imgUrl);
     setIsModalOpen(true);
-  };
-
-  const handleCommentChange = (e) => {
-    setCommentText(e.target.value);
-    if (e.target.value.length > 200 || e.target.value.length === 0)
-      setCommentCaution(true);
-    else setCommentCaution(false);
   };
 
   const handleCaution = (e) => {
@@ -48,16 +61,29 @@ const CommunityPostPage = () => {
     else navigate('/community');
   };
 
-  const comment = CommunityComment.filter(
-    (num) => num.post_id === selectedPost?.id
-  );
+  const handleCommentSubmit = async () => {
+    if (!commentText.trim()) return;
+
+    const postData = {
+      content: commentText
+    };
+
+    try {
+      const response = await axiosInstance.post(
+        `/community/posts/${selectedPost.postId}/comments`,
+        postData
+      );
+
+      setComments((prevComments) => [response.data, ...prevComments]);
+
+      setCommentText('');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 10;
-  const filteredComment = comment.slice(
-    perData * (currentPage - 1),
-    perData * currentPage
-  );
 
   return (
     <>
@@ -67,17 +93,22 @@ const CommunityPostPage = () => {
             <div>{selectedPost?.title}</div>
           </PostHeader>
           <PostContent
-            comment={comment}
+            comment={com?.data.comments}
             handleModal={handleModal}
             selectedPost={selectedPost}
+            user={user}
           />
           <CommentSection>
-            {filteredComment?.map((comment) => (
-              <PostComment comment={comment} />
+            {com?.data.comments.map((comment) => (
+              <PostComment
+                comment={comment}
+                postId={selectedPost.postId}
+                user={user}
+              />
             ))}
             <PaginationContainer>
               <Pagination
-                dataLength={comment.length}
+                dataLength={10}
                 perData={perData}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
@@ -93,7 +124,7 @@ const CommunityPostPage = () => {
               {cautionText ? (
                 <inactivebutton>작성</inactivebutton>
               ) : (
-                <button>작성</button>
+                <button onClick={() => handleCommentSubmit()}>작성</button>
               )}
             </CommentInput>
             <CautionContainer> {cautionText || '\u00A0'}</CautionContainer>
