@@ -18,7 +18,7 @@ const fetchUserPosts = async (currentPage, perData) => {
       size: perData
     }
   });
-  console.log(response.data);
+  console.log(response.data.data.posts);
   return {
     posts: response.data.data.posts || [],
     totalElements: response.data.data.totalElements || 0,
@@ -36,8 +36,25 @@ const CommentPost = () => {
   });
 
   if (isLoading) {
-    return <LoadingSpinner isLoading={isLoading} />;
+    return (
+      <LoadingContainer>
+        <LoadingSpinner isLoading={isLoading} />
+      </LoadingContainer>
+    );
   }
+
+  const formatDate = (date) => {
+    if (typeof date === 'string') {
+      date = new Date(date);
+    }
+
+    return new Intl.DateTimeFormat('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).format(date);
+  };
+
 
   if (isError) {
     return <div>Error: {error?.message}</div>;
@@ -56,6 +73,10 @@ const CommentPost = () => {
                 )}
               </IconContainer>
             </PhotoandTitle>
+
+            <CommentData>
+              {formatDate(post.createAt)}
+            </CommentData>
 
             <CommentContents>
               {post.content.length > 210 ? post.content.slice(0, 209) + '...' : post.content}
@@ -115,6 +136,12 @@ const PhotoandTitle = styled.div`
   gap: 5px;
 `;
 
+const CommentData = styled.div`
+  color: #B2B2B2;
+  margin-top: 8px;
+  margin-bottom: 13px;
+`
+
 const CommentContents = styled.div`
   color: white;
   font-size: 18px;
@@ -125,5 +152,10 @@ const CommentContents = styled.div`
 const IconContainer = styled.div`
   margin-top: 20px;
 `;
+
+const LoadingContainer = styled.div`
+margin-left: 450px;
+`
+
 
 
