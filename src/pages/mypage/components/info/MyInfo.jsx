@@ -4,6 +4,8 @@ import { ReactComponent as InfoArrow } from '../../../../assets/infoarrow.svg';
 import Alert from '../../../../components/Alert';
 import AgreeAlert from '../../../../components/AgreeAlert';
 import Quit from '../Quit';
+import api from '../../../../api/api'
+import { useNavigate } from "react-router-dom";
 
 const MyInfo = () => {
   const [showLogoutAlert, setShowLogoutAlert] = useState(false);
@@ -11,8 +13,32 @@ const MyInfo = () => {
   const [currentComponent, setCurrentComponent] = useState('info');
   const [showPersonalAlert, setShowPersonalAlert] = useState(false);
 
+  const navigate = useNavigate();
+
   const handleLogoutAlert = () => {
     setShowLogoutAlert(true);
+  };
+
+  const handleLogout = async () => {
+    try {
+      const response = await api.post("/auth/logout"); // 로그아웃 API 호출
+      console.log("로그아웃 성공:", response.data);
+  
+      //토큰 삭제
+      localStorage.removeItem("token");
+  
+      // 홈페이지로 이동
+      navigate("/");
+    } catch (error) {
+      console.error("로그아웃 실패:", error.response?.data || error);
+      alert("로그아웃에 실패했습니다. 다시 시도해주세요.");
+    }
+  };
+  
+  // "예" 버튼을 누르면 `handleLogout` 실행 후 Alert 닫기
+  const handleLogoutConfirm = () => {
+    handleLogout(); // 로그아웃 실행
+    hideLogoutAlert(); // Alert 닫기
   };
 
   const hideLogoutAlert = () => {
@@ -56,7 +82,7 @@ const MyInfo = () => {
                   <ColoredText>로그아웃</ColoredText> 하시겠습니까?
                 </span>
               }
-              onClose={hideLogoutAlert}
+              onClose={handleLogoutConfirm}
               mariginsize="45px"
               ContainerWidth="280px"
               ContainerHeight="108px"
