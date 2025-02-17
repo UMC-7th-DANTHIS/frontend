@@ -65,12 +65,11 @@ const ClassForm = ({ setIsRegistered }) => {
   // 댄스 수업 정보 등록
   const postClass = async (data) => {
     try {
-      const response = await api.post('/dance-classes', data, {
+      await api.post('/dance-classes', data, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
-      console.log('댄스 수업 등록 성공:', response.data);
       setIsRegistered(true);
     } catch (error) {
       console.error(
@@ -94,8 +93,6 @@ const ClassForm = ({ setIsRegistered }) => {
       setShowInvalidAlert(true);
       return;
     }
-
-    console.log(updatedFormState);
     postClass(updatedFormState);
   };
 

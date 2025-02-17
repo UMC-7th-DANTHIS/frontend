@@ -65,12 +65,11 @@ const DancerForm = ({ setIsRegistered }) => {
   // 댄서 정보 등록
   const postDancer = async () => {
     try {
-      const response = await api.post('/dancers', formState, {
+      await api.post('/dancers', formState, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
-      console.log('댄서 등록 성공:', response.data);
       setIsRegistered(true);
     } catch (error) {
       console.error('댄서 등록 실패:', error.response?.data || error.message);
@@ -79,7 +78,6 @@ const DancerForm = ({ setIsRegistered }) => {
 
   // 수업 등록 폼 제출 핸들러
   const handleSubmit = (e) => {
-    console.log(formState);
     e.preventDefault();
     if (!isValid) {
       setShowInvalidAlert(true);
