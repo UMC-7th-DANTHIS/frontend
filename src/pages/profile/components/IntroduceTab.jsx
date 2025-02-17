@@ -2,30 +2,22 @@ import React from 'react'
 import styled from 'styled-components'
 import DancerPic from '../../../assets/dummyphoto/introduce.svg'
 
- const IntroduceTab =( ) => {
-    const data = [
-        "2024 Female star vol.5 1등 WINNER",
-        "2024 Master Piece 1등 WINNER",
-        "2023 Peace Out  1등 WINNER",
-        "2023 10th Feedback Compettion Final 진출",
-        "2023 female star vol.4 3rd (dancers night)",
-        "2023 Urbansummer Opening Guest Showcase",
-        "2022 vol.2 byehi Guestshow",
-        "Street Allaround Championship -Guest show",
-    ];
+ const IntroduceTab =({dancer}) => {
+   
+    if (!dancer) {
+        return <div>로딩 중...</div>; // dancer가 null일 때 로딩 메시지 표시
+      }
   return (
     <Layout>
         <ImageContainer>
-            <Picture src = {DancerPic} />
-            <Picture src = {DancerPic} />
-            <Picture src = {DancerPic} />
+        {dancer.imageUrlList?.map((imageUrl, index) => (
+          <Picture key={index} src={imageUrl} alt={`Dancer Image ${index + 1}`} />
+        ))}
         </ImageContainer>
         <CareerContainer>
             <Title>댄서 이력</Title>
             <List>
-                {data.map((item, index)=>(
-                    <ListItem key={index}>{item}</ListItem>
-                ))}
+                {dancer.history}
             </List>
         </CareerContainer>
 
@@ -71,9 +63,6 @@ letter-spacing: -1.4px;
 `
 
 const List = styled.div`
-`
-
-const ListItem=styled.div`
 color: var(--main_white, #FFF);
 font-family: Pretendard;
 font-size: 20px;
@@ -82,3 +71,4 @@ font-weight: 400;
 line-height: 40px;
 letter-spacing: -1px;
 `
+

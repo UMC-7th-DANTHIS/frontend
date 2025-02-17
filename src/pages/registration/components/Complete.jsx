@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as Check } from '../../../assets/check.svg';
 import { useNavigate } from 'react-router-dom';
 
 const Complete = ({ title, detail }) => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo(0, 180);
+  }, []);
 
   return (
     <Container>
