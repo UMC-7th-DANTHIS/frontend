@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MypageGenre from '../MypageGenre';
 import DancerPicture from '../DancerPicture';
+import api from '../../../../api/api';
 
 const ProfileDancer = () => {
   const [formState, setFormState] = useState({
@@ -14,6 +15,34 @@ const ProfileDancer = () => {
     images: [null, null, null],
   });
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+
+        const response = await api.get('/dancers', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = response.data.data;
+
+        setFormState({
+          name: data.dancerName || '',
+          instagram: data.instargramId || '',
+          chatting: data.openChatUrl || '',
+          introduce: data.bio || '',
+          genre: data.favoriteGenres || [],
+          record: data.history || '',
+          images: data.imageUrlList || [null, null, null],
+        });
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
   const handleFormChange = (key, value) => {
     setFormState((prev) => ({ ...prev, [key]: value }));
   };
@@ -21,6 +50,12 @@ const ProfileDancer = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('data', formState);
+  };
+
+  const getImageUrl = (images) => {
+    return images
+      .filter(image => image instanceof File)
+      .map(image => URL.createObjectURL(image));
   };
 
   return (
@@ -57,12 +92,11 @@ const ProfileDancer = () => {
             </OpenChatItemContainer>
             <MypageGenre
               genreSelect={2}
+              selectedGenres={formState.genre}
               onGenreChange={(selectedGenres) => {
                 handleFormChange('genre', selectedGenres);
               }}
             />
-
-
           </GenreContainer>
 
           <DancerRecord>
@@ -78,15 +112,19 @@ const ProfileDancer = () => {
                 <SmallText>* 가장 첫 번째로 등록된 사진이 프로필로 사용됩니다</SmallText>
               </SmallTextContainer>
             </OpenChatItemContainer>
-            <DancerPicture isFor="edit" images={formState.images} handleFormChange={handleFormChange} />
+            <DancerPicture
+              isFor="edit"
+              images={getImageUrl(formState.images)}
+              handleFormChange={handleFormChange}
+            />
           </DancerPictureContainer>
 
         </ItemContainer>
       </Container>
       <SaveButton onClick={handleSubmit}> 프로필 저장 </SaveButton>
     </AllContainer>
-  )
-}
+  );
+};
 
 export default ProfileDancer;
 
@@ -94,7 +132,7 @@ const AllContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`
+`;
 const Container = styled.div`
   width: 900px;
   height: 1800px;
@@ -104,22 +142,23 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   padding-bottom: 56px;
-`
+`;
 
 const ItemContainer = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
 const DancerNameContainer = styled.div`
   margin-top: 58px;
-`
+`;
 
 const Label = styled.div`
   color: white;
   font-size: 22px;
   font-weight: 600;
   line-height: normal;
-`
+`;
+
 const Input = styled.input`
   display: flex;
   width: 588px;
@@ -142,18 +181,21 @@ const Input = styled.input`
     line-height: normal;
     font-style: normal;
   }
-`
+`;
 
 const InstaContainer = styled.div`
   margin-top: 27px;
-`
+`;
+
 const OpenChatContainer = styled.div`
   margin-top: 27px;
-`
+`;
+
 const OpenChatItemContainer = styled.div`
   display: flex;
   flex-direction: row;
-`
+`;
+
 const Text = styled.div`
   color: #B2B2B2;
   font-size: 14px;
@@ -162,14 +204,15 @@ const Text = styled.div`
   line-height: normal;
   margin-left: 20px;
   margin-top: 7px;
-`
+`;
 
 const IntroContainer = styled.div`
   margin-top: 44px;
-`
+`;
+
 const GenreContainer = styled.div`
   margin-top: 44px;
-`
+`;
 
 const DancerRecord = styled.div`
   margin-top: 59px;
@@ -192,6 +235,7 @@ const WriteInput = styled.textarea`
   margin-top: 10px;
   resize: none; 
   padding: 17px 16px 0 18px;
+
   &::placeholder {
     color: #DDD;
     font-size: 20px;
@@ -199,16 +243,17 @@ const WriteInput = styled.textarea`
     line-height: normal;
     font-style: normal;
   }
-`
+`;
 
 const DancerPictureContainer = styled.div`
   margin-top: 45px;
-`
+`;
 
 const SmallTextContainer = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
+
 const SmallText = styled.div`
   color: #B2B2B2;
   font-size: 14px;
@@ -216,7 +261,7 @@ const SmallText = styled.div`
   font-weight: 300;
   line-height: normal;
   margin-left: 20px;
-`
+`;
 
 const SaveButton = styled.button`
   width: 300px;
@@ -235,4 +280,4 @@ const SaveButton = styled.button`
   margin-top: 45px;
   margin-bottom: 92px;
   cursor: pointer;
-`
+`;
