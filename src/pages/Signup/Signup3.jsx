@@ -1,35 +1,124 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import Shape1 from '../../assets/shape/shape1.svg'
 import Shape2 from '../../assets/shape/shape2.svg'
 import Logoimg from '../../assets/logo.svg'
 import Searchicon from '../../assets/searchicon.svg'
+import Overlay from '../Signup/components/Overlay'
+import Close from '../../assets/buttons/close.svg'
+import api from '../../api/api'
 
 const Signup3 = () => {
     const [selectedGenres, setSelectedGenres] = useState([]);
+    const [signup2Data, setSignup2Data] = useState(null); // Signup2에서 가져온 데이터 상태
     const [favoriteDancer, setFavoriteDancer] = useState("");
-    const [selectedRecommendedDancers, setSelectedRecommendedDancers] = useState([]);
-  
-    const genres = ["힙합", "걸스힙합", "팝핑", "락킹", "왁킹", "걸리시/힐", "크럼프", "텃팅", "코레오", "K-pop", "없음"];
-    const recommendedDancers = ["써니", "에이버리", "누누", "제이시", "우니", "없음"];
+    const [searchResults, setSearchResults] = useState([]);
+    const [isOverlayOpen, setIsOverlayOpen] = useState(false); // Overlay 상태 추가
+    const [selectedDancers, setSelectedDancers] = useState([]); // 선택된 댄서 상태
+   
+    const genres = [
+      { id: 1, name: '힙합' },
+      { id: 2, name: '걸스힙합' },
+      { id: 3, name: '팝핑' },
+      { id: 4, name: '락킹' },
+      { id: 5, name: '왁킹' },
+      { id: 6, name: '걸리시/힐' },
+      { id: 7, name: '크럼프' },
+      { id: 8, name: '텃팅' },
+      { id: 9, name: '코레오' },
+      { id: 10, name: 'K-pop' },
+      { id: 11, name: '없음' }
+
+    ];
     
     const toggleGenre = (genre) => {
-        setSelectedGenres((prev) =>
-          prev.includes(genre) ? prev.filter((g) => g !== genre) : [...prev, genre]
-        );
+      setSelectedGenres((prev) =>
+        prev.some((g) => g.id === genre.id)
+          ? prev.filter((g) => g.id !== genre.id)
+          : [...prev, genre]
+      );
+    };
+
+      const addDancer = (user) => {
+        if (!selectedDancers.some((dancer) => dancer.id === user.id)) {
+          setSelectedDancers([...selectedDancers, user]);
+        }
+        setIsOverlayOpen(false); // 오버레이 닫기
       };
     
-      const toggleRecommendedDancer = (dancer) => {
-        setSelectedRecommendedDancers((prev) =>
-          prev.includes(dancer) ? prev.filter((d) => d !== dancer) : [...prev, dancer]
-        );
+      const removeDancer = (dancerId) => {
+        setSelectedDancers((prev) => prev.filter((d) => d.id !== dancerId));
       };
+    
+ // 검색 필터 함수
+ const handleSearch = async () => {
+  const normalizedSearch = favoriteDancer.trim().toLowerCase();
+  if (normalizedSearch === "") {
+    setSearchResults([]); // 검색어가 비어 있으면 빈 배열 설정
+    setIsOverlayOpen(false);
+    return;
+  }
+  try {
+    const response = await api.get(
+      `${process.env.REACT_APP_API_BASE_URL}/search/dancers`,
+      {
+        params: {
+          query: normalizedSearch,
+          page: 1, // 기본 페이지 번호
+          size: 5, // 기본 사이즈
+        },
+      }
+    );
+    console.log('검색 결과:', response.data);
+    setSearchResults(response.data.data.results); // 검색 결과 설정
+    setIsOverlayOpen(true); // 오버레이 열기
+  } catch (error) {
+    console.error('검색 API 호출 중 오류:', error);
+    setSearchResults([]); // 오류 발생 시 빈 배열
+  }
+};
 
-       const navigate = useNavigate();
-      const handleNext = () => {
-        navigate("/signup4"); // "/next" 경로로 이동
-      };
+   // Overlay 열기 및 닫기 함수
+   const openOverlay = () => {
+    setIsOverlayOpen(true);
+  };
+
+  const closeOverlay = () => {
+    setIsOverlayOpen(false);
+  };
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Signup2 데이터 로컬스토리지에서 가져오기
+    const data = JSON.parse(localStorage.getItem('signup2Data'));
+    if (data) {
+      setSignup2Data(data); // 상태에 저장
+      console.log('Signup2에서 가져온 데이터:', data); // 데이터 출력
+    } else {
+      console.error('Signup2 데이터가 없습니다. 이전 단계로 이동합니다.');
+      navigate('/signup2'); // 데이터가 없으면 이전 단계로 이동
+    }
+  }, [navigate]);
+
+  const handleNext = async () => {
+    const requestBody = {
+      ...signup2Data,
+      preferredGenres: selectedGenres.map((genre) => genre.id), // Extract genre IDs
+      preferredDancers: selectedDancers.map((dancer) => dancer.id), // Extract dancer IDs
+    };
+    try {
+      const response = await api.put(
+        `${process.env.REACT_APP_API_BASE_URL}/users`, requestBody);
+        console.log("서버 응답:", response.data);
+      console.log('회원 정보 수정 성공:', response.data.data);
+      navigate('/signup4'); // 홈으로 이동
+    } catch (error) {
+      console.error('회원 정보 수정 실패:', error.response?.data || error);
+      alert('회원 정보 수정에 실패했습니다. 다시 시도해주세요.');
+    }
+  };
     
     return (
     <Layout>
@@ -65,11 +154,11 @@ const Signup3 = () => {
     <ButtonGrid>
     {genres.map((genre) => (
             <GenreButton
-              key={genre}
+              key={genre.id}
               onClick={() => toggleGenre(genre)}
-              isSelected={selectedGenres.includes(genre)}
+              isSelected={selectedGenres.some((g) => g.id === genre.id)}
             >
-              #{genre}
+              #{genre.name}
             </GenreButton>
           ))}
     </ButtonGrid>
@@ -84,37 +173,42 @@ const Signup3 = () => {
           value={favoriteDancer}
           onChange={(e) => setFavoriteDancer(e.target.value)}
         />
-        <SearchButton
-              // onClick={handleSearch}
-              // disabled={search.trim() === ''}
-            >
+        <SearchButton onClick={handleSearch}>
               <SearchIcon src={Searchicon} alt="search" />
             </SearchButton>
-
         </Search>
-      </Section>
-
-      {/* <Section>
-        <TitleContainer>
-        <Logo src={Logoimg} />
-        <Title1>가 추천하는 댄서</Title1>
-        </TitleContainer>
-        <ButtonGrid>
-          {recommendedDancers.map((dancer) => (
-            <RecommendedDancerButton
-              key={dancer}
-              onClick={() => toggleRecommendedDancer(dancer)}
-              isSelected={selectedRecommendedDancers.includes(dancer)}
-            >
-              #{dancer}
-            </RecommendedDancerButton>
+         {/* 선택된 댄서 표시 */}
+         <SelectedDancers>
+          {selectedDancers.map((dancer) => (
+            <DancerTag key={dancer.id}>
+              {dancer.name}
+              <RemoveButton onClick={() => removeDancer(dancer.id)}>
+                <Remove src={Close} />
+              </RemoveButton>
+              
+            </DancerTag>
           ))}
-        </ButtonGrid>
-      </Section> */}
+        </SelectedDancers>
+      </Section>
   </Form>
   <NextButton onClick = {handleNext}>
         <Next>가입 완료</Next>
       </NextButton>
+      {isOverlayOpen && (
+        <Overlay onclose={closeOverlay}
+        onSelectUser={addDancer}
+        searchResults={searchResults} >
+          <ResultList>
+            {searchResults.map((dancer) => (
+              <ResultItem key={dancer.id}>
+                <ResultImage src={dancer.image} alt={dancer.name} />
+                <DancerName>{dancer.name}</DancerName>
+                           
+              </ResultItem>
+            ))}
+          </ResultList>
+        </Overlay>
+      )}
   </Layout>
   )
 }
@@ -190,7 +284,7 @@ line-height: normal;
 
 const Form = styled.div`
 width: 900px;
-height: 780px;
+height: 626px;
 flex-shrink: 0;
 border-radius: 25px;
 border: 2px solid var(--main_purple, #9819C3);
@@ -226,16 +320,6 @@ margin-left : 191px;
 display : flex;
 `
 
-const Title1 = styled.div`
-color: var(--main_white, #FFF);
-text-align: center;
-font-family: Pretendard;
-font-size: 22px;
-font-style: normal;
-font-weight: 600;
-line-height: normal;
-margin-bottom : -20px;
-`
 const Select = styled.div`
 color: var(--text_secondary-gray, #B2B2B2);
 font-family: Pretendard;
@@ -304,7 +388,7 @@ flex-shrink: 0;
 margin-top : 26px;
 margin-left : 193px;
 border-radius: 8px;
-border: 1px solid #666;
+border: 1px solid var(--sub_light-gray, #DDD);
 //padding-left : 38px;
 `
 const SearchInput = styled.input`
@@ -346,6 +430,7 @@ border-radius: 15px;
 background: var(--main_purple, #9819C3);
 margin-top : 70px;
 cursor : pointer;
+margin-bottom : 448px;
 `
 
 const Next = styled.div`
@@ -356,3 +441,85 @@ font-size: 20px;
 font-style: normal;
 font-weight: 600;
 line-height: normal;`
+
+const ResultList = styled(Overlay)`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #1e1e1e;
+  color: #fff;
+  border: 1px solid #333;
+  border-radius: 4px;
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+`;
+
+const ResultItem = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  &:hover {
+    background-color: #333;
+  }
+`;
+
+const ResultImage = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+`;
+
+const SelectedDancers = styled.div`
+  display: flex;
+  gap: 17px;
+  flex-wrap: wrap;
+  margin-left : 193px;
+  margin-top : 35px;
+`;
+
+const DancerTag = styled.div`
+  display: flex;
+  align-items: center;
+  
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  border: 1px solid var(--sub_light-gray, #DDD);
+  height : 34px;
+  width : 160px;
+  color: var(--sub_light-gray, #DDD);
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  position : relative;
+`;
+
+const RemoveButton = styled.button`
+width: 27px;
+height: 27px;
+flex-shrink: 0;
+  margin-left: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color : white;
+  position: absolute; /* 부모(DancerTag) 기준으로 배치 */
+  top: -15px; /* 이름의 오른쪽 상단에 배치 */
+  right: -8px;
+`;
+
+const Remove = styled.img`
+`
+
+const DancerName = styled.div`
+  margin-left: 20px;
+  flex: 1;
+`;
+

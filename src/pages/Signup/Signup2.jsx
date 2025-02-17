@@ -11,7 +11,7 @@ const Signup2 = () =>{
   const [nickname, setNickname] = useState("");
   const [gender, setGender] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [isNicknameValid, setIsNicknameValid] = useState(null); 
   const [preview, setPreview] = useState(null);
   const [isDefaultImage, setIsDefaultImage] = useState(true); // 기본 이미지 여부 상태
@@ -21,14 +21,28 @@ const Signup2 = () =>{
   const [user, setUser] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
 
-  const handleNicknameCheck = () => {
-    // 닉네임 중복 확인 로직 (예: 서버 요청)
-    if (nickname === "사용가능") {
-      setIsNicknameValid(true);
-    } else {
-      setIsNicknameValid(false);
+  const handleNicknameCheck = async () => {
+    try {
+      const response = await api.get(`/users/check-nickname?nickname=${nickname}`);
+      if (response.data.code === 200) {
+        if (response.data.data === true) {
+          setIsNicknameValid(true); // 사용 가능한 닉네임
+          console.log("사용 가능한 닉네임입니다.");
+        } else {
+          setIsNicknameValid(false); // 중복된 닉네임
+          console.log("중복된 닉네임입니다.");
+        }
+      } else {
+        console.error("닉네임 확인 요청 실패:", response.data.message);
+        setIsNicknameValid(false); // 기본적으로 유효하지 않다고 설정
+      }
+    } catch (error) {
+      console.error("닉네임 확인 중 오류 발생:", error);
+      setIsNicknameValid(false); // 기본적으로 유효하지 않다고 설정
     }
   };
+  
+  
 
    // 닉네임 유효성 검사 함수
    const validateNickname = (value) => {
@@ -55,19 +69,33 @@ const Signup2 = () =>{
 
 // 전화번호 유효성 검사 함수
 const validatePhone = (value) => {
-  if (!/^\d{11}$/.test(value)) {
+  // 전화번호 형식: 000-0000-0000 (하이픈 포함)
+  const phoneRegex = /^\d{3}-\d{4}-\d{4}$/;
+
+  if (!phoneRegex.test(value)) {
     return "적절하지 않은 형식입니다. 전화번호 및 형식을 다시 확인해주세요.";
   }
-  return ""; // 유효한 경우
+  return ""; // 유효한 경우 빈 문자열 반환
 };
 
-// 전화번호 입력 핸들러
 const handlePhoneChange = (e) => {
-  const value = e.target.value;
-  // 숫자만 입력하도록 필터링
-  const onlyNumbers = value.replace(/\D/g, ""); // 숫자가 아닌 문자 제거
-  setPhone(onlyNumbers); // 입력값 업데이트
-  setPhoneError(validatePhone(onlyNumbers)); // 유효성 검사 결과 업데이트
+  let value = e.target.value;
+
+  // 숫자만 남기기
+  const onlyNumbers = value.replace(/\D/g, ""); 
+
+  // 하이픈 자동 삽입 (000-0000-0000 형식)
+  if (onlyNumbers.length <= 3) {
+    value = onlyNumbers;
+  } else if (onlyNumbers.length <= 7) {
+    value = `${onlyNumbers.slice(0, 3)}-${onlyNumbers.slice(3)}`;
+  } else {
+    value = `${onlyNumbers.slice(0, 3)}-${onlyNumbers.slice(3, 7)}-${onlyNumbers.slice(7, 11)}`;
+  }
+
+  setPhoneNumber(value); // 입력값 업데이트
+  console.log("현재 입력된 전화번호:", value); // 값이 정상적으로 들어가는지 확인
+  setPhoneError(validatePhone(value)); // 유효성 검사 결과 업데이트
 };
 
 
@@ -92,7 +120,7 @@ const handlePhoneChange = (e) => {
   }
 
   // 전화번호 유효성 검사
-  if (!phone || phoneError) {
+  if (!phoneNumber || phoneError) {
     setShowAlert(true);
     console.log("전화번호가 입력되지 않았습니다.");
     return;
@@ -104,8 +132,20 @@ const handlePhoneChange = (e) => {
     console.log("프로필 사진이 설정되지 않았습니다.");
     return;
   }
-    navigate("/signup3"); // "/next" 경로로 이동
+
+   // 2단계 데이터 로컬 저장
+   const signup2Data = {
+    nickname,
+    gender,
+    phoneNumber,
+    profileImage: isDefaultImage ? 'https://example.com/default-profile.jpg' : uploadedImage,
   };
+
+  localStorage.setItem('signup2Data', JSON.stringify(signup2Data)); // 로컬 저장
+  console.log(signup2Data);
+  navigate('/signup3'); // 다음 단계로 이동
+};
+   
 
    // 파일 업로드 처리
    const handleFileUpload = (event) => {
@@ -209,12 +249,12 @@ const handlePhoneChange = (e) => {
 
         <Field>
           <Label>전화번호</Label>
-          <Message>'-' 기호를 제외한 숫자만 입력해주세요.</Message>
+          <Message>전화번호는 000-0000-0000 형식이어야 합니다.</Message>
           <InputBox>
           <Input2
             type="tel"
             placeholder="전화번호를 입력하세요."
-            value={phone}
+            value={phoneNumber}
             onChange={handlePhoneChange}
           />
           </InputBox>
@@ -224,7 +264,7 @@ const handlePhoneChange = (e) => {
         <Field>
           <Label>프로필 사진</Label>
           <ProfileContainer>
-       <ProfileImageWrapper>
+      <ProfileImageWrapper>
          {/* 업로드한 이미지 미리보기 */}
          {isDefaultImage || !uploadedImage ? (
            <ProfileImage src={Profileimg} alt="프로필 이미지" />
@@ -467,6 +507,7 @@ font-weight: 600;
 line-height: normal;
 margin-top : 10px;
 margin-left : 21px;
+cursor : pointer;
 `
 
 const ValidMessage = styled.div`
