@@ -4,34 +4,58 @@ import { ReactComponent as Arrow } from "../../../../assets/arrow.svg"
 import sampleImage from '../../../../assets/image.png'
 import Pagination from '../../../../components/Pagination'
 import dummyChat from '../../../../store/mypage/dummyChat'
+import { useQuery } from '@tanstack/react-query'
+import LoadingSpinner from '../../../../components/LoadingSpinner'
+import api from '../../../../api/api'
 
 
 const MyChatList = () => {
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const perData = 6;
-  // const filteredList = data.slice(
-  //   perData * (currentPage - 1),
-  //   perData * currentPage
-  // );
+  const [currentPage, setCurrentPage] = useState(1);
+  const perData = 6;
 
-  const data = dummyChat;
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['userchat'],
+    queryFn: async () => {
+      const token = localStorage.getItem('token');
+      const response = await api.get('/chats/user', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.data.data.userId);
+      console.log(response.data.data.chatList);
+      return response.data.data.chatList || [];
+    },
+  });
+
+  // const filteredList = data ? data.slice(perData * (currentPage - 1), perData * currentPage) : [];
+
+  if (isLoading) {
+    return <LoadingSpinner isLoading={isLoading} />;
+  }
+
+  if (isError) {
+    return <div>Error: {error?.message}</div>;
+  }
 
   return (
     <>
       <ChatContainer>
-        {data.map((chat) => (
-          <ChatList key={chat.id}>
-            <ListItem>
-              <ListImage src={chat.images[0] || sampleImage} alt="Profile" />
-              <ListName> {chat.username} </ListName>
-              <ArrowContainer>
-                <Arrow />
-              </ArrowContainer>
-
-            </ListItem>
-
-          </ChatList>
-        ))}
+        {data.length > 0 ? (
+          data.map((chat) => (
+            <ChatList key={chat.dancerId}>
+              <ListItem>
+                <ListImage src={chat.profileImage[0] || sampleImage} alt="Profile" />
+                <ListName> {chat.dancerName} </ListName>
+                <ArrowContainer>
+                  <Arrow />
+                </ArrowContainer>
+              </ListItem>
+            </ChatList>
+          ))
+        ) : (
+          <div>No chats available</div> // You can add a fallback message if there's no data
+        )}
       </ChatContainer>
       {/* <PaginationContainer>
         <Pagination dataLength={data.length} perData={perData} currentPage={currentPage}
