@@ -34,7 +34,9 @@ const DancerForm = ({ setIsRegistered }) => {
     const isInstargramIdValid =
       formState.instargramId.trim().length > 0 &&
       formState.instargramId.trim().length <= 20;
-    const isOpenChatUrlValid = formState.openChatUrl.startsWith('http');
+    const isOpenChatUrlValid =
+      formState.openChatUrl.trim().length > 0 &&
+      formState.openChatUrl.trim().length <= 255;
     const isBioValid = formState.bio.length <= 80;
     const isPreferredpreferredGenresValid =
       formState.preferredGenres.length > 0 &&
