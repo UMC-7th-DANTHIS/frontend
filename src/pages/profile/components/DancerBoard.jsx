@@ -23,6 +23,7 @@ const ClassBoard = () => {
   const [selectedGenre, setSelectedGenre] = useState(1);
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
+  const [totalElements, setTotalElements] = useState(0); // 전체 요소 개수 상태 추가
   const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수
   const [isFetching, setIsFetching] = useState(false); // 로딩 상태
   const navigate = useNavigate();
@@ -40,7 +41,9 @@ const ClassBoard = () => {
         if (response.data.code === 200) {
           setData(response.data.data.dancers);
           setTotalPages(response.data.data.totalPages);
+          setTotalElements(response.data.data.totalElements); // totalElements 추가
           console.log("댄서 데이터를 성공적으로 불러왔습니다.");
+          console.log(response.data.data);
         } else {
           console.error("데이터를 불러오는 데 실패했습니다.");
         }
@@ -60,10 +63,14 @@ const ClassBoard = () => {
     setSelectedGenre(genre);
   };
 
-  // 수업 선택 핸들러
-  // const handleDancerClick = (dancerId) => {
-  //   navigate(`/dancerprofile/${dancerId}`);
-  // };
+  const handlePageChange = (newPage) => {
+    console.log(`페이지 변경 요청: ${newPage} / 총 페이지: ${totalPages}`);
+    
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+  
 
   // 현재 페이지에 보여질 요소 계산
   const getCurrentPageData = () => {
@@ -100,10 +107,10 @@ const ClassBoard = () => {
       </Classes>
       {/* <PaginationContainer> */}
         <Pagination
-          dataLength={data.length}
+          dataLength={totalElements}
           perData={perData}
           currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
+          setCurrentPage={handlePageChange}
         />
       {/* </PaginationContainer> */}
       </BoardContainer>

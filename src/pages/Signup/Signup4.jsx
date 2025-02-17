@@ -1,12 +1,32 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Shape1 from '../../assets/shape/shape1.svg';
 import Shape2 from '../../assets/shape/shape2.svg';
 import Logoimg from '../../assets/logo.svg';
 import Loginbtn from '../../assets/Login.svg';
+import api from '../../api/api'
 
 const Signup4 = () => {
+  const [user, setUser] = useState(null);
+  const [nickname, setNickname] = useState("");
+  
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await api.get("/users/me"); // API 요청 (토큰 자동 포함)
+        console.log("유저 정보:", response.data);
+        setUser(response.data.data);
+        setNickname(response.data.data.nickname || ""); // 닉네임 값 설정
+        // setEmail(response.data.data.email  || "");
+      } catch (error) {
+        console.error("유저 정보를 불러오는 중 오류 발생:", error);
+      }
+    };
+
+    fetchUser();
+  }, []);
   const navigate = useNavigate();
 
   const handleNext = () => {
@@ -39,7 +59,7 @@ const Signup4 = () => {
       </MenuContainer>
       <Content>
         <Line>
-          <Text>00님, </Text>
+          <Text>{nickname}님, </Text>
           <Logo src={Logoimg} />
           <Text>가입을 축하드려요!</Text>
         </Line>

@@ -17,19 +17,28 @@ const Signup3 = () => {
     const [isOverlayOpen, setIsOverlayOpen] = useState(false); // Overlay 상태 추가
     const [selectedDancers, setSelectedDancers] = useState([]); // 선택된 댄서 상태
    
-    const genres = ["힙합", "걸스힙합", "팝핑", "락킹", "왁킹", "걸리시/힐", "크럼프", "텃팅", "코레오", "K-pop", "없음"];
-    const dancers = [
-      { id: 1, name: "Qnd", image: "sunny.jpg" },
-      { id: 2, name: "타니아", image: "tania.jpg" },
-      { id: 3, name: "뉴비", image: "newbie.jpg" },
-      { id: 4, name: "애니", image: "annie.jpg" },
-      { id: 5, name: "누누", image: "nunu.jpg" },
+    const genres = [
+      { id: 1, name: '힙합' },
+      { id: 2, name: '걸스힙합' },
+      { id: 3, name: '팝핑' },
+      { id: 4, name: '락킹' },
+      { id: 5, name: '왁킹' },
+      { id: 6, name: '걸리시/힐' },
+      { id: 7, name: '크럼프' },
+      { id: 8, name: '텃팅' },
+      { id: 9, name: '코레오' },
+      { id: 10, name: 'K-pop' },
+      { id: 11, name: '없음' }
+
     ];
+    
     const toggleGenre = (genre) => {
-        setSelectedGenres((prev) =>
-          prev.includes(genre) ? prev.filter((g) => g !== genre) : [...prev, genre]
-        );
-      };
+      setSelectedGenres((prev) =>
+        prev.some((g) => g.id === genre.id)
+          ? prev.filter((g) => g.id !== genre.id)
+          : [...prev, genre]
+      );
+    };
 
       const addDancer = (user) => {
         if (!selectedDancers.some((dancer) => dancer.id === user.id)) {
@@ -96,14 +105,14 @@ const Signup3 = () => {
   const handleNext = async () => {
     const requestBody = {
       ...signup2Data,
-      preferredGenres: selectedGenres, // 3단계 선호 장르
-      preferredDancers: selectedDancers.map((dancer) => dancer.id), // 3단계 선호 댄서
+      preferredGenres: selectedGenres.map((genre) => genre.id), // Extract genre IDs
+      preferredDancers: selectedDancers.map((dancer) => dancer.id), // Extract dancer IDs
     };
     try {
       const response = await api.put(
-        `${process.env.REACT_APP_API_BASE_URL}/search/dancers`, requestBody);
-
-      console.log('회원 정보 수정 성공:', response.data);
+        `${process.env.REACT_APP_API_BASE_URL}/users`, requestBody);
+        console.log("서버 응답:", response.data);
+      console.log('회원 정보 수정 성공:', response.data.data);
       navigate('/signup4'); // 홈으로 이동
     } catch (error) {
       console.error('회원 정보 수정 실패:', error.response?.data || error);
@@ -145,11 +154,11 @@ const Signup3 = () => {
     <ButtonGrid>
     {genres.map((genre) => (
             <GenreButton
-              key={genre}
+              key={genre.id}
               onClick={() => toggleGenre(genre)}
-              isSelected={selectedGenres.includes(genre)}
+              isSelected={selectedGenres.some((g) => g.id === genre.id)}
             >
-              #{genre}
+              #{genre.name}
             </GenreButton>
           ))}
     </ButtonGrid>

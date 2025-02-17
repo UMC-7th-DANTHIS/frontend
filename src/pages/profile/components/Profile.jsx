@@ -6,13 +6,13 @@ import DancerPic from '../../../assets/dummyphoto/dancer.svg'
 import api from '../../../api/api'
 
 const Profile = ({dancer}) => {
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(null);
   const {dancerId} = useParams();
 
- // dancer가 로드된 후 초기 찜 상태 설정
+ // 서버에서 받은 isFavorite 값으로 초기 상태 설정
  useEffect(() => {
-  if (dancer?.isLiked !== undefined) {
-    setIsLiked(dancer.isLiked);
+  if (dancer?.isFavorite !== undefined) {
+    setIsLiked(dancer.isFavorite);
   }
 }, [dancer]);
 

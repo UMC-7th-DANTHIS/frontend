@@ -11,7 +11,7 @@ const Signup2 = () =>{
   const [nickname, setNickname] = useState("");
   const [gender, setGender] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [isNicknameValid, setIsNicknameValid] = useState(null); 
   const [preview, setPreview] = useState(null);
   const [isDefaultImage, setIsDefaultImage] = useState(true); // 기본 이미지 여부 상태
@@ -69,19 +69,33 @@ const Signup2 = () =>{
 
 // 전화번호 유효성 검사 함수
 const validatePhone = (value) => {
-  if (!/^\d{11}$/.test(value)) {
+  // 전화번호 형식: 000-0000-0000 (하이픈 포함)
+  const phoneRegex = /^\d{3}-\d{4}-\d{4}$/;
+
+  if (!phoneRegex.test(value)) {
     return "적절하지 않은 형식입니다. 전화번호 및 형식을 다시 확인해주세요.";
   }
-  return ""; // 유효한 경우
+  return ""; // 유효한 경우 빈 문자열 반환
 };
 
-// 전화번호 입력 핸들러
 const handlePhoneChange = (e) => {
-  const value = e.target.value;
-  // 숫자만 입력하도록 필터링
-  const onlyNumbers = value.replace(/\D/g, ""); // 숫자가 아닌 문자 제거
-  setPhone(onlyNumbers); // 입력값 업데이트
-  setPhoneError(validatePhone(onlyNumbers)); // 유효성 검사 결과 업데이트
+  let value = e.target.value;
+
+  // 숫자만 남기기
+  const onlyNumbers = value.replace(/\D/g, ""); 
+
+  // 하이픈 자동 삽입 (000-0000-0000 형식)
+  if (onlyNumbers.length <= 3) {
+    value = onlyNumbers;
+  } else if (onlyNumbers.length <= 7) {
+    value = `${onlyNumbers.slice(0, 3)}-${onlyNumbers.slice(3)}`;
+  } else {
+    value = `${onlyNumbers.slice(0, 3)}-${onlyNumbers.slice(3, 7)}-${onlyNumbers.slice(7, 11)}`;
+  }
+
+  setPhoneNumber(value); // 입력값 업데이트
+  console.log("현재 입력된 전화번호:", value); // 값이 정상적으로 들어가는지 확인
+  setPhoneError(validatePhone(value)); // 유효성 검사 결과 업데이트
 };
 
 
@@ -106,7 +120,7 @@ const handlePhoneChange = (e) => {
   }
 
   // 전화번호 유효성 검사
-  if (!phone || phoneError) {
+  if (!phoneNumber || phoneError) {
     setShowAlert(true);
     console.log("전화번호가 입력되지 않았습니다.");
     return;
@@ -123,7 +137,7 @@ const handlePhoneChange = (e) => {
    const signup2Data = {
     nickname,
     gender,
-    phone,
+    phoneNumber,
     profileImage: isDefaultImage ? 'https://example.com/default-profile.jpg' : uploadedImage,
   };
 
@@ -235,12 +249,12 @@ const handlePhoneChange = (e) => {
 
         <Field>
           <Label>전화번호</Label>
-          <Message>'-' 기호를 제외한 숫자만 입력해주세요.</Message>
+          <Message>전화번호는 000-0000-0000 형식이어야 합니다.</Message>
           <InputBox>
           <Input2
             type="tel"
             placeholder="전화번호를 입력하세요."
-            value={phone}
+            value={phoneNumber}
             onChange={handlePhoneChange}
           />
           </InputBox>
