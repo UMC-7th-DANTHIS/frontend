@@ -32,6 +32,7 @@ const ClassBoard = () => {
         );
 
         setClasses(response.data?.data);
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       } catch (error) {
         console.error('❌ 장르별 수업 정보를 불러오는 중 오류 발생:', error);
       }
