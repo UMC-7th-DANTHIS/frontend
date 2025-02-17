@@ -75,21 +75,24 @@ const Detail = ({ classData }) => {
       <Section>
         <Title>수업 사진</Title>
         <Images>
-          {classData.details?.danceClassImages.length > 0 ? (
+          {classData.details?.danceClassImages[0] === '' ? (
+            <Image
+              src={classData.dancer?.profileImage}
+              alt={`dancer profile of class #${classData?.id}`}
+            />
+          ) : (
             classData.details?.danceClassImages.map(
               (image, index) =>
                 image && (
                   <Image key={index} src={image} alt={`class #${index}`} />
                 )
             )
-          ) : (
-            <Image src={classData.dancer?.profileImage} />
           )}
         </Images>
       </Section>
       <Section>
         <MoreAboutDancer to={`/dancerprofile/${1}`}>
-          Parana 댄서에 대해 더 알고싶다면?
+          {classData.dancer?.name} 댄서에 대해 더 알고싶다면?
         </MoreAboutDancer>
       </Section>
     </Container>
@@ -193,12 +196,7 @@ const Image = styled.img`
   height: 400px;
   border-radius: 10px;
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; // 비율 유지
-  }
+  object-fit: cover; // 비율 유지
 `;
 const MoreAboutDancer = styled(Link)`
   display: flex;

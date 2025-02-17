@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
@@ -31,11 +31,15 @@ const ClassReservation = () => {
 
   const [searchParams] = useSearchParams();
   const urlTabQuery = searchParams.get('tab');
-  const tab = [
-    { name: '상세정보', query: 'detail' },
-    { name: '리뷰', query: 'reviews' },
-    { name: '별점', query: 'rating' }
-  ];
+  const tabRef = useRef(null);
+  const tab = useMemo(
+    () => [
+      { name: '상세정보', query: 'detail' },
+      { name: '리뷰', query: 'reviews' },
+      { name: '별점', query: 'rating' }
+    ],
+    []
+  );
 
   // 가격 포맷 함수
   const formatPrice = (price) => {
@@ -55,7 +59,7 @@ const ClassReservation = () => {
 
     const fetchLiked = async () => {
       try {
-        const response = await api.get(`/users/dance-classes`);
+        const response = await api.get(`/users/wishlists`);
         response.data.data?.danceClasses.find(
           (cls) => cls.id === Number(classId) && setIsLiked(true)
         );
@@ -79,7 +83,19 @@ const ClassReservation = () => {
     } else {
       navigate(`/classreservation/${classId}?tab=${urlTabQuery}`);
     }
-  }, [urlTabQuery]);
+  }, [classId, urlTabQuery, navigate, tab]);
+
+  // 채팅 시작
+  const handleChatClick = () => {
+    const startChat = async () => {
+      try {
+        await api.post(`/chats/${50}/start`);
+      } catch (error) {
+        console.error('❌ 1:1 채팅 신청 중 오류 발생:', error);
+      }
+    };
+    startChat();
+  };
 
   // 수업 찜 등록
   const postLiked = async () => {
@@ -132,7 +148,9 @@ const ClassReservation = () => {
           <Level level={classData?.difficulty} />
         </InfoContainer>
         <BtnContainer>
-          <ChatBtn type="button">댄서와 1:1 채팅하기</ChatBtn>
+          <ChatBtn type="button" onClick={() => handleChatClick()}>
+            댄서와 1:1 채팅하기
+          </ChatBtn>
           <LikeBtn
             type="button"
             onClick={() => handleLikeClick()}
@@ -142,7 +160,7 @@ const ClassReservation = () => {
           </LikeBtn>
         </BtnContainer>
       </Summary>
-      <Tabs>
+      <Tabs ref={tabRef}>
         {tab.map((element, index) => (
           <Tab
             key={index}
@@ -154,8 +172,8 @@ const ClassReservation = () => {
         ))}
       </Tabs>
       {currentTab === 0 && <DetailTab classData={classData} />}
-      {currentTab === 1 && <ReviewTab />}
-      {currentTab === 2 && <RatingTab />}
+      {currentTab === 1 && <ReviewTab tabRef={tabRef} />}
+      {currentTab === 2 && <RatingTab tabRef={tabRef} />}
     </Container>
   );
 };
