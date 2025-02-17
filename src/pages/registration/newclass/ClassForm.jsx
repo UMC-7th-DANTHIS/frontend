@@ -83,10 +83,10 @@ const ClassForm = ({ setIsRegistered }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // pricePerSession을 숫자로 변환
     const updatedFormState = {
       ...formState,
-      pricePerSession: Number(formState.pricePerSession) || 0 // 빈 값이면 0 처리
+      pricePerSession: Number(formState.pricePerSession) || 0, // 빈 값이면 0 처리
+      images: formState.images.filter((img) => img) // ''  값 제거
     };
 
     if (!isValid) {

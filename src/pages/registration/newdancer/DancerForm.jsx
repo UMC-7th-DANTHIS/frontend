@@ -63,9 +63,9 @@ const DancerForm = ({ setIsRegistered }) => {
   };
 
   // 댄서 정보 등록
-  const postDancer = async () => {
+  const postDancer = async (data) => {
     try {
-      await api.post('/dancers', formState, {
+      await api.post('/dancers', data, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -79,11 +79,17 @@ const DancerForm = ({ setIsRegistered }) => {
   // 수업 등록 폼 제출 핸들러
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const updatedFormState = {
+      ...formState,
+      dancerImages: formState.dancerImages.filter((img) => img) // ''  값 제거
+    };
+
     if (!isValid) {
       setShowInvalidAlert(true);
       return;
     }
-    postDancer();
+    postDancer(updatedFormState);
   };
 
   return (
