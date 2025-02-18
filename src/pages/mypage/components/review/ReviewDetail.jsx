@@ -18,6 +18,9 @@ const ReviewDetail = () => {
   const { id } = useParams();
   const [classData, setClassData] = useState(null);
   const selectedMenu = new URLSearchParams(location.search).get('menu') || 'myreview';
+
+  const className = location.state?.className || "";
+
   const handleMenuClick = (menuKey) => {
     navigate(`/mypage?menu=${menuKey}`);
   };
@@ -31,7 +34,6 @@ const ReviewDetail = () => {
     setReview(e.target.value);
   }
   const handleTitle = (e) => {
-
     setTitle(e.target.value);
   }
 
@@ -53,15 +55,15 @@ const ReviewDetail = () => {
   const handleClickCancel = () => setShowAlert(true);
   const hideClickCancel = () => setShowAlert(false);
 
+
   return (
     <>
       <Container>
         <MypageSidebar selectedMenu={selectedMenu} onMenuClick={handleMenuClick} />
 
-
         {classData && (
           <ReviewContainer>
-            <ClassTitle>{classData.className}</ClassTitle>
+            <ClassTitle>{className}</ClassTitle>
             <Title>리뷰 작성</Title>
             <Notice>
               <li> * 제목은 최대 50자까지 입력 가능합니다. </li>
@@ -210,3 +212,4 @@ const SubmitButton = styled.button`
 const ColoredText = styled.span`
   color: #A60F62;
 `
+
