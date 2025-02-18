@@ -1,4 +1,4 @@
-const hashTagID = [
+export const hashTagID = [
   { id: '1', hashTag: '강렬한' },
   { id: '2', hashTag: '나른한' },
   { id: '3', hashTag: '에너저틱' },
@@ -13,7 +13,7 @@ const hashTagID = [
   { id: '12', hashTag: '취미' }
 ];
 
-const DanceGenre = [
+export const DanceGenre = [
   { id: '1', Genre: '힙합' },
   { id: '2', Genre: '걸스힙합' },
   { id: '3', Genre: '팝핑' },
