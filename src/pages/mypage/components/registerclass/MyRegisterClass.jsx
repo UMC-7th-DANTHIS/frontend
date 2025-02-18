@@ -8,9 +8,10 @@ import { useNavigate } from 'react-router-dom';
 import Pagination from '../../../../components/Pagination';
 import NoRegister from '../NoRegister';
 import Alert from '../../../../components/Alert';
-import { useQuery } from '@tanstack/react-query';
+import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import api from '../../../../api/api';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
+import NoDancer from '../NoDancer';
 
 const MyRegisterClass = () => {
   const [selectedClass, setSelectedClass] = useState(null);
@@ -19,6 +20,7 @@ const MyRegisterClass = () => {
   const [idDelete, setIdDelete] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 9;
+  const queryClient = useQueryClient();
 
   const { data, isLoading, isError, error } = useQuery(
     {
@@ -30,18 +32,25 @@ const MyRegisterClass = () => {
             'Authorization': `Bearer ${token}`,
           },
         });
-        console.log(response.data.data.danceClasses);
+        // console.log(response.data.data.danceClasses);
         return response.data.data.danceClasses || [];
       },
     }
   );
+
+  const deleteClassMutation = useMutation({
+    mutationFn: (classId) => api.delete(`/dance-classes/${classId}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['userregister'] });
+    },
+  });
 
   if (isLoading) {
     return <LoadingSpinner isLoading={isLoading} />;
   }
   if (isError) {
     if (error?.response?.status === 404) {
-      return <NoRegister />;
+      return <NoDancer />
     }
     return <div>Error: {error?.message}</div>;
   }
@@ -73,6 +82,13 @@ const MyRegisterClass = () => {
 
   const hideShowAlert = () => {
     setShowAlert(false);
+  };
+
+  const handleDelete = () => {
+    if (idDelete) {
+      deleteClassMutation.mutate(idDelete);
+      setShowAlert(false);
+    }
   };
 
   return (
@@ -115,6 +131,8 @@ const MyRegisterClass = () => {
                         showButtons={true}
                         confirmLabel="취소"
                         cancelLabel="삭제하기"
+                        onCancel={handleDelete}
+                        onConfirm={hideShowAlert}
                       />
                     )}
                   </IconContainer>
