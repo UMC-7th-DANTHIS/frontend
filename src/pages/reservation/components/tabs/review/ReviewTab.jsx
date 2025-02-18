@@ -5,7 +5,7 @@ import Review from './Review';
 import Pagination from '../../../../../components/Pagination';
 import api from '../../../../../api/api';
 
-const ReviewTab = () => {
+const ReviewTab = ({ tabRef }) => {
   const location = useLocation();
   const [reviews, setReviews] = useState([]);
   const { classId } = useParams();
@@ -13,6 +13,9 @@ const ReviewTab = () => {
   const perData = 5; // 페이지 당 보여질 요소 개수
 
   const { fromReviewDetail, page } = location.state || {}; // 이동했던 페이지로부터 이전 페이지네이션 정보를 전달 받음
+  if (tabRef.current) {
+    tabRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 
   const fetchReviews = useCallback(
     async (page) => {
@@ -44,20 +47,27 @@ const ReviewTab = () => {
 
   return (
     <Container>
-      {reviews.classReviews?.map((review, index) => (
-        <Review
-          key={index}
-          review={review}
-          classId={reviews?.id}
-          page={reviews.pagination?.currentPage}
-        />
-      ))}
-      <Pagination
-        dataLength={reviews.pagination?.totalReviews}
-        perData={perData}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-      />
+      {Array.isArray(reviews?.classReviews) &&
+      reviews?.classReviews.length === 0 ? (
+        <Notice>등록된 리뷰가 없습니다.</Notice>
+      ) : (
+        <>
+          {reviews.classReviews?.map((review, index) => (
+            <Review
+              key={index}
+              review={review}
+              classId={reviews?.id}
+              page={reviews.pagination?.currentPage}
+            />
+          ))}
+          <Pagination
+            dataLength={reviews.pagination?.totalReviews}
+            perData={perData}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </>
+      )}
     </Container>
   );
 };
@@ -70,4 +80,14 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   margin: 39px 0;
+  min-height: 350px;
+`;
+const Notice = styled.div`
+  color: var(--main_white, #fff);
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 `;

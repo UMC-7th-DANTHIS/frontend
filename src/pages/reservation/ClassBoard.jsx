@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
 import Pagination from '../../components/Pagination';
-import dancerImg from '../../assets/dummyphoto/dancer.svg';
 import api from '../../api/api';
 
 const ClassBoard = () => {
@@ -32,7 +31,8 @@ const ClassBoard = () => {
           `/dance-classes?genre=${genreId}&page=${currentPage}`
         );
 
-        setClasses(response.data.data.danceClasses);
+        setClasses(response.data?.data);
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       } catch (error) {
         console.error('❌ 장르별 수업 정보를 불러오는 중 오류 발생:', error);
       }
@@ -62,10 +62,10 @@ const ClassBoard = () => {
       <Line />
       <BoardContainer>
         <Classes>
-          {classes.map((cls) => (
+          {classes.danceClasses?.map((cls) => (
             <Class to={`/classreservation/${cls.id}`} key={cls.id}>
               <Image
-                src={cls.thumbnailImage ? cls.thumbnailImage : dancerImg}
+                src={cls.thumbnailImage}
                 alt={`class #${cls.id} thumbnail`}
               />
               <Title>{cls.className}</Title>
@@ -74,7 +74,7 @@ const ClassBoard = () => {
           ))}
         </Classes>
         <Pagination
-          dataLength={classes.length}
+          dataLength={classes.totalElements}
           perData={perData}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
@@ -161,12 +161,7 @@ const Image = styled.img`
   height: 220px;
   border-radius: 10px;
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; // 비율 유지
-  }
+  object-fit: cover;
 `;
 const Title = styled.div`
   margin-top: 9px;

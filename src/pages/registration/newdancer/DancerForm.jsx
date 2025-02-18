@@ -34,7 +34,9 @@ const DancerForm = ({ setIsRegistered }) => {
     const isInstargramIdValid =
       formState.instargramId.trim().length > 0 &&
       formState.instargramId.trim().length <= 20;
-    const isOpenChatUrlValid = formState.openChatUrl.startsWith('http');
+    const isOpenChatUrlValid =
+      formState.openChatUrl.trim().length > 0 &&
+      formState.openChatUrl.trim().length <= 255;
     const isBioValid = formState.bio.length <= 80;
     const isPreferredpreferredGenresValid =
       formState.preferredGenres.length > 0 &&
@@ -61,14 +63,13 @@ const DancerForm = ({ setIsRegistered }) => {
   };
 
   // 댄서 정보 등록
-  const postDancer = async () => {
+  const postDancer = async (data) => {
     try {
-      const response = await api.post('/dancers', formState, {
+      await api.post('/dancers', data, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
-      console.log('댄서 등록 성공:', response.data);
       setIsRegistered(true);
     } catch (error) {
       console.error('댄서 등록 실패:', error.response?.data || error.message);
@@ -77,13 +78,18 @@ const DancerForm = ({ setIsRegistered }) => {
 
   // 수업 등록 폼 제출 핸들러
   const handleSubmit = (e) => {
-    console.log(formState);
     e.preventDefault();
+
+    const updatedFormState = {
+      ...formState,
+      dancerImages: formState.dancerImages.filter((img) => img) // ''  값 제거
+    };
+
     if (!isValid) {
       setShowInvalidAlert(true);
       return;
     }
-    postDancer();
+    postDancer(updatedFormState);
   };
 
   return (

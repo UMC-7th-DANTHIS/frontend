@@ -1,18 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
-const genres = [
-  { id: 1, name: '힙합' },
-  { id: 2, name: '걸스힙합' },
-  { id: 3, name: '팝핑' },
-  { id: 4, name: '락킹' },
-  { id: 5, name: '왁킹' },
-  { id: 6, name: '걸리시/힐' },
-  { id: 7, name: '크럼프' },
-  { id: 8, name: '텃팅' },
-  { id: 9, name: '코레오' },
-  { id: 10, name: 'K-pop' }
-];
+import { DanceGenre as genres } from '../../../api/schema';
 
 const GenreSelectorDancer = ({ selectedGenres, handleFormChange }) => {
   const maxGenresLength = 2;
@@ -41,7 +29,7 @@ const GenreSelectorDancer = ({ selectedGenres, handleFormChange }) => {
           selected={selectedGenres.includes(genre.id)}
           onClick={() => handleSelect(genre.id)}
         >
-          #{genre.name}
+          #{genre.Genre}
         </GenreBtn>
       ))}
     </GenreWrapper>
@@ -65,7 +53,7 @@ const GenreSelectorClass = ({ selectedGenre, handleFormChange }) => {
           selected={selectedGenre === genre.id}
           onClick={() => handleSelect(genre.id)}
         >
-          #{genre.name}
+          #{genre.Genre}
         </GenreBtn>
       ))}
     </GenreWrapper>

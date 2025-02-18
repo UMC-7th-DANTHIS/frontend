@@ -16,7 +16,7 @@ const formatDateWithTime = (date) => {
   }
 
   return new Intl.DateTimeFormat('ko-KR', {
-    year: 'numeric',
+    year: '2-digit',
     month: '2-digit',
     day: '2-digit',
     hour: 'numeric',
