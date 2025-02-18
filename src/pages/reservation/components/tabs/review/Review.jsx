@@ -19,7 +19,7 @@ const Review = ({ review, classId, page }) => {
   return (
     <Container>
       <InfoWrapper>
-        <ProfileImage />
+        <ProfileImage src={review.authorProfileImage} alt="author's profile" />
         <Data>
           <Name>{review.author}</Name>
           <Title>{review.title}</Title>
