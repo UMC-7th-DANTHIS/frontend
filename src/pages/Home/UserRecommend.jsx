@@ -6,7 +6,7 @@ import ForUserBanner from '../../components/Home/ForUserBanner';
 import ForDancer from '../../components/Home/ForDancer';
 import ForClass from '../../components/Home/ForClass';
 
-const UserRecommend = ({ dummyUserDancer, dummyUserClass }) => {
+const UserRecommend = ({ dummyUserDancer, dummyUserClass }, danceclass) => {
   const { user } = useOutletContext();
 
   return (

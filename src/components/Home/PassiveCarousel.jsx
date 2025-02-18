@@ -6,7 +6,7 @@ import HotClass2 from '../../assets/main/NowHotClass/HotDancer2.svg';
 import HotClass3 from '../../assets/main/NowHotClass/HotDancer3.svg';
 import HotClass4 from '../../assets/main/NowHotClass/HotDancer4.svg';
 
-const PassiveCarousel = () => {
+const PassiveCarousel = (danceclass) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const classes = [HotClass1, HotClass2, HotClass3, HotClass4];
