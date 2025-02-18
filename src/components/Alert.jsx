@@ -7,9 +7,10 @@ const Alert = ({
   message,
   onClose,
   onCancel,
+  onConfirm,
   messageColor,
   messagesize,
-  mariginsize, //margin-top 설정
+  mariginsize,
   ContainerWidth,
   ContainerHeight,
   AlertWidth,
@@ -18,8 +19,11 @@ const Alert = ({
   confirmLabel = "예",
   cancelLabel = "아니요"
 }) => {
-  const handleClick = (e) => {
+  const handleConfirm = (e) => {
     e.stopPropagation();
+    if (onConfirm) {
+      onConfirm();
+    }
     if (onClose) {
       onClose();
     }
@@ -32,17 +36,21 @@ const Alert = ({
     }
   }
 
+  const handleClose = (e) => {
+    e.stopPropagation();
+    if (onClose) {
+      onClose();
+    }
+  };
+
   return (
     <AlertOverlay>
       <AlertContainer width={AlertWidth} height={AlertHeight} onClick={e => e.stopPropagation()}>
-        <CloseButton onClick={handleClick}>
+        <CloseButton onClick={handleClose}>
           <CloseIcon />
         </CloseButton>
-        {/* 흰색 부분 width랑 height 설정 */}
         <TextContainer width={ContainerWidth} height={ContainerHeight}>
-          {/* 제목 */}
           {title && <AlertTitle>{title}</AlertTitle>}
-          {/* 내용이랑 text 색 설정 / 기본색은 검정 */}
           <AlertMessage
             color={messageColor}
             fontSize={messagesize}
@@ -51,11 +59,10 @@ const Alert = ({
             {message}
           </AlertMessage>
         </TextContainer>
-        {/* 예 아니요 버튼 유무 true/false로 설정 */}
         {showButtons && (
           <Buttons>
             <Cancel onClick={handleCancel}>{cancelLabel}</Cancel>
-            <Confirm onClick={handleClick}>{confirmLabel}</Confirm>
+            <Confirm onClick={handleConfirm}>{confirmLabel}</Confirm>
           </Buttons>
         )}
       </AlertContainer>

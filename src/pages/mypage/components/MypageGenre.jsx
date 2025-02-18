@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-const MypageGenre = ({ genreSelect, onGenreChange }) => {
+const MypageGenre = ({ genreSelect, selectedGenres: initialGenres, onGenreChange }) => {
   const genres = [
     "힙합",
     "걸스힙합",
@@ -16,33 +16,37 @@ const MypageGenre = ({ genreSelect, onGenreChange }) => {
     "없음"
   ];
 
-  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [selectedGenres, setSelectedGenres] = useState(initialGenres || []);
+
+  useEffect(() => {
+    setSelectedGenres(initialGenres || []);
+  }, [initialGenres]);
 
   const handleGenreClick = (genre) => {
+    const genreIndex = genres.indexOf(genre) + 1;
+
     setSelectedGenres((prevSelectedGenres) => {
-      if (prevSelectedGenres.includes(genre)) {
-        return prevSelectedGenres.filter((selected) => selected !== genre);
+      if (prevSelectedGenres.includes(genreIndex)) {
+        const newGenres = prevSelectedGenres.filter((selected) => selected !== genreIndex);
+        onGenreChange(newGenres);
+        return newGenres;
       } else if (prevSelectedGenres.length < genreSelect) {
-        return [...prevSelectedGenres, genre];
+        const newGenres = [...prevSelectedGenres, genreIndex];
+        onGenreChange(newGenres);
+        return newGenres;
       }
       return prevSelectedGenres;
     });
   };
 
-  useEffect(() => {
-    if (onGenreChange) {
-      onGenreChange(selectedGenres);
-    }
-  }, [selectedGenres]);
-
   return (
     <div>
       <GenreWrapper>
-        {genres.map((genre) => (
+        {genres.map((genre, index) => (
           <GenreBtn
             key={genre}
             type="button"
-            selected={selectedGenres.includes(genre)}
+            selected={selectedGenres.includes(index + 1)}
             onClick={() => handleGenreClick(genre)}
           >
             #{genre}

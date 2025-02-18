@@ -1,14 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ReactComponent as StarFilled } from "../../../../assets/shape/filledYellowStar.svg";
 import { ReactComponent as StarNonfilled } from '../../../../assets/shape/nonfilledYellowStar.svg';
 import styled from 'styled-components';
 
-const ReviewStar = () => {
+const ReviewStar = ({ rating, setRating }) => {
   const totalStars = 5;
   const [starStates, setStarStates] = useState(Array(totalStars).fill(false));
 
+
+  useEffect(() => {
+    setStarStates(Array(totalStars).fill(false).map((_, i) => i < rating));
+  }, [rating]);
+
   const toggleStar = (index) => {
-    setStarStates(starStates.map((_, i) => i <= index));
+    const newRating = index + 1;
+    setRating(newRating);
   };
 
   return (

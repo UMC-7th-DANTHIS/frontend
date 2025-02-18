@@ -5,7 +5,6 @@ import { ReactComponent as EditIcon } from '../../../assets/shape/write.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/shape/trash.svg';
 import PictureBox from './PictureBox';
 
-
 const DancerPicture = ({ isFor, images, handleFormChange }) => {
   const maxImages = 3;
   const label = isFor === 'edit' ? 'Profile' : '';
@@ -14,23 +13,25 @@ const DancerPicture = ({ isFor, images, handleFormChange }) => {
     const file = e.target.files[0];
 
     if (file && file.type.startsWith('image/')) {
-      const updatedImages = images.map((image, i) =>
-        i === index ? file : image
-      );
+      const updatedImages = [...images];
+      updatedImages[index] = file;
       handleFormChange('images', updatedImages);
     }
 
     e.target.value = '';
   };
 
-  const getPreview = (file) => {
-    return file ? URL.createObjectURL(file) : '';
+  const getPreview = (image) => {
+    if (!image) return null;
+    if (image instanceof File) {
+      return URL.createObjectURL(image);
+    }
+    return image;
   };
 
   const deleteImage = (index) => {
-    const updatedImages = images.map((image, i) =>
-      i === index ? null : image
-    );
+    const updatedImages = [...images];
+    updatedImages[index] = null;
     handleFormChange('images', updatedImages);
   };
 
@@ -40,11 +41,12 @@ const DancerPicture = ({ isFor, images, handleFormChange }) => {
         <ImageWrapper key={index}>
           {index === 0 && <PictureBox label={label} />}
           <ImageLabel htmlFor={`image-${index}`} $needPointer={!images[index]}>
-            {!images[index] && <PictureIcon />}
-            {images[index] && (
+            {!images[index] ? (
+              <PictureIcon />
+            ) : (
               <PreviewImage
                 src={getPreview(images[index])}
-                alt={`image-${index}`}
+                alt={`Preview ${index + 1}`}
               />
             )}
           </ImageLabel>
@@ -74,6 +76,7 @@ const DancerPicture = ({ isFor, images, handleFormChange }) => {
           )}
         </ImageWrapper>
       ))}
+
     </Container>
   );
 };
@@ -89,7 +92,6 @@ const Container = styled.div`
 
 const ImageWrapper = styled.div`
   position: relative;
-
 `;
 
 const ImageLabel = styled.label`

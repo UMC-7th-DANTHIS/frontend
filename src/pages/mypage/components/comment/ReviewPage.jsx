@@ -1,32 +1,54 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import dummyReviews from '../../../../store/reservation/dummyReviews';
 import Pagination from '../../../../components/Pagination';
 import CommentsReview from './CommentsReview';
+import { useQuery } from '@tanstack/react-query';
+import api from '../../../../api/api';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
+
+const fetchUserReviews = async (currentPage, perData) => {
+  const token = localStorage.getItem('token');
+  const response = await api.get('/users/reviews', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    params: {
+      page: currentPage,
+      size: perData
+    }
+  });
+  console.log(response.data);
+  return {
+    reviews: response.data.data.reviews || [],
+    totalElements: response.data.data.totalElements || 0,
+  };
+};
 
 const ReviewPage = () => {
-  const [reviews, setReviews] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5;
 
-  useEffect(() => {
-    setReviews(dummyReviews);
-  }, []);
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['userreviews', currentPage, perData],
+    queryFn: () => fetchUserReviews(currentPage, perData),
+  });
 
-  const getCurrentPageData = () => {
-    const startIndex = (currentPage - 1) * perData;
-    const endIndex = startIndex + perData;
-    return reviews.slice(startIndex, endIndex);
-  };
+  if (isLoading) {
+    return <LoadingSpinner isLoading={isLoading} />;
+  }
+
+  if (isError) {
+    return <div>Error: {error?.message}</div>;
+  }
 
   return (
     <Container>
-      {getCurrentPageData().map((review, id) => (
+      {data.reviews.map((review, id) => (
         <CommentsReview key={id} review={review} />
       ))}
 
       <Pagination
-        dataLength={reviews.length}
+        dataLength={data.totalElements}
         perData={perData}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
