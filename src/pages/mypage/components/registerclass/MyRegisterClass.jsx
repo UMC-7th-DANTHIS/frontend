@@ -32,7 +32,7 @@ const MyRegisterClass = () => {
             'Authorization': `Bearer ${token}`,
           },
         });
-        // console.log(response.data.data.danceClasses);
+        console.log(response.data.data.danceClasses);
         return response.data.data.danceClasses || [];
       },
     }
@@ -71,8 +71,9 @@ const MyRegisterClass = () => {
     navigate(`/detail/${classId}`);
   };
 
-  const gotoRegister = () => {
-    navigate('/classregister');
+
+  const handlegoEdit = (classId) => {
+    navigate(`/classregister/${classId}`);
   };
 
   const handleShowAlert = (id) => {
@@ -102,7 +103,7 @@ const MyRegisterClass = () => {
                 <ContentWrapper>
                   <TitleText>{danceClass.className}</TitleText>
                   <IconContainer>
-                    <WriteIcon onClick={gotoRegister} />
+                    <WriteIcon onClick={() => handlegoEdit(danceClass.id)} />
                     <TrashIcon onClick={(e) => {
                       e.stopPropagation();
                       handleShowAlert(danceClass.id);
