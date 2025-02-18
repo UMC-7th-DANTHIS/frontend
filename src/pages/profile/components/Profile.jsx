@@ -48,6 +48,21 @@ const Profile = ({dancer}) => {
     }
   };
 
+  const handleChatClick = async () => {
+    try {
+      const response = await api.post(`/chats/${dancer.id}/start`);
+      if (response.data.code === 200) {
+        console.log('채팅 신청 성공:', response.data.message);
+        // 성공 시 처리 (예: 채팅 화면으로 이동)
+      } else {
+        console.error('채팅 신청 실패:', response.data.message);
+      }
+    } catch (error) {
+      console.error('채팅 신청 중 오류 발생:', error.response?.data || error.message);
+    }
+  };
+  
+
 
    // 소개글 포맷팅 함수
    const formatIntroduce = (text, maxLength = 32) => {
@@ -72,7 +87,7 @@ const Profile = ({dancer}) => {
     
       </InfoContainer>
       <ButtonContainer>
-        <ChatButton>댄서와 1:1 채팅하기</ChatButton>
+        <ChatButton onClick={handleChatClick}>댄서와 1:1 채팅하기</ChatButton>
         <LikeButton isLiked={isLiked} onClick = {handleLikeClick}>
           {isLiked ? "찜 취소하기" : "댄서 찜해놓기"}
         </LikeButton>
