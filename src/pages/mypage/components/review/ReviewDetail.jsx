@@ -61,6 +61,10 @@ const ReviewDetail = () => {
       alert("리뷰 내용을 작성해주세요.");
       return;
     }
+    if (!title.trim()) {
+      alert("리뷰 제목을 작성해주세요");
+      return;
+    }
 
     const reviewData = {
       title: title,
