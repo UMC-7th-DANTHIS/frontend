@@ -25,6 +25,7 @@ const ProfileDancer = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+        // console.log(response.data.data)
         const data = response.data.data;
 
         setFormState({
@@ -46,10 +47,37 @@ const ProfileDancer = () => {
   const handleFormChange = (key, value) => {
     setFormState((prev) => ({ ...prev, [key]: value }));
   };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('data', formState);
+
+    try {
+      const token = localStorage.getItem('token');
+
+      const updatedData = {
+        dancerName: formState.name,
+        instargramId: formState.instagram,
+        openChatUrl: formState.chatting,
+        bio: formState.introduce,
+        favoriteGenres: formState.genre,
+        history: formState.record,
+        imageUrlList: formState.images,
+      };
+
+      const response = await api.put('/dancers', updatedData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 200) {
+        console.log('업데이트 성공');
+        console.log(updatedData);
+      } else {
+        console.error('업데이트 에러 발생');
+      }
+    } catch (error) {
+      console.error('업데이트 에러', error);
+    }
   };
 
   const getImageUrl = (images) => {
@@ -116,6 +144,7 @@ const ProfileDancer = () => {
               isFor="edit"
               images={getImageUrl(formState.images)}
               handleFormChange={handleFormChange}
+
             />
           </DancerPictureContainer>
 
