@@ -6,6 +6,7 @@ import { ReactComponent as RemoveIcon } from '../../../../assets/buttons/remove.
 const ReviewForm = ({ title, review, handleTitle, handleReview }) => {
   const [selectedImages, setSelectedImages] = useState([]);
 
+
   const handleImageUpload = (newImage) => {
     if (selectedImages.length < 4) {
       setSelectedImages([...selectedImages, newImage]);
@@ -93,7 +94,6 @@ const ReviewBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  /* transition: height 0.3s ease; */
 `;
 
 const BoxTitle = styled.div`
