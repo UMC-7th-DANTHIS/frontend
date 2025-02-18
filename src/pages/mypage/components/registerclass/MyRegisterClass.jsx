@@ -58,8 +58,8 @@ const MyRegisterClass = () => {
     return Array.isArray(data) ? data.slice(startIndex, endIndex) : [];
   };
 
-  const handleImageClick = (index) => {
-    setSelectedClass(index);
+  const handleImageClick = (classId) => {
+    navigate(`/detail/${classId}`);
   };
 
   const gotoRegister = () => {

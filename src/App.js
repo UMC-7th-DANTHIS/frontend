@@ -23,6 +23,7 @@ import KakaoRedirectHandler from './pages/KakaoRedirectHandler';
 import ReviewDetailPage from './pages/reservation/ReviewDetailPage';
 import SearchLayout from './layout/SearchLayout';
 import SearchWrapper from './layout/SearchWrapper';
+import MyRegisterDetail from './pages/mypage/components/registerclass/MyRegisterDetail';
 
 function App() {
   return (
@@ -62,6 +63,7 @@ function App() {
           <Route path="/dancerprofile" element={<ProfileList />} />
           <Route path="/dancerprofile/:dancerId" element={<DancerProfile />} />
           <Route path="/review/:id" element={<ReviewDetail />} />
+          <Route path="/detail/:classId" element={<MyRegisterDetail />} />
         </Route>
       </Routes>
     </Router>

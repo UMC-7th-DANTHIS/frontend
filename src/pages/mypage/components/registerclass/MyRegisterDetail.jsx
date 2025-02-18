@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { ReactComponent as FocusedCircle } from "../../../../assets/shape/focusedcircle.svg"
-import SampleImage from '../../../../assets/image.png'
+import sampleImage from '../../../../assets/errorImage.svg'
 import { ReactComponent as PlusButton } from "../../../../assets/buttons/plus-button.svg"
 import { ReactComponent as Ask } from "../../../../assets/buttons/ask.svg"
 import AskAlert from '../../../../components/AskAlert'
@@ -9,12 +9,14 @@ import UserOverlay from '../../../../components/UserOverlay'
 import Pagination from '../../../../components/Pagination'
 import MyRegisterClass from './MyRegisterClass'
 import dummyRegister from '../../../../store/mypage/dummyRegister'
+import { useParams } from 'react-router-dom'
+import api from '../../../../api/api'
+import { useQuery } from '@tanstack/react-query'
 
-const MyRegisterDetail = ({ index, data }) => {
+const MyRegisterDetail = ({ index }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [showRegisterUser, setShowRegisterUser] = useState(false);
   const [currentComponent, setCurrentComponent] = useState('detail');
-  const classData = data.danceClasses.find((danceClass) => danceClass.id === index);
   const userData = dummyRegister;
   // const [currentPage, setCurrentPage] = useState(1);
   // const perData = 10;
@@ -22,6 +24,23 @@ const MyRegisterDetail = ({ index, data }) => {
   //   perData * (currentPage - 1),
   //   perData * currentPage
   // );
+
+  const { classId } = useParams();
+
+
+  const { data: classData, isLoading, isError, error } = useQuery({
+    queryKey: ['classDetails', classId],
+    queryFn: async () => {
+      const token = localStorage.getItem('token');
+      const response = await api.get(`dance-classes/${classId}`, {
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+      console.log(response.data);
+      return response.data.data;
+    },
+  });
+
+
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -57,7 +76,7 @@ const MyRegisterDetail = ({ index, data }) => {
 
             <ContentSection>
               <ImageContainer>
-                <Image src={classData.images[0] || SampleImage} />
+                <Image src={classData.dancer.profileImage[0] || sampleImage} />
               </ImageContainer>
 
               <ReviewSection>
@@ -94,7 +113,7 @@ const MyRegisterDetail = ({ index, data }) => {
                 {userData.danceClasses.length > 0 ? (
                   userData.danceClasses.map((danceClass) => (
                     <ImageList key={danceClass.id}>
-                      <ListImage src={danceClass.users.images[0] || SampleImage} alt={'userImage'} />
+                      <ListImage src={danceClass.users.images[0] || sampleImage} alt={'userImage'} />
                       <UserName>{danceClass.users.username}</UserName>
                     </ImageList>
                   ))
