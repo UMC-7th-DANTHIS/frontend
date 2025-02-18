@@ -8,7 +8,7 @@ import AskAlert from '../../../../components/AskAlert'
 import UserOverlay from '../../../../components/UserOverlay'
 import Pagination from '../../../../components/Pagination'
 import MyRegisterClass from './MyRegisterClass'
-import { useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import api from '../../../../api/api'
 import { useQuery } from '@tanstack/react-query'
 import LoadingSpinner from '../../../../components/LoadingSpinner'
@@ -20,6 +20,7 @@ const MyRegisterDetail = ({ index }) => {
   const { classId } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5;
+  const navigate = useNavigate();
 
   const { data: classData, isLoading: classDataLoading, isError: classDataError, error } = useQuery({
     queryKey: ['classDetails', classId],
@@ -79,6 +80,10 @@ const MyRegisterDetail = ({ index }) => {
   const hideAddOverlay = () => {
     setShowRegisterUser(false);
   }
+
+  const handleGoBack = () => {
+    navigate(-1);
+  };
 
 
   return (
@@ -151,7 +156,7 @@ const MyRegisterDetail = ({ index }) => {
               />
             </PaginationContainer>
 
-            <GoBack>
+            <GoBack onClick={handleGoBack}>
               수업 목록으로
             </GoBack>
 
