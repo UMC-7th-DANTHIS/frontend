@@ -7,25 +7,14 @@ import { ReactComponent as ExistPhoto } from '../../../../assets/photo.svg';
 const CommentsReview = ({ review }) => {
   const totalStars = 5;
 
-  const formatDate = (date) => {
-    if (typeof date === 'string') {
-      date = new Date(date);
-    }
-
-    return new Intl.DateTimeFormat('ko-KR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    }).format(date);
-  };
-
-  const CuttingDetail = (detail) => {
-    return detail.length > 210 ? detail.slice(0, 210) + '...' : detail;
+  const CuttingDetail = (content) => {
+    return content.length > 210 ? content.slice(0, 210) + '...' : content;
   }
+
 
   return (
     <Container>
-      <ReviewWrapper key={review.id}>
+      <ReviewWrapper key={review.reviewId}>
         <InfoWrapper>
           <Data>
             <TitleandPhoto>
@@ -39,17 +28,17 @@ const CommentsReview = ({ review }) => {
               <Stars>
                 {Array.from({ length: totalStars }, (_, index) => (
                   <Star key={index}>
-                    {index < review.rate ? <StarFilled width={24} height={24} /> : <StarNonfilled width={24} height={24} />}
+                    {index < review.rating ? <StarFilled width={24} height={24} /> : <StarNonfilled width={24} height={24} />}
                   </Star>
-                ))}
+                ))}s
               </Stars>
-              <Date>{formatDate(review.date)}</Date>
+              <Date>{review.createdAt}</Date>
             </RatingAndDate>
           </Data>
         </InfoWrapper>
 
         <Detail>
-          {CuttingDetail(review.detail)}
+          {CuttingDetail(review.content)}
         </Detail>
       </ReviewWrapper>
     </Container>
@@ -94,7 +83,7 @@ const TitleandPhoto = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 5px;
-`
+`;
 
 const Title = styled.div`
   color: #fff;

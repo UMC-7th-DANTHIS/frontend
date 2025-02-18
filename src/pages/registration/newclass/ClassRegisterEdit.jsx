@@ -11,8 +11,9 @@ import ConfirmLeaveAlert from '../../../components/ConfirmLeaveAlert';
 import SingleBtnAlert from '../../../components/SingleBtnAlert';
 import useConfirmLeave from '../../../hooks/useConfirmLeave';
 import api from '../../../api/api';
+import { useParams } from 'react-router-dom';
 
-const ClassForm = ({ setIsRegistered }) => {
+const ClassRegisterEdit = ({ setIsRegistered }) => {
   const [isValid, setIsValid] = useState(false);
   const [showInvalidAlert, setShowInvalidAlert] = useState(false);
   const [showLeaveAlert, setShowLeaveAlert] = useState(false);
@@ -27,6 +28,31 @@ const ClassForm = ({ setIsRegistered }) => {
     images: ['', '', ''],
     videoUrl: ''
   });
+  const { classId } = useParams();
+
+  useEffect(() => {
+    const fetchClassData = async () => {
+      try {
+        const response = await api.get(`/dance-classes/${classId}`);
+        console.log('111', response.data.data);
+        const data = response.data.data;
+        setFormState({
+          className: data.className || '',
+          pricePerSession: data.pricePerSession || '',
+          difficulty: data.difficulty || 0,
+          genre: data.genre || 0,
+          description: data.details.description || '',
+          targetAudience: data.details.targetAudience || 's',
+          hashtags: data.details.hashtags || [],
+          images: data.details.danceClassImages || ['', '', ''],
+          videoUrl: data.details.videoUrl || ''
+        });
+      } catch (error) {
+        console.error('수업 정보 불러오기 실패:', error.response?.data || error.message);
+      }
+    };
+    fetchClassData();
+  }, []);
 
   // 뒤로 가기 방지 팝업 경고
   useConfirmLeave({ setAlert: setShowLeaveAlert });
@@ -48,12 +74,12 @@ const ClassForm = ({ setIsRegistered }) => {
     // 모든 필드가 유효하면 true
     setIsValid(
       isClassNameValid &&
-        isPricePerSessionValid &&
-        isDifficultyValid &&
-        isGenreValid &&
-        isDescriptionValid &&
-        isTargetAudienceValid &&
-        isHashtagsValid
+      isPricePerSessionValid &&
+      isDifficultyValid &&
+      isGenreValid &&
+      isDescriptionValid &&
+      isTargetAudienceValid &&
+      isHashtagsValid
     );
   }, [formState]);
 
@@ -62,22 +88,18 @@ const ClassForm = ({ setIsRegistered }) => {
     setFormState((prev) => ({ ...prev, [key]: value }));
   };
 
-  // 댄스 수업 정보 등록
-  const postClass = async (data) => {
+  const updateClass = async (data) => {
     try {
-      await api.post('/dance-classes', data, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
+      const response = await api.put(`/dance-classes/${classId}`, data, {
+        headers: { 'Content-Type': 'application/json' }
       });
+      console.log('댄스 수업 수정 성공:', response.data);
       setIsRegistered(true);
     } catch (error) {
-      console.error(
-        '댄스 수업 등록 실패:',
-        error.response?.data || error.message
-      );
+      console.error(error.message);
     }
   };
+
 
   // 수업 등록 폼 제출 핸들러
   const handleSubmit = (e) => {
@@ -85,16 +107,18 @@ const ClassForm = ({ setIsRegistered }) => {
 
     const updatedFormState = {
       ...formState,
-      pricePerSession: Number(formState.pricePerSession) || 0, // 빈 값이면 0 처리
-      images: formState.images.filter((img) => img) // ''  값 제거
+      pricePerSession: Number(formState.pricePerSession) || 0
     };
 
     if (!isValid) {
       setShowInvalidAlert(true);
       return;
     }
-    postClass(updatedFormState);
+
+    console.log(updatedFormState);
+    updateClass(updatedFormState);
   };
+
 
   return (
     <FormContainer onSubmit={handleSubmit}>
@@ -226,7 +250,7 @@ const ClassForm = ({ setIsRegistered }) => {
   );
 };
 
-export default ClassForm;
+export default ClassRegisterEdit;
 
 const FormContainer = styled.form`
   justify-items: center;

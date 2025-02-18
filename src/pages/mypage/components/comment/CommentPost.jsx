@@ -1,50 +1,92 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import dummyContent from '../../../../store/community/dummyContent';
 import Pagination from '../../../../components/Pagination';
 import { ReactComponent as ExistPhoto } from '../../../../assets/photo.svg';
+import { useQuery } from '@tanstack/react-query';
+import api from '../../../../api/api';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
+
+const fetchUserPosts = async (currentPage, perData) => {
+  const token = localStorage.getItem('token');
+  const response = await api.get('/users/posts', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    params: {
+      page: currentPage,
+      size: perData
+    }
+  });
+  console.log(response.data.data.posts);
+  return {
+    posts: response.data.data.posts || [],
+    totalElements: response.data.data.totalElements || 0,
+  };
+};
 
 const CommentPost = () => {
-  const navigate = useNavigate();
-  const [post, setPost] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5;
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    setPost(dummyContent);
-  }, []);
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['userposts', currentPage, perData],
+    queryFn: () => fetchUserPosts(currentPage, perData),
+  });
 
-  const getCurrentPageData = () => {
-    const startIndex = (currentPage - 1) * perData;
-    const endIndex = startIndex + perData;
-    return post.slice(startIndex, endIndex);
+  if (isLoading) {
+    return (
+      <LoadingContainer>
+        <LoadingSpinner isLoading={isLoading} />
+      </LoadingContainer>
+    );
+  }
+
+  const formatDate = (date) => {
+    if (typeof date === 'string') {
+      date = new Date(date);
+    }
+
+    return new Intl.DateTimeFormat('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).format(date);
   };
+
+
+  if (isError) {
+    return <div>Error: {error?.message}</div>;
+  }
 
   return (
     <AllContainer>
-      {getCurrentPageData().map((post) => (
-        <CommentContainer key={post.No} onClick={console.log(post.No)}>
-          <ContentsContainer onClick={() => navigate('/community')}>
+      {data.posts.map((post) => (
+        <CommentContainer key={post.postId} onClick={() => navigate('/community')}>
+          <ContentsContainer>
             <PhotoandTitle>
-              <CommentTitle>{post.Title}</CommentTitle>
+              <CommentTitle>{post.title}</CommentTitle>
               <IconContainer>
-                {post.Image && post.Image.filter(Image => Image !== null).length > 0 && (
+                {post.images && post.images.filter((img) => img !== null).length > 0 && (
                   <ExistPhoto width={20} height={20} />
                 )}
               </IconContainer>
             </PhotoandTitle>
+
+            <CommentData>
+              {formatDate(post.createAt)}
+            </CommentData>
+
             <CommentContents>
-              {post.Content.length > 210
-                ? post.Content.slice(0, 209) + '...'
-                : post.Content}
+              {post.content.length > 210 ? post.content.slice(0, 209) + '...' : post.content}
             </CommentContents>
           </ContentsContainer>
         </CommentContainer>
       ))}
 
       <Pagination
-        dataLength={post.length}
+        dataLength={data.totalElements}
         perData={perData}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
@@ -84,7 +126,6 @@ const CommentTitle = styled.div`
   font-size: 22px;
   font-weight: 600;
   line-height: normal;
-  margin-bottom: 13px;
   margin-top: 29px;
 `;
 
@@ -93,6 +134,12 @@ const PhotoandTitle = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 5px;
+`;
+
+const CommentData = styled.div`
+  color: #B2B2B2;
+  margin-top: 8px;
+  margin-bottom: 13px;
 `
 
 const CommentContents = styled.div`
@@ -104,4 +151,11 @@ const CommentContents = styled.div`
 
 const IconContainer = styled.div`
   margin-top: 20px;
+`;
+
+const LoadingContainer = styled.div`
+margin-left: 450px;
 `
+
+
+

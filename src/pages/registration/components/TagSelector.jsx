@@ -1,21 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { hashTagID as tags } from '../../../api/schema';
 
 const TagSelector = ({ selectedTags, handleFormChange }) => {
-  const tags = [
-    { id: 1, name: '강렬한' },
-    { id: 2, name: '나른한' },
-    { id: 3, name: '에너제틱' },
-    { id: 4, name: '기본기' },
-    { id: 5, name: '통통튀는' },
-    { id: 6, name: '무거운' },
-    { id: 7, name: '유산소' },
-    { id: 8, name: '빡센' },
-    { id: 9, name: '감성적인' },
-    { id: 10, name: '아프로' },
-    { id: 11, name: '뚝딱이' },
-    { id: 12, name: '취미' }
-  ];
   const maxTagsLength = 3;
 
   // 장르 선택 핸들러
@@ -42,7 +29,7 @@ const TagSelector = ({ selectedTags, handleFormChange }) => {
           selected={selectedTags?.includes(tag.id)}
           onClick={() => handleSelect(tag.id)}
         >
-          #{tag.name}
+          #{tag.hashTag}
         </TagBtn>
       ))}
     </TagWrapper>

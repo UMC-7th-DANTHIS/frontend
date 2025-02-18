@@ -2,41 +2,75 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import sampleImage from '../../../../assets/image.png';
 import Pagination from '../../../../components/Pagination';
-import dummyClass from '../../../../store/mypage/dummyClass';
 import { useNavigate } from 'react-router-dom';
+import api from '../../../../api/api';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
+import { useQuery } from '@tanstack/react-query';
+
+const fetchTakeClass = async (currentPage, perData) => {
+  const token = localStorage.getItem('token');
+  const response = await api.get('/users/dance-classes', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    params: {
+      page: currentPage,
+      size: perData
+    }
+  });
+  // console.log(response.data);
+  // console.log(response.data.data.danceClasses);
+  return {
+    classlist: response.data.data.danceClasses || [],
+    totalElements: response.data.data.totalElements || 0,
+  };
+};
 
 const MyReview = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const perData = 6;
-  const data = dummyClass;
-  const filteredList = data.slice(
-    perData * (currentPage - 1),
-    perData * currentPage
-  );
+  const perData = 9;
+
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['usertakeclass', currentPage, perData],
+    queryFn: () => fetchTakeClass(currentPage, perData),
+  });
+
+  if (isLoading) {
+    return (
+      <LoadingSpinner isLoading={isLoading} />
+    );
+  }
+
+
+  if (isError) {
+    return <div>Error: {error?.message}</div>;
+  }
+
 
   const handleImageClick = (data) => {
-    navigate(`/review/${data.id}`);
+    navigate(`/review/${data.id}`, { state: { className: data.className } });
   };
+  const classList = Array.isArray(data?.classlist) ? data.classlist : [];
 
   return (
     <>
       <ClassContainer>
-        {filteredList.map((data) => (
-          <ClassList key={data.id}>
+        {classList.map((danceClass) => (
+          <ClassList key={danceClass.id}>
             <Image
-              src={data.images[0] || sampleImage}
-              alt={data.id}
-              onClick={() => handleImageClick(data)}
+              src={danceClass.thumbnailImage[0] || sampleImage}
+              alt={danceClass.id}
+              onClick={() => handleImageClick(danceClass)}
             />
-            <Title>{data.className}</Title>
-            <Singer>{data.dancerName}</Singer>
+            <Title>{danceClass.className}</Title>
+            <Singer>{danceClass.dancerName}</Singer>
           </ClassList>
         ))}
       </ClassContainer>
       <PaginationContainer>
         <Pagination
-          dataLength={data.length}
+          dataLength={data.totalElements}
           perData={perData}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}

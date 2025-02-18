@@ -1,27 +1,69 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { ReactComponent as FocusedCircle } from "../../../../assets/shape/focusedcircle.svg"
-import SampleImage from '../../../../assets/image.png'
+import sampleImage from '../../../../assets/errorImage.svg'
 import { ReactComponent as PlusButton } from "../../../../assets/buttons/plus-button.svg"
 import { ReactComponent as Ask } from "../../../../assets/buttons/ask.svg"
 import AskAlert from '../../../../components/AskAlert'
 import UserOverlay from '../../../../components/UserOverlay'
 import Pagination from '../../../../components/Pagination'
 import MyRegisterClass from './MyRegisterClass'
-import dummyRegister from '../../../../store/mypage/dummyRegister'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import api from '../../../../api/api'
+import { useQuery } from '@tanstack/react-query'
+import LoadingSpinner from '../../../../components/LoadingSpinner'
 
-const MyRegisterDetail = ({ index, data }) => {
+const MyRegisterDetail = ({ index }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [showRegisterUser, setShowRegisterUser] = useState(false);
   const [currentComponent, setCurrentComponent] = useState('detail');
-  const classData = data.danceClasses.find((danceClass) => danceClass.id === index);
-  const userData = dummyRegister;
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const perData = 10;
-  // const filteredList = userData.slice(
-  //   perData * (currentPage - 1),
-  //   perData * currentPage
-  // );
+  const { classId } = useParams();
+  const [currentPage, setCurrentPage] = useState(1);
+  const perData = 5;
+  const navigate = useNavigate();
+
+  const { data: classData, isLoading: classDataLoading, isError: classDataError, error } = useQuery({
+    queryKey: ['classDetails', classId],
+    queryFn: async () => {
+      const token = localStorage.getItem('token');
+      const response = await api.get(`dance-classes/${classId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      // console.log(response.data);
+      return response.data.data;
+    },
+  });
+
+  const fetchClassDetails = async (currentPage, perData) => {
+    const token = localStorage.getItem('token');
+    const response = await api.get(`/dance-classes/${classId}/booking-users`, {
+      headers: { Authorization: `Bearer ${token}` },
+      params: {
+        page: currentPage,
+        size: perData
+      }
+    });
+    // console.log('user', response.data.data.users);
+    // console.log('user', response.data);
+
+    return {
+      users: response.data.data.users || [],
+      totalElements: response.data.data.totalUsers || 0,
+    };
+  }
+
+  const { data: bookingUser } = useQuery({
+    queryKey: ['bookingUser', classId, currentPage, perData],
+    queryFn: () => fetchClassDetails(currentPage, perData),
+  });
+
+  if (classDataLoading) {
+    return <LoadingSpinner isLoading={classDataLoading} />;
+  }
+
+  if (classDataError) {
+    return <div>Error: {error?.message}</div>;
+  }
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -39,9 +81,10 @@ const MyRegisterDetail = ({ index, data }) => {
     setShowRegisterUser(false);
   }
 
-  const goToClassList = () => {
-    setCurrentComponent('classList');
+  const handleGoBack = () => {
+    navigate(-1);
   };
+
 
   return (
     <>
@@ -57,7 +100,7 @@ const MyRegisterDetail = ({ index, data }) => {
 
             <ContentSection>
               <ImageContainer>
-                <Image src={classData.images[0] || SampleImage} />
+                <Image src={classData.dancer.profileImage[0] || sampleImage} />
               </ImageContainer>
 
               <ReviewSection>
@@ -65,7 +108,7 @@ const MyRegisterDetail = ({ index, data }) => {
                   <IconText> 유저 추가 </IconText>
                   <PlusButton width={16} height={16} onClick={handleAddOverlay} />
                   {showRegisterUser &&
-                    <UserOverlay onclose={hideAddOverlay} />}
+                    <UserOverlay onclose={hideAddOverlay} classId={classId} />}
                 </IconContainer>
 
 
@@ -91,29 +134,29 @@ const MyRegisterDetail = ({ index, data }) => {
             <CheckUserContainer>
               <Label> 이 수업을 수강한 유저 </Label>
               <UserImage>
-                {userData.danceClasses.length > 0 ? (
-                  userData.danceClasses.map((danceClass) => (
-                    <ImageList key={danceClass.id}>
-                      <ListImage src={danceClass.users.images[0] || SampleImage} alt={'userImage'} />
-                      <UserName>{danceClass.users.username}</UserName>
+                {(bookingUser?.users && bookingUser.users.length > 0) ? (
+                  bookingUser.users.map((booking) => (
+                    <ImageList key={booking.userId}>
+                      <ListImage src={booking.profileImage[0] || sampleImage} alt={'userImage'} />
+                      <UserName>{booking.nickname}</UserName>
                     </ImageList>
                   ))
                 ) : (
-                  <div>등록된 유저가 없습니다.</div>
+                  <NoText> 예약된 유저가 없습니다.</NoText>
                 )}
               </UserImage>
             </CheckUserContainer>
 
-            {/* <PaginationContainer>
+            <PaginationContainer>
               <Pagination
-                dataLength={filteredList}
+                dataLength={bookingUser?.totalElements || 0}
                 perData={perData}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
               />
-            </PaginationContainer> */}
+            </PaginationContainer>
 
-            <GoBack onClick={goToClassList}>
+            <GoBack onClick={handleGoBack}>
               수업 목록으로
             </GoBack>
 
@@ -286,6 +329,9 @@ const UserName = styled.div`
 `
 const PaginationContainer = styled.div`
   margin-bottom: 32px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
 `
 
 const GoBack = styled.button`
@@ -302,4 +348,14 @@ const GoBack = styled.button`
   font-weight: 600;
   line-height: normal;
   cursor: pointer;
+`
+
+const NoText = styled.div`
+  color: white;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -1.2px;
+  text-align: center;
+
 `

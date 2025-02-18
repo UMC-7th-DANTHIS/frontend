@@ -23,6 +23,8 @@ import KakaoRedirectHandler from './pages/KakaoRedirectHandler';
 import ReviewDetailPage from './pages/reservation/ReviewDetailPage';
 import SearchLayout from './layout/SearchLayout';
 import SearchWrapper from './layout/SearchWrapper';
+import MyRegisterDetail from './pages/mypage/components/registerclass/MyRegisterDetail';
+import ClassRegisterEdit from './pages/registration/newclass/ClassRegisterEdit';
 
 function App() {
   return (
@@ -50,6 +52,10 @@ function App() {
           <Route path="/signup4" element={<SignupPage4 />} />
           <Route path="dancerregister" element={<DancerRegistration />} />
           <Route path="classregister" element={<ClassRegistration />} />
+          <Route
+            path="/classregister/:classId"
+            element={<ClassRegisterEdit />}
+          />
           <Route path="classreservation" element={<ClassBoard />} />
           <Route
             path="classreservation/:classId"
@@ -62,6 +68,7 @@ function App() {
           <Route path="/dancerprofile" element={<ProfileList />} />
           <Route path="/dancerprofile/:dancerId" element={<DancerProfile />} />
           <Route path="/review/:id" element={<ReviewDetail />} />
+          <Route path="/detail/:classId" element={<MyRegisterDetail />} />
         </Route>
       </Routes>
     </Router>
