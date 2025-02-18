@@ -42,8 +42,8 @@ const MyRegisterDetail = ({ index }) => {
         size: perData
       }
     });
-    console.log('user', response.data.data.users);
-    console.log('user', response.data);
+    // console.log('user', response.data.data.users);
+    // console.log('user', response.data);
 
     return {
       users: response.data.data.users || [],
@@ -103,7 +103,7 @@ const MyRegisterDetail = ({ index }) => {
                   <IconText> 유저 추가 </IconText>
                   <PlusButton width={16} height={16} onClick={handleAddOverlay} />
                   {showRegisterUser &&
-                    <UserOverlay onclose={hideAddOverlay} />}
+                    <UserOverlay onclose={hideAddOverlay} classId={classId} />}
                 </IconContainer>
 
 
