@@ -109,16 +109,20 @@ const CommunityPostPage = () => {
                   user={user}
                   setForceReload={setForceReload}
                 />
-                <PaginationContainer>
-                  <Pagination
-                    dataLength={com?.data.totalComments}
-                    perData={perData}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                  />
-                </PaginationContainer>
               </>
             ))}
+
+            {com?.data.comments.length > 0 && (
+              <PaginationContainer>
+                <Pagination
+                  dataLength={com?.data.totalComments}
+                  perData={perData}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                />
+              </PaginationContainer>
+            )}
+
             <CommentInput>
               <input
                 type="text"
