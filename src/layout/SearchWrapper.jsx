@@ -1,4 +1,5 @@
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams, useSearchParams, useOutletContext } from 'react-router-dom';
 
 import SearchClass from '../components/Search/SearchClass';
 import SearchCommunity from '../components/Search/SearchCommunity';
@@ -9,8 +10,19 @@ const SearchWrapper = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('query');
 
+  const [danceQuery, setDanceQuery] = useState(query);
+
+  const { selectedFilter } = useOutletContext();
+
+  useEffect(() => {
+    if (selectedFilter) {
+      let tmp = query + '&hashtagId=' + selectedFilter;
+      setDanceQuery(tmp);
+    } else setDanceQuery(query);
+  }, [selectedFilter, query]);
+
   if (select === 'dance-classes') {
-    return <SearchClass query={query} select={select} />;
+    return <SearchClass query={danceQuery} select={select} />;
   }
   if (select === 'dancers') {
     return <SearchDancer query={query} select={select} />;
