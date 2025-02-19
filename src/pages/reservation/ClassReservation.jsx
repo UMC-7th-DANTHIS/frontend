@@ -77,7 +77,10 @@ const ClassReservation = () => {
   const handleChatClick = () => {
     const startChat = async () => {
       try {
-        await api.post(`/chats/${classData.details?.dancerId}/start`);
+        const response = await api.post(
+          `/chats/${classData.details?.dancerId}/start`
+        );
+        window.open(response.data.data?.openChatUrl);
       } catch (error) {
         console.error('❌ 1:1 채팅 신청 중 오류 발생:', error);
       }
