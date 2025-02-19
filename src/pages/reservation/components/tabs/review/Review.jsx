@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { ReactComponent as StarFilled } from '../../../../../assets/shape/filledYellowStar.svg';
 import { ReactComponent as StarNonfilled } from '../../../../../assets/shape/nonfilledYellowStar.svg';
 import { ReactComponent as GotoIcon } from '../../../../../assets/shape/gotoicon.svg';
-import { formatDate } from '../../../formatDate';
+import formatDate from '../../../../../api/formatDate';
 
 const Review = ({ review, classId, page }) => {
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ const Review = ({ review, classId, page }) => {
                 </Star>
               ))}
             </Stars>
-            <Date>{formatDate(review.createdAt)}</Date>
+            <Date>{formatDate(review.createdAt, 4)}</Date>
           </RatingAndDate>
         </Data>
       </InfoWrapper>

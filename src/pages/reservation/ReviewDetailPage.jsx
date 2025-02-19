@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { ReactComponent as EditIcon } from '../../assets/shape/write.svg';
 import { ReactComponent as DeleteIcon } from '../../assets/shape/trash.svg';
 import { ReactComponent as Siren } from '../../assets/Community/SirenButton.svg';
-import { formatDateWithTime } from './formatDate';
 import api from '../../api/api';
 import ConfirmDeleteAlert from '../../components/ConfirmDelete';
 import ImageModal from '../../components/ImageModal';
+import formatDate from '../../api/formatDate';
 
 const ReviewDetailPage = () => {
   const navigate = useNavigate();
@@ -95,7 +95,7 @@ const ReviewDetailPage = () => {
           </Button>
         )}
         <Writer>
-          <InfoText>작성일 : {formatDateWithTime(review.createdAt)}</InfoText>
+          <InfoText>작성일 : {formatDate(review.createdAt, 1)}</InfoText>
           <InfoText>작성자 : {review.author}</InfoText>
         </Writer>
       </InfoWrapper>
