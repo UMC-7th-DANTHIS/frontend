@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import MypageGenre from '../MypageGenre';
 import api from '../../../../api/api';
 import ImagesUploader from '../../../registration/components/ImagesUploader';
+import NoUser from './NoUser';
 
 const ProfileDancer = () => {
   const [formState, setFormState] = useState({
@@ -14,6 +15,7 @@ const ProfileDancer = () => {
     record: '',
     dancerImages: ["", "", ""],
   });
+  const [isUnauthorized, setIsUnauthorized] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,10 +42,17 @@ const ProfileDancer = () => {
         });
       } catch (error) {
         console.error('Error fetching data:', error);
+        if (error.response && error.response.status === 401) {
+          setIsUnauthorized(true);
+        }
       }
     };
     fetchData();
   }, []);
+
+  if (isUnauthorized) {
+    return <NoUser />;
+  }
 
   const handleFormChange = (key, value) => {
     setFormState((prev) => ({ ...prev, [key]: value }));
