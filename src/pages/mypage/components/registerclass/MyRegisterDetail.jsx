@@ -100,7 +100,7 @@ const MyRegisterDetail = ({ index }) => {
 
             <ContentSection>
               <ImageContainer>
-                <Image src={classData.dancer.profileImage[0] || sampleImage} />
+                <Image src={classData?.dancer?.profileImage?.[0] || sampleImage} />
               </ImageContainer>
 
               <ReviewSection>
