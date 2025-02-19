@@ -7,6 +7,7 @@ import ReviewForm from './ReviewForm';
 import ReviewStar from './ReviewStar';
 import api from '../../../../api/api';
 import { useMutation } from '@tanstack/react-query';
+import SingleBtnAlert from '../../../../components/SingleBtnAlert';
 
 const ReviewDetail = () => {
   const location = useLocation();
@@ -19,6 +20,7 @@ const ReviewDetail = () => {
   const { id: classId } = useParams();
   const selectedMenu = new URLSearchParams(location.search).get('menu') || 'myreview';
   const className = location.state?.className || "";
+  const [showInvalidAlert, setShowInvalidAlert] = useState(false);
 
   const handleMenuClick = (menuKey) => {
     navigate(`/mypage?menu=${menuKey}`);
@@ -40,7 +42,7 @@ const ReviewDetail = () => {
   const mutation = useMutation({
     mutationFn: createReview,
     onSuccess: () => {
-      navigate(`/classreservation/${classId}?tab=reviews`);
+      setShowInvalidAlert(true);
     },
     onError: (error) => {
       console.error(error.message);
@@ -72,7 +74,6 @@ const ReviewDetail = () => {
       rating,
       images: selectedImage,
     };
-
 
     mutation.mutate(reviewData);
   };
@@ -129,6 +130,23 @@ const ReviewDetail = () => {
               </CancelButton>
 
               <SubmitButton onClick={handleSubmit}>작성</SubmitButton>
+              {showInvalidAlert && (
+                <SingleBtnAlert
+                  message={
+                    <AlertText>
+                      모든 항목을 {'\n'}
+                      <ColoredText>적절하게 </ColoredText>
+                      입력했는지 확인해주세요.
+                    </AlertText>
+                  }
+                  onClose={() => {
+                    setShowInvalidAlert(false);
+                    navigate(`/classreservation/${classId}?tab=reviews`);
+                  }}
+                  mariginsize="33px"
+                  showButtons={true}
+                />
+              )}
             </Buttons>
           </FinalSection>
         </ReviewContainer>
@@ -224,3 +242,14 @@ const SubmitButton = styled.button`
 const ColoredText = styled.span`
   color: #A60F62;
 `;
+
+const AlertText = styled.span`
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 21px;
+  white-space: pre-line;
+`;
+
