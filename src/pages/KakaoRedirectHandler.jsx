@@ -9,12 +9,15 @@ const KakaoRedirectHandler = () => {
   
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get('code'); // 🔹 인가 코드 추출
+    
     if (!code || isProcessing) return;
 
     setIsProcessing(true);
 
     //axios.post(`${process.env.REACT_APP_API_BASE_URL}/auth/login/kakao?code=${code}`, {}, { withCredentials: true }) // ✅ 쿼리 스트링 방식 유지
-
+    console.log("🚀 REACT_APP_API_BASE_URL:", process.env.REACT_APP_API_BASE_URL);
+    console.log("🚀 Kakao auth request:", `${process.env.REACT_APP_API_BASE_URL}/auth/login/kakao?code=${code}`);
+    
     axios
       .post(
         `${process.env.REACT_APP_API_BASE_URL}/auth/login/kakao?code=${code}`,
