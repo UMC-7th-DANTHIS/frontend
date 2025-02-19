@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { ReactComponent as EditIcon } from '../../assets/shape/write.svg';
 import { ReactComponent as DeleteIcon } from '../../assets/shape/trash.svg';
 import { ReactComponent as Siren } from '../../assets/Community/SirenButton.svg';
-import { formatDateWithTime } from './formatDate';
 import api from '../../api/api';
 import ConfirmDeleteAlert from '../../components/ConfirmDelete';
 import ImageModal from '../../components/ImageModal';
+import formatDate from '../../api/formatDate';
 
 const ReviewDetailPage = () => {
   const navigate = useNavigate();
@@ -23,6 +23,10 @@ const ReviewDetailPage = () => {
 
   // 리뷰 데이터 받아오기
   const fetchReview = useCallback(async () => {
+    if (!classId || !reviewId) {
+      return;
+    }
+
     try {
       const response = await api.get(
         `/dance-classes/${classId}/reviews/${reviewId}`
@@ -48,6 +52,19 @@ const ReviewDetailPage = () => {
     fetchReview();
     checkUserInfo();
   }, [fetchReview, checkUserInfo]);
+
+  // 리뷰 삭제 핸들러
+  const deleteReview = async () => {
+    try {
+      await api.delete(`/dance-classes/${classId}/reviews/${reviewId}`);
+
+      navigate(`/classreservation/${classId}?tab=reviews`, {
+        state: { fromReviewDetail: true, page } // 페이지네이션 정보 재전달
+      });
+    } catch (error) {
+      console.error('❌ 리뷰를 삭제하는 중 오류 발생:', error);
+    }
+  };
 
   // 돌아가기 버튼 핸들러
   const handleBackClick = () => {
@@ -78,7 +95,7 @@ const ReviewDetailPage = () => {
           </Button>
         )}
         <Writer>
-          <InfoText>작성일 : {formatDateWithTime(review.createdAt)}</InfoText>
+          <InfoText>작성일 : {formatDate(review.createdAt, 1)}</InfoText>
           <InfoText>작성자 : {review.author}</InfoText>
         </Writer>
       </InfoWrapper>
@@ -119,6 +136,7 @@ const ReviewDetailPage = () => {
             </AlertText>
           }
           onClose={() => setShowDeleteAlert(false)}
+          onConfirm={() => deleteReview()}
           showButtons={true}
         />
       )}
@@ -134,6 +152,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   width: 900px;
+  min-height: 560px;
   margin-bottom: 80px;
 `;
 const Title = styled.div`

@@ -20,6 +20,10 @@ const formatDate = (timestamp, useCase) => {
       year = String(date.getFullYear()).slice(-2);
       return `${year}.${month}.${day}`;
 
+    case 4:
+      year = String(date.getFullYear());
+      return `${year}.${month}.${day}`;
+
     default:
       return 0;
   }
