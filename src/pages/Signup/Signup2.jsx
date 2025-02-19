@@ -147,19 +147,57 @@ const handlePhoneChange = (e) => {
 };
    
 
-   // 파일 업로드 처리
-   const handleFileUpload = (event) => {
+  //  // 파일 업로드 처리
+  //  const handleFileUpload = (event) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onload = () => {
+  //       setUploadedImage(reader.result); // 업로드된 이미지 설정
+  //       setIsDefaultImage(false); // 기본 이미지 사용 해제
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
+  const handleFileUpload = async (event) => {
     const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setUploadedImage(reader.result); // 업로드된 이미지 설정
-        setIsDefaultImage(false); // 기본 이미지 사용 해제
-      };
-      reader.readAsDataURL(file);
+    // if (!file || !file.type.startsWith('image/')) return;
+  
+    try {
+      console.log("📡 Presigned URL 요청 시작...");
+      // 1️⃣ Presigned URL 요청
+      const fileExtension = file.name.split('.').pop(); // 파일 확장자 추출
+      const response = await api.post(`/image/user?fileExtension=${fileExtension}`);
+      console.log("📡 Presigned URL API 응답:", response);
+      if (!response.data || !response.data.presignedUrl) {
+        throw new Error('Presigned URL 발급 실패');
+      }
+
+  
+      const { presignedUrl, fileUrl } = response.data; // URL 정보 가져오기
+      console.log('발급된 url', presignedUrl);
+  
+      // 2️⃣ S3에 이미지 업로드
+      const uploadResponse = await fetch(presignedUrl, {
+        method: 'PUT',
+        body: file,
+        headers: { 'Content-Type': file.type }, // 파일 타입 설정
+      });
+  
+      if (!uploadResponse.ok) {
+        throw new Error(`업로드 실패: ${uploadResponse.status}`);
+      }
+  
+      // 3️⃣ 최종적으로 업로드된 이미지 URL을 상태에 저장
+      setUploadedImage(fileUrl); // 프로필 사진 상태 업데이트
+      setIsDefaultImage(false); // 기본 이미지 비활성화
+      console.log('✅ 이미지 업로드 성공:', fileUrl);
+  
+    } catch (error) {
+      console.error('❌ 파일 업로드 오류:', error.message);
     }
   };
-
+  
   const handleCheckboxChange = () => {
     setIsDefaultImage(true); // 기본 이미지 사용 설정
     setUploadedImage(null); // 업로드된 이미지 초기화

@@ -1,15 +1,35 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import api from '../../../api/api'
 
 const Quit = () => {
   const navigate = useNavigate();
+
+  const handleQuit = async () => {
+    try {
+      const token = localStorage.getItem('token'); // 저장된 토큰 가져오기
+      if (!token) throw new Error('토큰이 없습니다.');
+
+      // 탈퇴 API 호출
+      const response = await api.delete('/auth/withdraw');
+
+      console.log('회원 탈퇴 성공:', response.data);
+
+      //  로컬 스토리지에서 토큰 삭제
+      localStorage.removeItem('token');
+      navigate('/');
+    } catch (error) {
+      console.error('회원 탈퇴 실패:', error.response?.data || error);
+      alert('회원 탈퇴에 실패했습니다. 다시 시도해주세요.');
+    }
+  };
 
   return (
     <QuitContainer>
       <Title> 회원 탈퇴 </Title>
       <Content> 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요 엉엉 제가 잘할게요 유저님 가지 마세요</Content>
-      <QuitButton onClick={() => navigate('/')}> 탈퇴하기 </QuitButton>
+      <QuitButton onClick={handleQuit}> 탈퇴하기 </QuitButton>
     </QuitContainer>
   )
 }

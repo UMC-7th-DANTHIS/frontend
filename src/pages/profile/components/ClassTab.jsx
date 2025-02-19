@@ -1,42 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ClassPic from '../../../assets/dummyphoto/class.svg';
 import Pagination from '../../../components/Pagination';
+import { useParams } from 'react-router-dom';
+import api from '../../../api/api'
 
 const ClassTab = () => {
-  const data = [
-    { id: 1, img: ClassPic },
-    { id: 2, img: ClassPic },
-    { id: 3, img: ClassPic },
-    { id: 4, img: ClassPic },
-    { id: 5, img: ClassPic },
-    { id: 6, img: ClassPic },
-    { id: 7, img: ClassPic },
-    { id: 8, img: ClassPic },
-  ];
-
+  const {dancerId} = useParams();
+  const [classes, setClasses] = useState([]); // 수업 데이터
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
+  const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수
+  const [totalElements, setTotalElements] = useState(0); // 전체 요소 개수 상태 추가
+  
   const perData = 6; // 페이지당 데이터 수
-  const [currentPage, setCurrentPage] = useState(1);
 
-   // 현재 페이지에 보여질 데이터 계산
-   const getCurrentPageData = () => {
-    const startIndex = (currentPage - 1) * perData;
-    const endIndex = startIndex + perData;
-    return data.slice(startIndex, endIndex);
-  };
+
+  useEffect(() => {
+    const fetchClasses = async () => {
+      try {
+        const response = await api.get(`/dancers/dance-classes`, {
+          params: {
+            dancerId: dancerId, // 특정 댄서의 수업 조회
+            page: currentPage,
+            size: perData,
+          },
+        });
+
+        if (response.data.code === 200) {
+          setClasses(response.data.data.danceClasses); // 수업 데이터 저장
+          setTotalPages(response.data.data.totalPages); // 전체 페이지 수 설정
+          setTotalElements(response.data.data.totalElements); // totalElements 추가
+          console.log(response.data.data);
+        } else {
+          console.error('수업 정보 불러오기 실패:', response.data.message);
+        }
+      } catch (error) {
+        console.error('API 호출 중 오류 발생:', error);
+      }
+    };
+
+    fetchClasses();
+  }, [dancerId, currentPage]);
+
 
   return (
     <Layout>
-      <ClassContainer>
-      {getCurrentPageData().map((item) => (
-          <Class key={item.id}>
-            <ClassImg src={item.img} />
-          </Class>
-        ))}
+      <ClassContainer hasClasses={classes.length > 0}>
+      {classes.length > 0 ? (
+          classes.map((item) => (
+            <Class key={item.id}>
+              <ClassImg src={item.thumbnailImage} alt={item.className} />
+            </Class>
+          ))
+        )
+         : (
+          <NoClassMessage>등록된 수업이 없습니다.</NoClassMessage>
+        )}
       </ClassContainer>
       <PaginationContainer>
         <Pagination
-          dataLength={data.length} // 전체 데이터 수
+          dataLength={totalElements} // 전체 데이터 수
           perData={perData} // 페이지당 데이터 수
           currentPage={currentPage} // 현재 페이지
           setCurrentPage={setCurrentPage} // 페이지 변경 함수
@@ -62,14 +85,20 @@ const ClassContainer = styled.div`
   gap: 56px;
   margin-left : 216px;
   margin-right : 210px;
+  display: ${({ hasClasses }) => (hasClasses ? 'grid' : 'flex')}; // 수업이 없을 때 flex로 변경
+  grid-template-columns: ${({ hasClasses }) => (hasClasses ? 'repeat(3, 1fr)' : 'none')};
   
 `;
 const Class = styled.div`
   margin-bottom: 24px;
-`;
-const ClassImg = styled.img`
   width: 300px;
   height: 300px;
+  border-radius: 10px;
+background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+`;
+const ClassImg = styled.img`
+  width: 100%;
+  height: 100%;
   flex-shrink: 0;
 `;
 const PaginationContainer = styled.div`
@@ -77,3 +106,14 @@ const PaginationContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
+
+const NoClassMessage=styled.div`
+color : white;
+display : flex;
+text-align : center;
+align-items : center;
+justify-content : center;
+font-size : 20px;
+width: 100%;
+height: 100%;
+`
