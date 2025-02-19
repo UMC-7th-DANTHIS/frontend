@@ -1,11 +1,18 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const NoRegister = () => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/classregister');
+
+  }
   return (
     <Noregister>
       <Text> 내가 등록한 수업이 존재하지 않습니다. </Text>
-      <Button> 댄스 수업 등록하러 가기 </Button>
+      <Button onClick={handleClick}> 댄스 수업 등록하러 가기 </Button>
     </Noregister>
   )
 }
