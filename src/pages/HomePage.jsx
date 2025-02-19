@@ -8,20 +8,23 @@ import UserRecommend from './Home/UserRecommend';
 import dummyUserDancer from '../store/main/dummyUserDancer';
 import dummyUserClass from '../store/main/dummyUserClass';
 import useGetClass from '../hooks/useGetClass';
+import useGetDancer from '../hooks/useGetDancer';
 
 const HomePage = () => {
   const dancers = Array.isArray(dummyUserDancer) ? dummyUserDancer : [];
   const classes = Array.isArray(dummyUserClass) ? dummyUserClass : [];
   const { data: danceclass } = useGetClass();
+  const { data: dancer } = useGetDancer();
 
   return (
     <Container>
-      <HotDancer />
+      <HotDancer dancer={dancer} />
       <HotClass danceclas={danceclass} />
       <UserRecommend
         dummyUserDancer={dancers}
         dummyUserClass={classes}
-        danceclas={danceclass}
+        danceclass={danceclass}
+        dancer={dancer}
       />
     </Container>
   );

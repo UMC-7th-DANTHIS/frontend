@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import styled from 'styled-components';
 
@@ -7,6 +8,8 @@ import SearchNothing from './SearchNothing';
 import useSearch from '../../hooks/useSearch';
 
 const SearchDancer = ({ query, select }) => {
+  const navigate = useNavigate();
+
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5;
 
@@ -18,7 +21,7 @@ const SearchDancer = ({ query, select }) => {
         <>
           <ClassLists>
             {data?.data.results.map((list) => (
-              <ClassList>
+              <ClassList onClick={() => navigate(`/dancerprofile/${list.id}`)}>
                 <ImgContainer
                   src={list.profileImage?.[0]}
                   alt="프로필 이미지"
