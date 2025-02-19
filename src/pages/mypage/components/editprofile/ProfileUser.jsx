@@ -1,27 +1,99 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Profileimg from '../../../../assets/profileimg.svg';
 import styled from 'styled-components';
 import MypageGenre from '../MypageGenre';
+import api from '../../../../api/api';
 
 const ProfileUser = () => {
   const [nicknameStatus, setNicknameStatus] = useState(null);
+  const [uploadedImage, setUploadedImage] = useState(false);
   const [isDefaultImage, setIsDefaultImage] = useState(false);
   const [file, setFile] = useState(null);
   const [formState, setFormState] = useState({
     nickname: '',
     gender: [],
     email: '',
-    phone: '',
-    images: [null],
-    genre: [],
+    phoneNumber: '',
+    profileImage: [""],
+    preferredGenres: [],
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+
+        const response = await api.get('/users/me', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(response.data.data)
+        const data = response.data.data;
+
+        setFormState({
+          nickname: data.nickname || '',
+          gender: data.gender || [],
+          email: data.email || '',
+          phoneNumber: data.phoneNumber || '',
+          profileImage: data.profileImage || [""],
+          preferredGenres: data.preferredGenres || [],
+        });
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    // if (!file || !file.type.startsWith('image/')) return;
+
+    try {
+      // 1Presigned URL 요청
+      const fileExtension = file.name.split('.').pop(); // 파일 확장자 추출
+      const response = await api.post(`/image/user?fileExtension=${fileExtension}`);
+
+      if (!response.data || !response.data.presignedUrl) {
+        throw new Error('Presigned URL 발급 실패');
+      }
+      const { presignedUrl, fileUrl } = response.data; // URL 정보 가져오기
+      console.log('발급된 url', presignedUrl);
+
+      // 2️⃣ S3에 이미지 업로드
+      const uploadResponse = await fetch(presignedUrl, {
+        method: 'PUT',
+        body: file,
+        headers: { 'Content-Type': file.type }, // 파일 타입 설정
+      });
+
+      if (!uploadResponse.ok) {
+        throw new Error(`업로드 실패: ${uploadResponse.status}`);
+      }
+
+      // 3️⃣ 최종적으로 업로드된 이미지 URL을 상태에 저장
+      setUploadedImage(fileUrl); // 프로필 사진 상태 업데이트
+      setIsDefaultImage(false); // 기본 이미지 비활성화
+      console.log('✅ 이미지 업로드 성공:', fileUrl);
+
+    } catch (error) {
+      console.error('❌ 파일 업로드 오류:', error.message);
+    }
+  };
+
+  const handleCheckboxChange = () => {
+    setIsDefaultImage(true); // 기본 이미지 사용 설정
+    setUploadedImage(null); // 업로드된 이미지 초기화
+  };
+
 
   const handleRadioChange = () => {
     setIsDefaultImage(true);
     setFile(null);
     setFormState((prev) => ({
       ...prev,
-      images: [Profileimg],
+      profileImage: [Profileimg],
     }));
   };
 
@@ -31,7 +103,7 @@ const ProfileUser = () => {
       setFile(selectedFile);
       setFormState((prev) => ({
         ...prev,
-        images: [URL.createObjectURL(selectedFile)],
+        profileImage: [URL.createObjectURL(selectedFile)],
       }));
       setIsDefaultImage(false);
     }
@@ -57,9 +129,36 @@ const ProfileUser = () => {
     }
   };
 
-  const handleSaveProfile = (e) => {
+  const handleSaveProfile = async (e) => {
     e.preventDefault();
-    console.log("저장할 데이터:", formState);
+
+    try {
+      const token = localStorage.getItem('token');
+
+      const updatedData = {
+        nickname: formState.nickname,
+        gender: formState.gender,
+        email: formState.email,
+        phoneNumber: formState.phoneNumber,
+        profileImage: formState.profileImage,
+        preferredGenres: formState.preferredGenres,
+      };
+
+      const response = await api.put('/users', updatedData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 200) {
+        console.log('업데이트 성공');
+        console.log(updatedData);
+      } else {
+        console.error('업데이트 에러 발생');
+      }
+    } catch (error) {
+      console.error('업데이트 에러', error);
+    }
   }
 
   return (
@@ -116,26 +215,26 @@ const ProfileUser = () => {
 
           <PhoneContainer>
             <Label>전화번호</Label>
-            <EmailInput type="text" placeholder="전화번호를 입력하세요." value={formState.phone} onChange={(e) => { handleFormChange('phone', e.target.value) }} />
+            <EmailInput type="text" placeholder="전화번호를 입력하세요." value={formState.phoneNumber} onChange={(e) => { handleFormChange('phoneNumber', e.target.value) }} />
           </PhoneContainer>
 
           <ImageContainer>
             <Label>프로필 사진</Label>
             <ProfileContainer>
               <ProfileImageWrapper>
+                {isDefaultImage || !uploadedImage ? (
+                  <ProfileImage src={formState.profileImage[0] || Profileimg} alt="프로필 이미지" />
+                ) : (
 
-                <ProfileImage src={formState.images[0] || Profileimg} alt="프로필 이미지" />
+                  <ProfileImage src={uploadedImage} alt="프로필 이미지" />
+                )}
+                {/* <ProfileImage src={formState.profileImage[0] || Profileimg} alt="프로필 이미지" /> */}
               </ProfileImageWrapper>
               <UploadContainer>
                 <UploadButton type="button" onClick={handleFileUploadClick}>
                   파일 업로드
                 </UploadButton>
-                <HiddenInput
-                  type="file"
-                  id="file-upload"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                />
+                <HiddenInput type="file" id="file-upload" accept="image/*" onChange={handleFileUpload} />
 
                 <RadioWrapper>
                   <RadioLabel>
@@ -160,8 +259,9 @@ const ProfileUser = () => {
             </DanceTextContainer>
             <MypageGenre
               genreSelect={5}
+              selectedGenres={formState.preferredGenres}
               onGenreChange={(selectedGenres) => {
-                handleFormChange('genre', selectedGenres);
+                handleFormChange('preferredGenres', selectedGenres);
               }}
             />
 
@@ -444,4 +544,5 @@ const SaveButton = styled.button`
   margin-bottom: 159px;
   cursor: pointer;
 `
+
 
