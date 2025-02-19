@@ -4,10 +4,12 @@ import SampleImage from '../assets/image.png';
 import { ReactComponent as PlusButton } from '../assets/buttons/plus-button.svg';
 import api from '../api/api';
 import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 
 const UserOverlay = ({ onclose, classId }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5;
+  const navigate = useNavigate();
 
   const fetchEligibleUsers = async (currentPage, perData, classId) => {
     const token = localStorage.getItem('token');
@@ -56,8 +58,7 @@ const UserOverlay = ({ onclose, classId }) => {
       );
 
       if (response.status === 200) {
-
-        console.log('Booking updated:', response.data);
+        navigate(`/detail/${classId}`);
       }
     } catch (error) {
       console.error('Error updating booking:', error);
