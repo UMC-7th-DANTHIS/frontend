@@ -53,6 +53,14 @@ const Profile = ({dancer}) => {
       const response = await api.post(`/chats/${dancer.id}/start`);
       if (response.data.code === 200) {
         console.log('채팅 신청 성공:', response.data.message);
+        console.log(response.data.data.openChatUrl);
+        const chatUrl = response.data.data.openChatUrl;
+        if (chatUrl) {
+          window.open(chatUrl, '_blank'); // 새 탭에서 열기
+        } else {
+          console.error('채팅 URL이 없습니다.');
+        }
+
         // 성공 시 처리 (예: 채팅 화면으로 이동)
       } else {
         console.error('채팅 신청 실패:', response.data.message);

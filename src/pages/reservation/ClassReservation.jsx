@@ -90,6 +90,7 @@ const ClassReservation = () => {
     const startChat = async () => {
       try {
         await api.post(`/chats/${50}/start`);
+        console.log(startChat.data.data.openChatUrl)
       } catch (error) {
         console.error('❌ 1:1 채팅 신청 중 오류 발생:', error);
       }
