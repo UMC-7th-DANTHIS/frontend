@@ -12,7 +12,7 @@ const useGetDancer = () => {
       setIsError(false);
 
       try {
-        const response = await axiosInstance.get('/dancer/all');
+        const response = await axiosInstance.get('/dancers/all');
 
         setData(response.data);
       } catch (error) {

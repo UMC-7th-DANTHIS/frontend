@@ -8,6 +8,7 @@ import Pagination from '../Pagination';
 import SearchNothing from './SearchNothing';
 
 import useSearch from '../../hooks/useSearch';
+import { DanceGenre } from '../../api/schema';
 
 const SearchClass = ({ query, select }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,7 +27,14 @@ const SearchClass = ({ query, select }) => {
                 <TextContainer>
                   <TextContent>{list.className}</TextContent>
                   <TextContent>수업 강사 : {list.dancer}</TextContent>
-                  <TextContent>장르 : {list.genre}</TextContent>
+                  <TextContent>
+                    장르 :{' '}
+                    {
+                      DanceGenre.find(
+                        (dance) => dance.id === String(list.genre)
+                      )?.Genre
+                    }
+                  </TextContent>
                   <TextContent>
                     가격 : {list.pricePerSession} / 회당
                   </TextContent>

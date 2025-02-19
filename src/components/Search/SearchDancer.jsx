@@ -7,6 +7,8 @@ import Pagination from '../Pagination';
 import SearchNothing from './SearchNothing';
 import useSearch from '../../hooks/useSearch';
 
+import { DanceGenre } from '../../api/schema';
+
 const SearchDancer = ({ query, select }) => {
   const navigate = useNavigate();
 
@@ -30,7 +32,16 @@ const SearchDancer = ({ query, select }) => {
                   <TextContent>{list.name}</TextContent>
                   <TextContent>Instagram : {list.instagramId}</TextContent>
                   <TextContent>
-                    주 장르 : {list.mainGenres.map((genre) => genre)}
+                    주 장르 :{' '}
+                    {list.mainGenres
+                      .map(
+                        (genreId) =>
+                          DanceGenre.find(
+                            (dance) => dance.id === String(genreId)
+                          )?.Genre
+                      )
+                      .filter(Boolean)
+                      .join(', ')}
                   </TextContent>
                 </TextContainer>
               </ClassList>
