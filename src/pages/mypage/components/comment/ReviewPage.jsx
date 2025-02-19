@@ -34,9 +34,12 @@ const ReviewPage = () => {
   });
 
   if (isLoading) {
-    return <LoadingSpinner isLoading={isLoading} />;
+    return (
+      <LoadingContainer>
+        <LoadingSpinner isLoading={isLoading} />
+      </LoadingContainer>
+    );
   }
-
   if (isError) {
     return <div>Error: {error?.message}</div>;
   }
@@ -66,3 +69,7 @@ const Container = styled.div`
   align-items: center;
   margin-bottom: 182px;
 `;
+
+const LoadingContainer = styled.div`
+  margin-left: 450px;
+`
