@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MypageGenre from '../MypageGenre';
-import DancerPicture from '../DancerPicture';
 import api from '../../../../api/api';
+import ImagesUploader from '../../../registration/components/ImagesUploader';
 
 const ProfileDancer = () => {
   const [formState, setFormState] = useState({
@@ -12,7 +12,7 @@ const ProfileDancer = () => {
     introduce: '',
     genre: [],
     record: '',
-    images: [null, null, null],
+    dancerImages: ["", "", ""],
   });
 
   useEffect(() => {
@@ -25,7 +25,8 @@ const ProfileDancer = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        // console.log(response.data.data)
+        console.log(response.data.data)
+        console.log(response.data.data.dancerImages)
         const data = response.data.data;
 
         setFormState({
@@ -33,9 +34,9 @@ const ProfileDancer = () => {
           instagram: data.instargramId || '',
           chatting: data.openChatUrl || '',
           introduce: data.bio || '',
-          genre: data.favoriteGenres || [],
+          genre: data.preferredGenres || [],
           record: data.history || '',
-          images: data.imageUrlList || [null, null, null],
+          dancerImages: data.dancerImages || [],
         });
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -58,9 +59,9 @@ const ProfileDancer = () => {
         instargramId: formState.instagram,
         openChatUrl: formState.chatting,
         bio: formState.introduce,
-        favoriteGenres: formState.genre,
+        preferredGenres: formState.genre,
         history: formState.record,
-        imageUrlList: formState.images,
+        dancerImages: formState.dancerImages,
       };
 
       const response = await api.put('/dancers', updatedData, {
@@ -80,10 +81,15 @@ const ProfileDancer = () => {
     }
   };
 
-  const getImageUrl = (images) => {
-    return images
-      .filter(image => image instanceof File)
-      .map(image => URL.createObjectURL(image));
+  const getPreview = (images) => {
+    if (!images || images.length === 0) return null;
+
+    return images.map((image) => {
+      if (image instanceof File) {
+        return URL.createObjectURL(image);
+      }
+      return image;
+    });
   };
 
   return (
@@ -140,11 +146,10 @@ const ProfileDancer = () => {
                 <SmallText>* 가장 첫 번째로 등록된 사진이 프로필로 사용됩니다</SmallText>
               </SmallTextContainer>
             </OpenChatItemContainer>
-            <DancerPicture
-              isFor="edit"
-              images={getImageUrl(formState.images)}
+            <ImagesUploader
+              isFor="dancer"
+              images={getPreview(formState.dancerImages)}
               handleFormChange={handleFormChange}
-
             />
           </DancerPictureContainer>
 
