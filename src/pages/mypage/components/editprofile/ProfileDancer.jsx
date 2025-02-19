@@ -6,6 +6,7 @@ import ImagesUploader from '../../../registration/components/ImagesUploader';
 import NoUser from './NoUser';
 import ConfirmLeaveAlert from '../../../../components/ConfirmLeaveAlert';
 import useConfirmLeave from '../../../../hooks/useConfirmLeave';
+import SingleBtnAlert from '../../../../components/SingleBtnAlert';
 
 const ProfileDancer = () => {
   const [formState, setFormState] = useState({
@@ -19,6 +20,7 @@ const ProfileDancer = () => {
   });
   const [isUnauthorized, setIsUnauthorized] = useState(false);
   const [showLeaveAlert, setShowLeaveAlert] = useState(false);
+  const [showInvalidAlert, setShowInvalidAlert] = useState(false);
 
   // 뒤로 가기 방지 팝업 경고
   useConfirmLeave({ setAlert: setShowLeaveAlert });
@@ -88,6 +90,7 @@ const ProfileDancer = () => {
       if (response.status === 200) {
         console.log('업데이트 성공');
         console.log(updatedData);
+        setShowInvalidAlert(true);
       } else {
         console.error('업데이트 에러 발생');
       }
@@ -171,6 +174,18 @@ const ProfileDancer = () => {
         </ItemContainer>
       </Container>
       <SaveButton onClick={handleSubmit}> 프로필 저장 </SaveButton>
+      {showInvalidAlert && (
+        <SingleBtnAlert
+          message={
+            <AlertText>
+              프로필 저장이 완료되었습니다.
+            </AlertText>
+          }
+          onClose={() => setShowInvalidAlert(false)}
+          mariginsize="33px"
+          showButtons={true}
+        />
+      )}
       {showLeaveAlert && (
         <ConfirmLeaveAlert
           message={
