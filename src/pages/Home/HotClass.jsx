@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import PassiveCarousel from '../../components/Home/PassiveCarousel';
 
-const HotClass = (danceclass) => {
+const HotClass = ({ danceclass }) => {
   return (
     <Container>
       <Header>유행하는 수업을 한눈에</Header>

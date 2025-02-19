@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ForDancer = ({ dummyUserDancer }) => {
+const ForDancer = ({ dummyUserDancer, dancer }) => {
   return (
     <DancerContainer>
       {dummyUserDancer?.map((Dancer) => (

@@ -19,7 +19,7 @@ const HomePage = () => {
   return (
     <Container>
       <HotDancer dancer={dancer} />
-      <HotClass danceclas={danceclass} />
+      <HotClass danceclass={danceclass} />
       <UserRecommend
         dummyUserDancer={dancers}
         dummyUserClass={classes}

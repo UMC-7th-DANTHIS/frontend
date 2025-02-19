@@ -4,11 +4,11 @@ import styled from 'styled-components';
 import Carousel from '../../components/Home/Carousel';
 import HotDancerBanner from '../../components/Home/HotDancerBanner';
 
-const HotDancer = () => {
+const HotDancer = ({ dancer }) => {
   return (
     <Container>
       <HotDancerBanner />
-      <Carousel />
+      <Carousel dancer={dancer} />
     </Container>
   );
 };

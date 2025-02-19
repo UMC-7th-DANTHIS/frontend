@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ForClass = ({ dummyUserClass }) => {
+const ForClass = ({ dummyUserClass, danceclass }) => {
   return (
     <ClassContainer>
       {dummyUserClass?.map((Class) => (
