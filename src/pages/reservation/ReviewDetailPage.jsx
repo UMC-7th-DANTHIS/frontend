@@ -31,6 +31,8 @@ const ReviewDetailPage = () => {
       const response = await api.get(
         `/dance-classes/${classId}/reviews/${reviewId}`
       );
+      console.log(response.data.data);
+      console.log(response.data.data.reviewImages);
       setReview(response.data.data);
     } catch (error) {
       console.error('❌ 리뷰 상세 정보를 불러오는 중 오류 발생:', error);
@@ -45,7 +47,7 @@ const ReviewDetailPage = () => {
       if (response.data.data?.nickname === review?.author) {
         setIsUserAuthorMatch(true);
       }
-    } catch (error) {}
+    } catch (error) { }
   }, [review?.author]);
 
   useEffect(() => {
@@ -102,8 +104,8 @@ const ReviewDetailPage = () => {
       <Content>{review.content}</Content>
       <ImagesContainer>
         <ImagesContainer>
-          {review.images &&
-            review.images.map((image, index) => (
+          {review.reviewImages &&
+            review.reviewImages.map((image, index) => (
               <React.Fragment key={index}>
                 <Image
                   src={image}
