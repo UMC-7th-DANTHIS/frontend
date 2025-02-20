@@ -1,21 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ForClass = ({ dummyUserClass, danceclass }) => {
+const ForClass = ({ danceclass }) => {
+  const randomDance = danceclass?.data.danceClasses
+    ? [...danceclass?.data.danceClasses]
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 4)
+    : [];
+
   return (
     <ClassContainer>
-      {dummyUserClass?.map((Class) => (
+      {randomDance?.map((Class) => (
         <ClassContent>
-          <ClassImage src={Class.Image} alt={'프로필 이미지'} />
+          <ClassImage src={Class.thumbnailImage} alt={'프로필 이미지'} />
           <TextContainer>
-            <ClassName>{Class.Title}</ClassName>
-            <ClassDancer>{Class.Dancer}</ClassDancer>
-            <ClassDancer>{Class.Genre}</ClassDancer>
+            <ClassName>{Class.className}</ClassName>
+            <ClassDancer>{Class.dancerName}</ClassDancer>
+            {/* <ClassDancer>{Class.Genre}</ClassDancer>
             <ClassHashContainer>
               {Class?.Hashtag.map((Hashtag) => (
                 <ClassHashtag># {Hashtag}</ClassHashtag>
               ))}
-            </ClassHashContainer>
+            </ClassHashContainer> */}
           </TextContainer>
         </ClassContent>
       ))}

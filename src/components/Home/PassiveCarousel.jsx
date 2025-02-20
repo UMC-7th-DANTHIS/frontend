@@ -4,8 +4,6 @@ import styled from 'styled-components';
 const PassiveCarousel = ({ danceclass }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  console.log(danceclass);
-
   const handleNext = () => {
     if (currentIndex < danceclass?.data.danceClasses.length - 3) {
       setCurrentIndex(currentIndex + 1);
