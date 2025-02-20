@@ -60,7 +60,7 @@ const KakaoRedirectHandler = () => {
                 // Step 3: 이메일로 회원 여부 확인
                 axios
                   .get(
-                    `${process.env.REACT_APP_API_BASE_URL}/users/check-email?email=${encodeURIComponent(
+                    `${process.env.REACT_APP_API_BASE_URL}/users/check-phone-by-email?email=${encodeURIComponent(
                       email
                     )}`,
                     {
