@@ -28,6 +28,8 @@ const CommunityPostPage = () => {
   const { setForceReload: setListReload } = useOutletContext();
   const { data: post } = useGetCommunity(selectedPost?.postId);
 
+  console.log(post);
+
   // 댓글 가져오기
   const {
     data: com,

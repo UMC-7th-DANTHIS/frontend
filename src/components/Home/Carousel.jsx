@@ -1,10 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styled from 'styled-components';
 
 const Carousel = ({ dancer }) => {
+  const navigate = useNavigate();
+
   return (
     <CarouselContainer>
       <Slider {...sliderSettings}>
@@ -12,7 +15,7 @@ const Carousel = ({ dancer }) => {
           <Slide key={id}>
             <ImageContainer>
               <PlaceholderImg src={data.images[0]} alt={data.dancerName} />
-              <Overlay />
+              <Overlay onClick={() => navigate(`/dancerprofile/${data.id}`)} />
               <DancerName>{data.dancerName}</DancerName>
             </ImageContainer>
           </Slide>

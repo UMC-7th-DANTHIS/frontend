@@ -45,7 +45,9 @@ const ReviewDetailPage = () => {
       if (response.data.data?.nickname === review?.author) {
         setIsUserAuthorMatch(true);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+    }
   }, [review?.author]);
 
   useEffect(() => {
@@ -102,8 +104,8 @@ const ReviewDetailPage = () => {
       <Content>{review.content}</Content>
       <ImagesContainer>
         <ImagesContainer>
-          {review.images &&
-            review.images.map((image, index) => (
+          {review.reviewImages &&
+            review.reviewImages.map((image, index) => (
               <React.Fragment key={index}>
                 <Image
                   src={image}

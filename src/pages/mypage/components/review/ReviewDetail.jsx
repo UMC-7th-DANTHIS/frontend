@@ -15,11 +15,12 @@ const ReviewDetail = () => {
   const [selectedImage, setSelectedImage] = useState([]);
   const [rating, setRating] = useState(0);
   const [showAlert, setShowAlert] = useState(false);
-  const [review, setReview] = useState("");
-  const [title, setTitle] = useState("");
+  const [review, setReview] = useState('');
+  const [title, setTitle] = useState('');
   const { id: classId } = useParams();
-  const selectedMenu = new URLSearchParams(location.search).get('menu') || 'myreview';
-  const className = location.state?.className || "";
+  const selectedMenu =
+    new URLSearchParams(location.search).get('menu') || 'myreview';
+  const className = location.state?.className || '';
   const [showInvalidAlert, setShowInvalidAlert] = useState(false);
 
   const handleMenuClick = (menuKey) => {
@@ -27,15 +28,24 @@ const ReviewDetail = () => {
   };
 
   const createReview = async (reviewData) => {
+    console.log('reviewData', reviewData);
     const token = localStorage.getItem('token');
 
-    const response = await api.post(`/dance-classes/${classId}/reviews`, reviewData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const response = await api.post(
+      `/dance-classes/${classId}/reviews`,
+      {
+        ...reviewData,
+        reviewImages: reviewData.reviewImages // 이미 S3에 업로드된 URL 배열
       },
-    });
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
 
-    console.log(response.data);
+    console.log('API response:', response.data); // 응답 확인
     return response.data;
   };
 
@@ -46,7 +56,7 @@ const ReviewDetail = () => {
     },
     onError: (error) => {
       console.error(error.message);
-    },
+    }
   });
 
   const handleReview = (e) => {
@@ -60,21 +70,22 @@ const ReviewDetail = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!review.trim()) {
-      alert("리뷰 내용을 작성해주세요.");
+      alert('리뷰 내용을 작성해주세요.');
       return;
     }
     if (!title.trim()) {
-      alert("리뷰 제목을 작성해주세요");
+      alert('리뷰 제목을 작성해주세요');
       return;
     }
 
     const reviewData = {
       title: title,
       content: review,
-      rating,
-      images: selectedImage,
+      rating: rating,
+      reviewImages: selectedImage
     };
 
+    console.log('4444', reviewData);
     mutation.mutate(reviewData);
   };
 
@@ -84,7 +95,10 @@ const ReviewDetail = () => {
   return (
     <>
       <Container>
-        <MypageSidebar selectedMenu={selectedMenu} onMenuClick={handleMenuClick} />
+        <MypageSidebar
+          selectedMenu={selectedMenu}
+          onMenuClick={handleMenuClick}
+        />
 
         <ReviewContainer>
           <ClassTitle>{className}</ClassTitle>
@@ -99,6 +113,8 @@ const ReviewDetail = () => {
             review={review}
             handleTitle={handleTitle}
             handleReview={handleReview}
+            selectedImages={selectedImage}
+            setSelectedImages={setSelectedImage}
           />
           <ReviewStar rating={rating} setRating={setRating} />
 
@@ -110,8 +126,13 @@ const ReviewDetail = () => {
                   <Alert
                     message={
                       <span>
-                        <span>해당 페이지를 벗어나면 <br /></span>
-                        <span>작성 중인 글이 <ColoredText> 모두 삭제 </ColoredText> 됩니다 <br /></span>
+                        <span>
+                          해당 페이지를 벗어나면 <br />
+                        </span>
+                        <span>
+                          작성 중인 글이 <ColoredText> 모두 삭제 </ColoredText>{' '}
+                          됩니다 <br />
+                        </span>
                         <span>떠나시겠습니까?</span>
                       </span>
                     }
@@ -175,7 +196,7 @@ const ReviewContainer = styled.div`
 `;
 
 const ClassTitle = styled.div`
-  color: #FFF;
+  color: #fff;
   font-size: 30px;
   font-weight: 600;
   margin-bottom: 23px;
@@ -184,13 +205,13 @@ const ClassTitle = styled.div`
 
 const Title = styled.div`
   font-weight: 600;
-  color: #FFF;
+  color: #fff;
   font-size: 22px;
   margin-left: 55px;
 `;
 
 const Notice = styled.div`
-  color:#B2B2B2;
+  color: #b2b2b2;
   font-size: 14px;
   list-style: none;
   margin-bottom: 10px;
@@ -218,29 +239,29 @@ const CancelButton = styled.button`
   height: 36px;
   background-color: transparent;
   color: #fff;
-  border: 2px solid #9819C3;
+  border: 2px solid #9819c3;
   border-radius: 10px;
   cursor: pointer;
   font-weight: 600;
 
   &:hover {
-    background-color: #9819C3;
+    background-color: #9819c3;
   }
 `;
 
 const SubmitButton = styled.button`
   width: 64px;
   height: 36px;
-  background-color: #9819C3;
+  background-color: #9819c3;
   color: #fff;
-  border: 2px solid #9819C3;
+  border: 2px solid #9819c3;
   border-radius: 10px;
   cursor: pointer;
   font-weight: 600;
 `;
 
 const ColoredText = styled.span`
-  color: #A60F62;
+  color: #a60f62;
 `;
 
 const AlertText = styled.span`
@@ -252,4 +273,3 @@ const AlertText = styled.span`
   line-height: 21px;
   white-space: pre-line;
 `;
-

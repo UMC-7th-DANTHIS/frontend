@@ -1,20 +1,32 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import PhotoUpload from './PhotoUpload';
 import { ReactComponent as RemoveIcon } from '../../../../assets/buttons/remove.svg';
 
-const ReviewForm = ({ title, review, handleTitle, handleReview }) => {
-  const [selectedImages, setSelectedImages] = useState([]);
-
+const ReviewForm = ({
+  title,
+  review,
+  handleTitle,
+  handleReview,
+  selectedImages,
+  setSelectedImages
+}) => {
+  // const handleImageUpload = (newImage) => {
+  //   if (selectedImages.length < 4) {
+  //     setSelectedImages([...selectedImages, newImage]);
+  //   }
+  // };
 
   const handleImageUpload = (newImage) => {
     if (selectedImages.length < 4) {
-      setSelectedImages([...selectedImages, newImage]);
+      setSelectedImages((prev) => [...prev, newImage]);
     }
   };
 
   const removeImage = (indexToRemove) => {
-    setSelectedImages(selectedImages.filter((_, index) => index !== indexToRemove));
+    setSelectedImages(
+      selectedImages.filter((_, index) => index !== indexToRemove)
+    );
   };
 
   return (
@@ -41,16 +53,23 @@ const ReviewForm = ({ title, review, handleTitle, handleReview }) => {
           />
         </BoxContent>
 
-        {selectedImages.length > 0 && (
+        {selectedImages?.length > 0 && (
           <>
             <PhotoLine />
             <PreviewImageContainer>
               <ImageGrid>
                 {selectedImages.map((image, index) => (
                   <ImageWrapper key={index}>
-                    <PreviewImage src={image} alt={`Selected preview ${index + 1}`} />
+                    <PreviewImage
+                      src={image}
+                      alt={`Selected preview ${index + 1}`}
+                    />
                     <RemoveButton>
-                      <RemoveIcon width={27} height={27} onClick={() => removeImage(index)} />
+                      <RemoveIcon
+                        width={27}
+                        height={27}
+                        onClick={() => removeImage(index)}
+                      />
                     </RemoveButton>
                   </ImageWrapper>
                 ))}
@@ -87,10 +106,10 @@ const getReviewBoxHeight = (imageCount) => {
 
 const ReviewBox = styled.div`
   width: 660px;
-  height: ${props => getReviewBoxHeight(props.imageCount)};
-  border: 2px solid #9819C3;
+  height: ${(props) => getReviewBoxHeight(props.imageCount)};
+  border: 2px solid #9819c3;
   border-radius: 10px;
-  box-shadow: 0px 0px 5px #9819C3;
+  box-shadow: 0px 0px 5px #9819c3;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -104,7 +123,7 @@ const BoxTitle = styled.div`
 `;
 
 const Line = styled.div`
-  border: 1.5px solid #B2B2B2;
+  border: 1.5px solid #b2b2b2;
   width: 555px;
   margin-left: 59px;
   margin-top: 14px;
@@ -112,12 +131,12 @@ const Line = styled.div`
 `;
 
 const PhotoLine = styled.div`
-  border: 1.5px solid #4D4D4D;
+  border: 1.5px solid #4d4d4d;
   width: 555px;
   margin-left: 59px;
   margin-top: 14px;
   margin-bottom: 27px;
-`
+`;
 
 const BoxContent = styled.div`
   display: flex;
@@ -144,13 +163,13 @@ const Input = styled.input`
   margin-top: 18px;
 
   &::placeholder {
-    color: #4D4D4D;
+    color: #4d4d4d;
   }
 `;
 
 const Textarea = styled.textarea`
   width: 474px;
-  height: ${props => props.hasImage ? '462px' : '300px'};
+  height: ${(props) => (props.hasImage ? '462px' : '300px')};
   font-size: 14px;
   font-weight: 400;
   border: none;
@@ -162,7 +181,7 @@ const Textarea = styled.textarea`
   margin-left: 30px;
 
   &::placeholder {
-    color: #4D4D4D;
+    color: #4d4d4d;
   }
 `;
 

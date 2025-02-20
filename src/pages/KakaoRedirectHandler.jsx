@@ -74,6 +74,7 @@ const KakaoRedirectHandler = () => {
       .finally(() => {
         setIsProcessing(false);
       });
+  
   }, [navigate, isProcessing]);
 
   return <div>로그인 처리 중...</div>;
