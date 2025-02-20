@@ -11,17 +11,31 @@ const ReviewForm = ({
   selectedImages,
   setSelectedImages
 }) => {
-  // const handleImageUpload = (newImage) => {
-  //   if (selectedImages.length < 4) {
-  //     setSelectedImages([...selectedImages, newImage]);
-  //   }
-  // };
 
-  const handleImageUpload = (newImage) => {
-    if (selectedImages.length < 4) {
-      setSelectedImages((prev) => [...prev, newImage]);
-    }
+  const handleImageUpload = (Images) => {
+    console.log('Received Images:', Images);
+
+    setSelectedImages((prev) => {
+      const newImages = Array.isArray(Images) ? Images : [Images];
+
+      const imageURLs = newImages.map(image => {
+        if (image instanceof File) {
+          return URL.createObjectURL(image);
+        }
+        return image;
+      });
+
+      const NewImages = imageURLs.filter(newUrl =>
+        !prev.includes(newUrl)
+      );
+
+      if (prev.length < 4) {
+        return [...prev, ...NewImages].slice(0, 4);
+      }
+      return prev;
+    });
   };
+
 
   const removeImage = (indexToRemove) => {
     setSelectedImages(
@@ -62,7 +76,7 @@ const ReviewForm = ({
                   <ImageWrapper key={index}>
                     <PreviewImage
                       src={image}
-                      alt={`Selected preview ${index + 1}`}
+                      alt={`Selected preview ${index}`}
                     />
                     <RemoveButton>
                       <RemoveIcon
