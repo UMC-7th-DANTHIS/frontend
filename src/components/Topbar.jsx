@@ -208,7 +208,26 @@ const Search = styled.div`
   height: 36px;
   flex-shrink: 0;
   border-radius: 43px;
-  border: 2px solid var(--main-gradation, #b30505);
+  padding: 2px; /* 테두리 두께 */
+  background: linear-gradient(
+    90deg,
+    #b30505,
+    #9819c3
+  ); /* 배경에 그라데이션 적용 */
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0; /* 부모 요소 크기 맞춤 */
+    border-radius: 43px;
+    background: black; /* 내부 색상 */
+    margin: 2px; /* 테두리 두께와 동일하게 */
+  }
+
+  display: flex;
+  align-items: center;
+  z-index: 0;
 `;
 
 const SearchInput = styled.input`
@@ -222,6 +241,7 @@ const SearchInput = styled.input`
     border: none;
   }
   margin-left: 10px;
+  z-index: 1;
 `;
 
 const SearchButton = styled.button`
@@ -236,6 +256,7 @@ const SearchButton = styled.button`
     opacity: 0.5;
     cursor: not-allowed;
   }
+  z-index: 1;
 `;
 
 const SearchIcon = styled.img`
