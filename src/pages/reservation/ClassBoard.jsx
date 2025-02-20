@@ -28,7 +28,7 @@ const ClassBoard = () => {
       try {
         const genreId = selectedGenre;
         const response = await api.get(
-          `/dance-classes?genre=${genreId}&page=${currentPage}`
+          `/dance-classes/all?genre=${genreId}&page=${currentPage}`
         );
 
         setClasses(response.data?.data);

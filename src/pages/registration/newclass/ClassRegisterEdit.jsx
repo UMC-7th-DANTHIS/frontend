@@ -11,9 +11,10 @@ import ConfirmLeaveAlert from '../../../components/ConfirmLeaveAlert';
 import SingleBtnAlert from '../../../components/SingleBtnAlert';
 import useConfirmLeave from '../../../hooks/useConfirmLeave';
 import api from '../../../api/api';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const ClassRegisterEdit = ({ setIsRegistered }) => {
+const ClassRegisterEdit = () => {
+  const navigate = useNavigate();
   const [isValid, setIsValid] = useState(false);
   const [showInvalidAlert, setShowInvalidAlert] = useState(false);
   const [showLeaveAlert, setShowLeaveAlert] = useState(false);
@@ -48,11 +49,14 @@ const ClassRegisterEdit = ({ setIsRegistered }) => {
           videoUrl: data.details.videoUrl || ''
         });
       } catch (error) {
-        console.error('수업 정보 불러오기 실패:', error.response?.data || error.message);
+        console.error(
+          '수업 정보 불러오기 실패:',
+          error.response?.data || error.message
+        );
       }
     };
     fetchClassData();
-  }, []);
+  }, [classId]);
 
   // 뒤로 가기 방지 팝업 경고
   useConfirmLeave({ setAlert: setShowLeaveAlert });
@@ -74,12 +78,12 @@ const ClassRegisterEdit = ({ setIsRegistered }) => {
     // 모든 필드가 유효하면 true
     setIsValid(
       isClassNameValid &&
-      isPricePerSessionValid &&
-      isDifficultyValid &&
-      isGenreValid &&
-      isDescriptionValid &&
-      isTargetAudienceValid &&
-      isHashtagsValid
+        isPricePerSessionValid &&
+        isDifficultyValid &&
+        isGenreValid &&
+        isDescriptionValid &&
+        isTargetAudienceValid &&
+        isHashtagsValid
     );
   }, [formState]);
 
@@ -90,16 +94,14 @@ const ClassRegisterEdit = ({ setIsRegistered }) => {
 
   const updateClass = async (data) => {
     try {
-      const response = await api.put(`/dance-classes/${classId}`, data, {
+      await api.put(`/dance-classes/${classId}`, data, {
         headers: { 'Content-Type': 'application/json' }
       });
-      console.log('댄스 수업 수정 성공:', response.data);
-      setIsRegistered(true);
+      navigate(`/mypage?menu=registeredclasses`);
     } catch (error) {
       console.error(error.message);
     }
   };
-
 
   // 수업 등록 폼 제출 핸들러
   const handleSubmit = (e) => {
@@ -114,11 +116,8 @@ const ClassRegisterEdit = ({ setIsRegistered }) => {
       setShowInvalidAlert(true);
       return;
     }
-
-    console.log(updatedFormState);
     updateClass(updatedFormState);
   };
-
 
   return (
     <FormContainer onSubmit={handleSubmit}>

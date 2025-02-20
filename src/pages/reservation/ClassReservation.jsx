@@ -210,12 +210,7 @@ const Image = styled.img`
   height: 298px;
   border-radius: 10px;
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; // 비율 유지
-  }
+  object-fit: cover;
 `;
 const InfoContainer = styled.div`
   display: flex;
