@@ -4,18 +4,16 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styled from 'styled-components';
 
-import DummyHotDancer from '../../store/main/dummyHotDancer';
-
-const Carousel = () => {
+const Carousel = ({ dancer }) => {
   return (
     <CarouselContainer>
       <Slider {...sliderSettings}>
-        {DummyHotDancer.map((data, index) => (
-          <Slide key={index}>
+        {dancer?.data.dancers.map((data, id) => (
+          <Slide key={id}>
             <ImageContainer>
-              <PlaceholderImg src={data.Image} alt={data.Dancer} />
+              <PlaceholderImg src={data.images[0]} alt={data.dancerName} />
               <Overlay />
-              <DancerName>{data.Dancer}</DancerName>
+              <DancerName>{data.dancerName}</DancerName>
             </ImageContainer>
           </Slide>
         ))}

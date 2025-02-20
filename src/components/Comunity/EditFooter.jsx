@@ -54,6 +54,8 @@ const EditFooter = ({
     }
   };
 
+  // 게시물 put
+
   // 이미지 서버에 올리기
   const handleSubmit = async () => {
     if (!content || !title) setShowInvalidAlert(true);

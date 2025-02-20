@@ -9,10 +9,9 @@ import dummyClasses from '../../store/reservation/dummyClasses';
 
 const DancerProfile = () => {
   const [activeTab, setActiveTab] = useState('소개');
-  const {dancerId} = useParams();
+  const { dancerId } = useParams();
   const [dancerData, setDancerData] = useState(null);
   //const data = dummyClass.find((cls) => cls.id === Number(classId));
-  
 
   useEffect(() => {
     // API 호출
@@ -23,7 +22,10 @@ const DancerProfile = () => {
           setDancerData(response.data.data);
           console.log(response.data.data);
         } else {
-          console.error('댄서 정보를 가져오는데 실패했습니다:', response.data.message);
+          console.error(
+            '댄서 정보를 가져오는데 실패했습니다:',
+            response.data.message
+          );
         }
       } catch (error) {
         console.error('API 호출 중 오류 발생:', error);
@@ -48,8 +50,10 @@ const DancerProfile = () => {
         </Tab>
       </TabContainer>
       <ContentContainer>
-        {activeTab === '소개' && <IntroduceTab dancer={dancerData}/>}
-        {activeTab === '등록된 수업' && <ClassTab classes={dancerData.classes}/>}
+        {activeTab === '소개' && <IntroduceTab dancer={dancerData} />}
+        {activeTab === '등록된 수업' && (
+          <ClassTab classes={dancerData.classes} />
+        )}
       </ContentContainer>
     </Layout>
   );
@@ -73,7 +77,7 @@ const TabContainer = styled.div`
   align-items: center;
   margin-left: 100px;
   justify-content: center;
-  margin-right : 100px;
+  margin-right: 100px;
 `;
 
 const Tab = styled.div`

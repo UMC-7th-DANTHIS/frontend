@@ -1,18 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import HotClass1 from '../../assets/main/NowHotClass/HotDancer1.svg';
-import HotClass2 from '../../assets/main/NowHotClass/HotDancer2.svg';
-import HotClass3 from '../../assets/main/NowHotClass/HotDancer3.svg';
-import HotClass4 from '../../assets/main/NowHotClass/HotDancer4.svg';
-
-const PassiveCarousel = () => {
+const PassiveCarousel = ({ danceclass }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const classes = [HotClass1, HotClass2, HotClass3, HotClass4];
-
   const handleNext = () => {
-    if (currentIndex < classes.length - 3) {
+    if (currentIndex < danceclass?.data.danceClasses.length - 3) {
       setCurrentIndex(currentIndex + 1);
     }
   };
@@ -27,9 +20,9 @@ const PassiveCarousel = () => {
     <SliderContainer>
       <ClickArea onClick={handlePrev} position="left" />
       <SlideWrapper currentIndex={currentIndex}>
-        {classes.map((item, index) => (
+        {danceclass?.data.danceClasses.map((item, index) => (
           <HotImage
-            src={item}
+            src={item.thumbnailImage}
             visible={index >= currentIndex && index < currentIndex + 3}
           />
         ))}

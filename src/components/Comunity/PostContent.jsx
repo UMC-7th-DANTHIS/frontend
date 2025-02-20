@@ -22,6 +22,7 @@ const PostContent = ({
   const navigate = useNavigate();
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  console.log(selectedPost);
 
   // 게시글에서 삭제버튼 눌렀을때
   const handleDelete = () => {

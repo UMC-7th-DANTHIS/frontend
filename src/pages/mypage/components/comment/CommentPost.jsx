@@ -11,7 +11,7 @@ const fetchUserPosts = async (currentPage, perData) => {
   const token = localStorage.getItem('token');
   const response = await api.get('/users/posts', {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`
     },
     params: {
       page: currentPage,
@@ -21,7 +21,7 @@ const fetchUserPosts = async (currentPage, perData) => {
   console.log(response.data.data.posts);
   return {
     posts: response.data.data.posts || [],
-    totalElements: response.data.data.totalElements || 0,
+    totalElements: response.data.data.totalElements || 0
   };
 };
 
@@ -32,7 +32,7 @@ const CommentPost = () => {
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['userposts', currentPage, perData],
-    queryFn: () => fetchUserPosts(currentPage, perData),
+    queryFn: () => fetchUserPosts(currentPage, perData)
   });
 
   if (isLoading) {
@@ -43,7 +43,6 @@ const CommentPost = () => {
     );
   }
 
-
   if (isError) {
     return <div>Error: {error?.message}</div>;
   }
@@ -52,32 +51,31 @@ const CommentPost = () => {
     return dateString.split('T')[0].replace(/-/g, '.');
   };
 
-  const handleClick = (postId) => {
-    navigate(`/community/${postId}`)
-  }
-
-
+  const handleClick = (post) => {
+    navigate(`/community/${post.postId}`, { state: { selectedPost: post } });
+  };
 
   return (
     <AllContainer>
       {data.posts.map((post) => (
-        <CommentContainer key={post.postId} onClick={() => handleClick(post.postId)}>
+        <CommentContainer key={post.postId} onClick={() => handleClick(post)}>
           <ContentsContainer>
             <PhotoandTitle>
               <CommentTitle>{post.title}</CommentTitle>
               <IconContainer>
-                {post.images && post.images.filter((img) => img !== null).length > 0 && (
-                  <ExistPhoto width={20} height={20} />
-                )}
+                {post.images &&
+                  post.images.filter((img) => img !== null).length > 0 && (
+                    <ExistPhoto width={20} height={20} />
+                  )}
               </IconContainer>
             </PhotoandTitle>
 
-            <CommentData>
-              {formatDate(post.createdAt)}
-            </CommentData>
+            <CommentData>{formatDate(post.createdAt)}</CommentData>
 
             <CommentContents>
-              {post.content.length > 210 ? post.content.slice(0, 209) + '...' : post.content}
+              {post.content.length > 210
+                ? post.content.slice(0, 209) + '...'
+                : post.content}
             </CommentContents>
           </ContentsContainer>
         </CommentContainer>
@@ -135,10 +133,10 @@ const PhotoandTitle = styled.div`
 `;
 
 const CommentData = styled.div`
-  color: #B2B2B2;
+  color: #b2b2b2;
   margin-top: 8px;
   margin-bottom: 13px;
-`
+`;
 
 const CommentContents = styled.div`
   color: white;
@@ -152,8 +150,5 @@ const IconContainer = styled.div`
 `;
 
 const LoadingContainer = styled.div`
-margin-left: 450px;
-`
-
-
-
+  margin-left: 450px;
+`;
