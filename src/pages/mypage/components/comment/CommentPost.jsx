@@ -57,39 +57,44 @@ const CommentPost = () => {
 
   return (
     <AllContainer>
-      {data.posts.map((post) => (
-        <CommentContainer key={post.postId} onClick={() => handleClick(post)}>
-          <ContentsContainer>
-            <PhotoandTitle>
-              <CommentTitle>{post.title}</CommentTitle>
-              <IconContainer>
-                {post.images &&
-                  post.images.filter((img) => img !== null).length > 0 && (
+      {data?.posts?.length ? (
+        data.posts.map((post) => (
+          <CommentContainer key={post.postId} onClick={() => handleClick(post)}>
+            <ContentsContainer>
+              <PhotoandTitle>
+                <CommentTitle>{post.title}</CommentTitle>
+                <IconContainer>
+                  {post.images?.filter((img) => img !== null).length > 0 && (
                     <ExistPhoto width={20} height={20} />
                   )}
-              </IconContainer>
-            </PhotoandTitle>
+                </IconContainer>
+              </PhotoandTitle>
 
-            <CommentData>{formatDate(post.createdAt)}</CommentData>
+              <CommentData>{formatDate(post.createdAt)}</CommentData>
 
-            <CommentContents>
-              {post.content.length > 210
-                ? post.content.slice(0, 209) + '...'
-                : post.content}
-            </CommentContents>
-          </ContentsContainer>
-        </CommentContainer>
-      ))}
+              <CommentContents>
+                {post.content.length > 210
+                  ? post.content.slice(0, 209) + '...'
+                  : post.content}
+              </CommentContents>
+            </ContentsContainer>
+          </CommentContainer>
+        ))
+      ) : (
+        <Text>게시글이 없습니다.</Text>
+      )}
 
-      <Pagination
-        dataLength={data.totalElements}
-        perData={perData}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-      />
+      {data?.totalElements ? (
+        <Pagination
+          dataLength={data.totalElements}
+          perData={perData}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      ) : null}
     </AllContainer>
   );
-};
+}
 
 export default CommentPost;
 
@@ -152,3 +157,10 @@ const IconContainer = styled.div`
 const LoadingContainer = styled.div`
   margin-left: 450px;
 `;
+
+const Text = styled.div`
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  align-items: center;
+`
