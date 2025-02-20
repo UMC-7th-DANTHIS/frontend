@@ -22,8 +22,7 @@ const MyChatList = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data.data.userId);
-      console.log(response.data.data.chatList);
+      // console.log('111111', response.data.data.chatList);
       return response.data.data.chatList || [];
     },
   });
@@ -45,7 +44,7 @@ const MyChatList = () => {
           data.map((chat) => (
             <ChatList key={chat.dancerId}>
               <ListItem>
-                <ListImage src={(chat.profileImage && chat.profileImage[0]) || sampleImage} alt="Profile" />
+                <ListImage src={(chat.profileImage) || sampleImage} alt="Profile" />
                 <ListName> {chat.dancerName} </ListName>
                 <ArrowContainer>
                   <Arrow />

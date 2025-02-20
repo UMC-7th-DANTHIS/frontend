@@ -109,7 +109,7 @@ const MyRegisterClass = () => {
           <ClassContainer>
             {getCurrentPageData().map((danceClass) => (
               <ClassList key={danceClass.id}>
-                <Image src={danceClass.thumbnailImage[0] || sampleImage} alt={danceClass.id} onError={handleImageError} onClick={() => handleImageClick(danceClass.id)} />
+                <Image src={danceClass.thumbnailImage} alt={danceClass.id} onError={handleImageError} onClick={() => handleImageClick(danceClass.id)} />
                 <ContentWrapper>
                   <TitleText>{danceClass.className}</TitleText>
                   <IconContainer>

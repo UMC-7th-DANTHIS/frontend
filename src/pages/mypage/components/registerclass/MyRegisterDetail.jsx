@@ -29,7 +29,7 @@ const MyRegisterDetail = ({ index }) => {
       const response = await api.get(`dance-classes/${classId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      // console.log(response.data);
+      // console.log('사진사진', response.data);
       return response.data.data;
     },
   });
@@ -43,8 +43,7 @@ const MyRegisterDetail = ({ index }) => {
         size: perData
       }
     });
-    // console.log('user', response.data.data.users);
-    // console.log('user', response.data);
+    // console.log('user2', response.data);
 
     return {
       users: response.data.data.users || [],
@@ -100,7 +99,7 @@ const MyRegisterDetail = ({ index }) => {
 
             <ContentSection>
               <ImageContainer>
-                <Image src={classData?.dancer?.profileImage?.[0] || sampleImage} />
+                <Image src={classData?.dancer?.profileImage} />
               </ImageContainer>
 
               <ReviewSection>

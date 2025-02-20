@@ -49,7 +49,7 @@ const MyLikeClass = () => {
       <ClassContainer>
         {filteredList.map((danceClass) => (
           <ClassList key={danceClass.id}>
-            <Image src={danceClass.thumbnailImage[0] || danceClass.thumbnailImage[1]} alt={danceClass.id} onError={handleImageError} onClick={() => handleClick(danceClass.id)} />
+            <Image src={danceClass.thumbnailImage} alt={danceClass.id} onError={handleImageError} onClick={() => handleClick(danceClass.id)} />
             <Title>{danceClass.className}</Title>
             <Singer>{danceClass.dancerName}</Singer>
           </ClassList>
