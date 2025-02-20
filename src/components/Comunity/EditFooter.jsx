@@ -6,7 +6,6 @@ import axios from 'axios';
 import SingleBtnAlert from '../SingleBtnAlert';
 import ConfirmLeaveAlert from '../ConfirmLeaveAlert';
 
-import axiosInstance from '../../api/axios-instance';
 import getPresignedUrls from '../../hooks/getPresignedUrls';
 
 const EditFooter = ({
@@ -15,7 +14,8 @@ const EditFooter = ({
   title,
   fileName,
   fileObjects,
-  setForceReload
+  setForceReload,
+  createPost
 }) => {
   const navigate = useNavigate();
 
@@ -36,25 +36,6 @@ const EditFooter = ({
       return false;
     }
   };
-
-  // 게시물 post
-  const createPost = async (title, content, uploadedImageUrls) => {
-    const postData = {
-      title,
-      content,
-      images: uploadedImageUrls
-    };
-
-    try {
-      await axiosInstance.post(`/community/posts`, postData);
-      setForceReload((prev) => !prev);
-      navigate('/community');
-    } catch (error) {
-      alert('게시글 작성 실패');
-    }
-  };
-
-  // 게시물 put
 
   // 이미지 서버에 올리기
   const handleSubmit = async () => {

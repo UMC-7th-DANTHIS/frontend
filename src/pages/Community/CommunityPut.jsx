@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import { useLocation, useOutletContext } from 'react-router-dom';
+import { useLocation, useOutletContext, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import EditFooter from '../../components/Comunity/EditFooter';
 import EditContent from '../../components/Comunity/EditContent';
 
+import axiosInstance from '../../api/axios-instance';
+
 const MAX_IMAGES = 4;
 
 const CommunityPut = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { selectedPost } = location.state || {};
   const { setForceReload } = useOutletContext();
-  console.log(selectedPost);
 
   const [fileName, setFileName] = useState([]);
   const [previews, setPreviews] = useState([]);
@@ -39,6 +41,26 @@ const CommunityPut = () => {
         return `${hash}.${extension}`;
       })
     ]);
+  };
+
+  // Overriding
+  const createPost = async (title, content, uploadedImageUrls) => {
+    const postData = {
+      title,
+      content,
+      images: uploadedImageUrls
+    };
+
+    try {
+      await axiosInstance.put(
+        `/community/posts/${selectedPost.postId}`,
+        postData
+      );
+      setForceReload((prev) => !prev);
+      navigate('/community');
+    } catch (error) {
+      alert('게시글 수정 실패');
+    }
   };
 
   return (
@@ -69,6 +91,7 @@ const CommunityPut = () => {
           fileName={fileName}
           fileObjects={fileObjects}
           setForceReload={setForceReload}
+          createPost={createPost}
         />
       </ContentContainer>
     </Container>

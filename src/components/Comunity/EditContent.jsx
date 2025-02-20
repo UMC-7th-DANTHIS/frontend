@@ -18,11 +18,11 @@ const EditContent = ({
       setTitle(selectedPost.title || '');
       setContent(selectedPost.content || '');
       setFileName(
-        selectedPost.image
-          ? selectedPost.image.map((_, idx) => `image-${idx + 1}`)
+        selectedPost.images
+          ? selectedPost.images.map((_, idx) => `image-${idx + 1}`)
           : []
       );
-      setPreviews(selectedPost.image || []);
+      setPreviews(selectedPost.images || []);
     }
   }, [selectedPost, setTitle, setContent, setFileName, setPreviews]);
 
