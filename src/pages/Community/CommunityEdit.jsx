@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import { useLocation, useOutletContext } from 'react-router-dom';
+import { useLocation, useOutletContext, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import EditFooter from '../../components/Comunity/EditFooter';
 import EditContent from '../../components/Comunity/EditContent';
 
+import axiosInstance from '../../api/axios-instance';
+
 const MAX_IMAGES = 4;
 
 const CommunityEdit = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { selectedPost } = location.state || {};
   const { setForceReload } = useOutletContext();
 
@@ -40,6 +43,22 @@ const CommunityEdit = () => {
     ]);
   };
 
+  const createPost = async (title, content, uploadedImageUrls) => {
+    const postData = {
+      title,
+      content,
+      images: uploadedImageUrls
+    };
+
+    try {
+      await axiosInstance.post(`/community/posts`, postData);
+      setForceReload((prev) => !prev);
+      navigate('/community');
+    } catch (error) {
+      alert('게시글 작성 실패');
+    }
+  };
+
   return (
     <Container>
       <ContentContainer>
@@ -68,6 +87,7 @@ const CommunityEdit = () => {
           fileName={fileName}
           fileObjects={fileObjects}
           setForceReload={setForceReload}
+          createPost={createPost}
         />
       </ContentContainer>
     </Container>

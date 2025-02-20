@@ -1,9 +1,12 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { hashTagID } from '../../api/schema';
 
 const ForClass = ({ danceclass }) => {
+  const navigate = useNavigate();
+
   const randomDance = danceclass?.data.danceClasses
     ? [...danceclass?.data.danceClasses]
         .sort(() => 0.5 - Math.random())
@@ -13,7 +16,9 @@ const ForClass = ({ danceclass }) => {
   return (
     <ClassContainer>
       {randomDance?.map((Class) => (
-        <ClassContent>
+        <ClassContent
+          onClick={() => navigate(`/classreservation/${Class.id}?tab=detail`)}
+        >
           <ClassImage src={Class.thumbnailImage} alt={'프로필 이미지'} />
           <TextContainer>
             <ClassName>{Class.className}</ClassName>
@@ -54,6 +59,14 @@ const ClassImage = styled.img`
   width: 200px;
   height: 200px;
   background-color: white;
+
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.1);
+    opacity: 1;
+  }
 
   border-radius: 10px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const PassiveCarousel = ({ danceclass }) => {
+  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNext = () => {
@@ -22,6 +24,7 @@ const PassiveCarousel = ({ danceclass }) => {
       <SlideWrapper currentIndex={currentIndex}>
         {danceclass?.data.danceClasses.map((item, index) => (
           <HotImage
+            onClick={() => navigate(`/classreservation/${item.id}?tab=detail`)}
             src={item.thumbnailImage}
             visible={index >= currentIndex && index < currentIndex + 3}
           />
@@ -61,6 +64,13 @@ const HotImage = styled.img`
   font-weight: bold;
   flex-shrink: 0;
   opacity: ${(props) => (props.visible ? 1 : 0.5)};
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.1);
+    opacity: 1;
+  }
 `;
 
 const ClickArea = styled.div`
