@@ -22,7 +22,6 @@ const PostContent = ({
   const navigate = useNavigate();
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
-  console.log(selectedPost);
 
   // 게시글에서 삭제버튼 눌렀을때
   const handleDelete = () => {
@@ -56,7 +55,9 @@ const PostContent = ({
           <PostActions>
             <ButtonContainer
               onClick={() =>
-                navigate('/community/edit', { state: { selectedPost } })
+                navigate(`/community/edit/${selectedPost.postId}`, {
+                  state: { selectedPost }
+                })
               }
               src={Edit}
               alt={'수정버튼'}
