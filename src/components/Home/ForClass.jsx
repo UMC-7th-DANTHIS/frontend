@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ForClass = ({ danceclass }) => {
+  console.log(danceclass);
+
   const randomDance = danceclass?.data.danceClasses
     ? [...danceclass?.data.danceClasses]
         .sort(() => 0.5 - Math.random())
@@ -16,12 +18,12 @@ const ForClass = ({ danceclass }) => {
           <TextContainer>
             <ClassName>{Class.className}</ClassName>
             <ClassDancer>{Class.dancerName}</ClassDancer>
-            {/* <ClassDancer>{Class.Genre}</ClassDancer>
+            <ClassDancer>{Class.genre}</ClassDancer>
             <ClassHashContainer>
-              {Class?.Hashtag.map((Hashtag) => (
+              {Class?.hashtagIds.map((Hashtag) => (
                 <ClassHashtag># {Hashtag}</ClassHashtag>
               ))}
-            </ClassHashContainer> */}
+            </ClassHashContainer>
           </TextContainer>
         </ClassContent>
       ))}

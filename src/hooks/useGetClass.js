@@ -12,7 +12,7 @@ const useGetClass = () => {
       setIsError(false);
 
       try {
-        const response = await axiosInstance.get('/dance-classes');
+        const response = await axiosInstance.get('/dance-classes/all');
 
         setData(response.data);
       } catch (error) {

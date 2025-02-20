@@ -2,10 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ForDancer = ({ dancer }) => {
-  console.log(dancer);
-
-  const dancerData = dancer?.data
-    ? [...dancer?.data].sort(() => 0.5 - Math.random()).slice(0, 4)
+  const dancerData = dancer?.data.dancers
+    ? [...dancer?.data.dancers].sort(() => 0.5 - Math.random()).slice(0, 4)
     : [];
 
   return (
@@ -14,7 +12,7 @@ const ForDancer = ({ dancer }) => {
         <DancerContent>
           <DancerImage src={Dancer.images[0]} alt={'프로필 이미지'} />
           <DancerName>{Dancer.dancerName}</DancerName>
-          {/* <DancerGenre>{Dancer.Genre}</DancerGenre> */}
+          <DancerGenre>{Dancer.genres}</DancerGenre>
         </DancerContent>
       ))}
     </DancerContainer>

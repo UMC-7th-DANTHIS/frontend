@@ -5,6 +5,7 @@ import MypageLayout from './pages/mypage/MypageLayout';
 import CommunityLayout from './layout/CommunityLayout';
 import Community from './pages/CommunityPage';
 import CommunityPostPage from './pages/Community/CommunityPostPage';
+import CommunityPut from './pages/Community/CommunityPut';
 import DancerRegistration from './pages/registration/newdancer/DancerRegistration';
 import ClassRegistration from './pages/registration/newclass/ClassRegistration';
 import CommunityEdit from './pages/Community/CommunityEdit';
@@ -37,6 +38,7 @@ function App() {
             <Route path="" element={<Community />} />
             <Route path=":id" element={<CommunityPostPage />} />
             <Route path="edit" element={<CommunityEdit />} />
+            <Route path="edit/:id" element={<CommunityPut />} />
           </Route>
           <Route path="/search/:select" element={<SearchLayout />}>
             <Route index element={<SearchWrapper />} />

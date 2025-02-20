@@ -8,7 +8,7 @@ const Carousel = ({ dancer }) => {
   return (
     <CarouselContainer>
       <Slider {...sliderSettings}>
-        {dancer?.data.map((data, id) => (
+        {dancer?.data.dancers.map((data, id) => (
           <Slide key={id}>
             <ImageContainer>
               <PlaceholderImg src={data.images[0]} alt={data.dancerName} />
