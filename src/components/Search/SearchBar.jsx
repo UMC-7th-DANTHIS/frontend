@@ -5,36 +5,19 @@ import Searchicon from '../../assets/searchicon.svg';
 import SingleBtnAlert from '../SingleBtnAlert';
 
 const SearchBar = ({
+  hashTagID,
   select,
   handleCategoryClick,
+  selectedFilter,
+  handleClick,
   temp,
   handleNowContent,
   handleSearchData
 }) => {
   const navigate = useNavigate();
 
-  const [selectedFilter, setSelectedFilter] = useState('');
   const [showInvalidAlert, setShowInvalidAlert] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const category = [
-    '강렬한',
-    '나른한',
-    '에너제틱',
-    '유산소',
-    '빡센',
-    '감성적인',
-    '기본기',
-    '통통튀는',
-    '무거운',
-    '아프로',
-    '뚝딱이',
-    '취미'
-  ];
-
-  const handleClick = (tag) => {
-    setSelectedFilter((prev) => (prev === tag ? '' : tag));
-  };
 
   const handleSearch = (e) => {
     const value = e.target.value;
@@ -69,13 +52,13 @@ const SearchBar = ({
         </SearchButton>
       </InputContainer>
       <HashTagContainer>
-        {category.map((tag, index) => (
+        {hashTagID.map((list) => (
           <HashTag
-            onClick={() => handleClick(tag)}
-            active={selectedFilter.includes(tag)}
-            key={index}
+            onClick={() => handleClick(list.id)}
+            active={selectedFilter === list.id}
+            key={list.id}
           >
-            # {tag}
+            # {list.hashTag}
           </HashTag>
         ))}
       </HashTagContainer>

@@ -3,6 +3,7 @@ import { useSearchParams, Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import SearchBar from '../components/Search/SearchBar';
+import { hashTagID } from '../api/schema';
 
 const SearchLayout = () => {
   const navigate = useNavigate();
@@ -12,6 +13,8 @@ const SearchLayout = () => {
 
   const [select, setSelect] = useState('dance-classes');
   const [temp, setTemp] = useState(query || '');
+
+  const [selectedFilter, setSelectedFilter] = useState('');
 
   useEffect(() => {
     if (query) {
@@ -34,17 +37,24 @@ const SearchLayout = () => {
     setTemp(content);
   };
 
+  const handleClick = (tag) => {
+    setSelectedFilter((prev) => (prev === tag ? '' : tag));
+  };
+
   return (
     <Container>
       <SearchBar
+        hashTagID={hashTagID}
         select={select}
         handleCategoryClick={handleCategoryClick}
+        selectedFilter={selectedFilter}
+        handleClick={handleClick}
         temp={temp}
         handleNowContent={handleNowContent}
         handleSearchData={handleSearchData}
       />
       <ContentContainer>
-        <Outlet />
+        <Outlet context={{ selectedFilter }} />
       </ContentContainer>
     </Container>
   );

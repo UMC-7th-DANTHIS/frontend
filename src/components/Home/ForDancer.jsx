@@ -1,14 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ForDancer = ({ dummyUserDancer }) => {
+const ForDancer = ({ dancer }) => {
+  const dancerData = dancer?.data.dancers
+    ? [...dancer?.data.dancers].sort(() => 0.5 - Math.random()).slice(0, 4)
+    : [];
+  console.log(dancerData);
+
   return (
     <DancerContainer>
-      {dummyUserDancer?.map((Dancer) => (
+      {dancerData?.map((Dancer) => (
         <DancerContent>
-          <DancerImage src={Dancer.Image} alt={'프로필 이미지'} />
-          <DancerName>{Dancer.Dancer}</DancerName>
-          <DancerGenre>{Dancer.Genre}</DancerGenre>
+          <DancerImage src={Dancer.images[0]} alt={'프로필 이미지'} />
+          <DancerName>{Dancer.dancerName}</DancerName>
+          {Dancer?.genres.map((gen) => (
+            <DancerGenre>{gen}</DancerGenre>
+          ))}
         </DancerContent>
       ))}
     </DancerContainer>
