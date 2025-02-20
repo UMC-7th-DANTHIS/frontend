@@ -91,6 +91,7 @@ const ProfileImage = styled.img`
   height: 120px;
   border-radius: 4px;
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+  object-fit: cover;
 `;
 const Name = styled.div`
   color: var(--main_white, #fff);
