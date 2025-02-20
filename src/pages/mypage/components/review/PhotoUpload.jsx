@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import api from '../../../../api/api';
 
-const PhotoUpload = ({ setSelectedImage, urlParam }) => {
+const PhotoUpload = ({ setSelectedImage }) => {
   const photoInputRef = useRef(null);
   const [selectedImages, setSelectedImagesState] = useState([]);
 
@@ -49,8 +49,6 @@ const PhotoUpload = ({ setSelectedImage, urlParam }) => {
 
     event.target.value = '';
   };
-
-
 
   // S3에 파일 업로드
   const uploadFileToS3 = async (presignedUrl, file) => {
@@ -122,3 +120,4 @@ const Warning = styled.div`
   font-weight: 400;
   list-style: none;
 `;
+
