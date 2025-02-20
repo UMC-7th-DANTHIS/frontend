@@ -3,18 +3,27 @@ import styled from 'styled-components';
 import { ReactComponent as StarFilled } from '../../../../assets/shape/filledYellowStar.svg';
 import { ReactComponent as StarNonfilled } from '../../../../assets/shape/nonfilledYellowStar.svg';
 import { ReactComponent as ExistPhoto } from '../../../../assets/photo.svg';
+import { useNavigate } from 'react-router-dom';
 
 const CommentsReview = ({ review }) => {
   const totalStars = 5;
+  const navigate = useNavigate();
 
   const CuttingDetail = (content) => {
     return content.length > 210 ? content.slice(0, 210) + '...' : content;
   }
 
+  const formatDate = (dateString) => {
+    return dateString.split('T')[0].replace(/-/g, '.');
+  };
+
+  const hanleClick = (reviewId) => {
+    navigate(`/classreservation/review/${reviewId}`)
+  }
 
   return (
     <Container>
-      <ReviewWrapper key={review.reviewId}>
+      <ReviewWrapper key={review.reviewId} onClick={() => hanleClick(review.reviewId)}>
         <InfoWrapper>
           <Data>
             <TitleandPhoto>
@@ -32,7 +41,7 @@ const CommentsReview = ({ review }) => {
                   </Star>
                 ))}s
               </Stars>
-              <Date>{review.createdAt}</Date>
+              <Date>{formatDate(review.createdAt)}</Date>
             </RatingAndDate>
           </Data>
         </InfoWrapper>
@@ -62,6 +71,7 @@ const ReviewWrapper = styled.div`
   border: 1px solid #ddd;
   box-shadow: 0px 0px 5px 2px #9819c3;
   margin-bottom: 50px;
+  cursor: pointer;
 `;
 
 const InfoWrapper = styled.div`

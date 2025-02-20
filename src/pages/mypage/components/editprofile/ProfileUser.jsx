@@ -1,66 +1,209 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Profileimg from '../../../../assets/profileimg.svg';
 import styled from 'styled-components';
 import MypageGenre from '../MypageGenre';
+import api from '../../../../api/api';
+import useConfirmLeave from '../../../../hooks/useConfirmLeave';
+import ConfirmLeaveAlert from '../../../../components/ConfirmLeaveAlert';
+import SingleBtnAlert from '../../../../components/SingleBtnAlert';
 
 const ProfileUser = () => {
   const [nicknameStatus, setNicknameStatus] = useState(null);
+  const [gender, setGender] = useState("");
+  const [showLeaveAlert, setShowLeaveAlert] = useState(false);
+  const [showInvalidAlert, setShowInvalidAlert] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState(null);
   const [isDefaultImage, setIsDefaultImage] = useState(false);
-  const [file, setFile] = useState(null);
   const [formState, setFormState] = useState({
     nickname: '',
-    gender: [],
+    gender: '',
     email: '',
-    phone: '',
-    images: [null],
-    genre: [],
+    phoneNumber: '',
+    profileImage: '',
+    preferredGenres: [],
+    preferredDancers: [],
   });
 
-  const handleRadioChange = () => {
+  useConfirmLeave({ setAlert: setShowLeaveAlert });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await api.get('/users/me', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(response.data.data);
+        const data = response.data.data;
+
+        setFormState({
+          nickname: data.nickname || '',
+          gender: data.gender || '',
+          email: data.email || '',
+          phoneNumber: data.phoneNumber || '',
+          profileImage: data.profileImage || Profileimg,
+          preferredGenres: data.preferredGenres || [],
+          preferredDancers: data.preferredDancers || [],
+        });
+
+        // 프로필 이미지가 기본 이미지인지 확인
+        setIsDefaultImage(data.profileImage === Profileimg);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+
+    try {
+      console.log("📡 Presigned URL 요청 시작...");
+      // 1️⃣ Presigned URL 요청
+      const fileExtension = file.name.split('.').pop(); // 파일 확장자 추출
+      const response = await api.post(`/image/user?fileExtension=${fileExtension}`);
+      console.log("📡 Presigned URL API 응답:", response);
+      if (!response.data || !response.data.presignedUrl) {
+        throw new Error('Presigned URL 발급 실패');
+      }
+
+
+      const { presignedUrl, fileUrl } = response.data; // URL 정보 가져오기
+      console.log('발급된 url', presignedUrl);
+
+      // 2️⃣ S3에 이미지 업로드
+      const uploadResponse = await fetch(presignedUrl, {
+        method: 'PUT',
+        body: file,
+        headers: { 'Content-Type': file.type }, // 파일 타입 설정
+      });
+
+      if (!uploadResponse.ok) {
+        throw new Error(`업로드 실패: ${uploadResponse.status}`);
+      }
+
+      // 3️⃣ 최종적으로 업로드된 이미지 URL을 상태에 저장
+      setUploadedImage(fileUrl); // 프로필 사진 상태 업데이트
+      setIsDefaultImage(false); // 기본 이미지 비활성화
+      console.log('✅ 이미지 업로드 성공:', fileUrl);
+
+    } catch (error) {
+      console.error('❌ 파일 업로드 오류:', error.message);
+    }
+  };
+
+  const handleCheckboxChange = () => {
     setIsDefaultImage(true);
-    setFile(null);
-    setFormState((prev) => ({
+    setUploadedImage(null);
+    setFormState(prev => ({
       ...prev,
-      images: [Profileimg],
+      profileImage: Profileimg
     }));
   };
 
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      setFile(selectedFile);
-      setFormState((prev) => ({
-        ...prev,
-        images: [URL.createObjectURL(selectedFile)],
-      }));
-      setIsDefaultImage(false);
-    }
-  };
-
-
-  const handleFileUploadClick = () => {
-    document.getElementById("file-upload").click();
-  };
-
-
   const handleFormChange = (key, value) => {
-    setFormState((prev) => ({ ...prev, [key]: value }));
+    setFormState(prev => ({ ...prev, [key]: value }));
   };
 
-  const handleDoubleCheck = () => {
-    if (formState.nickname === '사용중') {
-      setNicknameStatus('다른 유저와 중복되는 닉네임입니다.');
-    } else if (formState.nickname.trim() === '') {
+  const handleDoubleCheck = async () => {
+    if (!formState.nickname.trim()) {
       setNicknameStatus('닉네임을 입력해주세요.');
-    } else {
-      setNicknameStatus('사용 가능한 닉네임입니다.');
+      return;
+    }
+
+    try {
+      const response = await api.get(`/users/check-nickname?nickname=${formState.nickname}`);
+      console.log(response.data);
+      if (response.data.data === true) {
+        setNicknameStatus('사용 가능한 닉네임입니다.');
+      } else {
+        setNicknameStatus('다른 유저와 중복되는 닉네임입니다.');
+      }
+    } catch (error) {
+      console.error('닉네임 중복 체크 에러:', error);
+      setNicknameStatus('중복 확인에 실패했습니다.');
     }
   };
 
-  const handleSaveProfile = (e) => {
+  const validatePhone = (value) => {
+    const phoneRegex = /^\d{3}-\d{4}-\d{4}$/;
+    return phoneRegex.test(value);
+  };
+
+  const handlePhoneChange = (e) => {
+    let value = e.target.value;
+    const onlyNumbers = value.replace(/\D/g, "");
+
+    if (onlyNumbers.length <= 3) {
+      value = onlyNumbers;
+    } else if (onlyNumbers.length <= 7) {
+      value = `${onlyNumbers.slice(0, 3)}-${onlyNumbers.slice(3)}`;
+    } else {
+      value = `${onlyNumbers.slice(0, 3)}-${onlyNumbers.slice(3, 7)}-${onlyNumbers.slice(7, 11)}`;
+    }
+
+    handleFormChange('phoneNumber', value);
+  };
+
+  const handleSaveProfile = async (e) => {
     e.preventDefault();
-    console.log("저장할 데이터:", formState);
-  }
+
+    // 필수 입력값 검증
+    if (!formState.nickname) {
+      alert('닉네임을 입력해주세요.');
+      return;
+    }
+
+    if (!formState.gender) {
+      alert('성별을 선택해주세요.');
+      return;
+    }
+
+    if (formState.phoneNumber && !validatePhone(formState.phoneNumber)) {
+      alert('올바른 전화번호 형식이 아닙니다.');
+      return;
+    }
+
+    const genderForPut = formState.gender === "남" ? "male" : formState.gender === "여" ? "female" : "";
+
+
+    try {
+      const token = localStorage.getItem('token');
+      const updatedData = {
+        nickname: formState.nickname,
+        gender: genderForPut,
+        email: formState.email,
+        phoneNumber: formState.phoneNumber,
+        profileImage: formState.profileImage,
+        preferredGenres: formState.preferredGenres,
+        preferredDancers: formState.preferredDancers,
+      };
+
+      console.log("📡 PUT 요청 데이터:", updatedData);
+
+      const response = await api.put('/users', updatedData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.status === 200) {
+        setShowInvalidAlert(true);
+      }
+    } catch (error) {
+      console.error('업데이트 에러', error);
+      alert('프로필 업데이트에 실패했습니다.');
+    }
+  };
+
+  const handleGenderChange = (e) => {
+    setGender(e.target.value);
+    handleFormChange('gender', e.target.value);
+  };
 
   return (
     <AllContainer>
@@ -92,8 +235,8 @@ const ProfileUser = () => {
                 type="radio"
                 name="gender"
                 value="남"
-                checked={formState.gender === "남"}
-                onChange={() => handleFormChange("gender", "남")}
+                checked={formState.gender === '남'}
+                onChange={handleGenderChange}
               />
             </RadioLabel>
             <RadioLabel>
@@ -102,49 +245,60 @@ const ProfileUser = () => {
                 type="radio"
                 name="gender"
                 value="여"
-                checked={formState.gender === "여"}
-                onChange={() => handleFormChange("gender", "여")}
+                checked={formState.gender === '여'}
+                onChange={handleGenderChange}
               />
-
             </RadioLabel>
           </GenderContainer>
 
           <EmailContainer>
             <Label>이메일</Label>
-            <EmailInput type="text" placeholder="이메일을 입력하세요." value={formState.email} onChange={(e) => { handleFormChange('email', e.target.value) }} />
+            <EmailInput
+              type="text"
+              placeholder="이메일을 입력하세요."
+              value={formState.email}
+              onChange={(e) => handleFormChange('email', e.target.value)}
+            />
           </EmailContainer>
 
           <PhoneContainer>
             <Label>전화번호</Label>
-            <EmailInput type="text" placeholder="전화번호를 입력하세요." value={formState.phone} onChange={(e) => { handleFormChange('phone', e.target.value) }} />
+            <EmailInput
+              type="text"
+              placeholder="전화번호를 입력하세요."
+              value={formState.phoneNumber}
+              onChange={handlePhoneChange}
+            />
           </PhoneContainer>
 
           <ImageContainer>
             <Label>프로필 사진</Label>
             <ProfileContainer>
               <ProfileImageWrapper>
+                {isDefaultImage || !uploadedImage ? (
+                  <ProfileImage src={Profileimg} alt="프로필 이미지" />
+                ) : (
 
-                <ProfileImage src={formState.images[0] || Profileimg} alt="프로필 이미지" />
+                  <ProfileImage src={uploadedImage} alt="프로필 이미지" />
+                )}
               </ProfileImageWrapper>
               <UploadContainer>
-                <UploadButton type="button" onClick={handleFileUploadClick}>
+                <UploadButton type="button" onClick={() => document.getElementById("file-upload").click()}>
                   파일 업로드
                 </UploadButton>
                 <HiddenInput
                   type="file"
                   id="file-upload"
                   accept="image/*"
-                  onChange={handleFileChange}
+                  onChange={handleFileUpload}
                 />
-
                 <RadioWrapper>
                   <RadioLabel>
                     <RadioInput
                       type="radio"
                       name="profile"
-                      value="기본이미지 사용하기"
                       checked={isDefaultImage}
-                      onChange={handleRadioChange}
+                      onChange={handleCheckboxChange}
                     />
                     <RadioText>기본 이미지 사용하기</RadioText>
                   </RadioLabel>
@@ -160,21 +314,49 @@ const ProfileUser = () => {
             </DanceTextContainer>
             <MypageGenre
               genreSelect={5}
+              selectedGenres={formState.preferredGenres}
               onGenreChange={(selectedGenres) => {
-                handleFormChange('genre', selectedGenres);
+                console.log("선택된 장르", selectedGenres);
+                handleFormChange('preferredGenres', selectedGenres);
               }}
             />
-
           </DanceContainer>
         </ItemContainer>
       </UserContainer>
       <SaveButton type="submit" onClick={handleSaveProfile}>프로필 저장</SaveButton>
+
+      {showInvalidAlert && (
+        <SingleBtnAlert
+          message={
+            <AlertText>
+              프로필 저장이 완료되었습니다.
+            </AlertText>
+          }
+          onClose={() => setShowInvalidAlert(false)}
+          mariginsize="33px"
+          showButtons={true}
+        />
+      )}
+
+      {showLeaveAlert && (
+        <ConfirmLeaveAlert
+          message={
+            <AlertText>
+              해당 페이지를 벗어나면{'\n'}
+              작성 중인 정보가 <ColoredText>모두 삭제</ColoredText>됩니다.
+              {'\n'}
+              떠나시겠습니까?
+            </AlertText>
+          }
+          onClose={() => setShowLeaveAlert(false)}
+          showButtons={true}
+        />
+      )}
     </AllContainer>
   );
 };
 
 export default ProfileUser;
-
 
 const AllContainer = styled.div`
   display: flex;
@@ -443,5 +625,21 @@ const SaveButton = styled.button`
   text-align: center;
   margin-bottom: 159px;
   cursor: pointer;
-`
+`;
+
+const AlertText = styled.span`
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 21px;
+  white-space: pre-line;
+`;
+
+const ColoredText = styled.span`
+  color: #a60f62;
+  font-weight: bold;
+`;
+
 

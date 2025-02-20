@@ -26,16 +26,23 @@ const MyRegisterClass = () => {
     {
       queryKey: ['userregister'],
       queryFn: async () => {
-        const token = localStorage.getItem('token');
-        const response = await api.get('/dancers/dance-classes', {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
-        console.log(response.data.data.danceClasses);
-        return response.data.data.danceClasses || [];
+        try {
+          const token = localStorage.getItem('token');
+          const response = await api.get('/dancers/dance-classes', {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+          });
+          console.log(response.data.data.danceClasses);
+          return response.data.data.danceClasses || [];
+        } catch (error) {
+          if (error.response?.status === 404) {
+            return null;
+          }
+          throw error;
+        }
       },
-    }
+    },
   );
 
   const deleteClassMutation = useMutation({
@@ -48,18 +55,22 @@ const MyRegisterClass = () => {
   if (isLoading) {
     return <LoadingSpinner isLoading={isLoading} />;
   }
-  if (isError) {
-    if (error?.response?.status === 404) {
-      return <NoDancer />
-    }
-    return <div>Error: {error?.message}</div>;
+
+  if (data === null) {
+    return <NoDancer />;
   }
 
+  if (data?.length === 0) {
+    return <NoRegister />;
+  }
+
+  if (isError) {
+    return <div>Error: {error?.message}</div>;
+  }
 
   const handleImageError = (e) => {
     e.target.src = sampleImage;
   };
-
 
   const getCurrentPageData = () => {
     const startIndex = (currentPage - 1) * perData;
@@ -70,7 +81,6 @@ const MyRegisterClass = () => {
   const handleImageClick = (classId) => {
     navigate(`/detail/${classId}`);
   };
-
 
   const handlegoEdit = (classId) => {
     navigate(`/classregister/${classId}`);
