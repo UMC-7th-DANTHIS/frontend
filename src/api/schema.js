@@ -1,7 +1,7 @@
 export const hashTagID = [
   { id: '1', hashTag: '강렬한' },
   { id: '2', hashTag: '나른한' },
-  { id: '3', hashTag: '에너젠틱' },
+  { id: '3', hashTag: '에너제틱' },
   { id: '4', hashTag: '유산소' },
   { id: '5', hashTag: '빡센' },
   { id: '6', hashTag: '감성적인' },
