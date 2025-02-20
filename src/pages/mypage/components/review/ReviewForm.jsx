@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import PhotoUpload from './PhotoUpload';
 import { ReactComponent as RemoveIcon } from '../../../../assets/buttons/remove.svg';
@@ -11,10 +11,15 @@ const ReviewForm = ({
   selectedImages,
   setSelectedImages
 }) => {
+  // const handleImageUpload = (newImage) => {
+  //   if (selectedImages.length < 4) {
+  //     setSelectedImages([...selectedImages, newImage]);
+  //   }
+  // };
 
   const handleImageUpload = (newImage) => {
     if (selectedImages.length < 4) {
-      setSelectedImages([...selectedImages, newImage]);
+      setSelectedImages((prev) => [...prev, newImage]);
     }
   };
 
