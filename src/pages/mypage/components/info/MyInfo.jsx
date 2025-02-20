@@ -29,6 +29,7 @@ const MyInfo = () => {
   
       // 홈페이지로 이동
       navigate("/");
+      window.location.reload();
     } catch (error) {
       console.error("로그아웃 실패:", error.response?.data || error);
       alert("로그아웃에 실패했습니다. 다시 시도해주세요.");

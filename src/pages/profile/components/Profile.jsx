@@ -9,6 +9,19 @@ const Profile = ({ dancer }) => {
   const [isLiked, setIsLiked] = useState(null);
   const { dancerId } = useParams();
 
+  const genres = [
+    { id: 1, name: '힙합' },
+    { id: 2, name: '걸스힙합' },
+    { id: 3, name: '팝핑' },
+    { id: 4, name: '락킹' },
+    { id: 5, name: '왁킹' },
+    { id: 6, name: '걸리시/힐' },
+    { id: 7, name: '크럼프' },
+    { id: 8, name: '텃팅' },
+    { id: 9, name: '코레오' },
+    { id: 10, name: 'K-pop' }
+  ];
+
   // 서버에서 받은 isFavorite 값으로 초기 상태 설정
   useEffect(() => {
     if (dancer?.isFavorite !== undefined) {
@@ -92,7 +105,11 @@ const Profile = ({ dancer }) => {
           <Title>Instagram</Title>
           <Content>{dancer.instargramId}</Content>
           <Title>주 장르</Title>
-          <Content>{dancer.favoriteGenres}</Content>
+          <Content>{dancer.preferredGenres
+    ?.map((genreId) => genres.find((genre) => genre.id === genreId)?.name)
+    .filter(Boolean) // undefined 값 제거
+    .join(', ') || "알 수 없음"}
+    </Content>
           <Title>한 마디 소개글</Title>
           <Content>{formatIntroduce(dancer.bio)}</Content>
         </InfoContainer>

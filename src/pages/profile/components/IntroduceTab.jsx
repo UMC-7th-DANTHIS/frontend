@@ -10,7 +10,7 @@ import DancerPic from '../../../assets/dummyphoto/introduce.svg'
   return (
     <Layout>
         <ImageContainer>
-        {dancer.imageUrlList?.map((imageUrl, index) => (
+        {dancer.dancerImages?.map((imageUrl, index) => (
           <Picture key={index} src={imageUrl} alt={`Dancer Image ${index + 1}`} />
         ))}
         </ImageContainer>
