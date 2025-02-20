@@ -5,6 +5,7 @@ const ForDancer = ({ dancer }) => {
   const dancerData = dancer?.data.dancers
     ? [...dancer?.data.dancers].sort(() => 0.5 - Math.random()).slice(0, 4)
     : [];
+  console.log(dancerData);
 
   return (
     <DancerContainer>
@@ -12,7 +13,9 @@ const ForDancer = ({ dancer }) => {
         <DancerContent>
           <DancerImage src={Dancer.images[0]} alt={'프로필 이미지'} />
           <DancerName>{Dancer.dancerName}</DancerName>
-          <DancerGenre>{Dancer.genres}</DancerGenre>
+          {Dancer?.genres.map((gen) => (
+            <DancerGenre>{gen}</DancerGenre>
+          ))}
         </DancerContent>
       ))}
     </DancerContainer>
