@@ -19,7 +19,7 @@ const fetchTakeClass = async (currentPage, perData) => {
     }
   });
   // console.log(response.data);
-  // console.log(response.data.data.danceClasses);
+  console.log('1111', response.data.data.danceClasses);
   return {
     classlist: response.data.data.danceClasses || [],
     totalElements: response.data.data.totalElements || 0,
@@ -59,7 +59,7 @@ const MyReview = () => {
         {classList.map((danceClass) => (
           <ClassList key={danceClass.id}>
             <Image
-              src={danceClass.thumbnailImage[0] || sampleImage}
+              src={danceClass.thumbnailImage || sampleImage}
               alt={danceClass.id}
               onClick={() => handleImageClick(danceClass)}
             />
