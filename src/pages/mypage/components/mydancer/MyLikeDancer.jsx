@@ -5,10 +5,12 @@ import Pagination from '../../../../components/Pagination';
 import { useQuery } from '@tanstack/react-query';
 import api from '../../../../api/api';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
+import { useNavigate } from 'react-router-dom';
 
 const MyLikeDancer = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 9;
+  const navigate = useNavigate();
 
   const { data, isLoading, isError, error } = useQuery(
     {
@@ -39,6 +41,10 @@ const MyLikeDancer = () => {
     return <div>Error: {error?.message}</div>;
   }
 
+  const handleClick = (id) => {
+    navigate(`/dancerprofile/${id}`);
+  }
+
   return (
     <>
       <DancerContainer>
@@ -47,7 +53,8 @@ const MyLikeDancer = () => {
             <Image
               src={dancer.images[0] || dancer.images[1]}
               alt={dancer.dancerName}
-              onError={handleImageError} // 이미지 로딩 실패시 임시 샘플 사진 출력 -> 추후 삭제 예정
+              onError={handleImageError}
+              onClick={() => handleClick(dancer.id)}
             />
             <Dancer>{dancer.dancerName}</Dancer>
           </DancerList>
@@ -89,6 +96,7 @@ const Image = styled.img`
   height: 220px;
   object-fit: cover;
   border-radius: 10px;
+  cursor: pointer;
 `;
 
 const Dancer = styled.div`

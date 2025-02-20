@@ -7,6 +7,7 @@ import DetailTab from './components/tabs/detail/DetailTab';
 import ReviewTab from './components/tabs/review/ReviewTab';
 import RatingTab from './components/tabs/rating/RatingTab';
 import api from '../../api/api';
+import { DanceGenre } from '../../api/schema';
 
 const ClassReservation = () => {
   const navigate = useNavigate();
@@ -15,19 +16,6 @@ const ClassReservation = () => {
 
   const [isLiked, setIsLiked] = useState(false);
   const [currentTab, setCurrentTab] = useState(0);
-
-  const genres = [
-    { id: 1, name: '힙합' },
-    { id: 2, name: '걸스힙합' },
-    { id: 3, name: '팝핑' },
-    { id: 4, name: '락킹' },
-    { id: 5, name: '왁킹' },
-    { id: 6, name: '걸리시/힐' },
-    { id: 7, name: '크럼프' },
-    { id: 8, name: '텃팅' },
-    { id: 9, name: '코레오' },
-    { id: 10, name: 'K-pop' }
-  ];
 
   const [searchParams] = useSearchParams();
   const urlTabQuery = searchParams.get('tab');
@@ -89,7 +77,10 @@ const ClassReservation = () => {
   const handleChatClick = () => {
     const startChat = async () => {
       try {
-        await api.post(`/chats/${50}/start`);
+        const response = await api.post(
+          `/chats/${classData.details?.dancerId}/start`
+        );
+        window.open(response.data.data?.openChatUrl);
       } catch (error) {
         console.error('❌ 1:1 채팅 신청 중 오류 발생:', error);
       }
@@ -142,7 +133,8 @@ const ClassReservation = () => {
         <InfoContainer>
           <Text>강사 : {classData.dancer?.name}</Text>
           <Text>
-            장르 : {genres.find((g) => g.id === classData?.genre)?.name}
+            장르 :{' '}
+            {DanceGenre.find((g) => Number(g.id) === classData?.genre)?.Genre}
           </Text>
           <Text>가격 : {formatPrice(classData?.pricePerSession)}원 / 회당</Text>
           <Level level={classData?.difficulty} />

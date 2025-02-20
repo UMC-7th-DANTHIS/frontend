@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MypageGenre from '../MypageGenre';
-import DancerPicture from '../DancerPicture';
 import api from '../../../../api/api';
+import ImagesUploader from '../../../registration/components/ImagesUploader';
+import NoUser from './NoUser';
+import ConfirmLeaveAlert from '../../../../components/ConfirmLeaveAlert';
+import useConfirmLeave from '../../../../hooks/useConfirmLeave';
+import SingleBtnAlert from '../../../../components/SingleBtnAlert';
 
 const ProfileDancer = () => {
   const [formState, setFormState] = useState({
@@ -12,8 +16,14 @@ const ProfileDancer = () => {
     introduce: '',
     genre: [],
     record: '',
-    images: [null, null, null],
+    dancerImages: ["", "", ""],
   });
+  const [isUnauthorized, setIsUnauthorized] = useState(false);
+  const [showLeaveAlert, setShowLeaveAlert] = useState(false);
+  const [showInvalidAlert, setShowInvalidAlert] = useState(false);
+
+  // 뒤로 가기 방지 팝업 경고
+  useConfirmLeave({ setAlert: setShowLeaveAlert });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,7 +35,8 @@ const ProfileDancer = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        // console.log(response.data.data)
+        console.log(response.data.data)
+        console.log(response.data.data.dancerImages)
         const data = response.data.data;
 
         setFormState({
@@ -33,16 +44,23 @@ const ProfileDancer = () => {
           instagram: data.instargramId || '',
           chatting: data.openChatUrl || '',
           introduce: data.bio || '',
-          genre: data.favoriteGenres || [],
+          genre: data.preferredGenres || [],
           record: data.history || '',
-          images: data.imageUrlList || [null, null, null],
+          dancerImages: data.dancerImages || [],
         });
       } catch (error) {
         console.error('Error fetching data:', error);
+        if (error.response && error.response.status === 401) {
+          setIsUnauthorized(true);
+        }
       }
     };
     fetchData();
   }, []);
+
+  if (isUnauthorized) {
+    return <NoUser />;
+  }
 
   const handleFormChange = (key, value) => {
     setFormState((prev) => ({ ...prev, [key]: value }));
@@ -58,9 +76,9 @@ const ProfileDancer = () => {
         instargramId: formState.instagram,
         openChatUrl: formState.chatting,
         bio: formState.introduce,
-        favoriteGenres: formState.genre,
+        preferredGenres: formState.genre,
         history: formState.record,
-        imageUrlList: formState.images,
+        dancerImages: formState.dancerImages,
       };
 
       const response = await api.put('/dancers', updatedData, {
@@ -72,6 +90,7 @@ const ProfileDancer = () => {
       if (response.status === 200) {
         console.log('업데이트 성공');
         console.log(updatedData);
+        setShowInvalidAlert(true);
       } else {
         console.error('업데이트 에러 발생');
       }
@@ -80,10 +99,15 @@ const ProfileDancer = () => {
     }
   };
 
-  const getImageUrl = (images) => {
-    return images
-      .filter(image => image instanceof File)
-      .map(image => URL.createObjectURL(image));
+  const getPreview = (images) => {
+    if (!images || images.length === 0) return null;
+
+    return images.map((image) => {
+      if (image instanceof File) {
+        return URL.createObjectURL(image);
+      }
+      return image;
+    });
   };
 
   return (
@@ -140,17 +164,42 @@ const ProfileDancer = () => {
                 <SmallText>* 가장 첫 번째로 등록된 사진이 프로필로 사용됩니다</SmallText>
               </SmallTextContainer>
             </OpenChatItemContainer>
-            <DancerPicture
-              isFor="edit"
-              images={getImageUrl(formState.images)}
+            <ImagesUploader
+              isFor="dancer"
+              images={getPreview(formState.dancerImages)}
               handleFormChange={handleFormChange}
-
             />
           </DancerPictureContainer>
 
         </ItemContainer>
       </Container>
       <SaveButton onClick={handleSubmit}> 프로필 저장 </SaveButton>
+      {showInvalidAlert && (
+        <SingleBtnAlert
+          message={
+            <AlertText>
+              프로필 저장이 완료되었습니다.
+            </AlertText>
+          }
+          onClose={() => setShowInvalidAlert(false)}
+          mariginsize="33px"
+          showButtons={true}
+        />
+      )}
+      {showLeaveAlert && (
+        <ConfirmLeaveAlert
+          message={
+            <AlertText>
+              해당 페이지를 벗어나면{'\n'}
+              작성 중인 정보가 <ColoredText> 모두 삭제</ColoredText>됩니다.
+              {'\n'}
+              떠나시겠습니까?
+            </AlertText>
+          }
+          onClose={() => setShowLeaveAlert(false)}
+          showButtons={true}
+        />
+      )}
     </AllContainer>
   );
 };
@@ -309,4 +358,19 @@ const SaveButton = styled.button`
   margin-top: 45px;
   margin-bottom: 92px;
   cursor: pointer;
+`;
+
+const AlertText = styled.span`
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 21px;
+  white-space: pre-line;
+`;
+
+const ColoredText = styled.span`
+  color: #a60f62;
+  font-weight: bold;
 `;

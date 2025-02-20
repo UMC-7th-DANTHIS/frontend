@@ -43,27 +43,25 @@ const CommentPost = () => {
     );
   }
 
-  const formatDate = (date) => {
-    if (typeof date === 'string') {
-      date = new Date(date);
-    }
-
-    return new Intl.DateTimeFormat('ko-KR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    }).format(date);
-  };
-
 
   if (isError) {
     return <div>Error: {error?.message}</div>;
   }
 
+  const formatDate = (dateString) => {
+    return dateString.split('T')[0].replace(/-/g, '.');
+  };
+
+  const handleClick = (postId) => {
+    navigate(`/community/${postId}`)
+  }
+
+
+
   return (
     <AllContainer>
       {data.posts.map((post) => (
-        <CommentContainer key={post.postId} onClick={() => navigate('/community')}>
+        <CommentContainer key={post.postId} onClick={() => handleClick(post.postId)}>
           <ContentsContainer>
             <PhotoandTitle>
               <CommentTitle>{post.title}</CommentTitle>
@@ -75,7 +73,7 @@ const CommentPost = () => {
             </PhotoandTitle>
 
             <CommentData>
-              {formatDate(post.createAt)}
+              {formatDate(post.createdAt)}
             </CommentData>
 
             <CommentContents>

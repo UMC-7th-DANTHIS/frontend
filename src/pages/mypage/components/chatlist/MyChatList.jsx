@@ -45,7 +45,7 @@ const MyChatList = () => {
           data.map((chat) => (
             <ChatList key={chat.dancerId}>
               <ListItem>
-                <ListImage src={chat.profileImage[0] || sampleImage} alt="Profile" />
+                <ListImage src={(chat.profileImage && chat.profileImage[0]) || sampleImage} alt="Profile" />
                 <ListName> {chat.dancerName} </ListName>
                 <ArrowContainer>
                   <Arrow />

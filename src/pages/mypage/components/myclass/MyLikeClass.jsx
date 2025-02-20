@@ -5,10 +5,12 @@ import Pagination from '../../../../components/Pagination';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
 import { useQuery } from '@tanstack/react-query';
 import api from '../../../../api/api';
+import { useNavigate } from 'react-router-dom';
 
 const MyLikeClass = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 9;
+  const navigate = useNavigate();
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['userclass'],
@@ -38,12 +40,16 @@ const MyLikeClass = () => {
     e.target.src = sampleImage;
   };
 
+  const handleClick = (classId) => {
+    navigate(`/classreservation/${classId}?tab=detail`)
+  }
+
   return (
     <>
       <ClassContainer>
         {filteredList.map((danceClass) => (
           <ClassList key={danceClass.id}>
-            <Image src={danceClass.thumbnailImage[0] || danceClass.thumbnailImage[1]} alt={danceClass.id} onError={handleImageError} />
+            <Image src={danceClass.thumbnailImage[0] || danceClass.thumbnailImage[1]} alt={danceClass.id} onError={handleImageError} onClick={() => handleClick(danceClass.id)} />
             <Title>{danceClass.className}</Title>
             <Singer>{danceClass.dancerName}</Singer>
           </ClassList>
@@ -108,6 +114,7 @@ const Image = styled.img`
   object-fit: cover;
   border-radius: 10px;
   background-color: white;
+  cursor: pointer;
 `;
 
 const PaginationContainer = styled.div`

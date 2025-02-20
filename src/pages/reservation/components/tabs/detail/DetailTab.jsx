@@ -3,23 +3,9 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as Speaker } from '../../../../../assets/emoji/speaker.svg';
 import { ReactComponent as ThumbsUp } from '../../../../../assets/emoji/thumbsup.svg';
+import { hashTagID } from '../../../../../api/schema';
 
 const Detail = ({ classData }) => {
-  const tags = [
-    { id: 1, name: '강렬한' },
-    { id: 2, name: '나른한' },
-    { id: 3, name: '에너제틱' },
-    { id: 4, name: '기본기' },
-    { id: 5, name: '통통튀는' },
-    { id: 6, name: '무거운' },
-    { id: 7, name: '유산소' },
-    { id: 8, name: '빡센' },
-    { id: 9, name: '감성적인' },
-    { id: 10, name: '아프로' },
-    { id: 11, name: '뚝딱이' },
-    { id: 12, name: '취미' }
-  ];
-
   const getYoutubeEmbedUrl = (link) => {
     const match = link.match(
       /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/live\/)([\w-]{11})/
@@ -67,7 +53,9 @@ const Detail = ({ classData }) => {
         <Text>{classData.details?.targetAudience}</Text>
         <Tags>
           {classData.details?.hashtags.map((tag) => {
-            const tagName = tags.find((t) => t.id === tag)?.name;
+            const tagName = hashTagID.find(
+              (t) => Number(t.id) === tag
+            )?.hashTag;
             return tagName ? <Tag key={tag}>#{tagName}</Tag> : null;
           })}
         </Tags>
@@ -91,7 +79,7 @@ const Detail = ({ classData }) => {
         </Images>
       </Section>
       <Section>
-        <MoreAboutDancer to={`/dancerprofile/${1}`}>
+        <MoreAboutDancer to={`/dancerprofile/${classData.details?.dancerId}`}>
           {classData.dancer?.name} 댄서에 대해 더 알고싶다면?
         </MoreAboutDancer>
       </Section>
