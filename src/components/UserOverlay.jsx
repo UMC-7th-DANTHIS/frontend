@@ -78,7 +78,7 @@ const UserOverlay = ({ onclose, classId }) => {
             {sortedUsers.map((user, id) => (
               <ImageList key={user.userId}>
                 <ListImage
-                  src={user.profileImage[0] || SampleImage}
+                  src={user.profileImage || SampleImage}
                   alt={'userImage'}
                 />
                 <UserName

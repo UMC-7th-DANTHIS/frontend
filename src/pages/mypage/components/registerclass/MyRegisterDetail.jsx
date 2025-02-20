@@ -136,7 +136,7 @@ const MyRegisterDetail = ({ index }) => {
                 {(bookingUser?.users && bookingUser.users.length > 0) ? (
                   bookingUser.users.map((booking) => (
                     <ImageList key={booking.userId}>
-                      <ListImage src={booking.profileImage[0] || sampleImage} alt={'userImage'} />
+                      <ListImage src={booking.profileImage || sampleImage} alt={'userImage'} />
                       <UserName>{booking.nickname}</UserName>
                     </ImageList>
                   ))
