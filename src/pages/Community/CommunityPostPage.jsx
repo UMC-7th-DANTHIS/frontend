@@ -11,6 +11,7 @@ import ConfirmLeaveAlert from '../../components/ConfirmLeaveAlert';
 import useFetchList from '../../hooks/useFetchList';
 import axiosInstance from '../../api/axios-instance';
 import useGet from '../../hooks/useGet';
+import useGetCommunity from '../../hooks/useGetCommunity';
 
 const CommunityPostPage = () => {
   const [comments, setComments] = useState([]);
@@ -25,6 +26,7 @@ const CommunityPostPage = () => {
   const { selectedPost } = location.state || {};
   const { data: user } = useGet();
   const { setForceReload: setListReload } = useOutletContext();
+  const { data: post } = useGetCommunity(selectedPost?.postId);
 
   // 댓글 가져오기
   const {
@@ -90,13 +92,13 @@ const CommunityPostPage = () => {
       <Container>
         <Wrapper>
           <PostHeader>
-            <div>{selectedPost?.title}</div>
+            <div>{post?.data.title}</div>
           </PostHeader>
           <PostContent
             length={com?.data.totalComments}
             comment={com?.data.comments}
             handleModal={handleModal}
-            selectedPost={selectedPost}
+            selectedPost={post?.data}
             user={user}
             setListReload={setListReload}
           />

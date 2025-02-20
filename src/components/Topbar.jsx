@@ -198,6 +198,7 @@ const MyPage = styled.button`
   background: none;
   color: white;
   border: none;
+  cursor: pointer;
 `;
 
 const Search = styled.div`

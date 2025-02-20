@@ -10,16 +10,22 @@ const KakaoRedirectHandler = () => {
 
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get('code'); // 🔹 인가 코드 추출
-    
+
     if (!code || isProcessing) return;
 
     setIsProcessing(true);
     console.log(env);
 
     //axios.post(`${process.env.REACT_APP_API_BASE_URL}/auth/login/kakao?code=${code}`, {}, { withCredentials: true }) // ✅ 쿼리 스트링 방식 유지
-    console.log("🚀 REACT_APP_API_BASE_URL:", process.env.REACT_APP_API_BASE_URL);
-    console.log("🚀 Kakao auth request:", `${process.env.REACT_APP_API_BASE_URL}/auth/login/kakao?code=${code}`);
-    
+    console.log(
+      '🚀 REACT_APP_API_BASE_URL:',
+      process.env.REACT_APP_API_BASE_URL
+    );
+    console.log(
+      '🚀 Kakao auth request:',
+      `${process.env.REACT_APP_API_BASE_URL}/auth/login/kakao?code=${code}`
+    );
+
     axios
       .post(
         `${process.env.REACT_APP_API_BASE_URL}/auth/login/kakao?code=${code}`,
@@ -76,6 +82,7 @@ const KakaoRedirectHandler = () => {
                       );
                       navigate('/signup1');
                     }
+                    window.location.reload(); // ✅ 페이지 새로고침 추가
                   })
                   .catch((error) => {
                     console.error(
@@ -89,6 +96,7 @@ const KakaoRedirectHandler = () => {
                   '사용자 이메일이 없습니다. 회원가입 페이지로 이동합니다.'
                 );
                 navigate('/signup1'); // 이메일 없으면 회원가입 페이지로 이동
+                window.location.reload(); // ✅ 회원가입 페이지에서도 새로고침
               }
             })
             .catch((error) => {
