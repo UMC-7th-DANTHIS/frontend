@@ -3,29 +3,50 @@ import styled from 'styled-components'
 import { ReactComponent as Arrow } from "../../../../assets/arrow.svg"
 import sampleImage from '../../../../assets/image.png'
 import Pagination from '../../../../components/Pagination'
-import dummyChat from '../../../../store/mypage/dummyChat'
 import { useQuery } from '@tanstack/react-query'
 import LoadingSpinner from '../../../../components/LoadingSpinner'
 import api from '../../../../api/api'
 
+const fetchUserChat = async (currentPage, perData) => {
+  const token = localStorage.getItem('token');
+  const response = await api.get('/chats/user', {
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    params: {
+      page: currentPage,
+      size: perData
+    }
+  });
+  console.log(response.data.data.chatList);
+  console.log(response.data.data.totalDancers);
+  return {
+    chats: response.data.data.chatList || [],
+    totalDancers: response.data.data.totalDancers || 0
+  };
+};
 
 const MyChatList = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const perData = 6;
+  const perData = 5;
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['userchat'],
-    queryFn: async () => {
-      const token = localStorage.getItem('token');
-      const response = await api.get('/chats/user', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      // console.log('111111', response.data.data.chatList);
-      return response.data.data.chatList || [];
-    },
+    queryKey: ['userchat', currentPage, perData],
+    queryFn: () => fetchUserChat(currentPage, perData)
   });
+
+  // const { data, isLoading, isError, error } = useQuery({
+  //   queryKey: ['userchat'],
+  //   queryFn: async () => {
+  //     const token = localStorage.getItem('token');
+  //     const response = await api.get('/chats/user', {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     return response.data.data.chatList || [];
+  //   },
+  // });
 
   // const filteredList = data ? data.slice(perData * (currentPage - 1), perData * currentPage) : [];
 
@@ -40,11 +61,11 @@ const MyChatList = () => {
   return (
     <>
       <ChatContainer>
-        {data.length > 0 ? (
-          data.map((chat) => (
+        {data?.chats?.length ? (
+          data.chats.map((chat) => (
             <ChatList key={chat.dancerId}>
               <ListItem>
-                <ListImage src={(chat.profileImage) || sampleImage} alt="Profile" />
+                <ListImage src={chat.profileImage || sampleImage} alt="Profile" />
                 <ListName> {chat.dancerName} </ListName>
                 <ArrowContainer>
                   <Arrow />
@@ -53,20 +74,25 @@ const MyChatList = () => {
             </ChatList>
           ))
         ) : (
-          <div>No chats available</div> // You can add a fallback message if there's no data
+          <Text> 채팅 내역이 없습니다. </Text>
         )}
       </ChatContainer>
-      {/* <PaginationContainer>
-        <Pagination dataLength={data.length} perData={perData} currentPage={currentPage}
-          setCurrentPage={setCurrentPage} />
-      </PaginationContainer> */}
+
+      {data?.totalDancers ? (
+        <PaginationContainer>
+          <Pagination
+            dataLength={data.totalDancers}
+            perData={perData}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </PaginationContainer>
+      ) : null}
     </>
-
-
   )
-}
+};
 
-export default MyChatList
+export default MyChatList;
 
 const ChatContainer = styled.div`
   display: flex;
@@ -120,6 +146,14 @@ const ArrowContainer = styled.div`
 `
 
 const PaginationContainer = styled.div`
-  margin-bottom: 256px;
-  margin-left: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 75px;
+`;
+
+const Text = styled.div`
+  color:#fff;
+  font-size: 18px;
+  align-items: center;
 `
