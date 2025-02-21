@@ -5,7 +5,8 @@ import dummyClasses from '../../../store/reservation/dummyClasses';
 //import { ReactComponent as Line } from '../../../assets/shape/line.svg';
 import { ReactComponent as FocusedCircle } from '../../../assets/shape/focusedcircle.svg';
 import Pagination from '../../../components/Pagination';
-import api from '../../../api/api'
+import api from '../../../api/api';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 const ClassBoard = () => {
   const genres = [
@@ -32,7 +33,7 @@ const ClassBoard = () => {
   useEffect(() => {
     // API 호출 함수
     const fetchData = async () => {
-      // setIsFetching(true); // 로딩 시작
+      setIsFetching(true); // 로딩 시작
       try {
         const genreId = selectedGenre;
         const response = await api.get(
@@ -42,17 +43,16 @@ const ClassBoard = () => {
           setData(response.data.data.dancers);
           setTotalPages(response.data.data.totalPages);
           setTotalElements(response.data.data.totalElements); // totalElements 추가
-          console.log("댄서 데이터를 성공적으로 불러왔습니다.");
+          console.log('댄서 데이터를 성공적으로 불러왔습니다.');
           console.log(response.data.data);
         } else {
-          console.error("데이터를 불러오는 데 실패했습니다.");
+          console.error('데이터를 불러오는 데 실패했습니다.');
         }
       } catch (error) {
-        console.error("API 호출 중 오류 발생:", error);
-       } 
-      // finally {
-      //   setIsFetching(false); // 로딩 종료
-      // }
+        console.error('API 호출 중 오류 발생:', error);
+      } finally {
+        setIsFetching(false); // 로딩 종료
+      }
     };
 
     fetchData();
@@ -65,12 +65,11 @@ const ClassBoard = () => {
 
   const handlePageChange = (newPage) => {
     console.log(`페이지 변경 요청: ${newPage} / 총 페이지: ${totalPages}`);
-    
+
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
     }
   };
-  
 
   // 현재 페이지에 보여질 요소 계산
   const getCurrentPageData = () => {
@@ -80,40 +79,49 @@ const ClassBoard = () => {
     return data.slice(startIndex, endIndex);
   };
 
-  const handleDancerClick =(dancerId) => 
-  { navigate(`/dancerprofile/${dancerId}`);}
+  const handleDancerClick = (dancerId) => {
+    navigate(`/dancerprofile/${dancerId}`);
+  };
 
   return (
     <Container>
       <Sidebar>
         {genres.map((genre) => (
-          <GenreWrapper key={genre.id} onClick={() => handleGenreClick(genre.id)}>
+          <GenreWrapper
+            key={genre.id}
+            onClick={() => handleGenreClick(genre.id)}
+          >
             {selectedGenre === genre.id && <FocusedCircle />}
             <Genre $isActive={selectedGenre === genre.id}>{genre.name}</Genre>
           </GenreWrapper>
         ))}
       </Sidebar>
       <Line />
-      <BoardContainer>
-      <Classes>
-      {data.map((dancer) => (
-          <Class to={`/dancerprofile/${dancer.id}`} key={dancer.id} 
-          >
-            <Image src={dancer.images[0]} alt={dancer.dancerName} />
-           
-            <Dancer>{dancer.dancerName}</Dancer>
-          </Class>
-        ))}
-      </Classes>
-      {/* <PaginationContainer> */}
-        <Pagination
-          dataLength={totalElements}
-          perData={perData}
-          currentPage={currentPage}
-          setCurrentPage={handlePageChange}
-        />
-      {/* </PaginationContainer> */}
-      </BoardContainer>
+      {isFetching ? (
+        <LoadingContainer>
+          <LoadingSpinner isLoading={isFetching} />
+        </LoadingContainer>
+      ) : (
+        <BoardContainer>
+          <Classes>
+            {data.map((dancer) => (
+              <Class to={`/dancerprofile/${dancer.id}`} key={dancer.id}>
+                <Image src={dancer.images[0]} alt={dancer.dancerName} />
+
+                <Dancer>{dancer.dancerName}</Dancer>
+              </Class>
+            ))}
+          </Classes>
+          {/* <PaginationContainer> */}
+          <Pagination
+            dataLength={totalElements}
+            perData={perData}
+            currentPage={currentPage}
+            setCurrentPage={handlePageChange}
+          />
+          {/* </PaginationContainer> */}
+        </BoardContainer>
+      )}
     </Container>
   );
 };
@@ -171,8 +179,6 @@ export default ClassBoard;
 //     letter-spacing: -1.5px;`}
 // `;
 
-
-
 // const Classes = styled.div`
 //   display: grid;
 //   grid-template-columns: repeat(3,1fr); /* 각 칸의 너비를 고정 */
@@ -185,7 +191,6 @@ export default ClassBoard;
 //   //height : auto;
 //   //margin-left : 20px;
 // `;
-
 
 // const Class = styled.div`
 //   display: flex;
@@ -202,7 +207,7 @@ export default ClassBoard;
 // const Image = styled.div`
 //   width: 220px;
 //   height: 220px;
-//   border-radius: 10px; 
+//   border-radius: 10px;
 //   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
 
 //   img {
@@ -223,12 +228,15 @@ export default ClassBoard;
 //   margin-top : 9px;
 //   margin-bottom : 20px;
 // `;
+const LoadingContainer = styled.div`
+  width: 880px;
+`;
 const PaginationContainer = styled.div`
   margin-top: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left:200px;
+  margin-left: 200px;
 `;
 const Container = styled.div`
   display: flex;
@@ -323,12 +331,12 @@ const Title = styled.div`
   letter-spacing: -1.2px;
 `;
 const Dancer = styled.div`
-  color: #FFF;
-font-family: Pretendard;
-font-size: 24px;
-font-style: normal;
-font-weight: 600;
-line-height: normal;
-letter-spacing: -1.2px;
-margin-top : 9px;
+  color: #fff;
+  font-family: Pretendard;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -1.2px;
+  margin-top: 9px;
 `;
