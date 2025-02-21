@@ -12,20 +12,18 @@ const MyLikeDancer = () => {
   const perData = 9;
   const navigate = useNavigate();
 
-  const { data, isLoading, isError, error } = useQuery(
-    {
-      queryKey: ['userdancers'],
-      queryFn: async () => {
-        const token = localStorage.getItem('token');
-        const response = await api.get('/users/dancers', {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
-        return response.data.data.dancers || [];
-      },
-    }
-  );
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['userdancers'],
+    queryFn: async () => {
+      const token = localStorage.getItem('token');
+      const response = await api.get('/users/dancers', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data.data.dancers || [];
+    },
+  });
 
   const filteredList = data ? data.slice(perData * (currentPage - 1), perData * currentPage) : [];
 
@@ -43,31 +41,37 @@ const MyLikeDancer = () => {
 
   const handleClick = (id) => {
     navigate(`/dancerprofile/${id}`);
-  }
+  };
 
   return (
     <>
-      <DancerContainer>
-        {filteredList.map((dancer) => (
-          <DancerList key={dancer.id}>
-            <Image
-              src={dancer.images[0] || dancer.images[1]}
-              alt={dancer.dancerName}
-              onError={handleImageError}
-              onClick={() => handleClick(dancer.id)}
+      {data?.length ? (
+        <>
+          <DancerContainer>
+            {filteredList.map((dancer) => (
+              <DancerList key={dancer.id}>
+                <Image
+                  src={dancer.images[0] || dancer.images[1]}
+                  alt={dancer.dancerName}
+                  onError={handleImageError}
+                  onClick={() => handleClick(dancer.id)}
+                />
+                <Dancer>{dancer.dancerName}</Dancer>
+              </DancerList>
+            ))}
+          </DancerContainer>
+          <PaginationContainer>
+            <Pagination
+              dataLength={data.length}
+              perData={perData}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
             />
-            <Dancer>{dancer.dancerName}</Dancer>
-          </DancerList>
-        ))}
-      </DancerContainer>
-      <PaginationContainer>
-        <Pagination
-          dataLength={data ? data.length : 0}
-          perData={perData}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-      </PaginationContainer>
+          </PaginationContainer>
+        </>
+      ) : (
+        <Text> 내가 찜한 댄서가 없습니다. </Text>
+      )}
     </>
   );
 };
@@ -76,11 +80,11 @@ export default MyLikeDancer;
 
 const DancerContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 220px); 
+  grid-template-columns: repeat(3, 220px);
   column-gap: 110px;
   row-gap: 78px;
   margin-top: 40px;
-  justify-content: center; 
+  justify-content: center;
 `;
 
 const DancerList = styled.div`
@@ -116,3 +120,13 @@ const PaginationContainer = styled.div`
   align-items: center;
 `;
 
+const Text = styled.div`
+  color: #FFF;
+  text-align: center;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: 100px;
+  margin-top: 219px;
+`;

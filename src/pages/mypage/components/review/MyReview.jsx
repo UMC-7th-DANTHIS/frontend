@@ -18,7 +18,6 @@ const fetchTakeClass = async (currentPage, perData) => {
       size: perData
     }
   });
-  // console.log(response.data);
   console.log('1111', response.data.data.danceClasses);
   return {
     classlist: response.data.data.danceClasses || [],
@@ -42,11 +41,9 @@ const MyReview = () => {
     );
   }
 
-
   if (isError) {
     return <div>Error: {error?.message}</div>;
   }
-
 
   const handleImageClick = (data) => {
     navigate(`/review/${data.id}`, { state: { className: data.className } });
@@ -55,27 +52,33 @@ const MyReview = () => {
 
   return (
     <>
-      <ClassContainer>
-        {classList.map((danceClass) => (
-          <ClassList key={danceClass.id}>
-            <Image
-              src={danceClass.thumbnailImage || sampleImage}
-              alt={danceClass.id}
-              onClick={() => handleImageClick(danceClass)}
+      {classList.length === 0 ? (
+        <NoClassMessage>수강한 수업이 없습니다.</NoClassMessage>
+      ) : (
+        <>
+          <ClassContainer>
+            {classList.map((danceClass) => (
+              <ClassList key={danceClass.id}>
+                <Image
+                  src={danceClass.thumbnailImage || sampleImage}
+                  alt={danceClass.id}
+                  onClick={() => handleImageClick(danceClass)}
+                />
+                <Title>{danceClass.className}</Title>
+                <Singer>{danceClass.dancerName}</Singer>
+              </ClassList>
+            ))}
+          </ClassContainer>
+          <PaginationContainer>
+            <Pagination
+              dataLength={data.totalElements}
+              perData={perData}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
             />
-            <Title>{danceClass.className}</Title>
-            <Singer>{danceClass.dancerName}</Singer>
-          </ClassList>
-        ))}
-      </ClassContainer>
-      <PaginationContainer>
-        <Pagination
-          dataLength={data.totalElements}
-          perData={perData}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-      </PaginationContainer>
+          </PaginationContainer>
+        </>
+      )}
     </>
   );
 };
@@ -128,4 +131,15 @@ const PaginationContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 30px;
+`;
+
+const NoClassMessage = styled.div`
+  color: #FFF;
+  text-align: center;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: 100px;
+  margin-top: 219px;
 `;
