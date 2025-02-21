@@ -10,7 +10,7 @@ const Footer = () => {
       <TopContainer>
         <TextContainer>
           <Text>고객센터 문의</Text>
-          <Text1>tel. 010-0000-0000</Text1>
+          <Text1>tel. 010-2729-2538</Text1>
           <Text1>email. tuyu000@naver.com</Text1>
         </TextContainer>
         <LogoContainer>
@@ -19,7 +19,7 @@ const Footer = () => {
       </TopContainer>
       <BottomContainer>
         <a
-          href="https://www.instagram.com/mlnl_s"
+          href="https://www.instagram.com/danthis_dtm/"
           target="_blank"
           rel="noopener noreferrer"
         >
