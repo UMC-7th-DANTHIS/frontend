@@ -21,7 +21,6 @@ const MyLikeClass = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      // console.log(response.data.data.danceClasses);
       return response.data.data.danceClasses || [];
     },
   });
@@ -46,47 +45,50 @@ const MyLikeClass = () => {
 
   return (
     <>
-      <ClassContainer>
-        {filteredList.map((danceClass) => (
-          <ClassList key={danceClass.id}>
-            <Image src={danceClass.thumbnailImage} alt={danceClass.id} onError={handleImageError} onClick={() => handleClick(danceClass.id)} />
-            <Title>{danceClass.className}</Title>
-            <Singer>{danceClass.dancerName}</Singer>
-          </ClassList>
-        ))}
-      </ClassContainer>
-      <PaginationContainer>
-        <Pagination
-          dataLength={data.length}
-          perData={perData}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-      </PaginationContainer>
+      {data?.length ? (
+        <>
+          <ClassContainer>
+            {filteredList.map((danceClass) => (
+              <ClassList key={danceClass.id}>
+                <Image src={danceClass.thumbnailImage} alt={danceClass.id} onError={handleImageError} onClick={() => handleClick(danceClass.id)} />
+                <Title>{danceClass.className}</Title>
+                <Singer>{danceClass.dancerName}</Singer>
+              </ClassList>
+            ))}
+          </ClassContainer>
+          <PaginationContainer>
+            <Pagination
+              dataLength={data.length}
+              perData={perData}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+          </PaginationContainer>
+        </>
+      ) : (
+        <Text> 내가 찜한 수업이 없습니다. </Text>
+      )}
     </>
   );
 };
 
-
 export default MyLikeClass;
 
 const ClassContainer = styled.div`
-    display: grid;
-    grid-template-columns: repeat(3, 220px); 
-    column-gap : 110px;
-    margin-top: 40px;
-    justify-content: center; 
-    align-items: center;
+  display: grid;
+  grid-template-columns: repeat(3, 220px); 
+  column-gap: 110px;
+  margin-top: 40px;
+  justify-content: center; 
+  align-items: center;
 `;
 
 const ClassList = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    /* width: 280px;
-    height: 280px; */
-    border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
 `;
 
 const Title = styled.div`
@@ -97,7 +99,8 @@ const Title = styled.div`
   line-height: normal;
   letter-spacing: -1.2px;
   margin-top: 9px;
-`
+`;
+
 const Singer = styled.div`
   color:  #B2B2B2;
   font-size: 18px;
@@ -106,7 +109,7 @@ const Singer = styled.div`
   line-height: normal;
   letter-spacing: -0.9px;
   margin-bottom: 53px;
-`
+`;
 
 const Image = styled.img`
   width: 220px;
@@ -123,5 +126,15 @@ const PaginationContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 30px;
-`
+`;
 
+const Text = styled.div`
+  color: #FFF;
+  text-align: center;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: 100px;
+  margin-top: 219px;
+`;

@@ -153,7 +153,12 @@ const PaginationContainer = styled.div`
 `;
 
 const Text = styled.div`
-  color:#fff;
-  font-size: 18px;
-  align-items: center;
+  color: #FFF;
+  text-align: center;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: 100px;
+  margin-top: 219px;
 `
