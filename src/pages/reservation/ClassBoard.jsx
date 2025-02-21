@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
 import Pagination from '../../components/Pagination';
 import api from '../../api/api';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const ClassBoard = () => {
   const genres = [
@@ -22,8 +23,10 @@ const ClassBoard = () => {
   const [classes, setClasses] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 9;
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchClasses = async () => {
       try {
         const genreId = selectedGenre;
@@ -32,6 +35,7 @@ const ClassBoard = () => {
         );
 
         setClasses(response.data?.data);
+        setIsLoading(false);
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       } catch (error) {
         console.error('❌ 장르별 수업 정보를 불러오는 중 오류 발생:', error);
@@ -60,26 +64,32 @@ const ClassBoard = () => {
         ))}
       </Sidebar>
       <Line />
-      <BoardContainer>
-        <Classes>
-          {classes.danceClasses?.map((cls) => (
-            <Class to={`/classreservation/${cls.id}`} key={cls.id}>
-              <Image
-                src={cls.thumbnailImage}
-                alt={`class #${cls.id} thumbnail`}
-              />
-              <Title>{cls.className}</Title>
-              <Dancer>{cls.dancerName}</Dancer>
-            </Class>
-          ))}
-        </Classes>
-        <Pagination
-          dataLength={classes.totalElements}
-          perData={perData}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-      </BoardContainer>
+      {isLoading ? (
+        <LoadingContainer>
+          <LoadingSpinner isLoading={isLoading} />
+        </LoadingContainer>
+      ) : (
+        <BoardContainer>
+          <Classes>
+            {classes.danceClasses?.map((cls) => (
+              <Class to={`/classreservation/${cls.id}`} key={cls.id}>
+                <Image
+                  src={cls.thumbnailImage}
+                  alt={`class #${cls.id} thumbnail`}
+                />
+                <Title>{cls.className}</Title>
+                <Dancer>{cls.dancerName}</Dancer>
+              </Class>
+            ))}
+          </Classes>
+          <Pagination
+            dataLength={classes.totalElements}
+            perData={perData}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </BoardContainer>
+      )}
     </Container>
   );
 };
@@ -91,6 +101,10 @@ const Container = styled.div`
   flex-direction: row;
   background-color: black;
   justify-content: center;
+  width: 1440px;
+`;
+const LoadingContainer = styled.div`
+  width: 880px;
 `;
 const Sidebar = styled.div`
   display: flex;
