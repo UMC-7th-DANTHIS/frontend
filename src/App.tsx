@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
+
 import MainLayout from './layout/MainLayout';
 import MypageLayout from './pages/mypage/MypageLayout';
 import CommunityLayout from './layout/CommunityLayout';
@@ -27,7 +28,7 @@ import SearchWrapper from './layout/SearchWrapper';
 import MyRegisterDetail from './pages/mypage/components/registerclass/MyRegisterDetail';
 import ClassRegisterEdit from './pages/registration/newclass/ClassRegisterEdit';
 
-function App() {
+function App(): JSX.Element {
   return (
     <Router>
       <Routes>
@@ -52,15 +53,15 @@ function App() {
           <Route path="/signup2" element={<SignupPage2 />} />
           <Route path="/signup3" element={<SignupPage3 />} />
           <Route path="/signup4" element={<SignupPage4 />} />
-          <Route path="dancerregister" element={<DancerRegistration />} />
-          <Route path="classregister" element={<ClassRegistration />} />
+          <Route path="/dancerregister" element={<DancerRegistration />} />
+          <Route path="/classregister" element={<ClassRegistration />} />
           <Route
             path="/classregister/:classId"
             element={<ClassRegisterEdit />}
           />
-          <Route path="classreservation" element={<ClassBoard />} />
+          <Route path="/classreservation" element={<ClassBoard />} />
           <Route
-            path="classreservation/:classId"
+            path="/classreservation/:classId"
             element={<ClassReservation />}
           />
           <Route

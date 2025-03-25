@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import { ReactComponent as Arrow } from "../../../../assets/arrow.svg"
-import sampleImage from '../../../../assets/image.png'
-import Pagination from '../../../../components/Pagination'
-import { useQuery } from '@tanstack/react-query'
-import LoadingSpinner from '../../../../components/LoadingSpinner'
-import api from '../../../../api/api'
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { ReactComponent as Arrow } from '../../../../assets/arrow.svg';
+import sampleImage from '../../../../assets/image.png';
+import Pagination from '../../../../components/Pagination';
+import { useQuery } from '@tanstack/react-query';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
+import api from '../../../../api/api';
 
 const fetchUserChat = async (currentPage, perData) => {
   const token = localStorage.getItem('token');
@@ -65,7 +65,10 @@ const MyChatList = () => {
           data.chats.map((chat) => (
             <ChatList key={chat.dancerId}>
               <ListItem>
-                <ListImage src={chat.profileImage || sampleImage} alt="Profile" />
+                <ListImage
+                  src={chat.profileImage || sampleImage}
+                  alt="Profile"
+                />
                 <ListName> {chat.dancerName} </ListName>
                 <ArrowContainer>
                   <Arrow />
@@ -89,7 +92,7 @@ const MyChatList = () => {
         </PaginationContainer>
       ) : null}
     </>
-  )
+  );
 };
 
 export default MyChatList;
@@ -108,17 +111,17 @@ const ChatList = styled.div`
   width: 600px;
   height: 80px;
   flex-shrink: 0;
-  border: 1px solid #9819C3;
+  border: 1px solid #9819c3;
   background-color: black;
   border-radius: 20px;
-  box-shadow: 0px 0px 5px 2px #9819C3;
-`
+  box-shadow: 0px 0px 5px 2px #9819c3;
+`;
 
 const ListItem = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-`
+`;
 
 const ListImage = styled.img`
   width: 50px;
@@ -129,7 +132,7 @@ const ListImage = styled.img`
   margin-left: 33px;
   background-color: gray;
   border-radius: 6px;
-`
+`;
 
 const ListName = styled.div`
   font-size: 28px;
@@ -137,13 +140,13 @@ const ListName = styled.div`
   font-weight: 600;
   letter-spacing: -1.4px;
   margin-left: 22px;
-`
+`;
 
 const ArrowContainer = styled.div`
   margin-left: auto;
   margin-right: 25px;
   cursor: pointer;
-`
+`;
 
 const PaginationContainer = styled.div`
   display: flex;
@@ -153,7 +156,7 @@ const PaginationContainer = styled.div`
 `;
 
 const Text = styled.div`
-  color: #FFF;
+  color: #fff;
   text-align: center;
   font-size: 32px;
   font-style: normal;
@@ -161,4 +164,4 @@ const Text = styled.div`
   line-height: normal;
   margin-top: 100px;
   margin-top: 219px;
-`
+`;
