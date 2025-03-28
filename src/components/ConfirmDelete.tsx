@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { ReactComponent as CloseIcon } from '../assets/buttons/close-button.svg';
+import CloseIcon from '../assets/buttons/close-button.svg';
 
 const ConfirmDeleteAlert = ({
   title,

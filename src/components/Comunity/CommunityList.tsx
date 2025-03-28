@@ -11,7 +11,11 @@ import CommentPhoto from '../../assets/Community/CommentPhoto.svg';
 import { PostPreview } from '@/types/CommunityInterface';
 import { SinglePostData } from '@/types/CommunityInterface';
 
-const CommunityList = (list: PostPreview) => {
+type CommunityListProps = {
+  list: PostPreview;
+};
+
+const CommunityList = ({ list }: CommunityListProps) => {
   const navigate = useNavigate();
 
   const { data: post } = useGetCommunity(list.postId);

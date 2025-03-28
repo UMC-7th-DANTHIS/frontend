@@ -7,6 +7,8 @@ import EditContent from '../../components/Comunity/EditContent';
 
 import axiosInstance from '../../api/axios-instance';
 
+import { SinglePostData } from '@/types/CommunityInterface';
+
 const MAX_IMAGES = 4;
 
 interface PostPutReload {
@@ -16,7 +18,7 @@ interface PostPutReload {
 const CommunityPut = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { selectedPost } = location.state || {};
+  const selectedPost = (location.state as SinglePostData) || {};
   const { setForceReload } = useOutletContext<PostPutReload>();
 
   const [fileName, setFileName] = useState<string[]>([]);
