@@ -25,7 +25,7 @@ const CommunityPostPage = () => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [forceReload, setForceReload] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const perData = 5;
+  const perData: number = 5;
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -146,7 +146,7 @@ const CommunityPostPage = () => {
                 onChange={handleCaution}
               />
               {cautionText ? (
-                <inactivebutton>작성</inactivebutton>
+                <InactiveButton>작성</InactiveButton>
               ) : (
                 <button onClick={() => handleCommentSubmit()}>작성</button>
               )}
@@ -237,16 +237,16 @@ const CommentInput = styled.div`
     font-size: 16px;
     cursor: pointer;
   }
+`;
 
-  inactivebutton {
-    padding: 13px 18px;
-    background-color: grey;
-    border: none;
-    color: white;
-    border-radius: 10px;
-    font-size: 16px;
-    cursor: inactive;
-  }
+const InactiveButton = styled.div`
+  padding: 13px 18px;
+  background-color: grey;
+  border: none;
+  color: white;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: inactive;
 `;
 
 const BackButton = styled.div`
