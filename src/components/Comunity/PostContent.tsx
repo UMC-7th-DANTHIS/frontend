@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, Dispatch } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -12,16 +12,27 @@ import Alert from '../../assets/Community/SirenButton.svg';
 import ConfirmDeleteAlert from '../ConfirmDelete';
 import axiosInstance from '../../api/axios-instance';
 
+import { SinglePostData } from '@/types/CommunityInterface';
+import { UserResponse } from '@/types/UserInterface';
+
+type PostContentProps = {
+  length: number;
+  handleModal: (imgUrl: string) => void;
+  selectedPost: SinglePostData;
+  user: UserResponse | null;
+  setListReload: Dispatch<any>;
+};
+
 const PostContent = ({
   length,
   handleModal,
   selectedPost,
   user,
   setListReload
-}) => {
+}: PostContentProps) => {
   const navigate = useNavigate();
 
-  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [showConfirmDelete, setShowConfirmDelete] = useState<boolean>(false);
 
   // 게시글에서 삭제버튼 눌렀을때
   const handleDelete = () => {
@@ -32,7 +43,7 @@ const PostContent = ({
   const handleDeleteConfirm = async () => {
     try {
       await axiosInstance.delete(`/community/posts/${selectedPost.postId}`);
-      setListReload((prev) => !prev);
+      setListReload((prev: boolean) => !prev);
       navigate('/community');
     } catch (error) {
       console.error('게시글 삭제 실패:', error);
@@ -51,7 +62,7 @@ const PostContent = ({
         </PostMeta>
       </PostInfo>
       <PostInfo>
-        {user?.nickname == selectedPost?.author ? (
+        {user?.data.nickname == selectedPost?.author ? (
           <PostActions>
             <ButtonContainer
               onClick={() =>

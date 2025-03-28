@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as CloseIcon } from '../assets/buttons/close-button.svg';
 
+type SingleBtnAlertProps = {};
+
 const SingleBtnAlert = ({
   title,
   message,
@@ -15,7 +17,7 @@ const SingleBtnAlert = ({
   AlertHeight = '254px',
   showButtons,
   confirmLabel = '확인'
-}) => {
+}: SingleBtnAlertProps) => {
   const handleClick = (e) => {
     e.stopPropagation();
     if (onClose) {

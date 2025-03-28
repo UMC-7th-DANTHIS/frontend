@@ -50,6 +50,7 @@ export interface CommentData {
 export interface Comment {
   commentId: number;
   userProfileImage: string;
+  userName: string;
   createdAt: string;
   content: string;
 }

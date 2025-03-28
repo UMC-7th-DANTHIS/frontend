@@ -7,43 +7,57 @@ import EditContent from '../../components/Comunity/EditContent';
 
 import axiosInstance from '../../api/axios-instance';
 
+import { SinglePostData } from '@/types/CommunityInterface';
+
 const MAX_IMAGES = 4;
+
+interface PostEditReload {
+  setForceReload: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 const CommunityEdit = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { selectedPost } = location.state || {};
-  const { setForceReload } = useOutletContext();
+  const selectedPost = (location.state as SinglePostData) || {};
+  const { setForceReload } = useOutletContext<PostEditReload>();
 
-  const [fileName, setFileName] = useState([]);
-  const [previews, setPreviews] = useState([]);
-  const [fileObjects, setFileObjects] = useState([]);
+  const [fileName, setFileName] = useState<string[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
+  const [fileObjects, setFileObjects] = useState<string[]>([]);
 
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useState<string>('');
+  const [content, setContent] = useState<string>('');
 
-  const handleFileChange = (event) => {
-    const files = Array.from(event.target.files);
-    const availableSlots = MAX_IMAGES - previews.length;
+  const handleFileChange = (e: any) => {
+    const files: string[] = Array.from(e.target.files);
+    const availableSlots: number = MAX_IMAGES - previews.length;
 
-    const newImageFiles = files.slice(0, availableSlots);
-    const newImageURLs = newImageFiles.map((file) => URL.createObjectURL(file));
+    const newImageFiles: string[] = files.slice(0, availableSlots);
+    const newImageURLs: string[] = newImageFiles.map((file: any) =>
+      URL.createObjectURL(file)
+    );
 
-    setPreviews((prev) => [...prev, ...newImageURLs]);
-    setFileObjects((prev) => [...prev, ...newImageFiles]);
-    setFileName((prev) => [
+    setPreviews((prev: string[]) => [...prev, ...newImageURLs]);
+    setFileObjects((prev: string[]) => [...prev, ...newImageFiles]);
+    setFileName((prev: string[]) => [
       ...prev,
-      ...newImageFiles.map((file) => {
-        const array = new Uint32Array(4);
+      ...newImageFiles.map((file: any) => {
+        const array: any = new Uint32Array(4);
         window.crypto.getRandomValues(array);
-        const hash = Array.from(array, (num) => num.toString(16)).join('');
-        const extension = file.name.split('.').pop();
+        const hash: string = Array.from(array, (num: number) =>
+          num.toString(16)
+        ).join('');
+        const extension: string = file.name.split('.').pop();
         return `${hash}.${extension}`;
       })
     ]);
   };
 
-  const createPost = async (title, content, uploadedImageUrls) => {
+  const createPost = async (
+    title: string,
+    content: string,
+    uploadedImageUrls: string[]
+  ) => {
     const postData = {
       title,
       content,
@@ -70,7 +84,6 @@ const CommunityEdit = () => {
           <InfoText>*내용은 최대 1000자까지 입력 가능합니다.</InfoText>
         </InfoContainer>
         <EditContent
-          fileName={fileName}
           setFileName={setFileName}
           previews={previews}
           setPreviews={setPreviews}

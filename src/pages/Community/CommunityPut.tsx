@@ -9,42 +9,55 @@ import axiosInstance from '../../api/axios-instance';
 
 const MAX_IMAGES = 4;
 
+interface PostPutReload {
+  setForceReload: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 const CommunityPut = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { selectedPost } = location.state || {};
-  const { setForceReload } = useOutletContext();
+  const { setForceReload } = useOutletContext<PostPutReload>();
 
-  const [fileName, setFileName] = useState([]);
-  const [previews, setPreviews] = useState([]);
-  const [fileObjects, setFileObjects] = useState([]);
+  const [fileName, setFileName] = useState<string[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
+  const [fileObjects, setFileObjects] = useState<string[]>([]);
 
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useState<string>('');
+  const [content, setContent] = useState<string>('');
 
-  const handleFileChange = (event) => {
-    const files = Array.from(event.target.files);
-    const availableSlots = MAX_IMAGES - previews.length;
+  const handleFileChange = (event: any) => {
+    const files: string[] = Array.from(event.target.files);
+    const availableSlots: number = MAX_IMAGES - previews.length;
 
-    const newImageFiles = files.slice(0, availableSlots);
-    const newImageURLs = newImageFiles.map((file) => URL.createObjectURL(file));
+    const newImageFiles: string[] = files.slice(0, availableSlots);
+    const newImageURLs: string[] = newImageFiles.map((file: any) =>
+      URL.createObjectURL(file)
+    );
 
-    setPreviews((prev) => [...prev, ...newImageURLs]);
-    setFileObjects((prev) => [...prev, ...newImageFiles]);
-    setFileName((prev) => [
+    // files Interface 찾기
+    setPreviews((prev: string[]) => [...prev, ...newImageURLs]);
+    setFileObjects((prev: string[]) => [...prev, ...newImageFiles]);
+    setFileName((prev: string[]) => [
       ...prev,
-      ...newImageFiles.map((file) => {
+      ...newImageFiles.map((file: any) => {
         const array = new Uint32Array(4);
         window.crypto.getRandomValues(array);
-        const hash = Array.from(array, (num) => num.toString(16)).join('');
-        const extension = file.name.split('.').pop();
+        const hash: string = Array.from(array, (num: number) =>
+          num.toString(16)
+        ).join('');
+        const extension: string = file.name.split('.').pop();
         return `${hash}.${extension}`;
       })
     ]);
   };
 
   // Overriding
-  const createPost = async (title, content, uploadedImageUrls) => {
+  const createPost = async (
+    title: string,
+    content: string,
+    uploadedImageUrls: string[]
+  ) => {
     const postData = {
       title,
       content,
@@ -56,7 +69,7 @@ const CommunityPut = () => {
         `/community/posts/${selectedPost.postId}`,
         postData
       );
-      setForceReload((prev) => !prev);
+      setForceReload((prev: boolean) => !prev);
       navigate('/community');
     } catch (error) {
       alert('게시글 수정 실패');
@@ -74,7 +87,6 @@ const CommunityPut = () => {
           <InfoText>*내용은 최대 1000자까지 입력 가능합니다.</InfoText>
         </InfoContainer>
         <EditContent
-          fileName={fileName}
           setFileName={setFileName}
           previews={previews}
           setPreviews={setPreviews}

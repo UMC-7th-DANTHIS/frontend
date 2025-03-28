@@ -11,8 +11,6 @@ const CommunityLayout = () => {
   const perData: number = 10;
 
   const { data: lists } = useFetchList<PostListResponse>(
-    null,
-    null,
     currentPage,
     forceReload
   );

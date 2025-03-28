@@ -3,17 +3,20 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import formatDate from '../../api/formatDate';
-import useFetchList from '../../hooks/useFetchList';
+import useGetCommunity from '@/hooks/useGetCommunity';
 
 import ImageDescript from '../../assets/Search/imageDescript.svg';
 import CommentPhoto from '../../assets/Community/CommentPhoto.svg';
 
-const CommunityList = ({ list }) => {
+import { PostPreview } from '@/types/CommunityInterface';
+import { SinglePostData } from '@/types/CommunityInterface';
+
+const CommunityList = (list: PostPreview) => {
   const navigate = useNavigate();
 
-  const { data: post } = useFetchList(list.postId);
+  const { data: post } = useGetCommunity(list.postId);
 
-  const handleNavigate = (temp) => {
+  const handleNavigate = (temp: SinglePostData) => {
     navigate(`/community/${temp.postId}`, { state: { selectedPost: temp } });
   };
 
@@ -25,9 +28,9 @@ const CommunityList = ({ list }) => {
       ) : (
         <ImageNo />
       )}
-      <TitleList onClick={() => handleNavigate(post.data)}>
+      <TitleList onClick={() => handleNavigate(post?.data!)}>
         {post?.data.title}
-        {post?.data.commentCount > 0 ? (
+        {post?.data.commentCount! > 0 ? (
           <>
             <ViewDescript src={CommentPhoto} alt={'댓글있으요'} />
             <ViewPeople>{post?.data.commentCount}</ViewPeople>
