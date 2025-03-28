@@ -50,7 +50,6 @@ const CommunityPut = () => {
       content,
       images: uploadedImageUrls
     };
-    console.log(postData);
 
     try {
       await axiosInstance.put(

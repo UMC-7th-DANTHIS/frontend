@@ -1,0 +1,42 @@
+import { Response } from './index';
+
+export interface AllDancerResponse extends Response {
+  data: AllDancerData;
+}
+
+export interface AllClassResponse extends Response {
+  data: AllClassData;
+}
+
+// 모든 댄서 조회
+export interface AllDancerData {
+  totalElements: number;
+  dancers: AllDancerList;
+}
+
+export interface AllDancerList {
+  id: number;
+  dancerName: string;
+  instagramId: string;
+  bio: string;
+  history: string;
+  isFavorite: boolean;
+  openChatUrl: string;
+  favoriteGenres: number[];
+  imageUrlList: string[];
+}
+
+// 모든 수업 조회
+export interface AllClassData {
+  page: number;
+  totalPages: number;
+  totalElements: number;
+  danceClasses: AllClassList;
+}
+
+export interface AllClassList {
+  id: number;
+  className: string;
+  dancerName: string;
+  thumbnailImage: string;
+}

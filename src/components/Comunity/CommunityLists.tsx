@@ -11,9 +11,7 @@ const CommunityLists = () => {
 
   return (
     <ListsContainer>
-      {lists?.posts.map((list) => (
-        <CommunityList list={list} />
-      ))}
+      {lists?.posts.map((list) => <CommunityList list={list} />)}
       <PaginationContainer>
         <PaginationWrapper>
           <Pagination

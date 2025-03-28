@@ -1,25 +1,27 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import useFetchList from '../hooks/useFetchList';
+import { useFetchList } from '@/hooks/useFetchList';
+import { PostListResponse } from '../types/CommunityInterface';
 
 const CommunityLayout = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [forceReload, setForceReload] = useState(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [forceReload, setForceReload] = useState<boolean>(false);
 
-  const perData = 10;
+  const perData: number = 10;
 
-  const {
-    data: lists,
-    isLoading,
-    isError
-  } = useFetchList(null, null, currentPage, forceReload);
+  const { data: lists } = useFetchList<PostListResponse>(
+    null,
+    null,
+    currentPage,
+    forceReload
+  );
 
   return (
     <>
       <Outlet
         context={{
-          lists: lists?.data,
+          lists,
           perData,
           currentPage,
           setCurrentPage,

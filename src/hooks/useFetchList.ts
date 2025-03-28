@@ -2,10 +2,22 @@ import { useState, useEffect } from 'react';
 
 import axiosInstance from '../api/axios-instance';
 
-const useFetchList = (postId, comment, currentPage, forceReload) => {
-  const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+import { PostListResponse } from '@/types/CommunityInterface';
+import { SinglePostResponse } from '@/types/Community/PostInterface';
+import { CommentResponse } from '@/types/Community/CommentInterface';
+
+// 호출시마다 반환하는 json이 다르므로 제네릭 타입을 사용
+export function useFetchList<T>(
+  postId: string | null,
+  comment: number | null,
+  currentPage: number,
+  forceReload: boolean
+) {
+  const [data, setData] = useState<
+    PostListResponse | SinglePostResponse | CommentResponse | null
+  >(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {
     if (comment === 1 && !postId) return;
@@ -15,7 +27,7 @@ const useFetchList = (postId, comment, currentPage, forceReload) => {
       setIsError(false);
 
       try {
-        let url = '';
+        let url: string = '';
 
         // post 댓글 조회
         if (comment === 1 && postId) {
@@ -47,6 +59,4 @@ const useFetchList = (postId, comment, currentPage, forceReload) => {
   }, [postId, comment, currentPage, forceReload]);
 
   return { data, isLoading, isError };
-};
-
-export default useFetchList;
+}

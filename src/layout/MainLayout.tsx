@@ -7,11 +7,15 @@ import Footer from '../components/Footer';
 
 import useGet from '../hooks/useGet';
 
+import { UserResponse } from '../types/UserInterface';
+
 const MainLayout = () => {
   const navigate = useNavigate();
 
-  const [token, setToken] = useState(() => localStorage.getItem('token'));
-  const { data: user, isLoading, isError } = useGet();
+  const [token, setToken] = useState<string | null>(() =>
+    localStorage.getItem('token')
+  );
+  const { data: user } = useGet<UserResponse>();
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -25,7 +29,7 @@ const MainLayout = () => {
     };
   }, []);
 
-  const handleSearch = (query) => {
+  const handleSearch = (query: string) => {
     navigate(`/search/dance-classes?query=${query}`);
   };
 

@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 
 import axiosInstance from '../api/axios-instance';
 
-const useGet = () => {
-  const [data, setData] = useState(null);
+import { UserResponse } from '../types/UserInterface';
+
+function useGet<T>() {
+  const [data, setData] = useState<UserResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -26,6 +28,6 @@ const useGet = () => {
   }, []);
 
   return { data, isLoading, isError };
-};
+}
 
 export default useGet;
