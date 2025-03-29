@@ -2,14 +2,17 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { hashTagID } from '../../api/schema';
+import { AllClassData } from '@/types/MainInterface';
 
-const ForClass = ({ danceclass }) => {
+type ForClassProps = {
+  danceclass: AllClassData;
+};
+
+const ForClass = ({ danceclass }: ForClassProps) => {
   const navigate = useNavigate();
 
-  const randomDance = danceclass?.data.danceClasses
-    ? [...danceclass?.data.danceClasses]
-        .sort(() => 0.5 - Math.random())
-        .slice(0, 4)
+  const randomDance = danceclass?.danceClasses
+    ? [...danceclass?.danceClasses].sort(() => 0.5 - Math.random()).slice(0, 4)
     : [];
 
   return (
@@ -22,7 +25,7 @@ const ForClass = ({ danceclass }) => {
           <TextContainer>
             <ClassName>{Class.className}</ClassName>
             <ClassDancer>{Class.dancerName}</ClassDancer>
-            <ClassDancer>{Class.genre}</ClassDancer>
+            <ClassDancer>{Class.favoriteGenres}</ClassDancer>
             <ClassHashContainer>
               {Class.hashtagIds.map((HashtagID) => {
                 const foundTag = hashTagID.find(

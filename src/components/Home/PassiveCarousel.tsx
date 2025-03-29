@@ -2,12 +2,18 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-const PassiveCarousel = ({ danceclass }) => {
+import { AllClassData } from '@/types/MainInterface';
+
+type PassiveCarouselProps = {
+  danceclass: AllClassData;
+};
+
+const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
   const navigate = useNavigate();
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   const handleNext = () => {
-    if (currentIndex < danceclass?.data.danceClasses.length - 3) {
+    if (currentIndex < danceclass?.danceClasses.length - 3) {
       setCurrentIndex(currentIndex + 1);
     }
   };
@@ -22,7 +28,7 @@ const PassiveCarousel = ({ danceclass }) => {
     <SliderContainer>
       <ClickArea onClick={handlePrev} position="left" />
       <SlideWrapper currentIndex={currentIndex}>
-        {danceclass?.data.danceClasses.map((item, index) => (
+        {danceclass?.danceClasses.map((item, index) => (
           <HotImage
             onClick={() => navigate(`/classreservation/${item.id}?tab=detail`)}
             src={item.thumbnailImage}
@@ -43,7 +49,7 @@ const SliderContainer = styled.div`
   overflow: hidden;
 `;
 
-const SlideWrapper = styled.div`
+const SlideWrapper = styled.div<{ currentIndex: number }>`
   display: flex;
   padding-left: 90px;
   flex-direction: row;
@@ -52,7 +58,7 @@ const SlideWrapper = styled.div`
   transition: transform 0.3s ease;
 `;
 
-const HotImage = styled.img`
+const HotImage = styled.img<{ visible: boolean }>`
   width: 400px;
   height: 400px;
   border-radius: 10px;
@@ -73,7 +79,7 @@ const HotImage = styled.img`
   }
 `;
 
-const ClickArea = styled.div`
+const ClickArea = styled.div<{ position: 'left' | 'right' }>`
   position: absolute;
   top: 0;
   bottom: 0;

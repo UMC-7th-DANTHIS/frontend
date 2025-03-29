@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import axiosInstance from '../api/axios-instance';
 
-import { AllDancerResponse } from '@/types/MainInterface';
+import { AllDancerResponse, AllDancerData } from '@/types/MainInterface';
 
 function useGetDancer<T>() {
-  const [data, setData] = useState<AllDancerResponse | null>(null);
+  const [data, setData] = useState<AllDancerData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 
@@ -17,7 +17,7 @@ function useGetDancer<T>() {
         const response: AllDancerResponse =
           await axiosInstance.get('/dancers/all');
 
-        setData(response);
+        setData(response.data);
       } catch (error) {
         setIsError(true);
       } finally {

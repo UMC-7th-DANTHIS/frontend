@@ -8,15 +8,19 @@ import UserRecommend from './Home/UserRecommend';
 import useGetClass from '../hooks/useGetClass';
 import useGetDancer from '../hooks/useGetDancer';
 
+import { AllClassData, AllDancerData } from '@/types/MainInterface';
+
 const HomePage = () => {
-  const { data: danceclass } = useGetClass();
-  const { data: dancer } = useGetDancer();
+  const { data: danceclass } = useGetClass<AllClassData>();
+  const { data: dancer } = useGetDancer<AllDancerData>();
 
   return (
     <Container>
-      <HotDancer dancer={dancer} />
-      <HotClass danceclass={danceclass} />
-      <UserRecommend danceclass={danceclass} dancer={dancer} />
+      {dancer && <HotDancer dancer={dancer} />}
+      {danceclass && <HotClass danceclass={danceclass} />}
+      {dancer && danceclass && (
+        <UserRecommend danceclass={danceclass} dancer={dancer} />
+      )}
     </Container>
   );
 };
