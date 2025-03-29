@@ -2,6 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import DancerPic from '../../../assets/dummyphoto/introduce.svg'
 
+interface Dancer {
+  dancerImages: string[];
+  history: string;
+}
  const IntroduceTab =({dancer}) => {
    
     if (!dancer) {
