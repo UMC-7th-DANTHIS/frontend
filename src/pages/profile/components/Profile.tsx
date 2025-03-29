@@ -4,12 +4,33 @@ import styled from 'styled-components';
 import CircleIcon from '../../../assets/shape/circle.svg';
 import DancerPic from '../../../assets/dummyphoto/dancer.svg';
 import api from '../../../api/api';
+import axios from 'axios'
 
-const Profile = ({ dancer }) => {
-  const [isLiked, setIsLiked] = useState(null);
-  const { dancerId } = useParams();
 
-  const genres = [
+interface ProfileProps{
+  dancer: DancerType | null;
+}
+
+type DancerType = {
+  id: number;
+  dancerName: string;
+  dancerImages: string[];
+  isFavorite: boolean;
+  instargramId: string;
+  preferredGenres: number[];
+  bio: string;
+}
+
+type GenreType = {
+  id : number;
+  name : string;
+}
+
+const Profile: React.FC<ProfileProps> = ({ dancer }) => {
+  const [isLiked, setIsLiked] = useState<boolean | null>(null);
+  const { dancerId } = useParams<{dancerId: string}>();
+
+  const genres: GenreType[] = [
     { id: 1, name: '힙합' },
     { id: 2, name: '걸스힙합' },
     { id: 3, name: '팝핑' },
@@ -55,14 +76,17 @@ const Profile = ({ dancer }) => {
 
       // 상태 토글
       setIsLiked((prev) => !prev);
-    } catch (error) {
-      console.error(
-        '찜 상태 변경 중 오류 발생:',
-        error.response?.data || error.message
-      );
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          '찜 상태 변경 중 오류 발생:',
+          error.response?.data || error.message
+        );
+      } else {
+        console.error('예상치 못한 에러:', error);
+      }
     }
-  };
-
+  }
   const handleChatClick = async () => {
     try {
       const response = await api.post(`/chats/${dancer.id}/start`);
@@ -80,17 +104,23 @@ const Profile = ({ dancer }) => {
       } else {
         console.error('채팅 신청 실패:', response.data.message);
       }
-    } catch (error) {
-      console.error(
-        '채팅 신청 중 오류 발생:',
-        error.response?.data || error.message
-      );
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          '채팅 신청청 중 오류 발생:',
+          error.response?.data || error.message
+        );
+      } else {
+        console.error('예상치 못한 에러:', error);
+      }
     }
-  };
+  }
+    
+   
 
   // 소개글 포맷팅 함수
-  const formatIntroduce = (text, maxLength = 32) => {
-    return text.match(new RegExp(`.{1,${maxLength}}`, 'g')).join('\n');
+  const formatIntroduce = (text: string, maxLength = 32): string => {
+    return text.match(new RegExp(`.{1,${maxLength}}`, 'g'))?.join('\n') || text;
   };
 
   return (
@@ -236,7 +266,7 @@ const ChatButton = styled.button`
   cursor: pointer;
 `;
 
-const LikeButton = styled.button`
+const LikeButton = styled.button< {isLiked: boolean | null}>`
   display: flex;
   width: 420px;
   padding: 10px 87px;

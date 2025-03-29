@@ -7,10 +7,28 @@ import ClassTab from './components/ClassTab';
 import api from '../../api/api';
 import dummyClasses from '../../store/reservation/dummyClasses';
 
+type DancerType={
+  id: number;
+  dancerName: string;
+  dancerImages: string[];
+  isFavorite: boolean;
+  instargramId: string;
+  preferredGenres: number[];
+  bio: string;
+  classes?: DanceClassType[];
+  history: string;
+}
+
+type DanceClassType={
+  id: number;
+  className: string;
+  thumbnailImage: string;
+}
+
 const DancerProfile = () => {
-  const [activeTab, setActiveTab] = useState('소개');
-  const { dancerId } = useParams();
-  const [dancerData, setDancerData] = useState(null);
+  const [activeTab, setActiveTab] = useState<'소개' | '등록된 수업'>('소개');
+  const { dancerId } = useParams<{dancerId: string}>();
+  const [dancerData, setDancerData] = useState<DancerType | null>(null);
   //const data = dummyClass.find((cls) => cls.id === Number(classId));
 
   useEffect(() => {
@@ -51,7 +69,7 @@ const DancerProfile = () => {
       </TabContainer>
       <ContentContainer>
         {activeTab === '소개' && <IntroduceTab dancer={dancerData} />}
-        {activeTab === '등록된 수업' && (
+        {activeTab === '등록된 수업' && dancerData?.classes && (
           <ClassTab classes={dancerData.classes} />
         )}
       </ContentContainer>
@@ -80,7 +98,7 @@ const TabContainer = styled.div`
   margin-right: 100px;
 `;
 
-const Tab = styled.div`
+const Tab = styled.div<{active: boolean}>`
   display: flex;
   align-items: center;
   justify-content: center;
