@@ -5,14 +5,10 @@ import HotDancer from './Home/HotDancer';
 import HotClass from './Home/HotClass';
 import UserRecommend from './Home/UserRecommend';
 
-import dummyUserDancer from '../store/main/dummyUserDancer';
-import dummyUserClass from '../store/main/dummyUserClass';
 import useGetClass from '../hooks/useGetClass';
 import useGetDancer from '../hooks/useGetDancer';
 
 const HomePage = () => {
-  const dancers = Array.isArray(dummyUserDancer) ? dummyUserDancer : [];
-  const classes = Array.isArray(dummyUserClass) ? dummyUserClass : [];
   const { data: danceclass } = useGetClass();
   const { data: dancer } = useGetDancer();
 
@@ -20,12 +16,7 @@ const HomePage = () => {
     <Container>
       <HotDancer dancer={dancer} />
       <HotClass danceclass={danceclass} />
-      <UserRecommend
-        dummyUserDancer={dancers}
-        dummyUserClass={classes}
-        danceclass={danceclass}
-        dancer={dancer}
-      />
+      <UserRecommend danceclass={danceclass} dancer={dancer} />
     </Container>
   );
 };

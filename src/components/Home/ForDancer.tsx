@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -15,9 +14,7 @@ const ForDancer = ({ dancer }) => {
         <DancerContent onClick={() => navigate(`/dancerprofile/${Dancer.id}`)}>
           <DancerImage src={Dancer.images[0]} alt={'프로필 이미지'} />
           <DancerName>{Dancer.dancerName}</DancerName>
-          {Dancer?.genres.map((gen) => (
-            <DancerGenre>{gen}</DancerGenre>
-          ))}
+          {Dancer?.genres.map((gen) => <DancerGenre>{gen}</DancerGenre>)}
         </DancerContent>
       ))}
     </DancerContainer>

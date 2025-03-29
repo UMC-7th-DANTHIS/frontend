@@ -6,21 +6,16 @@ import ForUserBanner from '../../components/Home/ForUserBanner';
 import ForDancer from '../../components/Home/ForDancer';
 import ForClass from '../../components/Home/ForClass';
 
-const UserRecommend = ({
-  dummyUserDancer,
-  dummyUserClass,
-  dancer,
-  danceclass
-}) => {
+const UserRecommend = ({ dancer, danceclass }) => {
   const { user } = useOutletContext();
 
   return (
     <Container>
       <ForUserBanner />
       <Header>{user?.nickname} 님의 스타일에 맞는 댄서를 소개할게요</Header>
-      <ForDancer dummyUserDancer={dummyUserDancer} dancer={dancer} />
+      <ForDancer dancer={dancer} />
       <Header>오로지 {user?.nickname}님을 위한 맞춤형 수업이에요</Header>
-      <ForClass dummyUserClass={dummyUserClass} danceclass={danceclass} />
+      <ForClass danceclass={danceclass} />
     </Container>
   );
 };
