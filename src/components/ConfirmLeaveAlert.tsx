@@ -3,6 +3,22 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { ReactComponent as CloseIcon } from '../assets/buttons/close-button.svg';
 
+interface ConfirmLeaveAlertProps {
+  title?: string;
+  message: React.ReactNode;
+  onClose: () => void;
+  messageColor?: string;
+  messagesize?: string;
+  mariginsize?: string;
+  ContainerWidth?: string;
+  ContainerHeight?: string;
+  AlertWidth?: string;
+  AlertHeight?: string;
+  showButtons?: boolean;
+  confirmLabel?: string;
+  cancelLabel?: string;
+}
+
 const ConfirmLeaveAlert = ({
   title,
   message,
@@ -17,8 +33,8 @@ const ConfirmLeaveAlert = ({
   showButtons,
   confirmLabel = '남기',
   cancelLabel = '떠나기'
-}) => {
-  const handleClick = (e) => {
+}: ConfirmLeaveAlertProps) => {
+  const handleClick = (e: any) => {
     e.stopPropagation();
     if (onClose) {
       onClose();
@@ -75,7 +91,10 @@ const AlertOverlay = styled.div`
   z-index: 1000;
 `;
 
-const AlertContainer = styled.div`
+const AlertContainer = styled.div<{
+  width?: string;
+  height?: string;
+}>`
   position: relative;
   justify-items: center;
   background-color: black;
@@ -102,7 +121,10 @@ const CloseButton = styled.button`
   z-index: 1000;
 `;
 
-const TextContainer = styled.div`
+const TextContainer = styled.div<{
+  width?: string;
+  height?: string;
+}>`
   border-radius: 10px;
   background: #fff;
   width: ${({ width }) => width || 'auto'};
@@ -124,7 +146,11 @@ const AlertTitle = styled.h2`
   align-items: center;
 `;
 
-const AlertMessage = styled.div`
+const AlertMessage = styled.div<{
+  fontSize?: string;
+  color?: string;
+  margintop?: string;
+}>`
   font-size: ${({ fontSize }) => fontSize || '16px'};
   /* font-size: 16px; */
   font-weight: 600;

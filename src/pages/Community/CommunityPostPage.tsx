@@ -8,34 +8,43 @@ import PostContent from '../../components/Comunity/PostContent';
 import Pagination from '../../components/Pagination';
 import ConfirmLeaveAlert from '../../components/ConfirmLeaveAlert';
 
-import useFetchList from '../../hooks/useFetchList';
 import axiosInstance from '../../api/axios-instance';
 import useGet from '../../hooks/useGet';
 import useGetCommunity from '../../hooks/useGetCommunity';
+import useGetComment from '@/hooks/useGetComment';
+
+import { UserResponse } from '@/types/UserInterface';
+import { SinglePostResponse, SinglePostData } from '@/types/CommunityInterface';
+import { CommentResponse, Comment } from '@/types/CommunityInterface';
+
+interface PostPageReload {
+  setForceReload: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 const CommunityPostPage = () => {
-  const [comments, setComments] = useState([]);
-  const [forceReload, setForceReload] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const perData = 5;
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [forceReload, setForceReload] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const perData: number = 5;
 
   const navigate = useNavigate();
   const location = useLocation();
 
   // 게시물 정보 가져오기
-  const { selectedPost } = location.state || {};
-  const { data: user } = useGet();
-  const { setForceReload: setListReload } = useOutletContext();
-  const { data: post } = useGetCommunity(selectedPost?.postId);
-
-  console.log(post);
+  const selectedPost = (location.state as SinglePostData) || {};
+  const { data: user } = useGet<UserResponse>();
+  const { setForceReload: setListReload } = useOutletContext<PostPageReload>();
+  const { data: post } = useGetCommunity<SinglePostResponse>(
+    selectedPost?.postId
+  );
 
   // 댓글 가져오기
-  const {
-    data: com,
-    isLoading,
-    isError
-  } = useFetchList(selectedPost?.postId, 1, currentPage, forceReload);
+  const { data: com } = useGetComment<CommentResponse>(
+    selectedPost?.postId,
+    1,
+    currentPage,
+    forceReload
+  );
 
   useEffect(() => {
     if (com?.data?.comments) {
@@ -44,20 +53,20 @@ const CommunityPostPage = () => {
   }, [com]);
 
   // 알람 모달창
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showCancelAlert, setShowCancelAlert] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [showCancelAlert, setShowCancelAlert] = useState<boolean>(false);
 
   // 이미지 처리
-  const [imgUrl, setImgUrl] = useState('');
-  const [commentText, setCommentText] = useState('');
-  const [cautionText, setCautionText] = useState('');
+  const [imgUrl, setImgUrl] = useState<string>('');
+  const [commentText, setCommentText] = useState<string>('');
+  const [cautionText, setCautionText] = useState<string | null>('');
 
-  const handleModal = (imgUrl) => {
+  const handleModal = (imgUrl: string) => {
     setImgUrl(imgUrl);
     setIsModalOpen(true);
   };
 
-  const handleCaution = (e) => {
+  const handleCaution = (e: any) => {
     setCommentText(e.target.value);
     if (e.target.value.length > 200)
       setCautionText('댓글은 최대 200자까지 입력 가능합니다.');
@@ -80,9 +89,12 @@ const CommunityPostPage = () => {
         { content: commentText }
       );
 
-      setComments((prevComments) => [response.data, ...prevComments]);
+      setComments((prevComments: Comment[]) => [
+        response.data,
+        ...prevComments
+      ]);
 
-      setForceReload((prev) => !prev);
+      setForceReload((prev: boolean) => !prev);
       setCommentText('');
     } catch (error) {
       alert(error);
@@ -97,10 +109,9 @@ const CommunityPostPage = () => {
             <div>{post?.data.title}</div>
           </PostHeader>
           <PostContent
-            length={com?.data.totalComments}
-            comment={com?.data.comments}
+            length={com?.data.totalComments!}
             handleModal={handleModal}
-            selectedPost={post?.data}
+            selectedPost={post?.data!}
             user={user}
             setListReload={setListReload}
           />
@@ -116,7 +127,7 @@ const CommunityPostPage = () => {
               </>
             ))}
 
-            {com?.data.comments.length > 0 && (
+            {com?.data.comments.length! > 0 && (
               <PaginationContainer>
                 <Pagination
                   dataLength={com?.data.totalComments}
@@ -135,7 +146,7 @@ const CommunityPostPage = () => {
                 onChange={handleCaution}
               />
               {cautionText ? (
-                <inactivebutton>작성</inactivebutton>
+                <InactiveButton>작성</InactiveButton>
               ) : (
                 <button onClick={() => handleCommentSubmit()}>작성</button>
               )}
@@ -226,16 +237,16 @@ const CommentInput = styled.div`
     font-size: 16px;
     cursor: pointer;
   }
+`;
 
-  inactivebutton {
-    padding: 13px 18px;
-    background-color: grey;
-    border: none;
-    color: white;
-    border-radius: 10px;
-    font-size: 16px;
-    cursor: inactive;
-  }
+const InactiveButton = styled.div`
+  padding: 13px 18px;
+  background-color: grey;
+  border: none;
+  color: white;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: inactive;
 `;
 
 const BackButton = styled.div`
