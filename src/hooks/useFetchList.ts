@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import axiosInstance from '../api/axios-instance';
 
-import { PostListData } from '@/types/CommunityInterface';
+import { PostListResponse, PostListData } from '@/types/CommunityInterface';
 
 // 호출시마다 반환하는 json이 다르므로 제네릭 타입을 사용
 export function useFetchList<T>(currentPage: number, forceReload: boolean) {
@@ -21,8 +21,8 @@ export function useFetchList<T>(currentPage: number, forceReload: boolean) {
         if (!currentPage) currentPage = 1;
         url = `/community/posts?page=${currentPage}`;
 
-        const response = await axiosInstance.get(url);
-        setData(response.data.data);
+        const response: PostListResponse = await axiosInstance.get(url);
+        setData(response.data);
       } catch (error) {
         setIsError(true);
       } finally {

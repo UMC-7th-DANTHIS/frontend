@@ -13,13 +13,13 @@ import ConfirmDeleteAlert from '../ConfirmDelete';
 import axiosInstance from '../../api/axios-instance';
 
 import { SinglePostData } from '@/types/CommunityInterface';
-import { UserResponse } from '@/types/UserInterface';
+import { UserData } from '@/types/UserInterface';
 
 type PostContentProps = {
   length: number;
   handleModal: (imgUrl: string) => void;
   selectedPost: SinglePostData;
-  user: UserResponse | null;
+  user: UserData | null;
   setListReload: Dispatch<any>;
 };
 
@@ -62,7 +62,7 @@ const PostContent = ({
         </PostMeta>
       </PostInfo>
       <PostInfo>
-        {user?.data.nickname == selectedPost?.author ? (
+        {user?.nickname == selectedPost?.author ? (
           <PostActions>
             <ButtonContainer
               onClick={() =>
