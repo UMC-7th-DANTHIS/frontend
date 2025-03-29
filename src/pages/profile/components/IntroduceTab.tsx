@@ -6,7 +6,11 @@ interface Dancer {
   dancerImages: string[];
   history: string;
 }
- const IntroduceTab =({dancer}) => {
+interface IntroduceTabProps{
+  dancer: Dancer | null;
+}
+
+ const IntroduceTab: React.FC<IntroduceTabProps> =({dancer}) => {
    
     if (!dancer) {
         return <div>로딩 중...</div>; // dancer가 null일 때 로딩 메시지 표시
