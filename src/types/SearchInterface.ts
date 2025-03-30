@@ -21,7 +21,8 @@ export interface SearchPagination {
 // 수업 검색 Interface
 export interface SearchClassData {
   searchType: string;
-  results: SearchClassList;
+  results: SearchClassList[];
+  pagination: SearchPagination;
 }
 
 export interface SearchClassList {
@@ -37,11 +38,11 @@ export interface SearchClassList {
 // 댄서 검색 Interface
 export interface SearchDancerData {
   query: string;
-  results: SearchDataList;
+  results: SearchDancerList[];
   pagination: SearchPagination;
 }
 
-export interface SearchDataList {
+export interface SearchDancerList {
   id: number;
   name: string;
   profileImage: string[];
@@ -52,7 +53,8 @@ export interface SearchDataList {
 // 커뮤니티 검색 Interface
 export interface SearchCommunityData {
   query: string;
-  results: SearchCommunityList;
+  results: SearchCommunityList[];
+  pagination: SearchPagination;
 }
 
 export interface SearchCommunityList {

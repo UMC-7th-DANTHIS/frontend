@@ -9,17 +9,22 @@ import useSearch from '../../hooks/useSearch';
 
 import { DanceGenre } from '../../api/schema';
 
-const SearchDancer = ({ query, select }) => {
+type SearchDancerParams = {
+  query: string | null;
+  select: 'dancers';
+};
+
+const SearchDancer = ({ query, select }: SearchDancerParams) => {
   const navigate = useNavigate();
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const perData = 5;
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const perData: number = 5;
 
-  const { data, isLoading } = useSearch(select, query, currentPage);
+  const { data } = useSearch<'dancers'>(select, query, currentPage);
 
   return (
     <Container>
-      {!isLoading && data?.data.results.length > 0 ? (
+      {data!.data.results.length > 0 ? (
         <>
           <ClassLists>
             {data?.data.results.map((list) => (
