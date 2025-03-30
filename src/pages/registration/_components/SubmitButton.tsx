@@ -1,7 +1,6 @@
-import React from "react";
-import styled from "styled-components";
+import styled from 'styled-components';
 
-const SubmitButton = ({ text }) => {
+const SubmitButton = ({ text }: { text: string }) => {
   return (
     <Btn type="submit">
       <BtnText>{text}</BtnText>

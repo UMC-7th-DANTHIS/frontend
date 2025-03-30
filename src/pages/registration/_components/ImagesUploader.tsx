@@ -1,72 +1,66 @@
-import React from 'react';
 import styled from 'styled-components';
-import { ReactComponent as PictureIcon } from '../../../assets/picture.svg';
-import { ReactComponent as EditIcon } from '../../../assets/shape/write.svg';
-import { ReactComponent as DeleteIcon } from '../../../assets/shape/trash.svg';
-import MainBox from './MainBox';
-import api from '../../../api/api';
+import PictureIcon from '../../../assets/picture.svg';
+import EditIcon from '../../../assets/shape/write.svg';
+import DeleteIcon from '../../../assets/shape/trash.svg';
 
-const ImagesUploader = ({ isFor, images, handleFormChange }) => {
+import {
+  DancerFormProps,
+  ClassFormProps
+} from '../../../types/RegisterFormInterface';
+import { ImagesUploaderProps } from '../../../types/RegisterFormInterface';
+import useImagePresignedUrl from '../../../hooks/registration/useImagePresignedUrl';
+import MainBox from './MainBox';
+import useUploadToS3 from '../../../hooks/registration/useUploadToS3';
+
+const ImagesUploader = <T extends DancerFormProps | ClassFormProps>({
+  isFor,
+  images,
+  handleFormChange
+}: ImagesUploaderProps<T>) => {
   const totalImages = 3;
 
-  const config = {
-    dancer: { label: 'Profile', fieldName: 'dancerImages', urlParam: 'dancer' },
-    class: { label: 'Thumbnail', fieldName: 'images', urlParam: 'dance-class' }
+  const config: Record<
+    'dancer' | 'class',
+    { label: string; fieldName: keyof T; urlParam: string }
+  > = {
+    dancer: {
+      label: 'Profile',
+      fieldName: 'dancerImages' as keyof T,
+      urlParam: 'dancer'
+    },
+    class: {
+      label: 'Thumbnail',
+      fieldName: 'images' as keyof T,
+      urlParam: 'dance-class'
+    }
   };
 
   const { label, fieldName, urlParam } = config[isFor] || {};
 
-  // Presigned URL 요청
-  const getPresignedUrl = async (file) => {
-    try {
-      const fileExtension = file.name.split('.').pop(); // 파일 확장자
-      const response = await api.post(
-        `/images/${urlParam}?fileExtensions=${fileExtension}`
-      );
-      return response.data[0]?.presignedUrl || null; // Presigned URL 반환
-    } catch (error) {
-      console.error(
-        '❌ Presigned URL 발급 실패:',
-        error.response?.data || error.message
-      );
-      return null;
-    }
-  };
-
-  // S3에 파일 업로드
-  const uploadFileToS3 = async (presignedUrl, file) => {
-    try {
-      const uploadResponse = await fetch(presignedUrl, {
-        method: 'PUT',
-        body: file
-      });
-      if (!uploadResponse.ok) {
-        throw new Error(`업로드 실패: ${uploadResponse.status}`);
-      }
-      return presignedUrl.split('?')[0]; // 업로드된 이미지 URL 반환
-    } catch (error) {
-      console.error('❌ 업로드 실패:', error.message);
-      return null;
-    }
-  };
+  const { getPresignedUrl } = useImagePresignedUrl(urlParam);
+  const { uploadToS3 } = useUploadToS3();
 
   // 이미지 업데이트 로직
-  const updateImageList = (index, newImageUrl) => {
+  const updateImageList = (index: number, newImageUrl: string) => {
     const updatedImages = images.map((img, i) =>
       i === index ? newImageUrl : img
     );
-    handleFormChange(fieldName, updatedImages);
+
+    handleFormChange(fieldName, updatedImages as T[typeof fieldName]);
   };
 
   // 이미지 업로드 핸들러
-  const handleUploadFile = async (e, index) => {
-    const file = e.target.files[0]; // 파일 가져오기
+  const handleUploadFile = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const file = e.target.files?.[0]; // 파일 가져오기
     if (!file || !file.type.startsWith('image/')) return;
 
     const presignedUrl = await getPresignedUrl(file);
     if (!presignedUrl) return;
 
-    const uploadedImageUrl = await uploadFileToS3(presignedUrl, file);
+    const uploadedImageUrl = await uploadToS3(presignedUrl, file);
     if (uploadedImageUrl) {
       updateImageList(index, uploadedImageUrl);
     }
@@ -134,7 +128,7 @@ const Container = styled.div`
 const ImageWrapper = styled.div`
   position: relative;
 `;
-const Image = styled.label`
+const Image = styled.label<{ $isEmpty: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;

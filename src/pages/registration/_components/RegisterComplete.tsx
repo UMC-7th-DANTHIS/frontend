@@ -1,9 +1,15 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
-import { ReactComponent as Check } from '../../../assets/check.svg';
+import Check from '../../../assets/check.svg';
 import { useNavigate } from 'react-router-dom';
 
-const Complete = ({ title, detail }) => {
+const RegisterComplete = ({
+  title,
+  detail
+}: {
+  title: string;
+  detail: string;
+}) => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,7 +19,7 @@ const Complete = ({ title, detail }) => {
   return (
     <Container>
       <Ellipse>
-        <Check alt="Check Icon" />
+        <Check />
       </Ellipse>
       <Title>{title}</Title>
       <Detail>{detail}</Detail>
@@ -32,7 +38,7 @@ const Complete = ({ title, detail }) => {
   );
 };
 
-export default Complete;
+export default RegisterComplete;
 
 const Container = styled.div`
   justify-items: center;

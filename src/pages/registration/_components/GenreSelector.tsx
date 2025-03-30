@@ -1,12 +1,18 @@
-import React from 'react';
 import styled from 'styled-components';
 import { DanceGenre as genres } from '../../../api/schema';
+import {
+  DancerGenreSelectorProps,
+  ClassGenreSelectorProps
+} from '../../../types/RegisterFormInterface';
 
-const GenreSelectorDancer = ({ selectedGenres, handleFormChange }) => {
+const GenreSelectorDancer: React.FC<DancerGenreSelectorProps> = ({
+  selectedGenres,
+  handleFormChange
+}) => {
   const maxGenresLength = 2;
 
   // 장르 선택 핸들러
-  const handleSelect = (genreId) => {
+  const handleSelect = (genreId: string) => {
     let updatedGenres;
 
     if (selectedGenres.includes(genreId)) {
@@ -36,11 +42,14 @@ const GenreSelectorDancer = ({ selectedGenres, handleFormChange }) => {
   );
 };
 
-const GenreSelectorClass = ({ selectedGenre, handleFormChange }) => {
+const GenreSelectorClass: React.FC<ClassGenreSelectorProps> = ({
+  selectedGenre,
+  handleFormChange
+}) => {
   // 단일 선택
   // 장르 선택 핸들러
-  const handleSelect = (genreId) => {
-    const updatedGenre = selectedGenre === genreId ? null : genreId;
+  const handleSelect = (genreId: number) => {
+    const updatedGenre = genreId;
     handleFormChange('genre', updatedGenre);
   };
 
@@ -50,8 +59,8 @@ const GenreSelectorClass = ({ selectedGenre, handleFormChange }) => {
         <GenreBtn
           key={genre.id}
           type="button"
-          selected={selectedGenre === genre.id}
-          onClick={() => handleSelect(genre.id)}
+          selected={selectedGenre === Number(genre.id)}
+          onClick={() => handleSelect(Number(genre.id))}
         >
           #{genre.Genre}
         </GenreBtn>
@@ -70,7 +79,7 @@ const GenreWrapper = styled.div`
   row-gap: 33px;
   column-gap: 17px;
 `;
-const GenreBtn = styled.button`
+const GenreBtn = styled.button<{ selected: boolean }>`
   display: flex;
   width: 160px;
   max-width: 160px;
@@ -80,12 +89,11 @@ const GenreBtn = styled.button`
   gap: 8px;
   border-radius: 4px;
   border: 1px solid
-    ${(props) =>
-      props.selected
-        ? 'var(--main_purple, #9819C3)'
-        : 'var(--sub_light-gray, #ddd)'};
-  background-color: ${(props) =>
-    props.selected ? 'var(--main_purple, #9819C3)' : 'transparent'};
+    ${({ selected }) =>
+      selected ? 'var(--main_purple, #9819C3)' : 'var(--sub_light-gray, #ddd)'};
+  background-color: ${({ selected }) =>
+    selected ? 'var(--main_purple, #9819C3)' : 'transparent'};
+  transition: all 0.3s ease-in-out;
 
   color: var(--sub_light-gray, #ddd);
   text-align: center;
