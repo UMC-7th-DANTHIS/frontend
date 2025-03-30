@@ -4,15 +4,15 @@ import EditIcon from '../../../assets/shape/write.svg';
 import DeleteIcon from '../../../assets/shape/trash.svg';
 
 import {
-  DancerFormProps,
-  ClassFormProps
+  DancerFormState,
+  ClassFormState
 } from '../../../types/RegisterFormInterface';
 import { ImagesUploaderProps } from '../../../types/RegisterFormInterface';
 import useImagePresignedUrl from '../../../hooks/registration/useImagePresignedUrl';
 import MainBox from './MainBox';
 import useUploadToS3 from '../../../hooks/registration/useUploadToS3';
 
-const ImagesUploader = <T extends DancerFormProps | ClassFormProps>({
+const ImagesUploader = <T extends DancerFormState | ClassFormState>({
   isFor,
   images,
   handleFormChange

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { Input, Textarea } from '../_components/Inputs';
 import { GenreSelectorDancer } from '../_components/GenreSelector';
@@ -8,19 +8,17 @@ import ConfirmLeaveAlert from '../../../components/ConfirmLeaveAlert';
 import SingleBtnAlert from '../../../components/SingleBtnAlert';
 import useConfirmLeave from '../../../hooks/useConfirmLeave';
 
-import { DancerFormProps } from '../../../types/RegisterFormInterface';
+import { DancerFormState } from '../../../types/RegisterFormInterface';
 import usePost from '../../../hooks/registration/usePost';
+import useValidation from '../../../hooks/registration/useValidation';
 
 const DancerForm = ({
   setIsRegistered
 }: {
   setIsRegistered: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const { data, post } = usePost<DancerFormProps>();
-  const [isValid, setIsValid] = useState<boolean>(false);
-  const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
-  const [showLeaveAlert, setShowLeaveAlert] = useState<boolean>(false);
-  const [formState, setFormState] = useState<DancerFormProps>({
+  const { data, post } = usePost<DancerFormState>();
+  const [formState, setFormState] = useState<DancerFormState>({
     dancerName: '',
     instargramId: '',
     openChatUrl: '',
@@ -29,44 +27,16 @@ const DancerForm = ({
     preferredGenres: [],
     dancerImages: ['', '', '']
   });
+  const isValid = useValidation(formState, 'dancer');
+  const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
+  const [showLeaveAlert, setShowLeaveAlert] = useState<boolean>(false);
 
   // 뒤로 가기 방지 팝업 경고
   useConfirmLeave({ setAlert: setShowLeaveAlert });
 
-  // 유효성 검사
-  useEffect(() => {
-    const isDancerNameValid =
-      formState.dancerName.trim().length > 0 &&
-      formState.dancerName.trim().length <= 20;
-    const isInstargramIdValid =
-      formState.instargramId.trim().length > 0 &&
-      formState.instargramId.trim().length <= 20;
-    const isOpenChatUrlValid =
-      formState.openChatUrl.trim().length > 0 &&
-      formState.openChatUrl.trim().length <= 255;
-    const isBioValid = formState.bio.length <= 80;
-    const isPreferredpreferredGenresValid =
-      formState.preferredGenres.length > 0 &&
-      formState.preferredGenres.length <= 2;
-    const isHistoryValid = formState.history.length <= 1000;
-    const isDancerImagesValid =
-      formState.dancerImages.filter((img) => img !== null).length <= 3;
-
-    // 모든 필드가 유효하면 true
-    setIsValid(
-      isDancerNameValid &&
-        isInstargramIdValid &&
-        isOpenChatUrlValid &&
-        isBioValid &&
-        isPreferredpreferredGenresValid &&
-        isHistoryValid &&
-        isDancerImagesValid
-    );
-  }, [formState]);
-
   // 등록 폼 상태 업데이트
   const handleFormChange = useCallback(
-    <K extends keyof DancerFormProps>(key: K, value: DancerFormProps[K]) => {
+    <K extends keyof DancerFormState>(key: K, value: DancerFormState[K]) => {
       setFormState((prev) => ({ ...prev, [key]: value }));
     },
     []

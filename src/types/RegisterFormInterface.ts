@@ -1,5 +1,5 @@
 // 댄서 등록 폼
-export interface DancerFormProps {
+export interface DancerFormState {
   dancerName: string;
   instargramId: string;
   openChatUrl: string;
@@ -10,7 +10,7 @@ export interface DancerFormProps {
 }
 
 // 수업 등록 폼
-export interface ClassFormProps {
+export interface ClassFormState {
   className: string;
   pricePerSession: string;
   difficulty: number;
@@ -31,19 +31,19 @@ export type HandleFormChange<T> = <K extends keyof T>(
 // 댄서 장르 선택자
 export interface DancerGenreSelectorProps {
   selectedGenres: string[];
-  handleFormChange: HandleFormChange<DancerFormProps>;
+  handleFormChange: HandleFormChange<DancerFormState>;
 }
 
 // 수업 장르 선택자
 export interface ClassGenreSelectorProps {
   selectedGenre: number;
-  handleFormChange: HandleFormChange<ClassFormProps>;
+  handleFormChange: HandleFormChange<ClassFormState>;
 }
 
 // 해시태그 선택자
 export interface TagSelectorProps {
   selectedTags: number[];
-  handleFormChange: HandleFormChange<ClassFormProps>;
+  handleFormChange: HandleFormChange<ClassFormState>;
 }
 
 // 이미지 업로더
@@ -56,11 +56,11 @@ export interface ImagesUploaderProps<T> {
 // 비디오 업로더
 export interface VideoUplodaerProps {
   video: string;
-  handleFormChange: HandleFormChange<ClassFormProps>;
+  handleFormChange: HandleFormChange<ClassFormState>;
 }
 
 // 별점 선택자
 export interface StarRatingProps {
   value: number;
-  handleFormChange: HandleFormChange<ClassFormProps>;
+  handleFormChange: HandleFormChange<ClassFormState>;
 }

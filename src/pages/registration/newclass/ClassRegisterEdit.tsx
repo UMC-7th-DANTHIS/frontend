@@ -13,15 +13,13 @@ import SingleBtnAlert from '../../../components/SingleBtnAlert';
 import useConfirmLeave from '../../../hooks/useConfirmLeave';
 import api from '../../../api/api';
 
-import { ClassFormProps } from '@/types/RegisterFormInterface';
+import { ClassFormState } from '../../../types/RegisterFormInterface';
 import usePut from '../../../hooks/registration/usePut';
+import useValidation from '../../../hooks/registration/useValidation';
 
 const ClassRegisterEdit = () => {
   const navigate = useNavigate();
-  const { data, put } = usePut<ClassFormProps>();
-  const [isValid, setIsValid] = useState(false);
-  const [showInvalidAlert, setShowInvalidAlert] = useState(false);
-  const [showLeaveAlert, setShowLeaveAlert] = useState(false);
+  const { data, put } = usePut<ClassFormState>();
   const [formState, setFormState] = useState({
     className: '',
     pricePerSession: '',
@@ -33,6 +31,10 @@ const ClassRegisterEdit = () => {
     images: ['', '', ''],
     videoUrl: ''
   });
+  const isValid = useValidation(formState, 'class');
+  const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
+  const [showLeaveAlert, setShowLeaveAlert] = useState<boolean>(false);
+
   const { classId } = useParams();
 
   useEffect(() => {
@@ -61,36 +63,9 @@ const ClassRegisterEdit = () => {
   // 뒤로 가기 방지 팝업 경고
   useConfirmLeave({ setAlert: setShowLeaveAlert });
 
-  // 유효성 검사 (임시)
-  useEffect(() => {
-    const isClassNameValid =
-      formState.className.trim().length > 0 &&
-      formState.className.trim().length <= 20;
-    const isPricePerSessionValid =
-      !isNaN(Number(formState.pricePerSession)) &&
-      Number(formState.pricePerSession) >= 0;
-    const isDifficultyValid = formState.difficulty > -1;
-    const isGenreValid = formState.genre > 0;
-    const isDescriptionValid = formState.description.length <= 1000;
-    const isTargetAudienceValid = formState.targetAudience.length <= 1000;
-    const isHashtagsValid =
-      formState.hashtags.length > 0 && formState.hashtags.length <= 3;
-
-    // 모든 필드가 유효하면 true
-    setIsValid(
-      isClassNameValid &&
-        isPricePerSessionValid &&
-        isDifficultyValid &&
-        isGenreValid &&
-        isDescriptionValid &&
-        isTargetAudienceValid &&
-        isHashtagsValid
-    );
-  }, [formState]);
-
   // 등록 폼 상태 업데이트
   const handleFormChange = useCallback(
-    <K extends keyof ClassFormProps>(key: K, value: ClassFormProps[K]) => {
+    <K extends keyof ClassFormState>(key: K, value: ClassFormState[K]) => {
       setFormState((prev) => ({ ...prev, [key]: value }));
     },
     []
