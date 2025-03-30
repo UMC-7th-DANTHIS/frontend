@@ -61,7 +61,7 @@ const SearchClass = ({ query, select }: SearchClassParams) => {
           </ClassLists>
           <PaginationContainer>
             <Pagination
-              dataLength={data?.data.pagination.totalResults}
+              dataLength={data?.data.pagination.totalResults!}
               perData={perData}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}

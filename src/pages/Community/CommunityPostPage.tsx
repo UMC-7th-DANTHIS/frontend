@@ -130,7 +130,7 @@ const CommunityPostPage = () => {
             {com?.data.comments.length! > 0 && (
               <PaginationContainer>
                 <Pagination
-                  dataLength={com?.data.totalComments}
+                  dataLength={com?.data.totalComments!}
                   perData={perData}
                   currentPage={currentPage}
                   setCurrentPage={setCurrentPage}

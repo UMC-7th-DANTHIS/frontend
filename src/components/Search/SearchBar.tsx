@@ -1,26 +1,36 @@
 import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
-import SearchIcon from '../../assets';
+import SearchIcon from '../../assets/Search/search.svg';
 import SingleBtnAlert from '../SingleBtnAlert';
 
 import { hashTagID } from '../../api/schema';
 
+type SearchBarProps = {
+  handleSearchData: () => void;
+  handleCategoryClick: (category: string) => void;
+  handleNowContent: (content: string) => void;
+  handleClick: (tag: string) => void;
+  temp: string | null;
+  select: string | null;
+  selectedFilter: string | null;
+};
+
 const SearchBar = ({
-  select,
+  handleSearchData,
   handleCategoryClick,
-  selectedFilter,
   handleClick,
-  temp,
   handleNowContent,
-  handleSearchData
-}) => {
+  temp,
+  select,
+  selectedFilter
+}: SearchBarProps) => {
   const navigate = useNavigate();
 
   const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleSearch = (e: any) => {
+  const handleSearch = (e: any): void => {
     const value: string = e.target.value;
 
     if (value.length > 20) {
@@ -30,24 +40,28 @@ const SearchBar = ({
     }
   };
 
-  const handleKeyDown = (e: any) => {
-    if (e.key === 'Enter' && temp.trim() !== '') {
+  const handleKeyDown = (e: any): void => {
+    if (e.key === 'Enter' && temp!.trim() !== '') {
       e.preventDefault();
       handleSearchData();
     }
   };
 
-  const handleReSearch = (category: string) => {
+  const handleReSearch = (category: string): void => {
     handleCategoryClick(category);
     handleSearchData();
-    setSearchParams({ query: temp });
+    setSearchParams({ query: temp! });
     navigate(`/search/${category}?query=${temp}`);
   };
 
   return (
     <Container>
       <InputContainer>
-        <Input value={temp} onKeyDown={handleKeyDown} onChange={handleSearch} />
+        <Input
+          value={temp!}
+          onKeyDown={handleKeyDown}
+          onChange={handleSearch}
+        />
         <SearchButton onClick={handleSearchData}>
           <SearchIcon src={Searchicon} alt="search" />
         </SearchButton>
@@ -178,7 +192,7 @@ const SelectText = styled.span`
   }
 `;
 
-const HashTag = styled.div`
+const HashTag = styled.div<{ active: boolean }>`
   display: inline-block;
   width: 154px;
   height: 50px;

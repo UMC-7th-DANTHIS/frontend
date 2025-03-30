@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import styled from 'styled-components';
@@ -54,7 +54,7 @@ const SearchDancer = ({ query, select }: SearchDancerParams) => {
           </ClassLists>
           <PaginationContainer>
             <Pagination
-              dataLength={data?.data.pagination.totalResults}
+              dataLength={data?.data.pagination.totalResults!}
               perData={perData}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
