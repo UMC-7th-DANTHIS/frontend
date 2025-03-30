@@ -1,19 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
-import { Input, Textarea } from '../components/Inputs';
-import { GenreSelectorDancer } from '../components/GenreSelector';
-import ImagesUploader from '../components/ImagesUploader';
-import SubmitButton from '../components/SubmitButton';
+import { Input, Textarea } from '../_components/Inputs';
+import { GenreSelectorDancer } from '../_components/GenreSelector';
+import ImagesUploader from '../_components/ImagesUploader';
+import SubmitButton from '../_components/SubmitButton';
 import ConfirmLeaveAlert from '../../../components/ConfirmLeaveAlert';
 import SingleBtnAlert from '../../../components/SingleBtnAlert';
 import useConfirmLeave from '../../../hooks/useConfirmLeave';
-import api from '../../../api/api';
 
-const DancerForm = ({ setIsRegistered }) => {
-  const [isValid, setIsValid] = useState(false);
-  const [showInvalidAlert, setShowInvalidAlert] = useState(false);
-  const [showLeaveAlert, setShowLeaveAlert] = useState(false);
-  const [formState, setFormState] = useState({
+import { DancerFormProps } from '../../../types/RegisterFormInterface';
+import usePost from '../../../hooks/registration/usePost';
+
+const DancerForm = ({
+  setIsRegistered
+}: {
+  setIsRegistered: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const { data, post } = usePost<DancerFormProps>();
+  const [isValid, setIsValid] = useState<boolean>(false);
+  const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
+  const [showLeaveAlert, setShowLeaveAlert] = useState<boolean>(false);
+  const [formState, setFormState] = useState<DancerFormProps>({
     dancerName: '',
     instargramId: '',
     openChatUrl: '',
@@ -26,7 +33,7 @@ const DancerForm = ({ setIsRegistered }) => {
   // 뒤로 가기 방지 팝업 경고
   useConfirmLeave({ setAlert: setShowLeaveAlert });
 
-  // 유효성 검사 (임시)
+  // 유효성 검사
   useEffect(() => {
     const isDancerNameValid =
       formState.dancerName.trim().length > 0 &&
@@ -58,26 +65,15 @@ const DancerForm = ({ setIsRegistered }) => {
   }, [formState]);
 
   // 등록 폼 상태 업데이트
-  const handleFormChange = (key, value) => {
-    setFormState((prev) => ({ ...prev, [key]: value }));
-  };
-
-  // 댄서 정보 등록
-  const postDancer = async (data) => {
-    try {
-      await api.post('/dancers', data, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      setIsRegistered(true);
-    } catch (error) {
-      console.error('댄서 등록 실패:', error.response?.data || error.message);
-    }
-  };
+  const handleFormChange = useCallback(
+    <K extends keyof DancerFormProps>(key: K, value: DancerFormProps[K]) => {
+      setFormState((prev) => ({ ...prev, [key]: value }));
+    },
+    []
+  );
 
   // 수업 등록 폼 제출 핸들러
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const updatedFormState = {
@@ -89,7 +85,9 @@ const DancerForm = ({ setIsRegistered }) => {
       setShowInvalidAlert(true);
       return;
     }
-    postDancer(updatedFormState);
+
+    await post('/dancers', updatedFormState);
+    if (data) setIsRegistered(true);
   };
 
   return (
@@ -191,6 +189,7 @@ const DancerForm = ({ setIsRegistered }) => {
           showButtons={true}
         />
       )}
+
       {showLeaveAlert && (
         <ConfirmLeaveAlert
           message={
@@ -223,7 +222,7 @@ const InputContainer = styled.div`
   border-radius: 25px;
   border: 2px solid var(--main_purple, #9819c3);
 `;
-const LabelWrapper = styled.div`
+const LabelWrapper = styled.div<{ $long?: boolean }>`
   display: flex;
   flex-direction: row;
   align-items: ${({ $long }) => ($long ? 'center' : 'flex-end')};

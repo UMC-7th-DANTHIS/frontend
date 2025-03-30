@@ -1,22 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
-import { Input, Textarea } from '../components/Inputs';
-import StarRating from '../components/StarRating';
-import { GenreSelectorClass } from '../components/GenreSelector';
-import ImagesUploader from '../components/ImagesUploader';
-import VideoUploader from '../components/VideoUploader';
-import SubmitButton from '../components/SubmitButton';
-import TagSelector from '../components/TagSelector';
+import { Input, Textarea } from '../_components/Inputs';
+import StarRating from '../_components/StarRating';
+import { GenreSelectorClass } from '../_components/GenreSelector';
+import ImagesUploader from '../_components/ImagesUploader';
+import VideoUploader from '../_components/VideoUploader';
+import SubmitButton from '../_components/SubmitButton';
+import TagSelector from '../_components/TagSelector';
 import ConfirmLeaveAlert from '../../../components/ConfirmLeaveAlert';
 import SingleBtnAlert from '../../../components/SingleBtnAlert';
 import useConfirmLeave from '../../../hooks/useConfirmLeave';
-import api from '../../../api/api';
 
-const ClassForm = ({ setIsRegistered }) => {
-  const [isValid, setIsValid] = useState(false);
-  const [showInvalidAlert, setShowInvalidAlert] = useState(false);
-  const [showLeaveAlert, setShowLeaveAlert] = useState(false);
-  const [formState, setFormState] = useState({
+import { ClassFormProps } from '../../../types/RegisterFormInterface';
+import usePost from '../../../hooks/registration/usePost';
+
+const ClassForm = ({
+  setIsRegistered
+}: {
+  setIsRegistered: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const { data, post } = usePost<ClassFormProps>();
+  const [isValid, setIsValid] = useState<boolean>(false);
+  const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
+  const [showLeaveAlert, setShowLeaveAlert] = useState<boolean>(false);
+  const [formState, setFormState] = useState<ClassFormProps>({
     className: '',
     pricePerSession: '',
     difficulty: 0,
@@ -37,7 +44,8 @@ const ClassForm = ({ setIsRegistered }) => {
       formState.className.trim().length > 0 &&
       formState.className.trim().length <= 20;
     const isPricePerSessionValid =
-      !isNaN(formState.pricePerSession) && formState.pricePerSession >= 0;
+      !isNaN(Number(formState.pricePerSession)) &&
+      Number(formState.pricePerSession) >= 0;
     const isDifficultyValid = formState.difficulty > -1;
     const isGenreValid = formState.genre > 0;
     const isDescriptionValid = formState.description.length <= 1000;
@@ -58,29 +66,15 @@ const ClassForm = ({ setIsRegistered }) => {
   }, [formState]);
 
   // 등록 폼 상태 업데이트
-  const handleFormChange = (key, value) => {
-    setFormState((prev) => ({ ...prev, [key]: value }));
-  };
-
-  // 댄스 수업 정보 등록
-  const postClass = async (data) => {
-    try {
-      await api.post('/dance-classes', data, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      setIsRegistered(true);
-    } catch (error) {
-      console.error(
-        '댄스 수업 등록 실패:',
-        error.response?.data || error.message
-      );
-    }
-  };
+  const handleFormChange = useCallback(
+    <K extends keyof ClassFormProps>(key: K, value: ClassFormProps[K]) => {
+      setFormState((prev) => ({ ...prev, [key]: value }));
+    },
+    []
+  );
 
   // 수업 등록 폼 제출 핸들러
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const updatedFormState = {
@@ -93,7 +87,9 @@ const ClassForm = ({ setIsRegistered }) => {
       setShowInvalidAlert(true);
       return;
     }
-    postClass(updatedFormState);
+
+    await post('/dance-classes', updatedFormState);
+    if (data) setIsRegistered(true);
   };
 
   return (
@@ -122,7 +118,6 @@ const ClassForm = ({ setIsRegistered }) => {
           <Label>난이도</Label>
         </LabelWrapper>
         <StarRating
-          label="난이도"
           value={formState.difficulty}
           handleFormChange={handleFormChange}
         />
@@ -242,7 +237,7 @@ const InputContainer = styled.div`
   border-radius: 25px;
   border: 2px solid var(--main_purple, #9819c3);
 `;
-const LabelWrapper = styled.div`
+const LabelWrapper = styled.div<{ $long?: boolean }>`
   display: flex;
   flex-direction: row;
   align-items: ${({ $long }) => ($long ? 'center' : 'flex-end')};

@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import DancerForm from './DancerForm';
-import Complete from '../components/Complete';
+import RegisterComplete from '../_components/RegisterComplete';
 
 const DancerRegistration = () => {
-  const [isRegistered, setIsRegistered] = useState(false);
+  const [isRegistered, setIsRegistered] = useState<boolean>(false);
 
   // 등록 완료 메시지
   const title = '댄서 등록 신청이 완료되었어요!';
@@ -18,7 +18,7 @@ const DancerRegistration = () => {
         {!isRegistered ? (
           <DancerForm setIsRegistered={setIsRegistered} />
         ) : (
-          <Complete title={title} detail={detail} />
+          <RegisterComplete title={title} detail={detail} />
         )}
       </Registration>
     </Container>
