@@ -31,14 +31,14 @@ const SingleBtnAlert = ({
   showButtons,
   confirmLabel = '확인'
 }: SingleBtnAlertProps) => {
-  const handleClick = (e: any) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
     if (onClose) {
       onClose();
     }
   };
 
-  const handleOverlayClick = (e: any) => {
+  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
@@ -49,7 +49,7 @@ const SingleBtnAlert = ({
       <AlertContainer
         width={AlertWidth}
         height={AlertHeight}
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
       >
         <CloseButton onClick={handleClick}>
           <CloseIcon />

@@ -6,15 +6,17 @@ import axios from 'axios';
 import SingleBtnAlert from '../SingleBtnAlert';
 import ConfirmLeaveAlert from '../ConfirmLeaveAlert';
 
-import getPresignedUrls from '../../hooks/getPresignedUrls';
+import getPresignedUrls, {
+  PresignedUrlInterface
+} from '../../hooks/getPresignedUrls';
 
 interface EditFooterProps {
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   title: string;
   content: string;
   fileName: string[];
-  fileObjects: string[];
-  setForceReload: React.Dispatch<React.SetStateAction<boolean>>;
+  fileObjects: File[];
+  setForceReload?: React.Dispatch<React.SetStateAction<boolean>>;
   createPost: (
     title: string,
     content: string,
@@ -28,7 +30,6 @@ const EditFooter = ({
   title,
   fileName,
   fileObjects,
-  setForceReload,
   createPost
 }: EditFooterProps) => {
   const navigate = useNavigate();
@@ -37,7 +38,10 @@ const EditFooter = ({
   const [showCancelAlert, setShowCancelAlert] = useState<boolean>(false);
 
   // presignedUrl로 아마존 서버에 이미지 올리고 url 유효하게 하기
-  const uploadToS3 = async (presignedUrl: string, file: any) => {
+  const uploadToS3 = async (
+    presignedUrl: string,
+    file: File
+  ): Promise<boolean> => {
     try {
       const response = await axios.put(presignedUrl, file, {
         headers: {
@@ -52,17 +56,18 @@ const EditFooter = ({
   };
 
   // 이미지 서버에 올리기
-  const handleSubmit = async () => {
+  const handleSubmit = async (): Promise<void> => {
     if (!content || !title) setShowInvalidAlert(true);
     else {
       const fileExtensions: string[] = fileName.map((name: any) =>
         name.split('.').pop().toLowerCase()
       );
-      const presignedUrls = await getPresignedUrls(fileExtensions);
+      const presignedUrls: PresignedUrlInterface[] | void =
+        await getPresignedUrls(fileExtensions);
 
       if (!presignedUrls) return;
 
-      const uploadedImageUrls = [];
+      const uploadedImageUrls: string[] = [];
 
       for (let i = 0; i < fileObjects.length; i++) {
         const success = await uploadToS3(
@@ -83,7 +88,7 @@ const EditFooter = ({
     }
   };
 
-  const handleCancel = () => {
+  const handleCancel = (): void => {
     if (content || title || fileName) setShowCancelAlert(true);
     else {
       navigate('/community');
@@ -116,8 +121,10 @@ const EditFooter = ({
           </CatuionContainer>
         </LeftButtons>
         <RightButtons>
-          <CancelButton onClick={() => handleCancel()}>취소</CancelButton>
-          <SubmitButton onClick={() => handleSubmit()}>작성</SubmitButton>
+          <CancelButton onClick={(): void => handleCancel()}>취소</CancelButton>
+          <SubmitButton onClick={(): Promise<void> => handleSubmit()}>
+            작성
+          </SubmitButton>
         </RightButtons>
       </ButtonContainer>
 
@@ -130,7 +137,7 @@ const EditFooter = ({
               입력했는지 확인해주세요.
             </AlertText>
           }
-          onClose={() => setShowInvalidAlert(false)}
+          onClose={(): void => setShowInvalidAlert(false)}
           mariginsize="33px"
           showButtons={true}
         />
@@ -146,7 +153,7 @@ const EditFooter = ({
               떠나시겠습니까?
             </AlertText>
           }
-          onClose={() => setShowCancelAlert(false)}
+          onClose={(): void => setShowCancelAlert(false)}
           showButtons={true}
         />
       )}

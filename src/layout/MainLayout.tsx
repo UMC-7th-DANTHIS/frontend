@@ -18,8 +18,8 @@ const MainLayout = () => {
   const { data: user } = useGet<UserResponse>();
 
   useEffect(() => {
-    const handleStorageChange = () => {
-      const newToken = localStorage.getItem('token');
+    const handleStorageChange = (): void => {
+      const newToken: string | null = localStorage.getItem('token');
       setToken(newToken);
     };
     window.addEventListener('storage', handleStorageChange);
@@ -29,14 +29,14 @@ const MainLayout = () => {
     };
   }, []);
 
-  const handleSearch = (query: string) => {
+  const handleSearch = (query: string): void => {
     navigate(`/search/dance-classes?query=${query}`);
   };
 
   return (
     <>
       <Container>
-        <Topbar onSearch={handleSearch} token={token} />
+        <Topbar onSearch={handleSearch} token={token!} />
         <Outlet context={{ user }} />
         <Footer />
       </Container>

@@ -10,8 +10,8 @@ type ImageModalProps = {
 const ImageModal = ({ imgUrl, setIsModalOpen, index }: ImageModalProps) => {
   // 이미지 확대 모달창
   useEffect(() => {
-    const handleKeyDown = (event: any) => {
-      if (event.key === 'Escape') {
+    const handleKeyDown = (e: KeyboardEvent): void => {
+      if (e.key === 'Escape') {
         setIsModalOpen(false); // Escape 키로 모달 닫기
       }
     };
@@ -21,7 +21,9 @@ const ImageModal = ({ imgUrl, setIsModalOpen, index }: ImageModalProps) => {
 
   return (
     <Modal onClick={() => setIsModalOpen(false)}>
-      <ModalContent onClick={(e) => e.stopPropagation()}>
+      <ModalContent
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
+      >
         <ModalImage src={imgUrl} alt={`photo ${index}`} />
         <CloseButton onClick={() => setIsModalOpen(false)}>✕</CloseButton>
       </ModalContent>

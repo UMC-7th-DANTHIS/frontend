@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { hashTagID } from '../../api/schema';
-import { AllClassData } from '@/types/MainInterface';
+import { hashTagID, hashTagIDInterface } from '../../api/schema';
+import { AllClassData, AllClassList } from '@/types/MainInterface';
 
 type ForClassProps = {
   danceclass: AllClassData;
@@ -11,7 +11,7 @@ type ForClassProps = {
 const ForClass = ({ danceclass }: ForClassProps) => {
   const navigate = useNavigate();
 
-  const randomDance = danceclass?.danceClasses
+  const randomDance: AllClassList[] = danceclass?.danceClasses
     ? [...danceclass?.danceClasses].sort(() => 0.5 - Math.random()).slice(0, 4)
     : [];
 
@@ -28,7 +28,7 @@ const ForClass = ({ danceclass }: ForClassProps) => {
             <ClassDancer>{Class.favoriteGenres}</ClassDancer>
             <ClassHashContainer>
               {Class.hashtagIds.map((HashtagID) => {
-                const foundTag = hashTagID.find(
+                const foundTag: hashTagIDInterface | undefined = hashTagID.find(
                   (tag) => tag.id === String(HashtagID)
                 );
                 return foundTag ? (

@@ -34,7 +34,7 @@ const ConfirmLeaveAlert = ({
   confirmLabel = '남기',
   cancelLabel = '떠나기'
 }: ConfirmLeaveAlertProps) => {
-  const handleClick = (e: any) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
     if (onClose) {
       onClose();
@@ -46,7 +46,7 @@ const ConfirmLeaveAlert = ({
       <AlertContainer
         width={AlertWidth}
         height={AlertHeight}
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
       >
         <CloseButton onClick={handleClick}>
           <CloseIcon />

@@ -24,7 +24,7 @@ function useSearch<T extends keyof ResponseMap>(
   useEffect(() => {
     if (!select || !temp) return;
 
-    const fetchData = async () => {
+    const fetchData = async (): Promise<void> => {
       setIsLoading(true);
       setIsError(false);
 

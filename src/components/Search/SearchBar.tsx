@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
-import SearchIcon from '../../assets/Search/search.svg';
 import SingleBtnAlert from '../SingleBtnAlert';
 
+import SearchImage from '../../assets/Search/search.svg';
 import { hashTagID } from '../../api/schema';
 
 type SearchBarProps = {
@@ -40,7 +40,7 @@ const SearchBar = ({
     }
   };
 
-  const handleKeyDown = (e: any): void => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter' && temp!.trim() !== '') {
       e.preventDefault();
       handleSearchData();
@@ -63,7 +63,7 @@ const SearchBar = ({
           onChange={handleSearch}
         />
         <SearchButton onClick={handleSearchData}>
-          <SearchIcon src={Searchicon} alt="search" />
+          <SearchIcon src={SearchImage} alt="search" />
         </SearchButton>
       </InputContainer>
       <HashTagContainer>

@@ -22,7 +22,7 @@ const SearchCommunity = ({ query, select }: SearchCommunityParams) => {
 
   const { data } = useSearch<'posts'>(select, query, currentPage);
 
-  const handleNavigate = async (id: number) => {
+  const handleNavigate = async (id: number): Promise<void> => {
     try {
       const response = await axiosInstance.get(`/community/posts/${id}`);
       navigate(`/community/${id}`, {

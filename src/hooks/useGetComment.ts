@@ -14,7 +14,7 @@ function useGetComment<T>(
   const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (): Promise<void> => {
       setIsLoading(true);
       setIsError(false);
 

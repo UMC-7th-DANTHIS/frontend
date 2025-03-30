@@ -1,12 +1,12 @@
-type hashTagIDInterface = {
+export interface hashTagIDInterface {
   id: string;
   hashTag: string;
-};
+}
 
-type DancerGenreInterface = {
+export interface DancerGenreInterface {
   id: string;
   Genre: string;
-};
+}
 
 export const hashTagID: hashTagIDInterface[] = [
   { id: '1', hashTag: '강렬한' },

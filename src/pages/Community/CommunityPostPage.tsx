@@ -61,12 +61,12 @@ const CommunityPostPage = () => {
   const [commentText, setCommentText] = useState<string>('');
   const [cautionText, setCautionText] = useState<string | null>('');
 
-  const handleModal = (imgUrl: string) => {
+  const handleModal = (imgUrl: string): void => {
     setImgUrl(imgUrl);
     setIsModalOpen(true);
   };
 
-  const handleCaution = (e: any) => {
+  const handleCaution = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setCommentText(e.target.value);
     if (e.target.value.length > 200)
       setCautionText('댓글은 최대 200자까지 입력 가능합니다.');
@@ -75,12 +75,12 @@ const CommunityPostPage = () => {
     else setCautionText(null);
   };
 
-  const handleCancel = () => {
+  const handleCancel = (): void => {
     if (commentText) setShowCancelAlert(true);
     else navigate('/community');
   };
 
-  const handleCommentSubmit = async () => {
+  const handleCommentSubmit = async (): Promise<void> => {
     if (!commentText.trim()) return;
 
     try {
@@ -148,12 +148,16 @@ const CommunityPostPage = () => {
               {cautionText ? (
                 <InactiveButton>작성</InactiveButton>
               ) : (
-                <button onClick={() => handleCommentSubmit()}>작성</button>
+                <button onClick={(): Promise<void> => handleCommentSubmit()}>
+                  작성
+                </button>
               )}
             </CommentInput>
             <CautionContainer> {cautionText || '\u00A0'}</CautionContainer>
           </CommentSection>
-          <BackButton onClick={() => handleCancel()}>글 목록으로</BackButton>
+          <BackButton onClick={(): void => handleCancel()}>
+            글 목록으로
+          </BackButton>
         </Wrapper>
       </Container>
 
@@ -167,7 +171,7 @@ const CommunityPostPage = () => {
               떠나시겠습니까?
             </AlertText>
           }
-          onClose={() => setShowCancelAlert(false)}
+          onClose={(): void => setShowCancelAlert(false)}
           showButtons={true}
         />
       )}

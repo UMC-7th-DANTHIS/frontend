@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import formatDate from '../../api/formatDate';
@@ -23,7 +23,7 @@ const PostComment = ({
   user,
   setForceReload
 }: PostCommentProps) => {
-  const handleDelete = async () => {
+  const handleDelete = async (): Promise<void> => {
     try {
       await axiosInstacne.delete(
         `/community/posts/${postId}/comments/${comment.commentId}`
@@ -37,7 +37,7 @@ const PostComment = ({
   return (
     <CommentContainer>
       <CommentProfile>
-        <CommentImage src={comment.userProfileImage} alt="프로필 이미지" />
+        <CommentImage src={comment.userProfileImage} alt="Profile Image" />
         <CommentDetails>
           <CommentDate>{formatDate(comment.createdAt, 2)}</CommentDate>
           <CommentAuthor>{comment.userName}</CommentAuthor>
@@ -46,11 +46,11 @@ const PostComment = ({
         user?.profileImage == comment.userProfileImage ? (
           <ButtonContainer
             src={Delete}
-            alt={'그럴리없다'}
+            alt={'Button'}
             onClick={() => handleDelete()}
           />
         ) : (
-          <ReportButton src={Alert} alt={'그럴리없다'} />
+          <ReportButton src={Alert} alt={'Alert'} />
         )}
       </CommentProfile>
       <CommentContent>{comment.content}</CommentContent>

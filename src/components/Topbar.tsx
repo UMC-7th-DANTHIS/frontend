@@ -9,16 +9,26 @@ import Mypageicon from '../assets/buttons/mypageButton.svg';
 
 import SingleBtnAlert from './SingleBtnAlert';
 
-const Topbar = ({ onSearch, token }) => {
+type TopbarProps = {
+  onSearch: (query: string) => void;
+  token: string;
+};
+
+type menuItemsType = {
+  path: string;
+  label: string;
+};
+
+const Topbar = ({ onSearch, token }: TopbarProps) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState<string>('');
   const [searchPlaceholder, setSearchPlaceholder] =
-    useState('검색어를 입력하세요');
-  const [showInvalidAlert, setShowInvalidAlert] = useState(false);
+    useState<string>('검색어를 입력하세요');
+  const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
 
-  const menuItems = [
+  const menuItems: menuItemsType[] = [
     { path: '/classreservation', label: '댄스 수업 예약' },
     { path: '/dancerprofile', label: '댄서 프로필' },
     { path: '/community', label: '커뮤니티' },
@@ -26,16 +36,16 @@ const Topbar = ({ onSearch, token }) => {
     { path: '/classregister', label: '댄스 수업 등록' }
   ];
 
-  const handleClick = () => {
+  const handleClick = (): void => {
     navigate('/');
   };
 
-  const handleNavigate = () => {
+  const handleNavigate = (): void => {
     navigate('/login');
   };
 
-  const handleSearchInput = (e) => {
-    const value = e.target.value;
+  const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const value: string = e.target.value;
 
     if (value.length > 20) {
       setShowInvalidAlert(true);
@@ -45,13 +55,13 @@ const Topbar = ({ onSearch, token }) => {
     }
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter' && search.trim() !== '') {
       setTimeout(() => handleSearch(), 0);
     }
   };
 
-  const handleSearch = () => {
+  const handleSearch = (): void => {
     if (search.trim()) {
       onSearch(search.trim());
       setSearch('');
@@ -69,17 +79,17 @@ const Topbar = ({ onSearch, token }) => {
             <Login onClick={handleNavigate}>LOGIN</Login>
           ) : (
             <MyPageContainer onClick={() => navigate('/mypage')}>
-              <MyPageImg src={Mypageicon} alt={'안녕하세용'} />
+              <MyPageImg src={Mypageicon} alt={'MyPage'} />
               <MyPage>My Page</MyPage>
             </MyPageContainer>
           )}
           <Search>
             <SearchInput
               placeholder={searchPlaceholder}
-              onFocus={() => setSearchPlaceholder('')}
-              onBlur={() => setSearchPlaceholder('검색어를 입력하세요')}
+              onFocus={(): void => setSearchPlaceholder('')}
+              onBlur={(): void => setSearchPlaceholder('검색어를 입력하세요')}
               onKeyDown={handleKeyDown}
-              onChange={(e) => handleSearchInput(e)}
+              onChange={(e): void => handleSearchInput(e)}
               value={search}
               maxLength={21}
             />
@@ -93,7 +103,7 @@ const Topbar = ({ onSearch, token }) => {
         </LoginContainer>
       </TopContainer>
       <MenuContainer>
-        {menuItems.map((item) => (
+        {menuItems.map((item: menuItemsType) => (
           <MenuItem
             key={item.path}
             to={item.path}
@@ -116,7 +126,7 @@ const Topbar = ({ onSearch, token }) => {
               까지 {'\n'} 입력 가능합니다.
             </AlertText>
           }
-          onClose={() => setShowInvalidAlert(false)}
+          onClose={(): void => setShowInvalidAlert(false)}
           mariginsize="33px"
           showButtons={true}
         />

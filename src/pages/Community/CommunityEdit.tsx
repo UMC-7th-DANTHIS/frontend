@@ -9,7 +9,7 @@ import axiosInstance from '../../api/axios-instance';
 
 import { SinglePostData } from '@/types/CommunityInterface';
 
-const MAX_IMAGES = 4;
+const MAX_IMAGES: number = 4;
 
 interface PostEditReload {
   setForceReload: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,22 +23,24 @@ const CommunityEdit = () => {
 
   const [fileName, setFileName] = useState<string[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
-  const [fileObjects, setFileObjects] = useState<string[]>([]);
+  const [fileObjects, setFileObjects] = useState<File[]>([]);
 
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
 
-  const handleFileChange = (e: any) => {
-    const files: string[] = Array.from(e.target.files);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    const files = target.files;
     const availableSlots: number = MAX_IMAGES - previews.length;
 
-    const newImageFiles: string[] = files.slice(0, availableSlots);
-    const newImageURLs: string[] = newImageFiles.map((file: any) =>
+    const newImageFiles: File[] = Array.from(files!).slice(0, availableSlots);
+
+    const newImageURLs: string[] = newImageFiles.map((file) =>
       URL.createObjectURL(file)
     );
 
     setPreviews((prev: string[]) => [...prev, ...newImageURLs]);
-    setFileObjects((prev: string[]) => [...prev, ...newImageFiles]);
+    setFileObjects((prev: File[]) => [...prev, ...newImageFiles]);
     setFileName((prev: string[]) => [
       ...prev,
       ...newImageFiles.map((file: any) => {
@@ -57,7 +59,7 @@ const CommunityEdit = () => {
     title: string,
     content: string,
     uploadedImageUrls: string[]
-  ) => {
+  ): Promise<void> => {
     const postData = {
       title,
       content,

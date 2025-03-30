@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 
 import { useFetchList } from '@/hooks/useFetchList';
 import { PostListResponse } from '../types/CommunityInterface';
+import { CommunityPostListOutlet } from '@/types/Context/CommunityPostList';
 
 const CommunityLayout = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);

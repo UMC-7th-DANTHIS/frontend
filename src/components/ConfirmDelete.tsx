@@ -35,7 +35,7 @@ const ConfirmDeleteAlert = ({
   cancelLabel = '취소',
   deleteLabel = '삭제하기'
 }: ConfirmDeleteAlertProps) => {
-  const handleClick = (e: any) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
     if (onClose) {
       onClose();
@@ -47,7 +47,7 @@ const ConfirmDeleteAlert = ({
       <AlertContainer
         width={AlertWidth}
         height={AlertHeight}
-        onClick={(e: any) => e.stopPropagation()}
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
       >
         <CloseButton onClick={handleClick}>
           <CloseIcon />

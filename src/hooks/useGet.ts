@@ -10,7 +10,7 @@ function useGet<T>() {
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (): Promise<void> => {
       setIsLoading(true);
       setIsError(false);
 
