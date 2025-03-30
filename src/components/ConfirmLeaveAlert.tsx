@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { ReactComponent as CloseIcon } from '../assets/buttons/close-button.svg';
+import CloseIcon from '../assets/buttons/close-button.svg';
 
 interface ConfirmLeaveAlertProps {
   title?: string;
@@ -34,7 +34,7 @@ const ConfirmLeaveAlert = ({
   confirmLabel = '남기',
   cancelLabel = '떠나기'
 }: ConfirmLeaveAlertProps) => {
-  const handleClick = (e: any) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     if (onClose) {
       onClose();

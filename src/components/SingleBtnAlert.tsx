@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ReactComponent as CloseIcon } from '../assets/buttons/close-button.svg';
+import CloseIcon from '../assets/buttons/close-button.svg';
 
 interface SingleBtnAlertProps {
   title?: string;
@@ -31,14 +31,14 @@ const SingleBtnAlert = ({
   showButtons,
   confirmLabel = '확인'
 }: SingleBtnAlertProps) => {
-  const handleClick = (e: any) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     if (onClose) {
       onClose();
     }
   };
 
-  const handleOverlayClick = (e: any) => {
+  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
