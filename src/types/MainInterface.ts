@@ -11,7 +11,7 @@ export interface AllClassResponse extends Response {
 // 모든 댄서 조회
 export interface AllDancerData {
   totalElements: number;
-  dancers: AllDancerList;
+  dancers: AllDancerList[];
 }
 
 export interface AllDancerList {
@@ -31,7 +31,7 @@ export interface AllClassData {
   page: number;
   totalPages: number;
   totalElements: number;
-  danceClasses: AllClassList;
+  danceClasses: AllClassList[];
 }
 
 export interface AllClassList {
@@ -39,4 +39,6 @@ export interface AllClassList {
   className: string;
   dancerName: string;
   thumbnailImage: string;
+  favoriteGenres: string;
+  hashtagIds: number[];
 }

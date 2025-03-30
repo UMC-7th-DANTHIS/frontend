@@ -14,8 +14,10 @@ function useGetCommunity<T>(postId: number) {
       setIsError(false);
 
       try {
-        const response = await axiosInstance.get(`/community/posts/${postId}`);
-        setData(response.data);
+        const response: SinglePostResponse = await axiosInstance.get(
+          `/community/posts/${postId}`
+        );
+        setData(response);
       } catch (error) {
         setIsError(true);
       } finally {

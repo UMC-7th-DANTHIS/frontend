@@ -8,12 +8,12 @@ import Alert from '../../assets/Community/SirenButton.svg';
 import axiosInstacne from '../../api/axios-instance';
 
 import { Comment } from '@/types/CommunityInterface';
-import { UserResponse } from '@/types/UserInterface';
+import { UserData } from '@/types/UserInterface';
 
 type PostCommentProps = {
   comment: Comment;
   postId: number;
-  user: UserResponse | null;
+  user: UserData | null;
   setForceReload: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -42,8 +42,8 @@ const PostComment = ({
           <CommentDate>{formatDate(comment.createdAt, 2)}</CommentDate>
           <CommentAuthor>{comment.userName}</CommentAuthor>
         </CommentDetails>
-        {user?.data.nickname == comment.userName &&
-        user?.data.profileImage == comment.userProfileImage ? (
+        {user?.nickname == comment.userName &&
+        user?.profileImage == comment.userProfileImage ? (
           <ButtonContainer
             src={Delete}
             alt={'그럴리없다'}

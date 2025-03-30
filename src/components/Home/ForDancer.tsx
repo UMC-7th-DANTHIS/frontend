@@ -1,21 +1,26 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-const ForDancer = ({ dancer }) => {
+import { AllDancerData } from '@/types/MainInterface';
+
+type ForDancerProps = {
+  dancer: AllDancerData;
+};
+
+const ForDancer = ({ dancer }: ForDancerProps) => {
   const navigate = useNavigate();
 
-  const dancerData = dancer?.data.dancers
-    ? [...dancer?.data.dancers].sort(() => 0.5 - Math.random()).slice(0, 4)
+  const dancerData = dancer?.dancers
+    ? [...dancer?.dancers].sort(() => 0.5 - Math.random()).slice(0, 4)
     : [];
 
   return (
     <DancerContainer>
       {dancerData?.map((Dancer) => (
         <DancerContent onClick={() => navigate(`/dancerprofile/${Dancer.id}`)}>
-          <DancerImage src={Dancer.images[0]} alt={'프로필 이미지'} />
+          <DancerImage src={Dancer.imageUrlList[0]} alt={'프로필 이미지'} />
           <DancerName>{Dancer.dancerName}</DancerName>
-          {Dancer?.genres.map((gen) => (
+          {Dancer?.favoriteGenres.map((gen) => (
             <DancerGenre>{gen}</DancerGenre>
           ))}
         </DancerContent>
