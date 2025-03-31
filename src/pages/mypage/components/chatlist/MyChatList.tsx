@@ -1,13 +1,27 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as Arrow } from '../../../../assets/arrow.svg';
-import sampleImage from '../../../../assets/image.png';
+// import sampleImage from '../../../../assets/image.png';
 import Pagination from '../../../../components/Pagination';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
 import api from '../../../../api/api';
 
-const fetchUserChat = async (currentPage, perData) => {
+interface Chat {
+  dancerId: number;
+  dancerName: string;
+  profileImage?: string;
+}
+
+interface FetchUserChatResponse {
+  chats: Chat[];
+  totalDancers: number;
+}
+
+const fetchUserChat = async (
+  currentPage: number,
+  perData: number
+): Promise<FetchUserChatResponse> => {
   const token = localStorage.getItem('token');
   const response = await api.get('/chats/user', {
     headers: {
@@ -18,37 +32,23 @@ const fetchUserChat = async (currentPage, perData) => {
       size: perData
     }
   });
-  console.log(response.data.data.chatList);
-  console.log(response.data.data.totalDancers);
   return {
     chats: response.data.data.chatList || [],
     totalDancers: response.data.data.totalDancers || 0
   };
 };
 
-const MyChatList = () => {
-  const [currentPage, setCurrentPage] = useState(1);
+const MyChatList: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const perData = 5;
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError, error } = useQuery<
+    FetchUserChatResponse,
+    Error
+  >({
     queryKey: ['userchat', currentPage, perData],
     queryFn: () => fetchUserChat(currentPage, perData)
   });
-
-  // const { data, isLoading, isError, error } = useQuery({
-  //   queryKey: ['userchat'],
-  //   queryFn: async () => {
-  //     const token = localStorage.getItem('token');
-  //     const response = await api.get('/chats/user', {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-  //     return response.data.data.chatList || [];
-  //   },
-  // });
-
-  // const filteredList = data ? data.slice(perData * (currentPage - 1), perData * currentPage) : [];
 
   if (isLoading) {
     return <LoadingSpinner isLoading={isLoading} />;
@@ -65,11 +65,8 @@ const MyChatList = () => {
           data.chats.map((chat) => (
             <ChatList key={chat.dancerId}>
               <ListItem>
-                <ListImage
-                  src={chat.profileImage || sampleImage}
-                  alt="Profile"
-                />
-                <ListName> {chat.dancerName} </ListName>
+                <ListImage src={chat.profileImage || ''} alt="Profile" />
+                <ListName>{chat.dancerName}</ListName>
                 <ArrowContainer>
                   <Arrow />
                 </ArrowContainer>
@@ -77,7 +74,7 @@ const MyChatList = () => {
             </ChatList>
           ))
         ) : (
-          <Text> 채팅 내역이 없습니다. </Text>
+          <Text>채팅 내역이 없습니다.</Text>
         )}
       </ChatContainer>
 
