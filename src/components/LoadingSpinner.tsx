@@ -7,10 +7,7 @@ interface LoadingSpinnerProps {
   children?: ReactNode;
 }
 
-const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
-  isLoading,
-  children
-}) => {
+const LoadingSpinner = ({ isLoading, children }: LoadingSpinnerProps) => {
   if (isLoading) {
     return (
       <SpinnerWrapper>
