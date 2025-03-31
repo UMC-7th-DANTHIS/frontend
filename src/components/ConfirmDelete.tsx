@@ -1,7 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { ReactComponent as CloseIcon } from '../assets/buttons/close-button.svg';
+import CloseIcon from '../assets/buttons/close-button.svg';
+
+interface ConfirmDeleteAlertProps {
+  title?: string;
+  message: React.ReactNode;
+  onClose: () => void;
+  onConfirm: () => void;
+  messageColor?: string;
+  messagesize?: string;
+  mariginsize?: string;
+  ContainerWidth?: string;
+  ContainerHeight?: string;
+  AlertWidth?: string;
+  AlertHeight?: string;
+  showButtons?: boolean;
+  cancelLabel?: string;
+  deleteLabel?: string;
+}
 
 const ConfirmDeleteAlert = ({
   title,
@@ -18,8 +34,8 @@ const ConfirmDeleteAlert = ({
   showButtons,
   cancelLabel = '취소',
   deleteLabel = '삭제하기'
-}) => {
-  const handleClick = (e) => {
+}: ConfirmDeleteAlertProps) => {
+  const handleClick = (e: any) => {
     e.stopPropagation();
     if (onClose) {
       onClose();
@@ -31,7 +47,7 @@ const ConfirmDeleteAlert = ({
       <AlertContainer
         width={AlertWidth}
         height={AlertHeight}
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e: any) => e.stopPropagation()}
       >
         <CloseButton onClick={handleClick}>
           <CloseIcon />
@@ -76,7 +92,10 @@ const AlertOverlay = styled.div`
   z-index: 1000;
 `;
 
-const AlertContainer = styled.div`
+const AlertContainer = styled.div<{
+  width?: string;
+  height?: string;
+}>`
   position: relative;
   justify-items: center;
   background-color: black;
@@ -103,7 +122,10 @@ const CloseButton = styled.button`
   z-index: 1000;
 `;
 
-const TextContainer = styled.div`
+const TextContainer = styled.div<{
+  width?: string;
+  height?: string;
+}>`
   border-radius: 10px;
   background: #fff;
   width: ${({ width }) => width || 'auto'};
@@ -125,7 +147,11 @@ const AlertTitle = styled.h2`
   align-items: center;
 `;
 
-const AlertMessage = styled.div`
+const AlertMessage = styled.div<{
+  fontSize?: string;
+  color?: string;
+  margintop?: string;
+}>`
   font-size: ${({ fontSize }) => fontSize || '16px'};
   /* font-size: 16px; */
   font-weight: 600;
@@ -164,7 +190,7 @@ const Stay = styled.button`
   cursor: pointer;
 `;
 
-const Leave = styled(Link)`
+const Leave = styled.div`
   display: flex;
   width: 137px;
   padding: 8px 10px;

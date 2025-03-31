@@ -8,6 +8,20 @@ import ConfirmLeaveAlert from '../ConfirmLeaveAlert';
 
 import getPresignedUrls from '../../hooks/getPresignedUrls';
 
+interface EditFooterProps {
+  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  title: string;
+  content: string;
+  fileName: string[];
+  fileObjects: string[];
+  setForceReload: React.Dispatch<React.SetStateAction<boolean>>;
+  createPost: (
+    title: string,
+    content: string,
+    uploadedImageUrls: string[]
+  ) => Promise<void>;
+}
+
 const EditFooter = ({
   handleFileChange,
   content,
@@ -16,14 +30,14 @@ const EditFooter = ({
   fileObjects,
   setForceReload,
   createPost
-}) => {
+}: EditFooterProps) => {
   const navigate = useNavigate();
 
-  const [showInvalidAlert, setShowInvalidAlert] = useState(false);
-  const [showCancelAlert, setShowCancelAlert] = useState(false);
+  const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
+  const [showCancelAlert, setShowCancelAlert] = useState<boolean>(false);
 
   // presignedUrl로 아마존 서버에 이미지 올리고 url 유효하게 하기
-  const uploadToS3 = async (presignedUrl, file) => {
+  const uploadToS3 = async (presignedUrl: string, file: any) => {
     try {
       const response = await axios.put(presignedUrl, file, {
         headers: {
@@ -41,7 +55,7 @@ const EditFooter = ({
   const handleSubmit = async () => {
     if (!content || !title) setShowInvalidAlert(true);
     else {
-      const fileExtensions = fileName.map((name) =>
+      const fileExtensions: string[] = fileName.map((name: any) =>
         name.split('.').pop().toLowerCase()
       );
       const presignedUrls = await getPresignedUrls(fileExtensions);

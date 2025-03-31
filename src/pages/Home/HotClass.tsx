@@ -1,9 +1,14 @@
-import React from 'react';
 import styled from 'styled-components';
 
 import PassiveCarousel from '../../components/Home/PassiveCarousel';
 
-const HotClass = ({ danceclass }) => {
+import { AllClassData } from '@/types/MainInterface';
+
+type HotClassProps = {
+  danceclass: AllClassData;
+};
+
+const HotClass = ({ danceclass }: HotClassProps) => {
   return (
     <Container>
       <Header>유행하는 수업을 한눈에</Header>

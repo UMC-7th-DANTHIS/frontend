@@ -5,19 +5,23 @@ import styled from 'styled-components';
 import Pagination from '../../components/Pagination';
 import CommunityList from './CommunityList';
 
+import { CommunityPostListOutlet } from '@/types/Context/CommunityPostList';
+import { PostPreview } from '@/types/CommunityInterface';
+
 const CommunityLists = () => {
   const navigate = useNavigate();
-  const { lists, perData, currentPage, setCurrentPage } = useOutletContext();
+  const { lists, perData, currentPage, setCurrentPage } =
+    useOutletContext<CommunityPostListOutlet>();
 
   return (
     <ListsContainer>
-      {lists?.posts.map((list) => (
+      {lists?.data.posts.map((list: PostPreview) => (
         <CommunityList list={list} />
       ))}
       <PaginationContainer>
         <PaginationWrapper>
           <Pagination
-            dataLength={lists?.totalPosts}
+            dataLength={lists?.data.totalPosts}
             perData={perData}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}

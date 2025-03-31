@@ -6,21 +6,26 @@ import ForUserBanner from '../../components/Home/ForUserBanner';
 import ForDancer from '../../components/Home/ForDancer';
 import ForClass from '../../components/Home/ForClass';
 
-const UserRecommend = ({
-  dummyUserDancer,
-  dummyUserClass,
-  dancer,
-  danceclass
-}) => {
-  const { user } = useOutletContext();
+import { AllClassData, AllDancerData } from '@/types/MainInterface';
+import { UserContext } from '@/types/Context/User';
+
+type UserRecommendProps = {
+  dancer: AllDancerData;
+  danceclass: AllClassData;
+};
+
+const UserRecommend = ({ dancer, danceclass }: UserRecommendProps) => {
+  const { user } = useOutletContext<UserContext>();
 
   return (
     <Container>
       <ForUserBanner />
-      <Header>{user?.nickname} 님의 스타일에 맞는 댄서를 소개할게요</Header>
-      <ForDancer dummyUserDancer={dummyUserDancer} dancer={dancer} />
-      <Header>오로지 {user?.nickname}님을 위한 맞춤형 수업이에요</Header>
-      <ForClass dummyUserClass={dummyUserClass} danceclass={danceclass} />
+      <Header>
+        {user?.data.nickname} 님의 스타일에 맞는 댄서를 소개할게요
+      </Header>
+      <ForDancer dancer={dancer} />
+      <Header>오로지 {user?.data.nickname}님을 위한 맞춤형 수업이에요</Header>
+      <ForClass danceclass={danceclass} />
     </Container>
   );
 };

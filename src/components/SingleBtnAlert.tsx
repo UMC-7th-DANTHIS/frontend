@@ -2,6 +2,21 @@ import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as CloseIcon } from '../assets/buttons/close-button.svg';
 
+interface SingleBtnAlertProps {
+  title?: string;
+  message: React.ReactNode;
+  onClose: () => void;
+  messageColor?: string;
+  messagesize?: string;
+  mariginsize?: string;
+  ContainerWidth?: string;
+  ContainerHeight?: string;
+  AlertWidth?: string;
+  AlertHeight?: string;
+  showButtons?: boolean;
+  confirmLabel?: string;
+}
+
 const SingleBtnAlert = ({
   title,
   message,
@@ -15,15 +30,15 @@ const SingleBtnAlert = ({
   AlertHeight = '254px',
   showButtons,
   confirmLabel = '확인'
-}) => {
-  const handleClick = (e) => {
+}: SingleBtnAlertProps) => {
+  const handleClick = (e: any) => {
     e.stopPropagation();
     if (onClose) {
       onClose();
     }
   };
 
-  const handleOverlayClick = (e) => {
+  const handleOverlayClick = (e: any) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
@@ -78,7 +93,10 @@ const AlertOverlay = styled.div`
   z-index: 1000;
 `;
 
-const AlertContainer = styled.div`
+const AlertContainer = styled.div<{
+  width?: string;
+  height?: string;
+}>`
   position: relative;
   background-color: black;
   border-radius: 23px;
@@ -104,7 +122,10 @@ const CloseButton = styled.button`
   z-index: 1000;
 `;
 
-const TextContainer = styled.div`
+const TextContainer = styled.div<{
+  width?: string;
+  height?: string;
+}>`
   border-radius: 10px;
   background: #fff;
   width: ${({ width }) => width || 'auto'};
@@ -126,7 +147,11 @@ const AlertTitle = styled.h2`
   align-items: center;
 `;
 
-const AlertMessage = styled.div`
+const AlertMessage = styled.div<{
+  fontSize?: string;
+  color?: string;
+  margintop?: string;
+}>`
   font-size: ${({ fontSize }) => fontSize || '16px'};
   /* font-size: 16px; */
   font-weight: 600;

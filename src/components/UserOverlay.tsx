@@ -23,13 +23,17 @@ const UserOverlay = ({ onclose, classId }) => {
 
     return {
       users: response.data.data.users || [],
-      totalElements: response.data.data.totalUsers || 0,
+      totalElements: response.data.data.totalUsers || 0
     };
   };
 
-  const { data: eligibleUsers, isLoading, isError } = useQuery({
+  const {
+    data: eligibleUsers,
+    isLoading,
+    isError
+  } = useQuery({
     queryKey: ['eligibleUsers', classId, currentPage, perData],
-    queryFn: () => fetchEligibleUsers(currentPage, perData, classId),
+    queryFn: () => fetchEligibleUsers(currentPage, perData, classId)
   });
 
   if (isLoading) {
@@ -52,7 +56,7 @@ const UserOverlay = ({ onclose, classId }) => {
         { isApproved: newApprovalStatus },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`
           }
         }
       );
@@ -64,7 +68,6 @@ const UserOverlay = ({ onclose, classId }) => {
       console.error('Error updating booking:', error);
     }
   };
-
 
   const sortedUsers = [...eligibleUsers.users].sort((a, b) => {
     return a.isApproved === b.isApproved ? 0 : a.isApproved ? 1 : -1;
@@ -81,14 +84,14 @@ const UserOverlay = ({ onclose, classId }) => {
                   src={user.profileImage || SampleImage}
                   alt={'userImage'}
                 />
-                <UserName
-                  isApproved={user.isApproved}
-                >
+                <UserName isApproved={user.isApproved}>
                   {user.nickname}
                 </UserName>
                 <Icon
                   isApproved={user.isApproved}
-                  onClick={() => handlePlusButtonClick(user.userId, user.isApproved)}
+                  onClick={() =>
+                    handlePlusButtonClick(user.userId, user.isApproved)
+                  }
                   disabled={user.isApproved}
                 >
                   <PlusButton width={40} height={40} />
@@ -128,9 +131,9 @@ const ScrollableContainer = styled.div`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     border-radius: 11px;
-    border: 6px solid #D9D9D9;
+    border: 6px solid #d9d9d9;
   }
 
   &::-webkit-scrollbar-track {
@@ -175,8 +178,7 @@ const ListImage = styled.img`
 
 const UserName = styled.div`
   font-size: 20px;
-  color: ${({ isApproved }) =>
-    isApproved ? '#4D4D4D' : '#fff'};
+  color: ${({ isApproved }) => (isApproved ? '#4D4D4D' : '#fff')};
   margin-left: 22px;
   font-weight: 600;
   line-height: 1.5;
@@ -191,19 +193,11 @@ const Icon = styled.div`
 
   svg rect {
     stroke: ${({ isApproved, disabled }) =>
-    disabled
-      ? '#4D4D4D'
-      : isApproved
-        ? '#4D4D4D'
-        : '#9819C3'};
+      disabled ? '#4D4D4D' : isApproved ? '#4D4D4D' : '#9819C3'};
   }
 
   svg path {
     fill: ${({ isApproved, disabled }) =>
-    disabled
-      ? '#4D4D4D'
-      : isApproved
-        ? '#4D4D4D'
-        : '#9819C3'};
+      disabled ? '#4D4D4D' : isApproved ? '#4D4D4D' : '#9819C3'};
   }
 `;

@@ -7,20 +7,35 @@ import Alert from '../../assets/Community/SirenButton.svg';
 
 import axiosInstacne from '../../api/axios-instance';
 
-const PostComment = ({ comment, postId, user, setForceReload }) => {
+import { Comment } from '@/types/CommunityInterface';
+import { UserData } from '@/types/UserInterface';
+
+type PostCommentProps = {
+  comment: Comment;
+  postId: number;
+  user: UserData | null;
+  setForceReload: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const PostComment = ({
+  comment,
+  postId,
+  user,
+  setForceReload
+}: PostCommentProps) => {
   const handleDelete = async () => {
     try {
       await axiosInstacne.delete(
         `/community/posts/${postId}/comments/${comment.commentId}`
       );
-      setForceReload((prev) => !prev);
+      setForceReload((prev: boolean) => !prev);
     } catch (error) {
       alert(error);
     }
   };
 
   return (
-    <Comment>
+    <CommentContainer>
       <CommentProfile>
         <CommentImage src={comment.userProfileImage} alt="프로필 이미지" />
         <CommentDetails>
@@ -39,11 +54,11 @@ const PostComment = ({ comment, postId, user, setForceReload }) => {
         )}
       </CommentProfile>
       <CommentContent>{comment.content}</CommentContent>
-    </Comment>
+    </CommentContainer>
   );
 };
 
-const Comment = styled.div`
+const CommentContainer = styled.div`
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 15px;

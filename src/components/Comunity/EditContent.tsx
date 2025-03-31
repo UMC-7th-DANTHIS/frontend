@@ -1,7 +1,19 @@
-import React, { useEffect } from 'react';
+import { useEffect, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
+import { SinglePostData } from '@/types/CommunityInterface';
 
 import Close from '../../assets/buttons/CloseButton.svg';
+
+type EditContentProps = {
+  setFileName: Dispatch<SetStateAction<string[]>>;
+  previews: string[];
+  setPreviews: Dispatch<SetStateAction<string[]>>;
+  title: string;
+  setTitle: Dispatch<SetStateAction<string>>;
+  content: string;
+  setContent: Dispatch<SetStateAction<string>>;
+  selectedPost: SinglePostData;
+};
 
 const EditContent = ({
   setFileName,
@@ -12,7 +24,7 @@ const EditContent = ({
   content,
   setContent,
   selectedPost
-}) => {
+}: EditContentProps) => {
   useEffect(() => {
     if (selectedPost) {
       setTitle(selectedPost.title || '');
@@ -26,8 +38,8 @@ const EditContent = ({
     }
   }, [selectedPost, setTitle, setContent, setFileName, setPreviews]);
 
-  const handleRemoveImage = (index) => {
-    setPreviews((prev) => prev.filter((_, i) => i !== index));
+  const handleRemoveImage = (index: number) => {
+    setPreviews((prev: string[]) => prev.filter((_, i) => i !== index));
   };
 
   return (

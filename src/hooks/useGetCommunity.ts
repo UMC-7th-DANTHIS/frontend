@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 
 import axiosInstance from '../api/axios-instance';
+import { SinglePostResponse } from '@/types/CommunityInterface';
 
-const useGetCommunity = (postId) => {
-  const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+function useGetCommunity<T>(postId: number) {
+  const [data, setData] = useState<SinglePostResponse | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -13,8 +14,10 @@ const useGetCommunity = (postId) => {
       setIsError(false);
 
       try {
-        const response = await axiosInstance.get(`/community/posts/${postId}`);
-        setData(response.data);
+        const response: SinglePostResponse = await axiosInstance.get(
+          `/community/posts/${postId}`
+        );
+        setData(response);
       } catch (error) {
         setIsError(true);
       } finally {
@@ -26,6 +29,6 @@ const useGetCommunity = (postId) => {
   }, [postId]);
 
   return { data, isLoading, isError };
-};
+}
 
 export default useGetCommunity;

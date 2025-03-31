@@ -4,7 +4,13 @@ import styled from 'styled-components';
 import Carousel from '../../components/Home/Carousel';
 import HotDancerBanner from '../../components/Home/HotDancerBanner';
 
-const HotDancer = ({ dancer }) => {
+import { AllDancerData } from '@/types/MainInterface';
+
+type HotDancerProps = {
+  dancer: AllDancerData;
+};
+
+const HotDancer = ({ dancer }: HotDancerProps) => {
   return (
     <Container>
       <HotDancerBanner />

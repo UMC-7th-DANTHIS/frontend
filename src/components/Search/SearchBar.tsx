@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
-import Searchicon from '../../assets/searchicon.svg';
+import SearchIcon from '../../assets';
 import SingleBtnAlert from '../SingleBtnAlert';
 
+import { hashTagID } from '../../api/schema';
+
 const SearchBar = ({
-  hashTagID,
   select,
   handleCategoryClick,
   selectedFilter,
@@ -16,11 +17,11 @@ const SearchBar = ({
 }) => {
   const navigate = useNavigate();
 
-  const [showInvalidAlert, setShowInvalidAlert] = useState(false);
+  const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleSearch = (e) => {
-    const value = e.target.value;
+  const handleSearch = (e: any) => {
+    const value: string = e.target.value;
 
     if (value.length > 20) {
       setShowInvalidAlert(true);
@@ -29,14 +30,14 @@ const SearchBar = ({
     }
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: any) => {
     if (e.key === 'Enter' && temp.trim() !== '') {
       e.preventDefault();
       handleSearchData();
     }
   };
 
-  const handleReSearch = (category) => {
+  const handleReSearch = (category: string) => {
     handleCategoryClick(category);
     handleSearchData();
     setSearchParams({ query: temp });

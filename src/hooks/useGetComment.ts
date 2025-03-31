@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 
 import axiosInstance from '../api/axios-instance';
+import { CommentResponse } from '@/types/CommunityInterface';
 
-import { PostListResponse, PostListData } from '@/types/CommunityInterface';
-
-// 호출시마다 반환하는 json이 다르므로 제네릭 타입을 사용
-export function useFetchList<T>(currentPage: number, forceReload: boolean) {
-  const [data, setData] = useState<PostListData | null>(null);
+function useGetComment<T>(
+  postId: number,
+  comment: number,
+  currentPage: number,
+  forceReload: boolean
+) {
+  const [data, setData] = useState<CommentResponse | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 
@@ -19,10 +22,10 @@ export function useFetchList<T>(currentPage: number, forceReload: boolean) {
         let url: string = '';
 
         if (!currentPage) currentPage = 1;
-        url = `/community/posts?page=${currentPage}`;
+        url = `/community/posts/${postId}/comments?page=${currentPage}`;
 
-        const response: PostListResponse = await axiosInstance.get(url);
-        setData(response.data);
+        const response: CommentResponse = await axiosInstance.get(url);
+        setData(response);
       } catch (error) {
         setIsError(true);
       } finally {
@@ -31,7 +34,9 @@ export function useFetchList<T>(currentPage: number, forceReload: boolean) {
     };
 
     fetchData();
-  }, [currentPage, forceReload]);
+  }, [postId, comment, currentPage, forceReload]);
 
   return { data, isLoading, isError };
 }
+
+export default useGetComment;

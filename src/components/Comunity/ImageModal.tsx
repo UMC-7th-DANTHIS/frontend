@@ -1,10 +1,15 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
-const ImageModal = ({ imgUrl, setIsModalOpen }) => {
+type ImageModalProps = {
+  imgUrl: string;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const ImageModal = ({ imgUrl, setIsModalOpen }: ImageModalProps) => {
   // 이미지 확대 모달창
   useEffect(() => {
-    const handleKeyDown = (event) => {
+    const handleKeyDown = (event: any) => {
       if (event.key === 'Escape') {
         setIsModalOpen(false);
       }
