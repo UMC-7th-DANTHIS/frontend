@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import ClassForm from './ClassForm';
-import Complete from '../_components/RegisterComplete';
+import RegisterComplete from '../_components/RegisterComplete';
 
 const ClassRegistration = () => {
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
@@ -18,7 +18,7 @@ const ClassRegistration = () => {
         {!isRegistered ? (
           <ClassForm setIsRegistered={setIsRegistered} />
         ) : (
-          <Complete title={title} detail={detail} />
+          <RegisterComplete title={title} detail={detail} />
         )}
       </Registration>
     </Container>

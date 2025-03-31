@@ -5,10 +5,10 @@ import {
   ClassGenreSelectorProps
 } from '../../../types/RegisterFormInterface';
 
-const GenreSelectorDancer: React.FC<DancerGenreSelectorProps> = ({
+const GenreSelectorDancer = ({
   selectedGenres,
   handleFormChange
-}) => {
+}: DancerGenreSelectorProps) => {
   const maxGenresLength = 2;
 
   // 장르 선택 핸들러
@@ -42,10 +42,10 @@ const GenreSelectorDancer: React.FC<DancerGenreSelectorProps> = ({
   );
 };
 
-const GenreSelectorClass: React.FC<ClassGenreSelectorProps> = ({
+const GenreSelectorClass = ({
   selectedGenre,
   handleFormChange
-}) => {
+}: ClassGenreSelectorProps) => {
   // 단일 선택
   // 장르 선택 핸들러
   const handleSelect = (genreId: number) => {
