@@ -11,7 +11,7 @@ import MyEditProfile from './components/editprofile/MyEditProfile';
 import MyInfo from './components/info/MyInfo';
 import MypageSidebar from './MypageSidebar';
 
-const menuMapping = {
+const menuMapping: Record<string, React.ReactNode> = {
   'myclasses': <MyLikeClass />,
   'mydancers': <MyLikeDancer />,
   'chatlist': <MyChatList />,
@@ -19,22 +19,27 @@ const menuMapping = {
   'myreview': <MyReview />,
   'mycomments': <MyComments />,
   'editprofile': <MyEditProfile />,
-  'myinfo': <MyInfo />,
+  'myinfo': <MyInfo />
 };
 
 const MypageLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const selectedMenu = new URLSearchParams(location.search).get('menu') || 'myclasses';
+  const selectedMenu =
+    new URLSearchParams(location.search).get('menu') || 'myclasses';
+
   const renderContent = () => menuMapping[selectedMenu] || <MyLikeClass />;
 
-  const handleMenuClick = (menuKey) => {
+  const handleMenuClick = (menuKey: string) => {
     navigate(`/mypage?menu=${menuKey}`);
   };
 
   return (
     <MainContainer>
-      <MypageSidebar selectedMenu={selectedMenu} onMenuClick={handleMenuClick} />
+      <MypageSidebar
+        selectedMenu={selectedMenu}
+        onMenuClick={handleMenuClick}
+      />
       <ContentContainer>{renderContent()}</ContentContainer>
     </MainContainer>
   );
@@ -53,4 +58,3 @@ const ContentContainer = styled.div`
   width: 880px;
   background-color: black;
 `;
-

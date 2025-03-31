@@ -1,7 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const MypageSidebar = ({ selectedMenu, onMenuClick }) => {
+interface MypageSidebarProps {
+  selectedMenu: string;
+  onMenuClick: (menuKey: string) => void;
+}
+
+interface MenuItemProps {
+  isActive: boolean;
+}
+
+const MypageSidebar = ({ selectedMenu, onMenuClick }: MypageSidebarProps) => {
   return (
     <SidebarContainer>
       <Sidebar />
@@ -82,7 +91,7 @@ const SidebarMenu = styled.div`
   margin-top: 24px;
 `;
 
-const MenuItem = styled.div`
+const MenuItem = styled.div<MenuItemProps>`
   margin-bottom: 37px;
   font-size: 18px;
   font-weight: 500;
