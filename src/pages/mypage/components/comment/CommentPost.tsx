@@ -7,7 +7,23 @@ import { useQuery } from '@tanstack/react-query';
 import api from '../../../../api/api';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
 
-const fetchUserPosts = async (currentPage, perData) => {
+interface Post {
+  postId: number;
+  title: string;
+  content: string;
+  createdAt: string;
+  images?: string[];
+}
+
+interface FetchUserPostsResponse {
+  posts: Post[];
+  totalElements: number;
+}
+
+const fetchUserPosts = async (
+  currentPage: number,
+  perData: number
+): Promise<FetchUserPostsResponse> => {
   const token = localStorage.getItem('token');
   const response = await api.get('/users/posts', {
     headers: {
@@ -18,7 +34,6 @@ const fetchUserPosts = async (currentPage, perData) => {
       size: perData
     }
   });
-  console.log(response.data.data.posts);
   return {
     posts: response.data.data.posts || [],
     totalElements: response.data.data.totalElements || 0
@@ -26,11 +41,14 @@ const fetchUserPosts = async (currentPage, perData) => {
 };
 
 const CommentPost = () => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const perData = 5;
   const navigate = useNavigate();
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError, error } = useQuery<
+    FetchUserPostsResponse,
+    Error
+  >({
     queryKey: ['userposts', currentPage, perData],
     queryFn: () => fetchUserPosts(currentPage, perData)
   });
@@ -47,26 +65,25 @@ const CommentPost = () => {
     return <div>Error: {error?.message}</div>;
   }
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string): string => {
     return dateString.split('T')[0].replace(/-/g, '.');
   };
 
-  const handleClick = (post) => {
+  const handleClick = (post: Post) => {
     navigate(`/community/${post.postId}`, { state: { selectedPost: post } });
   };
 
   return (
     <AllContainer>
-      {data?.posts?.length ? (
+      {data?.posts.length ? (
         data.posts.map((post) => (
           <CommentContainer key={post.postId} onClick={() => handleClick(post)}>
             <ContentsContainer>
               <PhotoandTitle>
                 <CommentTitle>{post.title}</CommentTitle>
                 <IconContainer>
-                  {post.images?.filter((img) => img !== null).length > 0 && (
-                    <ExistPhoto width={20} height={20} />
-                  )}
+                  {(post.images?.filter((img) => img !== null) || []).length >
+                    0 && <ExistPhoto width={20} height={20} />}
                 </IconContainer>
               </PhotoandTitle>
 
@@ -94,7 +111,7 @@ const CommentPost = () => {
       ) : null}
     </AllContainer>
   );
-}
+};
 
 export default CommentPost;
 
@@ -163,4 +180,4 @@ const Text = styled.div`
   font-size: 18px;
   font-weight: 600;
   align-items: center;
-`
+`;
