@@ -1,7 +1,15 @@
 import styled from 'styled-components';
 
-const PictureBox = ({ label }) => {
-  const calLeftPosition = (label) => {
+interface PictureBoxProps {
+  label: 'Profile' | 'Thumbnail' | string;
+}
+
+interface LabelProps {
+  $left: string;
+}
+
+const PictureBox = ({ label }: PictureBoxProps) => {
+  const calLeftPosition = (label: string): string => {
     switch (label) {
       case 'Profile':
         return '61px';
@@ -11,9 +19,10 @@ const PictureBox = ({ label }) => {
         return '0px';
     }
   };
+
   return (
     <Container>
-      <Outline></Outline>
+      <Outline />
       <Label $left={calLeftPosition(label)}>{label}</Label>
     </Container>
   );
@@ -26,13 +35,15 @@ const Container = styled.div`
   top: -10px;
   pointer-events: none;
 `;
+
 const Outline = styled.div`
   width: 180px;
   height: 232px;
   border-radius: 7px;
   border: 2px solid var(--main_magenta, #a60f62);
 `;
-const Label = styled.div`
+
+const Label = styled.div<LabelProps>`
   position: absolute;
   top: 214px;
   left: ${({ $left }) => $left};
@@ -45,4 +56,3 @@ const Label = styled.div`
   font-size: 14px;
   font-weight: 600;
 `;
-

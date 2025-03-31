@@ -5,12 +5,25 @@ import { ReactComponent as EditIcon } from '../../../assets/shape/write.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/shape/trash.svg';
 import PictureBox from './PictureBox';
 
-const DancerPicture = ({ isFor, images, handleFormChange }) => {
+interface DancerPictureProps {
+  isFor: 'edit' | 'create';
+  images: (File | string | null)[];
+  handleFormChange: (field: string, value: (File | string | null)[]) => void;
+}
+
+const DancerPicture = ({
+  isFor,
+  images,
+  handleFormChange
+}: DancerPictureProps) => {
   const maxImages = 3;
   const label = isFor === 'edit' ? 'Profile' : '';
 
-  const handleUploadFile = (e, index) => {
-    const file = e.target.files[0];
+  const handleUploadFile = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const file = e.target.files?.[0];
 
     if (file && file.type.startsWith('image/')) {
       const updatedImages = [...images];
@@ -21,7 +34,7 @@ const DancerPicture = ({ isFor, images, handleFormChange }) => {
     e.target.value = '';
   };
 
-  const getPreview = (image) => {
+  const getPreview = (image: File | string | null): string | null => {
     if (!image) return null;
     if (image instanceof File) {
       return URL.createObjectURL(image);
@@ -29,7 +42,7 @@ const DancerPicture = ({ isFor, images, handleFormChange }) => {
     return image;
   };
 
-  const deleteImage = (index) => {
+  const deleteImage = (index: number) => {
     const updatedImages = [...images];
     updatedImages[index] = null;
     handleFormChange('images', updatedImages);
@@ -45,7 +58,7 @@ const DancerPicture = ({ isFor, images, handleFormChange }) => {
               <PictureIcon />
             ) : (
               <PreviewImage
-                src={getPreview(images[index])}
+                src={getPreview(images[index]) || ''}
                 alt={`Preview ${index + 1}`}
               />
             )}
@@ -76,7 +89,6 @@ const DancerPicture = ({ isFor, images, handleFormChange }) => {
           )}
         </ImageWrapper>
       ))}
-
     </Container>
   );
 };
@@ -94,7 +106,7 @@ const ImageWrapper = styled.div`
   position: relative;
 `;
 
-const ImageLabel = styled.label`
+const ImageLabel = styled.label<{ $needPointer: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -105,7 +117,6 @@ const ImageLabel = styled.label`
   background: #d9d9d9;
   overflow: hidden;
   margin-left: 12px;
-
   ${({ $needPointer }) => $needPointer && `cursor: pointer;`}
 `;
 
