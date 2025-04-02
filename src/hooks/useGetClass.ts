@@ -9,7 +9,7 @@ function useGetClass<T>() {
   const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchClass = async () => {
+    const fetchClass = async (): Promise<void> => {
       setIsLoading(true);
       setIsError(false);
 

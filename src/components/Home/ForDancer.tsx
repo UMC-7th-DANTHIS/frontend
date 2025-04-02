@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { AllDancerData } from '@/types/MainInterface';
+import { AllDancerData, AllDancerList } from '@/types/MainInterface';
 
 type ForDancerProps = {
   dancer: AllDancerData;
@@ -10,7 +10,7 @@ type ForDancerProps = {
 const ForDancer = ({ dancer }: ForDancerProps) => {
   const navigate = useNavigate();
 
-  const dancerData = dancer?.dancers
+  const dancerData: AllDancerList[] = dancer?.dancers
     ? [...dancer?.dancers].sort(() => 0.5 - Math.random()).slice(0, 4)
     : [];
 

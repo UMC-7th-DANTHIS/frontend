@@ -21,7 +21,7 @@ const CommunityLists = () => {
       <PaginationContainer>
         <PaginationWrapper>
           <Pagination
-            dataLength={lists?.data.totalPosts}
+            dataLength={lists?.data.totalPosts!}
             perData={perData}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}

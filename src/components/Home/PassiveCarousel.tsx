@@ -12,13 +12,13 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
-  const handleNext = () => {
+  const handleNext = (): void => {
     if (currentIndex < danceclass?.danceClasses.length - 3) {
       setCurrentIndex(currentIndex + 1);
     }
   };
 
-  const handlePrev = () => {
+  const handlePrev = (): void => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
     }
@@ -32,6 +32,7 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
           <HotImage
             onClick={() => navigate(`/classreservation/${item.id}?tab=detail`)}
             src={item.thumbnailImage}
+            alt={'Image'}
             visible={index >= currentIndex && index < currentIndex + 3}
           />
         ))}

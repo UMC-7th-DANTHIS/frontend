@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -9,15 +9,20 @@ import SearchNothing from './SearchNothing';
 import useSearch from '../../hooks/useSearch';
 import axiosInstance from '../../api/axios-instance';
 
-const SearchCommunity = ({ query, select }) => {
+type SearchCommunityParams = {
+  query: string | null;
+  select: 'posts';
+};
+
+const SearchCommunity = ({ query, select }: SearchCommunityParams) => {
   const navigate = useNavigate();
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const perData = 5;
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const perData: number = 5;
 
-  const { data, isLoading } = useSearch(select, query, currentPage);
+  const { data } = useSearch<'posts'>(select, query, currentPage);
 
-  const handleNavigate = async (id) => {
+  const handleNavigate = async (id: number): Promise<void> => {
     try {
       const response = await axiosInstance.get(`/community/posts/${id}`);
       navigate(`/community/${id}`, {
@@ -30,7 +35,7 @@ const SearchCommunity = ({ query, select }) => {
 
   return (
     <Container>
-      {!isLoading && data?.data.results.length ? (
+      {data?.data.results.length ? (
         <>
           <CommunityLists>
             {data?.data.results.map((list) => (

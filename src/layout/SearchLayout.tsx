@@ -3,7 +3,6 @@ import { useSearchParams, Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import SearchBar from '../components/Search/SearchBar';
-import { hashTagID } from '../api/schema';
 
 const SearchLayout = () => {
   const navigate = useNavigate();
@@ -22,22 +21,22 @@ const SearchLayout = () => {
     }
   }, [query]);
 
-  const handleSearchData = () => {
+  const handleSearchData = (): void => {
     if (select && temp) {
       setSearchParams({ query: temp });
       navigate(`/search/${select}?query=${temp}`);
     }
   };
 
-  const handleCategoryClick = (category: string) => {
+  const handleCategoryClick = (category: string): void => {
     setSelect(category);
   };
 
-  const handleNowContent = (content: string) => {
+  const handleNowContent = (content: string): void => {
     setTemp(content);
   };
 
-  const handleClick = (tag: string) => {
+  const handleClick = (tag: string): void => {
     setSelectedFilter((prev) => (prev === tag ? '' : tag));
   };
 

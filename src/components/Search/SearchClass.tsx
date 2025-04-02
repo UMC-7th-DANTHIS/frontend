@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 import { ReactComponent as StarFilled } from '../../assets/buttons/starlevel_filled.svg';
@@ -10,15 +10,20 @@ import SearchNothing from './SearchNothing';
 import useSearch from '../../hooks/useSearch';
 import { DanceGenre } from '../../api/schema';
 
-const SearchClass = ({ query, select }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const perData = 5;
+type SearchClassParams = {
+  query: string | null;
+  select: 'dance-classes';
+};
 
-  const { data, isLoading } = useSearch(select, query, currentPage);
+const SearchClass = ({ query, select }: SearchClassParams) => {
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const perData: number = 5;
+
+  const { data } = useSearch<'dance-classes'>(select, query, currentPage);
 
   return (
     <Container>
-      {!isLoading && data?.data.results.length > 0 ? (
+      {data!.data.results.length > 0 ? (
         <>
           <ClassLists>
             {data?.data.results.map((list) => (
@@ -41,7 +46,7 @@ const SearchClass = ({ query, select }) => {
                   <StarsContainer>
                     <TextContent>난이도 : </TextContent>
                     {Array.from({ length: 5 }, (_, index) => {
-                      const isFilled = index < list.difficulty;
+                      const isFilled: boolean = index < list.difficulty;
 
                       return (
                         <StarBtn key={index}>
@@ -56,7 +61,7 @@ const SearchClass = ({ query, select }) => {
           </ClassLists>
           <PaginationContainer>
             <Pagination
-              dataLength={data?.data.pagination.totalResults}
+              dataLength={data?.data.pagination.totalResults!}
               perData={perData}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}

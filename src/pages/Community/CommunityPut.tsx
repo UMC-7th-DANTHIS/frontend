@@ -23,23 +23,24 @@ const CommunityPut = () => {
 
   const [fileName, setFileName] = useState<string[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
-  const [fileObjects, setFileObjects] = useState<string[]>([]);
+  const [fileObjects, setFileObjects] = useState<File[]>([]);
 
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
 
-  const handleFileChange = (event: any) => {
-    const files: string[] = Array.from(event.target.files);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    const files = target.files;
     const availableSlots: number = MAX_IMAGES - previews.length;
 
-    const newImageFiles: string[] = files.slice(0, availableSlots);
+    const newImageFiles: File[] = Array.from(files!).slice(0, availableSlots);
     const newImageURLs: string[] = newImageFiles.map((file: any) =>
       URL.createObjectURL(file)
     );
 
     // files Interface 찾기
     setPreviews((prev: string[]) => [...prev, ...newImageURLs]);
-    setFileObjects((prev: string[]) => [...prev, ...newImageFiles]);
+    setFileObjects((prev: File[]) => [...prev, ...newImageFiles]);
     setFileName((prev: string[]) => [
       ...prev,
       ...newImageFiles.map((file: any) => {

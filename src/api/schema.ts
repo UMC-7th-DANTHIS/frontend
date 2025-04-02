@@ -1,4 +1,14 @@
-export const hashTagID = [
+export interface hashTagIDInterface {
+  id: string;
+  hashTag: string;
+}
+
+export interface DancerGenreInterface {
+  id: string;
+  Genre: string;
+}
+
+export const hashTagID: hashTagIDInterface[] = [
   { id: '1', hashTag: '강렬한' },
   { id: '2', hashTag: '나른한' },
   { id: '3', hashTag: '에너제틱' },
@@ -13,7 +23,7 @@ export const hashTagID = [
   { id: '12', hashTag: '취미' }
 ];
 
-export const DanceGenre = [
+export const DanceGenre: DancerGenreInterface[] = [
   { id: '1', Genre: '힙합' },
   { id: '2', Genre: '걸스힙합' },
   { id: '3', Genre: '팝핑' },
