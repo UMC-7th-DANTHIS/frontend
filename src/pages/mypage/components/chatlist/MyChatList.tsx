@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as Arrow } from '../../../../assets/arrow.svg';
-// import sampleImage from '../../../../assets/image.png';
 import Pagination from '../../../../components/Pagination';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
@@ -38,7 +37,7 @@ const fetchUserChat = async (
   };
 };
 
-const MyChatList: React.FC = () => {
+const MyChatList = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const perData = 5;
 
