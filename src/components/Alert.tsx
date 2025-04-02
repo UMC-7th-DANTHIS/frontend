@@ -10,7 +10,7 @@ interface AlertProps {
   onConfirm?: () => void;
   messageColor?: string;
   messagesize?: string;
-  mariginsize?: string;
+  marginsize?: string;
   ContainerWidth?: string;
   ContainerHeight?: string;
   AlertWidth?: string;
@@ -28,7 +28,7 @@ const Alert = ({
   onConfirm,
   messageColor,
   messagesize,
-  mariginsize,
+  marginsize,
   ContainerWidth,
   ContainerHeight,
   AlertWidth,
@@ -68,7 +68,7 @@ const Alert = ({
           <AlertMessage
             color={messageColor}
             fontSize={messagesize}
-            margintop={mariginsize}
+            margintop={marginsize}
           >
             {message}
           </AlertMessage>
