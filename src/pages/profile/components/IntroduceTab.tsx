@@ -2,7 +2,15 @@ import React from 'react'
 import styled from 'styled-components'
 import DancerPic from '../../../assets/dummyphoto/introduce.svg'
 
- const IntroduceTab =({dancer}) => {
+interface Dancer {
+  dancerImages: string[];
+  history: string;
+}
+interface IntroduceTabProps{
+  dancer: Dancer | null;
+}
+
+ const IntroduceTab: React.FC<IntroduceTabProps> =({dancer}) => {
    
     if (!dancer) {
         return <div>로딩 중...</div>; // dancer가 null일 때 로딩 메시지 표시
