@@ -8,19 +8,29 @@ import ConfirmLeaveAlert from '../../../../components/ConfirmLeaveAlert';
 import useConfirmLeave from '../../../../hooks/useConfirmLeave';
 import SingleBtnAlert from '../../../../components/SingleBtnAlert';
 
+interface FormState {
+  name: string;
+  instagram: string;
+  chatting: string;
+  introduce: string;
+  genre: number[];
+  record: string;
+  dancerImages: (string | File)[];
+}
+
 const ProfileDancer = () => {
-  const [formState, setFormState] = useState({
+  const [formState, setFormState] = useState<FormState>({
     name: '',
     instagram: '',
     chatting: '',
     introduce: '',
     genre: [],
     record: '',
-    dancerImages: ["", "", ""],
+    dancerImages: ['', '', '']
   });
-  const [isUnauthorized, setIsUnauthorized] = useState(false);
-  const [showLeaveAlert, setShowLeaveAlert] = useState(false);
-  const [showInvalidAlert, setShowInvalidAlert] = useState(false);
+  const [isUnauthorized, setIsUnauthorized] = useState<boolean>(false);
+  const [showLeaveAlert, setShowLeaveAlert] = useState<boolean>(false);
+  const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
 
   // 뒤로 가기 방지 팝업 경고
   useConfirmLeave({ setAlert: setShowLeaveAlert });
@@ -32,11 +42,11 @@ const ProfileDancer = () => {
 
         const response = await api.get('/dancers', {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         });
-        console.log(response.data.data)
-        console.log(response.data.data.dancerImages)
+        console.log(response.data.data);
+        console.log(response.data.data.dancerImages);
         const data = response.data.data;
 
         setFormState({
@@ -46,9 +56,9 @@ const ProfileDancer = () => {
           introduce: data.bio || '',
           genre: data.preferredGenres || [],
           record: data.history || '',
-          dancerImages: data.dancerImages || [],
+          dancerImages: data.dancerImages || []
         });
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error fetching data:', error);
         if (error.response && error.response.status === 401) {
           setIsUnauthorized(true);
@@ -62,10 +72,14 @@ const ProfileDancer = () => {
     return <NoUser />;
   }
 
-  const handleFormChange = (key, value) => {
+  const handleFormChange = (
+    key: keyof FormState,
+    value: string | string[] | number[] | File[]
+  ) => {
     setFormState((prev) => ({ ...prev, [key]: value }));
   };
-  const handleSubmit = async (e) => {
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
@@ -78,13 +92,13 @@ const ProfileDancer = () => {
         bio: formState.introduce,
         preferredGenres: formState.genre,
         history: formState.record,
-        dancerImages: formState.dancerImages,
+        dancerImages: formState.dancerImages
       };
 
       const response = await api.put('/dancers', updatedData, {
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
 
       if (response.status === 200) {
@@ -99,8 +113,8 @@ const ProfileDancer = () => {
     }
   };
 
-  const getPreview = (images) => {
-    if (!images || images.length === 0) return null;
+  const getPreview = (images: (File | string)[]): (string | undefined)[] => {
+    if (!images || images.length === 0) return [];
 
     return images.map((image) => {
       if (image instanceof File) {
@@ -116,25 +130,48 @@ const ProfileDancer = () => {
         <ItemContainer>
           <DancerNameContainer>
             <Label> 댄서 네임 </Label>
-            <Input type="text" placeholder="댄서 네임을 입력하세요" value={formState.name} onChange={(e) => handleFormChange('name', e.target.value)} />
+            <Input
+              type="text"
+              placeholder="댄서 네임을 입력하세요"
+              value={formState.name}
+              onChange={(e) => handleFormChange('name', e.target.value)}
+            />
           </DancerNameContainer>
 
           <InstaContainer>
             <Label> Instagram 아이디 </Label>
-            <Input type="text" placeholder="Instagram 아이디를 입력하세요" value={formState.instagram} onChange={(e) => handleFormChange('instagram', e.target.value)} />
+            <Input
+              type="text"
+              placeholder="Instagram 아이디를 입력하세요"
+              value={formState.instagram}
+              onChange={(e) => handleFormChange('instagram', e.target.value)}
+            />
           </InstaContainer>
 
           <OpenChatContainer>
             <OpenChatItemContainer>
               <Label> 오픈채팅방 링크 </Label>
-              <Text> *유저들과의 채팅이 이루어질 오픈채팅방 링크를 입력해주세요 </Text>
+              <Text>
+                {' '}
+                *유저들과의 채팅이 이루어질 오픈채팅방 링크를 입력해주세요{' '}
+              </Text>
             </OpenChatItemContainer>
-            <Input type="link" placeholder="카카오톡 오픈채팅방 링크를 입력하세요" value={formState.chatting} onChange={(e) => handleFormChange('chatting', e.target.value)} />
+            <Input
+              type="link"
+              placeholder="카카오톡 오픈채팅방 링크를 입력하세요"
+              value={formState.chatting}
+              onChange={(e) => handleFormChange('chatting', e.target.value)}
+            />
           </OpenChatContainer>
 
           <IntroContainer>
             <Label> 한마디 소개글 </Label>
-            <Input type="text" placeholder="한 마디 소개글을 입력하세요" value={formState.introduce} onChange={(e) => handleFormChange('introduce', e.target.value)} />
+            <Input
+              type="text"
+              placeholder="한 마디 소개글을 입력하세요"
+              value={formState.introduce}
+              onChange={(e) => handleFormChange('introduce', e.target.value)}
+            />
           </IntroContainer>
 
           <GenreContainer>
@@ -153,7 +190,11 @@ const ProfileDancer = () => {
 
           <DancerRecord>
             <Label> 댄서 이력 </Label>
-            <WriteInput type="text" placeholder="댄서 이력을 입력하세요" value={formState.record} onChange={(e) => handleFormChange('record', e.target.value)} />
+            <WriteInput
+              placeholder="댄서 이력을 입력하세요"
+              value={formState.record}
+              onChange={(e) => handleFormChange('record', e.target.value)}
+            />
           </DancerRecord>
 
           <DancerPictureContainer>
@@ -161,7 +202,9 @@ const ProfileDancer = () => {
               <Label> 댄서 사진 </Label>
               <SmallTextContainer>
                 <SmallText>* 최대 3장까지 등록 가능합니다</SmallText>
-                <SmallText>* 가장 첫 번째로 등록된 사진이 프로필로 사용됩니다</SmallText>
+                <SmallText>
+                  * 가장 첫 번째로 등록된 사진이 프로필로 사용됩니다
+                </SmallText>
               </SmallTextContainer>
             </OpenChatItemContainer>
             <ImagesUploader
@@ -170,17 +213,12 @@ const ProfileDancer = () => {
               handleFormChange={handleFormChange}
             />
           </DancerPictureContainer>
-
         </ItemContainer>
       </Container>
       <SaveButton onClick={handleSubmit}> 프로필 저장 </SaveButton>
       {showInvalidAlert && (
         <SingleBtnAlert
-          message={
-            <AlertText>
-              프로필 저장이 완료되었습니다.
-            </AlertText>
-          }
+          message={<AlertText>프로필 저장이 완료되었습니다.</AlertText>}
           onClose={() => setShowInvalidAlert(false)}
           mariginsize="33px"
           showButtons={true}
@@ -216,7 +254,7 @@ const Container = styled.div`
   height: 1800px;
   flex-shrink: 0;
   border-radius: 25px;
-  border: 2px solid #9819C3;
+  border: 2px solid #9819c3;
   display: flex;
   justify-content: center;
   padding-bottom: 56px;
@@ -245,7 +283,7 @@ const Input = styled.input`
   align-items: center;
   flex-shrink: 0;
   background-color: #000;
-  border: 1px solid #DDDDDD;
+  border: 1px solid #dddddd;
   border-radius: 8px;
   color: white;
   font-size: 20px;
@@ -253,7 +291,7 @@ const Input = styled.input`
   padding-left: 31px;
 
   &::placeholder {
-    color: #DDD;
+    color: #ddd;
     font-size: 20px;
     font-weight: 300;
     line-height: normal;
@@ -275,7 +313,7 @@ const OpenChatItemContainer = styled.div`
 `;
 
 const Text = styled.div`
-  color: #B2B2B2;
+  color: #b2b2b2;
   font-size: 14px;
   font-style: normal;
   font-weight: 300;
@@ -306,16 +344,16 @@ const WriteInput = styled.textarea`
   align-items: flex-start;
   flex-shrink: 0;
   background-color: transparent;
-  border: 1px solid #DDDDDD;
+  border: 1px solid #dddddd;
   border-radius: 8px;
   color: white;
   font-size: 20px;
   margin-top: 10px;
-  resize: none; 
+  resize: none;
   padding: 17px 16px 0 18px;
 
   &::placeholder {
-    color: #DDD;
+    color: #ddd;
     font-size: 20px;
     font-weight: 300;
     line-height: normal;
@@ -333,7 +371,7 @@ const SmallTextContainer = styled.div`
 `;
 
 const SmallText = styled.div`
-  color: #B2B2B2;
+  color: #b2b2b2;
   font-size: 14px;
   font-style: normal;
   font-weight: 300;
@@ -349,7 +387,7 @@ const SaveButton = styled.button`
   align-items: center;
   justify-content: center;
   border-radius: 15px;
-  background-color: #9819C3;
+  background-color: #9819c3;
   border: none;
   color: white;
   font-size: 20px;
