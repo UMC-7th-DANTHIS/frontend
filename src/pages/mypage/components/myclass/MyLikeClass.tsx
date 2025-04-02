@@ -1,47 +1,58 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import sampleImage from '../../../../assets/errorImage.svg'
+import sampleImage from '../../../../assets/errorImage.svg';
 import Pagination from '../../../../components/Pagination';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
 import { useQuery } from '@tanstack/react-query';
 import api from '../../../../api/api';
 import { useNavigate } from 'react-router-dom';
 
+interface DanceClassProps {
+  id: number;
+  thumbnailImage: string;
+  className: string;
+  dancerName: string;
+}
+
 const MyLikeClass = () => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const perData = 9;
   const navigate = useNavigate();
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError, error } = useQuery<DanceClassProps[]>({
     queryKey: ['userclass'],
     queryFn: async () => {
       const token = localStorage.getItem('token');
       const response = await api.get('/users/wishlists', {
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       return response.data.data.danceClasses || [];
-    },
+    }
   });
 
-  const filteredList = data ? data.slice(perData * (currentPage - 1), perData * currentPage) : [];
+  const filteredList = data
+    ? data.slice(perData * (currentPage - 1), perData * currentPage)
+    : [];
 
   if (isLoading) {
     return <LoadingSpinner isLoading={isLoading} />;
   }
 
   if (isError) {
-    return <div>Error: {error?.message}</div>;
+    return <div>Error: {(error as Error)?.message}</div>;
   }
 
-  const handleImageError = (e) => {
-    e.target.src = sampleImage;
+  const handleImageError = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    e.currentTarget.src = sampleImage;
   };
 
-  const handleClick = (classId) => {
-    navigate(`/classreservation/${classId}?tab=detail`)
-  }
+  const handleClick = (classId: number) => {
+    navigate(`/classreservation/${classId}?tab=detail`);
+  };
 
   return (
     <>
@@ -50,7 +61,12 @@ const MyLikeClass = () => {
           <ClassContainer>
             {filteredList.map((danceClass) => (
               <ClassList key={danceClass.id}>
-                <Image src={danceClass.thumbnailImage} alt={danceClass.id} onError={handleImageError} onClick={() => handleClick(danceClass.id)} />
+                <Image
+                  src={danceClass.thumbnailImage}
+                  alt={String(danceClass.id)}
+                  onError={handleImageError}
+                  onClick={() => handleClick(danceClass.id)}
+                />
                 <Title>{danceClass.className}</Title>
                 <Singer>{danceClass.dancerName}</Singer>
               </ClassList>
@@ -66,7 +82,7 @@ const MyLikeClass = () => {
           </PaginationContainer>
         </>
       ) : (
-        <Text> 내가 찜한 수업이 없습니다. </Text>
+        <Text>내가 찜한 수업이 없습니다.</Text>
       )}
     </>
   );
@@ -76,10 +92,10 @@ export default MyLikeClass;
 
 const ClassContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 220px); 
+  grid-template-columns: repeat(3, 220px);
   column-gap: 110px;
   margin-top: 40px;
-  justify-content: center; 
+  justify-content: center;
   align-items: center;
 `;
 
@@ -92,7 +108,7 @@ const ClassList = styled.div`
 `;
 
 const Title = styled.div`
-  color: #FFF;
+  color: #fff;
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
@@ -102,7 +118,7 @@ const Title = styled.div`
 `;
 
 const Singer = styled.div`
-  color:  #B2B2B2;
+  color: #b2b2b2;
   font-size: 18px;
   font-style: normal;
   font-weight: 600;
@@ -129,12 +145,11 @@ const PaginationContainer = styled.div`
 `;
 
 const Text = styled.div`
-  color: #FFF;
+  color: #fff;
   text-align: center;
   font-size: 32px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  margin-top: 100px;
   margin-top: 219px;
 `;
