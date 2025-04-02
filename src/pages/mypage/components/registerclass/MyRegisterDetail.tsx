@@ -1,40 +1,72 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import { ReactComponent as FocusedCircle } from "../../../../assets/shape/focusedcircle.svg"
-import sampleImage from '../../../../assets/errorImage.svg'
-import { ReactComponent as PlusButton } from "../../../../assets/buttons/plus-button.svg"
-import { ReactComponent as Ask } from "../../../../assets/buttons/ask.svg"
-import AskAlert from '../../../../components/AskAlert'
-import UserOverlay from '../../../../components/UserOverlay'
-import Pagination from '../../../../components/Pagination'
-import MyRegisterClass from './MyRegisterClass'
-import { Navigate, useNavigate, useParams } from 'react-router-dom'
-import api from '../../../../api/api'
-import { useQuery } from '@tanstack/react-query'
-import LoadingSpinner from '../../../../components/LoadingSpinner'
+import { useState } from 'react';
+import styled from 'styled-components';
+import { ReactComponent as FocusedCircle } from '../../../../assets/shape/focusedcircle.svg';
+import sampleImage from '../../../../assets/errorImage.svg';
+import { ReactComponent as PlusButton } from '../../../../assets/buttons/plus-button.svg';
+import { ReactComponent as Ask } from '../../../../assets/buttons/ask.svg';
+import AskAlert from '../../../../components/AskAlert';
+import UserOverlay from '../../../../components/UserOverlay';
+import Pagination from '../../../../components/Pagination';
+import MyRegisterClass from './MyRegisterClass';
+import { useNavigate, useParams } from 'react-router-dom';
+import api from '../../../../api/api';
+import { useQuery } from '@tanstack/react-query';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
 
-const MyRegisterDetail = ({ index }) => {
+interface DetailProps {
+  classId: number;
+}
+
+interface RegisterDetailProps {
+  className: string;
+  dancer?: {
+    profileImage: string;
+  };
+}
+
+interface BookingUser {
+  userId: number;
+  profileImage: string;
+  nickname: string;
+}
+
+interface BookingUserResponse {
+  users: BookingUser[];
+  totalElements: number;
+}
+
+const MyRegisterDetail = ({ classId }: DetailProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [showRegisterUser, setShowRegisterUser] = useState(false);
-  const [currentComponent, setCurrentComponent] = useState('detail');
-  const { classId } = useParams();
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentComponent, setCurrentComponent] = useState<'detail' | 'list'>(
+    'detail'
+  );
+  // const { classId } = useParams<{ classId: string }>();
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const perData = 5;
   const navigate = useNavigate();
 
-  const { data: classData, isLoading: classDataLoading, isError: classDataError, error } = useQuery({
+  const {
+    data: classData,
+    isLoading: classDataLoading,
+    isError: classDataError,
+    error
+  } = useQuery<RegisterDetailProps>({
     queryKey: ['classDetails', classId],
     queryFn: async () => {
       const token = localStorage.getItem('token');
       const response = await api.get(`dance-classes/${classId}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` }
       });
-      // console.log('사진사진', response.data);
       return response.data.data;
     },
+    enabled: !!classId
   });
 
-  const fetchClassDetails = async (currentPage, perData) => {
+  const fetchClassDetails = async (
+    currentPage: number,
+    perData: number
+  ): Promise<BookingUserResponse> => {
     const token = localStorage.getItem('token');
     const response = await api.get(`/dance-classes/${classId}/booking-users`, {
       headers: { Authorization: `Bearer ${token}` },
@@ -43,47 +75,28 @@ const MyRegisterDetail = ({ index }) => {
         size: perData
       }
     });
-    // console.log('user2', response.data);
 
     return {
       users: response.data.data.users || [],
-      totalElements: response.data.data.totalUsers || 0,
+      totalElements: response.data.data.totalUsers || 0
     };
-  }
+  };
 
-  const { data: bookingUser } = useQuery({
+  const { data: bookingUser } = useQuery<BookingUserResponse>({
     queryKey: ['bookingUser', classId, currentPage, perData],
     queryFn: () => fetchClassDetails(currentPage, perData),
+    enabled: !!classId
   });
 
-  if (classDataLoading) {
-    return <LoadingSpinner isLoading={classDataLoading} />;
-  }
+  if (classDataLoading) return <LoadingSpinner isLoading={classDataLoading} />;
+  if (classDataError) return <div>Error: {(error as Error).message}</div>;
 
-  if (classDataError) {
-    return <div>Error: {error?.message}</div>;
-  }
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
-
-  const handleAddOverlay = () => {
-    setShowRegisterUser(true);
-  }
-
-  const hideAddOverlay = () => {
-    setShowRegisterUser(false);
-  }
-
-  const handleGoBack = () => {
-    navigate(-1);
-  };
-
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => setIsHovered(false);
+  const handleAddOverlay = () => setShowRegisterUser(true);
+  const hideAddOverlay = () => setShowRegisterUser(false);
+  const handleGoBack = () => navigate(-1);
+  const users = bookingUser?.users ?? [];
 
   return (
     <>
@@ -99,23 +112,35 @@ const MyRegisterDetail = ({ index }) => {
 
             <ContentSection>
               <ImageContainer>
-                <Image src={classData?.dancer?.profileImage} />
+                <Image src={classData.dancer?.profileImage} />
               </ImageContainer>
 
               <ReviewSection>
                 <IconContainer>
                   <IconText> 유저 추가 </IconText>
-                  <PlusButton width={16} height={16} onClick={handleAddOverlay} />
-                  {showRegisterUser &&
-                    <UserOverlay onclose={hideAddOverlay} classId={classId} />}
+                  <PlusButton
+                    width={16}
+                    height={16}
+                    onClick={handleAddOverlay}
+                  />
+                  {showRegisterUser && classId && (
+                    <UserOverlay onclose={hideAddOverlay} classId={classId} />
+                  )}
                 </IconContainer>
-
 
                 <AddIconContainer>
                   <TextContainer>
-                    <MainText>수업을 수강한 유저를 추가하고 리뷰를 받아보세요!</MainText>
-                    <SubText>*강사가 수업을 수강했음을 증명한 유저만 해당 수업에 대한 리뷰를 남길 수 있습니다</SubText>
-                    <SubText>*무분별한 리뷰 작성을 막기 위해 한 번 추가한 유저는 운영진 문의를 통해서만 삭제할 수 있습니다</SubText>
+                    <MainText>
+                      수업을 수강한 유저를 추가하고 리뷰를 받아보세요!
+                    </MainText>
+                    <SubText>
+                      *강사가 수업을 수강했음을 증명한 유저만 해당 수업에 대한
+                      리뷰를 남길 수 있습니다
+                    </SubText>
+                    <SubText>
+                      *무분별한 리뷰 작성을 막기 위해 한 번 추가한 유저는 운영진
+                      문의를 통해서만 삭제할 수 있습니다
+                    </SubText>
                   </TextContainer>
                   <AskContainer
                     onMouseEnter={handleMouseEnter}
@@ -133,15 +158,18 @@ const MyRegisterDetail = ({ index }) => {
             <CheckUserContainer>
               <Label> 이 수업을 수강한 유저 </Label>
               <UserImage>
-                {(bookingUser?.users && bookingUser.users.length > 0) ? (
-                  bookingUser.users.map((booking) => (
+                {users.length > 0 ? (
+                  users.map((booking) => (
                     <ImageList key={booking.userId}>
-                      <ListImage src={booking.profileImage || sampleImage} alt={'userImage'} />
+                      <ListImage
+                        src={booking.profileImage || sampleImage}
+                        alt="userImage"
+                      />
                       <UserName>{booking.nickname}</UserName>
                     </ImageList>
                   ))
                 ) : (
-                  <NoText> 예약된 유저가 없습니다.</NoText>
+                  <NoText>예약된 유저가 없습니다.</NoText>
                 )}
               </UserImage>
             </CheckUserContainer>
@@ -155,10 +183,7 @@ const MyRegisterDetail = ({ index }) => {
               />
             </PaginationContainer>
 
-            <GoBack onClick={handleGoBack}>
-              수업 목록으로
-            </GoBack>
-
+            <GoBack onClick={handleGoBack}>수업 목록으로</GoBack>
           </ItemContainer>
         </ClassContainer>
       ) : (
@@ -167,7 +192,6 @@ const MyRegisterDetail = ({ index }) => {
     </>
   );
 };
-
 
 export default MyRegisterDetail;
 
@@ -195,7 +219,6 @@ const IconWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
-
 
 const Label = styled.div`
   color: white;
@@ -232,13 +255,13 @@ const ReviewSection = styled.div`
 `;
 
 const IconText = styled.div`
-  color: #FFF;
+  color: #fff;
   text-align: center;
   font-size: 16px;
   font-weight: 400;
   line-height: normal;
   letter-spacing: -0.8px;
-`
+`;
 
 const IconContainer = styled.div`
   margin-top: 36px;
@@ -250,9 +273,9 @@ const IconContainer = styled.div`
   justify-content: flex-end;
   gap: 9px;
   border-radius: 37px;
-  border: 1px solid #9819C3;
+  border: 1px solid #9819c3;
   cursor: pointer;
-`
+`;
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -261,7 +284,7 @@ const TextContainer = styled.div`
 const AddIconContainer = styled.div`
   display: flex;
   flex-direction: row;
-`
+`;
 const AskContainer = styled.div`
   position: relative;
   margin-top: 43px;
@@ -269,9 +292,9 @@ const AskContainer = styled.div`
   cursor: pointer;
   display: flex;
   flex-direction: column;
-`
+`;
 const MainText = styled.div`
-  color: #FFF;
+  color: #fff;
   font-size: 20px;
   font-style: normal;
   font-weight: 600;
@@ -279,7 +302,7 @@ const MainText = styled.div`
 `;
 
 const SubText = styled.div`
-  color:  #B2B2B2;
+  color: #b2b2b2;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -289,24 +312,24 @@ const SubText = styled.div`
 const Divider = styled.div`
   height: 1px;
   width: 898px;
-  background-color: #DDD;
+  background-color: #ddd;
   margin-top: 41px;
   margin-bottom: 29px;
 `;
 
 const CheckUserContainer = styled.div`
   margin-left: 35px;
-`
+`;
 
 const UserImage = styled.div`
   margin-top: 29px;
-`
+`;
 
 const ImageList = styled.div`
   margin-left: 19px;
   display: flex;
   flex-direction: row;
-`
+`;
 
 const ListImage = styled.img`
   width: 50px;
@@ -314,10 +337,10 @@ const ListImage = styled.img`
   border-radius: 6px;
   object-fit: cover;
   margin-bottom: 37px;
-`
+`;
 
 const UserName = styled.div`
-  color: #FFF;
+  color: #fff;
   text-align: center;
   font-size: 20px;
   font-weight: 600;
@@ -325,13 +348,13 @@ const UserName = styled.div`
   letter-spacing: -1px;
   margin-left: 22px;
   margin-top: 13px;
-`
+`;
 const PaginationContainer = styled.div`
   margin-bottom: 32px;
   align-items: center;
   justify-content: center;
   display: flex;
-`
+`;
 
 const GoBack = styled.button`
   margin-bottom: 193px;
@@ -339,15 +362,15 @@ const GoBack = styled.button`
   height: 36px;
   flex-shrink: 0;
   border-radius: 10px;
-  border: 1px solid #BF00FF;
+  border: 1px solid #bf00ff;
   background: transparent;
-  color: #BF00FF;
+  color: #bf00ff;
   text-align: center;
   font-size: 15px;
   font-weight: 600;
   line-height: normal;
   cursor: pointer;
-`
+`;
 
 const NoText = styled.div`
   color: white;
@@ -356,5 +379,4 @@ const NoText = styled.div`
   line-height: normal;
   letter-spacing: -1.2px;
   text-align: center;
-
-`
+`;
