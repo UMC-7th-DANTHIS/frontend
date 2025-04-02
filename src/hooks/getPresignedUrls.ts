@@ -1,8 +1,15 @@
 import axiosInstance from '../api/axios-instance';
 
-const getPresignedUrls = async (images) => {
+export interface PresignedUrlInterface {
+  presignedUrl: string;
+  fileUrl: string;
+}
+
+const getPresignedUrls = async (
+  images: string[]
+): Promise<PresignedUrlInterface[] | void> => {
   try {
-    const fileExtensions = images
+    const fileExtensions: string = images
       .map((image) => image.split('.').pop())
       .join('&fileExtensions=');
     const response = await axiosInstance.post(

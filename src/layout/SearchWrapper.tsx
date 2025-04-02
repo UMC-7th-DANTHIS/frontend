@@ -5,18 +5,20 @@ import SearchClass from '../components/Search/SearchClass';
 import SearchCommunity from '../components/Search/SearchCommunity';
 import SearchDancer from '../components/Search/SearchDancer';
 
+import { SearchFilterOutlet } from '@/types/Context/SearchFilter';
+
 const SearchWrapper = () => {
-  const { select } = useParams();
+  const { select } = useParams<string>();
   const [searchParams] = useSearchParams();
-  const query = searchParams.get('query');
+  const query: string | null = searchParams.get('query');
 
-  const [danceQuery, setDanceQuery] = useState(query);
+  const [danceQuery, setDanceQuery] = useState<string | null>(query);
 
-  const { selectedFilter } = useOutletContext();
+  const { selectedFilter } = useOutletContext<SearchFilterOutlet>();
 
   useEffect(() => {
     if (selectedFilter) {
-      let tmp = query + '&hashtagId=' + selectedFilter;
+      let tmp: string = query + '&hashtagId=' + selectedFilter;
       setDanceQuery(tmp);
     } else setDanceQuery(query);
   }, [selectedFilter, query]);

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -18,9 +17,9 @@ type CommunityListProps = {
 const CommunityList = ({ list }: CommunityListProps) => {
   const navigate = useNavigate();
 
-  const { data: post } = useGetCommunity(list.postId);
+  const { data: post } = useGetCommunity<SinglePostData>(list.postId);
 
-  const handleNavigate = (temp: SinglePostData) => {
+  const handleNavigate = (temp: SinglePostData): void => {
     navigate(`/community/${temp.postId}`, { state: { selectedPost: temp } });
   };
 
@@ -44,7 +43,7 @@ const CommunityList = ({ list }: CommunityListProps) => {
         )}
       </TitleList>
       <DateList>
-        <DateList>{formatDate(post?.data.createdAt, 3)}</DateList>
+        <DateList>{formatDate(post?.data.createdAt!, 3)}</DateList>
       </DateList>
     </ListContainer>
   );

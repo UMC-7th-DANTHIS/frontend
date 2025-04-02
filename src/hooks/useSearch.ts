@@ -2,15 +2,29 @@ import { useState, useEffect } from 'react';
 
 import axiosInstance from '../api/axios-instance';
 
-const useSearch = (select, temp, currentPage) => {
-  const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+import { SearchClassResponse } from '@/types/SearchInterface';
+import { SearchDancerResponse } from '@/types/SearchInterface';
+import { SearchCommunityResponse } from '@/types/SearchInterface';
+
+type ResponseMap = {
+  'dance-classes': SearchClassResponse;
+  'dancers': SearchDancerResponse;
+  'posts': SearchCommunityResponse;
+};
+
+function useSearch<T extends keyof ResponseMap>(
+  select: string,
+  temp: string | null,
+  currentPage: number
+): { data: ResponseMap[T] | null; isLoading: boolean; isError: boolean } {
+  const [data, setData] = useState<ResponseMap[T] | null>(() => null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {
     if (!select || !temp) return;
 
-    const fetchData = async () => {
+    const fetchData = async (): Promise<void> => {
       setIsLoading(true);
       setIsError(false);
 
@@ -30,6 +44,6 @@ const useSearch = (select, temp, currentPage) => {
   }, [select, temp, currentPage]);
 
   return { data, isLoading, isError };
-};
+}
 
 export default useSearch;

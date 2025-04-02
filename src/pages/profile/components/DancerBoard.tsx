@@ -8,8 +8,19 @@ import Pagination from '../../../components/Pagination';
 import api from '../../../api/api';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 
-const ClassBoard = () => {
-  const genres = [
+type DancerType ={
+  id : number;
+  dancerName : string;
+  images : string[];
+}
+
+type GenreType = {
+  id : number;
+  name : string;
+}
+
+const ClassBoard: React.FC = () => {
+  const genres : GenreType[] = [
     { id: 1, name: '힙합' },
     { id: 2, name: '걸스힙합' },
     { id: 3, name: '팝핑' },
@@ -21,12 +32,12 @@ const ClassBoard = () => {
     { id: 9, name: '코레오' },
     { id: 10, name: 'K-pop' }
   ];
-  const [selectedGenre, setSelectedGenre] = useState(1);
-  const [data, setData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
-  const [totalElements, setTotalElements] = useState(0); // 전체 요소 개수 상태 추가
-  const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수
-  const [isFetching, setIsFetching] = useState(false); // 로딩 상태
+  const [selectedGenre, setSelectedGenre] = useState<number>(1);
+  const [data, setData] = useState<DancerType[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1); // 현재 페이지 상태
+  const [totalElements, setTotalElements] = useState<number>(0); // 전체 요소 개수 상태 추가
+  const [totalPages, setTotalPages] = useState<number>(1); // 전체 페이지 수
+  const [isFetching, setIsFetching] = useState<boolean>(false); // 로딩 상태
   const navigate = useNavigate();
   const perData = 9;
 
@@ -59,11 +70,11 @@ const ClassBoard = () => {
   }, [selectedGenre, currentPage]);
 
   // 장르 선택 핸들러
-  const handleGenreClick = (genre) => {
+  const handleGenreClick = (genre : number) => {
     setSelectedGenre(genre);
   };
 
-  const handlePageChange = (newPage) => {
+  const handlePageChange = (newPage : number) => {
     console.log(`페이지 변경 요청: ${newPage} / 총 페이지: ${totalPages}`);
 
     if (newPage >= 1 && newPage <= totalPages) {
@@ -79,7 +90,7 @@ const ClassBoard = () => {
     return data.slice(startIndex, endIndex);
   };
 
-  const handleDancerClick = (dancerId) => {
+  const handleDancerClick = (dancerId : number) => {
     navigate(`/dancerprofile/${dancerId}`);
   };
 
@@ -97,11 +108,11 @@ const ClassBoard = () => {
         ))}
       </Sidebar>
       <Line />
-      {isFetching ? (
+      {/* {isFetching ? (
         <LoadingContainer>
           <LoadingSpinner isLoading={isFetching} />
         </LoadingContainer>
-      ) : (
+      ) : ( */}
         <BoardContainer>
           <Classes>
             {data.map((dancer) => (
@@ -121,113 +132,14 @@ const ClassBoard = () => {
           />
           {/* </PaginationContainer> */}
         </BoardContainer>
-      )}
+      
     </Container>
   );
 };
 
 export default ClassBoard;
 
-// const Container = styled.div`
-//   display: flex;
-//   flex-direction: column; /* 이미 방향이 row로 설정되어 있음 */
-//   //align-items: flex-start; /* 세로 정렬이 위쪽으로 고정 */
-//   //justify-content: flex-start; /* 가로 정렬이 왼쪽으로 고정 */
-//   background-color: black;
-//   padding-bottom: 200px; /* 임시로 적용한 패딩 */
-//   width : 1200px;
-// `;
 
-// const Content = styled.div`
-// display : flex;
-// flex-direction : row;
-// `
-
-// const Sidebar = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   //height: 900px;
-//   margin-top: 14px;
-// `;
-// const GenreWrapper = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   //align-items: center;
-//   width: 197px;
-//   margin-bottom: 50px;
-//   justify-content : flex-start;
-//   &:hover {
-//     cursor: pointer;
-//   }
-// `;
-// const Genre = styled.div`
-//   color: var(--text_secondary-gray, #b2b2b2);
-//   font-family: Pretendard;
-//   font-size: 24px;
-//   font-style: normal;
-//   font-weight: 500;
-//   line-height: normal;
-//   letter-spacing: -1.2px;
-//   transition: all 0.3s ease;
-
-//   ${({ $isActive }) =>
-//     $isActive &&
-//     `margin-left: 13px;
-//     color: var(--main_white, #fff);
-//     font-size: 30px;
-//     font-weight: 600;
-//     letter-spacing: -1.5px;`}
-// `;
-
-// const Classes = styled.div`
-//   display: grid;
-//   grid-template-columns: repeat(3,1fr); /* 각 칸의 너비를 고정 */
-//   grid-template-rows: 350px; /* 행 높이를 콘텐츠에 맞게 조정 */
-//   grid-gap: ; /* 간격 제거 */
-//   justify-content: center; /* 그리드 전체를 가운데 정렬 */
-//   //align-items : center;
-//   margin: 0 auto; /* 컨테이너 자체 가운데 정렬 */
-//   //width: auto; /* 전체 크기를 내용에 맞춤 */
-//   //height : auto;
-//   //margin-left : 20px;
-// `;
-
-// const Class = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: flex-start; /* 내부 요소를 위로 정렬 */
-//   align-items: center;
-//   margin: 55px;
-//   height : 300px;
-//   &:hover {
-//     cursor: pointer;
-//   }
-// `;
-
-// const Image = styled.div`
-//   width: 220px;
-//   height: 220px;
-//   border-radius: 10px;
-//   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
-
-//   img {
-//     width: 100%;
-//     height: 100%;
-//     object-fit: cover;
-//   }
-// `;
-
-// const Dancer = styled.div`
-//   color: #FFF;
-//   font-family: Pretendard;
-//   font-size: 24px;
-//   font-style: normal;
-//   font-weight: 600;
-//   line-height: normal;
-//   letter-spacing: -1.2px;
-//   margin-top : 9px;
-//   margin-bottom : 20px;
-// `;
 const LoadingContainer = styled.div`
   width: 880px;
 `;
@@ -266,7 +178,8 @@ const GenreWrapper = styled.div`
     cursor: pointer;
   }
 `;
-const Genre = styled.div`
+
+const Genre = styled.div<{ $isActive: boolean }>`
   color: var(--text_secondary-gray, #b2b2b2);
   font-family: Pretendard;
   font-size: 24px;
@@ -284,6 +197,7 @@ const Genre = styled.div`
     font-weight: 600;
     letter-spacing: -1.5px;`}
 `;
+
 const BoardContainer = styled.div`
   display: flex;
   flex-direction: column;

@@ -1,12 +1,18 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
-const ImageModal = ({ imgUrl, setIsModalOpen, index }) => {
+type ImageModalProps = {
+  imgUrl: string;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  index: number;
+};
+
+const ImageModal = ({ imgUrl, setIsModalOpen, index }: ImageModalProps) => {
   // 이미지 확대 모달창
   useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') {
-        setIsModalOpen(null); // Escape 키로 모달 닫기
+    const handleKeyDown = (e: KeyboardEvent): void => {
+      if (e.key === 'Escape') {
+        setIsModalOpen(false); // Escape 키로 모달 닫기
       }
     };
     document.addEventListener('keydown', handleKeyDown);
@@ -14,10 +20,12 @@ const ImageModal = ({ imgUrl, setIsModalOpen, index }) => {
   }, [setIsModalOpen]);
 
   return (
-    <Modal onClick={() => setIsModalOpen(null)}>
-      <ModalContent onClick={(e) => e.stopPropagation()}>
+    <Modal onClick={() => setIsModalOpen(false)}>
+      <ModalContent
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
+      >
         <ModalImage src={imgUrl} alt={`photo ${index}`} />
-        <CloseButton onClick={() => setIsModalOpen(null)}>✕</CloseButton>
+        <CloseButton onClick={() => setIsModalOpen(false)}>✕</CloseButton>
       </ModalContent>
     </Modal>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 // Pagination 컴포넌트 사용법
@@ -10,20 +10,32 @@ import styled from 'styled-components';
 // 제가 실제로 적용까지 이어서 하려고 했는데 CSS는 다 각기 다른 방식으로 작업하셔서 잘 모르겠습니다 ㅜㅜ
 // 그쪽 부분만 진행해주셨으면 좋겠습니다 ㅎ.ㅎ
 
-const Pagination = ({ dataLength, perData, currentPage, setCurrentPage }) => {
-  const [layer, setLayer] = useState(0);
+type PaginationProps = {
+  dataLength: number;
+  perData: number;
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+};
 
-  const filteredDataLength =
+const Pagination = ({
+  dataLength,
+  perData,
+  currentPage,
+  setCurrentPage
+}: PaginationProps) => {
+  const [layer, setLayer] = useState<number>(0);
+
+  const filteredDataLength: number =
     dataLength <= perData ? 1 : Math.ceil(dataLength / perData);
 
-  const handlePageClick = (page) => setCurrentPage(page);
+  const handlePageClick = (page: number): void => setCurrentPage(page);
 
-  const handlePageDown = (num) => {
+  const handlePageDown = (num: number): void => {
     setLayer(layer - 1);
     handlePageClick(num);
   };
 
-  const handlePageUp = (num) => {
+  const handlePageUp = (num: number): void => {
     setLayer(layer + 1);
     handlePageClick(num);
   };

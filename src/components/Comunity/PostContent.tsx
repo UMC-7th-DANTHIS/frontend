@@ -35,12 +35,12 @@ const PostContent = ({
   const [showConfirmDelete, setShowConfirmDelete] = useState<boolean>(false);
 
   // 게시글에서 삭제버튼 눌렀을때
-  const handleDelete = () => {
+  const handleDelete = (): void => {
     setShowConfirmDelete(true);
   };
 
   // 모달창에서 삭제버튼 눌렀을때
-  const handleDeleteConfirm = async () => {
+  const handleDeleteConfirm = async (): Promise<void> => {
     try {
       await axiosInstance.delete(`/community/posts/${selectedPost.postId}`);
       setListReload((prev: boolean) => !prev);
@@ -54,11 +54,11 @@ const PostContent = ({
     <>
       <PostInfo>
         <PostStats>
-          <ViewContainer src={CommentPhoto} alt={'그럴리없다'} />
+          <CommentContainer src={CommentPhoto} alt={'Comment'} />
           <TextContainer>{length || 0}</TextContainer>
         </PostStats>
         <PostMeta>
-          <span>작성일 : {formatDate(selectedPost?.createdAt, 1)}</span>
+          <span>작성일 : {formatDate(selectedPost?.createdAt!, 1)}</span>
         </PostMeta>
       </PostInfo>
       <PostInfo>
@@ -71,17 +71,17 @@ const PostContent = ({
                 })
               }
               src={Edit}
-              alt={'수정버튼'}
+              alt={'Edit'}
             />
             <ButtonContainer
               src={Delete}
-              alt={'삭제버튼'}
+              alt={'Delete'}
               onClick={() => handleDelete()}
             />
           </PostActions>
         ) : (
           <PostActions>
-            <ReportButton src={Alert} alt={'신고버튼'} />
+            <ReportButton src={Alert} alt={'Alert'} />
           </PostActions>
         )}
         <PostMeta>
@@ -93,11 +93,7 @@ const PostContent = ({
         {selectedPost?.images.length > 0 && (
           <ImageContainer>
             {selectedPost?.images.map((img) => (
-              <Image
-                src={img}
-                alt={'이미지'}
-                onClick={() => handleModal(img)}
-              />
+              <Image src={img} alt={'Image'} onClick={() => handleModal(img)} />
             ))}
           </ImageContainer>
         )}
@@ -145,7 +141,7 @@ const PostStats = styled.div`
   }
 `;
 
-const ViewContainer = styled.img`
+const CommentContainer = styled.img`
   display: flex;
   width: 28px;
   height: 28px;

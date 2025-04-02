@@ -1,4 +1,5 @@
 {
   "glassit.alpha": 220,
-  "glassit.force_sway": false
+  "glassit.force_sway": false,
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

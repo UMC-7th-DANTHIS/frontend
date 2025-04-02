@@ -38,7 +38,7 @@ const EditContent = ({
     }
   }, [selectedPost, setTitle, setContent, setFileName, setPreviews]);
 
-  const handleRemoveImage = (index: number) => {
+  const handleRemoveImage = (index: number): void => {
     setPreviews((prev: string[]) => prev.filter((_, i) => i !== index));
   };
 
@@ -49,7 +49,9 @@ const EditContent = ({
         <TitleInput
           placeholder="제목을 입력하세요."
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
+            setTitle(e.target.value)
+          }
           maxLength={50}
         />
       </TitleArea>
@@ -58,13 +60,15 @@ const EditContent = ({
         <ContentInput
           placeholder="내용을 입력하세요."
           value={content}
-          onChange={(e) => setContent(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void =>
+            setContent(e.target.value)
+          }
           maxLength={1000}
         />
       </ContentArea>
       {previews.length > 0 && (
         <ImageContainer>
-          {previews.map((src, index) => (
+          {previews.map((src, index: number) => (
             <ImageWrapper key={index}>
               <CloseButton
                 src={Close}
