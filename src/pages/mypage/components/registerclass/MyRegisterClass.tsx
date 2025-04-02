@@ -137,7 +137,7 @@ const MyRegisterClass = () => {
                           </span>
                         }
                         onClose={hideShowAlert}
-                        mariginsize="22.5px"
+                        marginsize="22.5px"
                         ContainerWidth="280px"
                         ContainerHeight="108px"
                         AlertWidth="392px"
