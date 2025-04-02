@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import styled from 'styled-components';
 import Alert from '../../../../components/Alert';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -9,33 +9,43 @@ import api from '../../../../api/api';
 import { useMutation } from '@tanstack/react-query';
 import SingleBtnAlert from '../../../../components/SingleBtnAlert';
 
+interface ReviewDataProps {
+  title: string;
+  content: string;
+  rating: number;
+  reviewImages: string[];
+}
+
+interface LocationState {
+  className?: string;
+}
+
 const ReviewDetail = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [selectedImage, setSelectedImage] = useState([]);
-  const [rating, setRating] = useState(0);
-  const [showAlert, setShowAlert] = useState(false);
-  const [review, setReview] = useState('');
-  const [title, setTitle] = useState('');
-  const { id: classId } = useParams();
+  const [selectedImage, setSelectedImage] = useState<string[]>([]);
+  const [rating, setRating] = useState<number>(0);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [review, setReview] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
+  const { id: classId } = useParams<{ id: string }>();
   const selectedMenu =
     new URLSearchParams(location.search).get('menu') || 'myreview';
-  const className = location.state?.className || '';
-  const [showInvalidAlert, setShowInvalidAlert] = useState(false);
+  const className = (location.state as LocationState)?.className || '';
+  const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
 
-  const handleMenuClick = (menuKey) => {
+  const handleMenuClick = (menuKey: string) => {
     navigate(`/mypage?menu=${menuKey}`);
   };
 
-  const createReview = async (reviewData) => {
-    console.log('reviewData', reviewData);
+  const createReview = async (reviewData: ReviewDataProps) => {
     const token = localStorage.getItem('token');
 
     const response = await api.post(
       `/dance-classes/${classId}/reviews`,
       {
         ...reviewData,
-        reviewImages: reviewData.reviewImages // 이미 S3에 업로드된 URL 배열
+        reviewImages: reviewData.reviewImages
       },
       {
         headers: {
@@ -45,7 +55,6 @@ const ReviewDetail = () => {
       }
     );
 
-    console.log('API response:', response.data); // 응답 확인
     return response.data;
   };
 
@@ -54,20 +63,20 @@ const ReviewDetail = () => {
     onSuccess: () => {
       setShowInvalidAlert(true);
     },
-    onError: (error) => {
+    onError: (error: any) => {
       console.error(error.message);
     }
   });
 
-  const handleReview = (e) => {
+  const handleReview = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setReview(e.target.value);
   };
 
-  const handleTitle = (e) => {
+  const handleTitle = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!review.trim()) {
       alert('리뷰 내용을 작성해주세요.');
@@ -78,14 +87,13 @@ const ReviewDetail = () => {
       return;
     }
 
-    const reviewData = {
-      title: title,
+    const reviewData: ReviewDataProps = {
+      title,
       content: review,
-      rating: rating,
+      rating,
       reviewImages: selectedImage
     };
 
-    console.log('4444', reviewData);
     mutation.mutate(reviewData);
   };
 
@@ -137,7 +145,6 @@ const ReviewDetail = () => {
                       </span>
                     }
                     onClose={hideClickCancel}
-                    mariginsize="22px"
                     ContainerWidth="280px"
                     ContainerHeight="108px"
                     marginsize="24px"

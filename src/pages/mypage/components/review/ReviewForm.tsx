@@ -3,7 +3,24 @@ import styled from 'styled-components';
 import PhotoUpload from './PhotoUpload';
 import { ReactComponent as RemoveIcon } from '../../../../assets/buttons/remove.svg';
 
-const ReviewForm = ({
+interface ReviewFormProps {
+  title: string;
+  review: string;
+  handleTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleReview: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  selectedImages: string[];
+  setSelectedImages: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+interface ReviewBoxProps {
+  imageCount: number;
+}
+
+interface TextareaProps {
+  hasImage: boolean;
+}
+
+const ReviewForm: React.FC<ReviewFormProps> = ({
   title,
   review,
   handleTitle,
@@ -11,33 +28,17 @@ const ReviewForm = ({
   selectedImages,
   setSelectedImages
 }) => {
+  const handleImageUpload = (images: string[] | string) => {
+    const newImages = Array.isArray(images) ? images : [images];
 
-  const handleImageUpload = (Images) => {
-    console.log('Received Images:', Images);
+    const filtered = newImages.filter((url) => !selectedImages.includes(url));
 
-    setSelectedImages((prev) => {
-      const newImages = Array.isArray(Images) ? Images : [Images];
-
-      const imageURLs = newImages.map(image => {
-        if (image instanceof File) {
-          return URL.createObjectURL(image);
-        }
-        return image;
-      });
-
-      const NewImages = imageURLs.filter(newUrl =>
-        !prev.includes(newUrl)
-      );
-
-      if (prev.length < 4) {
-        return [...prev, ...NewImages].slice(0, 4);
-      }
-      return prev;
-    });
+    if (selectedImages.length < 4) {
+      setSelectedImages([...selectedImages, ...filtered].slice(0, 4));
+    }
   };
 
-
-  const removeImage = (indexToRemove) => {
+  const removeImage = (indexToRemove: number) => {
     setSelectedImages(
       selectedImages.filter((_, index) => index !== indexToRemove)
     );
@@ -67,7 +68,7 @@ const ReviewForm = ({
           />
         </BoxContent>
 
-        {selectedImages?.length > 0 && (
+        {selectedImages.length > 0 && (
           <>
             <PhotoLine />
             <PreviewImageContainer>
@@ -103,7 +104,7 @@ const ReviewForm = ({
 
 export default ReviewForm;
 
-const getReviewBoxHeight = (imageCount) => {
+const getReviewBoxHeight = (imageCount: number) => {
   switch (imageCount) {
     case 0:
       return '400px';
@@ -118,7 +119,7 @@ const getReviewBoxHeight = (imageCount) => {
   }
 };
 
-const ReviewBox = styled.div`
+const ReviewBox = styled.div<ReviewBoxProps>`
   width: 660px;
   height: ${(props) => getReviewBoxHeight(props.imageCount)};
   border: 2px solid #9819c3;
@@ -181,7 +182,7 @@ const Input = styled.input`
   }
 `;
 
-const Textarea = styled.textarea`
+const Textarea = styled.textarea<TextareaProps>`
   width: 474px;
   height: ${(props) => (props.hasImage ? '462px' : '300px')};
   font-size: 14px;
