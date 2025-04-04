@@ -1,53 +1,68 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import sampleImage from '../../../../assets/image.png';
 import Pagination from '../../../../components/Pagination';
 import { useNavigate } from 'react-router-dom';
 import api from '../../../../api/api';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
 import { useQuery } from '@tanstack/react-query';
 
-const fetchTakeClass = async (currentPage, perData) => {
+interface DanceClassProps {
+  id: number;
+  className: string;
+  dancerName: string;
+  thumbnailImage: string;
+}
+
+interface FetchTakeClassResponse {
+  classlist: DanceClassProps[];
+  totalElements: number;
+}
+
+const fetchTakeClass = async (
+  currentPage: number,
+  perData: number
+): Promise<FetchTakeClassResponse> => {
   const token = localStorage.getItem('token');
   const response = await api.get('/users/dance-classes', {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`
     },
     params: {
       page: currentPage,
       size: perData
     }
   });
-  console.log('1111', response.data.data.danceClasses);
+
   return {
     classlist: response.data.data.danceClasses || [],
-    totalElements: response.data.data.totalElements || 0,
+    totalElements: response.data.data.totalElements || 0
   };
 };
 
 const MyReview = () => {
   const navigate = useNavigate();
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const perData = 9;
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError, error } = useQuery<FetchTakeClassResponse>({
     queryKey: ['usertakeclass', currentPage, perData],
-    queryFn: () => fetchTakeClass(currentPage, perData),
+    queryFn: () => fetchTakeClass(currentPage, perData)
   });
 
   if (isLoading) {
-    return (
-      <LoadingSpinner isLoading={isLoading} />
-    );
+    return <LoadingSpinner isLoading={isLoading} />;
   }
 
   if (isError) {
-    return <div>Error: {error?.message}</div>;
+    return <div>Error: {(error as Error).message}</div>;
   }
 
-  const handleImageClick = (data) => {
-    navigate(`/review/${data.id}`, { state: { className: data.className } });
+  const handleImageClick = (danceClass: DanceClassProps) => {
+    navigate(`/review/${danceClass.id}`, {
+      state: { className: danceClass.className }
+    });
   };
+
   const classList = Array.isArray(data?.classlist) ? data.classlist : [];
 
   return (
@@ -60,8 +75,8 @@ const MyReview = () => {
             {classList.map((danceClass) => (
               <ClassList key={danceClass.id}>
                 <Image
-                  src={danceClass.thumbnailImage || sampleImage}
-                  alt={danceClass.id}
+                  src={danceClass.thumbnailImage}
+                  alt={String(danceClass.id)}
                   onClick={() => handleImageClick(danceClass)}
                 />
                 <Title>{danceClass.className}</Title>
@@ -71,7 +86,7 @@ const MyReview = () => {
           </ClassContainer>
           <PaginationContainer>
             <Pagination
-              dataLength={data.totalElements}
+              dataLength={data?.totalElements}
               perData={perData}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
@@ -134,7 +149,7 @@ const PaginationContainer = styled.div`
 `;
 
 const NoClassMessage = styled.div`
-  color: #FFF;
+  color: #fff;
   text-align: center;
   font-size: 32px;
   font-style: normal;

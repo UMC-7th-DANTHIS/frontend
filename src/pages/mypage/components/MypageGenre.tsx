@@ -1,33 +1,47 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import { useState, useEffect } from 'react';
+import styled from 'styled-components';
 
-const MypageGenre = ({ genreSelect, selectedGenres: initialGenres, onGenreChange }) => {
+interface MypageGenreProps {
+  genreSelect: number;
+  selectedGenres: number[];
+  onGenreChange: (selectedGenres: number[]) => void;
+}
+
+const MypageGenre = ({
+  genreSelect,
+  selectedGenres: initialGenres,
+  onGenreChange
+}: MypageGenreProps) => {
   const genres = [
-    "힙합",
-    "걸스힙합",
-    "팝핑",
-    "락킹",
-    "왁킹",
-    "걸리시/힐",
-    "크럼프",
-    "텃팅",
-    "코레오",
-    "K-pop",
-    "없음"
+    '힙합',
+    '걸스힙합',
+    '팝핑',
+    '락킹',
+    '왁킹',
+    '걸리시/힐',
+    '크럼프',
+    '텃팅',
+    '코레오',
+    'K-pop',
+    '없음'
   ];
 
-  const [selectedGenres, setSelectedGenres] = useState(initialGenres || []);
+  const [selectedGenres, setSelectedGenres] = useState<number[]>(
+    initialGenres || []
+  );
 
   useEffect(() => {
     setSelectedGenres(initialGenres || []);
   }, [initialGenres]);
 
-  const handleGenreClick = (genre) => {
+  const handleGenreClick = (genre: string) => {
     const genreIndex = genres.indexOf(genre) + 1;
 
     setSelectedGenres((prevSelectedGenres) => {
       if (prevSelectedGenres.includes(genreIndex)) {
-        const newGenres = prevSelectedGenres.filter((selected) => selected !== genreIndex);
+        const newGenres = prevSelectedGenres.filter(
+          (selected) => selected !== genreIndex
+        );
         onGenreChange(newGenres);
         return newGenres;
       } else if (prevSelectedGenres.length < genreSelect) {
@@ -70,7 +84,7 @@ const GenreWrapper = styled.div`
   align-items: center;
 `;
 
-const GenreBtn = styled.button`
+const GenreBtn = styled.button<{ selected: boolean }>`
   display: flex;
   width: 160px;
   max-width: 160px;
@@ -79,9 +93,9 @@ const GenreBtn = styled.button`
   justify-content: center;
   align-items: center;
   border-radius: 4px;
-  border: 1px solid ${(props) => (props.selected ? "#9819C3" : "#ddd")};
-  background-color: ${(props) => (props.selected ? "#9819C3" : "transparent")};
-  color: ${(props) => (props.selected ? "#fff" : "#ddd")}; 
+  border: 1px solid ${(props) => (props.selected ? '#9819C3' : '#ddd')};
+  background-color: ${(props) => (props.selected ? '#9819C3' : 'transparent')};
+  color: ${(props) => (props.selected ? '#fff' : '#ddd')};
 
   text-align: center;
   font-size: 15px;

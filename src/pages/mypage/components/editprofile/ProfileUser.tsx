@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, ChangeEvent, FormEvent, useRef } from 'react';
 import Profileimg from '../../../../assets/profileimg.svg';
 import styled from 'styled-components';
 import MypageGenre from '../MypageGenre';
@@ -7,22 +7,37 @@ import useConfirmLeave from '../../../../hooks/useConfirmLeave';
 import ConfirmLeaveAlert from '../../../../components/ConfirmLeaveAlert';
 import SingleBtnAlert from '../../../../components/SingleBtnAlert';
 
+interface FormState {
+  nickname: string;
+  gender: string;
+  email: string;
+  phoneNumber: string;
+  profileImage: string;
+  preferredGenres: number[];
+  preferredDancers: number[];
+}
+
+interface ErrorTextProps {
+  error: boolean;
+}
+
 const ProfileUser = () => {
-  const [nicknameStatus, setNicknameStatus] = useState(null);
-  const [gender, setGender] = useState("");
-  const [showLeaveAlert, setShowLeaveAlert] = useState(false);
-  const [showInvalidAlert, setShowInvalidAlert] = useState(false);
-  const [uploadedImage, setUploadedImage] = useState(null);
-  const [isDefaultImage, setIsDefaultImage] = useState(false);
-  const [formState, setFormState] = useState({
+  const [nicknameStatus, setNicknameStatus] = useState<string | null>(null);
+  const [showLeaveAlert, setShowLeaveAlert] = useState<boolean>(false);
+  const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [isDefaultImage, setIsDefaultImage] = useState<boolean>(false);
+  const [formState, setFormState] = useState<FormState>({
     nickname: '',
     gender: '',
     email: '',
     phoneNumber: '',
     profileImage: '',
     preferredGenres: [],
-    preferredDancers: [],
+    preferredDancers: []
   });
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useConfirmLeave({ setAlert: setShowLeaveAlert });
 
@@ -32,10 +47,9 @@ const ProfileUser = () => {
         const token = localStorage.getItem('token');
         const response = await api.get('/users/me', {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         });
-        console.log(response.data.data);
         const data = response.data.data;
 
         setFormState({
@@ -45,10 +59,9 @@ const ProfileUser = () => {
           phoneNumber: data.phoneNumber || '',
           profileImage: data.profileImage || Profileimg,
           preferredGenres: data.preferredGenres || [],
-          preferredDancers: data.preferredDancers || [],
+          preferredDancers: data.preferredDancers || []
         });
 
-        // 프로필 이미지가 기본 이미지인지 확인
         setIsDefaultImage(data.profileImage === Profileimg);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -57,55 +70,47 @@ const ProfileUser = () => {
     fetchData();
   }, []);
 
-  const handleFileUpload = async (event) => {
-    const file = event.target.files[0];
+  const handleFileUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
 
     try {
-      console.log("📡 Presigned URL 요청 시작...");
-      // 1️⃣ Presigned URL 요청
-      const fileExtension = file.name.split('.').pop(); // 파일 확장자 추출
-      const response = await api.post(`/image/user?fileExtension=${fileExtension}`);
-      console.log("📡 Presigned URL API 응답:", response);
+      const fileExtension = file.name.split('.').pop();
+      const response = await api.post(
+        `/image/user?fileExtension=${fileExtension}`
+      );
+
       if (!response.data || !response.data.presignedUrl) {
         throw new Error('Presigned URL 발급 실패');
       }
 
+      const { presignedUrl, fileUrl } = response.data;
 
-      const { presignedUrl, fileUrl } = response.data; // URL 정보 가져오기
-      console.log('발급된 url', presignedUrl);
-
-      // 2️⃣ S3에 이미지 업로드
       const uploadResponse = await fetch(presignedUrl, {
         method: 'PUT',
         body: file,
-        headers: { 'Content-Type': file.type }, // 파일 타입 설정
+        headers: { 'Content-Type': file.type }
       });
 
       if (!uploadResponse.ok) {
         throw new Error(`업로드 실패: ${uploadResponse.status}`);
       }
 
-      // 3️⃣ 최종적으로 업로드된 이미지 URL을 상태에 저장
-      setUploadedImage(fileUrl); // 프로필 사진 상태 업데이트
-      setIsDefaultImage(false); // 기본 이미지 비활성화
-      console.log('✅ 이미지 업로드 성공:', fileUrl);
-
-    } catch (error) {
-      console.error('❌ 파일 업로드 오류:', error.message);
+      setUploadedImage(fileUrl);
+      setIsDefaultImage(false);
+    } catch (error: any) {
+      console.error('파일 업로드 오류:', error.message);
     }
   };
 
   const handleCheckboxChange = () => {
     setIsDefaultImage(true);
     setUploadedImage(null);
-    setFormState(prev => ({
-      ...prev,
-      profileImage: Profileimg
-    }));
+    setFormState((prev) => ({ ...prev, profileImage: Profileimg }));
   };
 
-  const handleFormChange = (key, value) => {
-    setFormState(prev => ({ ...prev, [key]: value }));
+  const handleFormChange = (key: keyof FormState, value: any) => {
+    setFormState((prev) => ({ ...prev, [key]: value }));
   };
 
   const handleDoubleCheck = async () => {
@@ -115,8 +120,9 @@ const ProfileUser = () => {
     }
 
     try {
-      const response = await api.get(`/users/check-nickname?nickname=${formState.nickname}`);
-      console.log(response.data);
+      const response = await api.get(
+        `/users/check-nickname?nickname=${formState.nickname}`
+      );
       if (response.data.data === true) {
         setNicknameStatus('사용 가능한 닉네임입니다.');
       } else {
@@ -128,14 +134,14 @@ const ProfileUser = () => {
     }
   };
 
-  const validatePhone = (value) => {
+  const validatePhone = (value: string): boolean => {
     const phoneRegex = /^\d{3}-\d{4}-\d{4}$/;
     return phoneRegex.test(value);
   };
 
-  const handlePhoneChange = (e) => {
+  const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
-    const onlyNumbers = value.replace(/\D/g, "");
+    const onlyNumbers = value.replace(/\D/g, '');
 
     if (onlyNumbers.length <= 3) {
       value = onlyNumbers;
@@ -148,10 +154,9 @@ const ProfileUser = () => {
     handleFormChange('phoneNumber', value);
   };
 
-  const handleSaveProfile = async (e) => {
+  const handleSaveProfile = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    // 필수 입력값 검증
     if (!formState.nickname) {
       alert('닉네임을 입력해주세요.');
       return;
@@ -167,8 +172,12 @@ const ProfileUser = () => {
       return;
     }
 
-    const genderForPut = formState.gender === "남" ? "male" : formState.gender === "여" ? "female" : "";
-
+    const genderForPut =
+      formState.gender === '남'
+        ? 'male'
+        : formState.gender === '여'
+          ? 'female'
+          : '';
 
     try {
       const token = localStorage.getItem('token');
@@ -179,16 +188,14 @@ const ProfileUser = () => {
         phoneNumber: formState.phoneNumber,
         profileImage: formState.profileImage,
         preferredGenres: formState.preferredGenres,
-        preferredDancers: formState.preferredDancers,
+        preferredDancers: formState.preferredDancers
       };
-
-      console.log("📡 PUT 요청 데이터:", updatedData);
 
       const response = await api.put('/users', updatedData, {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
+          'Content-Type': 'application/json'
+        }
       });
 
       if (response.status === 200) {
@@ -200,8 +207,7 @@ const ProfileUser = () => {
     }
   };
 
-  const handleGenderChange = (e) => {
-    setGender(e.target.value);
+  const handleGenderChange = (e: ChangeEvent<HTMLInputElement>) => {
     handleFormChange('gender', e.target.value);
   };
 
@@ -219,7 +225,11 @@ const ProfileUser = () => {
                   value={formState.nickname}
                   onChange={(e) => handleFormChange('nickname', e.target.value)}
                 />
-                <ErrorText error={nicknameStatus === "다른 유저와 중복되는 닉네임입니다."}>
+                <ErrorText
+                  error={
+                    nicknameStatus === '다른 유저와 중복되는 닉네임입니다.'
+                  }
+                >
                   {nicknameStatus}
                 </ErrorText>
               </ErrorContainer>
@@ -278,12 +288,14 @@ const ProfileUser = () => {
                 {isDefaultImage || !uploadedImage ? (
                   <ProfileImage src={Profileimg} alt="프로필 이미지" />
                 ) : (
-
                   <ProfileImage src={uploadedImage} alt="프로필 이미지" />
                 )}
               </ProfileImageWrapper>
               <UploadContainer>
-                <UploadButton type="button" onClick={() => document.getElementById("file-upload").click()}>
+                <UploadButton
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                >
                   파일 업로드
                 </UploadButton>
                 <HiddenInput
@@ -316,22 +328,20 @@ const ProfileUser = () => {
               genreSelect={5}
               selectedGenres={formState.preferredGenres}
               onGenreChange={(selectedGenres) => {
-                console.log("선택된 장르", selectedGenres);
+                console.log('선택된 장르', selectedGenres);
                 handleFormChange('preferredGenres', selectedGenres);
               }}
             />
           </DanceContainer>
         </ItemContainer>
       </UserContainer>
-      <SaveButton type="submit" onClick={handleSaveProfile}>프로필 저장</SaveButton>
+      <SaveButton type="submit" onClick={handleSaveProfile}>
+        프로필 저장
+      </SaveButton>
 
       {showInvalidAlert && (
         <SingleBtnAlert
-          message={
-            <AlertText>
-              프로필 저장이 완료되었습니다.
-            </AlertText>
-          }
+          message={<AlertText>프로필 저장이 완료되었습니다.</AlertText>}
           onClose={() => setShowInvalidAlert(false)}
           mariginsize="33px"
           showButtons={true}
@@ -362,14 +372,14 @@ const AllContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`
+`;
 
 //
 const UserContainer = styled.div`
   width: 900px;
   height: 1314px;
   flex-shrink: 0;
-  border: 2px solid #9819C3;
+  border: 2px solid #9819c3;
   border-radius: 25px;
   display: flex;
   justify-content: center;
@@ -380,19 +390,19 @@ const UserContainer = styled.div`
 const ItemContainer = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
 
 const NicknameContainer = styled.div`
   margin-top: 47px;
   margin-bottom: 59px;
-`
+`;
 
 const Label = styled.div`
   color: white;
   font-size: 22px;
   font-weight: 600;
   line-height: normal;
-`
+`;
 
 const InputContainer = styled.div`
   display: flex;
@@ -400,7 +410,7 @@ const InputContainer = styled.div`
   gap: 8px;
   margin-top: 10px;
   cursor: pointer;
-`
+`;
 
 const Input = styled.input`
   display: flex;
@@ -410,40 +420,40 @@ const Input = styled.input`
   align-items: center;
   flex-shrink: 0;
   background-color: #000;
-  border: 1px solid #DDDDDD;
+  border: 1px solid #dddddd;
   border-radius: 8px;
   color: white;
   font-size: 20px;
   padding-left: 33px;
 
   &::placeholder {
-        color: #DDD;
-        font-size: 20px;
-        font-weight: 500;
-    }
-`
+    color: #ddd;
+    font-size: 20px;
+    font-weight: 500;
+  }
+`;
 const DoubleCheck = styled.button`
   display: flex;
   padding: 8px;
   justify-content: center;
   align-items: center;
-  border: 1px solid #DDD;
+  border: 1px solid #ddd;
   border-radius: 8px;
   width: 70px;
   height: 36px;
   margin-top: 13px;
-  color: #4D4D4D;
+  color: #4d4d4d;
   font-size: 15px;
   font-weight: 400;
   cursor: pointer;
-`
+`;
 
 const ErrorContainer = styled.div`
   text-align: end;
-`
+`;
 
-const ErrorText = styled.div`
-  color: ${(props) => (props.error ? "#FF0000" : "#00DD0B")};
+const ErrorText = styled.div<ErrorTextProps>`
+  color: ${(props) => (props.error ? '#FF0000' : '#00DD0B')};
   font-size: 14px;
   font-weight: 400;
   margin-top: 9px;
@@ -463,7 +473,7 @@ const GenderLabel = styled.div`
   font-weight: 600;
   line-height: normal;
   margin-right: 156px;
-`
+`;
 
 const RadioLabel = styled.label`
   display: flex;
@@ -472,14 +482,13 @@ const RadioLabel = styled.label`
   font-size: 20px;
   font-weight: 500;
   cursor: pointer;
-
 `;
 
 const RadioInput = styled.input`
   appearance: none;
   width: 24px;
   height: 24px;
-  border: 2px solid #A60F62;
+  border: 2px solid #a60f62;
   border-radius: 50%;
   display: flex;
   background-color: white;
@@ -490,7 +499,7 @@ const RadioInput = styled.input`
   margin-left: 13px;
 
   &:checked {
-    background-color: #A60F62;
+    background-color: #a60f62;
     border: 3px solid #fff;
   }
 `;
@@ -498,7 +507,7 @@ const RadioInput = styled.input`
 //
 const EmailContainer = styled.div`
   margin-bottom: 55px;
-`
+`;
 
 const EmailInput = styled.input`
   display: flex;
@@ -508,7 +517,7 @@ const EmailInput = styled.input`
   align-items: center;
   flex-shrink: 0;
   background-color: #000;
-  border: 1px solid #DDDDDD;
+  border: 1px solid #dddddd;
   border-radius: 8px;
   color: white;
   font-size: 20px;
@@ -516,25 +525,24 @@ const EmailInput = styled.input`
   padding-left: 28px;
 
   &::placeholder {
-        color: #DDD;
-        font-size: 20px;
-        font-weight: 500;
-    }
-`
+    color: #ddd;
+    font-size: 20px;
+    font-weight: 500;
+  }
+`;
 const PhoneContainer = styled.div`
   margin-bottom: 70px;
-`
+`;
 //
 const ImageContainer = styled.div`
   margin-bottom: 89px;
-`
+`;
 
 const ProfileContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-top : 10px;
-
-`
+  margin-top: 10px;
+`;
 
 const ProfileImageWrapper = styled.div`
   width: 160px;
@@ -560,7 +568,7 @@ const UploadButton = styled.button`
   flex-shrink: 0;
   background-color: transparent;
   color: white;
-  border: 1px solid #DDDDDD;
+  border: 1px solid #dddddd;
   border-radius: 4px;
   text-align: center;
   cursor: pointer;
@@ -568,45 +576,44 @@ const UploadButton = styled.button`
 
 const HiddenInput = styled.input`
   visibility: hidden;
-  color : white;
+  color: white;
 `;
 
 const RadioWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-top : 15px;
+  margin-top: 15px;
 `;
 
 const RadioText = styled.div`
-  color: #FFF;
+  color: #fff;
   text-align: center;
   font-size: 18px;
   font-weight: 500;
   line-height: normal;
   margin-left: 10px;
   margin-top: 4px;
-
-`
+`;
 
 //
 const DanceContainer = styled.div`
   margin-bottom: 74px;
-`
+`;
 
 const DanceTextContainer = styled.div`
   display: flex;
   flex-direction: row;
-`
+`;
 
 const Text = styled.div`
-  color: #B2B2B2;
+  color: #b2b2b2;
   font-size: 14px;
   font-style: normal;
   font-weight: 300;
   line-height: normal;
   margin-left: 20px;
   margin-top: 9px;
-`
+`;
 
 const SaveButton = styled.button`
   width: 300px;
@@ -617,7 +624,7 @@ const SaveButton = styled.button`
   justify-content: center;
   margin-top: 77px;
   border-radius: 15px;
-  background-color: #9819C3;
+  background-color: #9819c3;
   border: none;
   color: white;
   font-size: 20px;
@@ -641,5 +648,3 @@ const ColoredText = styled.span`
   color: #a60f62;
   font-weight: bold;
 `;
-
-

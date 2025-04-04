@@ -1,21 +1,21 @@
-import React, { useState } from 'react'
+import { useState } from 'react';
 import styled from 'styled-components';
 import ProfileUser from './ProfileUser';
 import ProfileDancer from './ProfileDancer';
 
+interface TabProps {
+  isActive: boolean;
+}
+
 const MyEditProfile = () => {
-  const [activeTab, setActiveTab] = useState('유저');
+  const [activeTab, setActiveTab] = useState<'유저' | '댄서'>('유저');
 
   const renderContents = () => {
     if (activeTab === '유저') {
-      return (
-        <ProfileUser />
-      )
+      return <ProfileUser />;
     }
     if (activeTab === '댄서') {
-      return (
-        <ProfileDancer />
-      )
+      return <ProfileDancer />;
     }
   };
 
@@ -50,23 +50,22 @@ const AllContent = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items:flex-start;
+  align-items: flex-start;
 `;
 
 const TextContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 45px;
-
 `;
 
-const Tab = styled.div`
+const Tab = styled.div<TabProps>`
   color: ${(props) => (props.isActive ? 'white' : '#4D4D4D')};
   font-size: ${(props) => (props.isActive ? '22px' : '18px')};
   font-weight: ${(props) => (props.isActive ? '600' : '500')};
@@ -81,6 +80,4 @@ const Divider = styled.div`
   background-color: #ddd;
   margin-top: 13px;
   margin-bottom: 39px;
-
 `;
-

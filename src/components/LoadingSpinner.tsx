@@ -1,8 +1,13 @@
-import React from "react";
-import { BeatLoader } from "react-spinners";
-import styled from "styled-components";
+import React, { ReactNode } from 'react';
+import { BeatLoader } from 'react-spinners';
+import styled from 'styled-components';
 
-const LoadingSpinner = ({ isLoading, children }) => {
+interface LoadingSpinnerProps {
+  isLoading: boolean;
+  children?: ReactNode;
+}
+
+const LoadingSpinner = ({ isLoading, children }: LoadingSpinnerProps) => {
   if (isLoading) {
     return (
       <SpinnerWrapper>
@@ -11,7 +16,7 @@ const LoadingSpinner = ({ isLoading, children }) => {
     );
   }
 
-  return children;
+  return <>{children}</>;
 };
 
 export default LoadingSpinner;

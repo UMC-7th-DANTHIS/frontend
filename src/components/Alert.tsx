@@ -2,6 +2,24 @@ import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as CloseIcon } from '../assets/buttons/close-button.svg';
 
+interface AlertProps {
+  title?: string;
+  message?: React.ReactNode;
+  onClose?: () => void;
+  onCancel?: () => void;
+  onConfirm?: () => void;
+  messageColor?: string;
+  messagesize?: string;
+  marginsize?: string;
+  ContainerWidth?: string;
+  ContainerHeight?: string;
+  AlertWidth?: string;
+  AlertHeight?: string;
+  showButtons?: boolean;
+  confirmLabel?: string;
+  cancelLabel?: string;
+}
+
 const Alert = ({
   title,
   message,
@@ -10,42 +28,38 @@ const Alert = ({
   onConfirm,
   messageColor,
   messagesize,
-  mariginsize,
+  marginsize,
   ContainerWidth,
   ContainerHeight,
   AlertWidth,
   AlertHeight,
   showButtons,
-  confirmLabel = "예",
-  cancelLabel = "아니요"
-}) => {
-  const handleConfirm = (e) => {
+  confirmLabel = '예',
+  cancelLabel = '아니요'
+}: AlertProps) => {
+  const handleConfirm = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (onConfirm) {
-      onConfirm();
-    }
-    if (onClose) {
-      onClose();
-    }
+    onConfirm?.();
+    onClose?.();
   };
 
-  const handleCancel = (e) => {
+  const handleCancel = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (onCancel) {
-      onCancel();
-    }
-  }
+    onCancel?.();
+  };
 
-  const handleClose = (e) => {
+  const handleClose = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (onClose) {
-      onClose();
-    }
+    onClose?.();
   };
 
   return (
     <AlertOverlay>
-      <AlertContainer width={AlertWidth} height={AlertHeight} onClick={e => e.stopPropagation()}>
+      <AlertContainer
+        width={AlertWidth}
+        height={AlertHeight}
+        onClick={(e) => e.stopPropagation()}
+      >
         <CloseButton onClick={handleClose}>
           <CloseIcon />
         </CloseButton>
@@ -54,7 +68,7 @@ const Alert = ({
           <AlertMessage
             color={messageColor}
             fontSize={messagesize}
-            margintop={mariginsize}
+            margintop={marginsize}
           >
             {message}
           </AlertMessage>
@@ -85,14 +99,16 @@ const AlertOverlay = styled.div`
   z-index: 1000;
 `;
 
-const AlertContainer = styled.div`
+const AlertContainer = styled.div<{
+  width?: string;
+  height?: string;
+}>`
   position: relative;
   background-color: black;
   border-radius: 23px;
   width: ${({ width }) => width || 'auto'};
   height: ${({ height }) => height || 'auto'};
   text-align: center;
-  border-radius: 23px;
   border: 3px solid #a60f62;
   box-shadow: 0px 0px 11.9px 2px #a60f62;
 `;
@@ -111,7 +127,10 @@ const CloseButton = styled.button`
   z-index: 1000;
 `;
 
-const TextContainer = styled.div`
+const TextContainer = styled.div<{
+  width?: string;
+  height?: string;
+}>`
   border-radius: 10px;
   background: #fff;
   width: ${({ width }) => width || 'auto'};
@@ -133,9 +152,12 @@ const AlertTitle = styled.h2`
   align-items: center;
 `;
 
-const AlertMessage = styled.div`
+const AlertMessage = styled.div<{
+  fontSize?: string;
+  color?: string;
+  margintop?: string;
+}>`
   font-size: ${({ fontSize }) => fontSize || '16px'};
-  /* font-size: 16px; */
   font-weight: 600;
   color: ${({ color }) => color || '#000'};
   display: flex;

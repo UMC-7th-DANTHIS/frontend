@@ -1,54 +1,70 @@
-import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as StarFilled } from '../../../../assets/shape/filledYellowStar.svg';
 import { ReactComponent as StarNonfilled } from '../../../../assets/shape/nonfilledYellowStar.svg';
 import { ReactComponent as ExistPhoto } from '../../../../assets/photo.svg';
 import { useNavigate } from 'react-router-dom';
 
-const CommentsReview = ({ review }) => {
+interface Review {
+  reviewId: number;
+  title: string;
+  images?: string[];
+  rating: number;
+  createdAt: string;
+  content: string;
+}
+
+interface CommentsReviewProps {
+  review: Review;
+}
+
+const CommentsReview = ({ review }: CommentsReviewProps) => {
   const totalStars = 5;
   const navigate = useNavigate();
 
-  const CuttingDetail = (content) => {
+  const CuttingDetail = (content: string): string => {
     return content.length > 210 ? content.slice(0, 210) + '...' : content;
-  }
+  };
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string): string => {
     return dateString.split('T')[0].replace(/-/g, '.');
   };
 
-  const hanleClick = (reviewId) => {
-    navigate(`/classreservation/review/${reviewId}`)
-  }
+  const handleClick = (reviewId: number): void => {
+    navigate(`/classreservation/review/${reviewId}`);
+  };
 
   return (
     <Container>
-      <ReviewWrapper key={review.reviewId} onClick={() => hanleClick(review.reviewId)}>
+      <ReviewWrapper
+        key={review.reviewId}
+        onClick={() => handleClick(review.reviewId)}
+      >
         <InfoWrapper>
           <Data>
             <TitleandPhoto>
               <Title>{review.title}</Title>
-              {review.images && review.images.filter(image => image !== null).length > 0 && (
-                <ExistPhoto width={16} height={16} />
-              )}
+              {(review.images?.filter((image) => image !== null) || []).length >
+                0 && <ExistPhoto width={16} height={16} />}
             </TitleandPhoto>
 
             <RatingAndDate>
               <Stars>
                 {Array.from({ length: totalStars }, (_, index) => (
                   <Star key={index}>
-                    {index < review.rating ? <StarFilled width={24} height={24} /> : <StarNonfilled width={24} height={24} />}
+                    {index < review.rating ? (
+                      <StarFilled width={24} height={24} />
+                    ) : (
+                      <StarNonfilled width={24} height={24} />
+                    )}
                   </Star>
-                ))}s
+                ))}
               </Stars>
               <Date>{formatDate(review.createdAt)}</Date>
             </RatingAndDate>
           </Data>
         </InfoWrapper>
 
-        <Detail>
-          {CuttingDetail(review.content)}
-        </Detail>
+        <Detail>{CuttingDetail(review.content)}</Detail>
       </ReviewWrapper>
     </Container>
   );
@@ -121,7 +137,7 @@ const Star = styled.div`
 `;
 
 const Date = styled.div`
-  color: #B2B2B2;
+  color: #b2b2b2;
   font-size: 12px;
   font-weight: 500;
   line-height: 20px;

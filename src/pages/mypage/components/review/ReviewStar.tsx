@@ -1,18 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { ReactComponent as StarFilled } from "../../../../assets/shape/filledYellowStar.svg";
+import { useState, useEffect } from 'react';
+import { ReactComponent as StarFilled } from '../../../../assets/shape/filledYellowStar.svg';
 import { ReactComponent as StarNonfilled } from '../../../../assets/shape/nonfilledYellowStar.svg';
 import styled from 'styled-components';
 
-const ReviewStar = ({ rating, setRating }) => {
-  const totalStars = 5;
-  const [starStates, setStarStates] = useState(Array(totalStars).fill(false));
+interface ReviewStarProps {
+  rating: number;
+  setRating: (value: number) => void;
+}
 
+const ReviewStar = ({ rating, setRating }: ReviewStarProps) => {
+  const totalStars = 5;
+  const [starStates, setStarStates] = useState<boolean[]>(
+    Array(totalStars).fill(false)
+  );
 
   useEffect(() => {
-    setStarStates(Array(totalStars).fill(false).map((_, i) => i < rating));
+    setStarStates(
+      Array(totalStars)
+        .fill(false)
+        .map((_, i) => i < rating)
+    );
   }, [rating]);
 
-  const toggleStar = (index) => {
+  const toggleStar = (index: number) => {
     const newRating = index + 1;
     setRating(newRating);
   };
@@ -38,24 +48,24 @@ const ReviewStar = ({ rating, setRating }) => {
 export default ReviewStar;
 
 const RatingSection = styled.div`
-    margin-top: 50px;
+  margin-top: 50px;
 `;
 
 const RatingTitle = styled.p`
-    font-size: 24px;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 21px;
-    margin-left: 40px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 21px;
+  margin-left: 40px;
 `;
 
 const Stars = styled.div`
-    display: flex;
-    align-items: center;
-    margin-left: 166px;
-    gap: 20px;
+  display: flex;
+  align-items: center;
+  margin-left: 166px;
+  gap: 20px;
 `;
 
 const Star = styled.span`
-    cursor: pointer;
+  cursor: pointer;
 `;

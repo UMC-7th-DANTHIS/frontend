@@ -7,28 +7,38 @@ import api from '../../../../api/api';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
 import { useNavigate } from 'react-router-dom';
 
+interface DancerProps {
+  id: number;
+  dancerName: string;
+  images: string[];
+}
+
 const MyLikeDancer = () => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const perData = 9;
   const navigate = useNavigate();
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError, error } = useQuery<DancerProps[]>({
     queryKey: ['userdancers'],
     queryFn: async () => {
       const token = localStorage.getItem('token');
       const response = await api.get('/users/dancers', {
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       return response.data.data.dancers || [];
-    },
+    }
   });
 
-  const filteredList = data ? data.slice(perData * (currentPage - 1), perData * currentPage) : [];
+  const filteredList = data
+    ? data.slice(perData * (currentPage - 1), perData * currentPage)
+    : [];
 
-  const handleImageError = (e) => {
-    e.target.src = sampleImage;
+  const handleImageError = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    e.currentTarget.src = sampleImage;
   };
 
   if (isLoading) {
@@ -36,10 +46,10 @@ const MyLikeDancer = () => {
   }
 
   if (isError) {
-    return <div>Error: {error?.message}</div>;
+    return <div>Error: {(error as Error)?.message}</div>;
   }
 
-  const handleClick = (id) => {
+  const handleClick = (id: number) => {
     navigate(`/dancerprofile/${id}`);
   };
 
@@ -56,7 +66,7 @@ const MyLikeDancer = () => {
                   onError={handleImageError}
                   onClick={() => handleClick(dancer.id)}
                 />
-                <Dancer>{dancer.dancerName}</Dancer>
+                <DancerName>{dancer.dancerName}</DancerName>
               </DancerList>
             ))}
           </DancerContainer>
@@ -70,7 +80,7 @@ const MyLikeDancer = () => {
           </PaginationContainer>
         </>
       ) : (
-        <Text> 내가 찜한 댄서가 없습니다. </Text>
+        <Text>내가 찜한 댄서가 없습니다.</Text>
       )}
     </>
   );
@@ -103,8 +113,8 @@ const Image = styled.img`
   cursor: pointer;
 `;
 
-const Dancer = styled.div`
-  color: #FFF;
+const DancerName = styled.div`
+  color: #fff;
   font-size: 24px;
   font-weight: 600;
   line-height: normal;
@@ -121,12 +131,11 @@ const PaginationContainer = styled.div`
 `;
 
 const Text = styled.div`
-  color: #FFF;
+  color: #fff;
   text-align: center;
   font-size: 32px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  margin-top: 100px;
   margin-top: 219px;
 `;

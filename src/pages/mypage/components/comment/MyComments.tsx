@@ -1,23 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import ReviewPage from './ReviewPage';
 import CommentPost from './CommentPost';
 
 const MyComments = () => {
-  const [activeTab, setActiveTab] = useState('게시글');
-
+  const [activeTab, setActiveTab] = useState<'게시글' | '리뷰'>('게시글');
 
   const renderContents = () => {
     if (activeTab === '게시글') {
-      return (
-        <CommentPost />
-      )
+      return <CommentPost />;
     }
     if (activeTab === '리뷰') {
-      return (
-        <ReviewPage />
-
-      )
+      return <ReviewPage />;
     }
   };
 
@@ -53,13 +47,12 @@ const AllContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-right: 100px;
-`
+`;
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* align-items:flex-start; */
 `;
 
 const TextContainer = styled.div`
@@ -69,7 +62,11 @@ const TextContainer = styled.div`
   margin-left: 29px;
 `;
 
-const Tab = styled.div`
+type TabProps = {
+  isActive: boolean;
+};
+
+const Tab = styled.div<TabProps>`
   color: ${(props) => (props.isActive ? 'white' : '#4D4D4D')};
   font-size: ${(props) => (props.isActive ? '22px' : '18px')};
   font-weight: ${(props) => (props.isActive ? '600' : '500')};
@@ -85,47 +82,3 @@ const Divider = styled.div`
   margin-top: 13px;
   margin-bottom: 34px;
 `;
-
-const CommentContainer = styled.div`
-  width: 971px;
-  height: 160px;
-  flex-shrink: 0;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0px 0px 5px #9819c3;
-  margin-bottom: 20px;
-  margin-left: 29px;
-  cursor: pointer;
-
-`;
-
-const ContentsContainer = styled.div`
-  padding: 0 39px 0 50px;
-`;
-
-const CommentTitle = styled.p`
-  color: white;
-  font-size: 22px;
-  font-weight: 600;
-  line-height: normal;
-  margin-bottom: 13px;
-`;
-
-const CommentContents = styled.p`
-  color: white;
-  font-size: 18px;
-  font-weight: 500;
-  line-height: normal;
-
-`;
-
-
-const BoxContainer = styled.div`
-  width: 970px;
-  height: 222px;
-  flex-shrink: 0;
-  border: 1px solid #DDD;
-  box-shadow:0px 0px 5px #9819C3;
-  border-radius: 10px;
-
-`
