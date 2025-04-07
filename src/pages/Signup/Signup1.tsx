@@ -5,25 +5,29 @@ import Shape1 from '../../assets/shape/shape1.svg'
 import Shape2 from '../../assets/shape/shape2.svg'
 import AgreeAlert from '../../components/AgreeAlert'
 
-
-const Signup1 = () => {
+interface AgreementItemType {
+  id: number;
+  title: string;
+  required: boolean;
+  checked: boolean;
+}
+const Signup1: React.FC = () => {
     const [showAgreeAlert, setShowAgreeAlert] = useState(false);
     const [showPersonalAlert, setShowPersonalAlert] = useState(false);
-    const handleAgreeAlert = () => {
-      setShowAgreeAlert(true);
-    };
+    // const handleAgreeAlert = () => {
+    //   setShowAgreeAlert(true);
+    // };
   
-    const hideAgreeAlert = () => {
-      setShowAgreeAlert(false);
-    };
+    // const hideAgreeAlert = () => {
+    //   setShowAgreeAlert(false);
+    // };
 
   const navigate = useNavigate();
-
   const handleNext = () => {
     navigate("/signup2"); // "/next" 경로로 이동
   };
 
-  const [agreements, setAgreements] = useState([
+  const [agreements, setAgreements] = useState<AgreementItemType[]>([
     { id: 1, title: "이용약관 전체 동의", required: false, checked: false },
     { id: 2, title: "서비스 이용약관 동의", required: true, checked: false },
     { id: 3, title: "개인정보 처리방침 동의", required: true, checked: false },
@@ -40,7 +44,7 @@ const Signup1 = () => {
   };
 
   // 개별 체크박스 변경 핸들러
-  const handleSingleCheck = (id) => {
+  const handleSingleCheck = (id:number) => {
     const updatedAgreements = agreements.map((item) =>
       item.id === id ? { ...item, checked: !item.checked } : item
     );
@@ -60,7 +64,7 @@ const Signup1 = () => {
   const isNextDisabled = !(agreements[1].checked && agreements[2].checked);
 
    // "자세히 보기" 클릭 시 특정 Alert 열기
-   const handleDetailClick = (id) => {
+   const handleDetailClick = (id:number) => {
     if (id === 2) {
       setShowAgreeAlert(true);
     } else if (id === 3) {
