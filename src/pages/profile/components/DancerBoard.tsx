@@ -128,7 +128,7 @@ const ClassBoard: React.FC = () => {
             dataLength={totalElements}
             perData={perData}
             currentPage={currentPage}
-            setCurrentPage={handlePageChange}
+           setCurrentPage={setCurrentPage}
           />
           {/* </PaginationContainer> */}
         </BoardContainer>

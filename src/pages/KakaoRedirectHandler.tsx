@@ -13,6 +13,13 @@ const KakaoRedirectHandler = () => {
 
     setIsProcessing(true);
 
+    const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+    if (!BASE_URL) {
+      console.error('⛔ 환경변수 누락: REACT_APP_API_BASE_URL');
+      navigate('/login');
+      return;
+    }
+
     console.log("🚀 REACT_APP_API_BASE_URL:", process.env.REACT_APP_API_BASE_URL);
     console.log("🚀 Kakao auth request:", `${process.env.REACT_APP_API_BASE_URL}/auth/login/kakao?code=${code}`);
 
@@ -39,6 +46,7 @@ const KakaoRedirectHandler = () => {
         });
       })
       .then((userResponse) => {
+        if (!userResponse) return; 
         console.log('✅ 사용자 정보:', userResponse.data);
         const email = userResponse.data.data?.email;
 
@@ -55,6 +63,7 @@ const KakaoRedirectHandler = () => {
         });
       })
       .then((checkResponse) => {
+        if (!checkResponse) return;
         console.log('✅ 회원 여부 확인 응답:', checkResponse.data);
 
         if (checkResponse.data.data === true) {
@@ -67,9 +76,15 @@ const KakaoRedirectHandler = () => {
           window.location.reload(); // 🔹 회원가입 페이지로 이동 후 새로고침
         }
       })
-      .catch((error) => {
-        console.error('❌ 로그인 처리 중 오류 발생:', error.response?.status, error.response?.data || error);
-        navigate('/login');
+      .catch((error : unknown) => {
+      //   console.error('❌ 로그인 처리 중 오류 발생:', error.response?.status, error.response?.data || error);
+      //   navigate('/login');
+      if (axios.isAxiosError(error)) {
+        console.error('❌ Axios 오류:', error.response?.status, error.response?.data);
+      } else {
+        console.error('❌ 예기치 못한 오류:', error);
+      }
+      navigate('/login');
       })
       .finally(() => {
         setIsProcessing(false);

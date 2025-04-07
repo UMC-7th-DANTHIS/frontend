@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, ChangeEvent} from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import Shape1 from '../../assets/shape/shape1.svg'
@@ -7,18 +7,25 @@ import Profileimg from '../../assets/profileimg.svg'
 import api from '../../api/api'
 import SingleBtnAlert from '../../components/SingleBtnAlert'
 
+// 사용자 타입 (필요 시 확장 가능)
+interface UserType {
+  email: string;
+  nickname?: string;
+}
+
+
 const Signup2 = () =>{
   const [nickname, setNickname] = useState("");
   const [gender, setGender] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [isNicknameValid, setIsNicknameValid] = useState(null); 
-  const [preview, setPreview] = useState(null);
+  const [isNicknameValid, setIsNicknameValid] = useState<boolean|null>(null); 
+  const [preview, setPreview] = useState<string|null>(null);
   const [isDefaultImage, setIsDefaultImage] = useState(true); // 기본 이미지 여부 상태
-  const [uploadedImage, setUploadedImage] = useState(null); // 업로드된 이미지
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null); // 업로드된 이미지
   const [errorMessage, setErrorMessage] = useState("");
   const [phoneError, setPhoneError] = useState("");
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<UserType|null(null);
   const [showAlert, setShowAlert] = useState(false);
 
   const handleNicknameCheck = async () => {
@@ -61,14 +68,15 @@ const Signup2 = () =>{
   const navigate = useNavigate();
 
     // 닉네임 입력 핸들러
-  const handleNicknameChange = (e) => {
+  const handleNicknameChange = (e: ChangeEvent<HTMLInputElement>) => {
   const value = e.target.value;
   setNickname(value); // 입력값 업데이트
   setErrorMessage(validateNickname(value)); // 유효성 검사 결과 업데이트
+  setIsNicknameValid(null);
 };
 
 // 전화번호 유효성 검사 함수
-const validatePhone = (value) => {
+const validatePhone = (value:string):string => {
   // 전화번호 형식: 000-0000-0000 (하이픈 포함)
   const phoneRegex = /^\d{3}-\d{4}-\d{4}$/;
 
@@ -78,7 +86,7 @@ const validatePhone = (value) => {
   return ""; // 유효한 경우 빈 문자열 반환
 };
 
-const handlePhoneChange = (e) => {
+const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
   let value = e.target.value;
 
   // 숫자만 남기기
@@ -147,21 +155,9 @@ const handlePhoneChange = (e) => {
 };
    
 
-  //  // 파일 업로드 처리
-  //  const handleFileUpload = (event) => {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onload = () => {
-  //       setUploadedImage(reader.result); // 업로드된 이미지 설정
-  //       setIsDefaultImage(false); // 기본 이미지 사용 해제
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
-  const handleFileUpload = async (event) => {
-    const file = event.target.files[0];
-    // if (!file || !file.type.startsWith('image/')) return;
+  const handleFileUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
   
     try {
       console.log("📡 Presigned URL 요청 시작...");
@@ -194,7 +190,7 @@ const handlePhoneChange = (e) => {
       console.log('✅ 이미지 업로드 성공:', fileUrl);
   
     } catch (error) {
-      console.error('❌ 파일 업로드 오류:', error.message);
+      console.error('❌ 파일 업로드 오류:', error);
     }
   };
   

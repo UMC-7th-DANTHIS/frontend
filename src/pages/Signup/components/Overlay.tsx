@@ -1,10 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
-import SampleImage from '../../../assets/image.png';
+//import SampleImage from '../../../assets/image.png';
 import { ReactComponent as PlusButton } from '../../../assets/buttons/plus-button.svg';
 
+type DancerType = {
+  id: number;
+  name: string;
+  image?: string;
+};
 
-const UserOverlay = ({ onclose, onSelectUser, searchResults }) => {
+interface UserOverlayProps {
+  onclose: () => void;
+  onSelectUser: (user: DancerType) => void;
+  searchResults: DancerType[];
+  children?: React.ReactNode;
+}
+
+interface IsLastProp {
+  isLast?: boolean;
+}
+
+
+const UserOverlay : React.FC<UserOverlayProps> = ({ onclose, onSelectUser, searchResults }) => {
     console.log("Received searchResults in UserOverlay:", searchResults);
     const dummyData = [
         { id: 1, username: '써sk', images: ['https://via.placeholder.com/50'] },
@@ -16,14 +33,14 @@ const UserOverlay = ({ onclose, onSelectUser, searchResults }) => {
   const limitedUsers = dummyData.slice(0, 5);
 
    // 오버레이 배경 클릭 핸들러
-   const handleOverlayClick = (e) => {
+   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onclose(); // 오버레이 닫기 함수 호출
     }
   };
 
   // PlusButton 클릭 핸들러
-  const handleSelectUser = (user) => {
+  const handleSelectUser = (user:DancerType) => {
     onSelectUser(user); // 선택된 사용자 전달
     onclose(); // 오버레이 닫기
   };
@@ -37,7 +54,7 @@ const UserOverlay = ({ onclose, onSelectUser, searchResults }) => {
           {results.map((user, index) => (
             <ImageList key={user.id}>
               <ListImage
-                src={user.image || SampleImage}
+                src={user.image}
                 alt={'userImage'}
               />
               <UserName isLast={index === results.length - 1}>
@@ -100,16 +117,41 @@ const ListImage = styled.img`
   border-radius: 6px;
   object-fit: cover;
 `;
-
-const UserName = styled.div`
+const UserName = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'isLast', // isLast를 DOM으로 전달하지 않도록 설정
+})<IsLastProp>`
   font-size: 20px;
-  color: ${({ isLast }) => (isLast ? '#fff' :'#4D4D4D' )};
+  color: ${({ isLast }) => (isLast ? '#fff' : '#4D4D4D')};
   margin-left: 22px;
   font-weight: 600;
   line-height: 1.5;
 `;
+// const UserName = styled.div`
+//   font-size: 20px;
+//   color: ${({ isLast }) => (isLast ? '#fff' :'#4D4D4D' )};
+//   margin-left: 22px;
+//   font-weight: 600;
+//   line-height: 1.5;
+// `;
 
-const Icon = styled.div`
+// const Icon = styled.div`
+//   margin-left: auto;
+//   cursor: pointer;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+
+//   svg rect {
+//     stroke: ${({ isLast }) => (isLast ?  '#9819C3' : '#4D4D4D' )};
+//   }
+
+//   svg path {
+//     fill: ${({ isLast }) => (isLast ? '#9819C3' : '#4D4D4D' )};
+//   }
+// `;
+const Icon = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'isLast',
+})<IsLastProp>`
   margin-left: auto;
   cursor: pointer;
   display: flex;
@@ -117,10 +159,10 @@ const Icon = styled.div`
   justify-content: center;
 
   svg rect {
-    stroke: ${({ isLast }) => (isLast ?  '#9819C3' : '#4D4D4D' )};
+    stroke: ${({ isLast }) => (isLast ? '#9819C3' : '#4D4D4D')};
   }
 
   svg path {
-    fill: ${({ isLast }) => (isLast ? '#9819C3' : '#4D4D4D' )};
+    fill: ${({ isLast }) => (isLast ? '#9819C3' : '#4D4D4D')};
   }
 `;

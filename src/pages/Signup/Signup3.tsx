@@ -9,13 +9,34 @@ import Overlay from './components/Overlay';
 import Close from '../../assets/buttons/close.svg';
 import api from '../../api/api';
 
+interface Genre {
+  id: number;
+  name: string;
+}
+
+interface Dancer {
+  id: number;
+  name: string;
+  image: string;
+}
+
+interface Signup2Data {
+  nickname: string;
+  gender: string;
+  phoneNumber: string;
+  profileImage: string;
+}
+
+interface GenreButtonProps {
+  isSelected: boolean;
+}
 const Signup3 = () => {
-  const [selectedGenres, setSelectedGenres] = useState([]);
-  const [signup2Data, setSignup2Data] = useState(null); // Signup2에서 가져온 데이터 상태
-  const [favoriteDancer, setFavoriteDancer] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
-  const [isOverlayOpen, setIsOverlayOpen] = useState(false); // Overlay 상태 추가
-  const [selectedDancers, setSelectedDancers] = useState([]); // 선택된 댄서 상태
+  const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
+  const [signup2Data, setSignup2Data] = useState<Signup2Data | null>(null); // Signup2에서 가져온 데이터 상태
+  const [favoriteDancer, setFavoriteDancer] = useState<string>('');
+  const [searchResults, setSearchResults] = useState<Dancer[]>([]);
+  const [isOverlayOpen, setIsOverlayOpen] = useState<boolean>(false); // Overlay 상태 추가
+  const [selectedDancers, setSelectedDancers] = useState<Dancer[]>([]); // 선택된 댄서 상태
 
   const genres = [
     { id: 1, name: '힙합' },
@@ -31,7 +52,7 @@ const Signup3 = () => {
     { id: 11, name: '없음' }
   ];
 
-  const toggleGenre = (genre) => {
+  const toggleGenre = (genre: Genre) => {
     setSelectedGenres((prev) =>
       prev.some((g) => g.id === genre.id)
         ? prev.filter((g) => g.id !== genre.id)
@@ -39,14 +60,14 @@ const Signup3 = () => {
     );
   };
 
-  const addDancer = (user) => {
+  const addDancer = (user: Dancer) => {
     if (!selectedDancers.some((dancer) => dancer.id === user.id)) {
       setSelectedDancers([...selectedDancers, user]);
     }
     setIsOverlayOpen(false); // 오버레이 닫기
   };
 
-  const removeDancer = (dancerId) => {
+  const removeDancer = (dancerId: number) => {
     setSelectedDancers((prev) => prev.filter((d) => d.id !== dancerId));
   };
 
@@ -91,9 +112,10 @@ const Signup3 = () => {
 
   useEffect(() => {
     // Signup2 데이터 로컬스토리지에서 가져오기
-    const data = JSON.parse(localStorage.getItem('signup2Data'));
+    //const data = JSON.parse(localStorage.getItem('signup2Data'));
+    const data = localStorage.getItem('signup2Data');
     if (data) {
-      setSignup2Data(data); // 상태에 저장
+      setSignup2Data(JSON.parse(data)); // 상태에 저장
       console.log('Signup2에서 가져온 데이터:', data); // 데이터 출력
     } else {
       console.error('Signup2 데이터가 없습니다. 이전 단계로 이동합니다.');
@@ -116,7 +138,7 @@ const Signup3 = () => {
       console.log('회원 정보 수정 성공:', response.data.data);
       navigate('/signup4'); // 홈으로 이동
     } catch (error) {
-      console.error('회원 정보 수정 실패:', error.response?.data || error);
+      console.error('회원 정보 수정 실패:', error);
       alert('회원 정보 수정에 실패했습니다. 다시 시도해주세요.');
     }
   };
@@ -199,14 +221,22 @@ const Signup3 = () => {
           onSelectUser={addDancer}
           searchResults={searchResults}
         >
-          <ResultList>
+          {/* <ResultList>
             {searchResults.map((dancer) => (
               <ResultItem key={dancer.id}>
                 <ResultImage src={dancer.image} alt={dancer.name} />
                 <DancerName>{dancer.name}</DancerName>
               </ResultItem>
             ))}
-          </ResultList>
+          </ResultList> */}
+           <div style={{ maxHeight: '200px', overflowY: 'auto', padding: '16px' }}>
+      {searchResults.map((dancer) => (
+        <ResultItem key={dancer.id}>
+          <ResultImage src={dancer.image} alt={dancer.name} />
+          <DancerName>{dancer.name}</DancerName>
+        </ResultItem>
+      ))}
+         </div>
         </Overlay>
       )}
     </Layout>
@@ -341,7 +371,7 @@ const ButtonGrid = styled.div`
   }
 `;
 
-const GenreButton = styled.button`
+const GenreButton = styled.button<GenreButtonProps>`
   //padding: 10px;
   width: 160px;
   height: 34px;
