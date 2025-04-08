@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 
@@ -28,7 +29,7 @@ import SearchWrapper from './layout/SearchWrapper';
 import MyRegisterDetail from './pages/mypage/components/registerclass/MyRegisterDetail';
 import ClassRegisterEdit from './pages/registration/newclass/ClassRegisterEdit';
 
-function App(): JSX.Element {
+function App(): React.JSX.Element {
   return (
     <Router>
       <Routes>
