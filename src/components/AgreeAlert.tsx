@@ -1,16 +1,21 @@
-import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as CloseIcon } from '../assets/buttons/close-button.svg';
 
-const AgreeAlert = ({ onClose, title, message }) => {
-  const handleClick = (e) => {
+interface AgreeAlertProps {
+  onClose: () => void;
+  title?: string;
+  message: React.ReactNode;
+}
+
+const AgreeAlert = ({ onClose, title, message }: AgreeAlertProps) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     if (onClose) {
       onClose();
     }
   };
 
-  const handleOverlayClick = (e) => {
+  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
