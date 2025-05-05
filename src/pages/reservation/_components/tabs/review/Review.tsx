@@ -1,12 +1,18 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { ReactComponent as StarFilled } from '../../../../../assets/shape/filledYellowStar.svg';
-import { ReactComponent as StarNonfilled } from '../../../../../assets/shape/nonfilledYellowStar.svg';
-import { ReactComponent as GotoIcon } from '../../../../../assets/shape/gotoicon.svg';
+import StarFilled from '../../../../../assets/shape/filledYellowStar.svg';
+import StarNonfilled from '../../../../../assets/shape/nonfilledYellowStar.svg';
+import GotoIcon from '../../../../../assets/shape/gotoicon.svg';
 import formatDate from '../../../../../api/formatDate';
+import { ClassReview } from '../../../../../types/ClassInterface';
 
-const Review = ({ review, classId, page }) => {
+interface ReviewProps {
+  review: ClassReview;
+  classId: number;
+  page: number;
+}
+
+const Review = ({ review, classId, page }: ReviewProps) => {
   const navigate = useNavigate();
   const totalStars = 5;
 
@@ -28,9 +34,19 @@ const Review = ({ review, classId, page }) => {
               {Array.from({ length: totalStars }, (_, index) => (
                 <Star key={index}>
                   {index < review.rating ? (
-                    <StarFilled width="24px" height="24px" />
+                    <img
+                      src={StarFilled}
+                      width="24px"
+                      height="24px"
+                      alt="filled star"
+                    />
                   ) : (
-                    <StarNonfilled width="24px" height="24px" />
+                    <img
+                      src={StarNonfilled}
+                      width="24px"
+                      height="24px"
+                      alt="nonfilled star"
+                    />
                   )}
                 </Star>
               ))}

@@ -1,25 +1,28 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
-import Level from './components/Level';
-import DetailTab from './components/tabs/detail/DetailTab';
-import ReviewTab from './components/tabs/review/ReviewTab';
-import RatingTab from './components/tabs/rating/RatingTab';
-import api from '../../api/api';
+import FocusedCircle from '../../assets/shape/focusedcircle.svg';
+import Level from './_components/Level';
+import DetailTab from './_components/tabs/detail/DetailTab';
+import ReviewTab from './_components/tabs/review/ReviewTab';
+import RatingTab from './_components/tabs/rating/RatingTab';
 import { DanceGenre } from '../../api/schema';
+import { DanceClass, LikedDanceClass } from '../../types/ClassInterface';
+import { formatPrice } from '@/utils/format';
+import useFetchData from '../../hooks/useFetchData';
+import axiosInstance from '../../api/axios-instance';
 
 const ClassReservation = () => {
   const navigate = useNavigate();
   const { classId } = useParams();
-  const [classData, setClassData] = useState([]);
-
   const [isLiked, setIsLiked] = useState(false);
   const [currentTab, setCurrentTab] = useState(0);
+  const { data: classData, fetchData: fetchClass } = useFetchData<DanceClass>();
+  const { fetchData: fetchLiked } = useFetchData();
 
   const [searchParams] = useSearchParams();
   const urlTabQuery = searchParams.get('tab');
-  const tabRef = useRef(null);
+  const tabRef = useRef<HTMLDivElement | null>(null);
   const tab = useMemo(
     () => [
       { name: '상세정보', query: 'detail' },
@@ -29,36 +32,21 @@ const ClassReservation = () => {
     []
   );
 
-  // 가격 포맷 함수
-  const formatPrice = (price) => {
-    return price ? price.toLocaleString('ko-KR') : '0';
-  };
-
   useEffect(() => {
-    const fetchClass = async () => {
-      try {
-        const response = await api.get(`/dance-classes/${classId}`);
-
-        setClassData(response.data.data);
-      } catch (error) {
-        console.error('❌ 수업 정보를 불러오는 중 오류 발생:', error);
-      }
+    const fetchClassData = async () => {
+      await fetchClass(`/dance-classes/${classId}`);
     };
 
-    const fetchLiked = async () => {
-      try {
-        const response = await api.get(`/users/wishlists`);
-        response.data.data?.danceClasses.find(
-          (cls) => cls.id === Number(classId) && setIsLiked(true)
-        );
-      } catch (error) {
-        console.error('❌ 유저의 수업 찜 정보를 불러오는 중 오류 발생:', error);
-      }
+    const fetchLikedData = async () => {
+      const response = await fetchLiked(`/users/wishlists`);
+      response.data.data?.danceClasses.find(
+        (cls: LikedDanceClass) => cls.id === Number(classId) && setIsLiked(true)
+      );
     };
 
-    fetchClass();
-    fetchLiked();
-  }, [classId, isLiked]);
+    fetchClassData();
+    fetchLikedData();
+  }, [classId, fetchClass, fetchLiked]);
 
   // URL의 tab 쿼리에 맞추어 currentTab을 변경
   // 돌아오기 버튼으로 돌아오는 상황을 위해 setCurrentTab을 여기서 핸들링
@@ -73,12 +61,11 @@ const ClassReservation = () => {
     }
   }, [classId, urlTabQuery, navigate, tab]);
 
-  // 채팅 시작
   const handleChatClick = () => {
     const startChat = async () => {
       try {
-        const response = await api.post(
-          `/chats/${classData.details?.dancerId}/start`
+        const response = await axiosInstance.post(
+          `/chats/${classData?.details.dancerId}/start`
         );
         window.open(response.data.data?.openChatUrl);
       } catch (error) {
@@ -88,34 +75,30 @@ const ClassReservation = () => {
     startChat();
   };
 
-  // 수업 찜 등록
-  const postLiked = async () => {
-    try {
-      await api.post(`/dance-classes/${classId}/favorite`);
-      setIsLiked(true);
-    } catch (error) {
-      console.error('❌ 수업 찜 등록 중 오류 발생:', error);
-    }
-  };
-
-  // 수업 찜 삭제
-  const deleteLiked = async () => {
-    try {
-      await api.delete(`/dance-classes/${classId}/favorite`);
-      setIsLiked(false);
-    } catch (error) {
-      console.error('❌ 수업 찜 해제 중 오류 발생:', error);
-    }
-  };
-
-  // 수업 찜 버튼 핸들러
   const handleLikeClick = () => {
+    const postLiked = async () => {
+      try {
+        await axiosInstance.post(`/dance-classes/${classId}/favorite`);
+        setIsLiked(true);
+      } catch (error) {
+        console.error('❌ 수업 찜 등록 중 오류 발생:', error);
+      }
+    };
+
+    const deleteLiked = async () => {
+      try {
+        await axiosInstance.delete(`/dance-classes/${classId}/favorite`);
+        setIsLiked(false);
+      } catch (error) {
+        console.error('❌ 수업 찜 해제 중 오류 발생:', error);
+      }
+    };
+
     if (isLiked === false) postLiked();
     else deleteLiked();
   };
 
-  // 탭 메뉴 선택 핸들러
-  const handleTabChange = (index) => {
+  const handleTabChange = (index: number) => {
     navigate(`/classreservation/${classId}?tab=${tab[index].query}`);
   };
 
@@ -127,11 +110,11 @@ const ClassReservation = () => {
       </TitleWrapper>
       <Summary>
         <Image
-          src={classData.dancer?.profileImage}
+          src={classData?.dancer?.profileImage}
           alt={`dancer profile of class #${classData?.id}`}
         />
         <InfoContainer>
-          <Text>강사 : {classData.dancer?.name}</Text>
+          <Text>강사 : {classData?.dancer?.name}</Text>
           <Text>
             장르 :{' '}
             {DanceGenre.find((g) => Number(g.id) === classData?.genre)?.Genre}
@@ -264,7 +247,7 @@ const ChatBtn = styled.button`
     cursor: pointer;
   }
 `;
-const LikeBtn = styled.button`
+const LikeBtn = styled.button<{ $isLiked: boolean }>`
   display: flex;
   width: 420px;
   padding: 10px 87px;
@@ -300,7 +283,7 @@ const Tabs = styled.div`
   border-radius: 20px 20px 0px 0px;
   background: var(--main_purple, #9819c3);
 `;
-const Tab = styled.div`
+const Tab = styled.div<{ $isActive: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;

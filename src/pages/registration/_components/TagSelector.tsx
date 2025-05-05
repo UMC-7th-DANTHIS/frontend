@@ -1,12 +1,12 @@
-import React from 'react';
 import styled from 'styled-components';
 import { hashTagID as tags } from '../../../api/schema';
+import { TagSelectorProps } from '../../../types/RegisterFormInterface';
 
-const TagSelector = ({ selectedTags, handleFormChange }) => {
+const TagSelector = ({ selectedTags, handleFormChange }: TagSelectorProps) => {
   const maxTagsLength = 3;
 
   // 장르 선택 핸들러
-  const handleSelect = (tagId) => {
+  const handleSelect = (tagId: number) => {
     let updatedTags;
 
     if (selectedTags.includes(tagId)) {
@@ -26,8 +26,8 @@ const TagSelector = ({ selectedTags, handleFormChange }) => {
         <TagBtn
           key={tag.id}
           type="button"
-          selected={selectedTags?.includes(tag.id)}
-          onClick={() => handleSelect(tag.id)}
+          selected={selectedTags?.includes(Number(tag.id))}
+          onClick={() => handleSelect(Number(tag.id))}
         >
           #{tag.hashTag}
         </TagBtn>
@@ -46,7 +46,7 @@ const TagWrapper = styled.div`
   row-gap: 21px;
   column-gap: 14px;
 `;
-const TagBtn = styled.button`
+const TagBtn = styled.button<{ selected: boolean }>`
   display: flex;
   width: 154px;
   padding: 0px 30px;
@@ -56,6 +56,7 @@ const TagBtn = styled.button`
   border-radius: 80px;
   border: 2px solid var(--text_purple, #bf00ff);
   background-color: ${(props) => (props.selected ? 'white' : 'transparent')};
+  transition: all 0.3s ease-in-out;
 
   color: ${(props) =>
     props.selected

@@ -1,22 +1,22 @@
-import React from 'react';
 import styled from 'styled-components';
-import { ReactComponent as StarFilled } from '../../../assets/buttons/starlevel_filled.svg';
-import { ReactComponent as StarNonfilled } from '../../../assets/buttons/starlevel_nonfilled.svg';
+import StarFilled from '../../../assets/buttons/starlevel_filled.svg';
+import StarNonfilled from '../../../assets/buttons/starlevel_nonfilled.svg';
 
-const Level = ({ level }) => {
+const Level = ({ level }: { level: number | undefined }) => {
   const totalStars = 5;
 
   return (
     <LevelContainer>
       <Text>난이도 : </Text>
       <Stars>
-        {Array.from({ length: totalStars }, (_, index) =>
-          index < level ? (
-            <StarFilled key={index} />
-          ) : (
-            <StarNonfilled key={index} />
-          )
-        )}
+        {level &&
+          Array.from({ length: totalStars }, (_, index) =>
+            index < level ? (
+              <StarFilled key={index} />
+            ) : (
+              <StarNonfilled key={index} />
+            )
+          )}
       </Stars>
     </LevelContainer>
   );

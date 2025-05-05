@@ -1,32 +1,50 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import PartialStars from './PartialStars';
-import api from '../../../../../api/api';
+import useFetchData from '../../../../../hooks/useFetchData';
 
-const Rating = ({ tabRef }) => {
-  const [ratingData, setRatingData] = useState([]);
-  const { classId } = useParams();
-  const totalStars = 5;
-  if (tabRef.current) {
-    tabRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
+interface Dancer {
+  name: string;
+  profileImage: string;
+  openChatUrl: string;
+}
+
+interface RatingData {
+  id: number;
+  className: string;
+  dancer: Dancer;
+  genre: number;
+  pricePerSession: number;
+  difficulty: number;
+  averageRating: number;
+  totalReviews: number;
+}
+
+interface RatingTabProps {
+  tabRef: React.RefObject<HTMLDivElement | null>;
+}
+
+const RatingTab = ({ tabRef }: RatingTabProps) => {
+  const { classId } = useParams<{ classId: string }>();
+  const totalStars: number = 5;
+  const { data, fetchData } = useFetchData<RatingData>();
+
+  useEffect(() => {
+    if (tabRef.current) {
+      tabRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [tabRef]);
 
   useEffect(() => {
     const fetchClass = async () => {
-      try {
-        const response = await api.get(`/dance-classes/${classId}/rating`);
-
-        setRatingData(response.data.data);
-      } catch (error) {
-        console.error('❌ 별점 정보를 불러오는 중 오류 발생:', error);
-      }
+      await fetchData(`/dance-classes/${classId}/rating`);
     };
 
     fetchClass();
-  }, [classId]);
+  }, [classId, fetchData]);
 
-  const getRatingStars = (rate) => {
+  const getRatingStars = (rate: number) => {
     return Array.from({ length: totalStars }, (_, index) => {
       const remainingRate = rate - index;
       const percentage = Math.max(0, Math.min(1, remainingRate));
@@ -42,8 +60,12 @@ const Rating = ({ tabRef }) => {
 
   return (
     <Container>
-      <Stars>{getRatingStars(ratingData?.averageRating)}</Stars>
-      <RatingNumber>{ratingData.averageRating?.toFixed(1)}</RatingNumber>
+      {
+        <>
+          <Stars>{getRatingStars(data?.averageRating || 0)}</Stars>
+          <RatingNumber>{data?.averageRating?.toFixed(1)}</RatingNumber>
+        </>
+      }
       <Notice>
         이 수업을 수강하셨나요? 직접 이 수업에 대한 만족도를 평가해보세요!
       </Notice>
@@ -52,7 +74,7 @@ const Rating = ({ tabRef }) => {
   );
 };
 
-export default Rating;
+export default RatingTab;
 
 const Container = styled.div`
   display: flex;

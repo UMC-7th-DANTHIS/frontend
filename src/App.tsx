@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 
@@ -12,7 +13,7 @@ import ClassRegistration from './pages/registration/newclass/ClassRegistration';
 import CommunityEdit from './pages/Community/CommunityEdit';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
-import ClassBoard from './pages/reservation/ClassBoard';
+import ClassList from './pages/reservation/ClassList';
 import ClassReservation from './pages/reservation/ClassReservation';
 import SignupPage1 from './pages/Signup/Signup1';
 import SignupPage2 from './pages/Signup/Signup2';
@@ -28,7 +29,7 @@ import SearchWrapper from './layout/SearchWrapper';
 import MyRegisterDetail from './pages/mypage/components/registerclass/MyRegisterDetail';
 import ClassRegisterEdit from './pages/registration/newclass/ClassRegisterEdit';
 
-function App(): JSX.Element {
+function App(): React.JSX.Element {
   return (
     <Router>
       <Routes>
@@ -59,7 +60,7 @@ function App(): JSX.Element {
             path="/classregister/:classId"
             element={<ClassRegisterEdit />}
           />
-          <Route path="/classreservation" element={<ClassBoard />} />
+          <Route path="/classreservation" element={<ClassList />} />
           <Route
             path="/classreservation/:classId"
             element={<ClassReservation />}

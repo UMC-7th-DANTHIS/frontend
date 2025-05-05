@@ -1,61 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { UrlInput } from './Inputs';
-import { ReactComponent as VideoIcon } from '../../../assets/video.svg';
-import { ReactComponent as DeleteIcon } from '../../../assets/shape/trash.svg';
-import api from '../../../api/api';
+import VideoIcon from '../../../assets/video.svg';
+import DeleteIcon from '../../../assets/shape/trash.svg';
+import { VideoUplodaerProps } from '../../../types/RegisterFormInterface';
+import useVideoPresignedUrl from '../../../hooks/registration/useVideoPresignedUrl';
+import useUploadToS3 from '../../../hooks/registration/useUploadToS3';
 
-const VideoUploader = ({ video, handleFormChange }) => {
-  const [fileUrl, setFileUrl] = useState('');
-  const [url, setUrl] = useState('');
+const VideoUploader = ({ video, handleFormChange }: VideoUplodaerProps) => {
+  const [fileUrl, setFileUrl] = useState<string>('');
+  const [url, setUrl] = useState<string>('');
+
+  const { getPresignedUrl } = useVideoPresignedUrl('');
+  const { uploadToS3 } = useUploadToS3();
 
   useEffect(() => {
     handleFormChange('videoUrl', fileUrl || url);
-  }, [fileUrl, url]);
-
-  // Presigned URL 요청
-  const getPresignedUrl = async (file) => {
-    try {
-      const fileExtension = file.name.split('.').pop(); // 파일 확장자
-      const response = await api.post(
-        `/video/dance-class?fileExtension=${fileExtension}`
-      );
-      return response.data?.presignedUrl || null; // Presigned URL 반환
-    } catch (error) {
-      console.error(
-        '❌ Presigned URL 발급 실패:',
-        error.response?.data || error.message
-      );
-      return null;
-    }
-  };
-
-  // S3에 파일 업로드
-  const uploadFileToS3 = async (presignedUrl, file) => {
-    try {
-      const uploadResponse = await fetch(presignedUrl, {
-        method: 'PUT',
-        body: file
-      });
-      if (!uploadResponse.ok) {
-        throw new Error(`업로드 실패: ${uploadResponse.status}`);
-      }
-      return presignedUrl.split('?')[0]; // 업로드된 이미지 URL 반환
-    } catch (error) {
-      console.error('❌ 업로드 실패:', error.message);
-      return null;
-    }
-  };
+  }, [fileUrl, url, handleFormChange]);
 
   // 비디오 업로드 핸들러
-  const handleUploadFile = async (e) => {
-    const file = e.target.files[0]; // 파일 가져오기
+  const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]; // 파일 가져오기
     if (!file || !file.type.startsWith('video/')) return;
 
     const presignedUrl = await getPresignedUrl(file);
     if (!presignedUrl) return;
 
-    const uploadedVideoUrl = await uploadFileToS3(presignedUrl, file);
+    const uploadedVideoUrl = await uploadToS3(presignedUrl, file);
     if (uploadedVideoUrl) {
       setFileUrl(uploadedVideoUrl);
     }
@@ -63,9 +34,9 @@ const VideoUploader = ({ video, handleFormChange }) => {
     e.target.value = ''; // 파일 선택 초기화
   };
 
-  const getYoutubeEmbedUrl = (link) => {
+  const getYoutubeEmbedUrl = (link: string) => {
     const match = link.match(
-      /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/live\/)([\w-]{11})/
+      /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/live\/)([\w-]{11})/
     );
     return match ? `https://www.youtube.com/embed/${match[1]}` : '';
   };

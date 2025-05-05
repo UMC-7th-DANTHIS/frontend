@@ -1,53 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
+
+import FocusedCircle from '../../assets/shape/focusedcircle.svg';
 import Pagination from '../../components/Pagination';
-import api from '../../api/api';
 import LoadingSpinner from '../../components/LoadingSpinner';
 
-const ClassBoard = () => {
-  const genres = [
-    { id: 1, name: '힙합' },
-    { id: 2, name: '걸스힙합' },
-    { id: 3, name: '팝핑' },
-    { id: 4, name: '락킹' },
-    { id: 5, name: '왁킹' },
-    { id: 6, name: '걸리시/힐' },
-    { id: 7, name: '크럼프' },
-    { id: 8, name: '텃팅' },
-    { id: 9, name: '코레오' },
-    { id: 10, name: 'K-pop' }
-  ];
-  const [selectedGenre, setSelectedGenre] = useState(genres[0].id);
-  const [classes, setClasses] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const perData = 9;
-  const [isLoading, setIsLoading] = useState(false);
+import { DanceGenre as genres } from '../../api/schema';
+import { AllClassData } from '../../types/MainInterface';
+import useFetchData from '../../hooks/useFetchData';
+
+const ClassList = () => {
+  const [selectedGenre, setSelectedGenre] = useState<string>(genres[0].id);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const perData: number = 9;
+  const { data, isLoading, fetchData } = useFetchData<AllClassData>();
 
   useEffect(() => {
-    setIsLoading(true);
     const fetchClasses = async () => {
-      try {
-        const genreId = selectedGenre;
-        const response = await api.get(
-          `/dance-classes/all?genre=${genreId}&page=${currentPage}`
-        );
-
-        setClasses(response.data?.data);
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-      } catch (error) {
-        console.error('❌ 장르별 수업 정보를 불러오는 중 오류 발생:', error);
-      } finally {
-        setIsLoading(false);
-      }
+      await fetchData(
+        `/dance-classes/all?genre=${selectedGenre}&page=${currentPage}`
+      );
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     };
 
     fetchClasses();
-  }, [selectedGenre, currentPage]);
+  }, [selectedGenre, currentPage, fetchData]);
 
   // 장르 선택 핸들러
-  const handleGenreClick = (genre) => {
+  const handleGenreClick = (genre: string) => {
     setSelectedGenre(genre);
   };
 
@@ -60,7 +41,7 @@ const ClassBoard = () => {
             onClick={() => handleGenreClick(genre.id)}
           >
             {selectedGenre === genre.id && <FocusedCircle />}
-            <Genre $isActive={selectedGenre === genre.id}>{genre.name}</Genre>
+            <Genre $isActive={selectedGenre === genre.id}>{genre.Genre}</Genre>
           </GenreWrapper>
         ))}
       </Sidebar>
@@ -72,7 +53,7 @@ const ClassBoard = () => {
       ) : (
         <BoardContainer>
           <Classes>
-            {classes.danceClasses?.map((cls) => (
+            {data?.danceClasses?.map((cls) => (
               <Class to={`/classreservation/${cls.id}`} key={cls.id}>
                 <Image
                   src={cls.thumbnailImage}
@@ -83,19 +64,21 @@ const ClassBoard = () => {
               </Class>
             ))}
           </Classes>
-          <Pagination
-            dataLength={classes.totalElements}
-            perData={perData}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
+          {data && (
+            <Pagination
+              dataLength={data.totalElements}
+              perData={perData}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+          )}
         </BoardContainer>
       )}
     </Container>
   );
 };
 
-export default ClassBoard;
+export default ClassList;
 
 const Container = styled.div`
   display: flex;
@@ -106,6 +89,7 @@ const Container = styled.div`
 `;
 const LoadingContainer = styled.div`
   width: 880px;
+  margin: 38px 0 160px 36px;
 `;
 const Sidebar = styled.div`
   display: flex;
@@ -129,7 +113,7 @@ const GenreWrapper = styled.div`
     cursor: pointer;
   }
 `;
-const Genre = styled.div`
+const Genre = styled.div<{ $isActive: boolean }>`
   color: var(--text_secondary-gray, #b2b2b2);
   font-family: Pretendard;
   font-size: 24px;

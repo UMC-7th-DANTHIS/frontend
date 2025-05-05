@@ -1,64 +1,51 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { ReactComponent as EditIcon } from '../../assets/shape/write.svg';
-import { ReactComponent as DeleteIcon } from '../../assets/shape/trash.svg';
-import { ReactComponent as Siren } from '../../assets/Community/SirenButton.svg';
-import api from '../../api/api';
+import EditIcon from '../../assets/shape/write.svg';
+import DeleteIcon from '../../assets/shape/trash.svg';
+import Siren from '../../assets/Community/SirenButton.svg';
 import ConfirmDeleteAlert from '../../components/ConfirmDelete';
-import ImageModal from '../../components/ImageModal';
+import ImageModal from './_components/ImageModal';
 import formatDate from '../../api/formatDate';
+import useFetchData from '../../hooks/useFetchData';
+import { SingleReview, User } from '../../types/ClassInterface';
+import axiosInstance from '../../api/axios-instance';
 
 const ReviewDetailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [review, setReview] = useState([]);
   const [isUserAuthorMatch, setIsUserAuthorMatch] = useState(false);
+  const { data, fetchData } = useFetchData<SingleReview>();
+  const { fetchData: fetchUser } = useFetchData<User>();
 
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean[]>([]);
 
   const { reviewId } = useParams();
   const { fromReviewTab, classId, page } = location.state || {}; // 페이지네이션을 기억해 둠
 
-  // 리뷰 데이터 받아오기
-  const fetchReview = useCallback(async () => {
-    if (!classId || !reviewId) {
-      return;
-    }
+  useEffect(() => {
+    const fetchReview = async () => {
+      await fetchData(`/dance-classes/${classId}/reviews/${reviewId}`);
+    };
 
-    try {
-      const response = await api.get(
-        `/dance-classes/${classId}/reviews/${reviewId}`
-      );
-      setReview(response.data.data);
-    } catch (error) {
-      console.error('❌ 리뷰 상세 정보를 불러오는 중 오류 발생:', error);
-    }
-  }, [classId, reviewId]);
+    const checkUserInfo = async () => {
+      const response = await fetchUser(`/users/me`);
 
-  // 리뷰의 작성자가 유저 정보와 일치하는지 확인
-  const checkUserInfo = useCallback(async () => {
-    try {
-      const response = await api.get(`/users/me`);
-
-      if (response.data.data?.nickname === review?.author) {
+      if (response.data.data?.nickname === data?.author) {
         setIsUserAuthorMatch(true);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  }, [review?.author]);
+    };
 
-  useEffect(() => {
     fetchReview();
     checkUserInfo();
-  }, [fetchReview, checkUserInfo]);
+  }, [classId, reviewId, fetchData, fetchUser, data]);
 
-  // 리뷰 삭제 핸들러
   const deleteReview = async () => {
     try {
-      await api.delete(`/dance-classes/${classId}/reviews/${reviewId}`);
+      await axiosInstance.delete(
+        `/dance-classes/${classId}/reviews/${reviewId}`
+      );
 
       navigate(`/classreservation/${classId}?tab=reviews`, {
         state: { fromReviewDetail: true, page } // 페이지네이션 정보 재전달
@@ -68,7 +55,6 @@ const ReviewDetailPage = () => {
     }
   };
 
-  // 돌아가기 버튼 핸들러
   const handleBackClick = () => {
     if (fromReviewTab) {
       navigate(`/classreservation/${classId}?tab=reviews`, {
@@ -77,18 +63,26 @@ const ReviewDetailPage = () => {
     }
   };
 
+  const handleOpenModal = (index: number) => {
+    setIsModalOpen((prev) => {
+      const newState = [...prev];
+      newState[index] = true;
+      return newState;
+    });
+  };
+
   return (
     <Container>
-      <Title>{review.title}</Title>
+      <Title>{data?.title}</Title>
       <DividerLine />
       <InfoWrapper>
         {isUserAuthorMatch ? (
           <Tool>
-            <Button onClick={() => navigate(`/review/${review?.reviewId}`)}>
+            <Button onClick={() => navigate(`/review/${data?.reviewId}`)}>
               <EditIcon />
             </Button>
-            <Button>
-              <DeleteIcon onClick={() => setShowDeleteAlert(true)} />
+            <Button onClick={() => setShowDeleteAlert(true)}>
+              <DeleteIcon />
             </Button>
           </Tool>
         ) : (
@@ -97,25 +91,28 @@ const ReviewDetailPage = () => {
           </Button>
         )}
         <Writer>
-          <InfoText>작성일 : {formatDate(review.createdAt, 1)}</InfoText>
-          <InfoText>작성자 : {review.author}</InfoText>
+          {data && (
+            <InfoText>작성일 : {formatDate(data.createdAt, 1)}</InfoText>
+          )}
+          <InfoText>작성자 : {data?.author}</InfoText>
         </Writer>
       </InfoWrapper>
-      <Content>{review.content}</Content>
+      <Content>{data?.content}</Content>
       <ImagesContainer>
         <ImagesContainer>
-          {review.reviewImages &&
-            review.reviewImages.map((image, index) => (
+          {data?.reviewImages &&
+            data?.reviewImages.map((image, index) => (
               <React.Fragment key={index}>
                 <Image
                   src={image}
-                  alt={`review ${review.id} #${index}`}
-                  onClick={() => setIsModalOpen(index)}
+                  alt={`review ${data?.reviewId} #${index}`}
+                  onClick={() => handleOpenModal(index)}
                 />
-                {isModalOpen === index && (
+                {isModalOpen[index] && (
                   <ImageModal
                     imgUrl={image}
-                    setIsModalOpen={() => setIsModalOpen(null)}
+                    setIsModalOpen={setIsModalOpen}
+                    index={index}
                   />
                 )}
               </React.Fragment>

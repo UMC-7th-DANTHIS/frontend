@@ -1,19 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import { useState, useCallback } from 'react';
 import styled from 'styled-components';
-import { Input, Textarea } from '../components/Inputs';
-import { GenreSelectorDancer } from '../components/GenreSelector';
-import ImagesUploader from '../components/ImagesUploader';
-import SubmitButton from '../components/SubmitButton';
+import { Input, Textarea } from '../_components/Inputs';
+import { GenreSelectorDancer } from '../_components/GenreSelector';
+import ImagesUploader from '../_components/ImagesUploader';
+import SubmitButton from '../_components/SubmitButton';
 import ConfirmLeaveAlert from '../../../components/ConfirmLeaveAlert';
 import SingleBtnAlert from '../../../components/SingleBtnAlert';
 import useConfirmLeave from '../../../hooks/useConfirmLeave';
-import api from '../../../api/api';
 
-const DancerForm = ({ setIsRegistered }) => {
-  const [isValid, setIsValid] = useState(false);
-  const [showInvalidAlert, setShowInvalidAlert] = useState(false);
-  const [showLeaveAlert, setShowLeaveAlert] = useState(false);
-  const [formState, setFormState] = useState({
+import { DancerFormState } from '../../../types/RegisterFormInterface';
+import usePost from '../../../hooks/registration/usePost';
+import useValidation from '../../../hooks/registration/useValidation';
+
+const DancerForm = ({
+  setIsRegistered
+}: {
+  setIsRegistered: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const { data, post } = usePost();
+  const [formState, setFormState] = useState<DancerFormState>({
     dancerName: '',
     instargramId: '',
     openChatUrl: '',
@@ -22,62 +27,23 @@ const DancerForm = ({ setIsRegistered }) => {
     preferredGenres: [],
     dancerImages: ['', '', '']
   });
+  const isValid = useValidation(formState, 'dancer');
+  const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
+  const [showLeaveAlert, setShowLeaveAlert] = useState<boolean>(false);
 
   // 뒤로 가기 방지 팝업 경고
   useConfirmLeave({ setAlert: setShowLeaveAlert });
 
-  // 유효성 검사 (임시)
-  useEffect(() => {
-    const isDancerNameValid =
-      formState.dancerName.trim().length > 0 &&
-      formState.dancerName.trim().length <= 20;
-    const isInstargramIdValid =
-      formState.instargramId.trim().length > 0 &&
-      formState.instargramId.trim().length <= 20;
-    const isOpenChatUrlValid =
-      formState.openChatUrl.trim().length > 0 &&
-      formState.openChatUrl.trim().length <= 255;
-    const isBioValid = formState.bio.length <= 80;
-    const isPreferredpreferredGenresValid =
-      formState.preferredGenres.length > 0 &&
-      formState.preferredGenres.length <= 2;
-    const isHistoryValid = formState.history.length <= 1000;
-    const isDancerImagesValid =
-      formState.dancerImages.filter((img) => img !== null).length <= 3;
-
-    // 모든 필드가 유효하면 true
-    setIsValid(
-      isDancerNameValid &&
-        isInstargramIdValid &&
-        isOpenChatUrlValid &&
-        isBioValid &&
-        isPreferredpreferredGenresValid &&
-        isHistoryValid &&
-        isDancerImagesValid
-    );
-  }, [formState]);
-
   // 등록 폼 상태 업데이트
-  const handleFormChange = (key, value) => {
-    setFormState((prev) => ({ ...prev, [key]: value }));
-  };
-
-  // 댄서 정보 등록
-  const postDancer = async (data) => {
-    try {
-      await api.post('/dancers', data, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      setIsRegistered(true);
-    } catch (error) {
-      console.error('댄서 등록 실패:', error.response?.data || error.message);
-    }
-  };
+  const handleFormChange = useCallback(
+    <K extends keyof DancerFormState>(key: K, value: DancerFormState[K]) => {
+      setFormState((prev) => ({ ...prev, [key]: value }));
+    },
+    []
+  );
 
   // 수업 등록 폼 제출 핸들러
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const updatedFormState = {
@@ -89,7 +55,9 @@ const DancerForm = ({ setIsRegistered }) => {
       setShowInvalidAlert(true);
       return;
     }
-    postDancer(updatedFormState);
+
+    await post('/dancers', updatedFormState);
+    if (data) setIsRegistered(true);
   };
 
   return (
@@ -191,6 +159,7 @@ const DancerForm = ({ setIsRegistered }) => {
           showButtons={true}
         />
       )}
+
       {showLeaveAlert && (
         <ConfirmLeaveAlert
           message={
@@ -223,7 +192,7 @@ const InputContainer = styled.div`
   border-radius: 25px;
   border: 2px solid var(--main_purple, #9819c3);
 `;
-const LabelWrapper = styled.div`
+const LabelWrapper = styled.div<{ $long?: boolean }>`
   display: flex;
   flex-direction: row;
   align-items: ${({ $long }) => ($long ? 'center' : 'flex-end')};

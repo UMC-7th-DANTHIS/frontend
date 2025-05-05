@@ -1,6 +1,24 @@
 import React from 'react';
 
-const stars = {
+interface PartialStarsProps {
+  level: number;
+  width: string;
+  height: string;
+}
+
+const PartialStars = ({
+  level,
+  width = '120px',
+  height = '120px'
+}: PartialStarsProps) => {
+  const Star = stars[`star${level}`];
+
+  return Star && React.cloneElement(Star, { width, height }); // svg 복제 후 width, height 속성 추가
+};
+
+export default PartialStars;
+
+const stars: Record<string, React.JSX.Element> = {
   star0: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -177,10 +195,3 @@ const stars = {
     </svg>
   )
 };
-
-const PartialStars = ({ level, width = '120px', height = '120px' }) => {
-  const Star = stars[`star${level}`];
-  return Star && React.cloneElement(Star, { width, height }); // svg 복제 후 width, height 속성 추가
-};
-
-export default PartialStars;

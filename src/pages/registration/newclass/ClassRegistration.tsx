@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import ClassForm from './ClassForm';
-import Complete from '../components/Complete';
+import Complete from '../_components/RegisterComplete';
 
 const ClassRegistration = () => {
-  const [isRegistered, setIsRegistered] = useState(false);
+  const [isRegistered, setIsRegistered] = useState<boolean>(false);
 
   // 등록 완료 메시지
   const title = '댄스 수업 등록 신청이 완료되었어요!';

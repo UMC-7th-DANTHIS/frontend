@@ -1,16 +1,21 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Review from './Review';
 import Pagination from '../../../../../components/Pagination';
-import api from '../../../../../api/api';
+import useFetchData from '../../../../../hooks/useFetchData';
+import { ClassReviewList } from '../../../../../types/ClassInterface';
 
-const ReviewTab = ({ tabRef }) => {
+interface ReviewTabProps {
+  tabRef: React.RefObject<HTMLDivElement | null>;
+}
+
+const ReviewTab = ({ tabRef }: ReviewTabProps) => {
   const location = useLocation();
-  const [reviews, setReviews] = useState([]);
   const { classId } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5; // 페이지 당 보여질 요소 개수
+  const { data, fetchData } = useFetchData<ClassReviewList>();
 
   const { fromReviewDetail, page } = location.state || {}; // 이동했던 페이지로부터 이전 페이지네이션 정보를 전달 받음
   if (tabRef.current) {
@@ -18,54 +23,47 @@ const ReviewTab = ({ tabRef }) => {
   }
 
   const fetchReviews = useCallback(
-    async (page) => {
-      try {
-        const response = await api.get(
-          `/dance-classes/${classId}/reviews?page=${page}`
-        );
-
-        setReviews(response.data.data);
-      } catch (error) {
-        console.error('❌ 리뷰 정보를 불러오는 중 오류 발생:', error);
-      }
+    async (page: number) => {
+      await fetchData(`/dance-classes/${classId}/reviews?page=${page}`);
     },
-    [classId]
+    [classId, fetchData]
   );
 
   useEffect(() => {
     fetchReviews(currentPage);
-  }, [classId, currentPage, fetchReviews]);
+  }, [currentPage, fetchReviews]);
 
   // 이동했던 페이지로부터 이전 페이지네이션 정보를 받았을 경우
   // currentPage를 해당 페이지(이전 페이지)로 설정
   useEffect(() => {
     if (fromReviewDetail && page) {
       setCurrentPage(page);
-      fetchReviews(page);
+      fetchReviews(currentPage);
     }
-  }, [fromReviewDetail, page, fetchReviews]);
+  }, [fromReviewDetail, page, currentPage, fetchReviews]);
 
   return (
     <Container>
-      {Array.isArray(reviews?.classReviews) &&
-      reviews?.classReviews.length === 0 ? (
+      {Array.isArray(data?.classReviews) && data?.classReviews.length === 0 ? (
         <Notice>등록된 리뷰가 없습니다.</Notice>
       ) : (
         <>
-          {reviews.classReviews?.map((review, index) => (
+          {data?.classReviews.map((review, index) => (
             <Review
               key={index}
               review={review}
-              classId={reviews?.id}
-              page={reviews.pagination?.currentPage}
+              classId={data?.id}
+              page={data?.pagination.currentPage}
             />
           ))}
-          <Pagination
-            dataLength={reviews.pagination?.totalReviews}
-            perData={perData}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
+          {data?.pagination && (
+            <Pagination
+              dataLength={data?.pagination.totalReviews}
+              perData={perData}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+          )}
         </>
       )}
     </Container>

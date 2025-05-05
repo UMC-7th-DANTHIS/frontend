@@ -1,14 +1,18 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { ReactComponent as Speaker } from '../../../../../assets/emoji/speaker.svg';
-import { ReactComponent as ThumbsUp } from '../../../../../assets/emoji/thumbsup.svg';
+import Speaker from '../../../../../assets/emoji/speaker.svg';
+import ThumbsUp from '../../../../../assets/emoji/thumbsup.svg';
 import { hashTagID } from '../../../../../api/schema';
+import { DanceClass } from '../../../../../types/ClassInterface';
 
-const Detail = ({ classData }) => {
-  const getYoutubeEmbedUrl = (link) => {
+interface DetailTabProps {
+  classData: DanceClass | null;
+}
+
+const DetailTab = ({ classData }: DetailTabProps) => {
+  const getYoutubeEmbedUrl = (link: string) => {
     const match = link.match(
-      /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/live\/)([\w-]{11})/
+      /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/live\/)([\w-]{11})/
     );
     return match ? `https://www.youtube.com/embed/${match[1]}` : '';
   };
@@ -16,21 +20,17 @@ const Detail = ({ classData }) => {
   return (
     <Container>
       <Video>
-        {(classData.details?.videoUrl &&
-          classData.details?.videoUrl.includes('youtube.com')) ||
-        classData.details?.videoUrl.includes('youtu.be') ? (
+        {(classData?.details.videoUrl &&
+          classData?.details.videoUrl.includes('youtube.com')) ||
+        classData?.details.videoUrl.includes('youtu.be') ? (
           <Iframe
-            src={getYoutubeEmbedUrl(classData.details?.videoUrl)}
+            src={getYoutubeEmbedUrl(classData?.details.videoUrl)}
             title="YouTube Video"
             allowFullScreen
           />
         ) : (
-          classData.details?.videoUrl && (
-            <video
-              src={classData.details?.videoUrl}
-              alt={`${classData.dancer?.name}의 ${classData?.className}> 수업 영상`}
-              controls
-            />
+          classData?.details.videoUrl && (
+            <video src={classData?.details.videoUrl} controls />
           )
         )}
       </Video>
@@ -41,7 +41,7 @@ const Detail = ({ classData }) => {
           </Emoji>
           수업 소개
         </Title>
-        <Text>{classData.details?.description}</Text>
+        <Text>{classData?.details.description}</Text>
       </Section>
       <Section>
         <Title>
@@ -50,9 +50,9 @@ const Detail = ({ classData }) => {
           </Emoji>
           이 수업은 이런 분들에게 추천해요!
         </Title>
-        <Text>{classData.details?.targetAudience}</Text>
+        <Text>{classData?.details.targetAudience}</Text>
         <Tags>
-          {classData.details?.hashtags.map((tag) => {
+          {classData?.details.hashtags.map((tag) => {
             const tagName = hashTagID.find(
               (t) => Number(t.id) === tag
             )?.hashTag;
@@ -63,13 +63,13 @@ const Detail = ({ classData }) => {
       <Section>
         <Title>수업 사진</Title>
         <Images>
-          {classData.details?.danceClassImages[0] === '' ? (
+          {classData?.details.danceClassImages[0] === '' ? (
             <Image
               src={classData.dancer?.profileImage}
               alt={`dancer profile of class #${classData?.id}`}
             />
           ) : (
-            classData.details?.danceClassImages.map(
+            classData?.details.danceClassImages.map(
               (image, index) =>
                 image && (
                   <Image key={index} src={image} alt={`class #${index}`} />
@@ -79,15 +79,15 @@ const Detail = ({ classData }) => {
         </Images>
       </Section>
       <Section>
-        <MoreAboutDancer to={`/dancerprofile/${classData.details?.dancerId}`}>
-          {classData.dancer?.name} 댄서에 대해 더 알고싶다면?
+        <MoreAboutDancer to={`/dancerprofile/${classData?.details.dancerId}`}>
+          {classData?.dancer.name} 댄서에 대해 더 알고싶다면?
         </MoreAboutDancer>
       </Section>
     </Container>
   );
 };
 
-export default Detail;
+export default DetailTab;
 
 const Container = styled.div`
   display: flex;
@@ -194,7 +194,6 @@ const MoreAboutDancer = styled(Link)`
   height: 60px;
   text-decoration-line: none;
   border-radius: 15px;
-  border: 2px solid var(--main_white, #fff);
   background: var(--main_purple, #9819c3);
 
   color: var(--main_white, #fff);

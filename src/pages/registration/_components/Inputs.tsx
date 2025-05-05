@@ -1,23 +1,30 @@
-import React from 'react';
 import styled from 'styled-components';
+import { addPostposition } from '@/utils/format';
 
-// 은/는 처리 함수
-const addPostposition = (word) => {
-  const hasJongseong = (word) => {
-    const lastChar = word[word.length - 1];
-    const code = lastChar.charCodeAt(0);
-    return (code - 0xac00) % 28 !== 0;
-  };
-  return hasJongseong(word) ? `${word}은` : `${word}는`;
-};
+interface BaseInputProps<T extends HTMLInputElement | HTMLTextAreaElement> {
+  label?: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<T>) => void;
+  placeholder?: string;
+  maxLength?: number;
+}
 
-const Input = ({ label, value, onChange, placeholder, maxLength }) => {
+type InputProps = BaseInputProps<HTMLInputElement>;
+type TextareaProps = BaseInputProps<HTMLTextAreaElement>;
+
+const Input = ({
+  label,
+  value,
+  onChange,
+  placeholder,
+  maxLength
+}: InputProps) => {
   const isExeedingMaxLength = maxLength && value.length > maxLength;
 
   return (
     <Container>
       <InputBox value={value} onChange={onChange} placeholder={placeholder} />
-      {isExeedingMaxLength && (
+      {isExeedingMaxLength && label && (
         <WarningMessage>
           {addPostposition(label)} 최대 {maxLength}자까지 입력 가능합니다.
         </WarningMessage>
@@ -26,7 +33,13 @@ const Input = ({ label, value, onChange, placeholder, maxLength }) => {
   );
 };
 
-const Textarea = ({ label, value, onChange, placeholder, maxLength }) => {
+const Textarea = ({
+  label,
+  value,
+  onChange,
+  placeholder,
+  maxLength
+}: TextareaProps) => {
   const isExeedingMaxLength = maxLength && value.length > maxLength;
 
   return (
@@ -36,7 +49,7 @@ const Textarea = ({ label, value, onChange, placeholder, maxLength }) => {
         onChange={onChange}
         placeholder={placeholder}
       />
-      {isExeedingMaxLength && (
+      {isExeedingMaxLength && label && (
         <WarningMessage>
           {addPostposition(label)} 최대 {maxLength}자까지 입력 가능합니다.
         </WarningMessage>
@@ -45,7 +58,7 @@ const Textarea = ({ label, value, onChange, placeholder, maxLength }) => {
   );
 };
 
-const UrlInput = ({ value, onChange, placeholder }) => {
+const UrlInput = ({ value, onChange, placeholder }: InputProps) => {
   return (
     <ShortContainer>
       <Label>URL</Label>
@@ -78,6 +91,7 @@ const InputBox = styled.input`
   font-style: normal;
   font-weight: 300;
   line-height: normal;
+  transition: all 0.3s ease-in-out;
 
   &:hover {
     border: 1px solid var(--main_purple, #9819c3);
@@ -103,6 +117,8 @@ const TextareaBox = styled.textarea`
   font-style: normal;
   font-weight: 300;
   line-height: normal;
+  transition: all 0.3s ease-in-out;
+  resize: none;
 
   &:hover {
     border: 1px solid var(--main_purple, #9819c3);

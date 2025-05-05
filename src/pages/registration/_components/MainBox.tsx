@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-const MainBox = ({ label }) => {
+const MainBox = ({ label }: { label: string }) => {
   // label에 따라 left 값 다르게 계산
-  const calLeftPosition = (label) => {
+  const calLeftPosition = (label: string) => {
     switch (label) {
       case 'Profile':
         return '61px';
@@ -34,7 +34,7 @@ const Outline = styled.div`
   border-radius: 7px;
   border: 2px solid var(--main_magenta, #a60f62);
 `;
-const Label = styled.div`
+const Label = styled.div<{ $left: string }>`
   position: absolute;
   top: 214px;
   left: ${({ $left }) => $left};

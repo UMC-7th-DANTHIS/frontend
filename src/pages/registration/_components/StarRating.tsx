@@ -1,11 +1,12 @@
 import styled from 'styled-components';
-import { ReactComponent as StarFilled } from '../../../assets/buttons/starlevel_filled.svg';
-import { ReactComponent as StarNonfilled } from '../../../assets/buttons/starlevel_nonfilled.svg';
+import StarFilled from '../../../assets/buttons/starlevel_filled.svg';
+import StarNonfilled from '../../../assets/buttons/starlevel_nonfilled.svg';
+import { StarRatingProps } from '../../../types/RegisterFormInterface';
 
-const StarRating = ({ label, value, handleFormChange }) => {
+const StarRating = ({ value, handleFormChange }: StarRatingProps) => {
   const totalStars = 5;
 
-  const handleSelect = (index) => {
+  const handleSelect = (index: number) => {
     // 클릭한 별이 현재 level과 같으면 선택 해제,
     // 아니면 선택
     const newValue = index + 1 === value ? index : index + 1;
