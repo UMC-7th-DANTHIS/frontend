@@ -25,7 +25,7 @@ const Signup2 = () =>{
   const [uploadedImage, setUploadedImage] = useState<string | null>(null); // 업로드된 이미지
   const [errorMessage, setErrorMessage] = useState("");
   const [phoneError, setPhoneError] = useState("");
-  const [user, setUser] = useState<UserType|null(null);
+  const [user, setUser] = useState<UserType | null>(null);
   const [showAlert, setShowAlert] = useState(false);
 
   const handleNicknameCheck = async () => {
@@ -52,7 +52,7 @@ const Signup2 = () =>{
   
 
    // 닉네임 유효성 검사 함수
-   const validateNickname = (value) => {
+   const validateNickname = (value:string):string => {
     if (value.length === 0) {
       return "닉네임은 최소 1자 이상 입력해야 합니다.";
     }
@@ -339,7 +339,7 @@ const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
           mariginsize="25px"
           ContainerWidth="280px"
           ContainerHeight="108px"
-          marginsize="24px"
+          //marginsize="24px"
           AlertWidth="392px"
           AlertHeight="260px"
           showButtons={true}

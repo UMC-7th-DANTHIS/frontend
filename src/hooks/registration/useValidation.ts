@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
-import { DancerFormState, ClassFormState } from '@/types/RegisterFormInterface';
+import {
+  DancerFormState,
+  ClassFormState
+} from '../../types/RegisterFormInterface';
 
 type FormState = DancerFormState | ClassFormState;
 type FormType = 'class' | 'dancer';

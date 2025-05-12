@@ -15,9 +15,9 @@ interface ClassTabProps {
   classes: DanceClassType[];
 }
 
-const ClassTab: React.FC = () => {
+const ClassTab: React.FC<ClassTabProps> = ({ classes: initialClasses }) => {
   const {dancerId} = useParams<{dancerId: string}>();
-  const [classes, setClasses] = useState<DanceClassType[]>([]); // 수업 데이터
+  const [classes, setClasses] = useState<DanceClassType[]>(initialClasses); // 수업 데이터
   const [currentPage, setCurrentPage] = useState<number>(1); // 현재 페이지
   const [totalPages, setTotalPages] = useState<number>(1); // 전체 페이지 수
   const [totalElements, setTotalElements] = useState<number>(0); // 전체 요소 개수 상태 추가

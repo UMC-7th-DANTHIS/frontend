@@ -8,17 +8,13 @@ import Searchicon from '../../assets/searchicon.svg';
 import Overlay from './components/Overlay';
 import Close from '../../assets/buttons/close.svg';
 import api from '../../api/api';
+import type {DancerType} from "./components/Overlay"
 
 interface Genre {
   id: number;
   name: string;
 }
 
-interface Dancer {
-  id: number;
-  name: string;
-  image: string;
-}
 
 interface Signup2Data {
   nickname: string;
@@ -34,9 +30,9 @@ const Signup3 = () => {
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
   const [signup2Data, setSignup2Data] = useState<Signup2Data | null>(null); // Signup2에서 가져온 데이터 상태
   const [favoriteDancer, setFavoriteDancer] = useState<string>('');
-  const [searchResults, setSearchResults] = useState<Dancer[]>([]);
+  const [searchResults, setSearchResults] = useState<DancerType[]>([]);
   const [isOverlayOpen, setIsOverlayOpen] = useState<boolean>(false); // Overlay 상태 추가
-  const [selectedDancers, setSelectedDancers] = useState<Dancer[]>([]); // 선택된 댄서 상태
+  const [selectedDancers, setSelectedDancers] = useState<DancerType[]>([]); // 선택된 댄서 상태
 
   const genres = [
     { id: 1, name: '힙합' },
@@ -60,7 +56,7 @@ const Signup3 = () => {
     );
   };
 
-  const addDancer = (user: Dancer) => {
+  const addDancer = (user: DancerType) => {
     if (!selectedDancers.some((dancer) => dancer.id === user.id)) {
       setSelectedDancers([...selectedDancers, user]);
     }

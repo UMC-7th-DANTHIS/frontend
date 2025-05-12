@@ -3,13 +3,13 @@ import styled from 'styled-components';
 //import SampleImage from '../../../assets/image.png';
 import { ReactComponent as PlusButton } from '../../../assets/buttons/plus-button.svg';
 
-type DancerType = {
+export type DancerType = {
   id: number;
   name: string;
   image?: string;
 };
 
-interface UserOverlayProps {
+interface OverlayProps {
   onclose: () => void;
   onSelectUser: (user: DancerType) => void;
   searchResults: DancerType[];
@@ -21,7 +21,7 @@ interface IsLastProp {
 }
 
 
-const UserOverlay : React.FC<UserOverlayProps> = ({ onclose, onSelectUser, searchResults }) => {
+const Overlay : React.FC<OverlayProps> = ({ onclose, onSelectUser, searchResults }) => {
     console.log("Received searchResults in UserOverlay:", searchResults);
     const dummyData = [
         { id: 1, username: '써sk', images: ['https://via.placeholder.com/50'] },
@@ -71,7 +71,8 @@ const UserOverlay : React.FC<UserOverlayProps> = ({ onclose, onSelectUser, searc
   );
 };
 
-export default UserOverlay;
+export default Overlay;
+
 
 const Container = styled.div`
   position: fixed;

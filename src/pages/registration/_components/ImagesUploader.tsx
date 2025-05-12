@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import PictureIcon from '../../../assets/picture.svg';
-import EditIcon from '../../../assets/shape/write.svg';
-import DeleteIcon from '../../../assets/shape/trash.svg';
+import { ReactComponent as PictureIcon } from '../../../assets/picture.svg';
+import { ReactComponent as EditIcon } from '../../../assets/shape/write.svg';
+import { ReactComponent as DeleteIcon } from '../../../assets/shape/trash.svg';
 
 import {
   DancerFormState,

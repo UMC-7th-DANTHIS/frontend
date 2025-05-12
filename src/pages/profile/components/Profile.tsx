@@ -29,6 +29,7 @@ type GenreType = {
 const Profile: React.FC<ProfileProps> = ({ dancer }) => {
   const [isLiked, setIsLiked] = useState<boolean | null>(null);
   const { dancerId } = useParams<{dancerId: string}>();
+  const isLoggedIn = !!localStorage.getItem('accessToken'); // 로그인 상태 확인
 
   const genres: GenreType[] = [
     { id: 1, name: '힙합' },
@@ -107,7 +108,7 @@ const Profile: React.FC<ProfileProps> = ({ dancer }) => {
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         console.error(
-          '채팅 신청청 중 오류 발생:',
+          '채팅 신청 중 오류 발생:',
           error.response?.data || error.message
         );
       } else {
@@ -144,11 +145,16 @@ const Profile: React.FC<ProfileProps> = ({ dancer }) => {
           <Content>{formatIntroduce(dancer.bio)}</Content>
         </InfoContainer>
         <ButtonContainer>
+          {isLoggedIn && (
+          <>
           <ChatButton onClick={handleChatClick}>댄서와 1:1 채팅하기</ChatButton>
           <LikeButton isLiked={isLiked} onClick={handleLikeClick}>
             {isLiked ? '찜 취소하기' : '댄서 찜해놓기'}
           </LikeButton>
+           </>
+          )}
         </ButtonContainer>
+       
       </ProfileContainer>
     </Layout>
   );
