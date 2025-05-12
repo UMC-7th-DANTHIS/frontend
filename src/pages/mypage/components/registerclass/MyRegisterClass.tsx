@@ -156,7 +156,7 @@ const MyRegisterClass = () => {
           </ClassContainer>
           <PaginationContainer>
             <Pagination
-              dataLength={data?.length}
+              dataLength={data?.length ?? 0}
               perData={perData}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}

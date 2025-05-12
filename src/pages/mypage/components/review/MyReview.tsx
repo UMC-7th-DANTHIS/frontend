@@ -63,16 +63,16 @@ const MyReview = () => {
     });
   };
 
-  const classList = Array.isArray(data?.classlist) ? data.classlist : [];
+  const classList = Array.isArray(data?.classlist) ? data?.classlist : [];
 
   return (
     <>
-      {classList.length === 0 ? (
+      {classList?.length === 0 ? (
         <NoClassMessage>수강한 수업이 없습니다.</NoClassMessage>
       ) : (
         <>
           <ClassContainer>
-            {classList.map((danceClass) => (
+            {classList?.map((danceClass) => (
               <ClassList key={danceClass.id}>
                 <Image
                   src={danceClass.thumbnailImage}
@@ -86,7 +86,7 @@ const MyReview = () => {
           </ClassContainer>
           <PaginationContainer>
             <Pagination
-              dataLength={data?.totalElements}
+              dataLength={data?.totalElements ?? 0}
               perData={perData}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
