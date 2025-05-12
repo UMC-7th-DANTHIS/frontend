@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import dummyClasses from '../../../store/reservation/dummyClasses';
 //import { ReactComponent as Line } from '../../../assets/shape/line.svg';
 import { ReactComponent as FocusedCircle } from '../../../assets/shape/focusedcircle.svg';
 import Pagination from '../../../components/Pagination';
