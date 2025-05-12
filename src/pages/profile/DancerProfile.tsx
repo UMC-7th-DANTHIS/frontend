@@ -5,7 +5,7 @@ import Profile from './components/Profile';
 import IntroduceTab from './components/IntroduceTab';
 import ClassTab from './components/ClassTab';
 import api from '../../api/api';
-import dummyClasses from '../../store/reservation/dummyClasses';
+
 
 type DancerType={
   id: number;
