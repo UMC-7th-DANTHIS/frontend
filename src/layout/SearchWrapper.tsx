@@ -32,6 +32,8 @@ const SearchWrapper = () => {
   if (select === 'posts') {
     return <SearchCommunity query={query} select={select} />;
   }
+
+  return <div>잘못된 경로입니다.</div>;
 };
 
 export default SearchWrapper;
