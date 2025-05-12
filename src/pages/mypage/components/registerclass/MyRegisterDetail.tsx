@@ -35,13 +35,13 @@ interface BookingUserResponse {
   totalElements: number;
 }
 
-const MyRegisterDetail = ({ classId }: DetailProps) => {
+const MyRegisterDetail = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [showRegisterUser, setShowRegisterUser] = useState(false);
   const [currentComponent, setCurrentComponent] = useState<'detail' | 'list'>(
     'detail'
   );
-  // const { classId } = useParams<{ classId: string }>();
+  const { classId } = useParams<{ classId: string }>();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const perData = 5;
   const navigate = useNavigate();
