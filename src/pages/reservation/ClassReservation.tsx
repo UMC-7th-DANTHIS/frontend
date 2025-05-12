@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo, useRef } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
-import FocusedCircle from '../../assets/shape/focusedcircle.svg';
+import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
 import Level from './_components/Level';
 import DetailTab from './_components/tabs/detail/DetailTab';
 import ReviewTab from './_components/tabs/review/ReviewTab';

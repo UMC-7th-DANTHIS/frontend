@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { UrlInput } from './Inputs';
-import VideoIcon from '../../../assets/video.svg';
-import DeleteIcon from '../../../assets/shape/trash.svg';
+import { ReactComponent as VideoIcon } from '../../../assets/video.svg';
+import { ReactComponent as DeleteIcon } from '../../../assets/shape/trash.svg';
 import { VideoUplodaerProps } from '../../../types/RegisterFormInterface';
 import useVideoPresignedUrl from '../../../hooks/registration/useVideoPresignedUrl';
 import useUploadToS3 from '../../../hooks/registration/useUploadToS3';

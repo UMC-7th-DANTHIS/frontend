@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import StarFilled from '../../../assets/buttons/starlevel_filled.svg';
-import StarNonfilled from '../../../assets/buttons/starlevel_nonfilled.svg';
+import { ReactComponent as StarFilled } from '../../../assets/buttons/starlevel_filled.svg';
+import { ReactComponent as StarNonfilled } from '../../../assets/buttons/starlevel_nonfilled.svg';
 import { StarRatingProps } from '../../../types/RegisterFormInterface';
 
 const StarRating = ({ value, handleFormChange }: StarRatingProps) => {
