@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import formatDate from '../../api/formatDate';
-import useGetCommunity from '@/hooks/useGetCommunity';
+import useGetCommunity from '../../hooks/useGetCommunity';
 
 import ImageDescript from '../../assets/Search/imageDescript.svg';
 import CommentPhoto from '../../assets/Community/CommentPhoto.svg';
