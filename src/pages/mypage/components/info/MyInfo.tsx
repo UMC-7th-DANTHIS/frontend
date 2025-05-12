@@ -84,7 +84,7 @@ const MyInfo = () => {
                 </span>
               }
               onClose={handleLogoutConfirm}
-              mariginsize="45px"
+              marginsize="45px"
               ContainerWidth="280px"
               ContainerHeight="108px"
               AlertWidth="392px"
