@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MypageGenre from '../MypageGenre';
 import api from '../../../../api/api';
-import ImagesUploader from '../../../registration/components/ImagesUploader';
 import NoUser from './NoUser';
 import ConfirmLeaveAlert from '../../../../components/ConfirmLeaveAlert';
 import useConfirmLeave from '../../../../hooks/useConfirmLeave';
 import SingleBtnAlert from '../../../../components/SingleBtnAlert';
+import ImagesUploader from '../../../../pages/registration/_components/ImagesUploader';
 
 interface FormState {
   name: string;
@@ -209,7 +209,9 @@ const ProfileDancer = () => {
             </OpenChatItemContainer>
             <ImagesUploader
               isFor="dancer"
-              images={getPreview(formState.dancerImages)}
+              images={getPreview(formState.dancerImages).filter(
+                (v): v is string => v !== undefined
+              )}
               handleFormChange={handleFormChange}
             />
           </DancerPictureContainer>

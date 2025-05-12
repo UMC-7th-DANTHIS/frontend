@@ -1,17 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import SampleImage from '../assets/image.png';
 import { ReactComponent as PlusButton } from '../assets/buttons/plus-button.svg';
 import api from '../api/api';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-const UserOverlay = ({ onclose, classId }) => {
-  const [currentPage, setCurrentPage] = useState(1);
+interface User {
+  userId: number;
+  nickname: string;
+  profileImage: string | null;
+  isApproved: boolean;
+}
+
+interface FetchUsersResponse {
+  users: User[];
+  totalElements: number;
+}
+
+interface UserOverlayProps {
+  onclose: () => void;
+  classId: string;
+}
+
+const UserOverlay: React.FC<UserOverlayProps> = ({ onclose, classId }) => {
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const perData = 5;
   const navigate = useNavigate();
 
-  const fetchEligibleUsers = async (currentPage, perData, classId) => {
+  const fetchEligibleUsers = async (
+    currentPage: number,
+    perData: number,
+    classId: string
+  ): Promise<FetchUsersResponse> => {
     const token = localStorage.getItem('token');
     const response = await api.get(`/dance-classes/${classId}/eligible-users`, {
       headers: { Authorization: `Bearer ${token}` },
@@ -22,8 +42,8 @@ const UserOverlay = ({ onclose, classId }) => {
     });
 
     return {
-      users: response.data.data.users || [],
-      totalElements: response.data.data.totalUsers || 0
+      users: response.data?.data?.users || [],
+      totalElements: response.data?.data?.totalUsers || 0
     };
   };
 
@@ -31,7 +51,7 @@ const UserOverlay = ({ onclose, classId }) => {
     data: eligibleUsers,
     isLoading,
     isError
-  } = useQuery({
+  } = useQuery<FetchUsersResponse>({
     queryKey: ['eligibleUsers', classId, currentPage, perData],
     queryFn: () => fetchEligibleUsers(currentPage, perData, classId)
   });
@@ -40,11 +60,14 @@ const UserOverlay = ({ onclose, classId }) => {
     return <div>Loading...</div>;
   }
 
-  if (isError) {
+  if (isError || !eligibleUsers) {
     return <div>Error loading data</div>;
   }
 
-  const handlePlusButtonClick = async (userId, currentApprovalStatus) => {
+  const handlePlusButtonClick = async (
+    userId: number,
+    currentApprovalStatus: boolean
+  ) => {
     if (currentApprovalStatus) return;
 
     const token = localStorage.getItem('token');
@@ -77,13 +100,10 @@ const UserOverlay = ({ onclose, classId }) => {
     <Container>
       <AllContainer onClick={onclose}>
         <ScrollableContainer>
-          <ImageContainer totalUsers={eligibleUsers?.totalElements}>
-            {sortedUsers.map((user, id) => (
+          <ImageContainer>
+            {sortedUsers.map((user) => (
               <ImageList key={user.userId}>
-                <ListImage
-                  src={user.profileImage || SampleImage}
-                  alt={'userImage'}
-                />
+                <ListImage src={user.profileImage || ''} alt={'userImage'} />
                 <UserName isApproved={user.isApproved}>
                   {user.nickname}
                 </UserName>
@@ -176,7 +196,7 @@ const ListImage = styled.img`
   object-fit: cover;
 `;
 
-const UserName = styled.div`
+const UserName = styled.div<{ isApproved: boolean }>`
   font-size: 20px;
   color: ${({ isApproved }) => (isApproved ? '#4D4D4D' : '#fff')};
   margin-left: 22px;
@@ -184,7 +204,7 @@ const UserName = styled.div`
   line-height: 1.5;
 `;
 
-const Icon = styled.div`
+const Icon = styled.div<{ isApproved: boolean; disabled: boolean }>`
   margin-left: auto;
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   display: flex;
