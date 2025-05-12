@@ -14,7 +14,7 @@ import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
 
 interface DetailProps {
-  classId: number;
+  classId: string;
 }
 
 interface RegisterDetailProps {

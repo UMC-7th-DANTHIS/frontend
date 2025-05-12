@@ -164,7 +164,7 @@ const MyRegisterClass = () => {
           </PaginationContainer>
         </>
       ) : (
-        <MyRegisterDetail classId={selectedClass} />
+        <MyRegisterDetail classId={String(selectedClass)} />
       )}
     </PageWrapper>
   );
