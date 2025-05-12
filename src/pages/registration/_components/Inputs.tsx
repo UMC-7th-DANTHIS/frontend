@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { addPostposition } from '@/utils/format';
+import { addPostposition } from '../../../utils/format';
 
 interface BaseInputProps<T extends HTMLInputElement | HTMLTextAreaElement> {
   label?: string;

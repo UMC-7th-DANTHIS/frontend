@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import EditIcon from '../../assets/shape/write.svg';
-import DeleteIcon from '../../assets/shape/trash.svg';
-import Siren from '../../assets/Community/SirenButton.svg';
+import { ReactComponent as EditIcon } from '../../assets/shape/write.svg';
+import { ReactComponent as DeleteIcon } from '../../assets/shape/trash.svg';
+import { ReactComponent as Siren } from '../../assets/Community/SirenButton.svg';
 import ConfirmDeleteAlert from '../../components/ConfirmDelete';
 import ImageModal from './_components/ImageModal';
 import formatDate from '../../api/formatDate';

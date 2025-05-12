@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Speaker from '../../../../../assets/emoji/speaker.svg';
-import ThumbsUp from '../../../../../assets/emoji/thumbsup.svg';
+import { ReactComponent as Speaker } from '../../../../../assets/emoji/speaker.svg';
+import { ReactComponent as ThumbsUp } from '../../../../../assets/emoji/thumbsup.svg';
 import { hashTagID } from '../../../../../api/schema';
 import { DanceClass } from '../../../../../types/ClassInterface';
 

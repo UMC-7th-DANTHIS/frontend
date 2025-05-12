@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
-import Check from '../../../assets/check.svg';
+import { ReactComponent as Check } from '../../../assets/check.svg';
 import { useNavigate } from 'react-router-dom';
 
 const RegisterComplete = ({
