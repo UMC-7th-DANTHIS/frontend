@@ -8,7 +8,7 @@ import ReviewTab from './_components/tabs/review/ReviewTab';
 import RatingTab from './_components/tabs/rating/RatingTab';
 import { DanceGenre } from '../../api/schema';
 import { DanceClass, LikedDanceClass } from '../../types/ClassInterface';
-import { formatPrice } from '@/utils/format';
+import { formatPrice } from '../../utils/format';
 import useFetchData from '../../hooks/useFetchData';
 import axiosInstance from '../../api/axios-instance';
 
