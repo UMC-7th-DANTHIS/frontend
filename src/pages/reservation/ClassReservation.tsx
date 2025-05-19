@@ -7,7 +7,7 @@ import DetailTab from './_components/tabs/detail/DetailTab';
 import ReviewTab from './_components/tabs/review/ReviewTab';
 import RatingTab from './_components/tabs/rating/RatingTab';
 import { DanceGenre } from '../../api/schema';
-import { DanceClass, LikedDanceClass } from '../../types/ClassInterface';
+import { DanceClass, LikedDanceClass } from '../../types/reservation';
 import { formatPrice } from '../../utils/format';
 import useFetchData from '../../hooks/useFetchData';
 import axiosInstance from '../../api/axios-instance';
@@ -39,9 +39,7 @@ const ClassReservation = () => {
 
     const fetchLikedData = async () => {
       const response = await fetchLiked(`/users/wishlists`);
-      response.data.data?.danceClasses.find(
-        (cls: LikedDanceClass) => cls.id === Number(classId) && setIsLiked(true)
-      );
+      response.data.data?.danceClasses.find((cls: LikedDanceClass) => cls.id === Number(classId) && setIsLiked(true));
     };
 
     fetchClassData();
@@ -64,9 +62,7 @@ const ClassReservation = () => {
   const handleChatClick = () => {
     const startChat = async () => {
       try {
-        const response = await axiosInstance.post(
-          `/chats/${classData?.details.dancerId}/start`
-        );
+        const response = await axiosInstance.post(`/chats/${classData?.details.dancerId}/start`);
         window.open(response.data.data?.openChatUrl);
       } catch (error) {
         console.error('❌ 1:1 채팅 신청 중 오류 발생:', error);
@@ -109,16 +105,10 @@ const ClassReservation = () => {
         <Title>{classData?.className}</Title>
       </TitleWrapper>
       <Summary>
-        <Image
-          src={classData?.dancer?.profileImage}
-          alt={`dancer profile of class #${classData?.id}`}
-        />
+        <Image src={classData?.dancer?.profileImage} alt={`dancer profile of class #${classData?.id}`} />
         <InfoContainer>
           <Text>강사 : {classData?.dancer?.name}</Text>
-          <Text>
-            장르 :{' '}
-            {DanceGenre.find((g) => Number(g.id) === classData?.genre)?.Genre}
-          </Text>
+          <Text>장르 : {DanceGenre.find((g) => Number(g.id) === classData?.genre)?.Genre}</Text>
           <Text>가격 : {formatPrice(classData?.pricePerSession)}원 / 회당</Text>
           <Level level={classData?.difficulty} />
         </InfoContainer>
@@ -126,22 +116,14 @@ const ClassReservation = () => {
           <ChatBtn type="button" onClick={() => handleChatClick()}>
             댄서와 1:1 채팅하기
           </ChatBtn>
-          <LikeBtn
-            type="button"
-            onClick={() => handleLikeClick()}
-            $isLiked={isLiked}
-          >
+          <LikeBtn type="button" onClick={() => handleLikeClick()} $isLiked={isLiked}>
             {isLiked ? '찜한 수업 취소하기' : '수업 찜해놓기'}
           </LikeBtn>
         </BtnContainer>
       </Summary>
       <Tabs ref={tabRef}>
         {tab.map((element, index) => (
-          <Tab
-            key={index}
-            $isActive={currentTab === index}
-            onClick={() => handleTabChange(index)}
-          >
+          <Tab key={index} $isActive={currentTab === index} onClick={() => handleTabChange(index)}>
             {element.name}
           </Tab>
         ))}
@@ -229,10 +211,7 @@ const ChatBtn = styled.button`
   gap: 8px;
   border-radius: 68px;
   border: none;
-  background: var(
-    --main-gradation,
-    linear-gradient(90deg, #b30505 0%, #9819c3 100%)
-  );
+  background: var(--main-gradation, linear-gradient(90deg, #b30505 0%, #9819c3 100%));
 
   color: #fff;
   text-align: center;
@@ -258,8 +237,7 @@ const LikeBtn = styled.button<{ $isLiked: boolean }>`
   border: 4px solid var(--main_purple, #9819c3);
   background: ${({ $isLiked }) => ($isLiked === true ? '#FFF' : 'transparent')};
 
-  color: ${({ $isLiked }) =>
-    $isLiked === true ? 'var(--text_purple, #BF00FF)' : '#FFF'};
+  color: ${({ $isLiked }) => ($isLiked === true ? 'var(--text_purple, #BF00FF)' : '#FFF')};
   text-align: center;
   font-family: Pretendard;
   font-size: 24px;

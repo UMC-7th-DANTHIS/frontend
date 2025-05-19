@@ -13,7 +13,7 @@ import FormAlert from '../_components/FormAlert';
 
 import useConfirmLeave from '../../../hooks/useConfirmLeave';
 import api from '../../../api/api';
-import { ClassFormState } from '../../../types/RegisterFormInterface';
+import { ClassFormState } from '../../../types/registration';
 import useValidation from '../../../hooks/useValidation';
 import { IS_FOR } from '../../../enum/registration';
 import { updateClass } from '../../../api/registration';

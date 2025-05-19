@@ -4,7 +4,7 @@ import { ReactComponent as StarFilled } from '../../../../../assets/shape/filled
 import { ReactComponent as StarNonfilled } from '../../../../../assets/shape/nonfilledYellowStar.svg';
 import { ReactComponent as GotoIcon } from '../../../../../assets/shape/gotoicon.svg';
 import formatDate from '../../../../../api/formatDate';
-import { ClassReview } from '../../../../../types/ClassInterface';
+import { ClassReview } from '../../../../../types/reservation';
 
 interface ReviewProps {
   review: ClassReview;
@@ -50,17 +50,11 @@ const Review = ({ review, classId, page }: ReviewProps) => {
         <GotoIcon />
       </ViewDetailButton>
 
-      <Detail>
-        {review.content?.length > 680
-          ? `${review.content.slice(0, 680)} ...`
-          : review.content}
-      </Detail>
+      <Detail>{review.content?.length > 680 ? `${review.content.slice(0, 680)} ...` : review.content}</Detail>
       {review.reviewImages && (
         <Images>
           {review.reviewImages.map((image, index) => (
-            <Image key={index}>
-              {image && <img src={image} alt={`review #${index}`} />}
-            </Image>
+            <Image key={index}>{image && <img src={image} alt={`review #${index}`} />}</Image>
           ))}
         </Images>
       )}

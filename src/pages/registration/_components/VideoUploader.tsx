@@ -5,7 +5,7 @@ import { ReactComponent as VideoIcon } from '../../../assets/video.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/shape/trash.svg';
 import { UrlInput } from './Inputs';
 
-import { ClassFormState, HandleFormChange } from '../../../types/RegisterFormInterface';
+import { ClassFormState, HandleFormChange } from '../../../types/registration';
 import { getVideoPresignedUrl, uploadToS3 } from '../../../api/registration';
 
 interface VideoUplodaerProps {

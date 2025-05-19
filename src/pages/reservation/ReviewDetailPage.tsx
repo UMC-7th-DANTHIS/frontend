@@ -8,7 +8,7 @@ import ConfirmDeleteAlert from '../../components/ConfirmDelete';
 import ImageModal from './_components/ImageModal';
 import formatDate from '../../api/formatDate';
 import useFetchData from '../../hooks/useFetchData';
-import { SingleReview, User } from '../../types/ClassInterface';
+import { SingleReview, User } from '../../types/reservation';
 import axiosInstance from '../../api/axios-instance';
 
 const ReviewDetailPage = () => {
@@ -43,9 +43,7 @@ const ReviewDetailPage = () => {
 
   const deleteReview = async () => {
     try {
-      await axiosInstance.delete(
-        `/dance-classes/${classId}/reviews/${reviewId}`
-      );
+      await axiosInstance.delete(`/dance-classes/${classId}/reviews/${reviewId}`);
 
       navigate(`/classreservation/${classId}?tab=reviews`, {
         state: { fromReviewDetail: true, page } // 페이지네이션 정보 재전달
@@ -91,9 +89,7 @@ const ReviewDetailPage = () => {
           </Button>
         )}
         <Writer>
-          {data && (
-            <InfoText>작성일 : {formatDate(data.createdAt, 1)}</InfoText>
-          )}
+          {data && <InfoText>작성일 : {formatDate(data.createdAt, 1)}</InfoText>}
           <InfoText>작성자 : {data?.author}</InfoText>
         </Writer>
       </InfoWrapper>
@@ -103,18 +99,8 @@ const ReviewDetailPage = () => {
           {data?.reviewImages &&
             data?.reviewImages.map((image, index) => (
               <React.Fragment key={index}>
-                <Image
-                  src={image}
-                  alt={`review ${data?.reviewId} #${index}`}
-                  onClick={() => handleOpenModal(index)}
-                />
-                {isModalOpen[index] && (
-                  <ImageModal
-                    imgUrl={image}
-                    setIsModalOpen={setIsModalOpen}
-                    index={index}
-                  />
-                )}
+                <Image src={image} alt={`review ${data?.reviewId} #${index}`} onClick={() => handleOpenModal(index)} />
+                {isModalOpen[index] && <ImageModal imgUrl={image} setIsModalOpen={setIsModalOpen} index={index} />}
               </React.Fragment>
             ))}
         </ImagesContainer>

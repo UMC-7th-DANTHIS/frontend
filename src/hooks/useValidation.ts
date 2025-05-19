@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { DancerFormState, ClassFormState } from '../types/RegisterFormInterface';
+import { DancerFormState, ClassFormState } from '../types/registration';
 import { IS_FOR } from '../enum/registration';
 
 type FormState = DancerFormState | ClassFormState;

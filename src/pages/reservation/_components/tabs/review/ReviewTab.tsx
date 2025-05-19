@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Review from './Review';
 import Pagination from '../../../../../components/Pagination';
 import useFetchData from '../../../../../hooks/useFetchData';
-import { ClassReviewList } from '../../../../../types/ClassInterface';
+import { ClassReviewList } from '../../../../../types/reservation';
 
 interface ReviewTabProps {
   tabRef: React.RefObject<HTMLDivElement | null>;
@@ -49,12 +49,7 @@ const ReviewTab = ({ tabRef }: ReviewTabProps) => {
       ) : (
         <>
           {data?.classReviews.map((review, index) => (
-            <Review
-              key={index}
-              review={review}
-              classId={data?.id}
-              page={data?.pagination.currentPage}
-            />
+            <Review key={index} review={review} classId={data?.id} page={data?.pagination.currentPage} />
           ))}
           {data?.pagination && (
             <Pagination

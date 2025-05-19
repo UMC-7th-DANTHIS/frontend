@@ -10,7 +10,7 @@ import SubmitButton from '../_components/SubmitButton';
 import TagSelector from '../_components/TagSelector';
 import FormAlert from '../_components/FormAlert';
 
-import { ClassFormState } from '../../../types/RegisterFormInterface';
+import { ClassFormState } from '../../../types/registration';
 import useConfirmLeave from '../../../hooks/useConfirmLeave';
 import useValidation from '../../../hooks/useValidation';
 import { postClass } from '../../../api/registration';

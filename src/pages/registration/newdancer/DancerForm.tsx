@@ -7,7 +7,7 @@ import ImagesUploader from '../_components/ImagesUploader';
 import SubmitButton from '../_components/SubmitButton';
 import FormAlert from '../_components/FormAlert';
 
-import { DancerFormState } from '../../../types/RegisterFormInterface';
+import { DancerFormState } from '../../../types/registration';
 import useConfirmLeave from '../../../hooks/useConfirmLeave';
 import useValidation from '../../../hooks/useValidation';
 import { postDancer } from '../../../api/registration';

@@ -1,19 +1,30 @@
-export interface Dancer {
+import { OffsetBasedResponse } from './common';
+
+export type SimpleDanceClass = {
+  id: number;
+  className: string;
+  dancerName: string;
+  thumbnailImage: string;
+};
+
+export type ResponseClasses = OffsetBasedResponse<SimpleDanceClass[], 'danceClasses'>;
+
+export type Dancer = {
   name: string;
   profileImage: string;
   openChatUrl: string;
-}
+};
 
-export interface ClassDetails {
+export type ClassDetails = {
   videoUrl: string;
   description: string;
   targetAudience: string;
   hashtags: number[];
   danceClassImages: string[];
   dancerId: number;
-}
+};
 
-export interface DanceClass {
+export type DanceClass = {
   id: number;
   className: string;
   dancer: Dancer;
@@ -21,18 +32,18 @@ export interface DanceClass {
   pricePerSession: number;
   difficulty: number;
   details: ClassDetails;
-}
+};
 
-export interface LikedDanceClass {
+export type LikedDanceClass = {
   id: number;
   className: string;
   dancerName: string;
   thumbnailImage: string;
   genre: string;
   hashtagIds: number[];
-}
+};
 
-export interface ClassReview {
+export type ClassReview = {
   id: number;
   author: string;
   authorProfileImage: string;
@@ -41,9 +52,9 @@ export interface ClassReview {
   rating: number;
   createdAt: string;
   reviewImages: string[];
-}
+};
 
-export interface ClassReviewList {
+export type ClassReviewList = {
   id: number;
   className: string;
   dancer: Dancer;
@@ -56,9 +67,9 @@ export interface ClassReviewList {
     totalPages: number;
     totalReviews: number;
   };
-}
+};
 
-export interface SingleReview {
+export type SingleReview = {
   reviewId: number;
   classId: number;
   title: string;
@@ -66,9 +77,9 @@ export interface SingleReview {
   author: string;
   createdAt: string;
   reviewImages: string[];
-}
+};
 
-export interface User {
+export type User = {
   nickname: string;
   gender?: string;
   email: string;
@@ -76,4 +87,4 @@ export interface User {
   profileImage: string;
   preferredGenres: number[];
   preferredDancers: number[];
-}
+};

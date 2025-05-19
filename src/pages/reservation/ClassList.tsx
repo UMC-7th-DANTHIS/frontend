@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -7,25 +7,14 @@ import Pagination from '../../components/Pagination';
 import LoadingSpinner from '../../components/LoadingSpinner';
 
 import { DanceGenre as genres } from '../../api/schema';
-import { AllClassData } from '../../types/MainInterface';
-import useFetchData from '../../hooks/useFetchData';
+import useGetClassList from '../../hooks/queries/useGetClassList';
 
 const ClassList = () => {
   const [selectedGenre, setSelectedGenre] = useState<string>(genres[0].id);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const perData: number = 9;
-  const { data, isLoading, fetchData } = useFetchData<AllClassData>();
+  const perclasses = 9;
 
-  useEffect(() => {
-    const fetchClasses = async () => {
-      await fetchData(
-        `/dance-classes/all?genre=${selectedGenre}&page=${currentPage}`
-      );
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-    };
-
-    fetchClasses();
-  }, [selectedGenre, currentPage, fetchData]);
+  const { data, isPending } = useGetClassList({ genre: Number(selectedGenre), page: currentPage });
 
   // 장르 선택 핸들러
   const handleGenreClick = (genre: string) => {
@@ -36,29 +25,23 @@ const ClassList = () => {
     <Container>
       <Sidebar>
         {genres.map((genre) => (
-          <GenreWrapper
-            key={genre.id}
-            onClick={() => handleGenreClick(genre.id)}
-          >
+          <GenreWrapper key={genre.id} onClick={() => handleGenreClick(genre.id)}>
             {selectedGenre === genre.id && <FocusedCircle />}
             <Genre $isActive={selectedGenre === genre.id}>{genre.Genre}</Genre>
           </GenreWrapper>
         ))}
       </Sidebar>
       <Line />
-      {isLoading ? (
+      {isPending ? (
         <LoadingContainer>
-          <LoadingSpinner isLoading={isLoading} />
+          <LoadingSpinner isLoading={isPending} />
         </LoadingContainer>
       ) : (
         <BoardContainer>
           <Classes>
-            {data?.danceClasses?.map((cls) => (
-              <Class to={`/classreservation/${cls.id}`} key={cls.id}>
-                <Image
-                  src={cls.thumbnailImage}
-                  alt={`class #${cls.id} thumbnail`}
-                />
+            {data?.danceClasses.map((cls) => (
+              <Class to={`/classreservation/${cls}`} key={cls.id}>
+                <Image src={cls.thumbnailImage} alt={`class #${cls.id} thumbnail`} />
                 <Title>{cls.className}</Title>
                 <Dancer>{cls.dancerName}</Dancer>
               </Class>
@@ -67,7 +50,7 @@ const ClassList = () => {
           {data && (
             <Pagination
               dataLength={data.totalElements}
-              perData={perData}
+              perData={perclasses}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
             />

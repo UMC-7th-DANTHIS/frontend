@@ -1,4 +1,4 @@
-import { ClassFormState, DancerFormState, ResponseClassForm, ResponseDancerForm } from '@/types/RegisterFormInterface';
+import { ClassFormState, DancerFormState, ResponseClassForm, ResponseDancerForm } from '@/types/registration';
 import axiosInstance from './axios-instance';
 
 export const postDancer = async (body: DancerFormState): Promise<ResponseDancerForm> => {

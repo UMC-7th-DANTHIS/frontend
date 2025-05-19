@@ -1,5 +1,7 @@
+import { CommonResponse } from './common';
+
 // 댄서 등록 폼
-export interface DancerFormState {
+export type DancerFormState = {
   dancerName: string;
   instargramId: string;
   openChatUrl: string;
@@ -7,14 +9,12 @@ export interface DancerFormState {
   history: string;
   preferredGenres: string[];
   dancerImages: string[];
-}
+};
 
-export interface ResponseDancerForm extends Response {
-  data: number;
-}
+export type ResponseDancerForm = CommonResponse<number>;
 
 // 수업 등록 폼
-export interface ClassFormState {
+export type ClassFormState = {
   className: string;
   pricePerSession: string | number;
   difficulty: number;
@@ -24,11 +24,9 @@ export interface ClassFormState {
   hashtags: number[];
   images: string[];
   videoUrl: string;
-}
+};
 
-export interface ResponseClassForm extends Response {
-  data: number | null;
-}
+export type ResponseClassForm = CommonResponse<number | null>;
 
 // 폼 업데이트 핸들러
 export type HandleFormChange<T> = <K extends keyof T>(key: K, value: T[K]) => void;

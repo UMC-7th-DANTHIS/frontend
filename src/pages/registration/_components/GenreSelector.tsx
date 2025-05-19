@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { DanceGenre as genres } from '../../../api/schema';
-import { HandleFormChange } from '@/types/RegisterFormInterface';
-import { DancerFormState, ClassFormState } from '@/types/RegisterFormInterface';
+import { HandleFormChange } from '@/types/registration';
+import { DancerFormState, ClassFormState } from '@/types/registration';
 
 interface DancerGenreSelectorProps {
   selectedGenres: string[];

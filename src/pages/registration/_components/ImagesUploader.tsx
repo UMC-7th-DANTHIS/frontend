@@ -5,8 +5,8 @@ import { ReactComponent as EditIcon } from '../../../assets/shape/write.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/shape/trash.svg';
 import MainBox from './MainBox';
 
-import { DancerFormState, ClassFormState } from '../../../types/RegisterFormInterface';
-import { HandleFormChange } from '../../../types/RegisterFormInterface';
+import { DancerFormState, ClassFormState } from '../../../types/registration';
+import { HandleFormChange } from '../../../types/registration';
 import { IS_FOR } from '../../../enum/registration';
 import { getImagePresignedUrl, uploadToS3 } from '../../../api/registration';
 
