@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-const MainBox = ({ label }: { label: string }) => {
+interface MainBoxProps {
+  label: string;
+}
+
+const MainBox = ({ label }: MainBoxProps) => {
   // label에 따라 left 값 다르게 계산
   const calLeftPosition = (label: string) => {
     switch (label) {

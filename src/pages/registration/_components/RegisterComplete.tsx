@@ -3,13 +3,12 @@ import styled from 'styled-components';
 import { ReactComponent as Check } from '../../../assets/check.svg';
 import { useNavigate } from 'react-router-dom';
 
-const RegisterComplete = ({
-  title,
-  detail
-}: {
+interface RegisterCompleteProps {
   title: string;
   detail: string;
-}) => {
+}
+
+const RegisterComplete = ({ title, detail }: RegisterCompleteProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -52,10 +51,7 @@ const Ellipse = styled.div`
   height: 320px;
   flex-shrink: 0;
   border-radius: 320px;
-  background: var(
-    --main-gradation,
-    linear-gradient(90deg, #b30505 0%, #9819c3 100%)
-  );
+  background: var(--main-gradation, linear-gradient(90deg, #b30505 0%, #9819c3 100%));
 `;
 const Title = styled.div`
   color: var(--main_white, #fff);

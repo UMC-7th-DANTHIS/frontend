@@ -9,8 +9,9 @@ import FormAlert from '../_components/FormAlert';
 
 import { DancerFormState } from '../../../types/RegisterFormInterface';
 import useConfirmLeave from '../../../hooks/useConfirmLeave';
-import useValidation from '../../../hooks/registration/useValidation';
+import useValidation from '../../../hooks/useValidation';
 import { postDancer } from '../../../api/registration';
+import { IS_FOR } from '../../../enum/registration';
 
 interface DancerFormProps {
   setIsRegistered: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,7 +29,7 @@ const DancerForm = ({ setIsRegistered }: DancerFormProps) => {
   });
   const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
   const [showLeaveAlert, setShowLeaveAlert] = useState<boolean>(false);
-  const isValid = useValidation(formState, 'dancer');
+  const isValid = useValidation(formState, IS_FOR.DANCER);
 
   // 뒤로 가기 방지 팝업 경고
   useConfirmLeave({ setAlert: setShowLeaveAlert });
@@ -54,7 +55,7 @@ const DancerForm = ({ setIsRegistered }: DancerFormProps) => {
       const data = await postDancer(updatedFormState);
       if (data) setIsRegistered(true);
     } catch (error) {
-      console.error(error);
+      console.error('❌ 댄서 등록 실패:', error);
     }
   };
 
@@ -125,7 +126,7 @@ const DancerForm = ({ setIsRegistered }: DancerFormProps) => {
           <Label>댄서 사진</Label>
           <Notice>*최대 3장까지 등록 가능합니다. {'\n'}*가장 첫 번째로 등록된 사진이 프로필로 사용됩니다.</Notice>
         </LabelWrapper>
-        <ImagesUploader isFor="dancer" images={formState.dancerImages} handleFormChange={handleFormChange} />
+        <ImagesUploader isFor={IS_FOR.DANCER} images={formState.dancerImages} handleFormChange={handleFormChange} />
       </InputContainer>
 
       <Notice>* 댄서 등록은 내부 운영팀의 심사를 통해 최종 승인됩니다.</Notice>

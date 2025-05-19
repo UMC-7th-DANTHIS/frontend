@@ -1,16 +1,20 @@
 import styled from 'styled-components';
+
 import { ReactComponent as PictureIcon } from '../../../assets/picture.svg';
 import { ReactComponent as EditIcon } from '../../../assets/shape/write.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/shape/trash.svg';
-
-import {
-  DancerFormState,
-  ClassFormState
-} from '../../../types/RegisterFormInterface';
-import { ImagesUploaderProps } from '../../../types/RegisterFormInterface';
-import useImagePresignedUrl from '../../../hooks/registration/useImagePresignedUrl';
 import MainBox from './MainBox';
-import useUploadToS3 from '../../../hooks/registration/useUploadToS3';
+
+import { DancerFormState, ClassFormState } from '../../../types/RegisterFormInterface';
+import { HandleFormChange } from '../../../types/RegisterFormInterface';
+import { IS_FOR } from '../../../enum/registration';
+import { getImagePresignedUrl, uploadToS3 } from '../../../api/registration';
+
+interface ImagesUploaderProps<T> {
+  isFor: IS_FOR;
+  images: string[];
+  handleFormChange: HandleFormChange<T>;
+}
 
 const ImagesUploader = <T extends DancerFormState | ClassFormState>({
   isFor,
@@ -19,16 +23,13 @@ const ImagesUploader = <T extends DancerFormState | ClassFormState>({
 }: ImagesUploaderProps<T>) => {
   const totalImages = 3;
 
-  const config: Record<
-    'dancer' | 'class',
-    { label: string; fieldName: keyof T; urlParam: string }
-  > = {
-    dancer: {
+  const config: Record<IS_FOR, { label: string; fieldName: keyof T; urlParam: string }> = {
+    [IS_FOR.DANCER]: {
       label: 'Profile',
       fieldName: 'dancerImages' as keyof T,
       urlParam: 'dancer'
     },
-    class: {
+    [IS_FOR.CLASS]: {
       label: 'Thumbnail',
       fieldName: 'images' as keyof T,
       urlParam: 'dance-class'
@@ -37,27 +38,18 @@ const ImagesUploader = <T extends DancerFormState | ClassFormState>({
 
   const { label, fieldName, urlParam } = config[isFor] || {};
 
-  const { getPresignedUrl } = useImagePresignedUrl(urlParam);
-  const { uploadToS3 } = useUploadToS3();
-
-  // 이미지 업데이트 로직
+  // 이미지 배열 업데이트 로직
   const updateImageList = (index: number, newImageUrl: string) => {
-    const updatedImages = images.map((img, i) =>
-      i === index ? newImageUrl : img
-    );
+    const updatedImages = images.map((img, i) => (i === index ? newImageUrl : img));
 
     handleFormChange(fieldName, updatedImages as T[typeof fieldName]);
   };
 
-  // 이미지 업로드 핸들러
-  const handleUploadFile = async (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    const file = e.target.files?.[0]; // 파일 가져오기
+  const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const file = e.target.files?.[0];
     if (!file || !file.type.startsWith('image/')) return;
 
-    const presignedUrl = await getPresignedUrl(file);
+    const presignedUrl = await getImagePresignedUrl(urlParam, file);
     if (!presignedUrl) return;
 
     const uploadedImageUrl = await uploadToS3(presignedUrl, file);
@@ -75,11 +67,7 @@ const ImagesUploader = <T extends DancerFormState | ClassFormState>({
           {/* MainBox는 가장 첫번째 사진에만 있는 박스 */}
           {index === 0 && <MainBox label={label} />}
           <Image htmlFor={`image-${index}`} $isEmpty={!images[index]}>
-            {images[index] ? (
-              <img src={images[index]} alt={`class-${index}`} />
-            ) : (
-              <PictureIcon />
-            )}
+            {images[index] ? <img src={images[index]} alt={`class-${index}`} /> : <PictureIcon />}
           </Image>
 
           {/* 이미지가 업로드 안 된 상태에서만 박스 클릭 가능 */}

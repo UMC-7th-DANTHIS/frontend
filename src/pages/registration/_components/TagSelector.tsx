@@ -1,11 +1,15 @@
 import styled from 'styled-components';
 import { hashTagID as tags } from '../../../api/schema';
-import { TagSelectorProps } from '../../../types/RegisterFormInterface';
+import { ClassFormState, HandleFormChange } from '../../../types/RegisterFormInterface';
+
+interface TagSelectorProps {
+  selectedTags: number[];
+  handleFormChange: HandleFormChange<ClassFormState>;
+}
 
 const TagSelector = ({ selectedTags, handleFormChange }: TagSelectorProps) => {
   const maxTagsLength = 3;
 
-  // 장르 선택 핸들러
   const handleSelect = (tagId: number) => {
     let updatedTags;
 
@@ -58,10 +62,7 @@ const TagBtn = styled.button<{ selected: boolean }>`
   background-color: ${(props) => (props.selected ? 'white' : 'transparent')};
   transition: all 0.3s ease-in-out;
 
-  color: ${(props) =>
-    props.selected
-      ? 'var(--text_purple, #BF00FF)'
-      : 'var(--text_secondary-gray, #b2b2b2)'};
+  color: ${(props) => (props.selected ? 'var(--text_purple, #BF00FF)' : 'var(--text_secondary-gray, #b2b2b2)')};
   font-family: Pretendard;
   font-size: 20px;
   font-style: normal;

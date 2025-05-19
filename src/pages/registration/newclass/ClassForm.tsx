@@ -12,8 +12,9 @@ import FormAlert from '../_components/FormAlert';
 
 import { ClassFormState } from '../../../types/RegisterFormInterface';
 import useConfirmLeave from '../../../hooks/useConfirmLeave';
-import useValidation from '../../../hooks/registration/useValidation';
+import useValidation from '../../../hooks/useValidation';
 import { postClass } from '../../../api/registration';
+import { IS_FOR } from '../../../enum/registration';
 
 interface ClassFormProps {
   setIsRegistered: React.Dispatch<React.SetStateAction<boolean>>;
@@ -33,7 +34,7 @@ const ClassForm = ({ setIsRegistered }: ClassFormProps) => {
   });
   const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
   const [showLeaveAlert, setShowLeaveAlert] = useState<boolean>(false);
-  const isValid = useValidation(formState, 'class');
+  const isValid = useValidation(formState, IS_FOR.CLASS);
 
   // 뒤로 가기 방지 팝업 경고
   useConfirmLeave({ setAlert: setShowLeaveAlert });
@@ -60,7 +61,7 @@ const ClassForm = ({ setIsRegistered }: ClassFormProps) => {
       const data = await postClass(updatedFormState);
       if (data) setIsRegistered(true);
     } catch (error) {
-      console.error(error);
+      console.error('❌ 수업 등록 실패:', error);
     }
   };
 
@@ -129,7 +130,7 @@ const ClassForm = ({ setIsRegistered }: ClassFormProps) => {
             {'\n'} *등록된 사진이 없는 경우, 댄서 등록 시 사용한 사진으로 자동 등록됩니다.
           </Notice>
         </LabelWrapper>
-        <ImagesUploader isFor="class" images={formState.images} handleFormChange={handleFormChange} />
+        <ImagesUploader isFor={IS_FOR.CLASS} images={formState.images} handleFormChange={handleFormChange} />
         <LabelWrapper $long>
           <Label>수업 영상</Label>
           <Notice>

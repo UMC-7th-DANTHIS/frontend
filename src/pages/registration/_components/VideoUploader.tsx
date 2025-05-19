@@ -1,29 +1,31 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { UrlInput } from './Inputs';
+
 import { ReactComponent as VideoIcon } from '../../../assets/video.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/shape/trash.svg';
-import { VideoUplodaerProps } from '../../../types/RegisterFormInterface';
-import useVideoPresignedUrl from '../../../hooks/registration/useVideoPresignedUrl';
-import useUploadToS3 from '../../../hooks/registration/useUploadToS3';
+import { UrlInput } from './Inputs';
+
+import { ClassFormState, HandleFormChange } from '../../../types/RegisterFormInterface';
+import { getVideoPresignedUrl, uploadToS3 } from '../../../api/registration';
+
+interface VideoUplodaerProps {
+  video: string;
+  handleFormChange: HandleFormChange<ClassFormState>;
+}
 
 const VideoUploader = ({ video, handleFormChange }: VideoUplodaerProps) => {
   const [fileUrl, setFileUrl] = useState<string>('');
   const [url, setUrl] = useState<string>('');
 
-  const { getPresignedUrl } = useVideoPresignedUrl('');
-  const { uploadToS3 } = useUploadToS3();
-
   useEffect(() => {
     handleFormChange('videoUrl', fileUrl || url);
   }, [fileUrl, url, handleFormChange]);
 
-  // 비디오 업로드 핸들러
   const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]; // 파일 가져오기
     if (!file || !file.type.startsWith('video/')) return;
 
-    const presignedUrl = await getPresignedUrl(file);
+    const presignedUrl = await getVideoPresignedUrl('dance-class', file);
     if (!presignedUrl) return;
 
     const uploadedVideoUrl = await uploadToS3(presignedUrl, file);
@@ -53,27 +55,15 @@ const VideoUploader = ({ video, handleFormChange }: VideoUplodaerProps) => {
       <Container>
         <Video htmlFor="video">
           {!video && <VideoIcon />}
-          {(video && video.includes('youtube.com')) ||
-          video.includes('youtu.be') ? (
-            <Iframe
-              src={getYoutubeEmbedUrl(video)}
-              title="YouTube Video"
-              allowFullScreen
-            />
+          {(video && video.includes('youtube.com')) || video.includes('youtu.be') ? (
+            <Iframe src={getYoutubeEmbedUrl(video)} title="YouTube Video" allowFullScreen />
           ) : (
             video && <video src={video} controls />
           )}
         </Video>
 
         {/* 파일 선택 */}
-        {!video && (
-          <HiddenInput
-            type="file"
-            id="video"
-            accept="video/*"
-            onChange={handleUploadFile}
-          />
-        )}
+        {!video && <HiddenInput type="file" id="video" accept="video/*" onChange={handleUploadFile} />}
 
         {/* 비디오가 업로드 된 상태에서만 삭제 버튼 표시 */}
         {video && (
@@ -82,11 +72,7 @@ const VideoUploader = ({ video, handleFormChange }: VideoUplodaerProps) => {
           </Icon>
         )}
       </Container>
-      <UrlInput
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
-        placeholder="동영상 링크를 붙여넣으세요."
-      />
+      <UrlInput value={url} onChange={(e) => setUrl(e.target.value)} placeholder="동영상 링크를 붙여넣으세요." />
     </>
   );
 };

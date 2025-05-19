@@ -1,7 +1,12 @@
 import styled from 'styled-components';
 import { ReactComponent as StarFilled } from '../../../assets/buttons/starlevel_filled.svg';
 import { ReactComponent as StarNonfilled } from '../../../assets/buttons/starlevel_nonfilled.svg';
-import { StarRatingProps } from '../../../types/RegisterFormInterface';
+import { ClassFormState, HandleFormChange } from '../../../types/RegisterFormInterface';
+
+interface StarRatingProps {
+  value: number;
+  handleFormChange: HandleFormChange<ClassFormState>;
+}
 
 const StarRating = ({ value, handleFormChange }: StarRatingProps) => {
   const totalStars = 5;

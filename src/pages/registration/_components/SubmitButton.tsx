@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-const SubmitButton = ({ text }: { text: string }) => {
+interface SubmitButtonProps {
+  text: string;
+}
+
+const SubmitButton = ({ text }: SubmitButtonProps) => {
   return (
     <Btn type="submit">
       <BtnText>{text}</BtnText>
