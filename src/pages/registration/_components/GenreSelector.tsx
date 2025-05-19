@@ -1,16 +1,22 @@
 import styled from 'styled-components';
 import { DanceGenre as genres } from '../../../api/schema';
-import {
-  DancerGenreSelectorProps,
-  ClassGenreSelectorProps
-} from '../../../types/RegisterFormInterface';
+import { HandleFormChange } from '@/types/RegisterFormInterface';
+import { DancerFormState, ClassFormState } from '@/types/RegisterFormInterface';
 
-const GenreSelectorDancer = ({
-  selectedGenres,
-  handleFormChange
-}: DancerGenreSelectorProps) => {
+interface DancerGenreSelectorProps {
+  selectedGenres: string[];
+  handleFormChange: HandleFormChange<DancerFormState>;
+}
+
+interface ClassGenreSelectorProps {
+  selectedGenre: number;
+  handleFormChange: HandleFormChange<ClassFormState>;
+}
+
+export const GenreSelectorDancer = ({ selectedGenres, handleFormChange }: DancerGenreSelectorProps) => {
   const maxGenresLength = 2;
 
+  // 복수 선택
   // 장르 선택 핸들러
   const handleSelect = (genreId: string) => {
     let updatedGenres;
@@ -42,10 +48,7 @@ const GenreSelectorDancer = ({
   );
 };
 
-const GenreSelectorClass = ({
-  selectedGenre,
-  handleFormChange
-}: ClassGenreSelectorProps) => {
+export const GenreSelectorClass = ({ selectedGenre, handleFormChange }: ClassGenreSelectorProps) => {
   // 단일 선택
   // 장르 선택 핸들러
   const handleSelect = (genreId: number) => {
@@ -69,8 +72,6 @@ const GenreSelectorClass = ({
   );
 };
 
-export { GenreSelectorDancer, GenreSelectorClass };
-
 const GenreWrapper = styled.div`
   width: 514px;
   padding: 18px 37px 69px 37px;
@@ -88,11 +89,8 @@ const GenreBtn = styled.button<{ selected: boolean }>`
   align-items: center;
   gap: 8px;
   border-radius: 4px;
-  border: 1px solid
-    ${({ selected }) =>
-      selected ? 'var(--main_purple, #9819C3)' : 'var(--sub_light-gray, #ddd)'};
-  background-color: ${({ selected }) =>
-    selected ? 'var(--main_purple, #9819C3)' : 'transparent'};
+  border: 1px solid ${({ selected }) => (selected ? 'var(--main_purple, #9819C3)' : 'var(--sub_light-gray, #ddd)')};
+  background-color: ${({ selected }) => (selected ? 'var(--main_purple, #9819C3)' : 'transparent')};
   transition: all 0.3s ease-in-out;
 
   color: var(--sub_light-gray, #ddd);

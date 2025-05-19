@@ -9,10 +9,14 @@ export interface DancerFormState {
   dancerImages: string[];
 }
 
+export interface ResponseDancerForm extends Response {
+  data: number;
+}
+
 // 수업 등록 폼
 export interface ClassFormState {
   className: string;
-  pricePerSession: string;
+  pricePerSession: string | number;
   difficulty: number;
   genre: number;
   description: string;
@@ -22,23 +26,12 @@ export interface ClassFormState {
   videoUrl: string;
 }
 
+export interface ResponseClassForm extends Response {
+  data: number | null;
+}
+
 // 폼 업데이트 핸들러
-export type HandleFormChange<T> = <K extends keyof T>(
-  key: K,
-  value: T[K]
-) => void;
-
-// 댄서 장르 선택자
-export interface DancerGenreSelectorProps {
-  selectedGenres: string[];
-  handleFormChange: HandleFormChange<DancerFormState>;
-}
-
-// 수업 장르 선택자
-export interface ClassGenreSelectorProps {
-  selectedGenre: number;
-  handleFormChange: HandleFormChange<ClassFormState>;
-}
+export type HandleFormChange<T> = <K extends keyof T>(key: K, value: T[K]) => void;
 
 // 해시태그 선택자
 export interface TagSelectorProps {

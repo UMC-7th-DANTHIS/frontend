@@ -1,23 +1,22 @@
 import { useState, useCallback } from 'react';
 import styled from 'styled-components';
+
 import { Input, Textarea } from '../_components/Inputs';
 import { GenreSelectorDancer } from '../_components/GenreSelector';
 import ImagesUploader from '../_components/ImagesUploader';
 import SubmitButton from '../_components/SubmitButton';
-import ConfirmLeaveAlert from '../../../components/ConfirmLeaveAlert';
-import SingleBtnAlert from '../../../components/SingleBtnAlert';
-import useConfirmLeave from '../../../hooks/useConfirmLeave';
+import FormAlert from '../_components/FormAlert';
 
 import { DancerFormState } from '../../../types/RegisterFormInterface';
-import usePost from '../../../hooks/registration/usePost';
+import useConfirmLeave from '../../../hooks/useConfirmLeave';
 import useValidation from '../../../hooks/registration/useValidation';
+import { postDancer } from '../../../api/registration';
 
-const DancerForm = ({
-  setIsRegistered
-}: {
+interface DancerFormProps {
   setIsRegistered: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
-  const { data, post } = usePost();
+}
+
+const DancerForm = ({ setIsRegistered }: DancerFormProps) => {
   const [formState, setFormState] = useState<DancerFormState>({
     dancerName: '',
     instargramId: '',
@@ -27,25 +26,20 @@ const DancerForm = ({
     preferredGenres: [],
     dancerImages: ['', '', '']
   });
-  const isValid = useValidation(formState, 'dancer');
   const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
   const [showLeaveAlert, setShowLeaveAlert] = useState<boolean>(false);
+  const isValid = useValidation(formState, 'dancer');
 
   // 뒤로 가기 방지 팝업 경고
   useConfirmLeave({ setAlert: setShowLeaveAlert });
 
   // 등록 폼 상태 업데이트
-  const handleFormChange = useCallback(
-    <K extends keyof DancerFormState>(key: K, value: DancerFormState[K]) => {
-      setFormState((prev) => ({ ...prev, [key]: value }));
-    },
-    []
-  );
+  const handleFormChange = useCallback(<K extends keyof DancerFormState>(key: K, value: DancerFormState[K]) => {
+    setFormState((prev) => ({ ...prev, [key]: value }));
+  }, []);
 
-  // 수업 등록 폼 제출 핸들러
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const updatedFormState = {
       ...formState,
       dancerImages: formState.dancerImages.filter((img) => img) // ''  값 제거
@@ -56,8 +50,12 @@ const DancerForm = ({
       return;
     }
 
-    await post('/dancers', updatedFormState);
-    if (data) setIsRegistered(true);
+    try {
+      const data = await postDancer(updatedFormState);
+      if (data) setIsRegistered(true);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -86,9 +84,7 @@ const DancerForm = ({
 
         <LabelWrapper>
           <Label>오픈채팅방 링크</Label>
-          <Notice>
-            *유저들과의 채팅이 이루어질 오픈채팅방 링크를 입력해주세요.
-          </Notice>
+          <Notice>*유저들과의 채팅이 이루어질 오픈채팅방 링크를 입력해주세요.</Notice>
         </LabelWrapper>
         <Input
           label="오픈채팅방 링크"
@@ -112,10 +108,7 @@ const DancerForm = ({
           <Label>주 장르</Label>
           <Notice>*최대 2개까지 선택 가능합니다.</Notice>
         </LabelWrapper>
-        <GenreSelectorDancer
-          selectedGenres={formState.preferredGenres}
-          handleFormChange={handleFormChange}
-        />
+        <GenreSelectorDancer selectedGenres={formState.preferredGenres} handleFormChange={handleFormChange} />
 
         <LabelWrapper>
           <Label>댄서 이력</Label>
@@ -130,50 +123,21 @@ const DancerForm = ({
 
         <LabelWrapper $long>
           <Label>댄서 사진</Label>
-          <Notice>
-            *최대 3장까지 등록 가능합니다. {'\n'}*가장 첫 번째로 등록된 사진이
-            프로필로 사용됩니다.
-          </Notice>
+          <Notice>*최대 3장까지 등록 가능합니다. {'\n'}*가장 첫 번째로 등록된 사진이 프로필로 사용됩니다.</Notice>
         </LabelWrapper>
-        <ImagesUploader
-          isFor="dancer"
-          images={formState.dancerImages}
-          handleFormChange={handleFormChange}
-        />
+        <ImagesUploader isFor="dancer" images={formState.dancerImages} handleFormChange={handleFormChange} />
       </InputContainer>
 
       <Notice>* 댄서 등록은 내부 운영팀의 심사를 통해 최종 승인됩니다.</Notice>
       <SubmitButton text="댄서 등록하기" />
 
-      {showInvalidAlert && (
-        <SingleBtnAlert
-          message={
-            <AlertText>
-              모든 항목을{'\n'}
-              <ColoredText>적절하게 </ColoredText>
-              입력했는지 확인해주세요.
-            </AlertText>
-          }
-          onClose={() => setShowInvalidAlert(false)}
-          mariginsize="33px"
-          showButtons={true}
-        />
-      )}
-
-      {showLeaveAlert && (
-        <ConfirmLeaveAlert
-          message={
-            <AlertText>
-              해당 페이지를 벗어나면{'\n'}
-              작성 중인 정보가 <ColoredText> 모두 삭제</ColoredText>됩니다.
-              {'\n'}
-              떠나시겠습니까?
-            </AlertText>
-          }
-          onClose={() => setShowLeaveAlert(false)}
-          showButtons={true}
-        />
-      )}
+      {/* 경고 팝업창 */}
+      <FormAlert
+        showInvalidAlert={showInvalidAlert}
+        setShowInvalidAlert={setShowInvalidAlert}
+        showLeaveAlert={showLeaveAlert}
+        setShowLeaveAlert={setShowLeaveAlert}
+      />
     </FormContainer>
   );
 };
@@ -218,17 +182,4 @@ const Notice = styled.div`
   font-weight: 300;
   line-height: normal;
   white-space: pre-line;
-`;
-const AlertText = styled.span`
-  text-align: center;
-  font-family: Pretendard;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 21px;
-  white-space: pre-line;
-`;
-const ColoredText = styled.span`
-  color: #a60f62;
-  font-weight: bold;
 `;
