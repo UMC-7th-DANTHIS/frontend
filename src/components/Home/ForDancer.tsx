@@ -18,11 +18,9 @@ const ForDancer = ({ dancer }: ForDancerProps) => {
     <DancerContainer>
       {dancerData?.map((Dancer) => (
         <DancerContent onClick={() => navigate(`/dancerprofile/${Dancer.id}`)}>
-          <DancerImage src={Dancer.imageUrlList[0]} alt={'프로필 이미지'} />
+          <DancerImage src={Dancer.images[0]} alt={'프로필 이미지'} />
           <DancerName>{Dancer.dancerName}</DancerName>
-          {Dancer?.favoriteGenres.map((gen) => (
-            <DancerGenre>{gen}</DancerGenre>
-          ))}
+          {Dancer?.genres.map((gen) => <DancerGenre>{gen}</DancerGenre>)}
         </DancerContent>
       ))}
     </DancerContainer>

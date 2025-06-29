@@ -28,7 +28,7 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
     <SliderContainer>
       <ClickArea onClick={handlePrev} position="left" />
       <SlideWrapper currentIndex={currentIndex}>
-        {danceclass?.danceClasses.map((item, index) => (
+        {danceclass?.danceClasses?.map((item, index) => (
           <HotImage
             onClick={() => navigate(`/classreservation/${item.id}?tab=detail`)}
             src={item.thumbnailImage}
