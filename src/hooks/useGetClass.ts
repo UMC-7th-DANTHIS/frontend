@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axiosInstance from '../api/axios-instance';
 
-import { AllClassResponse, AllClassData } from '@/types/MainInterface';
+import { AllClassData } from '@/types/MainInterface';
 
 function useGetClass<T>() {
   const [data, setData] = useState<AllClassData | null>(null);
@@ -14,10 +14,9 @@ function useGetClass<T>() {
       setIsError(false);
 
       try {
-        const response: AllClassResponse =
-          await axiosInstance.get('/dance-classes/all');
+        const response = await axiosInstance.get('/dance-classes/all');
 
-        setData(response.data);
+        setData(response.data.data);
       } catch (error) {
         setIsError(true);
       } finally {

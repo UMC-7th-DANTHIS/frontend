@@ -13,16 +13,15 @@ type CarouselProps = {
 const Carousel = ({ dancer }: CarouselProps) => {
   const navigate = useNavigate();
 
+  console.log(dancer);
+
   return (
     <CarouselContainer>
       <Slider {...sliderSettings}>
-        {dancer?.dancers.map((data, id) => (
+        {dancer?.dancers?.map((data, id) => (
           <Slide key={id}>
             <ImageContainer>
-              <PlaceholderImg
-                src={data.imageUrlList[0]}
-                alt={data.dancerName}
-              />
+              <PlaceholderImg src={data.images[0]} alt={data.dancerName} />
               <Overlay onClick={() => navigate(`/dancerprofile/${data.id}`)} />
               <DancerName>{data.dancerName}</DancerName>
             </ImageContainer>

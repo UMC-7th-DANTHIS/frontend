@@ -10,20 +10,14 @@ export interface AllClassResponse extends Response {
 
 // 모든 댄서 조회
 export interface AllDancerData {
-  totalElements: number;
   dancers: AllDancerList[];
 }
 
 export interface AllDancerList {
   id: number;
   dancerName: string;
-  instagramId: string;
-  bio: string;
-  history: string;
-  isFavorite: boolean;
-  openChatUrl: string;
-  favoriteGenres: number[];
-  imageUrlList: string[];
+  genres: string[];
+  images: string[];
 }
 
 // 모든 수업 조회

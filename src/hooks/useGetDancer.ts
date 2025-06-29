@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axiosInstance from '../api/axios-instance';
 
-import { AllDancerResponse, AllDancerData } from '@/types/MainInterface';
+import { AllDancerData } from '@/types/MainInterface';
 
 function useGetDancer<T>() {
   const [data, setData] = useState<AllDancerData | null>(null);
@@ -14,10 +14,9 @@ function useGetDancer<T>() {
       setIsError(false);
 
       try {
-        const response: AllDancerResponse =
-          await axiosInstance.get('/dancers/all');
+        const response = await axiosInstance.get('/dancers/all');
 
-        setData(response.data);
+        setData(response.data.data);
       } catch (error) {
         setIsError(true);
       } finally {

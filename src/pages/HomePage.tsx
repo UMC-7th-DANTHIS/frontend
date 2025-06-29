@@ -14,6 +14,9 @@ const HomePage = () => {
   const { data: danceclass } = useGetClass<AllClassData>();
   const { data: dancer } = useGetDancer<AllDancerData>();
 
+  console.log(dancer);
+  console.log(danceclass);
+
   return (
     <Container>
       {dancer && <HotDancer dancer={dancer} />}
