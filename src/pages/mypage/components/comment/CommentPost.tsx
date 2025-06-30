@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Pagination from '../../../../components/Pagination';
+import Pagination from '../../../../common/Pagination';
 import { ReactComponent as ExistPhoto } from '../../../../assets/photo.svg';
 import { useQuery } from '@tanstack/react-query';
 import api from '../../../../api/api';
-import LoadingSpinner from '../../../../components/LoadingSpinner';
+import LoadingSpinner from '../../../../common/LoadingSpinner';
 
 interface Post {
   postId: number;

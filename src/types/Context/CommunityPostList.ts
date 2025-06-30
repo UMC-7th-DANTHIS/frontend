@@ -1,7 +1,7 @@
-import { PostListResponse } from '@/types/CommunityInterface';
+import { PostListData } from '@/types/CommunityInterface';
 
 export interface CommunityPostListOutlet {
-  lists: PostListResponse | undefined;
+  lists: PostListData | undefined;
   perData: number;
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;

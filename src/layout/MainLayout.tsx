@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Topbar from '../components/Topbar';
-import Footer from '../components/Footer';
+import Topbar from '../common/Topbar';
+import Footer from '../common/Footer';
 
 import useGet from '../hooks/useGet';
 

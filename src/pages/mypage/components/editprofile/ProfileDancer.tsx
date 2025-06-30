@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import MypageGenre from '../MypageGenre';
 import api from '../../../../api/api';
 import NoUser from './NoUser';
-import ConfirmLeaveAlert from '../../../../components/ConfirmLeaveAlert';
+import ConfirmLeaveAlert from '../../../../common/ConfirmLeaveAlert';
 import useConfirmLeave from '../../../../hooks/useConfirmLeave';
-import SingleBtnAlert from '../../../../components/SingleBtnAlert';
+import SingleBtnAlert from '../../../../common/SingleBtnAlert';
 import ImagesUploader from '../../../../pages/registration/_components/ImagesUploader';
 
 interface FormState {

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as Arrow } from '../../../../assets/arrow.svg';
-import Pagination from '../../../../components/Pagination';
+import Pagination from '../../../../common/Pagination';
 import { useQuery } from '@tanstack/react-query';
-import LoadingSpinner from '../../../../components/LoadingSpinner';
+import LoadingSpinner from '../../../../common/LoadingSpinner';
 import api from '../../../../api/api';
 
 interface Chat {

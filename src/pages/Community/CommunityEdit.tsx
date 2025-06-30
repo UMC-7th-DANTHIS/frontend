@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useLocation, useOutletContext, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import EditFooter from '../../components/Comunity/EditFooter';
-import EditContent from '../../components/Comunity/EditContent';
+import EditFooter from '../../common/Comunity/EditFooter';
+import EditContent from '../../common/Comunity/EditContent';
 
 import axiosInstance from '../../api/axios-instance';
 

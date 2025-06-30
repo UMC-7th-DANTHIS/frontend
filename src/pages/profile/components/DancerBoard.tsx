@@ -3,23 +3,23 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 //import { ReactComponent as Line } from '../../../assets/shape/line.svg';
 import { ReactComponent as FocusedCircle } from '../../../assets/shape/focusedcircle.svg';
-import Pagination from '../../../components/Pagination';
+import Pagination from '../../../common/Pagination';
 import api from '../../../api/api';
-import LoadingSpinner from '../../../components/LoadingSpinner';
+import LoadingSpinner from '../../../common/LoadingSpinner';
 
-type DancerType ={
-  id : number;
-  dancerName : string;
-  images : string[];
-}
+type DancerType = {
+  id: number;
+  dancerName: string;
+  images: string[];
+};
 
 type GenreType = {
-  id : number;
-  name : string;
-}
+  id: number;
+  name: string;
+};
 
 const ClassBoard: React.FC = () => {
-  const genres : GenreType[] = [
+  const genres: GenreType[] = [
     { id: 1, name: '힙합' },
     { id: 2, name: '걸스힙합' },
     { id: 3, name: '팝핑' },
@@ -69,11 +69,11 @@ const ClassBoard: React.FC = () => {
   }, [selectedGenre, currentPage]);
 
   // 장르 선택 핸들러
-  const handleGenreClick = (genre : number) => {
+  const handleGenreClick = (genre: number) => {
     setSelectedGenre(genre);
   };
 
-  const handlePageChange = (newPage : number) => {
+  const handlePageChange = (newPage: number) => {
     console.log(`페이지 변경 요청: ${newPage} / 총 페이지: ${totalPages}`);
 
     if (newPage >= 1 && newPage <= totalPages) {
@@ -89,7 +89,7 @@ const ClassBoard: React.FC = () => {
     return data.slice(startIndex, endIndex);
   };
 
-  const handleDancerClick = (dancerId : number) => {
+  const handleDancerClick = (dancerId: number) => {
     navigate(`/dancerprofile/${dancerId}`);
   };
 
@@ -112,32 +112,30 @@ const ClassBoard: React.FC = () => {
           <LoadingSpinner isLoading={isFetching} />
         </LoadingContainer>
       ) : ( */}
-        <BoardContainer>
-          <Classes>
-            {data.map((dancer) => (
-              <Class to={`/dancerprofile/${dancer.id}`} key={dancer.id}>
-                <Image src={dancer.images[0]} alt={dancer.dancerName} />
+      <BoardContainer>
+        <Classes>
+          {data.map((dancer) => (
+            <Class to={`/dancerprofile/${dancer.id}`} key={dancer.id}>
+              <Image src={dancer.images[0]} alt={dancer.dancerName} />
 
-                <Dancer>{dancer.dancerName}</Dancer>
-              </Class>
-            ))}
-          </Classes>
-          {/* <PaginationContainer> */}
-          <Pagination
-            dataLength={totalElements}
-            perData={perData}
-            currentPage={currentPage}
-           setCurrentPage={setCurrentPage}
-          />
-          {/* </PaginationContainer> */}
-        </BoardContainer>
-      
+              <Dancer>{dancer.dancerName}</Dancer>
+            </Class>
+          ))}
+        </Classes>
+        {/* <PaginationContainer> */}
+        <Pagination
+          dataLength={totalElements}
+          perData={perData}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+        {/* </PaginationContainer> */}
+      </BoardContainer>
     </Container>
   );
 };
 
 export default ClassBoard;
-
 
 const LoadingContainer = styled.div`
   width: 880px;

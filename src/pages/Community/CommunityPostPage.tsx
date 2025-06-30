@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, useOutletContext } from 'react-router-dom';
 import styled from 'styled-components';
 
-import ImageModal from '../../components/Comunity/ImageModal';
-import PostComment from '../../components/Comunity/PostComment';
-import PostContent from '../../components/Comunity/PostContent';
-import Pagination from '../../components/Pagination';
-import ConfirmLeaveAlert from '../../components/ConfirmLeaveAlert';
+import ImageModal from '../../common/Comunity/ImageModal';
+import PostComment from '../../common/Comunity/PostComment';
+import PostContent from '../../common/Comunity/PostContent';
+import Pagination from '../../common/Pagination';
+import ConfirmLeaveAlert from '../../common/ConfirmLeaveAlert';
 
 import axiosInstance from '../../api/axios-instance';
 import useGet from '../../hooks/useGet';
@@ -109,12 +109,12 @@ const CommunityPostPage = () => {
       <Container>
         <Wrapper>
           <PostHeader>
-            <div>{post?.data.title}</div>
+            <div>{post?.title}</div>
           </PostHeader>
           <PostContent
             length={com?.data.totalComments!}
             handleModal={handleModal}
-            selectedPost={post?.data!}
+            selectedPost={post!}
             user={user}
             setListReload={setListReload}
           />

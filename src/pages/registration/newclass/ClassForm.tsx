@@ -7,8 +7,8 @@ import ImagesUploader from '../_components/ImagesUploader';
 import VideoUploader from '../_components/VideoUploader';
 import SubmitButton from '../_components/SubmitButton';
 import TagSelector from '../_components/TagSelector';
-import ConfirmLeaveAlert from '../../../components/ConfirmLeaveAlert';
-import SingleBtnAlert from '../../../components/SingleBtnAlert';
+import ConfirmLeaveAlert from '../../../common/ConfirmLeaveAlert';
+import SingleBtnAlert from '../../../common/SingleBtnAlert';
 import useConfirmLeave from '../../../hooks/useConfirmLeave';
 
 import { ClassFormState } from '../../../types/RegisterFormInterface';

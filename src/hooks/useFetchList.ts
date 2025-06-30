@@ -20,8 +20,9 @@ export function useFetchList<T>(currentPage: number, forceReload: boolean) {
         if (!currentPage) currentPage = 1;
         url = `/community/posts?page=${currentPage}`;
 
-        const response: PostListResponse = await axiosInstance.get(url);
-        setData(response.data);
+        const response = await axiosInstance.get(url);
+        setData(response.data.data);
+        console.log(data);
       } catch (error) {
         setIsError(true);
       } finally {

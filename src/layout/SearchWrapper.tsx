@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, useSearchParams, useOutletContext } from 'react-router-dom';
 
-import SearchClass from '../components/Search/SearchClass';
-import SearchCommunity from '../components/Search/SearchCommunity';
-import SearchDancer from '../components/Search/SearchDancer';
+import SearchClass from '../common/Search/SearchClass';
+import SearchCommunity from '../common/Search/SearchCommunity';
+import SearchDancer from '../common/Search/SearchDancer';
 
 import { SearchFilterOutlet } from '@/types/Context/SearchFilter';
 
