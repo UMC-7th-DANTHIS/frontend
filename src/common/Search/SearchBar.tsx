@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
-import SingleBtnAlert from '../SingleBtnAlert';
+import SingleBtnAlert from '../../components/SingleBtnAlert';
 
 import SearchImage from '../../assets/Search/search.svg';
 import { hashTagID } from '../../api/schema';

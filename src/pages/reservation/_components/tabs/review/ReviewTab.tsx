@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Review from './Review';
-import Pagination from '../../../../../common/Pagination';
+import Pagination from '../../../../../components/Pagination';
 import useFetchData from '../../../../../hooks/useFetchData';
 import { ClassReviewList } from '../../../../../types/ClassInterface';
 

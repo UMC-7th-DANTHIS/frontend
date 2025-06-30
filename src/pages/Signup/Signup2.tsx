@@ -5,7 +5,7 @@ import Shape1 from '../../assets/shape/shape1.svg';
 import Shape2 from '../../assets/shape/shape2.svg';
 import Profileimg from '../../assets/profileimg.svg';
 import api from '../../api/api';
-import SingleBtnAlert from '../../common/SingleBtnAlert';
+import SingleBtnAlert from '../../components/SingleBtnAlert';
 
 // 사용자 타입 (필요 시 확장 가능)
 interface UserType {
@@ -525,25 +525,26 @@ const InputWrapper = styled.div`
   display: flex;
 `;
 const Email = styled.div`
-color : white;
-border : none;
-background : none;
-  color: var(--sub_light-gray, #DDD);
-font-family: Pretendard;
-font-size: 20px;
-font-style: normal;
-font-weight: 500;
-line-height: normal;
-width: 588px;
-height: 60px;
-display : flex;
-text-align : leftjustify-content: center;
-align-items: center;
-flex-shrink: 0;
-border-radius: 8px;
-border: 1px solid var(--sub_light-gray, #DDD);
-margin-top : 10px;
-padding-left : 20px;
+  color: white;
+  border: none;
+  background: none;
+  color: var(--sub_light-gray, #ddd);
+  font-family: Pretendard;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  width: 588px;
+  height: 60px;
+  display: flex;
+  text-align: left;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 8px;
+  border: 1px solid var(--sub_light-gray, #ddd);
+  margin-top: 10px;
+  padding-left: 20px;
 `;
 
 const Button = styled.button`

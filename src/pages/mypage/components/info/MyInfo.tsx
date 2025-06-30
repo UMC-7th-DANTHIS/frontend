@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as InfoArrow } from '../../../../assets/infoarrow.svg';
-import Alert from '../../../../common/Alert';
-import AgreeAlert from '../../../../common/AgreeAlert';
+import Alert from '../../../../components/Alert';
+import AgreeAlert from '../../../../components/AgreeAlert';
 import Quit from '../Quit';
 import api from '../../../../api/api';
 import { useNavigate } from 'react-router-dom';

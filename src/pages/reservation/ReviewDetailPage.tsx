@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { ReactComponent as EditIcon } from '../../assets/shape/write.svg';
 import { ReactComponent as DeleteIcon } from '../../assets/shape/trash.svg';
 import { ReactComponent as Siren } from '../../assets/Community/SirenButton.svg';
-import ConfirmDeleteAlert from '../../common/ConfirmDelete';
+import ConfirmDeleteAlert from '../../components/ConfirmDelete';
 import ImageModal from './_components/ImageModal';
 import formatDate from '../../api/formatDate';
 import useFetchData from '../../hooks/useFetchData';

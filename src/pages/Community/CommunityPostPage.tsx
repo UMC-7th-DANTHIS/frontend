@@ -5,8 +5,8 @@ import styled from 'styled-components';
 import ImageModal from '../../common/Comunity/ImageModal';
 import PostComment from '../../common/Comunity/PostComment';
 import PostContent from '../../common/Comunity/PostContent';
-import Pagination from '../../common/Pagination';
-import ConfirmLeaveAlert from '../../common/ConfirmLeaveAlert';
+import Pagination from '../../components/Pagination';
+import ConfirmLeaveAlert from '../../components/ConfirmLeaveAlert';
 
 import axiosInstance from '../../api/axios-instance';
 import useGet from '../../hooks/useGet';

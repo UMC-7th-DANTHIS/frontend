@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import MypageGenre from '../MypageGenre';
 import api from '../../../../api/api';
 import useConfirmLeave from '../../../../hooks/useConfirmLeave';
-import ConfirmLeaveAlert from '../../../../common/ConfirmLeaveAlert';
-import SingleBtnAlert from '../../../../common/SingleBtnAlert';
+import ConfirmLeaveAlert from '../../../../components/ConfirmLeaveAlert';
+import SingleBtnAlert from '../../../../components/SingleBtnAlert';
 
 interface FormState {
   nickname: string;

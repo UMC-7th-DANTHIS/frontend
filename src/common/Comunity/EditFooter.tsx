@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 
-import SingleBtnAlert from '../SingleBtnAlert';
-import ConfirmLeaveAlert from '../ConfirmLeaveAlert';
+import SingleBtnAlert from '../../components/SingleBtnAlert';
+import ConfirmLeaveAlert from '../../components/ConfirmLeaveAlert';
 
 import getPresignedUrls, {
   PresignedUrlInterface

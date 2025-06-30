@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import styled from 'styled-components';
 
-import Pagination from '../Pagination';
+import Pagination from '../../components/Pagination';
 import SearchNothing from './SearchNothing';
 import useSearch from '../../hooks/useSearch';
 

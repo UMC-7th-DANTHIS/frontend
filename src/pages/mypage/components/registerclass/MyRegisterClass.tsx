@@ -5,12 +5,12 @@ import MyRegisterDetail from './MyRegisterDetail';
 import { ReactComponent as WriteIcon } from '../../../../assets/shape/write.svg';
 import { ReactComponent as TrashIcon } from '../../../../assets/shape/trash.svg';
 import { useNavigate } from 'react-router-dom';
-import Pagination from '../../../../common/Pagination';
+import Pagination from '../../../../components/Pagination';
 import NoRegister from '../NoRegister';
-import Alert from '../../../../common/Alert';
+import Alert from '../../../../components/Alert';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import api from '../../../../api/api';
-import LoadingSpinner from '../../../../common/LoadingSpinner';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
 import NoDancer from '../NoDancer';
 
 interface RegisterClassProps {

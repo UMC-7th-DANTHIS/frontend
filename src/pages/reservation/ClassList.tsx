@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
-import Pagination from '../../common/Pagination';
-import LoadingSpinner from '../../common/LoadingSpinner';
+import Pagination from '../../components/Pagination';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 import { DanceGenre as genres } from '../../api/schema';
 import { AllClassData } from '../../types/MainInterface';

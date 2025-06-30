@@ -4,8 +4,8 @@ import { Input, Textarea } from '../_components/Inputs';
 import { GenreSelectorDancer } from '../_components/GenreSelector';
 import ImagesUploader from '../_components/ImagesUploader';
 import SubmitButton from '../_components/SubmitButton';
-import ConfirmLeaveAlert from '../../../common/ConfirmLeaveAlert';
-import SingleBtnAlert from '../../../common/SingleBtnAlert';
+import ConfirmLeaveAlert from '../../../components/ConfirmLeaveAlert';
+import SingleBtnAlert from '../../../components/SingleBtnAlert';
 import useConfirmLeave from '../../../hooks/useConfirmLeave';
 
 import { DancerFormState } from '../../../types/RegisterFormInterface';

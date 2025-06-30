@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import sampleImage from '../../../../assets/errorImage.svg';
-import Pagination from '../../../../common/Pagination';
+import Pagination from '../../../../components/Pagination';
 import { useQuery } from '@tanstack/react-query';
 import api from '../../../../api/api';
-import LoadingSpinner from '../../../../common/LoadingSpinner';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
 import { useNavigate } from 'react-router-dom';
 
 interface DancerProps {

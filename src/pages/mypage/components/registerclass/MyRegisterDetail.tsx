@@ -4,14 +4,14 @@ import { ReactComponent as FocusedCircle } from '../../../../assets/shape/focuse
 import sampleImage from '../../../../assets/errorImage.svg';
 import { ReactComponent as PlusButton } from '../../../../assets/buttons/plus-button.svg';
 import { ReactComponent as Ask } from '../../../../assets/buttons/ask.svg';
-import AskAlert from '../../../../common/AskAlert';
-import UserOverlay from '../../../../common/UserOverlay';
-import Pagination from '../../../../common/Pagination';
+import AskAlert from '../../../../components/AskAlert';
+import UserOverlay from '../../../../components/UserOverlay';
+import Pagination from '../../../../components/Pagination';
 import MyRegisterClass from './MyRegisterClass';
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../../../../api/api';
 import { useQuery } from '@tanstack/react-query';
-import LoadingSpinner from '../../../../common/LoadingSpinner';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
 
 interface DetailProps {
   classId: string;

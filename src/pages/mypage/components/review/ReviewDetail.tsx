@@ -1,13 +1,13 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import styled from 'styled-components';
-import Alert from '../../../../common/Alert';
+import Alert from '../../../../components/Alert';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import MypageSidebar from '../../MypageSidebar';
 import ReviewForm from './ReviewForm';
 import ReviewStar from './ReviewStar';
 import api from '../../../../api/api';
 import { useMutation } from '@tanstack/react-query';
-import SingleBtnAlert from '../../../../common/SingleBtnAlert';
+import SingleBtnAlert from '../../../../components/SingleBtnAlert';
 
 interface ReviewDataProps {
   title: string;

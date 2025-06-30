@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import Pagination from '../../../../common/Pagination';
+import Pagination from '../../../../components/Pagination';
 import CommentsReview from './CommentsReview';
 import { useQuery } from '@tanstack/react-query';
 import api from '../../../../api/api';
-import LoadingSpinner from '../../../../common/LoadingSpinner';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
 
 interface Review {
   reviewId: number;

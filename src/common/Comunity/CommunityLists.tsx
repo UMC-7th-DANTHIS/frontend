@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Pagination from '../Pagination';
+import Pagination from '../../components/Pagination';
 import CommunityList from './CommunityList';
 
 import { CommunityPostListOutlet } from '@/types/Context/CommunityPostList';

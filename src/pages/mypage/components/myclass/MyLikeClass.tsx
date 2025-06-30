@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import sampleImage from '../../../../assets/errorImage.svg';
-import Pagination from '../../../../common/Pagination';
-import LoadingSpinner from '../../../../common/LoadingSpinner';
+import Pagination from '../../../../components/Pagination';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
 import { useQuery } from '@tanstack/react-query';
 import api from '../../../../api/api';
 import { useNavigate } from 'react-router-dom';

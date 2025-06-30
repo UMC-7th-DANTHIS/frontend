@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Pagination from '../../../../common/Pagination';
+import Pagination from '../../../../components/Pagination';
 import { useNavigate } from 'react-router-dom';
 import api from '../../../../api/api';
-import LoadingSpinner from '../../../../common/LoadingSpinner';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
 import { useQuery } from '@tanstack/react-query';
 
 interface DanceClassProps {

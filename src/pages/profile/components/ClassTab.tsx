@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ClassPic from '../../../assets/dummyphoto/class.svg';
-import Pagination from '../../../common/Pagination';
+import Pagination from '../../../components/Pagination';
 import { useParams } from 'react-router-dom';
 import api from '../../../api/api';
 
