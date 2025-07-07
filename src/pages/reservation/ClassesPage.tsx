@@ -7,39 +7,27 @@ import Pagination from '../../components/Pagination';
 import LoadingSpinner from '../../components/LoadingSpinner';
 
 import { DanceGenre as genres } from '../../api/schema';
-import { AllClassData } from '../../types/MainInterface';
-import useFetchData from '../../hooks/useFetchData';
+import useGetClasses from '../../hooks/reservation/useGetClasses';
 
-const ClassList = () => {
-  const [selectedGenre, setSelectedGenre] = useState<string>(genres[0].id);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const perData: number = 9;
-  const { data, isLoading, fetchData } = useFetchData<AllClassData>();
+export default function ClassesPage() {
+  const [selectedGenre, setSelectedGenre] = useState(genres[0].id);
+  const [currentPage, setCurrentPage] = useState(1);
+  const perData = 9;
 
-  useEffect(() => {
-    const fetchClasses = async () => {
-      await fetchData(
-        `/dance-classes/all?genre=${selectedGenre}&page=${currentPage}`
-      );
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-    };
+  const { data, isLoading } = useGetClasses({
+    genre: Number(selectedGenre),
+    page: currentPage
+  });
 
-    fetchClasses();
-  }, [selectedGenre, currentPage, fetchData]);
+  useEffect(() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' }), [data]);
 
-  // 장르 선택 핸들러
-  const handleGenreClick = (genre: string) => {
-    setSelectedGenre(genre);
-  };
+  const handleGenreClick = (genre: string) => setSelectedGenre(genre);
 
   return (
     <Container>
       <Sidebar>
         {genres.map((genre) => (
-          <GenreWrapper
-            key={genre.id}
-            onClick={() => handleGenreClick(genre.id)}
-          >
+          <GenreWrapper key={genre.id} onClick={() => handleGenreClick(genre.id)}>
             {selectedGenre === genre.id && <FocusedCircle />}
             <Genre $isActive={selectedGenre === genre.id}>{genre.Genre}</Genre>
           </GenreWrapper>
@@ -55,10 +43,7 @@ const ClassList = () => {
           <Classes>
             {data?.danceClasses?.map((cls) => (
               <Class to={`/classreservation/${cls.id}`} key={cls.id}>
-                <Image
-                  src={cls.thumbnailImage}
-                  alt={`class #${cls.id} thumbnail`}
-                />
+                <Image src={cls.thumbnailImage} alt={`class #${cls.id} thumbnail`} />
                 <Title>{cls.className}</Title>
                 <Dancer>{cls.dancerName}</Dancer>
               </Class>
@@ -76,9 +61,7 @@ const ClassList = () => {
       )}
     </Container>
   );
-};
-
-export default ClassList;
+}
 
 const Container = styled.div`
   display: flex;

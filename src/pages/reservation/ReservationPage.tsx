@@ -1,24 +1,31 @@
-import { useEffect, useState, useMemo, useRef } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
-import Level from './_components/Level';
-import DetailTab from './_components/tabs/detail/DetailTab';
-import ReviewTab from './_components/tabs/review/ReviewTab';
-import RatingTab from './_components/tabs/rating/RatingTab';
-import { DanceGenre } from '../../api/schema';
-import { DanceClass, LikedDanceClass } from '../../types/ClassInterface';
-import { formatPrice } from '../../utils/format';
-import useFetchData from '../../hooks/useFetchData';
-import axiosInstance from '../../api/axios-instance';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
-const ClassReservation = () => {
+import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import { DetailTab, Level, RatingTab, ReviewTab } from '../../common/reservation';
+
+import { DanceGenre } from '../../api/schema';
+import useGetClassDetailById from '../../hooks/reservation/useGetClassDetailById';
+import { formatPrice } from '../../utils/format';
+import usePostChat from '../../hooks/reservation/usePostChat';
+import usePostLiked from '../../hooks/reservation/usePostLiked';
+import useGetMyLiked from '../../hooks/reservation/useGetMyLiked';
+import { LikedClass } from '../../types/class';
+import useDeleteLiked from '../../hooks/reservation/useDeleteLiked';
+
+export default function ReservationPage() {
   const navigate = useNavigate();
   const { classId } = useParams();
   const [isLiked, setIsLiked] = useState(false);
   const [currentTab, setCurrentTab] = useState(0);
-  const { data: classData, fetchData: fetchClass } = useFetchData<DanceClass>();
-  const { fetchData: fetchLiked } = useFetchData();
+
+  const { data: classData, isLoading } = useGetClassDetailById(classId ?? '');
+  const { data: myLiked } = useGetMyLiked();
+  const { mutate: postChat } = usePostChat();
+  const { mutate: postLiked } = usePostLiked();
+  const { mutate: deleteLiked } = useDeleteLiked();
 
   const [searchParams] = useSearchParams();
   const urlTabQuery = searchParams.get('tab');
@@ -32,23 +39,7 @@ const ClassReservation = () => {
     []
   );
 
-  useEffect(() => {
-    const fetchClassData = async () => {
-      await fetchClass(`/dance-classes/${classId}`);
-    };
-
-    const fetchLikedData = async () => {
-      const response = await fetchLiked(`/users/wishlists`);
-      response.data.data?.danceClasses.find(
-        (cls: LikedDanceClass) => cls.id === Number(classId) && setIsLiked(true)
-      );
-    };
-
-    fetchClassData();
-    fetchLikedData();
-  }, [classId, fetchClass, fetchLiked]);
-
-  // URL의 tab 쿼리에 맞추어 currentTab을 변경
+  // currentTab 변경
   // 돌아오기 버튼으로 돌아오는 상황을 위해 setCurrentTab을 여기서 핸들링
   useEffect(() => {
     const curTabIndex = tab.findIndex((t) => t.query === urlTabQuery);
@@ -61,46 +52,25 @@ const ClassReservation = () => {
     }
   }, [classId, urlTabQuery, navigate, tab]);
 
-  const handleChatClick = () => {
-    const startChat = async () => {
-      try {
-        const response = await axiosInstance.post(
-          `/chats/${classData?.details.dancerId}/start`
-        );
-        window.open(response.data.data?.openChatUrl);
-      } catch (error) {
-        console.error('❌ 1:1 채팅 신청 중 오류 발생:', error);
-      }
-    };
-    startChat();
-  };
+  // 유저의 수업 찜 여부
+  useEffect(() => {
+    if (!myLiked || !classId) return;
 
-  const handleLikeClick = () => {
-    const postLiked = async () => {
-      try {
-        await axiosInstance.post(`/dance-classes/${classId}/favorite`);
-        setIsLiked(true);
-      } catch (error) {
-        console.error('❌ 수업 찜 등록 중 오류 발생:', error);
-      }
-    };
-
-    const deleteLiked = async () => {
-      try {
-        await axiosInstance.delete(`/dance-classes/${classId}/favorite`);
-        setIsLiked(false);
-      } catch (error) {
-        console.error('❌ 수업 찜 해제 중 오류 발생:', error);
-      }
-    };
-
-    if (isLiked === false) postLiked();
-    else deleteLiked();
-  };
+    const matched = myLiked.danceClasses?.some((cls: LikedClass) => cls.id === Number(classId));
+    setIsLiked(!!matched);
+  }, [myLiked, classId]);
 
   const handleTabChange = (index: number) => {
     navigate(`/classreservation/${classId}?tab=${tab[index].query}`);
   };
+
+  const handleChatClick = (dancerId: number) => postChat(dancerId);
+  const handleLikeClick = () => {
+    if (!isLiked) postLiked(classId ?? '');
+    else deleteLiked(classId ?? '');
+  };
+
+  if (!classData) return <LoadingSpinner isLoading={isLoading} />;
 
   return (
     <Container>
@@ -109,39 +79,25 @@ const ClassReservation = () => {
         <Title>{classData?.className}</Title>
       </TitleWrapper>
       <Summary>
-        <Image
-          src={classData?.dancer?.profileImage}
-          alt={`dancer profile of class #${classData?.id}`}
-        />
+        <Image src={classData?.dancer.profileImage} alt={`dancer profile of class #${classData?.id}`} />
         <InfoContainer>
           <Text>강사 : {classData?.dancer?.name}</Text>
-          <Text>
-            장르 :{' '}
-            {DanceGenre.find((g) => Number(g.id) === classData?.genre)?.Genre}
-          </Text>
+          <Text>장르 : {DanceGenre.find((g) => Number(g.id) === classData?.genre)?.Genre}</Text>
           <Text>가격 : {formatPrice(classData?.pricePerSession)}원 / 회당</Text>
           <Level level={classData?.difficulty} />
         </InfoContainer>
         <BtnContainer>
-          <ChatBtn type="button" onClick={() => handleChatClick()}>
+          <ChatBtn type="button" onClick={() => handleChatClick(classData.details.dancerId)}>
             댄서와 1:1 채팅하기
           </ChatBtn>
-          <LikeBtn
-            type="button"
-            onClick={() => handleLikeClick()}
-            $isLiked={isLiked}
-          >
+          <LikeBtn type="button" onClick={() => handleLikeClick()} $isLiked={isLiked}>
             {isLiked ? '찜한 수업 취소하기' : '수업 찜해놓기'}
           </LikeBtn>
         </BtnContainer>
       </Summary>
       <Tabs ref={tabRef}>
         {tab.map((element, index) => (
-          <Tab
-            key={index}
-            $isActive={currentTab === index}
-            onClick={() => handleTabChange(index)}
-          >
+          <Tab key={index} $isActive={currentTab === index} onClick={() => handleTabChange(index)}>
             {element.name}
           </Tab>
         ))}
@@ -151,9 +107,7 @@ const ClassReservation = () => {
       {currentTab === 2 && <RatingTab tabRef={tabRef} />}
     </Container>
   );
-};
-
-export default ClassReservation;
+}
 
 const Container = styled.div`
   display: flex;
@@ -229,10 +183,7 @@ const ChatBtn = styled.button`
   gap: 8px;
   border-radius: 68px;
   border: none;
-  background: var(
-    --main-gradation,
-    linear-gradient(90deg, #b30505 0%, #9819c3 100%)
-  );
+  background: var(--main-gradation, linear-gradient(90deg, #b30505 0%, #9819c3 100%));
 
   color: #fff;
   text-align: center;
@@ -258,8 +209,7 @@ const LikeBtn = styled.button<{ $isLiked: boolean }>`
   border: 4px solid var(--main_purple, #9819c3);
   background: ${({ $isLiked }) => ($isLiked === true ? '#FFF' : 'transparent')};
 
-  color: ${({ $isLiked }) =>
-    $isLiked === true ? 'var(--text_purple, #BF00FF)' : '#FFF'};
+  color: ${({ $isLiked }) => ($isLiked === true ? 'var(--text_purple, #BF00FF)' : '#FFF')};
   text-align: center;
   font-family: Pretendard;
   font-size: 24px;
