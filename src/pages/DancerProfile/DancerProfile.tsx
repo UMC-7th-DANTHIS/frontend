@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import Profile from './components/Profile';
-import IntroduceTab from './components/IntroduceTab';
-import ClassTab from './components/ClassTab';
+import Profile from '../../common/DancerProfile/Profile';
+import IntroduceTab from '../../common/DancerProfile/IntroduceTab';
+import ClassTab from '../../common/DancerProfile/ClassTab';
 import api from '../../api/api';
 
 

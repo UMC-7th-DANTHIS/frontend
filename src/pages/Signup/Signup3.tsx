@@ -5,10 +5,10 @@ import Shape1 from '../../assets/shape/shape1.svg';
 import Shape2 from '../../assets/shape/shape2.svg';
 import Logoimg from '../../assets/logo.svg';
 import Searchicon from '../../assets/searchicon.svg';
-import Overlay from './components/Overlay';
+import Overlay from '../../common/Signup/Overlay';
 import Close from '../../assets/buttons/close.svg';
 import api from '../../api/api';
-import type {DancerType} from "./components/Overlay"
+import type {DancerType} from "../../common/Signup/Overlay"
 
 interface Genre {
   id: number;

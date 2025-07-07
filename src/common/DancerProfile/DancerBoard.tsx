@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 //import { ReactComponent as Line } from '../../../assets/shape/line.svg';
-import { ReactComponent as FocusedCircle } from '../../../assets/shape/focusedcircle.svg';
-import Pagination from '../../../components/Pagination';
-import api from '../../../api/api';
-import LoadingSpinner from '../../../components/LoadingSpinner';
+import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
+import Pagination from '../../components/Pagination';
+import api from '../../api/api';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 type DancerType = {
   id: number;
@@ -107,30 +107,31 @@ const ClassBoard: React.FC = () => {
         ))}
       </Sidebar>
       <Line />
-      {/* {isFetching ? (
+      {isFetching ? (
         <LoadingContainer>
           <LoadingSpinner isLoading={isFetching} />
         </LoadingContainer>
-      ) : ( */}
-      <BoardContainer>
-        <Classes>
-          {data.map((dancer) => (
-            <Class to={`/dancerprofile/${dancer.id}`} key={dancer.id}>
-              <Image src={dancer.images[0]} alt={dancer.dancerName} />
+      ) : (
+        <BoardContainer>
+          <Classes>
+            {data.map((dancer) => (
+              <Class to={`/dancerprofile/${dancer.id}`} key={dancer.id}>
+                <Image src={dancer.images[0]} alt={dancer.dancerName} />
 
-              <Dancer>{dancer.dancerName}</Dancer>
-            </Class>
-          ))}
-        </Classes>
-        {/* <PaginationContainer> */}
-        <Pagination
-          dataLength={totalElements}
-          perData={perData}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-        {/* </PaginationContainer> */}
-      </BoardContainer>
+                <Dancer>{dancer.dancerName}</Dancer>
+              </Class>
+            ))}
+          </Classes>
+          {/* <PaginationContainer> */}
+          <Pagination
+            dataLength={totalElements}
+            perData={perData}
+            currentPage={currentPage}
+           setCurrentPage={setCurrentPage}
+          />
+          {/* </PaginationContainer> */}
+        </BoardContainer>
+      )}
     </Container>
   );
 };
