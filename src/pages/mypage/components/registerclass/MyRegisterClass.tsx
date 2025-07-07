@@ -12,12 +12,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import api from '../../../../api/api';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
 import NoDancer from '../NoDancer';
-
-interface RegisterClassProps {
-  id: number;
-  thumbnailImage: string;
-  className: string;
-}
+import { RegisterClassProps } from '@/types/mypage/RegisterType';
 
 const MyRegisterClass = () => {
   const [selectedClass, setSelectedClass] = useState<number | null>(null);

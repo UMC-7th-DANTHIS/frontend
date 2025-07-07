@@ -7,16 +7,7 @@ import ConfirmLeaveAlert from '../../../../components/ConfirmLeaveAlert';
 import useConfirmLeave from '../../../../hooks/useConfirmLeave';
 import SingleBtnAlert from '../../../../components/SingleBtnAlert';
 import ImagesUploader from '../../../../pages/registration/_components/ImagesUploader';
-
-interface FormState {
-  name: string;
-  instagram: string;
-  chatting: string;
-  introduce: string;
-  genre: number[];
-  record: string;
-  dancerImages: (string | File)[];
-}
+import { FormState } from '@/types/mypage/EditProfileType';
 
 const ProfileDancer = () => {
   const [formState, setFormState] = useState<FormState>({

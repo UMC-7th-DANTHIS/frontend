@@ -6,12 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import api from '../../../../api/api';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
 import { useNavigate } from 'react-router-dom';
-
-interface DancerProps {
-  id: number;
-  dancerName: string;
-  images: string[];
-}
+import { DancerProps } from '@/types/mypage/LikeDancerType';
 
 const MyLikeDancer = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
