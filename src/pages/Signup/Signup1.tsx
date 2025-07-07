@@ -4,23 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import Shape1 from '../../assets/shape/shape1.svg';
 import Shape2 from '../../assets/shape/shape2.svg';
 import AgreeAlert from '../../components/AgreeAlert';
+import { AgreementItemType } from '@/types/Signup/useAgreement';
 
-interface AgreementItemType {
-  id: number;
-  title: string;
-  required: boolean;
-  checked: boolean;
-}
 const Signup1: React.FC = () => {
   const [showAgreeAlert, setShowAgreeAlert] = useState(false);
   const [showPersonalAlert, setShowPersonalAlert] = useState(false);
-  // const handleAgreeAlert = () => {
-  //   setShowAgreeAlert(true);
-  // };
-
-  // const hideAgreeAlert = () => {
-  //   setShowAgreeAlert(false);
-  // };
 
   const navigate = useNavigate();
   const handleNext = () => {
