@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { ReactComponent as Speaker } from '../../../../../assets/emoji/speaker.svg';
-import { ReactComponent as ThumbsUp } from '../../../../../assets/emoji/thumbsup.svg';
-import { hashTagID } from '../../../../../api/schema';
-import { DanceClass } from '../../../../../types/ClassInterface';
+import { ReactComponent as Speaker } from '../../../../assets/emoji/speaker.svg';
+import { ReactComponent as ThumbsUp } from '../../../../assets/emoji/thumbsup.svg';
+import { DanceClass } from '@/types/class';
+import { hashTagID } from '../../../../api/schema';
 
 interface DetailTabProps {
   classData: DanceClass | null;
 }
 
-const DetailTab = ({ classData }: DetailTabProps) => {
+export const DetailTab = ({ classData }: DetailTabProps) => {
   const getYoutubeEmbedUrl = (link: string) => {
     const match = link.match(
       /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/live\/)([\w-]{11})/
@@ -20,18 +20,11 @@ const DetailTab = ({ classData }: DetailTabProps) => {
   return (
     <Container>
       <Video>
-        {(classData?.details.videoUrl &&
-          classData?.details.videoUrl.includes('youtube.com')) ||
+        {(classData?.details.videoUrl && classData?.details.videoUrl.includes('youtube.com')) ||
         classData?.details.videoUrl.includes('youtu.be') ? (
-          <Iframe
-            src={getYoutubeEmbedUrl(classData?.details.videoUrl)}
-            title="YouTube Video"
-            allowFullScreen
-          />
+          <Iframe src={getYoutubeEmbedUrl(classData?.details.videoUrl)} title="YouTube Video" allowFullScreen />
         ) : (
-          classData?.details.videoUrl && (
-            <video src={classData?.details.videoUrl} controls />
-          )
+          classData?.details.videoUrl && <video src={classData?.details.videoUrl} controls />
         )}
       </Video>
       <Section>
@@ -53,9 +46,7 @@ const DetailTab = ({ classData }: DetailTabProps) => {
         <Text>{classData?.details.targetAudience}</Text>
         <Tags>
           {classData?.details.hashtags.map((tag) => {
-            const tagName = hashTagID.find(
-              (t) => Number(t.id) === tag
-            )?.hashTag;
+            const tagName = hashTagID.find((t) => Number(t.id) === tag)?.hashTag;
             return tagName ? <Tag key={tag}>#{tagName}</Tag> : null;
           })}
         </Tags>
@@ -64,16 +55,10 @@ const DetailTab = ({ classData }: DetailTabProps) => {
         <Title>수업 사진</Title>
         <Images>
           {classData?.details.danceClassImages[0] === '' ? (
-            <Image
-              src={classData.dancer?.profileImage}
-              alt={`dancer profile of class #${classData?.id}`}
-            />
+            <Image src={classData.dancer?.profileImage} alt={`dancer profile of class #${classData?.id}`} />
           ) : (
             classData?.details.danceClassImages.map(
-              (image, index) =>
-                image && (
-                  <Image key={index} src={image} alt={`class #${index}`} />
-                )
+              (image, index) => image && <Image key={index} src={image} alt={`class #${index}`} />
             )
           )}
         </Images>
@@ -86,8 +71,6 @@ const DetailTab = ({ classData }: DetailTabProps) => {
     </Container>
   );
 };
-
-export default DetailTab;
 
 const Container = styled.div`
   display: flex;

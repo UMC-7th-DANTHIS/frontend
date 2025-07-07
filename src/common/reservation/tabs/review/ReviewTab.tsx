@@ -1,16 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import Review from './Review';
-import Pagination from '../../../../../components/Pagination';
-import useFetchData from '../../../../../hooks/useFetchData';
-import { ClassReviewList } from '../../../../../types/ClassInterface';
+import { Review } from './Review';
+import useFetchData from '../../../../hooks/useFetchData';
+import { ClassReviewList } from '../../../../types/review';
+import Pagination from '../../../../components/Pagination';
 
 interface ReviewTabProps {
   tabRef: React.RefObject<HTMLDivElement | null>;
 }
 
-const ReviewTab = ({ tabRef }: ReviewTabProps) => {
+export const ReviewTab = ({ tabRef }: ReviewTabProps) => {
   const location = useLocation();
   const { classId } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
@@ -49,12 +49,7 @@ const ReviewTab = ({ tabRef }: ReviewTabProps) => {
       ) : (
         <>
           {data?.classReviews.map((review, index) => (
-            <Review
-              key={index}
-              review={review}
-              classId={data?.id}
-              page={data?.pagination.currentPage}
-            />
+            <Review key={index} review={review} classId={data?.id} page={data?.pagination.currentPage} />
           ))}
           {data?.pagination && (
             <Pagination
@@ -69,8 +64,6 @@ const ReviewTab = ({ tabRef }: ReviewTabProps) => {
     </Container>
   );
 };
-
-export default ReviewTab;
 
 const Container = styled.div`
   display: flex;

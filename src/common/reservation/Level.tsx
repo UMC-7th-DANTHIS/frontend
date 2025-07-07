@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { ReactComponent as StarFilled } from '../../../assets/buttons/starlevel_filled.svg';
-import { ReactComponent as StarNonfilled } from '../../../assets/buttons/starlevel_nonfilled.svg';
+import { ReactComponent as StarFilled } from '../../assets/buttons/starlevel_filled.svg';
+import { ReactComponent as StarNonfilled } from '../../assets/buttons/starlevel_nonfilled.svg';
 
-const Level = ({ level }: { level: number | undefined }) => {
+export const Level = ({ level }: { level: number | undefined }) => {
   const totalStars = 5;
 
   return (
@@ -11,18 +11,12 @@ const Level = ({ level }: { level: number | undefined }) => {
       <Stars>
         {level &&
           Array.from({ length: totalStars }, (_, index) =>
-            index < level ? (
-              <StarFilled key={index} />
-            ) : (
-              <StarNonfilled key={index} />
-            )
+            index < level ? <StarFilled key={index} /> : <StarNonfilled key={index} />
           )}
       </Stars>
     </LevelContainer>
   );
 };
-
-export default Level;
 
 const LevelContainer = styled.div`
   display: flex;

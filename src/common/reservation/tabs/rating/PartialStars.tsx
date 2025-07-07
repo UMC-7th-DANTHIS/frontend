@@ -6,27 +6,15 @@ interface PartialStarsProps {
   height: string;
 }
 
-const PartialStars = ({
-  level,
-  width = '120px',
-  height = '120px'
-}: PartialStarsProps) => {
+export const PartialStars = ({ level, width = '120px', height = '120px' }: PartialStarsProps) => {
   const Star = stars[`star${level}`];
 
   return Star && React.cloneElement(Star, { width, height }); // svg 복제 후 width, height 속성 추가
 };
 
-export default PartialStars;
-
 const stars: Record<string, React.JSX.Element> = {
   star0: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="104"
-      height="100"
-      viewBox="0 0 104 100"
-      fill="none"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="104" height="100" viewBox="0 0 104 100" fill="none">
       <path
         d="M40.6429 31.4201L52.0003 6.79728L63.3577 31.4201L67.9907 29.2831L63.3577 31.4201C64.6836 34.2946 67.4077 36.2738 70.5512 36.6465L97.4786 39.8392L77.5705 58.2496C75.2464 60.3988 74.2058 63.6012 74.8228 66.7061L80.1074 93.3021L56.4461 80.0575C53.6839 78.5113 50.3167 78.5113 47.5544 80.0575L23.8932 93.3021L29.1777 66.7061C29.7947 63.6012 28.7542 60.3988 26.4301 58.2496L6.52199 39.8392L33.4493 36.6465C36.5929 36.2738 39.317 34.2946 40.6429 31.4201Z"
         stroke="#FEE502"
@@ -35,13 +23,7 @@ const stars: Record<string, React.JSX.Element> = {
     </svg>
   ),
   star1: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="105"
-      height="100"
-      viewBox="0 0 105 100"
-      fill="none"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="105" height="100" viewBox="0 0 105 100" fill="none">
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -51,13 +33,7 @@ const stars: Record<string, React.JSX.Element> = {
     </svg>
   ),
   star2: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="105"
-      height="100"
-      viewBox="0 0 105 100"
-      fill="none"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="105" height="100" viewBox="0 0 105 100" fill="none">
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -67,13 +43,7 @@ const stars: Record<string, React.JSX.Element> = {
     </svg>
   ),
   star3: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="105"
-      height="100"
-      viewBox="0 0 105 100"
-      fill="none"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="105" height="100" viewBox="0 0 105 100" fill="none">
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -83,13 +53,7 @@ const stars: Record<string, React.JSX.Element> = {
     </svg>
   ),
   star4: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="105"
-      height="100"
-      viewBox="0 0 105 100"
-      fill="none"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="105" height="100" viewBox="0 0 105 100" fill="none">
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -99,13 +63,7 @@ const stars: Record<string, React.JSX.Element> = {
     </svg>
   ),
   star5: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="104"
-      height="100"
-      viewBox="0 0 104 100"
-      fill="none"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="104" height="100" viewBox="0 0 104 100" fill="none">
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -115,13 +73,7 @@ const stars: Record<string, React.JSX.Element> = {
     </svg>
   ),
   star6: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="105"
-      height="101"
-      viewBox="0 0 105 101"
-      fill="none"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="105" height="101" viewBox="0 0 105 101" fill="none">
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -131,13 +83,7 @@ const stars: Record<string, React.JSX.Element> = {
     </svg>
   ),
   star7: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="105"
-      height="100"
-      viewBox="0 0 105 100"
-      fill="none"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="105" height="100" viewBox="0 0 105 100" fill="none">
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -147,13 +93,7 @@ const stars: Record<string, React.JSX.Element> = {
     </svg>
   ),
   star8: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="105"
-      height="100"
-      viewBox="0 0 105 100"
-      fill="none"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="105" height="100" viewBox="0 0 105 100" fill="none">
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -163,13 +103,7 @@ const stars: Record<string, React.JSX.Element> = {
     </svg>
   ),
   star9: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="105"
-      height="100"
-      viewBox="0 0 105 100"
-      fill="none"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="105" height="100" viewBox="0 0 105 100" fill="none">
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -179,13 +113,7 @@ const stars: Record<string, React.JSX.Element> = {
     </svg>
   ),
   star10: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="105"
-      height="100"
-      viewBox="0 0 105 100"
-      fill="none"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="105" height="100" viewBox="0 0 105 100" fill="none">
       <path
         fillRule="evenodd"
         clipRule="evenodd"

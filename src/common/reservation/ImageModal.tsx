@@ -7,7 +7,7 @@ type ImageModalProps = {
   index: number;
 };
 
-const ImageModal = ({ imgUrl, setIsModalOpen, index }: ImageModalProps) => {
+export const ImageModal = ({ imgUrl, setIsModalOpen, index }: ImageModalProps) => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent): void => {
       if (e.key === 'Escape') {
@@ -32,9 +32,7 @@ const ImageModal = ({ imgUrl, setIsModalOpen, index }: ImageModalProps) => {
         })
       }
     >
-      <ModalContent
-        onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
-      >
+      <ModalContent onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}>
         <ModalImage src={imgUrl} alt={`photo ${index}`} />
         <CloseButton
           onClick={() =>
@@ -51,8 +49,6 @@ const ImageModal = ({ imgUrl, setIsModalOpen, index }: ImageModalProps) => {
     </Modal>
   );
 };
-
-export default ImageModal;
 
 const Modal = styled.div`
   position: fixed;

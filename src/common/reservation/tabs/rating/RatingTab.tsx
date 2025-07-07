@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import PartialStars from './PartialStars';
-import useFetchData from '../../../../../hooks/useFetchData';
+import { PartialStars } from './PartialStars';
+import useFetchData from '../../../../hooks/useFetchData';
 
 interface Dancer {
   name: string;
@@ -25,7 +25,7 @@ interface RatingTabProps {
   tabRef: React.RefObject<HTMLDivElement | null>;
 }
 
-const RatingTab = ({ tabRef }: RatingTabProps) => {
+export const RatingTab = ({ tabRef }: RatingTabProps) => {
   const { classId } = useParams<{ classId: string }>();
   const totalStars: number = 5;
   const { data, fetchData } = useFetchData<RatingData>();
@@ -66,15 +66,11 @@ const RatingTab = ({ tabRef }: RatingTabProps) => {
           <RatingNumber>{data?.averageRating?.toFixed(1)}</RatingNumber>
         </>
       }
-      <Notice>
-        이 수업을 수강하셨나요? 직접 이 수업에 대한 만족도를 평가해보세요!
-      </Notice>
+      <Notice>이 수업을 수강하셨나요? 직접 이 수업에 대한 만족도를 평가해보세요!</Notice>
       <MoveReview to={`/mypage?menu=myreview`}>후기 작성하러 가기</MoveReview>
     </Container>
   );
 };
-
-export default RatingTab;
 
 const Container = styled.div`
   display: flex;

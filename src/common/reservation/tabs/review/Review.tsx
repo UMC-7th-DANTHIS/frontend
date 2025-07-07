@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { ReactComponent as StarFilled } from '../../../../../assets/shape/filledYellowStar.svg';
-import { ReactComponent as StarNonfilled } from '../../../../../assets/shape/nonfilledYellowStar.svg';
-import { ReactComponent as GotoIcon } from '../../../../../assets/shape/gotoicon.svg';
-import formatDate from '../../../../../api/formatDate';
-import { ClassReview } from '../../../../../types/ClassInterface';
+import { ReactComponent as StarFilled } from '../../../../assets/shape/filledYellowStar.svg';
+import { ReactComponent as StarNonfilled } from '../../../../assets/shape/nonfilledYellowStar.svg';
+import { ReactComponent as GotoIcon } from '../../../../assets/shape/gotoicon.svg';
+import { ClassReview } from '../../../../types/review';
+import formatDate from '../../../../api/formatDate';
 
 interface ReviewProps {
   review: ClassReview;
@@ -12,7 +12,7 @@ interface ReviewProps {
   page: number;
 }
 
-const Review = ({ review, classId, page }: ReviewProps) => {
+export const Review = ({ review, classId, page }: ReviewProps) => {
   const navigate = useNavigate();
   const totalStars = 5;
 
@@ -50,25 +50,17 @@ const Review = ({ review, classId, page }: ReviewProps) => {
         <GotoIcon />
       </ViewDetailButton>
 
-      <Detail>
-        {review.content?.length > 680
-          ? `${review.content.slice(0, 680)} ...`
-          : review.content}
-      </Detail>
+      <Detail>{review.content?.length > 680 ? `${review.content.slice(0, 680)} ...` : review.content}</Detail>
       {review.reviewImages && (
         <Images>
           {review.reviewImages.map((image, index) => (
-            <Image key={index}>
-              {image && <img src={image} alt={`review #${index}`} />}
-            </Image>
+            <Image key={index}>{image && <img src={image} alt={`review #${index}`} />}</Image>
           ))}
         </Images>
       )}
     </Container>
   );
 };
-
-export default Review;
 
 const Container = styled.div`
   display: flex;
