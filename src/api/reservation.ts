@@ -4,10 +4,13 @@ import {
   ChatResponse,
   ClassDetailResponse,
   ClassesResponse,
+  ClassRatingResposne,
+  ClassReviewResposne,
   LikedResponse,
-  MyLikedResponse
+  MyLikedResponse,
+  ReviewDeleteResponse,
+  ReviewResponse
 } from '../types/reservation';
-import { ReviewDeleteResponse, ReviewResponse } from '../types/review';
 
 export const fetchClasses = async (paginationParams: PaginationParams): Promise<ClassesResponse> => {
   const { data } = await api.get(`/dance-classes/all`, {
@@ -18,6 +21,21 @@ export const fetchClasses = async (paginationParams: PaginationParams): Promise<
 
 export const fetchClassDetailById = async (classId: string): Promise<ClassDetailResponse> => {
   const { data } = await api.get(`/dance-classes/${classId}`);
+  return data;
+};
+
+export const fetchRating = async (classId: string): Promise<ClassRatingResposne> => {
+  const { data } = await api.get(`/dance-classes/${classId}/rating`);
+  return data;
+};
+
+export const fetchReviews = async (
+  classId: string,
+  paginationParams: PaginationParams
+): Promise<ClassReviewResposne> => {
+  const { data } = await api.get(`/dance-classes/${classId}/reviews`, {
+    params: paginationParams
+  });
   return data;
 };
 

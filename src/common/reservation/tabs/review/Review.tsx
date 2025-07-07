@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { ReactComponent as StarFilled } from '../../../../assets/shape/filledYellowStar.svg';
 import { ReactComponent as StarNonfilled } from '../../../../assets/shape/nonfilledYellowStar.svg';
 import { ReactComponent as GotoIcon } from '../../../../assets/shape/gotoicon.svg';
-import { ClassReview } from '../../../../types/review';
+import { ClassReview } from '../../../../types/class';
 import formatDate from '../../../../api/formatDate';
 
 interface ReviewProps {

@@ -2,11 +2,11 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as Speaker } from '../../../../assets/emoji/speaker.svg';
 import { ReactComponent as ThumbsUp } from '../../../../assets/emoji/thumbsup.svg';
-import { DanceClass } from '@/types/class';
 import { hashTagID } from '../../../../api/schema';
+import { DanceClassDetail } from '../../../../types/class';
 
 interface DetailTabProps {
-  classData: DanceClass | null;
+  classData: DanceClassDetail | null;
 }
 
 export const DetailTab = ({ classData }: DetailTabProps) => {

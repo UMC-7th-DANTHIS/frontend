@@ -1,25 +1,7 @@
-import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { PartialStars } from './PartialStars';
-import useFetchData from '../../../../hooks/useFetchData';
-
-interface Dancer {
-  name: string;
-  profileImage: string;
-  openChatUrl: string;
-}
-
-interface RatingData {
-  id: number;
-  className: string;
-  dancer: Dancer;
-  genre: number;
-  pricePerSession: number;
-  difficulty: number;
-  averageRating: number;
-  totalReviews: number;
-}
+import useGetRating from '../../../../hooks/reservation/useGetRating';
 
 interface RatingTabProps {
   tabRef: React.RefObject<HTMLDivElement | null>;
@@ -28,7 +10,7 @@ interface RatingTabProps {
 export const RatingTab = ({ tabRef }: RatingTabProps) => {
   const { classId } = useParams<{ classId: string }>();
   const totalStars: number = 5;
-  const { data, fetchData } = useFetchData<RatingData>();
+  const { data } = useGetRating(classId ?? '');
 
   if (tabRef.current) {
     const offset = -100;
@@ -36,14 +18,6 @@ export const RatingTab = ({ tabRef }: RatingTabProps) => {
 
     window.scrollTo({ top, behavior: 'smooth' });
   }
-
-  useEffect(() => {
-    const fetchClass = async () => {
-      await fetchData(`/dance-classes/${classId}/rating`);
-    };
-
-    fetchClass();
-  }, [classId, fetchData]);
 
   const getRatingStars = (rate: number) => {
     return Array.from({ length: totalStars }, (_, index) => {

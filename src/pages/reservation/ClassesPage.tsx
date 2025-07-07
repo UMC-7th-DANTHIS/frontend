@@ -14,10 +14,7 @@ export default function ClassesPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 9;
 
-  const { data, isLoading } = useGetClasses({
-    genre: Number(selectedGenre),
-    page: currentPage
-  });
+  const { data, isLoading } = useGetClasses({ genre: Number(selectedGenre), page: currentPage });
 
   useEffect(() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' }), [data]);
 
