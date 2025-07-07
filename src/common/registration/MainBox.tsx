@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const MainBox = ({ label }: { label: string }) => {
+export const MainBox = ({ label }: { label: string }) => {
   // label에 따라 left 값 다르게 계산
   const calLeftPosition = (label: string) => {
     switch (label) {
@@ -19,8 +19,6 @@ const MainBox = ({ label }: { label: string }) => {
     </Container>
   );
 };
-
-export default MainBox;
 
 const Container = styled.div`
   position: absolute;

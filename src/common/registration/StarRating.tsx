@@ -1,9 +1,14 @@
 import styled from 'styled-components';
-import { ReactComponent as StarFilled } from '../../../assets/buttons/starlevel_filled.svg';
-import { ReactComponent as StarNonfilled } from '../../../assets/buttons/starlevel_nonfilled.svg';
-import { StarRatingProps } from '../../../types/RegisterFormInterface';
+import { ReactComponent as StarFilled } from '../../assets/buttons/starlevel_filled.svg';
+import { ReactComponent as StarNonfilled } from '../../assets/buttons/starlevel_nonfilled.svg';
+import { ClassFormState, HandleFormChange } from '../../types/register';
 
-const StarRating = ({ value, handleFormChange }: StarRatingProps) => {
+interface StarRatingProps {
+  value: number;
+  handleFormChange: HandleFormChange<ClassFormState>;
+}
+
+export const StarRating = ({ value, handleFormChange }: StarRatingProps) => {
   const totalStars = 5;
 
   const handleSelect = (index: number) => {
@@ -27,8 +32,6 @@ const StarRating = ({ value, handleFormChange }: StarRatingProps) => {
     </StarsContainer>
   );
 };
-
-export default StarRating;
 
 const StarsContainer = styled.div`
   display: flex;

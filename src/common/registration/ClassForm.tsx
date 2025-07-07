@@ -1,26 +1,31 @@
-import { useEffect, useState, useCallback } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useState, useCallback } from 'react';
 import styled from 'styled-components';
-import { Input, Textarea } from '../_components/Inputs';
-import StarRating from '../_components/StarRating';
-import { GenreSelectorClass } from '../_components/GenreSelector';
-import ImagesUploader from '../_components/ImagesUploader';
-import VideoUploader from '../_components/VideoUploader';
-import SubmitButton from '../_components/SubmitButton';
-import TagSelector from '../_components/TagSelector';
-import ConfirmLeaveAlert from '../../../components/ConfirmLeaveAlert';
-import SingleBtnAlert from '../../../components/SingleBtnAlert';
-import useConfirmLeave from '../../../hooks/useConfirmLeave';
-import api from '../../../api/api';
 
-import { ClassFormState } from '../../../types/RegisterFormInterface';
-import usePut from '../../../hooks/registration/usePut';
-import useValidation from '../../../hooks/registration/useValidation';
+import ConfirmLeaveAlert from '../../components/ConfirmLeaveAlert';
+import SingleBtnAlert from '../../components/SingleBtnAlert';
+import useConfirmLeave from '../../hooks/useConfirmLeave';
+import {
+  GenreSelectorClass,
+  ImagesUploader,
+  Input,
+  StarRating,
+  SubmitButton,
+  TagSelector,
+  Textarea,
+  VideoUploader
+} from '.';
 
-const ClassRegisterEdit = () => {
-  const navigate = useNavigate();
-  const { data, put } = usePut();
-  const [formState, setFormState] = useState({
+import { ClassFormState } from '../../types/RegisterFormInterface';
+import usePost from '../../hooks/registration/usePost';
+import useValidation from '../../hooks/registration/useValidation';
+
+interface ClassFormProps {
+  setIsRegistered: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function ClassForm({ setIsRegistered }: ClassFormProps) {
+  const { data, post } = usePost();
+  const [formState, setFormState] = useState<ClassFormState>({
     className: '',
     pricePerSession: '',
     difficulty: 0,
@@ -35,41 +40,13 @@ const ClassRegisterEdit = () => {
   const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
   const [showLeaveAlert, setShowLeaveAlert] = useState<boolean>(false);
 
-  const { classId } = useParams();
-
-  useEffect(() => {
-    const fetchClassData = async () => {
-      try {
-        const response = await api.get(`/dance-classes/${classId}`);
-        const data = response.data.data;
-        setFormState({
-          className: data.className || '',
-          pricePerSession: data.pricePerSession || '',
-          difficulty: data.difficulty || 0,
-          genre: data.genre || 0,
-          description: data.details.description || '',
-          targetAudience: data.details.targetAudience || 's',
-          hashtags: data.details.hashtags || [],
-          images: data.details.danceClassImages || ['', '', ''],
-          videoUrl: data.details.videoUrl || ''
-        });
-      } catch (error: unknown) {
-        console.error(error);
-      }
-    };
-    fetchClassData();
-  }, [classId]);
-
   // 뒤로 가기 방지 팝업 경고
   useConfirmLeave({ setAlert: setShowLeaveAlert });
 
   // 등록 폼 상태 업데이트
-  const handleFormChange = useCallback(
-    <K extends keyof ClassFormState>(key: K, value: ClassFormState[K]) => {
-      setFormState((prev) => ({ ...prev, [key]: value }));
-    },
-    []
-  );
+  const handleFormChange = useCallback(<K extends keyof ClassFormState>(key: K, value: ClassFormState[K]) => {
+    setFormState((prev) => ({ ...prev, [key]: value }));
+  }, []);
 
   // 수업 등록 폼 제출 핸들러
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -77,7 +54,8 @@ const ClassRegisterEdit = () => {
 
     const updatedFormState = {
       ...formState,
-      pricePerSession: Number(formState.pricePerSession) || 0
+      pricePerSession: Number(formState.pricePerSession) || 0, // 빈 값이면 0 처리
+      images: formState.images.filter((img) => img) // ''  값 제거
     };
 
     if (!isValid) {
@@ -85,8 +63,8 @@ const ClassRegisterEdit = () => {
       return;
     }
 
-    await put(`/dance-classes/${classId}`, updatedFormState);
-    if (data) navigate(`/mypage?menu=registeredclasses`);
+    await post('/dance-classes', updatedFormState);
+    if (data) setIsRegistered(true);
   };
 
   return (
@@ -114,18 +92,12 @@ const ClassRegisterEdit = () => {
         <LabelWrapper>
           <Label>난이도</Label>
         </LabelWrapper>
-        <StarRating
-          value={formState.difficulty}
-          handleFormChange={handleFormChange}
-        />
+        <StarRating value={formState.difficulty} handleFormChange={handleFormChange} />
         <LabelWrapper>
           <Label>장르</Label>
           <Notice>*최대 1개까지 선택 가능합니다.</Notice>
         </LabelWrapper>
-        <GenreSelectorClass
-          selectedGenre={formState.genre}
-          handleFormChange={handleFormChange}
-        />
+        <GenreSelectorClass selectedGenre={formState.genre} handleFormChange={handleFormChange} />
         <LabelWrapper>
           <Label>수업 소개</Label>
           <Notice>*최대 1000자까지 입력 가능합니다.</Notice>
@@ -150,25 +122,17 @@ const ClassRegisterEdit = () => {
           <Label>해시태그</Label>
           <Notice>*최대 3개까지 선택 가능합니다.</Notice>
         </LabelWrapper>
-        <TagSelector
-          selectedTags={formState.hashtags}
-          handleFormChange={handleFormChange}
-        />
+        <TagSelector selectedTags={formState.hashtags} handleFormChange={handleFormChange} />
 
         <LabelWrapper $long>
           <Label>수업 사진</Label>
           <Notice>
             *최대 3장까지 등록 가능합니다.
             {'\n'} *가장 첫 번째로 등록된 사진이 썸네일로 사용됩니다.
-            {'\n'} *등록된 사진이 없는 경우, 댄서 등록 시 사용한 사진으로 자동
-            등록됩니다.
+            {'\n'} *등록된 사진이 없는 경우, 댄서 등록 시 사용한 사진으로 자동 등록됩니다.
           </Notice>
         </LabelWrapper>
-        <ImagesUploader
-          isFor="class"
-          images={formState.images}
-          handleFormChange={handleFormChange}
-        />
+        <ImagesUploader isFor="class" images={formState.images} handleFormChange={handleFormChange} />
         <LabelWrapper $long>
           <Label>수업 영상</Label>
           <Notice>
@@ -176,15 +140,10 @@ const ClassRegisterEdit = () => {
             {'\n'} *수업 영상이 없는 경우, 댄서 영상을 업로드 해주세요.
           </Notice>
         </LabelWrapper>
-        <VideoUploader
-          video={formState.videoUrl}
-          handleFormChange={handleFormChange}
-        />
+        <VideoUploader video={formState.videoUrl} handleFormChange={handleFormChange} />
       </InputContainer>
 
-      <Notice>
-        *댄스 수업 등록은 내부 운영팀의 심사를 통해 최종 승인됩니다.
-      </Notice>
+      <Notice>*댄스 수업 등록은 내부 운영팀의 심사를 통해 최종 승인됩니다.</Notice>
       <SubmitButton text="댄스 수업 등록하기" />
       {showInvalidAlert && (
         <SingleBtnAlert
@@ -216,9 +175,7 @@ const ClassRegisterEdit = () => {
       )}
     </FormContainer>
   );
-};
-
-export default ClassRegisterEdit;
+}
 
 const FormContainer = styled.form`
   justify-items: center;

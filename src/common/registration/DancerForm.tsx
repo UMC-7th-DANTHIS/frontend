@@ -1,22 +1,20 @@
 import { useState, useCallback } from 'react';
 import styled from 'styled-components';
-import { Input, Textarea } from '../_components/Inputs';
-import { GenreSelectorDancer } from '../_components/GenreSelector';
-import ImagesUploader from '../_components/ImagesUploader';
-import SubmitButton from '../_components/SubmitButton';
-import ConfirmLeaveAlert from '../../../components/ConfirmLeaveAlert';
-import SingleBtnAlert from '../../../components/SingleBtnAlert';
-import useConfirmLeave from '../../../hooks/useConfirmLeave';
 
-import { DancerFormState } from '../../../types/RegisterFormInterface';
-import usePost from '../../../hooks/registration/usePost';
-import useValidation from '../../../hooks/registration/useValidation';
+import ConfirmLeaveAlert from '../../components/ConfirmLeaveAlert';
+import SingleBtnAlert from '../../components/SingleBtnAlert';
+import useConfirmLeave from '../../hooks/useConfirmLeave';
+import { GenreSelectorDancer, ImagesUploader, Input, SubmitButton, Textarea } from '.';
 
-const DancerForm = ({
-  setIsRegistered
-}: {
+import { DancerFormState } from '../../types/RegisterFormInterface';
+import usePost from '../../hooks/registration/usePost';
+import useValidation from '../../hooks/registration/useValidation';
+
+interface DancerFormProps {
   setIsRegistered: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+}
+
+export default function DancerForm({ setIsRegistered }: DancerFormProps) {
   const { data, post } = usePost();
   const [formState, setFormState] = useState<DancerFormState>({
     dancerName: '',
@@ -35,12 +33,9 @@ const DancerForm = ({
   useConfirmLeave({ setAlert: setShowLeaveAlert });
 
   // 등록 폼 상태 업데이트
-  const handleFormChange = useCallback(
-    <K extends keyof DancerFormState>(key: K, value: DancerFormState[K]) => {
-      setFormState((prev) => ({ ...prev, [key]: value }));
-    },
-    []
-  );
+  const handleFormChange = useCallback(<K extends keyof DancerFormState>(key: K, value: DancerFormState[K]) => {
+    setFormState((prev) => ({ ...prev, [key]: value }));
+  }, []);
 
   // 수업 등록 폼 제출 핸들러
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -86,9 +81,7 @@ const DancerForm = ({
 
         <LabelWrapper>
           <Label>오픈채팅방 링크</Label>
-          <Notice>
-            *유저들과의 채팅이 이루어질 오픈채팅방 링크를 입력해주세요.
-          </Notice>
+          <Notice>*유저들과의 채팅이 이루어질 오픈채팅방 링크를 입력해주세요.</Notice>
         </LabelWrapper>
         <Input
           label="오픈채팅방 링크"
@@ -112,10 +105,7 @@ const DancerForm = ({
           <Label>주 장르</Label>
           <Notice>*최대 2개까지 선택 가능합니다.</Notice>
         </LabelWrapper>
-        <GenreSelectorDancer
-          selectedGenres={formState.preferredGenres}
-          handleFormChange={handleFormChange}
-        />
+        <GenreSelectorDancer selectedGenres={formState.preferredGenres} handleFormChange={handleFormChange} />
 
         <LabelWrapper>
           <Label>댄서 이력</Label>
@@ -130,16 +120,9 @@ const DancerForm = ({
 
         <LabelWrapper $long>
           <Label>댄서 사진</Label>
-          <Notice>
-            *최대 3장까지 등록 가능합니다. {'\n'}*가장 첫 번째로 등록된 사진이
-            프로필로 사용됩니다.
-          </Notice>
+          <Notice>*최대 3장까지 등록 가능합니다. {'\n'}*가장 첫 번째로 등록된 사진이 프로필로 사용됩니다.</Notice>
         </LabelWrapper>
-        <ImagesUploader
-          isFor="dancer"
-          images={formState.dancerImages}
-          handleFormChange={handleFormChange}
-        />
+        <ImagesUploader isFor="dancer" images={formState.dancerImages} handleFormChange={handleFormChange} />
       </InputContainer>
 
       <Notice>* 댄서 등록은 내부 운영팀의 심사를 통해 최종 승인됩니다.</Notice>
@@ -176,9 +159,7 @@ const DancerForm = ({
       )}
     </FormContainer>
   );
-};
-
-export default DancerForm;
+}
 
 const FormContainer = styled.form`
   justify-items: center;

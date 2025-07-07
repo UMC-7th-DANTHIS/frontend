@@ -1,28 +1,28 @@
 import styled from 'styled-components';
-import { ReactComponent as PictureIcon } from '../../../assets/picture.svg';
-import { ReactComponent as EditIcon } from '../../../assets/shape/write.svg';
-import { ReactComponent as DeleteIcon } from '../../../assets/shape/trash.svg';
 
-import {
-  DancerFormState,
-  ClassFormState
-} from '../../../types/RegisterFormInterface';
-import { ImagesUploaderProps } from '../../../types/RegisterFormInterface';
-import useImagePresignedUrl from '../../../hooks/registration/useImagePresignedUrl';
-import MainBox from './MainBox';
-import useUploadToS3 from '../../../hooks/registration/useUploadToS3';
+import { ReactComponent as PictureIcon } from '../../assets/picture.svg';
+import { ReactComponent as EditIcon } from '../../assets/shape/write.svg';
+import { ReactComponent as DeleteIcon } from '../../assets/shape/trash.svg';
+import { MainBox } from './MainBox';
 
-const ImagesUploader = <T extends DancerFormState | ClassFormState>({
+import useImagePresignedUrl from '../../hooks/registration/useImagePresignedUrl';
+import useUploadToS3 from '../../hooks/registration/useUploadToS3';
+import { ClassFormState, DancerFormState, HandleFormChange } from '../../types/register';
+
+interface ImagesUploaderProps<T> {
+  isFor: 'dancer' | 'class';
+  images: string[];
+  handleFormChange: HandleFormChange<T>;
+}
+
+export const ImagesUploader = <T extends DancerFormState | ClassFormState>({
   isFor,
   images,
   handleFormChange
 }: ImagesUploaderProps<T>) => {
   const totalImages = 3;
 
-  const config: Record<
-    'dancer' | 'class',
-    { label: string; fieldName: keyof T; urlParam: string }
-  > = {
+  const config: Record<'dancer' | 'class', { label: string; fieldName: keyof T; urlParam: string }> = {
     dancer: {
       label: 'Profile',
       fieldName: 'dancerImages' as keyof T,
@@ -42,18 +42,13 @@ const ImagesUploader = <T extends DancerFormState | ClassFormState>({
 
   // 이미지 업데이트 로직
   const updateImageList = (index: number, newImageUrl: string) => {
-    const updatedImages = images.map((img, i) =>
-      i === index ? newImageUrl : img
-    );
+    const updatedImages = images.map((img, i) => (i === index ? newImageUrl : img));
 
     handleFormChange(fieldName, updatedImages as T[typeof fieldName]);
   };
 
   // 이미지 업로드 핸들러
-  const handleUploadFile = async (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
+  const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const file = e.target.files?.[0]; // 파일 가져오기
     if (!file || !file.type.startsWith('image/')) return;
 
@@ -75,11 +70,7 @@ const ImagesUploader = <T extends DancerFormState | ClassFormState>({
           {/* MainBox는 가장 첫번째 사진에만 있는 박스 */}
           {index === 0 && <MainBox label={label} />}
           <Image htmlFor={`image-${index}`} $isEmpty={!images[index]}>
-            {images[index] ? (
-              <img src={images[index]} alt={`class-${index}`} />
-            ) : (
-              <PictureIcon />
-            )}
+            {images[index] ? <img src={images[index]} alt={`class-${index}`} /> : <PictureIcon />}
           </Image>
 
           {/* 이미지가 업로드 안 된 상태에서만 박스 클릭 가능 */}
@@ -114,8 +105,6 @@ const ImagesUploader = <T extends DancerFormState | ClassFormState>({
     </Container>
   );
 };
-
-export default ImagesUploader;
 
 const Container = styled.div`
   display: grid;

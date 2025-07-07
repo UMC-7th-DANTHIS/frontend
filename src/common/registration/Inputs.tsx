@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { addPostposition } from '../../../utils/format';
+import { addPostposition } from '../../utils/format';
 
 interface BaseInputProps<T extends HTMLInputElement | HTMLTextAreaElement> {
   label?: string;
@@ -12,13 +12,7 @@ interface BaseInputProps<T extends HTMLInputElement | HTMLTextAreaElement> {
 type InputProps = BaseInputProps<HTMLInputElement>;
 type TextareaProps = BaseInputProps<HTMLTextAreaElement>;
 
-const Input = ({
-  label,
-  value,
-  onChange,
-  placeholder,
-  maxLength
-}: InputProps) => {
+export const Input = ({ label, value, onChange, placeholder, maxLength }: InputProps) => {
   const isExeedingMaxLength = maxLength && value.length > maxLength;
 
   return (
@@ -33,22 +27,12 @@ const Input = ({
   );
 };
 
-const Textarea = ({
-  label,
-  value,
-  onChange,
-  placeholder,
-  maxLength
-}: TextareaProps) => {
+export const Textarea = ({ label, value, onChange, placeholder, maxLength }: TextareaProps) => {
   const isExeedingMaxLength = maxLength && value.length > maxLength;
 
   return (
     <Container>
-      <TextareaBox
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-      />
+      <TextareaBox value={value} onChange={onChange} placeholder={placeholder} />
       {isExeedingMaxLength && label && (
         <WarningMessage>
           {addPostposition(label)} 최대 {maxLength}자까지 입력 가능합니다.
@@ -58,20 +42,14 @@ const Textarea = ({
   );
 };
 
-const UrlInput = ({ value, onChange, placeholder }: InputProps) => {
+export const UrlInput = ({ value, onChange, placeholder }: InputProps) => {
   return (
     <ShortContainer>
       <Label>URL</Label>
-      <ShortInputBox
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-      />
+      <ShortInputBox value={value} onChange={onChange} placeholder={placeholder} />
     </ShortContainer>
   );
 };
-
-export { Input, Textarea, UrlInput };
 
 const Container = styled.div`
   position: relative;

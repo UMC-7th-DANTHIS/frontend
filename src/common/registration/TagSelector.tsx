@@ -1,8 +1,13 @@
 import styled from 'styled-components';
-import { hashTagID as tags } from '../../../api/schema';
-import { TagSelectorProps } from '../../../types/RegisterFormInterface';
+import { hashTagID as tags } from '../../api/schema';
+import { ClassFormState, HandleFormChange } from '../../types/register';
 
-const TagSelector = ({ selectedTags, handleFormChange }: TagSelectorProps) => {
+interface TagSelectorProps {
+  selectedTags: number[];
+  handleFormChange: HandleFormChange<ClassFormState>;
+}
+
+export const TagSelector = ({ selectedTags, handleFormChange }: TagSelectorProps) => {
   const maxTagsLength = 3;
 
   // 장르 선택 핸들러
@@ -36,8 +41,6 @@ const TagSelector = ({ selectedTags, handleFormChange }: TagSelectorProps) => {
   );
 };
 
-export default TagSelector;
-
 const TagWrapper = styled.div`
   width: 514px;
   padding: 18px 37px 69px 37px;
@@ -58,10 +61,7 @@ const TagBtn = styled.button<{ selected: boolean }>`
   background-color: ${(props) => (props.selected ? 'white' : 'transparent')};
   transition: all 0.3s ease-in-out;
 
-  color: ${(props) =>
-    props.selected
-      ? 'var(--text_purple, #BF00FF)'
-      : 'var(--text_secondary-gray, #b2b2b2)'};
+  color: ${(props) => (props.selected ? 'var(--text_purple, #BF00FF)' : 'var(--text_secondary-gray, #b2b2b2)')};
   font-family: Pretendard;
   font-size: 20px;
   font-style: normal;

@@ -1,14 +1,13 @@
 import styled from 'styled-components';
-import { DanceGenre as genres } from '../../../api/schema';
-import {
-  DancerGenreSelectorProps,
-  ClassGenreSelectorProps
-} from '../../../types/RegisterFormInterface';
+import { DanceGenre as genres } from '../../api/schema';
+import { ClassFormState, DancerFormState, HandleFormChange } from '../../types/register';
 
-const GenreSelectorDancer = ({
-  selectedGenres,
-  handleFormChange
-}: DancerGenreSelectorProps) => {
+interface DancerGenreSelectorProps {
+  selectedGenres: string[];
+  handleFormChange: HandleFormChange<DancerFormState>;
+}
+
+export const GenreSelectorDancer = ({ selectedGenres, handleFormChange }: DancerGenreSelectorProps) => {
   const maxGenresLength = 2;
 
   // 장르 선택 핸들러
@@ -42,10 +41,12 @@ const GenreSelectorDancer = ({
   );
 };
 
-const GenreSelectorClass = ({
-  selectedGenre,
-  handleFormChange
-}: ClassGenreSelectorProps) => {
+interface ClassGenreSelectorProps {
+  selectedGenre: number;
+  handleFormChange: HandleFormChange<ClassFormState>;
+}
+
+export const GenreSelectorClass = ({ selectedGenre, handleFormChange }: ClassGenreSelectorProps) => {
   // 단일 선택
   // 장르 선택 핸들러
   const handleSelect = (genreId: number) => {
@@ -69,8 +70,6 @@ const GenreSelectorClass = ({
   );
 };
 
-export { GenreSelectorDancer, GenreSelectorClass };
-
 const GenreWrapper = styled.div`
   width: 514px;
   padding: 18px 37px 69px 37px;
@@ -88,11 +87,8 @@ const GenreBtn = styled.button<{ selected: boolean }>`
   align-items: center;
   gap: 8px;
   border-radius: 4px;
-  border: 1px solid
-    ${({ selected }) =>
-      selected ? 'var(--main_purple, #9819C3)' : 'var(--sub_light-gray, #ddd)'};
-  background-color: ${({ selected }) =>
-    selected ? 'var(--main_purple, #9819C3)' : 'transparent'};
+  border: 1px solid ${({ selected }) => (selected ? 'var(--main_purple, #9819C3)' : 'var(--sub_light-gray, #ddd)')};
+  background-color: ${({ selected }) => (selected ? 'var(--main_purple, #9819C3)' : 'transparent')};
   transition: all 0.3s ease-in-out;
 
   color: var(--sub_light-gray, #ddd);

@@ -1,14 +1,12 @@
 import styled from 'styled-components';
 
-const SubmitButton = ({ text }: { text: string }) => {
+export const SubmitButton = ({ text }: { text: string }) => {
   return (
     <Btn type="submit">
       <BtnText>{text}</BtnText>
     </Btn>
   );
 };
-
-export default SubmitButton;
 
 const Btn = styled.button`
   display: flex;

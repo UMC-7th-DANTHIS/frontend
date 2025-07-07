@@ -1,31 +1,29 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import ClassForm from './ClassForm';
-import Complete from '../_components/RegisterComplete';
 
-const ClassRegistration = () => {
+import DancerForm from '../../common/registration/DancerForm';
+import { RegisterComplete } from '../../common/registration';
+
+export default function DancerRegistrationPage() {
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
 
   // 등록 완료 메시지
-  const title = '댄스 수업 등록 신청이 완료되었어요!';
-  const detail =
-    '운영진의 검토 이후, 정식 댄스 수업으로 등록될 수 있어요. \n등록 신청에 감사드려요 :)';
+  const title = '댄서 등록 신청이 완료되었어요!';
+  const detail = '운영진의 검토 이후 댄서로 등록될 수 있어요. \n등록 신청에 감사드려요 :)';
 
   return (
     <Container>
       <Registration>
-        <Title>댄스 수업 등록</Title>
+        <Title>댄서 등록</Title>
         {!isRegistered ? (
-          <ClassForm setIsRegistered={setIsRegistered} />
+          <DancerForm setIsRegistered={setIsRegistered} />
         ) : (
-          <Complete title={title} detail={detail} />
+          <RegisterComplete title={title} detail={detail} />
         )}
       </Registration>
     </Container>
   );
-};
-
-export default ClassRegistration;
+}
 
 const Container = styled.div`
   display: flex;
