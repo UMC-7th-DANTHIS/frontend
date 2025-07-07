@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import imgDesc from '../../assets/Search/imageDescript.svg';
 
-import Pagination from '../Pagination';
+import Pagination from '../../components/Pagination';
 import SearchNothing from './SearchNothing';
 import useSearch from '../../hooks/useSearch';
 import axiosInstance from '../../api/axios-instance';

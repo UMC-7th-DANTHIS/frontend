@@ -9,7 +9,7 @@ import Edit from '../../assets/Community/EditButton.svg';
 import Delete from '../../assets/Community/DeleteButton.svg';
 import Alert from '../../assets/Community/SirenButton.svg';
 
-import ConfirmDeleteAlert from '../ConfirmDelete';
+import ConfirmDeleteAlert from '../../components/ConfirmDelete';
 import axiosInstance from '../../api/axios-instance';
 
 import { SinglePostData } from '@/types/CommunityInterface';

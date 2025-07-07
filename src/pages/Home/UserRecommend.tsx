@@ -2,9 +2,9 @@ import React from 'react';
 import { useOutletContext } from 'react-router-dom';
 import styled from 'styled-components';
 
-import ForUserBanner from '../../components/Home/ForUserBanner';
-import ForDancer from '../../components/Home/ForDancer';
-import ForClass from '../../components/Home/ForClass';
+import ForUserBanner from '../../common/Home/ForUserBanner';
+import ForDancer from '../../common/Home/ForDancer';
+import ForClass from '../../common/Home/ForClass';
 
 import { AllClassData, AllDancerData } from '@/types/MainInterface';
 import { UserContext } from '@/types/Context/User';

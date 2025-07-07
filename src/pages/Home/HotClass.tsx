@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import PassiveCarousel from '../../components/Home/PassiveCarousel';
+import PassiveCarousel from '../../common/Home/PassiveCarousel';
 
 import { AllClassData } from '@/types/MainInterface';
 

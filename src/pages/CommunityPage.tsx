@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import CommunityLists from '../components/Comunity/CommunityLists';
-import ListTopBar from '../components/Comunity/ListTopBar';
+import CommunityLists from '../common/Comunity/CommunityLists';
+import ListTopBar from '../common/Comunity/ListTopBar';
 
 const Community = () => {
   return (

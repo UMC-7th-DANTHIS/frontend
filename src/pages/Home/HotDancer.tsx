@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Carousel from '../../components/Home/Carousel';
-import HotDancerBanner from '../../components/Home/HotDancerBanner';
+import Carousel from '../../common/Home/Carousel';
+import HotDancerBanner from '../../common/Home/HotDancerBanner';
 
 import { AllDancerData } from '@/types/MainInterface';
 

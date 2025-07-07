@@ -15,13 +15,11 @@ const CommunityLists = () => {
 
   return (
     <ListsContainer>
-      {lists?.data.posts.map((list: PostPreview) => (
-        <CommunityList list={list} />
-      ))}
+      {lists?.posts.map((list: PostPreview) => <CommunityList list={list} />)}
       <PaginationContainer>
         <PaginationWrapper>
           <Pagination
-            dataLength={lists?.data.totalPosts!}
+            dataLength={lists?.totalPosts!}
             perData={perData}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}

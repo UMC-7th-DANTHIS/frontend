@@ -26,24 +26,24 @@ const CommunityList = ({ list }: CommunityListProps) => {
   return (
     <ListContainer>
       <NoList>{list?.postId}</NoList>
-      {post?.data.images.length ? (
+      {post?.images ? (
         <ImageYes src={ImageDescript} alt={'그림있으요'} />
       ) : (
         <ImageNo />
       )}
-      <TitleList onClick={() => handleNavigate(post?.data!)}>
-        {post?.data.title}
-        {post?.data.commentCount! > 0 ? (
+      <TitleList onClick={() => handleNavigate(post!)}>
+        {post?.title}
+        {post?.commentCount! > 0 ? (
           <>
             <ViewDescript src={CommentPhoto} alt={'댓글있으요'} />
-            <ViewPeople>{post?.data.commentCount}</ViewPeople>
+            <ViewPeople>{post?.commentCount}</ViewPeople>
           </>
         ) : (
           ''
         )}
       </TitleList>
       <DateList>
-        <DateList>{formatDate(post?.data.createdAt!, 3)}</DateList>
+        <DateList>{formatDate(post?.createdAt!, 3)}</DateList>
       </DateList>
     </ListContainer>
   );

@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 
 import axiosInstance from '../api/axios-instance';
-import { SinglePostResponse } from '@/types/CommunityInterface';
+import { SinglePostData } from '@/types/CommunityInterface';
 
 function useGetCommunity<T>(postId: number) {
-  const [data, setData] = useState<SinglePostResponse | null>(null);
+  const [data, setData] = useState<SinglePostData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 
@@ -14,10 +14,8 @@ function useGetCommunity<T>(postId: number) {
       setIsError(false);
 
       try {
-        const response: SinglePostResponse = await axiosInstance.get(
-          `/community/posts/${postId}`
-        );
-        setData(response);
+        const response = await axiosInstance.get(`/community/posts/${postId}`);
+        setData(response.data.data);
       } catch (error) {
         setIsError(true);
       } finally {

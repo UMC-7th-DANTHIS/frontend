@@ -13,8 +13,6 @@ type CarouselProps = {
 const Carousel = ({ dancer }: CarouselProps) => {
   const navigate = useNavigate();
 
-  console.log(dancer);
-
   return (
     <CarouselContainer>
       <Slider {...sliderSettings}>

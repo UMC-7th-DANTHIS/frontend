@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { ReactComponent as StarFilled } from '../../assets/buttons/starlevel_filled.svg';
 import { ReactComponent as StarNonfilled } from '../../assets/buttons/starlevel_nonfilled.svg';
 
-import Pagination from '../Pagination';
+import Pagination from '../../components/Pagination';
 import SearchNothing from './SearchNothing';
 
 import useSearch from '../../hooks/useSearch';

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams, Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import SearchBar from '../components/Search/SearchBar';
+import SearchBar from '../common/Search/SearchBar';
 
 const SearchLayout = () => {
   const navigate = useNavigate();
