@@ -1,4 +1,5 @@
 import { Dancer } from './class';
+import { CommonResponse } from './common';
 
 export type ClassReview = {
   id: number;
@@ -45,3 +46,6 @@ export type User = {
   preferredGenres: number[];
   preferredDancers: number[];
 };
+
+export type ReviewResponse = CommonResponse<SingleReview>;
+export type ReviewDeleteResponse = CommonResponse<null>;

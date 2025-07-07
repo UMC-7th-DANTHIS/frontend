@@ -1,3 +1,4 @@
+import api from './api';
 import { PaginationParams } from '../types/common';
 import {
   ChatResponse,
@@ -6,20 +7,16 @@ import {
   LikedResponse,
   MyLikedResponse
 } from '../types/reservation';
-import api from './api';
+import { ReviewDeleteResponse, ReviewResponse } from '../types/review';
 
-export const fetchClasses = async (
-  paginationParams: PaginationParams
-): Promise<ClassesResponse> => {
+export const fetchClasses = async (paginationParams: PaginationParams): Promise<ClassesResponse> => {
   const { data } = await api.get(`/dance-classes/all`, {
     params: paginationParams
   });
   return data;
 };
 
-export const fetchClassDetailById = async (
-  classId: string
-): Promise<ClassDetailResponse> => {
+export const fetchClassDetailById = async (classId: string): Promise<ClassDetailResponse> => {
   const { data } = await api.get(`/dance-classes/${classId}`);
   return data;
 };
@@ -41,5 +38,15 @@ export const postLiked = async (classId: string): Promise<LikedResponse> => {
 
 export const deleteLiked = async (classId: string): Promise<LikedResponse> => {
   const { data } = await api.delete(`/dance-classes/${classId}/favorite`);
+  return data;
+};
+
+export const fetchReview = async (classId: string, reviewId: string): Promise<ReviewResponse> => {
+  const { data } = await api.get(`/dance-classes/${classId}/reviews/${reviewId}`);
+  return data;
+};
+
+export const deleteReview = async (classId: string, reviewId: string): Promise<ReviewDeleteResponse> => {
+  const { data } = await api.delete(`/dance-classes/${classId}/reviews/${reviewId}`);
   return data;
 };

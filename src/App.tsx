@@ -30,48 +30,42 @@ import ClassesPage from './pages/reservation/ClassesPage';
 import ReservationPage from './pages/reservation/ReservationPage';
 import ReviewDetailPage from './pages/reservation/ReviewDetailPage';
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-export const queryClient = new QueryClient();
-
 function App(): React.JSX.Element {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Router>
-        <Routes>
-          <Route path="/" element={<MainLayout />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/mypage" element={<MypageLayout />} />
-            <Route path="/community" element={<CommunityLayout />}>
-              <Route path="" element={<Community />} />
-              <Route path=":id" element={<CommunityPostPage />} />
-              <Route path="edit" element={<CommunityEdit />} />
-              <Route path="edit/:id" element={<CommunityPut />} />
-            </Route>
-            <Route path="/search/:select" element={<SearchLayout />}>
-              <Route index element={<SearchWrapper />} />
-            </Route>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/oauth/kakao/callback" element={<KakaoRedirectHandler />} />
-            <Route path="/signup1" element={<SignupPage1 />} />
-            <Route path="/signup2" element={<SignupPage2 />} />
-            <Route path="/signup3" element={<SignupPage3 />} />
-            <Route path="/signup4" element={<SignupPage4 />} />
-
-            <Route path="/dancerregister" element={<DancerRegistrationPage />} />
-            <Route path="/classregister" element={<ClassRegistrationPage />} />
-            <Route path="/classregister/:classId" element={<ClassRegisterEditPage />} />
-            <Route path="/classreservation" element={<ClassesPage />} />
-            <Route path="/classreservation/:classId" element={<ReservationPage />} />
-            <Route path="/classreservation/review/:reviewId" element={<ReviewDetailPage />} />
-            <Route path="/dancerprofile" element={<ProfileList />} />
-            <Route path="/dancerprofile/:dancerId" element={<DancerProfile />} />
-            <Route path="/review/:id" element={<ReviewDetail />} />
-            <Route path="/detail/:classId" element={<MyRegisterDetail />} />
+    <Router>
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/mypage" element={<MypageLayout />} />
+          <Route path="/community" element={<CommunityLayout />}>
+            <Route path="" element={<Community />} />
+            <Route path=":id" element={<CommunityPostPage />} />
+            <Route path="edit" element={<CommunityEdit />} />
+            <Route path="edit/:id" element={<CommunityPut />} />
           </Route>
-        </Routes>
-      </Router>
-    </QueryClientProvider>
+          <Route path="/search/:select" element={<SearchLayout />}>
+            <Route index element={<SearchWrapper />} />
+          </Route>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/oauth/kakao/callback" element={<KakaoRedirectHandler />} />
+          <Route path="/signup1" element={<SignupPage1 />} />
+          <Route path="/signup2" element={<SignupPage2 />} />
+          <Route path="/signup3" element={<SignupPage3 />} />
+          <Route path="/signup4" element={<SignupPage4 />} />
+
+          <Route path="/dancerregister" element={<DancerRegistrationPage />} />
+          <Route path="/classregister" element={<ClassRegistrationPage />} />
+          <Route path="/classregister/:classId" element={<ClassRegisterEditPage />} />
+          <Route path="/classreservation" element={<ClassesPage />} />
+          <Route path="/classreservation/:classId" element={<ReservationPage />} />
+          <Route path="/classreservation/review/:reviewId" element={<ReviewDetailPage />} />
+          <Route path="/dancerprofile" element={<ProfileList />} />
+          <Route path="/dancerprofile/:dancerId" element={<DancerProfile />} />
+          <Route path="/review/:id" element={<ReviewDetail />} />
+          <Route path="/detail/:classId" element={<MyRegisterDetail />} />
+        </Route>
+      </Routes>
+    </Router>
   );
 }
 

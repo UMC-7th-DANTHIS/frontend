@@ -30,11 +30,12 @@ export const RatingTab = ({ tabRef }: RatingTabProps) => {
   const totalStars: number = 5;
   const { data, fetchData } = useFetchData<RatingData>();
 
-  useEffect(() => {
-    if (tabRef.current) {
-      tabRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }, [tabRef]);
+  if (tabRef.current) {
+    const offset = -100;
+    const top = window.pageYOffset + tabRef.current.getBoundingClientRect().top + offset;
+
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
 
   useEffect(() => {
     const fetchClass = async () => {

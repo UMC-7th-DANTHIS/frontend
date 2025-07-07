@@ -18,8 +18,12 @@ export const ReviewTab = ({ tabRef }: ReviewTabProps) => {
   const { data, fetchData } = useFetchData<ClassReviewList>();
 
   const { fromReviewDetail, page } = location.state || {}; // 이동했던 페이지로부터 이전 페이지네이션 정보를 전달 받음
+
   if (tabRef.current) {
-    tabRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const offset = -100;
+    const top = window.pageYOffset + tabRef.current.getBoundingClientRect().top + offset;
+
+    window.scrollTo({ top, behavior: 'smooth' });
   }
 
   const fetchReviews = useCallback(

@@ -70,7 +70,12 @@ export default function ReservationPage() {
     else deleteLiked(classId ?? '');
   };
 
-  if (!classData) return <LoadingSpinner isLoading={isLoading} />;
+  if (!classData)
+    return (
+      <Container>
+        <LoadingSpinner isLoading={isLoading} />
+      </Container>
+    );
 
   return (
     <Container>
