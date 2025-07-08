@@ -5,9 +5,9 @@ import { ReactComponent as EditIcon } from '../../assets/shape/write.svg';
 import { ReactComponent as DeleteIcon } from '../../assets/shape/trash.svg';
 import { MainBox } from './MainBox';
 
-import useImagePresignedUrl from '../../hooks/registration/useImagePresignedUrl';
-import useUploadToS3 from '../../hooks/registration/useUploadToS3';
 import { ClassFormState, DancerFormState, HandleFormChange } from '../../types/register';
+import usePostImagePresigned from '../../hooks/registration/usePostImagePresigned';
+import useUploadToS3 from '../../hooks/registration/useUploadToS3';
 
 interface ImagesUploaderProps<T> {
   isFor: 'dancer' | 'class';
@@ -34,10 +34,9 @@ export const ImagesUploader = <T extends DancerFormState | ClassFormState>({
       urlParam: 'dance-class'
     }
   };
-
   const { label, fieldName, urlParam } = config[isFor] || {};
 
-  const { getPresignedUrl } = useImagePresignedUrl(urlParam);
+  const { mutateAsync: postImagePresignedUrl } = usePostImagePresigned();
   const { uploadToS3 } = useUploadToS3();
 
   // 이미지 업데이트 로직
@@ -48,16 +47,16 @@ export const ImagesUploader = <T extends DancerFormState | ClassFormState>({
   };
 
   // 이미지 업로드 핸들러
-  const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const file = e.target.files?.[0]; // 파일 가져오기
     if (!file || !file.type.startsWith('image/')) return;
 
-    const presignedUrl = await getPresignedUrl(file);
+    const presignedUrl = await postImagePresignedUrl({ urlParam, file });
     if (!presignedUrl) return;
 
-    const uploadedImageUrl = await uploadToS3(presignedUrl, file);
-    if (uploadedImageUrl) {
-      updateImageList(index, uploadedImageUrl);
+    const uploadedUrl = await uploadToS3(presignedUrl, file);
+    if (uploadedUrl) {
+      updateImageList(index, uploadedUrl);
     }
 
     e.target.value = ''; // 파일 선택 초기화
@@ -78,7 +77,7 @@ export const ImagesUploader = <T extends DancerFormState | ClassFormState>({
             type="file"
             id={`image-${index}`}
             accept="image/*"
-            onChange={(e) => handleUploadFile(e, index)}
+            onChange={(e) => handleUploadImage(e, index)}
             disabled={!!images[index]}
           ></HiddenInput>
 
@@ -92,7 +91,7 @@ export const ImagesUploader = <T extends DancerFormState | ClassFormState>({
                 type="file"
                 id={`edit-image-${index}`}
                 accept="image/*"
-                onChange={(e) => handleUploadFile(e, index)}
+                onChange={(e) => handleUploadImage(e, index)}
               ></HiddenInput>
 
               <Icon onClick={() => updateImageList(index, '')}>

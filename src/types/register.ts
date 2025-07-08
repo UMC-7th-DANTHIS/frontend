@@ -1,3 +1,5 @@
+import { CommonResponse } from './common';
+
 export type DancerFormState = {
   dancerName: string;
   instargramId: string;
@@ -20,5 +22,12 @@ export type ClassFormState = {
   videoUrl: string;
 };
 
+export type ClassFormSubmitState = Omit<ClassFormState, 'pricePerSession'> & {
+  pricePerSession: number;
+};
+
 // 폼 업데이트 핸들러
 export type HandleFormChange<T> = <K extends keyof T>(key: K, value: T[K]) => void;
+
+export type ResponsePostDancer = CommonResponse<number>;
+export type ResponsePostClass = CommonResponse<null>;

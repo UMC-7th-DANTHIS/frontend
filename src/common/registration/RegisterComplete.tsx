@@ -38,7 +38,9 @@ export const RegisterComplete = ({ title, detail }: RegisterCompleteProps) => {
 };
 
 const Container = styled.div`
-  justify-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding-bottom: 182px;
 `;
 const Ellipse = styled.div`

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import ConfirmLeaveAlert from '../../components/ConfirmLeaveAlert';
 import SingleBtnAlert from '../../components/SingleBtnAlert';
-import useConfirmLeave from '../../hooks/useConfirmLeave';
 import {
   GenreSelectorClass,
   ImagesUploader,
@@ -15,16 +14,16 @@ import {
   VideoUploader
 } from '.';
 
-import { ClassFormState } from '../../types/RegisterFormInterface';
-import usePost from '../../hooks/registration/usePost';
+import { ClassFormState } from '../../types/register';
 import useValidation from '../../hooks/registration/useValidation';
+import usePostClass from '../../hooks/registration/usePostClass';
+import useConfirmLeave from '../../hooks/useConfirmLeave';
 
 interface ClassFormProps {
   setIsRegistered: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function ClassForm({ setIsRegistered }: ClassFormProps) {
-  const { data, post } = usePost();
   const [formState, setFormState] = useState<ClassFormState>({
     className: '',
     pricePerSession: '',
@@ -40,15 +39,15 @@ export default function ClassForm({ setIsRegistered }: ClassFormProps) {
   const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
   const [showLeaveAlert, setShowLeaveAlert] = useState<boolean>(false);
 
+  const { mutate: postClass } = usePostClass();
+
   // 뒤로 가기 방지 팝업 경고
   useConfirmLeave({ setAlert: setShowLeaveAlert });
 
-  // 등록 폼 상태 업데이트
   const handleFormChange = useCallback(<K extends keyof ClassFormState>(key: K, value: ClassFormState[K]) => {
     setFormState((prev) => ({ ...prev, [key]: value }));
   }, []);
 
-  // 수업 등록 폼 제출 핸들러
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -63,8 +62,7 @@ export default function ClassForm({ setIsRegistered }: ClassFormProps) {
       return;
     }
 
-    await post('/dance-classes', updatedFormState);
-    if (data) setIsRegistered(true);
+    postClass(updatedFormState, { onSuccess: () => setIsRegistered(true) });
   };
 
   return (

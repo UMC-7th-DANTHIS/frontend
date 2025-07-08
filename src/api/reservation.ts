@@ -1,30 +1,30 @@
 import api from './api';
 import { PaginationParams } from '../types/common';
 import {
-  ChatResponse,
-  ClassDetailResponse,
-  ClassesResponse,
-  ClassRatingResposne,
-  ClassReviewResposne,
-  LikedResponse,
-  MyLikedResponse,
-  ReviewDeleteResponse,
-  ReviewResponse
+  ResponseChat,
+  ResponseClassDetail,
+  ResponseClasses,
+  ResponseClassRating,
+  ResponseClassReview,
+  ResponseDeleteReview,
+  ResponseLiked,
+  ResponseMyLiked,
+  ResponseReview
 } from '../types/reservation';
 
-export const fetchClasses = async (paginationParams: PaginationParams): Promise<ClassesResponse> => {
+export const fetchClasses = async (paginationParams: PaginationParams): Promise<ResponseClasses> => {
   const { data } = await api.get(`/dance-classes/all`, {
     params: paginationParams
   });
   return data;
 };
 
-export const fetchClassDetailById = async (classId: string): Promise<ClassDetailResponse> => {
+export const fetchClassDetailById = async (classId: string): Promise<ResponseClassDetail> => {
   const { data } = await api.get(`/dance-classes/${classId}`);
   return data;
 };
 
-export const fetchRating = async (classId: string): Promise<ClassRatingResposne> => {
+export const fetchRating = async (classId: string): Promise<ResponseClassRating> => {
   const { data } = await api.get(`/dance-classes/${classId}/rating`);
   return data;
 };
@@ -32,39 +32,39 @@ export const fetchRating = async (classId: string): Promise<ClassRatingResposne>
 export const fetchReviews = async (
   classId: string,
   paginationParams: PaginationParams
-): Promise<ClassReviewResposne> => {
+): Promise<ResponseClassReview> => {
   const { data } = await api.get(`/dance-classes/${classId}/reviews`, {
     params: paginationParams
   });
   return data;
 };
 
-export const postChat = async (dancerId: number): Promise<ChatResponse> => {
+export const postChat = async (dancerId: number): Promise<ResponseChat> => {
   const { data } = await api.post(`/chats/${dancerId}/start`);
   return data;
 };
 
-export const fetchMyLiked = async (): Promise<MyLikedResponse> => {
+export const fetchMyLiked = async (): Promise<ResponseMyLiked> => {
   const { data } = await api.get(`/users/wishlists`);
   return data;
 };
 
-export const postLiked = async (classId: string): Promise<LikedResponse> => {
+export const postLiked = async (classId: string): Promise<ResponseLiked> => {
   const { data } = await api.post(`/dance-classes/${classId}/favorite`);
   return data;
 };
 
-export const deleteLiked = async (classId: string): Promise<LikedResponse> => {
+export const deleteLiked = async (classId: string): Promise<ResponseLiked> => {
   const { data } = await api.delete(`/dance-classes/${classId}/favorite`);
   return data;
 };
 
-export const fetchReview = async (classId: string, reviewId: string): Promise<ReviewResponse> => {
+export const fetchReview = async (classId: string, reviewId: string): Promise<ResponseReview> => {
   const { data } = await api.get(`/dance-classes/${classId}/reviews/${reviewId}`);
   return data;
 };
 
-export const deleteReview = async (classId: string, reviewId: string): Promise<ReviewDeleteResponse> => {
+export const deleteReview = async (classId: string, reviewId: string): Promise<ResponseDeleteReview> => {
   const { data } = await api.delete(`/dance-classes/${classId}/reviews/${reviewId}`);
   return data;
 };

@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import ConfirmLeaveAlert from '../../components/ConfirmLeaveAlert';
@@ -15,16 +15,14 @@ import {
   VideoUploader
 } from '../../common/registration';
 
-import api from '../../api/api';
 import useConfirmLeave from '../../hooks/useConfirmLeave';
 import { ClassFormState } from '../../types/RegisterFormInterface';
-import usePut from '../../hooks/registration/usePut';
 import useValidation from '../../hooks/registration/useValidation';
+import usePutClass from '../../hooks/registration/usePutClass';
+import useGetClassDetailById from '../../hooks/reservation/useGetClassDetailById';
 
 export default function ClassRegisterEditPage() {
-  const navigate = useNavigate();
-  const { data, put } = usePut();
-  const [formState, setFormState] = useState({
+  const [formState, setFormState] = useState<ClassFormState>({
     className: '',
     pricePerSession: '',
     difficulty: 0,
@@ -41,28 +39,23 @@ export default function ClassRegisterEditPage() {
 
   const { classId } = useParams();
 
+  const { mutate: editClass } = usePutClass();
+  const { data } = useGetClassDetailById(classId ?? '');
+
   useEffect(() => {
-    const fetchClassData = async () => {
-      try {
-        const response = await api.get(`/dance-classes/${classId}`);
-        const data = response.data.data;
-        setFormState({
-          className: data.className || '',
-          pricePerSession: data.pricePerSession || '',
-          difficulty: data.difficulty || 0,
-          genre: data.genre || 0,
-          description: data.details.description || '',
-          targetAudience: data.details.targetAudience || 's',
-          hashtags: data.details.hashtags || [],
-          images: data.details.danceClassImages || ['', '', ''],
-          videoUrl: data.details.videoUrl || ''
-        });
-      } catch (error: unknown) {
-        console.error(error);
-      }
-    };
-    fetchClassData();
-  }, [classId]);
+    if (data)
+      setFormState({
+        className: data.className || '',
+        pricePerSession: String(data.pricePerSession) || '',
+        difficulty: data.difficulty || 0,
+        genre: data.genre || 0,
+        description: data.details.description || '',
+        targetAudience: data.details.targetAudience || 's',
+        hashtags: data.details.hashtags || [],
+        images: data.details.danceClassImages || ['', '', ''],
+        videoUrl: data.details.videoUrl || ''
+      });
+  }, [data]);
 
   // 뒤로 가기 방지 팝업 경고
   useConfirmLeave({ setAlert: setShowLeaveAlert });
@@ -86,8 +79,7 @@ export default function ClassRegisterEditPage() {
       return;
     }
 
-    await put(`/dance-classes/${classId}`, updatedFormState);
-    if (data) navigate(`/mypage?menu=registeredclasses`);
+    editClass({ classId: classId ?? '', body: updatedFormState });
   };
 
   return (

@@ -7,6 +7,7 @@ interface DeleteReviewArgs {
   reviewId: string;
   page: number;
 }
+
 export default function useDeleteReview() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();

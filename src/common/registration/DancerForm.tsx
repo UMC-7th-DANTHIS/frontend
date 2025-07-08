@@ -3,19 +3,18 @@ import styled from 'styled-components';
 
 import ConfirmLeaveAlert from '../../components/ConfirmLeaveAlert';
 import SingleBtnAlert from '../../components/SingleBtnAlert';
-import useConfirmLeave from '../../hooks/useConfirmLeave';
 import { GenreSelectorDancer, ImagesUploader, Input, SubmitButton, Textarea } from '.';
 
-import { DancerFormState } from '../../types/RegisterFormInterface';
-import usePost from '../../hooks/registration/usePost';
+import { DancerFormState } from '../../types/register';
 import useValidation from '../../hooks/registration/useValidation';
+import usePostDancer from '../../hooks/registration/usePostDancer';
+import useConfirmLeave from '../../hooks/useConfirmLeave';
 
 interface DancerFormProps {
   setIsRegistered: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function DancerForm({ setIsRegistered }: DancerFormProps) {
-  const { data, post } = usePost();
   const [formState, setFormState] = useState<DancerFormState>({
     dancerName: '',
     instargramId: '',
@@ -29,15 +28,15 @@ export default function DancerForm({ setIsRegistered }: DancerFormProps) {
   const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
   const [showLeaveAlert, setShowLeaveAlert] = useState<boolean>(false);
 
+  const { mutate: postDancer } = usePostDancer();
+
   // 뒤로 가기 방지 팝업 경고
   useConfirmLeave({ setAlert: setShowLeaveAlert });
 
-  // 등록 폼 상태 업데이트
   const handleFormChange = useCallback(<K extends keyof DancerFormState>(key: K, value: DancerFormState[K]) => {
     setFormState((prev) => ({ ...prev, [key]: value }));
   }, []);
 
-  // 수업 등록 폼 제출 핸들러
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -51,8 +50,7 @@ export default function DancerForm({ setIsRegistered }: DancerFormProps) {
       return;
     }
 
-    await post('/dancers', updatedFormState);
-    if (data) setIsRegistered(true);
+    postDancer(updatedFormState, { onSuccess: () => setIsRegistered(true) });
   };
 
   return (

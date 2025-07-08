@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react';
-import {
-  DancerFormState,
-  ClassFormState
-} from '../../types/RegisterFormInterface';
+import { ClassFormState, DancerFormState } from '../../types/register';
 
 type FormState = DancerFormState | ClassFormState;
 type FormType = 'class' | 'dancer';
 
-const useValidation = (formState: FormState, type: FormType): boolean => {
+export default function useValidation(formState: FormState, type: FormType) {
   const [isValid, setIsValid] = useState<boolean>(false);
 
   useEffect(() => {
@@ -53,6 +50,4 @@ const useValidation = (formState: FormState, type: FormType): boolean => {
   }, [formState, type]);
 
   return isValid;
-};
-
-export default useValidation;
+}

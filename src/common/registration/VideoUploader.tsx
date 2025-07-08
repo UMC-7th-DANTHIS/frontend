@@ -5,9 +5,9 @@ import { ReactComponent as VideoIcon } from '../../assets/video.svg';
 import { ReactComponent as DeleteIcon } from '../../assets/shape/trash.svg';
 import { UrlInput } from './Inputs';
 
-import useVideoPresignedUrl from '../../hooks/registration/useVideoPresignedUrl';
-import useUploadToS3 from '../../hooks/registration/useUploadToS3';
 import { ClassFormState, HandleFormChange } from '../../types/register';
+import usePostVideoPresigned from '../../hooks/registration/usePostVideoPresigned';
+import useUploadToS3 from '../../hooks/registration/useUploadToS3';
 
 interface VideoUplodaerProps {
   video: string;
@@ -18,7 +18,7 @@ export const VideoUploader = ({ video, handleFormChange }: VideoUplodaerProps) =
   const [fileUrl, setFileUrl] = useState<string>('');
   const [url, setUrl] = useState<string>('');
 
-  const { getPresignedUrl } = useVideoPresignedUrl('');
+  const { mutateAsync: postVideoPresignedUrl } = usePostVideoPresigned();
   const { uploadToS3 } = useUploadToS3();
 
   useEffect(() => {
@@ -30,13 +30,11 @@ export const VideoUploader = ({ video, handleFormChange }: VideoUplodaerProps) =
     const file = e.target.files?.[0]; // 파일 가져오기
     if (!file || !file.type.startsWith('video/')) return;
 
-    const presignedUrl = await getPresignedUrl(file);
+    const presignedUrl = await postVideoPresignedUrl({ file });
     if (!presignedUrl) return;
 
-    const uploadedVideoUrl = await uploadToS3(presignedUrl, file);
-    if (uploadedVideoUrl) {
-      setFileUrl(uploadedVideoUrl);
-    }
+    await uploadToS3(presignedUrl, file);
+    setFileUrl(presignedUrl);
 
     e.target.value = ''; // 파일 선택 초기화
   };

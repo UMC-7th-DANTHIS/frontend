@@ -10,4 +10,4 @@ export type MyInfo = {
   preferredDancers: number[];
 };
 
-export type MyInfoResponse = CommonResponse<MyInfo>;
+export type ResponseMyInfo = CommonResponse<MyInfo>;
