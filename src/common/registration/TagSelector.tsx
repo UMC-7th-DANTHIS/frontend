@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { hashTagID as tags } from '../../api/schema';
-import { ClassFormState, HandleFormChange } from '../../types/register';
+import { ClassFormState, HandleFormChange } from '../../types/registration';
 
 interface TagSelectorProps {
   selectedTags: number[];

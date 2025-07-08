@@ -1,5 +1,5 @@
 import api from './api';
-import { ClassFormSubmitState, DancerFormState, ResponsePostClass, ResponsePostDancer } from '../types/register';
+import { ClassFormSubmitState, DancerFormState, ResponsePostClass, ResponsePostDancer } from '../types/registration';
 
 export const postDancer = async (body: DancerFormState): Promise<ResponsePostDancer> => {
   const { data } = await api.post(`/dancers`, body);

@@ -14,7 +14,7 @@ import {
   VideoUploader
 } from '.';
 
-import { ClassFormState } from '../../types/register';
+import { ClassFormState } from '../../types/registration';
 import useValidation from '../../hooks/registration/useValidation';
 import usePostClass from '../../hooks/registration/usePostClass';
 import useConfirmLeave from '../../hooks/useConfirmLeave';

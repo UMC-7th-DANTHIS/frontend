@@ -1,5 +1,5 @@
 import { editClass } from '../../api/registration';
-import { ClassFormSubmitState } from '../../types/register';
+import { ClassFormSubmitState } from '../../types/registration';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 

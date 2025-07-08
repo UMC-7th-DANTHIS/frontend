@@ -5,7 +5,7 @@ import ConfirmLeaveAlert from '../../components/ConfirmLeaveAlert';
 import SingleBtnAlert from '../../components/SingleBtnAlert';
 import { GenreSelectorDancer, ImagesUploader, Input, SubmitButton, Textarea } from '.';
 
-import { DancerFormState } from '../../types/register';
+import { DancerFormState } from '../../types/registration';
 import useValidation from '../../hooks/registration/useValidation';
 import usePostDancer from '../../hooks/registration/usePostDancer';
 import useConfirmLeave from '../../hooks/useConfirmLeave';

@@ -5,7 +5,7 @@ import { ReactComponent as EditIcon } from '../../assets/shape/write.svg';
 import { ReactComponent as DeleteIcon } from '../../assets/shape/trash.svg';
 import { MainBox } from './MainBox';
 
-import { ClassFormState, DancerFormState, HandleFormChange } from '../../types/register';
+import { ClassFormState, DancerFormState, HandleFormChange } from '../../types/registration';
 import usePostImagePresigned from '../../hooks/registration/usePostImagePresigned';
 import useUploadToS3 from '../../hooks/registration/useUploadToS3';
 

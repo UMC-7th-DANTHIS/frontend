@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { ReactComponent as StarFilled } from '../../assets/buttons/starlevel_filled.svg';
 import { ReactComponent as StarNonfilled } from '../../assets/buttons/starlevel_nonfilled.svg';
-import { ClassFormState, HandleFormChange } from '../../types/register';
+import { ClassFormState, HandleFormChange } from '../../types/registration';
 
 interface StarRatingProps {
   value: number;

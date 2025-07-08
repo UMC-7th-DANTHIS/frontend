@@ -16,10 +16,10 @@ import {
 } from '../../common/registration';
 
 import useConfirmLeave from '../../hooks/useConfirmLeave';
-import { ClassFormState } from '../../types/RegisterFormInterface';
 import useValidation from '../../hooks/registration/useValidation';
 import usePutClass from '../../hooks/registration/usePutClass';
 import useGetClassDetailById from '../../hooks/reservation/useGetClassDetailById';
+import { ClassFormState } from '../../types/registration';
 
 export default function ClassRegisterEditPage() {
   const [formState, setFormState] = useState<ClassFormState>({

@@ -5,7 +5,7 @@ import { ReactComponent as VideoIcon } from '../../assets/video.svg';
 import { ReactComponent as DeleteIcon } from '../../assets/shape/trash.svg';
 import { UrlInput } from './Inputs';
 
-import { ClassFormState, HandleFormChange } from '../../types/register';
+import { ClassFormState, HandleFormChange } from '../../types/registration';
 import usePostVideoPresigned from '../../hooks/registration/usePostVideoPresigned';
 import useUploadToS3 from '../../hooks/registration/useUploadToS3';
 
