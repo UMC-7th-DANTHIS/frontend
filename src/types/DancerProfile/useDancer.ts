@@ -1,4 +1,4 @@
-type DancerType={
+export type DancerType = {
   id: number;
   dancerName: string;
   dancerImages: string[];
@@ -10,7 +10,7 @@ type DancerType={
   history: string;
 }
 
-type DanceClassType={
+export type DanceClassType = {
   id: number;
   className: string;
   thumbnailImage: string;
