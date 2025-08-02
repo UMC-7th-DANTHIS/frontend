@@ -62,7 +62,7 @@ const PostContent = ({
         </PostMeta>
       </PostInfo>
       <PostInfo>
-        {user?.nickname == selectedPost?.author ? (
+        {user?.nickname === selectedPost?.author ? (
           <PostActions>
             <ButtonContainer
               onClick={() =>
