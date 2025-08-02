@@ -26,13 +26,6 @@ const Overlay: React.FC<OverlayProps> = ({
   searchResults
 }) => {
   console.log('Received searchResults in UserOverlay:', searchResults);
-  const dummyData = [
-    { id: 1, username: '써sk', images: ['https://via.placeholder.com/50'] },
-    { id: 2, username: '타니아', images: ['https://via.placeholder.com/50'] },
-    { id: 3, username: '뉴비', images: ['https://via.placeholder.com/50'] },
-    { id: 4, username: '애니', images: ['https://via.placeholder.com/50'] },
-    { id: 5, username: '누누', images: ['https://via.placeholder.com/50'] }
-  ];
   // const limitedUsers = dummyData.slice(0, 5);
 
   // 오버레이 배경 클릭 핸들러

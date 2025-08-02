@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { useFetchList } from '../hooks/useFetchList';
-import { PostListData } from '../types/CommunityInterface';
 
 const CommunityLayout = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);

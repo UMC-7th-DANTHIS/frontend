@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 //import { ReactComponent as Line } from '../../../assets/shape/line.svg';
 import { ReactComponent as FocusedCircle } from '../../../assets/shape/focusedcircle.svg';
@@ -34,9 +34,9 @@ const ClassBoard: React.FC = () => {
   const [data, setData] = useState<DancerType[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1); // 현재 페이지 상태
   const [totalElements, setTotalElements] = useState<number>(0); // 전체 요소 개수 상태 추가
-  const [totalPages, setTotalPages] = useState<number>(1); // 전체 페이지 수
+  const [, setTotalPages] = useState<number>(1); // 전체 페이지 수
   const [, setIsFetching] = useState<boolean>(false); // 로딩 상태
-  const navigate = useNavigate();
+
   const perData = 9;
 
   useEffect(() => {
