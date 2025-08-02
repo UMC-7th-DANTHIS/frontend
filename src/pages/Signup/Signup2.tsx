@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Shape1 from '../../assets/shape/shape1.svg';
@@ -23,7 +23,7 @@ const Signup2 = () => {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null); // 업로드된 이미지
   const [errorMessage, setErrorMessage] = useState('');
   const [phoneError, setPhoneError] = useState('');
-  const [user, setUser] = useState<UserType | null>(null);
+  const [, setUser] = useState<UserType | null>(null);
   const [showAlert, setShowAlert] = useState(false);
 
   const handleNicknameCheck = async () => {

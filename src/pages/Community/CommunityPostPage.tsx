@@ -35,14 +35,12 @@ const CommunityPostPage = () => {
 
   // 게시물 정보 가져오기
   const selectedPost = (location.state as SinglePostData) || {};
-  const { data: user } = useGet<UserResponse>();
+  const { data: user } = useGet();
   const { setForceReload: setListReload } = useOutletContext<PostPageReload>();
-  const { data: post } = useGetCommunity<SinglePostResponse>(
-    selectedPost?.postId
-  );
+  const { data: post } = useGetCommunity(selectedPost?.postId);
 
   // 댓글 가져오기
-  const { data: com } = useGetComment<CommentResponse>(
+  const { data: com } = useGetComment(
     selectedPost?.postId,
     1,
     currentPage,

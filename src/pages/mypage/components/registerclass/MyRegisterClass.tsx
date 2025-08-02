@@ -20,7 +20,7 @@ interface RegisterClassProps {
 }
 
 const MyRegisterClass = () => {
-  const [selectedClass, setSelectedClass] = useState<number | null>(null);
+  const [selectedClass] = useState<number | null>(null);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const navigate = useNavigate();
   const [idDelete, setIdDelete] = useState<number | null>(null);

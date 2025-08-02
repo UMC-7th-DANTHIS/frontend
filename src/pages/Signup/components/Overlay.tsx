@@ -20,48 +20,52 @@ interface IsLastProp {
   isLast?: boolean;
 }
 
+const Overlay: React.FC<OverlayProps> = ({
+  onclose,
+  onSelectUser,
+  searchResults
+}) => {
+  console.log('Received searchResults in UserOverlay:', searchResults);
+  const dummyData = [
+    { id: 1, username: '써sk', images: ['https://via.placeholder.com/50'] },
+    { id: 2, username: '타니아', images: ['https://via.placeholder.com/50'] },
+    { id: 3, username: '뉴비', images: ['https://via.placeholder.com/50'] },
+    { id: 4, username: '애니', images: ['https://via.placeholder.com/50'] },
+    { id: 5, username: '누누', images: ['https://via.placeholder.com/50'] }
+  ];
+  // const limitedUsers = dummyData.slice(0, 5);
 
-const Overlay : React.FC<OverlayProps> = ({ onclose, onSelectUser, searchResults }) => {
-    console.log("Received searchResults in UserOverlay:", searchResults);
-    const dummyData = [
-        { id: 1, username: '써sk', images: ['https://via.placeholder.com/50'] },
-        { id: 2, username: '타니아', images: ['https://via.placeholder.com/50'] },
-        { id: 3, username: '뉴비', images: ['https://via.placeholder.com/50'] },
-        { id: 4, username: '애니', images: ['https://via.placeholder.com/50'] },
-        { id: 5, username: '누누', images: ['https://via.placeholder.com/50'] },
-      ];
-  const limitedUsers = dummyData.slice(0, 5);
-
-   // 오버레이 배경 클릭 핸들러
-   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  // 오버레이 배경 클릭 핸들러
+  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onclose(); // 오버레이 닫기 함수 호출
     }
   };
 
   // PlusButton 클릭 핸들러
-  const handleSelectUser = (user:DancerType) => {
+  const handleSelectUser = (user: DancerType) => {
     onSelectUser(user); // 선택된 사용자 전달
     onclose(); // 오버레이 닫기
   };
- // 검색 결과가 없을 경우 처리
- const results = searchResults.length > 0 ? searchResults : [];
+  // 검색 결과가 없을 경우 처리
+  const results = searchResults.length > 0 ? searchResults : [];
 
   return (
     <Container onClick={handleOverlayClick}>
-      <AllContainer >
+      <AllContainer>
         <ImageContainer>
           {results.map((user, index) => (
             <ImageList key={user.id}>
-              <ListImage
-                src={user.image}
-                alt={'userImage'}
-              />
+              <ListImage src={user.image} alt={'userImage'} />
               <UserName isLast={index === results.length - 1}>
                 {user.name}
               </UserName>
               <Icon isLast={index === results.length - 1}>
-                <PlusButton width={40} height={40} onClick={() => handleSelectUser(user)}  />
+                <PlusButton
+                  width={40}
+                  height={40}
+                  onClick={() => handleSelectUser(user)}
+                />
               </Icon>
             </ImageList>
           ))}
@@ -72,7 +76,6 @@ const Overlay : React.FC<OverlayProps> = ({ onclose, onSelectUser, searchResults
 };
 
 export default Overlay;
-
 
 const Container = styled.div`
   position: fixed;
@@ -119,7 +122,7 @@ const ListImage = styled.img`
   object-fit: cover;
 `;
 const UserName = styled.div.withConfig({
-  shouldForwardProp: (prop) => prop !== 'isLast', // isLast를 DOM으로 전달하지 않도록 설정
+  shouldForwardProp: (prop) => prop !== 'isLast' // isLast를 DOM으로 전달하지 않도록 설정
 })<IsLastProp>`
   font-size: 20px;
   color: ${({ isLast }) => (isLast ? '#fff' : '#4D4D4D')};
@@ -151,7 +154,7 @@ const UserName = styled.div.withConfig({
 //   }
 // `;
 const Icon = styled.div.withConfig({
-  shouldForwardProp: (prop) => prop !== 'isLast',
+  shouldForwardProp: (prop) => prop !== 'isLast'
 })<IsLastProp>`
   margin-left: auto;
   cursor: pointer;

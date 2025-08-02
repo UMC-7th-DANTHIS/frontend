@@ -4,7 +4,7 @@ import axiosInstance from '../api/axios-instance';
 
 import { PostListData } from '@/types/CommunityInterface';
 
-export function useFetchList<T>(currentPage: number, forceReload: boolean) {
+export function useFetchList(currentPage: number, forceReload: boolean) {
   const [data, setData] = useState<PostListData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);

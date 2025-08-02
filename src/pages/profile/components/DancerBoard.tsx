@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { ReactComponent as FocusedCircle } from '../../../assets/shape/focusedcircle.svg';
 import Pagination from '../../../components/Pagination';
 import api from '../../../api/api';
-import LoadingSpinner from '../../../components/LoadingSpinner';
 
 type DancerType = {
   id: number;
@@ -36,7 +35,7 @@ const ClassBoard: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1); // 현재 페이지 상태
   const [totalElements, setTotalElements] = useState<number>(0); // 전체 요소 개수 상태 추가
   const [totalPages, setTotalPages] = useState<number>(1); // 전체 페이지 수
-  const [isFetching, setIsFetching] = useState<boolean>(false); // 로딩 상태
+  const [, setIsFetching] = useState<boolean>(false); // 로딩 상태
   const navigate = useNavigate();
   const perData = 9;
 
@@ -73,25 +72,25 @@ const ClassBoard: React.FC = () => {
     setSelectedGenre(genre);
   };
 
-  const handlePageChange = (newPage: number) => {
-    console.log(`페이지 변경 요청: ${newPage} / 총 페이지: ${totalPages}`);
+  // const handlePageChange = (newPage: number) => {
+  //   console.log(`페이지 변경 요청: ${newPage} / 총 페이지: ${totalPages}`);
 
-    if (newPage >= 1 && newPage <= totalPages) {
-      setCurrentPage(newPage);
-    }
-  };
+  //   if (newPage >= 1 && newPage <= totalPages) {
+  //     setCurrentPage(newPage);
+  //   }
+  // };
 
   // 현재 페이지에 보여질 요소 계산
-  const getCurrentPageData = () => {
-    const startIndex = (currentPage - 1) * perData;
-    const endIndex = startIndex + perData;
+  // const getCurrentPageData = () => {
+  //   const startIndex = (currentPage - 1) * perData;
+  //   const endIndex = startIndex + perData;
 
-    return data.slice(startIndex, endIndex);
-  };
+  //   return data.slice(startIndex, endIndex);
+  // };
 
-  const handleDancerClick = (dancerId: number) => {
-    navigate(`/dancerprofile/${dancerId}`);
-  };
+  // const handleDancerClick = (dancerId: number) => {
+  //   navigate(`/dancerprofile/${dancerId}`);
+  // };
 
   return (
     <Container>
@@ -137,16 +136,17 @@ const ClassBoard: React.FC = () => {
 
 export default ClassBoard;
 
-const LoadingContainer = styled.div`
-  width: 880px;
-`;
-const PaginationContainer = styled.div`
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 200px;
-`;
+// const LoadingContainer = styled.div`
+//   width: 880px;
+// `;
+// const PaginationContainer = styled.div`
+//   margin-top: 20px;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   margin-left: 200px;
+// `;
+
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -231,16 +231,16 @@ const Image = styled.img`
     object-fit: cover; // 비율 유지
   }
 `;
-const Title = styled.div`
-  margin-top: 9px;
-  color: #fff;
-  font-family: Pretendard;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  letter-spacing: -1.2px;
-`;
+// const Title = styled.div`
+//   margin-top: 9px;
+//   color: #fff;
+//   font-family: Pretendard;
+//   font-size: 24px;
+//   font-style: normal;
+//   font-weight: 600;
+//   line-height: normal;
+//   letter-spacing: -1.2px;
+// `;
 const Dancer = styled.div`
   color: #fff;
   font-family: Pretendard;

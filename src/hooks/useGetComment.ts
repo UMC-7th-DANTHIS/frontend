@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import axiosInstance from '../api/axios-instance';
 import { CommentResponse } from '@/types/CommunityInterface';
 
-function useGetComment<T>(
+function useGetComment(
   postId: number,
   comment: number,
   currentPage: number,
