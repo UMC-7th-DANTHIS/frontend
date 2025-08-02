@@ -13,12 +13,8 @@ import useGet from '../../hooks/useGet';
 import useGetCommunity from '../../hooks/useGetCommunity';
 import useGetComment from '../../hooks/useGetComment';
 
-import { UserResponse } from '../../types/UserInterface';
-import {
-  SinglePostResponse,
-  SinglePostData
-} from '../../types/CommunityInterface';
-import { CommentResponse, Comment } from '../../types/CommunityInterface';
+import { SinglePostData } from '../../types/CommunityInterface';
+import { Comment } from '../../types/CommunityInterface';
 
 interface PostPageReload {
   setForceReload: React.Dispatch<React.SetStateAction<boolean>>;

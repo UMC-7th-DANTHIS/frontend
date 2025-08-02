@@ -10,7 +10,7 @@ const CommunityLayout = () => {
 
   const perData: number = 10;
 
-  const { data: lists } = useFetchList<PostListData>(currentPage, forceReload);
+  const { data: lists } = useFetchList(currentPage, forceReload);
 
   return (
     <>
