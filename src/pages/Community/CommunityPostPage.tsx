@@ -25,7 +25,7 @@ interface PostPageReload {
 }
 
 const CommunityPostPage = () => {
-  const [comments, setComments] = useState<Comment[]>([]);
+  const [, setComments] = useState<Comment[]>([]);
   const [forceReload, setForceReload] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const perData: number = 5;
