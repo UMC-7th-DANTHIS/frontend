@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import ClassPic from '../../../assets/dummyphoto/class.svg';
+
 import Pagination from '../../../components/Pagination';
 import { useParams } from 'react-router-dom';
 import api from '../../../api/api';
@@ -19,7 +19,7 @@ const ClassTab: React.FC<ClassTabProps> = ({ classes: initialClasses }) => {
   const { dancerId } = useParams<{ dancerId: string }>();
   const [classes, setClasses] = useState<DanceClassType[]>(initialClasses); // 수업 데이터
   const [currentPage, setCurrentPage] = useState<number>(1); // 현재 페이지
-  const [totalPages, setTotalPages] = useState<number>(1); // 전체 페이지 수
+  const [, setTotalPages] = useState<number>(1); // 전체 페이지 수
   const [totalElements, setTotalElements] = useState<number>(0); // 전체 요소 개수 상태 추가
 
   const perData = 6; // 페이지당 데이터 수

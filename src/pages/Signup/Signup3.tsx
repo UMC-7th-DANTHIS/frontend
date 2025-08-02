@@ -1,20 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Shape1 from '../../assets/shape/shape1.svg';
 import Shape2 from '../../assets/shape/shape2.svg';
-import Logoimg from '../../assets/logo.svg';
 import Searchicon from '../../assets/searchicon.svg';
 import Overlay from './components/Overlay';
 import Close from '../../assets/buttons/close.svg';
 import api from '../../api/api';
-import type {DancerType} from "./components/Overlay"
+import type { DancerType } from './components/Overlay';
 
 interface Genre {
   id: number;
   name: string;
 }
-
 
 interface Signup2Data {
   nickname: string;
@@ -96,9 +94,9 @@ const Signup3 = () => {
   };
 
   // Overlay 열기 및 닫기 함수
-  const openOverlay = () => {
-    setIsOverlayOpen(true);
-  };
+  // const openOverlay = () => {
+  //   setIsOverlayOpen(true);
+  // };
 
   const closeOverlay = () => {
     setIsOverlayOpen(false);
@@ -225,14 +223,16 @@ const Signup3 = () => {
               </ResultItem>
             ))}
           </ResultList> */}
-           <div style={{ maxHeight: '200px', overflowY: 'auto', padding: '16px' }}>
-      {searchResults.map((dancer) => (
-        <ResultItem key={dancer.id}>
-          <ResultImage src={dancer.image} alt={dancer.name} />
-          <DancerName>{dancer.name}</DancerName>
-        </ResultItem>
-      ))}
-         </div>
+          <div
+            style={{ maxHeight: '200px', overflowY: 'auto', padding: '16px' }}
+          >
+            {searchResults.map((dancer) => (
+              <ResultItem key={dancer.id}>
+                <ResultImage src={dancer.image} alt={dancer.name} />
+                <DancerName>{dancer.name}</DancerName>
+              </ResultItem>
+            ))}
+          </div>
         </Overlay>
       )}
     </Layout>
@@ -459,19 +459,19 @@ const Next = styled.div`
   line-height: normal;
 `;
 
-const ResultList = styled(Overlay)`
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background-color: #1e1e1e;
-  color: #fff;
-  border: 1px solid #333;
-  border-radius: 4px;
-  z-index: 10;
-  max-height: 200px;
-  overflow-y: auto;
-`;
+// const ResultList = styled(Overlay)`
+//   position: absolute;
+//   top: 100%;
+//   left: 0;
+//   right: 0;
+//   background-color: #1e1e1e;
+//   color: #fff;
+//   border: 1px solid #333;
+//   border-radius: 4px;
+//   z-index: 10;
+//   max-height: 200px;
+//   overflow-y: auto;
+// `;
 
 const ResultItem = styled.div`
   display: flex;

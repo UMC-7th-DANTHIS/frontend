@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
-
 import axiosInstance from '../api/axios-instance';
-
 import { PostListData } from '@/types/CommunityInterface';
 
-export function useFetchList<T>(currentPage: number, forceReload: boolean) {
+export function useFetchList(currentPage: number, forceReload: boolean) {
   const [data, setData] = useState<PostListData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
@@ -15,14 +13,11 @@ export function useFetchList<T>(currentPage: number, forceReload: boolean) {
       setIsError(false);
 
       try {
-        let url: string = '';
-
-        if (!currentPage) currentPage = 1;
-        url = `/community/posts?page=${currentPage}`;
+        const page = currentPage || 1;
+        const url = `/community/posts?page=${page}`;
 
         const response = await axiosInstance.get(url);
         setData(response.data.data);
-        console.log(data);
       } catch (error) {
         setIsError(true);
       } finally {
