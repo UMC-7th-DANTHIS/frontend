@@ -12,7 +12,7 @@ import { AllClassData, AllDancerData } from '@/types/MainInterface';
 
 const HomePage = () => {
   const { data: danceclass } = useGetClass<AllClassData>();
-  const { data: dancer } = useGetDancer<AllDancerData>();
+  const { data: dancer } = useGetDancer();
 
   console.log(dancer);
   console.log(danceclass);
