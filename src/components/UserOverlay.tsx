@@ -23,7 +23,7 @@ interface UserOverlayProps {
 }
 
 const UserOverlay: React.FC<UserOverlayProps> = ({ onclose, classId }) => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPage] = useState<number>(1);
   const perData = 5;
   const navigate = useNavigate();
 

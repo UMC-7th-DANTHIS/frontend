@@ -19,7 +19,6 @@ const Signup2 = () => {
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isNicknameValid, setIsNicknameValid] = useState<boolean | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
   const [isDefaultImage, setIsDefaultImage] = useState(true); // 기본 이미지 여부 상태
   const [uploadedImage, setUploadedImage] = useState<string | null>(null); // 업로드된 이미지
   const [errorMessage, setErrorMessage] = useState('');
