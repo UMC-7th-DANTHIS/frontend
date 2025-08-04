@@ -20,6 +20,9 @@
     "web-vitals": "^4.2.4",
     "zustand": "^5.0.2"
   },
+  "engines": {
+    "node": "18.18.2"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -45,6 +48,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/node": "^22.13.13",
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",

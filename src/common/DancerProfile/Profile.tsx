@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+
 import styled from 'styled-components';
 import CircleIcon from '../../assets/shape/circle.svg';
 import api from '../../api/api';
 import axios from 'axios'
 
-
-interface ProfileProps{
+interface ProfileProps {
   dancer: DancerType | null;
 }
 
@@ -18,16 +17,16 @@ type DancerType = {
   instargramId: string;
   preferredGenres: number[];
   bio: string;
-}
+};
 
 type GenreType = {
-  id : number;
-  name : string;
-}
+  id: number;
+  name: string;
+};
 
 const Profile: React.FC<ProfileProps> = ({ dancer }) => {
   const [isLiked, setIsLiked] = useState<boolean | null>(null);
-  const { dancerId } = useParams<{dancerId: string}>();
+  // const { dancerId } = useParams<{ dancerId: string }>();
   const isLoggedIn = !!localStorage.getItem('accessToken'); // 로그인 상태 확인
 
   const genres: GenreType[] = [
@@ -86,7 +85,7 @@ const Profile: React.FC<ProfileProps> = ({ dancer }) => {
         console.error('예상치 못한 에러:', error);
       }
     }
-  }
+  };
   const handleChatClick = async () => {
     try {
       const response = await api.post(`/chats/${dancer.id}/start`);
@@ -114,9 +113,7 @@ const Profile: React.FC<ProfileProps> = ({ dancer }) => {
         console.error('예상치 못한 에러:', error);
       }
     }
-  }
-    
-   
+  };
 
   // 소개글 포맷팅 함수
   const formatIntroduce = (text: string, maxLength = 32): string => {
@@ -135,25 +132,29 @@ const Profile: React.FC<ProfileProps> = ({ dancer }) => {
           <Title>Instagram</Title>
           <Content>{dancer.instargramId}</Content>
           <Title>주 장르</Title>
-          <Content>{dancer.preferredGenres
-    ?.map((genreId) => genres.find((genre) => genre.id === genreId)?.name)
-    .filter(Boolean) // undefined 값 제거
-    .join(', ') || "알 수 없음"}
-    </Content>
+          <Content>
+            {dancer.preferredGenres
+              ?.map(
+                (genreId) => genres.find((genre) => genre.id === genreId)?.name
+              )
+              .filter(Boolean) // undefined 값 제거
+              .join(', ') || '알 수 없음'}
+          </Content>
           <Title>한 마디 소개글</Title>
           <Content>{formatIntroduce(dancer.bio)}</Content>
         </InfoContainer>
         <ButtonContainer>
           {isLoggedIn && (
-          <>
-          <ChatButton onClick={handleChatClick}>댄서와 1:1 채팅하기</ChatButton>
-          <LikeButton isLiked={isLiked} onClick={handleLikeClick}>
-            {isLiked ? '찜 취소하기' : '댄서 찜해놓기'}
-          </LikeButton>
-           </>
+            <>
+              <ChatButton onClick={handleChatClick}>
+                댄서와 1:1 채팅하기
+              </ChatButton>
+              <LikeButton isLiked={isLiked} onClick={handleLikeClick}>
+                {isLiked ? '찜 취소하기' : '댄서 찜해놓기'}
+              </LikeButton>
+            </>
           )}
         </ButtonContainer>
-       
       </ProfileContainer>
     </Layout>
   );
@@ -271,7 +272,7 @@ const ChatButton = styled.button`
   cursor: pointer;
 `;
 
-const LikeButton = styled.button< {isLiked: boolean | null}>`
+const LikeButton = styled.button<{ isLiked: boolean | null }>`
   display: flex;
   width: 420px;
   padding: 10px 87px;

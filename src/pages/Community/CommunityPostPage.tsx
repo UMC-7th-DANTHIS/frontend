@@ -13,19 +13,15 @@ import useGet from '../../hooks/useGet';
 import useGetCommunity from '../../hooks/useGetCommunity';
 import useGetComment from '../../hooks/useGetComment';
 
-import { UserResponse } from '../../types/UserInterface';
-import {
-  SinglePostResponse,
-  SinglePostData
-} from '../../types/CommunityInterface';
-import { CommentResponse, Comment } from '../../types/CommunityInterface';
+import { SinglePostData } from '../../types/CommunityInterface';
+import { Comment } from '../../types/CommunityInterface';
 
 interface PostPageReload {
   setForceReload: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CommunityPostPage = () => {
-  const [comments, setComments] = useState<Comment[]>([]);
+  const [, setComments] = useState<Comment[]>([]);
   const [forceReload, setForceReload] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const perData: number = 5;
@@ -35,14 +31,12 @@ const CommunityPostPage = () => {
 
   // 게시물 정보 가져오기
   const selectedPost = (location.state as SinglePostData) || {};
-  const { data: user } = useGet<UserResponse>();
+  const { data: user } = useGet();
   const { setForceReload: setListReload } = useOutletContext<PostPageReload>();
-  const { data: post } = useGetCommunity<SinglePostResponse>(
-    selectedPost?.postId
-  );
+  const { data: post } = useGetCommunity(selectedPost?.postId);
 
   // 댓글 가져오기
-  const { data: com } = useGetComment<CommentResponse>(
+  const { data: com } = useGetComment(
     selectedPost?.postId,
     1,
     currentPage,
