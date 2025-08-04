@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 //import { ReactComponent as Line } from '../../../assets/shape/line.svg';
-import { ReactComponent as FocusedCircle } from '../../../assets/shape/focusedcircle.svg';
-import Pagination from '../../../components/Pagination';
-import api from '../../../api/api';
+import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
+import Pagination from '../../components/Pagination';
+import api from '../../api/api';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 type DancerType = {
   id: number;
@@ -35,7 +36,7 @@ const ClassBoard: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1); // 현재 페이지 상태
   const [totalElements, setTotalElements] = useState<number>(0); // 전체 요소 개수 상태 추가
   const [, setTotalPages] = useState<number>(1); // 전체 페이지 수
-  const [, setIsFetching] = useState<boolean>(false); // 로딩 상태
+  const [isFetching, setIsFetching] = useState<boolean>(false); // 로딩 상태
 
   const perData = 9;
 
@@ -106,39 +107,40 @@ const ClassBoard: React.FC = () => {
         ))}
       </Sidebar>
       <Line />
-      {/* {isFetching ? (
+      {isFetching ? (
         <LoadingContainer>
           <LoadingSpinner isLoading={isFetching} />
         </LoadingContainer>
-      ) : ( */}
-      <BoardContainer>
-        <Classes>
-          {data.map((dancer) => (
-            <Class to={`/dancerprofile/${dancer.id}`} key={dancer.id}>
-              <Image src={dancer.images[0]} alt={dancer.dancerName} />
+      ) : (
+        <BoardContainer>
+          <Classes>
+            {data.map((dancer) => (
+              <Class to={`/dancerprofile/${dancer.id}`} key={dancer.id}>
+                <Image src={dancer.images[0]} alt={dancer.dancerName} />
 
-              <Dancer>{dancer.dancerName}</Dancer>
-            </Class>
-          ))}
-        </Classes>
-        {/* <PaginationContainer> */}
-        <Pagination
-          dataLength={totalElements}
-          perData={perData}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-        {/* </PaginationContainer> */}
-      </BoardContainer>
+                <Dancer>{dancer.dancerName}</Dancer>
+              </Class>
+            ))}
+          </Classes>
+          {/* <PaginationContainer> */}
+          <Pagination
+            dataLength={totalElements}
+            perData={perData}
+            currentPage={currentPage}
+           setCurrentPage={setCurrentPage}
+          />
+          {/* </PaginationContainer> */}
+        </BoardContainer>
+      )}
     </Container>
   );
 };
 
 export default ClassBoard;
 
-// const LoadingContainer = styled.div`
-//   width: 880px;
-// `;
+ const LoadingContainer = styled.div`
+   width: 880px;
+ `;
 // const PaginationContainer = styled.div`
 //   margin-top: 20px;
 //   display: flex;

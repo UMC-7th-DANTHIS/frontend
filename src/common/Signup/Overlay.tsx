@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 //import SampleImage from '../../../assets/image.png';
-import { ReactComponent as PlusButton } from '../../../assets/buttons/plus-button.svg';
+import { ReactComponent as PlusButton } from '../../assets/buttons/plus-button.svg';
 
 export type DancerType = {
   id: number;

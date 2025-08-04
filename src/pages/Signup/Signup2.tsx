@@ -6,12 +6,7 @@ import Shape2 from '../../assets/shape/shape2.svg';
 import Profileimg from '../../assets/profileimg.svg';
 import api from '../../api/api';
 import SingleBtnAlert from '../../components/SingleBtnAlert';
-
-// 사용자 타입 (필요 시 확장 가능)
-interface UserType {
-  email: string;
-  nickname?: string;
-}
+import { UserType } from '@/types/Signup/useUser';
 
 const Signup2 = () => {
   const [nickname, setNickname] = useState('');

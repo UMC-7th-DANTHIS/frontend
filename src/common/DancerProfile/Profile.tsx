@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
 import styled from 'styled-components';
-import CircleIcon from '../../../assets/shape/circle.svg';
-import api from '../../../api/api';
-import axios from 'axios';
+import CircleIcon from '../../assets/shape/circle.svg';
+import api from '../../api/api';
+import axios from 'axios'
 
 interface ProfileProps {
   dancer: DancerType | null;

@@ -4,26 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import Shape1 from '../../assets/shape/shape1.svg';
 import Shape2 from '../../assets/shape/shape2.svg';
 import Searchicon from '../../assets/searchicon.svg';
-import Overlay from './components/Overlay';
+import Overlay from '../../common/Signup/Overlay';
 import Close from '../../assets/buttons/close.svg';
 import api from '../../api/api';
-import type { DancerType } from './components/Overlay';
+import type {DancerType} from "../../common/Signup/Overlay"
+import { Signup2Data } from '@/types/Signup/useUser';
+import { Genre, GenreButtonProps } from '@/types/Signup/useGenre';
 
-interface Genre {
-  id: number;
-  name: string;
-}
-
-interface Signup2Data {
-  nickname: string;
-  gender: string;
-  phoneNumber: string;
-  profileImage: string;
-}
-
-interface GenreButtonProps {
-  isSelected: boolean;
-}
 const Signup3 = () => {
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
   const [signup2Data, setSignup2Data] = useState<Signup2Data | null>(null); // Signup2에서 가져온 데이터 상태
