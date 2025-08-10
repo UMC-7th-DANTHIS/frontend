@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation, useOutletContext } from 'react-router-dom';
+import {
+  useNavigate,
+  useLocation,
+  useOutletContext,
+  useParams
+} from 'react-router-dom';
 import styled from 'styled-components';
 
 import ImageModal from '../../common/Comunity/ImageModal';
@@ -33,17 +38,17 @@ const CommunityPostPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const { id } = useParams();
+
   // 게시물 정보 가져오기
   const selectedPost = (location.state as SinglePostData) || {};
   const { data: user } = useGet<UserResponse>();
   const { setForceReload: setListReload } = useOutletContext<PostPageReload>();
-  const { data: post } = useGetCommunity<SinglePostResponse>(
-    selectedPost?.postId
-  );
+  const { data: post } = useGetCommunity<SinglePostResponse>(parseInt(id!));
 
   // 댓글 가져오기
   const { data: com } = useGetComment<CommentResponse>(
-    selectedPost?.postId,
+    parseInt(id!),
     1,
     currentPage,
     forceReload

@@ -23,9 +23,9 @@ function useGetComment<T>(
 
         if (!currentPage) currentPage = 1;
         url = `/community/posts/${postId}/comments?page=${currentPage}`;
+        const response = await axiosInstance.get(url);
 
-        const response: CommentResponse = await axiosInstance.get(url);
-        setData(response);
+        setData(response.data);
       } catch (error) {
         setIsError(true);
       } finally {
