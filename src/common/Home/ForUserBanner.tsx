@@ -28,53 +28,53 @@ const HeadContainer = styled.div`
 `;
 
 const Circle1 = styled.div`
-  border: 5px solid #b30505;
-  width: 20px;
-  height: 20px;
+  border: 3px solid #b30505;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  margin-right: 20px;
+  margin-right: 26px;
 `;
 
 const Circle2 = styled.div`
-  border: 5px solid #b30505;
-  width: 40px;
-  height: 40px;
+  border: 3px solid #b30505;
+  width: 26px;
+  height: 26px;
   flex-shrink: 0;
   border-radius: 50%;
-  margin-right: 20px;
+  margin-right: 26px;
 `;
 
 const Circle3 = styled.div`
-  border: 5px solid #b30505;
-  width: 60px;
-  height: 60px;
+  border: 3px solid #b30505;
+  width: 38px;
+  height: 38px;
   flex-shrink: 0;
   border-radius: 50%;
-  margin-right: 70px;
+  margin-right: 36px;
 `;
 
 const Circle4 = styled.div`
-  border: 5px solid #9819c3;
-  width: 60px;
-  height: 60px;
+  border: 3px solid #9819c3;
+  width: 38px;
+  height: 38px;
   flex-shrink: 0;
   border-radius: 50%;
-  margin-left: 70px;
+  margin-left: 36px;
 `;
 
 const Circle5 = styled.div`
-  border: 5px solid #9819c3;
-  width: 40px;
-  height: 40px;
+  border: 3px solid #9819c3;
+  width: 26px;
+  height: 26px;
   flex-shrink: 0;
   border-radius: 50%;
   margin-left: 20px;
 `;
 
 const Circle6 = styled.div`
-  border: 5px solid #9819c3;
-  width: 20px;
-  height: 20px;
+  border: 3px solid #9819c3;
+  width: 16px;
+  height: 16px;
   flex-shrink: 0;
   border-radius: 50%;
   margin-left: 20px;
@@ -92,13 +92,13 @@ const TitleText = styled.div`
 
   color: white;
 
-  font-size: 44px;
+  font-size: 28px;
   font-weight: 700;
   line-height: normal;
 `;
 
 const Text = styled.div`
-  padding-top: 15px;
+  padding-top: 3px;
 
   background: linear-gradient(to right, #b30505, #9819c3);
   -webkit-background-clip: text;
@@ -106,8 +106,8 @@ const Text = styled.div`
 `;
 
 const Title = styled.div`
-  width: 520px;
-  height: 90px;
+  width: 480px;
+  height: 48px;
   text-align: center;
   display: flex;
   justify-content: center;

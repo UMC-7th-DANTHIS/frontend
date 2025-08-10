@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 import HotDancer from './Home/HotDancer';
@@ -14,9 +13,6 @@ const HomePage = () => {
   const { data: danceclass } = useGetClass<AllClassData>();
   const { data: dancer } = useGetDancer<AllDancerData>();
 
-  console.log(dancer);
-  console.log(danceclass);
-
   return (
     <Container>
       {dancer && <HotDancer dancer={dancer} />}
@@ -31,6 +27,7 @@ const HomePage = () => {
 const Container = styled.div`
   background-color: black;
   width: 1440px;
+  margin: 0 auto;
 `;
 
 export default HomePage;

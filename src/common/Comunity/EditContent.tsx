@@ -26,17 +26,17 @@ const EditContent = ({
   selectedPost
 }: EditContentProps) => {
   useEffect(() => {
-    if (selectedPost) {
-      setTitle(selectedPost.title || '');
-      setContent(selectedPost.content || '');
-      setFileName(
-        selectedPost.images
-          ? selectedPost.images.map((_, idx) => `image-${idx + 1}`)
-          : []
-      );
-      setPreviews(selectedPost.images || []);
-    }
-  }, [selectedPost, setTitle, setContent, setFileName, setPreviews]);
+    if (!selectedPost) return;
+
+    setTitle(selectedPost.title || '');
+    setContent(selectedPost.content || '');
+    setFileName(
+      selectedPost.images
+        ? selectedPost.images.map((_, idx) => `image-${idx + 1}`)
+        : []
+    );
+    setPreviews(selectedPost.images || []);
+  }, []);
 
   const handleRemoveImage = (index: number): void => {
     setPreviews((prev: string[]) => prev.filter((_, i) => i !== index));

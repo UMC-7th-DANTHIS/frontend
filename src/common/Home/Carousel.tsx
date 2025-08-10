@@ -34,10 +34,10 @@ const sliderSettings = {
   dots: false,
   infinite: true,
   speed: 3000,
-  slidesToShow: 6,
+  slidesToShow: 7,
   slidesToScroll: 1,
   autoplay: true,
-  autoplaySpeed: 1,
+  autoplaySpeed: 2,
   cssEase: 'linear'
 };
 
@@ -75,8 +75,8 @@ const DancerName = styled.div`
 
 const ImageContainer = styled.div`
   position: relative;
-  width: 190px;
-  height: 190px;
+  width: 160px;
+  height: 160px;
   border-radius: 10px;
   overflow: hidden;
   transition: transform 0.3s ease-in-out;

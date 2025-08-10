@@ -24,25 +24,25 @@ const TitleContainer = styled.div`
 
 const Circle1 = styled.div`
   background: var(--main_red, #b30505);
-  width: 20px;
+  width: 18px;
   height: 20px;
   border-radius: 50%;
-  margin-right: 39.33px;
+  margin-right: 30px;
 `;
 
 const Circle2 = styled.div`
   background: var(--main_red, #b30505);
-  width: 40px;
-  height: 40px;
+  width: 26px;
+  height: 26px;
   flex-shrink: 0;
   border-radius: 50%;
-  margin-right: 39.33px;
+  margin-right: 30px;
 `;
 
 const Circle3 = styled.div`
   background: var(--main_red, #b30505);
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
   border-radius: 50%;
   margin-right: 31.35px;
@@ -50,8 +50,8 @@ const Circle3 = styled.div`
 
 const Circle4 = styled.div`
   background: var(--main_purple, #9819c3);
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
   border-radius: 50%;
   margin-left: 31.35px;
@@ -59,32 +59,32 @@ const Circle4 = styled.div`
 
 const Circle5 = styled.div`
   background: var(--main_purple, #9819c3);
-  width: 40px;
-  height: 40px;
+  width: 26px;
+  height: 26px;
   flex-shrink: 0;
   border-radius: 50%;
-  margin-left: 39.33px;
+  margin-left: 30px;
 `;
 
 const Circle6 = styled.div`
   background: var(--main_purple, #9819c3);
-  width: 20px;
+  width: 18px;
   height: 20px;
   flex-shrink: 0;
   border-radius: 50%;
-  margin-left: 39.33px;
+  margin-left: 30px;
 `;
 
 const Title = styled.div`
-  width: 780px;
-  height: 96px;
+  width: 600px;
+  height: 60px;
   flex-shrink: 0;
   border-radius: 91px;
   background: linear-gradient(90deg, #b30505 0%, #9819c3 100%);
   color: var(--main_white, #fff);
   text-align: center;
 
-  font-size: 44px;
+  font-size: 32px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;

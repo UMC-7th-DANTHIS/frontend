@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import axiosInstance from '../api/axios-instance';
 
-import { PostListResponse, PostListData } from '@/types/CommunityInterface';
+import { PostListData } from '@/types/CommunityInterface';
 
 export function useFetchList<T>(currentPage: number, forceReload: boolean) {
   const [data, setData] = useState<PostListData | null>(null);
@@ -22,7 +22,6 @@ export function useFetchList<T>(currentPage: number, forceReload: boolean) {
 
         const response = await axiosInstance.get(url);
         setData(response.data.data);
-        console.log(data);
       } catch (error) {
         setIsError(true);
       } finally {

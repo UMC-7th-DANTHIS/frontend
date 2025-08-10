@@ -33,7 +33,7 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
             onClick={() => navigate(`/classreservation/${item.id}?tab=detail`)}
             src={item.thumbnailImage}
             alt={'Image'}
-            visible={index >= currentIndex && index < currentIndex + 3}
+            visible={index >= currentIndex && index < currentIndex + 4}
           />
         ))}
       </SlideWrapper>
@@ -60,8 +60,8 @@ const SlideWrapper = styled.div<{ currentIndex: number }>`
 `;
 
 const HotImage = styled.img<{ visible: boolean }>`
-  width: 400px;
-  height: 400px;
+  width: 300px;
+  height: 300px;
   border-radius: 10px;
   background-color: #ddd;
   display: flex;
