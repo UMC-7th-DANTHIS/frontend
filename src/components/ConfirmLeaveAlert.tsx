@@ -56,11 +56,7 @@ const ConfirmLeaveAlert = ({
           {/* 제목 */}
           {title && <AlertTitle>{title}</AlertTitle>}
           {/* 내용이랑 text 색 설정 / 기본색은 검정 */}
-          <AlertMessage
-            color={messageColor}
-            fontSize={messagesize}
-            margintop={mariginsize}
-          >
+          <AlertMessage color={messageColor} fontSize={messagesize} margintop={mariginsize}>
             {message}
           </AlertMessage>
         </TextContainer>
@@ -96,7 +92,7 @@ const AlertContainer = styled.div<{
   height?: string;
 }>`
   position: relative;
-  justify-items: center;
+  justify-content: center;
   background-color: black;
   border-radius: 23px;
   width: ${({ width }) => width || 'auto'};

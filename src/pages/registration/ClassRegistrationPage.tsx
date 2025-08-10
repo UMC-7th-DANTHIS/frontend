@@ -32,7 +32,7 @@ const Container = styled.div`
 `;
 const Registration = styled.div`
   width: 1440px;
-  justify-items: center;
+  justify-content: center;
 `;
 const Title = styled.div`
   color: var(--main_white, #fff);
