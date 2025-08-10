@@ -26,7 +26,7 @@ const CommunityList = ({ list }: CommunityListProps) => {
   return (
     <ListContainer>
       <NoList>{list?.postId}</NoList>
-      {post?.images ? (
+      {post?.images.length ? (
         <ImageYes src={ImageDescript} alt={'그림있으요'} />
       ) : (
         <ImageNo />

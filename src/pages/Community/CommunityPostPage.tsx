@@ -93,7 +93,7 @@ const CommunityPostPage = () => {
 
     try {
       const response = await axiosInstance.post(
-        `/community/posts/${selectedPost.postId}/comments`,
+        `/community/posts/${parseInt(id!)}/comments`,
         { content: commentText }
       );
 
