@@ -20,10 +20,11 @@ const SearchClass = ({ query, select }: SearchClassParams) => {
   const perData: number = 5;
 
   const { data } = useSearch<'dance-classes'>(select, query, currentPage);
+  console.log(data);
 
   return (
     <Container>
-      {data!.data.results.length > 0 ? (
+      {data?.data.results && data!.data.results.length > 0 ? (
         <>
           <ClassLists>
             {data?.data.results.map((list) => (

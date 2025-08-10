@@ -38,8 +38,11 @@ const SearchCommunity = ({ query, select }: SearchCommunityParams) => {
       {data?.data.results.length ? (
         <>
           <CommunityLists>
-            {data?.data.results.map((list) => (
-              <CommunityList onClick={() => handleNavigate(list.id)}>
+            {data?.data.results.map((list, index) => (
+              <CommunityList
+                key={index}
+                onClick={() => handleNavigate(list.id)}
+              >
                 <TextContainer>
                   <Title>{list.title}</Title>
                   {list.postImages && (

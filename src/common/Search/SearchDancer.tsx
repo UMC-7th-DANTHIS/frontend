@@ -24,7 +24,7 @@ const SearchDancer = ({ query, select }: SearchDancerParams) => {
 
   return (
     <Container>
-      {data!.data.results.length > 0 ? (
+      {data?.data.results && data?.data.results.length > 0 ? (
         <>
           <ClassLists>
             {data?.data.results.map((list) => (
