@@ -51,7 +51,7 @@ const GridContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   width: 520px;
   height: 100%;
 `;
@@ -59,6 +59,7 @@ const Classes = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 50px 65px;
+  margin-top: 80px;
 `;
 const Class = styled(Link)`
   display: flex;
