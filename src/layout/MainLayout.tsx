@@ -7,15 +7,13 @@ import Footer from '../components/Footer';
 
 import useGet from '../hooks/useGet';
 
-import { UserResponse } from '../types/UserInterface';
-
 const MainLayout = () => {
   const navigate = useNavigate();
 
   const [token, setToken] = useState<string | null>(() =>
     localStorage.getItem('token')
   );
-  const { data: user } = useGet<UserResponse>();
+  const { data: user } = useGet();
 
   useEffect(() => {
     const handleStorageChange = (): void => {

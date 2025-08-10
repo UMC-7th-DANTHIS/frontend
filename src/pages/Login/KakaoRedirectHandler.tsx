@@ -31,6 +31,7 @@ const KakaoRedirectHandler = () => {
       .then((response) => {
         console.log('✅ 카카오 로그인 성공:', response.data);
         const accessToken = response.data.data?.accessToken;
+        
 
         if (!accessToken) {
           console.warn('⚠️ Access Token이 없습니다. 로그인 페이지로 이동합니다.');
@@ -39,6 +40,7 @@ const KakaoRedirectHandler = () => {
         }
 
         localStorage.setItem('token', accessToken);
+        window.history.replaceState({}, '', window.location.pathname);
 
         return axios.get(`${process.env.REACT_APP_API_BASE_URL}/users/me`, {
           withCredentials: true,
