@@ -1,16 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Logo from '../assets/logo.svg';
-import Outline from '../assets/outline.svg';
-import Searchicon from '../assets/searchicon.svg';
-import Mypageicon from '../assets/buttons/mypageButton.svg';
-
 import SingleBtnAlert from './SingleBtnAlert';
+import TopbarActions from './TopbarActions';
 
 type TopbarProps = {
-  onSearch: (query: string) => void;
   token: string;
 };
 
@@ -19,13 +15,9 @@ type menuItemsType = {
   label: string;
 };
 
-const Topbar = ({ onSearch, token }: TopbarProps) => {
+const Topbar = ({ token }: TopbarProps) => {
   const navigate = useNavigate();
   const location = useLocation();
-
-  const [search, setSearch] = useState<string>('');
-  const [searchPlaceholder, setSearchPlaceholder] =
-    useState<string>('검색어를 입력하세요');
   const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
 
   const menuItems: menuItemsType[] = [
@@ -36,86 +28,26 @@ const Topbar = ({ onSearch, token }: TopbarProps) => {
     { path: '/classregister', label: '댄스 수업 등록' }
   ];
 
-  const handleClick = (): void => {
-    navigate('/');
-  };
-
-  const handleNavigate = (): void => {
-    navigate('/login');
-  };
-
-  const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const value: string = e.target.value;
-
-    if (value.length > 20) {
-      setShowInvalidAlert(true);
-    } else {
-      setSearch(value);
-      setShowInvalidAlert(false);
-    }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (e.key === 'Enter' && search.trim() !== '') {
-      setTimeout(() => handleSearch(), 0);
-    }
-  };
-
-  const handleSearch = (): void => {
-    if (search.trim()) {
-      onSearch(search.trim());
-      setSearch('');
-    }
-  };
+  const handleClick = () => navigate('/');
 
   return (
     <Container>
       <TopContainer>
         <LogoBtn onClick={handleClick}>
-          <LogoImg src={Logo} alt="logo" />
+          <img src={Logo} alt="logo" />
         </LogoBtn>
-        <LoginContainer>
-          {!token ? (
-            <Login onClick={handleNavigate}>LOGIN</Login>
-          ) : (
-            <MyPageContainer onClick={() => navigate('/mypage')}>
-              <MyPageImg src={Mypageicon} alt={'MyPage'} />
-              <MyPage>My Page</MyPage>
-            </MyPageContainer>
-          )}
-          <Search>
-            <SearchInput
-              placeholder={searchPlaceholder}
-              onFocus={(): void => setSearchPlaceholder('')}
-              onBlur={(): void => setSearchPlaceholder('검색어를 입력하세요')}
-              onKeyDown={handleKeyDown}
-              onChange={(e): void => handleSearchInput(e)}
-              value={search}
-              maxLength={21}
-            />
-            <SearchButton
-              onClick={handleSearch}
-              disabled={search.trim() === ''}
-            >
-              <SearchIcon src={Searchicon} alt="search" />
-            </SearchButton>
-          </Search>
-        </LoginContainer>
+        <TopbarActions token={token} setShowInvalidAlert={setShowInvalidAlert} />
       </TopContainer>
+
       <MenuContainer>
         {menuItems.map((item: menuItemsType) => (
-          <MenuItem
-            key={item.path}
-            to={item.path}
-            className={location.pathname.startsWith(item.path) ? 'active' : ''}
-          >
+          <MenuItem key={item.path} to={item.path} className={location.pathname.startsWith(item.path) ? 'active' : ''}>
             {item.label}
           </MenuItem>
         ))}
       </MenuContainer>
-      <OutlineContainer>
-        <OutlineImg src={Outline} alt="outline" />
-      </OutlineContainer>
+
+      <Outline />
 
       {showInvalidAlert && (
         <SingleBtnAlert
@@ -138,161 +70,66 @@ const Topbar = ({ onSearch, token }: TopbarProps) => {
 const Container = styled.div`
   display: flex;
   background-color: black;
-  width: 1440px;
-  // height: 221px;
+  width: 100%;
   flex-direction: column;
-  /* position : relative; */
 `;
 
 const TopContainer = styled.div`
   display: flex;
-  justify-content: space-between;
   flex-direction: row;
-  height: 104px;
-  margin-left: 90px;
-  margin-right: 90px;
+  justify-content: space-between;
   align-items: center;
+  padding: 68px 27px 15px 27px;
+
+  ${({ theme }) => theme.media.desktop} {
+    padding: 0 90px;
+    padding-top: 24px;
+  }
 `;
 
 const LogoBtn = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-`;
 
-const LogoImg = styled.img`
-  display: inline-block;
-  width: 218px;
-  height: 56px;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-`;
+  img {
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    width: 120px;
+    height: 30px;
 
-const LoginContainer = styled.div`
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-  align-content: center;
-`;
-
-const Login = styled.button`
-  background: none;
-  color: white;
-  border: none;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  width: 64px;
-  height: 20px;
-  cursor: pointer;
-`;
-
-const MyPageContainer = styled.div`
-  display: inline-flex;
-  cursor: pointer;
-  align-items: center;
-`;
-
-const MyPageImg = styled.img`
-  width: 40px;
-  height: 40px;
-`;
-
-const MyPage = styled.button`
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  background: none;
-  color: white;
-  border: none;
-  cursor: pointer;
-`;
-
-const Search = styled.div`
-  display: inline-flex;
-  margin-left: 20px;
-  width: 315px;
-  height: 36px;
-  flex-shrink: 0;
-  border-radius: 43px;
-  padding: 2px; /* 테두리 두께 */
-  background: linear-gradient(
-    90deg,
-    #b30505,
-    #9819c3
-  ); /* 배경에 그라데이션 적용 */
-  position: relative;
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0; /* 부모 요소 크기 맞춤 */
-    border-radius: 43px;
-    background: black; /* 내부 색상 */
-    margin: 2px; /* 테두리 두께와 동일하게 */
+    ${({ theme }) => theme.media.tablet} {
+      width: 218px;
+      height: 56px;
+    }
   }
-
-  display: flex;
-  align-items: center;
-  z-index: 0;
-`;
-
-const SearchInput = styled.input`
-  background: none;
-  color: white;
-  border: none;
-  width: 100%;
-
-  outline: none;
-  &:focus {
-    border: none;
-  }
-  margin-left: 10px;
-  z-index: 1;
-`;
-
-const SearchButton = styled.button`
-  background: none;
-  border: none;
-  margin-right: 16px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  z-index: 1;
-`;
-
-const SearchIcon = styled.img`
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
 `;
 
 const MenuContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  color: white;
-  height: 79px;
-  justify-content: space-between;
-  align-items: center;
-  padding-left: 244px;
-  padding-right: 243px;
-  /* padding : 0; */
-  //top : 104px;
-  position: relative;
-  //width : 1440px;
-  z-index: 10;
+  display: none;
+
+  ${({ theme }) => theme.media.tablet} {
+    display: flex;
+    flex-direction: row;
+    color: white;
+    height: 79px;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+
+    padding: 0 clamp(40px, calc(30.35vw - 193px), 244px);
+  }
+
+  // ${({ theme }) => theme.media.desktop} {
+  //   padding: 0 244px;
+  // }
 `;
 
 const MenuItem = styled(Link)`
-  color: var(--text_secondary-gray, #b2b2b2);
+  color: var(--text-secondary-gray);
   text-align: center;
   font-size: 24px;
   font-weight: 500;
@@ -308,23 +145,16 @@ const MenuItem = styled(Link)`
   }
 `;
 
-const OutlineContainer = styled.div`
-  /* width: 1440px;
-height: 156.195px; */
-  display: flex;
-  width: 1440px;
-  position: relative;
-  margin-top: -79px;
-  z-index: 5; /* MenuContainer보다 뒤로 */
-  height: calc(100% - 30px); /* 사진 높이에서 30px만큼 줄임 */
-  overflow: hidden;
-`;
+const Outline = styled.div`
+  height: 40px;
+  border-top: 1px solid var(--main-purple);
+  border-radius: 24px 24px 0 0;
+  box-shadow: inset 0px 7px 7px var(--main-purple50);
 
-const OutlineImg = styled.img`
-  width: 100%;
-  height: auto;
-  display: flex;
-  position: relative; /* 부모 컨테이너 기준으로 정렬 */
+  ${({ theme }) => theme.media.tablet} {
+    border-radius: 36px 36px 0 0;
+    box-shadow: inset 0px 15px 20px var(--main-purple50);
+  }
 `;
 
 const AlertText = styled.span`

@@ -1,18 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Topbar from '../components/Topbar';
 import Footer from '../components/Footer';
-
 import useGet from '../hooks/useGet';
 
 const MainLayout = () => {
-  const navigate = useNavigate();
-
-  const [token, setToken] = useState<string | null>(() =>
-    localStorage.getItem('token')
-  );
+  const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'));
   const { data: user } = useGet();
 
   useEffect(() => {
@@ -27,18 +22,12 @@ const MainLayout = () => {
     };
   }, []);
 
-  const handleSearch = (query: string): void => {
-    navigate(`/search/dance-classes?query=${query}`);
-  };
-
   return (
-    <>
-      <Container>
-        <Topbar onSearch={handleSearch} token={token!} />
-        <Outlet context={{ user }} />
-        <Footer />
-      </Container>
-    </>
+    <Container>
+      <Topbar token={token!} />
+      <Outlet context={{ user }} />
+      <Footer />
+    </Container>
   );
 };
 
@@ -47,7 +36,13 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: black;
+  width: 100%;
+  min-height: 100vh;
+
+  ${({ theme }) => theme.media.desktop} {
+    max-width: 1440px;
+    margin: 0 auto;
+  }
 `;
 
 export default MainLayout;
