@@ -14,7 +14,7 @@ export const DetailTab = ({ classData }: DetailTabProps) => {
     const match = link.match(
       /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/live\/)([\w-]{11})/
     );
-    return match ? `https://www.youtube.com/embed/${match[1]}` : '';
+    return match ? `https://www.youtube.com/embed/${match[1]}?controls=0&rel=0&origin=http://localhost:5173` : '';
   };
 
   return (
@@ -22,11 +22,18 @@ export const DetailTab = ({ classData }: DetailTabProps) => {
       <Video>
         {(classData?.details.videoUrl && classData?.details.videoUrl.includes('youtube.com')) ||
         classData?.details.videoUrl.includes('youtu.be') ? (
-          <Iframe src={getYoutubeEmbedUrl(classData?.details.videoUrl)} title="YouTube Video" allowFullScreen />
+          <iframe
+            id="ytplayer"
+            title="클래스 소개 영상"
+            width="1024"
+            height="560"
+            src={getYoutubeEmbedUrl(classData?.details.videoUrl)}
+          />
         ) : (
           classData?.details.videoUrl && <video src={classData?.details.videoUrl} controls />
         )}
       </Video>
+
       <Section>
         <Title>
           <Emoji>
@@ -88,20 +95,19 @@ const Video = styled.div`
   border: none;
   border-radius: 3px;
   overflow: hidden;
-  background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+
+  iframe {
+    position: absolute;
+    top: -1px;
+    left: -2px;
+    width: 101%;
+  }
 
   video {
     width: 100%;
     height: 100%;
     object-fit: cover; // 비율 유지
   }
-`;
-const Iframe = styled.iframe`
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  width: 100%;
-  height: 100%;
 `;
 const Section = styled.div`
   display: flex;
