@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { SelectionPanel } from '../../common/reservation/SelectionPanel';
-import { ClassesGrid } from '../../common/reservation/ClassesGrid';
+import { ClassesGrid, SelectionPanel } from '../../common/reservation';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
 import { DanceGenre as genres } from '../../api/schema';
 
