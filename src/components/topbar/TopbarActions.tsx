@@ -1,23 +1,33 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import MypageIcon from '../assets/buttons/my.svg';
-import HamburgerIcon from '../assets/buttons/hamburger.svg';
+import MypageIcon from '../../assets/buttons/my.svg';
+import HamburgerIcon from '../../assets/buttons/hamburger.svg';
 import TopbarSearch from './TopbarSearch';
 
 interface TopbarActionsProps {
   token: string;
   setShowInvalidAlert: (value: boolean) => void;
+  handleHamburgerClick: () => void;
 }
 
-const TopbarActions = ({ token, setShowInvalidAlert }: TopbarActionsProps) => {
+/**
+ * 상단바 우측 액션 영역 컴포넌트
+ * - 로그인 여부에 따라 LOGIN 버튼 또는 MY PAGE 버튼을 보여줌
+ * - 검색창과 햄버거 메뉴(모바일 전용) 포함
+ *
+ * @param token 로그인 여부를 나타내는 토큰
+ * @param setShowInvalidAlert 검색어 길이 초과 알림 표시를 제어하는 함수
+ * @param handleHamburgerClick 모바일에서 메뉴창 표시를 제어하는 함수
+ */
+const TopbarActions = ({ token, setShowInvalidAlert, handleHamburgerClick }: TopbarActionsProps) => {
   const navigate = useNavigate();
 
-  const handleNavigate = () => navigate('/login');
+  const handleNavigateLogin = () => navigate('/login');
 
   return (
     <LoginContainer>
       {!token ? (
-        <Login onClick={handleNavigate}>LOGIN</Login>
+        <Login onClick={handleNavigateLogin}>LOGIN</Login>
       ) : (
         <MyPageButton onClick={() => navigate('/mypage')}>
           <img src={MypageIcon} alt={'MyPage'} />
@@ -25,7 +35,7 @@ const TopbarActions = ({ token, setShowInvalidAlert }: TopbarActionsProps) => {
         </MyPageButton>
       )}
       <TopbarSearch setShowInvalidAlert={setShowInvalidAlert} />
-      <HamburgerButton>
+      <HamburgerButton onClick={handleHamburgerClick}>
         <img src={HamburgerIcon} alt="hamburger menu icon" />
       </HamburgerButton>
     </LoginContainer>

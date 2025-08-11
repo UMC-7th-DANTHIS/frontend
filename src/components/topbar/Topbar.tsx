@@ -1,54 +1,53 @@
 import { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Logo from '../assets/logo.svg';
-import SingleBtnAlert from './SingleBtnAlert';
+import Logo from '../../assets/logo.svg';
+import SingleBtnAlert from '../SingleBtnAlert';
 import TopbarActions from './TopbarActions';
+import TopbarMenuTablet from './TopbarMenuTablet';
+import TopbarMenuMobile from './TopbarMenuMobile';
+
+export const MENU = [
+  { path: '/classreservation', label: '댄스 수업 예약' },
+  { path: '/dancerprofile', label: '댄서 프로필' },
+  { path: '/community', label: '커뮤니티' },
+  { path: '/dancerregister', label: '댄서 등록' },
+  { path: '/classregister', label: '댄스 수업 등록' }
+] as const;
+
+export type MenuItem = (typeof MENU)[number];
 
 type TopbarProps = {
   token: string;
 };
 
-type menuItemsType = {
-  path: string;
-  label: string;
-};
-
 const Topbar = ({ token }: TopbarProps) => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
 
-  const menuItems: menuItemsType[] = [
-    { path: '/classreservation', label: '댄스 수업 예약' },
-    { path: '/dancerprofile', label: '댄서 프로필' },
-    { path: '/community', label: '커뮤니티' },
-    { path: '/dancerregister', label: '댄서 등록' },
-    { path: '/classregister', label: '댄스 수업 등록' }
-  ];
+  const [showInvalidAlert, setShowInvalidAlert] = useState(false);
+  const [showMenuMobile, setShowMenuMobile] = useState(false);
 
-  const handleClick = () => navigate('/');
+  const handleLogoClick = () => navigate('/');
+  const handleHamburgerClick = () => setShowMenuMobile(!showMenuMobile);
 
   return (
     <Container>
       <TopContainer>
-        <LogoBtn onClick={handleClick}>
+        <LogoBtn onClick={handleLogoClick}>
           <img src={Logo} alt="logo" />
         </LogoBtn>
-        <TopbarActions token={token} setShowInvalidAlert={setShowInvalidAlert} />
+        <TopbarActions
+          token={token}
+          setShowInvalidAlert={setShowInvalidAlert}
+          handleHamburgerClick={handleHamburgerClick}
+        />
       </TopContainer>
 
-      <MenuContainer>
-        {menuItems.map((item: menuItemsType) => (
-          <MenuItem key={item.path} to={item.path} className={location.pathname.startsWith(item.path) ? 'active' : ''}>
-            {item.label}
-          </MenuItem>
-        ))}
-      </MenuContainer>
+      <TopbarMenuTablet />
+      <TopbarMenuMobile visible={showMenuMobile} />
 
       <Outline />
-
       {showInvalidAlert && (
         <SingleBtnAlert
           message={
@@ -104,44 +103,6 @@ const LogoBtn = styled.button`
       width: 218px;
       height: 56px;
     }
-  }
-`;
-
-const MenuContainer = styled.div`
-  display: none;
-
-  ${({ theme }) => theme.media.tablet} {
-    display: flex;
-    flex-direction: row;
-    color: white;
-    height: 79px;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    z-index: 10;
-
-    padding: 0 clamp(40px, calc(30.35vw - 193px), 244px);
-  }
-
-  // ${({ theme }) => theme.media.desktop} {
-  //   padding: 0 244px;
-  // }
-`;
-
-const MenuItem = styled(Link)`
-  color: var(--text-secondary-gray);
-  text-align: center;
-  font-size: 24px;
-  font-weight: 500;
-  letter-spacing: -1.2px;
-  text-decoration: none;
-  position: relative;
-  padding-bottom: 5px;
-
-  &.active {
-    color: white;
-    font-weight: bold;
-    font-size: 30px;
   }
 `;
 

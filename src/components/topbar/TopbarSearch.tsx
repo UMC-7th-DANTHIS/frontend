@@ -1,12 +1,19 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import SearchIcon from '../assets/searchicon.svg';
+import SearchIcon from '../../assets/searchicon.svg';
 
 interface TopbarSearchProps {
   setShowInvalidAlert: (value: boolean) => void;
 }
 
+/**
+ * 상단바 검색창 컴포넌트
+ * - 검색어 입력과 유효성 검사
+ * - 검색 버튼 클릭 혹은 Enter 입력 시 검색어로 검색 페이지 이동
+ *
+ * @param setShowInvalidAlert 검색어 길이 초과 알림 표시를 제어하는 함수
+ */
 const TopbarSearch = ({ setShowInvalidAlert }: TopbarSearchProps) => {
   const navigate = useNavigate();
 
