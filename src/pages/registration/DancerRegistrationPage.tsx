@@ -27,12 +27,11 @@ export default function DancerRegistrationPage() {
 
 const Container = styled.div`
   display: flex;
-  background-color: black;
   justify-content: center;
 `;
 const Registration = styled.div`
   width: 1440px;
-  justify-content: center;
+  justify-items: center;
 `;
 const Title = styled.div`
   color: var(--main_white, #fff);

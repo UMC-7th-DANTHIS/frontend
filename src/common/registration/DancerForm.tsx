@@ -160,14 +160,14 @@ export default function DancerForm({ setIsRegistered }: DancerFormProps) {
 }
 
 const FormContainer = styled.form`
-  justify-content: center;
+  justify-items: center;
   padding-bottom: 143px;
 `;
 const InputContainer = styled.div`
   width: 900px;
   padding-top: 63px;
   margin-bottom: 43px;
-  justify-content: center;
+  justify-items: center;
   border-radius: 25px;
   border: 2px solid var(--main_purple, #9819c3);
 `;
