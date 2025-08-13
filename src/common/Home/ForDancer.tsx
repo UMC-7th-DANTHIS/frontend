@@ -29,10 +29,8 @@ const ForDancer = ({ dancer }: ForDancerProps) => {
 
 const DancerContainer = styled.div`
   display: flex;
-  gap: 39px;
-  padding-bottom: 87px;
-  border-bottom: 2px solid #4d4d4d;
-  margin-bottom: 87px;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 const DancerContent = styled.div`
@@ -40,13 +38,13 @@ const DancerContent = styled.div`
 `;
 
 const DancerImage = styled.img`
-  width: 280px;
-  height: 380px;
+  width: 200px;
+  height: 271px;
   flex-shrink: 0;
 
   background-color: white;
   border-radius: 50%;
-  margin-bottom: 27px;
+  margin-bottom: 50px;
 
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
@@ -59,7 +57,7 @@ const DancerImage = styled.img`
 
 const DancerName = styled.div`
   color: white;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 600;
   margin-bottom: 10px;
 `;

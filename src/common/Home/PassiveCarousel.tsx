@@ -13,7 +13,7 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   const handleNext = (): void => {
-    if (currentIndex < danceclass?.danceClasses.length - 3) {
+    if (currentIndex < danceclass?.danceClasses.length - 4) {
       setCurrentIndex(currentIndex + 1);
     }
   };
@@ -55,7 +55,8 @@ const SlideWrapper = styled.div<{ currentIndex: number }>`
   padding-left: 90px;
   flex-direction: row;
   gap: 20px;
-  transform: translateX(${(props) => -props.currentIndex * 420}px);
+
+  transform: translateX(${(props) => -props.currentIndex * 320}px);
   transition: transform 0.3s ease;
 `;
 

@@ -45,14 +45,18 @@ const ForClass = ({ danceclass }: ForClassProps) => {
   );
 };
 
-const ClassContainer = styled.div``;
+const ClassContainer = styled.div`
+  width: 100%;
+  justify-content: space-between;
+`;
 
 const ClassContent = styled.div`
   display: inline-flex;
   flex-direction: row;
-  width: 620px;
+  width: 50%;
   height: 200px;
 
+  padding-right: 20px;
   margin-bottom: 113px;
 `;
 
@@ -85,14 +89,14 @@ const TextContainer = styled.div`
 
 const ClassName = styled.div`
   color: #fff;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 600;
   margin-bottom: 15px;
 `;
 
 const ClassDancer = styled.div`
   color: #b2b2b2;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
   line-height: 28px;
 `;
@@ -101,7 +105,7 @@ const ClassHashContainer = styled.div`
   padding-top: 5px;
 
   color: #bf00ff;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 500;
   line-height: 32px;
 `;

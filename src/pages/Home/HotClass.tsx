@@ -13,13 +13,13 @@ const HotClass = ({ danceclass }: HotClassProps) => {
     <Container>
       <Header>유행하는 수업을 한눈에</Header>
       <PassiveCarousel danceclass={danceclass} />
+      <Border />
     </Container>
   );
 };
 
 const Container = styled.div`
   margin-top: 40px;
-  border-bottom: 2px solid #4d4d4d;
 `;
 
 const Header = styled.div`
@@ -34,6 +34,13 @@ const Header = styled.div`
   font-size: 28px;
   font-weight: 600;
   line-height: normal;
+`;
+
+const Border = styled.div`
+  margin-left: 100px;
+  margin-right: 100px;
+
+  border-bottom: 2px solid #4d4d4d;
 `;
 
 export default HotClass;
