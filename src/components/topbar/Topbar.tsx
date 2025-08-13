@@ -7,13 +7,14 @@ import SingleBtnAlert from '../SingleBtnAlert';
 import TopbarActions from './TopbarActions';
 import TopbarMenuTablet from './TopbarMenuTablet';
 import TopbarMenuMobile from './TopbarMenuMobile';
+import useIsMobile from '../../hooks/useIsMobile';
 
 export const MENU = [
-  { path: '/classreservation', label: '댄스 수업 예약' },
-  { path: '/dancerprofile', label: '댄서 프로필' },
-  { path: '/community', label: '커뮤니티' },
-  { path: '/dancerregister', label: '댄서 등록' },
-  { path: '/classregister', label: '댄스 수업 등록' }
+  { path: '/classreservation', label: '댄스 수업 예약', isBeta: false },
+  { path: '/dancerprofile', label: '댄서 프로필', isBeta: false },
+  { path: '/community', label: '커뮤니티', isBeta: false },
+  { path: '#', label: '내 주변 연습실', isBeta: false },
+  { path: '#', label: '배틀 & 이벤트', isBeta: true }
 ] as const;
 
 export type MenuItem = (typeof MENU)[number];
@@ -28,8 +29,11 @@ const Topbar = ({ token }: TopbarProps) => {
   const [showInvalidAlert, setShowInvalidAlert] = useState(false);
   const [showMenuMobile, setShowMenuMobile] = useState(false);
 
+  const isMobile = useIsMobile();
+
   const handleLogoClick = () => navigate('/');
   const handleHamburgerClick = () => setShowMenuMobile(!showMenuMobile);
+  const handleCloseMenuMobile = () => setShowMenuMobile(false);
 
   return (
     <Container>
@@ -45,7 +49,7 @@ const Topbar = ({ token }: TopbarProps) => {
       </TopContainer>
 
       <TopbarMenuTablet />
-      <TopbarMenuMobile visible={showMenuMobile} />
+      {isMobile && <TopbarMenuMobile visible={showMenuMobile} onClose={handleCloseMenuMobile} />}
 
       <Outline />
       {showInvalidAlert && (
@@ -81,8 +85,7 @@ const TopContainer = styled.div`
   padding: 68px 27px 15px 27px;
 
   ${({ theme }) => theme.media.desktop} {
-    padding: 0 90px;
-    padding-top: 24px;
+    padding: 24px 90px;
   }
 `;
 
@@ -107,7 +110,7 @@ const LogoBtn = styled.button`
 `;
 
 const Outline = styled.div`
-  height: 40px;
+  height: 68px;
   border-top: 1px solid var(--main-purple);
   border-radius: 24px 24px 0 0;
   box-shadow: inset 0px 7px 7px var(--main-purple50);
