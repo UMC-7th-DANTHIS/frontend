@@ -48,7 +48,7 @@ const TopbarSearch = ({ setShowInvalidAlert }: TopbarSearchProps) => {
 
   return (
     <Search>
-      <input
+      <SearchInput
         id="main search"
         placeholder={searchPlaceholder}
         onFocus={(): void => setSearchPlaceholder('')}
@@ -58,9 +58,9 @@ const TopbarSearch = ({ setShowInvalidAlert }: TopbarSearchProps) => {
         value={search}
         maxLength={21}
       />
-      <button onClick={handleSearchClick} disabled={search.trim() === ''}>
+      <SearchButton onClick={handleSearchClick} disabled={search.trim() === ''}>
         <img src={SearchIcon} alt="search" />
-      </button>
+      </SearchButton>
     </Search>
   );
 };
@@ -75,13 +75,13 @@ const Search = styled.div`
   height: 27px;
   border-radius: 43px;
   background: var(--main-gradation);
-  padding-right: 4px;
+  padding-right: 2px;
 
   order: 1;
   ${({ theme }) => theme.media.tablet} {
     width: 210px;
     height: 36px;
-    padding: 9px 16px 9px 20px;
+    padding: 9px 14px 9px 20px;
     order: 2;
   }
   ${({ theme }) => theme.media.desktop} {
@@ -96,51 +96,53 @@ const Search = styled.div`
     background: black;
     margin: 2px;
   }
+`;
+const SearchInput = styled.input`
+  display: none;
 
-  display: inline-flex;
-  align-items: center;
+  ${({ theme }) => theme.media.tablet} {
+    display: block;
+    flex-grow: 1;
+    background: none;
+    color: white;
+    border: none;
+    width: 100%;
+    outline: none;
+    z-index: 1;
 
-  input {
-    display: none;
-
-    ${({ theme }) => theme.media.tablet} {
-      display: block;
-      flex-grow: 1;
-      background: none;
-      color: white;
+    &:focus {
       border: none;
-      width: 100%;
-      outline: none;
-      z-index: 1;
+    }
 
-      &:focus {
-        border: none;
-      }
-
-      &::placeholder {
-        color: var(--sub-light-gray);
-      }
+    &::placeholder {
+      color: var(--sub-light-gray);
     }
   }
+`;
+const SearchButton = styled.button`
+  display: flex;
+  align-items: center;
+  z-index: 1;
+  background: none;
+  border: none;
+  margin-left: auto;
+  cursor: pointer;
 
-  button {
-    display: flex;
-    align-items: center;
-    z-index: 1;
-    background: none;
-    border: none;
-    margin-left: auto;
-    cursor: pointer;
+  &:disabled {
+    cursor: not-allowed;
 
-    &:disabled {
+    ${({ theme }) => theme.media.tablet} {
       opacity: 0.5;
-      cursor: not-allowed;
     }
   }
 
   img {
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+
+    ${({ theme }) => theme.media.tablet} {
+      width: 16px;
+      height: 16px;
+    }
   }
 `;

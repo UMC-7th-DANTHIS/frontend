@@ -27,11 +27,14 @@ const TopbarActions = ({ token, setShowInvalidAlert, handleHamburgerClick }: Top
   return (
     <LoginContainer>
       {!token ? (
-        <Login onClick={handleNavigateLogin}>LOGIN</Login>
+        <Login onClick={handleNavigateLogin}>
+          <img src={MypageIcon} alt={'MyPage'} />
+          <MySpan>LOGIN</MySpan>
+        </Login>
       ) : (
         <MyPageButton onClick={() => navigate('/mypage')}>
           <img src={MypageIcon} alt={'MyPage'} />
-          <span>MY PAGE</span>
+          <MySpan>MY PAGE</MySpan>
         </MyPageButton>
       )}
       <TopbarSearch setShowInvalidAlert={setShowInvalidAlert} />
@@ -56,25 +59,34 @@ const LoginContainer = styled.div`
   }
 `;
 const Login = styled.button`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0;
   background: none;
-  color: white;
+  color: var(--main-white);
   border: none;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  width: 64px;
-  height: 20px;
   cursor: pointer;
+  order: 2;
+
+  img {
+    width: 28px;
+    height: 28px;
+
+    ${({ theme }) => theme.media.tablet} {
+      display: none;
+    }
+  }
 `;
 const MyPageButton = styled.button`
-  background: none;
-  border: none;
   display: inline-flex;
-  cursor: pointer;
   align-items: center;
   padding: 0;
   gap: 5px;
+  background: none;
+  color: var(--main-white);
+  border: none;
+  cursor: pointer;
 
   order: 2;
   ${({ theme }) => theme.media.tablet} {
@@ -90,18 +102,15 @@ const MyPageButton = styled.button`
       height: 24px;
     }
   }
+`;
+const MySpan = styled.span`
+  display: none;
 
-  span {
-    display: none;
-
-    ${({ theme }) => theme.media.tablet} {
-      display: flex;
-      font-size: 20px;
-      font-weight: 400;
-      color: var(--main-white);
-      cursor: pointer;
-      white-space: preserve nowrap;
-    }
+  ${({ theme }) => theme.media.tablet} {
+    display: flex;
+    font-size: 20px;
+    font-weight: 400;
+    white-space: preserve nowrap;
   }
 `;
 const HamburgerButton = styled.button`
