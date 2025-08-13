@@ -3,7 +3,7 @@ import axiosInstance from '../api/axios-instance';
 
 import { AllClassData } from '@/types/MainInterface';
 
-function useGetClass<T>() {
+function useGetClass() {
   const [data, setData] = useState<AllClassData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);

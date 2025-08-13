@@ -4,7 +4,7 @@ import axiosInstance from '../api/axios-instance';
 
 import { UserResponse, UserData } from '../types/UserInterface';
 
-function useGet<T>() {
+function useGet() {
   const [data, setData] = useState<UserData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);

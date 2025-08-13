@@ -28,7 +28,7 @@ const SearchBar = ({
   const navigate = useNavigate();
 
   const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
 
   const handleSearch = (e: any): void => {
     const value: string = e.target.value;

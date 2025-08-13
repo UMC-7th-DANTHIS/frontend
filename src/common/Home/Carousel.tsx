@@ -13,7 +13,7 @@ type CarouselProps = {
 const Carousel = ({ dancer }: CarouselProps) => {
   const navigate = useNavigate();
 
-  return (
+   return (
     <CarouselContainer>
       <Slider {...sliderSettings}>
         {dancer?.dancers?.map((data, id) => (

@@ -6,7 +6,7 @@ import NoUser from './NoUser';
 import ConfirmLeaveAlert from '../../../../components/ConfirmLeaveAlert';
 import useConfirmLeave from '../../../../hooks/useConfirmLeave';
 import SingleBtnAlert from '../../../../components/SingleBtnAlert';
-import ImagesUploader from '../../../../pages/registration/_components/ImagesUploader';
+import { ImagesUploader } from '../../../../common/registration';
 
 interface FormState {
   name: string;

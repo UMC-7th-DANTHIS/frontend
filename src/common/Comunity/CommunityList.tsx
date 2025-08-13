@@ -17,7 +17,7 @@ type CommunityListProps = {
 const CommunityList = ({ list }: CommunityListProps) => {
   const navigate = useNavigate();
 
-  const { data: post } = useGetCommunity<SinglePostData>(list.postId);
+  const { data: post } = useGetCommunity(list.postId);
 
   const handleNavigate = (temp: SinglePostData): void => {
     navigate(`/community/${temp.postId}`, { state: { selectedPost: temp } });

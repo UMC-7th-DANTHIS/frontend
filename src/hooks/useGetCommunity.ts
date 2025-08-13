@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import axiosInstance from '../api/axios-instance';
 import { SinglePostData } from '@/types/CommunityInterface';
 
-function useGetCommunity<T>(postId: number) {
+function useGetCommunity(postId: number) {
   const [data, setData] = useState<SinglePostData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);

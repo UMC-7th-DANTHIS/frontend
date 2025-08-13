@@ -7,11 +7,9 @@ import UserRecommend from './Home/UserRecommend';
 import useGetClass from '../hooks/useGetClass';
 import useGetDancer from '../hooks/useGetDancer';
 
-import { AllClassData, AllDancerData } from '@/types/MainInterface';
-
 const HomePage = () => {
-  const { data: danceclass } = useGetClass<AllClassData>();
-  const { data: dancer } = useGetDancer<AllDancerData>();
+  const { data: danceclass } = useGetClass();
+  const { data: dancer } = useGetDancer();
 
   return (
     <Container>
