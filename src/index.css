@@ -9,16 +9,24 @@ body {
   background-color: black;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+html,
+body {
+  min-width: 360px;
 }
 
 :root {
   --main-purple: #9819c3;
+  --main-purple50: #9819c380;
   --main-white: #ffffff;
   --main-gradation: linear-gradient(90deg, #b30505 0%, #9819c3 100%);
+
+  --sub-light-gray: #dddddd;
 
   --text-purple: #bf00ff;
   --text-gray: #4d4d4d;
   --text-secondary-gray: #b2b2b2;
+}
+
+* {
+  box-sizing: border-box;
 }

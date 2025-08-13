@@ -6,28 +6,25 @@ import Instagram from '../assets/buttons/instagram.svg';
 const Footer = () => {
   return (
     <Layout>
-      <Line />
       <TopContainer>
         <TextContainer>
-          <Text>고객센터 문의</Text>
-          <Text1>tel. 010-2729-2538</Text1>
-          <Text1>email. tuyu000@naver.com</Text1>
+          <h4>고객센터 문의</h4>
+          <p>tel. 010-2729-2538</p>
+          <p>email. tuyu000@naver.com</p>
         </TextContainer>
-        <LogoContainer>
-          <Logo src={Logoimg} alt="Logo" />
-        </LogoContainer>
+        <Logo>
+          <img src={Logoimg} alt="Logo" />
+        </Logo>
       </TopContainer>
-      <BottomContainer>
-        <a
-          href="https://www.instagram.com/danthis_dtm/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <InstagramBtn src={Instagram} />{' '}
-        </a>
 
-        <Text2>서비스 이용약관</Text2>
-        <Text2>개인정보 처리방침</Text2>
+      <BottomContainer>
+        <InstagramBtn href="https://www.instagram.com/danthis_dtm/" target="_blank" rel="noopener noreferrer">
+          <img src={Instagram} alt="danthis instagram" />
+        </InstagramBtn>
+        <TermsOfService>
+          <p>서비스 이용약관</p>
+          <p>개인정보 처리방침</p>
+        </TermsOfService>
       </BottomContainer>
     </Layout>
   );
@@ -36,75 +33,102 @@ const Footer = () => {
 export default Footer;
 
 const Layout = styled.div`
-  background-color: black;
   display: flex;
   flex-direction: column;
-  width: 1440px;
-  height: 165px;
+  width: 100%;
+  padding: 20px 15px 27px 15px;
+  gap: 12px;
+  border-top: 2px solid #d9d9d9;
+
+  ${({ theme }) => theme.media.tablet} {
+    padding: 30px 60px;
+    gap: 20px;
+  }
 `;
-const Line = styled.div`
-  width: 1440px;
-  height: 3px;
-  background: #d9d9d9;
-`;
+
 const TopContainer = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: start;
 `;
 
 const TextContainer = styled.div`
-  margin-top: 23.7px;
-  margin-left: 59px;
-`;
-const Text = styled.div`
-  color: var(--main_white, #fff);
-  font-family: Pretendard;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  margin-bottom: 17px;
-`;
-const Text1 = styled.div`
-  color: var(--main_white, #fff);
-  font-family: Pretendard;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 16px;
+  color: var(--main-white);
+
+  h4 {
+    font-size: 12px;
+    font-weight: 500;
+    margin: 0;
+    margin-bottom: 10px;
+
+    ${({ theme }) => theme.media.tablet} {
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
+  }
+
+  p {
+    color: var(--main-white);
+    font-size: 8px;
+    font-weight: 400;
+    margin: 0;
+
+    ${({ theme }) => theme.media.tablet} {
+      font-size: 12px;
+      line-height: 16px;
+    }
+  }
 `;
 
-const Text2 = styled.div`
-  color: var(--main_white, #fff);
-  font-family: Pretendard;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 16px;
-  margin-top: 21px;
-  margin-right: 24px;
-`;
-
-const LogoContainer = styled.div`
-  margin-top: 23.7px;
+const Logo = styled.div`
   flex-shrink: 0;
-  margin-left: 1055px;
-`;
 
-const Logo = styled.img`
-  width: 138.464px;
-  height: 35.569px;
+  img {
+    width: 88px;
+    height: 23px;
+
+    ${({ theme }) => theme.media.tablet} {
+      width: 138px;
+      height: 36px;
+    }
+  }
 `;
 
 const BottomContainer = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: 21.65px;
-  margin-left: 59px;
+  justify-content: space-between;
+  align-items: end;
+  color: var(--main-white);
 `;
-const InstagramBtn = styled.img`
-  margin-right: 1117.48px;
-  width: 35px;
-  height: 35px;
-  flex-shrink: 0;
+const InstagramBtn = styled.a`
+  img {
+    width: 20px;
+    height: 20px;
+
+    ${({ theme }) => theme.media.tablet} {
+      width: 35px;
+      height: 35px;
+    }
+  }
+`;
+const TermsOfService = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  gap: 10px;
+
+  ${({ theme }) => theme.media.tablet} {
+    gap: 24px;
+  }
+
+  p {
+    font-size: 8px;
+    font-weight: 400;
+
+    ${({ theme }) => theme.media.tablet} {
+      font-size: 12px;
+    }
+  }
 `;
