@@ -108,7 +108,7 @@ const TextContainer = styled.div`
 
 const Title = styled.div`
   display: inline-block;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 600;
   margin-bottom: 12px;
 `;
@@ -125,8 +125,9 @@ const ImgDescript = styled.img`
 `;
 
 const Content = styled.div`
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 400;
+  color: #b2b2b2;
 `;
 
 const PaginationContainer = styled.div`
