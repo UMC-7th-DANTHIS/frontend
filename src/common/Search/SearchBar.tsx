@@ -77,6 +77,7 @@ const SearchBar = ({
           </HashTag>
         ))}
       </HashTagContainer>
+
       <SelectContainer>
         <SelectText
           className={select === 'dance-classes' ? 'active' : ''}
@@ -124,12 +125,15 @@ const Container = styled.div`
 
 const InputContainer = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
+
   margin-left: 387px;
   margin-right: 351px;
   padding-left: 42px;
-  padding-top: 19px;
-  width: 640px;
-  height: 57px;
+  width: 660px;
+  height: 76px;
+
   border-radius: 90px;
   border: 4.19px solid #9819c3;
 `;
@@ -140,7 +144,7 @@ const Input = styled.input`
   resize: none;
   outline: none;
   height: 40px;
-  width: 530px;
+  width: 660px;
   color: white;
   font-size: 33.524px;
   font-style: normal;
@@ -152,7 +156,7 @@ const SearchButton = styled.button`
   background: none;
   border: none;
   display: flex;
-  margin-left: 30px;
+  margin-right: 30px;
   cursor: pointer;
 `;
 
@@ -175,25 +179,30 @@ const HashTagContainer = styled.div`
 
 const SelectContainer = styled.div`
   display: flex;
-  margin-left: 147px;
-  gap: 65px;
+  height: max-content;
+  align-items: center;
+  margin-left: 205px;
+  gap: 48px;
 `;
 
 const SelectText = styled.span`
-  height: 26px;
   cursor: pointer;
   color: #4d4d4d;
-  font-size: 22px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
   &.active {
     color: white;
+    font-size: 22px;
   }
 `;
 
 const HashTag = styled.div<{ active: boolean }>`
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
   width: 154px;
   height: 50px;
   margin-right: 20px;
@@ -201,7 +210,7 @@ const HashTag = styled.div<{ active: boolean }>`
   border-radius: 80px;
   border: 2px solid #bf00ff;
   text-align: center;
-  font-size: 20px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 500;
   line-height: 50px;
