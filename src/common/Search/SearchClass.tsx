@@ -20,7 +20,6 @@ const SearchClass = ({ query, select }: SearchClassParams) => {
   const perData: number = 5;
 
   const { data } = useSearch<'dance-classes'>(select, query, currentPage);
-  console.log(data);
 
   return (
     <Container>
@@ -31,7 +30,7 @@ const SearchClass = ({ query, select }: SearchClassParams) => {
               <ClassList>
                 <ImgContainer src={list.classImage[0]} alt="프로필 이미지" />
                 <TextContainer>
-                  <TextContent>{list.className}</TextContent>
+                  <TextHeader>{list.className}</TextHeader>
                   <TextContent>수업 강사 : {list.dancer}</TextContent>
                   <TextContent>
                     장르 :{' '}
@@ -89,8 +88,10 @@ const ClassList = styled.div`
   display: flex;
   padding-top: 41px;
   padding-bottom: 41px;
-  padding-left: 43px;
+  padding-left: 85px;
 
+  min-height: 200px;
+  max-height: 250px;
   border-bottom: 1px solid #ddd;
 
   &:last-child {
@@ -101,25 +102,29 @@ const ClassList = styled.div`
 const ImgContainer = styled.img`
   border-radius: 10px;
 
-  width: 210px;
-  height: 210px;
+  width: 160px;
+  height: 160px;
 `;
 
 const TextContainer = styled.div`
   flex-direction: column;
+  line-height: 30px;
   margin-left: 38px;
-  margin-top: 7px;
-  margin-bottom: 12px;
 
-  color: white;
-  font-size: 24px;
   font-style: normal;
   font-weight: 600;
-  line-height: 40px;
+`;
+
+const TextHeader = styled.div`
+  font-size: 22px;
+  margin-right: 5px;
+  color: white;
 `;
 
 const TextContent = styled.div`
+  font-size: 18px;
   margin-right: 5px;
+  color: #b2b2b2;
 `;
 
 const PaginationContainer = styled.div`
