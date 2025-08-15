@@ -66,6 +66,7 @@ const EditContent = ({
           maxLength={1000}
         />
       </ContentArea>
+
       {previews.length > 0 && (
         <ImageContainer>
           {previews.map((src, index: number) => (
@@ -90,7 +91,7 @@ const Content = styled.div`
   border: 2px solid #9819c3;
   border-radius: 10px;
 
-  width: 900px;
+  min-width: 1000px;
   height: 100%;
 `;
 

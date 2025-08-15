@@ -174,18 +174,27 @@ const CautionText = styled.div``;
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  justify-items: center;
   align-items: center;
+
+  min-height: max-content;
+  height: 100%;
   margin-top: 21px;
-  margin-left: 40px;
-  margin-right: 14px;
+  margin-left: 10px;
+  margin-right: 10px;
 `;
 
 const ImageInput = styled.label`
-  display: inline-flex;
+  display: flex;
+
   background-color: transparent;
   border: 2px solid #9819c3;
   color: #ffffff;
-  padding: 10px 20px;
+  height: 100%;
+
+  justify-content: center;
+  align-items: center;
+
   border-radius: 10px;
   cursor: pointer;
   font-size: 16px;
@@ -193,6 +202,8 @@ const ImageInput = styled.label`
   font-weight: 600;
   line-height: normal;
   text-align: center;
+  min-height: 36px;
+  min-width: 64px;
 
   &:hover {
     background-color: #9819c3;
@@ -215,18 +226,24 @@ const RightButtons = styled.div`
 `;
 
 const CancelButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   background-color: transparent;
   border: 2px solid #9819c3;
   color: #ffffff;
-  padding: 10px 20px;
   border-radius: 10px;
   cursor: pointer;
 
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
-  line-height: normal;
 
+  line-height: normal;
+  text-align: center;
+  min-height: 36px;
+  min-width: 64px;
   &:hover {
     background-color: #9819c3;
     color: #fff;
@@ -237,15 +254,17 @@ const SubmitButton = styled.button`
   background-color: #9819c3;
   border: none;
   color: #fff;
-  padding: 10px 20px;
   border-radius: 10px;
   cursor: pointer;
 
   font-size: 16px;
   font-style: normal;
+
   font-weight: 600;
   line-height: normal;
-
+  text-align: center;
+  min-height: 36px;
+  min-width: 64px;
   &:hover {
     background-color: #7c16a6;
   }

@@ -130,8 +130,7 @@ const TopHeader = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  margin-left: 235px;
-  margin-right: 205px;
+  width: 100%;
   height: 100%;
 `;
 

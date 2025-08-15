@@ -21,6 +21,10 @@ import useGetComment from '../../hooks/useGetComment';
 import { SinglePostData } from '../../types/CommunityInterface';
 import { Comment } from '../../types/CommunityInterface';
 
+type SinglePostProps = {
+  selectedPost: SinglePostData;
+};
+
 interface PostPageReload {
   setForceReload: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -37,14 +41,16 @@ const CommunityPostPage = () => {
   const { id } = useParams();
 
   // 게시물 정보 가져오기
-  const selectedPost = (location.state as SinglePostData) || {};
+  const selectedPost = (location.state as SinglePostProps) || {};
+  console.log(selectedPost);
+
   const { data: user } = useGet();
   const { setForceReload: setListReload } = useOutletContext<PostPageReload>();
-  const { data: post } = useGetCommunity(selectedPost?.postId);
+  const { data: post } = useGetCommunity(selectedPost!.selectedPost.postId);
 
   // 댓글 가져오기
   const { data: com } = useGetComment(
-    selectedPost?.postId,
+    selectedPost?.selectedPost.postId,
     1,
     currentPage,
     forceReload
@@ -124,7 +130,7 @@ const CommunityPostPage = () => {
               <>
                 <PostComment
                   comment={comment}
-                  postId={selectedPost.postId}
+                  postId={selectedPost?.selectedPost.postId}
                   user={user}
                   setForceReload={setForceReload}
                 />
@@ -206,7 +212,7 @@ const PostHeader = styled.div`
   text-align: center;
 
   div {
-    font-size: 22px;
+    font-size: 20px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
@@ -260,7 +266,10 @@ const InactiveButton = styled.div`
 const BackButton = styled.div`
   width: 90px;
   height: 27px;
-  padding-top: 9px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   border-radius: 10px;
   border: 1px solid #bf00ff;
   background-color: transparent;
