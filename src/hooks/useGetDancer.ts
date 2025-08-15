@@ -3,7 +3,7 @@ import axiosInstance from '../api/axios-instance';
 
 import { AllDancerData } from '@/types/MainInterface';
 
-function useGetDancer<T>() {
+function useGetDancer() {
   const [data, setData] = useState<AllDancerData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);

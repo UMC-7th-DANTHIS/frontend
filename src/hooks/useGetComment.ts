@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import axiosInstance from '../api/axios-instance';
 import { CommentResponse } from '@/types/CommunityInterface';
 
-function useGetComment<T>(
+function useGetComment(
   postId: number,
   comment: number,
   currentPage: number,
@@ -19,10 +19,8 @@ function useGetComment<T>(
       setIsError(false);
 
       try {
-        let url: string = '';
-
-        if (!currentPage) currentPage = 1;
-        url = `/community/posts/${postId}/comments?page=${currentPage}`;
+        const page = currentPage || 1;
+        const url = `/community/posts/${postId}/comments?page=${page}`;
 
         const response: CommentResponse = await axiosInstance.get(url);
         setData(response);

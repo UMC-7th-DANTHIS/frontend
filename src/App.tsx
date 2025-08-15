@@ -8,26 +8,27 @@ import CommunityLayout from './layout/CommunityLayout';
 import Community from './pages/CommunityPage';
 import CommunityPostPage from './pages/Community/CommunityPostPage';
 import CommunityPut from './pages/Community/CommunityPut';
-import DancerRegistration from './pages/registration/newdancer/DancerRegistration';
-import ClassRegistration from './pages/registration/newclass/ClassRegistration';
 import CommunityEdit from './pages/Community/CommunityEdit';
 import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-import ClassList from './pages/reservation/ClassList';
-import ClassReservation from './pages/reservation/ClassReservation';
+import LoginPage from './pages/Login/LoginPage';
 import SignupPage1 from './pages/Signup/Signup1';
 import SignupPage2 from './pages/Signup/Signup2';
 import SignupPage3 from './pages/Signup/Signup3';
 import SignupPage4 from './pages/Signup/Signup4';
-import ProfileList from './pages/profile/ProfileList';
-import DancerProfile from './pages/profile/DancerProfile';
+import ProfileList from './pages/DancerProfile/ProfileList';
+import DancerProfile from './pages/DancerProfile/DancerProfile';
 import ReviewDetail from './pages/mypage/components/review/ReviewDetail';
-import KakaoRedirectHandler from './pages/KakaoRedirectHandler';
-import ReviewDetailPage from './pages/reservation/ReviewDetailPage';
+import KakaoRedirectHandler from './pages/Login/KakaoRedirectHandler';
 import SearchLayout from './layout/SearchLayout';
 import SearchWrapper from './layout/SearchWrapper';
 import MyRegisterDetail from './pages/mypage/components/registerclass/MyRegisterDetail';
-import ClassRegisterEdit from './pages/registration/newclass/ClassRegisterEdit';
+
+import DancerRegistrationPage from './pages/registration/DancerRegistrationPage';
+import ClassRegistrationPage from './pages/registration/ClassRegistrationPage';
+import ClassRegisterEditPage from './pages/registration/ClassRegisterEditPage';
+import ClassesPage from './pages/reservation/ClassesPage';
+import ReservationPage from './pages/reservation/ReservationPage';
+import ReviewDetailPage from './pages/reservation/ReviewDetailPage';
 
 function App(): React.JSX.Element {
   return (
@@ -54,16 +55,17 @@ function App(): React.JSX.Element {
           <Route path="/signup2" element={<SignupPage2 />} />
           <Route path="/signup3" element={<SignupPage3 />} />
           <Route path="/signup4" element={<SignupPage4 />} />
-          <Route path="/dancerregister" element={<DancerRegistration />} />
-          <Route path="/classregister" element={<ClassRegistration />} />
+
+          <Route path="/dancerregister" element={<DancerRegistrationPage />} />
+          <Route path="/classregister" element={<ClassRegistrationPage />} />
           <Route
             path="/classregister/:classId"
-            element={<ClassRegisterEdit />}
+            element={<ClassRegisterEditPage />}
           />
-          <Route path="/classreservation" element={<ClassList />} />
+          <Route path="/classreservation" element={<ClassesPage />} />
           <Route
             path="/classreservation/:classId"
-            element={<ClassReservation />}
+            element={<ReservationPage />}
           />
           <Route
             path="/classreservation/review/:reviewId"

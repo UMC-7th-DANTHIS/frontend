@@ -6,8 +6,9 @@ import NoUser from './NoUser';
 import ConfirmLeaveAlert from '../../../../components/ConfirmLeaveAlert';
 import useConfirmLeave from '../../../../hooks/useConfirmLeave';
 import SingleBtnAlert from '../../../../components/SingleBtnAlert';
-import ImagesUploader from '../../../../pages/registration/_components/ImagesUploader';
+
 import { FormState } from '@/types/mypage/EditProfileType';
+import { ImagesUploader } from '@/common/registration';
 
 const ProfileDancer = () => {
   const [formState, setFormState] = useState<FormState>({

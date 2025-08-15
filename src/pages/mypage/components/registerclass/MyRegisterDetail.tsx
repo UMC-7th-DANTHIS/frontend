@@ -20,9 +20,7 @@ import {
 const MyRegisterDetail = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [showRegisterUser, setShowRegisterUser] = useState(false);
-  const [currentComponent, setCurrentComponent] = useState<'detail' | 'list'>(
-    'detail'
-  );
+  const [currentComponent] = useState<'detail' | 'list'>('detail');
   const { classId } = useParams<{ classId: string }>();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const perData = 5;
