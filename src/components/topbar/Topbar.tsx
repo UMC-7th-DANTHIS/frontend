@@ -49,7 +49,12 @@ const Topbar = ({ token }: TopbarProps) => {
       </TopContainer>
 
       <TopbarMenuTablet />
-      {isMobile && <TopbarMenuMobile visible={showMenuMobile} onClose={handleCloseMenuMobile} />}
+      {isMobile && (
+        <TopbarMenuMobile
+          visible={showMenuMobile}
+          onClose={handleCloseMenuMobile}
+        />
+      )}
 
       <Outline />
       {showInvalidAlert && (

@@ -23,7 +23,13 @@ const Container = styled.div`
 const ContentContainer = styled.div`
   background-color: black;
   height: 100%;
-  width: 1030px;
+  width: max-content;
+
+  ${({ theme }) => theme.media.desktop} {
+    max-width: 340px;
+  }
+
+  margin: 0 auto;
 `;
 
 export default Community;
