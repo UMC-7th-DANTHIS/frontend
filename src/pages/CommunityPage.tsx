@@ -15,10 +15,9 @@ const Community = () => {
 };
 
 const Container = styled.div`
-  height: 488px;
   background-color: black;
   justify-items: center;
-  padding: 20px 204px 180px 206px;
+  min-height: 600px;
 `;
 
 const ContentContainer = styled.div`

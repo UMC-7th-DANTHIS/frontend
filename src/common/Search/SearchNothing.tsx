@@ -51,8 +51,8 @@ const TextContainer = styled.div`
 
 const Text = styled.p`
   color: white;
-  font-size: 32px;
-  line-height: 38.19px;
+  font-size: 24px;
+  line-height: 30px;
   font-weight: 499;
   text-align: center;
 `;

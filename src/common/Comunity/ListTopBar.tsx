@@ -18,7 +18,7 @@ const TopBorder = styled.div`
   height: 50px;
   border-bottom: 7px solid #9819c3;
   background-color: #000;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: bold;
   color: white;
 `;
