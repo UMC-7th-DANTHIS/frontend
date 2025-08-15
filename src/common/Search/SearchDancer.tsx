@@ -34,7 +34,7 @@ const SearchDancer = ({ query, select }: SearchDancerParams) => {
                   alt="프로필 이미지"
                 />
                 <TextContainer>
-                  <TextContent>{list.name}</TextContent>
+                  <TextHeader>{list.name}</TextHeader>
                   <TextContent>Instagram : {list.instagramId}</TextContent>
                   <TextContent>
                     주 장르 :{' '}
@@ -76,11 +76,12 @@ const ClassLists = styled.div`
 `;
 
 const ClassList = styled.div`
+  min-height: 220px;
   display: flex;
-  padding-top: 41px;
-  padding-bottom: 41px;
-  padding-left: 43px;
 
+  align-items: center;
+
+  padding-left: 85px;
   border-bottom: 1px solid #ddd;
 
   &:last-child {
@@ -91,21 +92,24 @@ const ClassList = styled.div`
 const ImgContainer = styled.img`
   border-radius: 10px;
 
-  width: 210px;
-  height: 210px;
+  width: 160px;
+  height: 160px;
 `;
 
 const TextContainer = styled.div`
   flex-direction: column;
-  margin-left: 38px;
-  margin-top: 41px;
-  margin-bottom: 12px;
+  display: flex;
+  height: 100%;
+  min-height: 160px;
+
+  justify-content: center;
+  margin-left: 50px;
 
   color: white;
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
-  line-height: 40px;
+  line-height: 30px;
 `;
 
 const PaginationContainer = styled.div`
@@ -114,6 +118,14 @@ const PaginationContainer = styled.div`
   margin-top: 91px;
 `;
 
-const TextContent = styled.div``;
+const TextContent = styled.div`
+  color: #b2b2b2;
+  font-size: 18px;
+`;
+
+const TextHeader = styled.div`
+  color: #bf00ff;
+  font-size: 22px;
+`;
 
 export default SearchDancer;
