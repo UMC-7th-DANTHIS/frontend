@@ -5,6 +5,7 @@ import Shape1 from '../../assets/shape/shape1.svg';
 import Shape2 from '../../assets/shape/shape2.svg';
 import AgreeAlert from '../../components/AgreeAlert';
 import { AgreementItemType } from '@/types/Signup/useAgreement';
+import StepperMobile from '../../common/Signup/StepperMobile'
 
 const Signup1: React.FC = () => {
   const [showAgreeAlert, setShowAgreeAlert] = useState(false);
@@ -61,7 +62,8 @@ const Signup1: React.FC = () => {
   return (
     <Layout>
       <SignupTitle> 회원가입 </SignupTitle>
-      <MenuContainer>
+      <Stepper>
+        <StepperDesktop>
         <MenuItemWrapper>
           <MenuItem src={Shape1} />
           <Text1>1&#41; 이용약관 동의</Text1>
@@ -80,9 +82,26 @@ const Signup1: React.FC = () => {
         <MenuItemWrapper>
           <MenuItem src={Shape2} />
           <Text2>4&#41; 가입 완료</Text2>
-        </MenuItemWrapper>
-      </MenuContainer>
+        </MenuItemWrapper>       
+        </StepperDesktop>
+         {/* <StepperMobile aria-label="가입 단계">
+          {['1','2','3','4'].map((n, i) => (
+          <Dot key={n} className={i === 0 ? 'active' : ''}>{n}</Dot>
+          ))}
+          </StepperMobile> */}
+          <StepperMobile
+            currentStep={1}
+              titles={[
+                '이용약관 동의',
+                '회원 정보 입력',
+                '선호 장르 및 댄서 고르기',
+                '가입 완료',
+                ]}
+              />
+
+      </Stepper>
       <CheckForm>
+      <Form>
         {agreements.map((item, index) => (
           <>
             <AgreementItem key={item.id}>
@@ -112,6 +131,7 @@ const Signup1: React.FC = () => {
             {index < agreements.length - 1 && <Line />}
           </>
         ))}
+        </Form>
       </CheckForm>
       <NextButton onClick={handleNext} disabled={isNextDisabled}>
         <Next>다음으로</Next>
@@ -147,20 +167,57 @@ const Layout = styled.div`
 const SignupTitle = styled.div`
   color: var(--main_white, #fff);
   font-family: Pretendard;
-  font-size: 32px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin-top: 17px;
   display: flex;
   justify-content: center;
   text-align: center;
+    ${({ theme }) => theme.media.tablet} {
+    font-size: 32px;
+    margin-top: 17px;
+  }
+`;
+
+const Stepper = styled.div`
+  display: flex;
+  margin-top: 30px;
+`
+const StepperDesktop = styled.div`
+  display: none;
+  ${({ theme }) => theme.media.tablet} {
+    display: flex;
+    flex-direction: row;
+  }
+`
+// const StepperMobile = styled.div`
+// display: flex;
+//   gap: 10px;
+//   align-items: center;
+//   ${({ theme }) => theme.media.tablet} {
+//     display: none;
+//   }
+// `
+
+const Dot = styled.div`
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--main_purple, #9819c3);
+  color: var(--main_white, #fff);
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-weight: 600;
+
+  &.active {
+    background: var(--main_purple, #9819c3);
+  }
 `;
 
 const MenuContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-top: 30px;
+
 `;
 const MenuItemWrapper = styled.div`
   width: 260px;
@@ -188,6 +245,7 @@ const Text1 = styled.div`
   line-height: normal;
   width: 160px;
 `;
+
 const Text2 = styled.div`
   position: absolute; /* 부모(MenuItemWrapper)를 기준으로 위치 */
   top: 50%; /* 세로 중앙 정렬 */
@@ -195,60 +253,75 @@ const Text2 = styled.div`
   transform: translate(-50%, -50%); /* 중앙 정렬을 위한 위치 보정 */
   color: var(--text_secondary-gray, #b2b2b2);
   text-align: center;
-  font-family: Pretendard;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
   width: 160px;
 `;
+
 const Title = styled.div`
   color: var(--main_white, #fff);
+  display: flex;
   text-align: center;
-  font-family: Pretendard;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   line-height: normal;
+  margin-left: 42px;
     &:nth-of-type(2) {
+    font-size: 16px;
+     ${({ theme }) => theme.media.tablet} {
     font-size: 20px;
+  } 
   }
+   ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+  } 
 `;
 const AgreementItem = styled.div`
   display: flex;
   justify-content: space-between; /* 텍스트와 체크박스를 양 끝으로 */
   align-items: center;
-  //justify-content : center;
-  padding-left: 274px;
-  padding-right: 289px;
-  padding-top: 36px;
-  padding-bottom: 36px;
-  //border-bottom: 1px solid #4D4D4D;
+  padding-top: 26px;
+  padding-bottom: 26px;
+  ${({ theme }) => theme.media.tablet} {
+   padding-top: 36px;
+   padding-bottom: 36px;
+  } 
 
-  /* &:last-child {
-    border-bottom: none;
-  } */
 `;
 const CheckForm = styled.div`
-  width: 900px;
-  height: 364px;
+  width: 90vw;
+  height: 270px;
   flex-shrink: 0;
   border-radius: 25px;
   border: 2px solid var(--main_purple, #9819c3);
   margin-top: 54px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content : center;
    ${AgreementItem}:first-of-type ${Title} { font-size: 20px; }
+  ${({ theme }) => theme.media.tablet} {
+    width: 900px;
+    height: 364px;
+  }
 `;
 
-
+const Form = styled.div`
+  width: 343px;
+  height: 100%;
+  ${({ theme }) => theme.media.tablet} {
+    width: 436px;
+    height: 100%;
+  }
+  `
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column; /* 제목과 자세히 보기를 세로로 정렬 */
   //margin-top : 10px;
 `;
-
-
 
 const Detail = styled.div`
   color: var(--highlight_blue, #07F);
@@ -260,6 +333,7 @@ const Detail = styled.div`
   font-weight: 500;
   line-height: normal;
   cursor: pointer;
+  margin-left: 42px;
 `;
 
 const RequiredTag = styled.span`
@@ -278,10 +352,16 @@ const Line = styled.div`
 
   margin: 0 auto; /* 중앙 정렬 */
   background-color: #4D4D4D; /* 두 번째 항목만 다른 배경색 */
-  width: 352px;
+  width: 340px;
   &:nth-of-type(2) {
     background-color: #B2B2B2;
-    width: 436px; /* 선 길이 */
+    width: 340px; /* 선 길이 */
+    ${({ theme }) => theme.media.tablet} {
+    width: 436px;
+  }
+  }
+   ${({ theme }) => theme.media.tablet} {
+    width: 352px;
   }
 `;
 const CheckboxWrapper = styled.div`
@@ -291,6 +371,7 @@ const CheckboxWrapper = styled.div`
   justify-content: center;
   width: auto; /* 필요시 추가 */
   height: auto; /* 필요시 추가 */
+  margin-right: 58px;
 `;
 
 const Checkbox = styled.input`
@@ -352,8 +433,11 @@ const Next = styled.div`
   color: var(--main_white, #fff);
   text-align: center;
   font-family: Pretendard;
-  font-size: 20px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 20px;
+  } 
 `;
