@@ -48,7 +48,17 @@ export const WeeklySelector = ({ dayKey, setDayKey }: WeeklySelectorProps) => {
 const DayButtonsWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 30px 0;
+
+  ${({ theme }) => theme.media.tablet} {
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  ${({ theme }) => theme.media.desktop} {
+    flex-direction: column;
+  }
 `;
 const DayButtonRow = styled.div`
   display: flex;
@@ -61,18 +71,28 @@ const DayButton = styled.button<{ $isActive: boolean }>`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-width: 82px;
-  gap: 15px;
-  padding: 32px 20px;
+  min-width: 65px;
+  gap: 30px;
+  padding: 24px 14px;
   border: none;
   border-radius: 10px;
   background-color: ${({ $isActive }) => ($isActive ? 'var(--main-purple)' : 'rgba(152, 25, 195, 0.4)')};
   backdrop-filter: blur(2px);
   transition: all 0.2s ease-in;
   cursor: pointer;
+
+  ${({ theme }) => theme.media.tablet} {
+    min-width: 82px;
+    padding: 32px 20px;
+    gap: 15px;
+  }
 `;
 const DaySpan = styled.span`
   color: var(--main-white);
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 600;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 18px;
+  }
 `;

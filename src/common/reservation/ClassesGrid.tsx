@@ -57,9 +57,13 @@ const GridContainer = styled.div`
 `;
 const Classes = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 50px 65px;
-  margin-top: 80px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 46px 28px;
+
+  ${({ theme }) => theme.media.tablet} {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 50px 65px;
+  }
 `;
 const Class = styled(Link)`
   display: flex;
@@ -77,12 +81,15 @@ const Image = styled.img`
   object-fit: cover;
 `;
 const Title = styled.div`
+  width: 100%;
   margin-top: 20px;
   color: var(--main-white);
   font-size: 16px;
   font-weight: 600;
   letter-spacing: -0.8px;
-  white-space: preserve nowrap;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 const Dancer = styled.div`
   margin-top: 6px;
@@ -92,6 +99,10 @@ const Dancer = styled.div`
   letter-spacing: -0.8px;
 `;
 const PaginationWrapper = styled.div`
-  position: absolute;
-  bottom: 0;
+  margin-top: 60px;
+
+  // ${({ theme }) => theme.media.desktop} {
+  //   position: absolute;
+  //   bottom: 0;
+  // }
 `;

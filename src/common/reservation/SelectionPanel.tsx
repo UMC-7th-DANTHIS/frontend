@@ -33,20 +33,27 @@ export const SelectionPanel = () => {
 };
 
 const PanelContainer = styled.div`
-  width: 420px;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 345px;
   align-items: center;
-  gap: 80px;
+  gap: 30px;
+
+  ${({ theme }) => theme.media.tablet} {
+    min-width: 420px;
+  }
 `;
 const PanelHeader = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
+  width: 100%;
   white-space: preserve nowrap;
 `;
 const SelectedDate = styled.p`
+  margin: 0;
   padding: 4px 10px;
   border-radius: 10px;
   background: rgba(152, 25, 195, 0.3);

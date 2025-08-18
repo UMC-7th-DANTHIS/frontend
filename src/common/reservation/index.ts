@@ -6,3 +6,4 @@ export * from './ClassesGrid';
 export * from './SelectionPanel';
 export * from './DateTypeToggle';
 export * from './WeeklySelector';
+export * from './genreBar/GenreSelectionBar';
