@@ -63,13 +63,13 @@ const Signup4 = () => {
           <Text>가입을 축하드려요!</Text>
         </Line>
         <Line>
-          <Logo src={Logoimg} />
-          <Text>에서 같이 춤으로 소통하고 성장해요 : &#41;</Text>
+          <Logo2 src={Logoimg} />
+          <Text3>에서 같이 춤으로 소통하고 성장해요 : &#41;</Text3>
         </Line>
       </Content>
 
       <LoginBtn onClick={handleNext}>
-        <Login src={Loginbtn} />
+        {/* <Login src={Loginbtn} /> */}
         <LoginText>로그인 화면으로 이동 </LoginText>
       </LoginBtn>
     </Layout>
@@ -88,11 +88,11 @@ const Layout = styled.div`
 const SignupTitle = styled.div`
   color: var(--main_white, #fff);
   font-family: Pretendard;
-  font-size: 48px;
+  font-size: 32px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin-top: 15.72px;
+  margin-top: 17px;
   display: flex;
   justify-content: center;
   text-align: center;
@@ -101,11 +101,11 @@ const SignupTitle = styled.div`
 const MenuContainer = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: 35px;
+  margin-top: 30px;
 `;
 const MenuItemWrapper = styled.div`
-  width: 320px;
-  height: 64px;
+  width: 260px;
+  /* height: 64px; */
   flex-shrink: 0;
   position: relative;
   margin-left: -18px;
@@ -123,10 +123,11 @@ const Text1 = styled.div`
   color: var(--main_white, #fff);
   text-align: center;
   font-family: Pretendard;
-  font-size: 22px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  width: 160px;
 `;
 const Text2 = styled.div`
   position: absolute; /* 부모(MenuItemWrapper)를 기준으로 위치 */
@@ -136,17 +137,18 @@ const Text2 = styled.div`
   color: var(--text_secondary-gray, #b2b2b2);
   text-align: center;
   font-family: Pretendard;
-  font-size: 18px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  width: 160px;
 `;
 
 const Content = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 147px;
+  margin-top: 98px;
   flex-direction: column;
 `;
 
@@ -161,15 +163,32 @@ const Line = styled.div`
 const Text = styled.div`
   color: var(--main_white, #fff);
   font-family: Pretendard;
-  font-size: 60.276px;
+  font-size: 40px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
 `;
 
+const Text3 = styled.div`
+  color: var(--main_white, #fff);
+  font-family: Pretendard;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+`;
+
 const Logo = styled.img`
-  width: 218px;
-  height: 56px;
+  width: 152px;
+  height: 40px;
+  flex-shrink: 0;
+  margin-right: 11px;
+  margin-left: 11px;
+`;
+
+const Logo2 = styled.img`
+  width: 100px;
+  height: 27px;
   flex-shrink: 0;
   margin-right: 11px;
   margin-left: 11px;
@@ -182,7 +201,13 @@ const LoginBtn = styled.button`
   cursor: pointer;
   position: relative;
   border: none;
-  margin-top: 74px;
+  margin-top: 63px;
+  width: 510px;
+  height: 60px;
+  border-radius: 1000px;
+  border: 1.5px solid var(--main_purple, #9819C3);
+  background: #000;
+  box-shadow: 0 0 20px 0 #9819C3 inset;
 `;
 
 const LoginText = styled.div`
@@ -194,8 +219,8 @@ const LoginText = styled.div`
   color: #fff;
   text-align: center;
   font-family: Pretendard;
-  font-size: 44px;
+  font-size: 22px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   line-height: normal;
 `;

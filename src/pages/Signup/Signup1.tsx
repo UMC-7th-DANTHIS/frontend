@@ -147,11 +147,11 @@ const Layout = styled.div`
 const SignupTitle = styled.div`
   color: var(--main_white, #fff);
   font-family: Pretendard;
-  font-size: 48px;
+  font-size: 32px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin-top: 15.72px;
+  margin-top: 17px;
   display: flex;
   justify-content: center;
   text-align: center;
@@ -160,11 +160,11 @@ const SignupTitle = styled.div`
 const MenuContainer = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: 35px;
+  margin-top: 30px;
 `;
 const MenuItemWrapper = styled.div`
-  width: 320px;
-  height: 64px;
+  width: 260px;
+  /* height: 64px; */
   flex-shrink: 0;
   position: relative;
   margin-left: -18px;
@@ -182,10 +182,11 @@ const Text1 = styled.div`
   color: var(--main_white, #fff);
   text-align: center;
   font-family: Pretendard;
-  font-size: 22px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  width: 160px;
 `;
 const Text2 = styled.div`
   position: absolute; /* 부모(MenuItemWrapper)를 기준으로 위치 */
@@ -195,36 +196,51 @@ const Text2 = styled.div`
   color: var(--text_secondary-gray, #b2b2b2);
   text-align: center;
   font-family: Pretendard;
-  font-size: 18px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  width: 160px;
 `;
-const CheckForm = styled.div`
-  width: 1000px;
-  height: 364px;
-  flex-shrink: 0;
-  border-radius: 25px;
-  border: 2px solid var(--main_purple, #9819c3);
-  margin-top: 47px;
-  display: flex;
-  flex-direction: column;
+const Title = styled.div`
+  color: var(--main_white, #fff);
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+    &:nth-of-type(2) {
+    font-size: 20px;
+  }
 `;
 const AgreementItem = styled.div`
   display: flex;
   justify-content: space-between; /* 텍스트와 체크박스를 양 끝으로 */
   align-items: center;
   //justify-content : center;
-  padding-left: 324px;
-  padding-right: 340px;
+  padding-left: 274px;
+  padding-right: 289px;
   padding-top: 36px;
-  padding-bottom: 30px;
+  padding-bottom: 36px;
   //border-bottom: 1px solid #4D4D4D;
 
   /* &:last-child {
     border-bottom: none;
   } */
 `;
+const CheckForm = styled.div`
+  width: 900px;
+  height: 364px;
+  flex-shrink: 0;
+  border-radius: 25px;
+  border: 2px solid var(--main_purple, #9819c3);
+  margin-top: 54px;
+  display: flex;
+  flex-direction: column;
+   ${AgreementItem}:first-of-type ${Title} { font-size: 20px; }
+`;
+
 
 const TextContainer = styled.div`
   display: flex;
@@ -232,22 +248,14 @@ const TextContainer = styled.div`
   //margin-top : 10px;
 `;
 
-const Title = styled.div`
-  color: var(--main_white, #fff);
-  text-align: center;
-  font-family: Pretendard;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-`;
+
 
 const Detail = styled.div`
-  color: var(--text_gray, #4d4d4d);
+  color: var(--highlight_blue, #07F);
   //text-align: center;
   margin-top: 8px;
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
@@ -258,7 +266,7 @@ const RequiredTag = styled.span`
   color: var(--main_white, #fff);
   text-align: center;
   font-family: Pretendard;
-  font-size: 20px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -269,10 +277,10 @@ const Line = styled.div`
   height: 1px;
 
   margin: 0 auto; /* 중앙 정렬 */
-  background-color: #ddd; /* 두 번째 항목만 다른 배경색 */
+  background-color: #4D4D4D; /* 두 번째 항목만 다른 배경색 */
   width: 352px;
   &:nth-of-type(2) {
-    background-color: #4d4d4d;
+    background-color: #B2B2B2;
     width: 436px; /* 선 길이 */
   }
 `;
@@ -292,6 +300,7 @@ const Checkbox = styled.input`
   display: flex;
   align-items: center;
   justify-content: center;
+  
 `;
 
 const CustomCircle = styled.label`
@@ -306,6 +315,7 @@ const CustomCircle = styled.label`
   cursor: pointer;
   position: relative;
   aspect-ratio: 1/1; /* 비율 유지 */
+  margin-top: 5px;
   &:after {
     content: '';
     width: 16.8px;
@@ -334,7 +344,7 @@ const NextButton = styled.button`
   flex-shrink: 0;
   border-radius: 15px;
   background: var(--main_purple, #9819c3);
-  margin-top: 30px;
+  margin-top: 60px;
   cursor: pointer;
 `;
 

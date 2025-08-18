@@ -233,16 +233,16 @@ const Layout = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding-bottom: 132px;
+  padding-bottom: 451px;
 `;
 const SignupTitle = styled.div`
   color: var(--main_white, #fff);
   font-family: Pretendard;
-  font-size: 48px;
+  font-size: 32px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin-top: 15.72px;
+  margin-top: 17px;
   display: flex;
   justify-content: center;
   text-align: center;
@@ -251,11 +251,11 @@ const SignupTitle = styled.div`
 const MenuContainer = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: 35px;
+  margin-top: 30px;
 `;
 const MenuItemWrapper = styled.div`
-  width: 320px;
-  height: 64px;
+  width: 260px;
+  /* height: 64px; */
   flex-shrink: 0;
   position: relative;
   margin-left: -18px;
@@ -273,10 +273,11 @@ const Text1 = styled.div`
   color: var(--main_white, #fff);
   text-align: center;
   font-family: Pretendard;
-  font-size: 22px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  width: 196px;
 `;
 const Text2 = styled.div`
   position: absolute; /* 부모(MenuItemWrapper)를 기준으로 위치 */
@@ -286,10 +287,11 @@ const Text2 = styled.div`
   color: var(--text_secondary-gray, #b2b2b2);
   text-align: center;
   font-family: Pretendard;
-  font-size: 18px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  width: 196px;
 `;
 
 const Form = styled.div`
@@ -298,7 +300,7 @@ const Form = styled.div`
   flex-shrink: 0;
   border-radius: 25px;
   border: 2px solid var(--main_purple, #9819c3);
-  margin-top: 86px;
+  margin-top: 100px;
   display: flex;
   flex-direction: column;
 `;
@@ -338,14 +340,17 @@ const Select = styled.div`
 
 const ButtonGrid = styled.div`
   margin-top: 11px;
-  margin-left: 193px;
-  margin-right: 193px;
+  margin-left: 196px;
+  //margin-right: 189px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  //grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 17px;
-  //align-items : center;
+  grid-template-columns: repeat(3, 160px);
+  align-items : center;
   justify-content: center;
   margin-bottom: 63px;
+  width: 514px;
+
 
   /* 마지막 줄의 항목들만 선택 */
   & > button:nth-last-child(-n + 2) {
@@ -433,7 +438,6 @@ const NextButton = styled.button`
   background: var(--main_purple, #9819c3);
   margin-top: 70px;
   cursor: pointer;
-  margin-bottom: 448px;
 `;
 
 const Next = styled.div`

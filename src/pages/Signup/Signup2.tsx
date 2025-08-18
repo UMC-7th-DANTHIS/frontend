@@ -379,16 +379,16 @@ const Layout = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding-bottom: 132px;
+  padding-bottom: 155px;
 `;
 const SignupTitle = styled.div`
   color: var(--main_white, #fff);
   font-family: Pretendard;
-  font-size: 48px;
+  font-size: 32px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin-top: 15.72px;
+  margin-top: 17px;
   display: flex;
   justify-content: center;
   text-align: center;
@@ -397,11 +397,11 @@ const SignupTitle = styled.div`
 const MenuContainer = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: 35px;
+  margin-top: 30px;
 `;
 const MenuItemWrapper = styled.div`
-  width: 320px;
-  height: 64px;
+  width: 260px;
+  /* height: 64px; */
   flex-shrink: 0;
   position: relative;
   margin-left: -18px;
@@ -419,10 +419,11 @@ const Text1 = styled.div`
   color: var(--main_white, #fff);
   text-align: center;
   font-family: Pretendard;
-  font-size: 22px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  width: 160px;
 `;
 const Text2 = styled.div`
   position: absolute; /* 부모(MenuItemWrapper)를 기준으로 위치 */
@@ -432,10 +433,11 @@ const Text2 = styled.div`
   color: var(--text_secondary-gray, #b2b2b2);
   text-align: center;
   font-family: Pretendard;
-  font-size: 18px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  width: 160px;
 `;
 
 const DataForm = styled.div`
