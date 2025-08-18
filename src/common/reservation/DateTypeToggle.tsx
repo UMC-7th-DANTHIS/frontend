@@ -45,15 +45,20 @@ const ToggleButton = styled.button<{ $isActive: boolean }>`
   cursor: pointer;
 
   color: ${({ $isActive }) => ($isActive ? 'var(--main-white)' : 'var(--text-gray)')};
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 600;
-  letter-spacing: -1px;
+  letter-spacing: -0.7px;
 
   svg {
     width: 24px;
     height: 24px;
     fill: ${({ $isActive }) => ($isActive ? 'var(--main-white)' : 'var(--text-gray)')};
     transition: fill 0.2s ease-in-out;
-    margin-top: 3px;
+    margin-top: 2px;
+  }
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 18px;
+    letter-spacing: -1px;
   }
 `;
