@@ -6,26 +6,27 @@ import Shape2 from '../../assets/shape/shape2.svg';
 import Logoimg from '../../assets/logo.svg';
 import Loginbtn from '../../assets/Login.svg';
 import api from '../../api/api';
+import StepperMobile from '../../common/Signup/StepperMobile';
 
 const Signup4 = () => {
   const [, setUser] = useState(null);
   const [nickname, setNickname] = useState('');
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await api.get('/users/me'); // API 요청 (토큰 자동 포함)
-        console.log('유저 정보:', response.data);
-        setUser(response.data.data);
-        setNickname(response.data.data.nickname || ''); // 닉네임 값 설정
-        // setEmail(response.data.data.email  || "");
-      } catch (error) {
-        console.error('유저 정보를 불러오는 중 오류 발생:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       const response = await api.get('/users/me'); // API 요청 (토큰 자동 포함)
+  //       console.log('유저 정보:', response.data);
+  //       setUser(response.data.data);
+  //       setNickname(response.data.data.nickname || ''); // 닉네임 값 설정
+  //       // setEmail(response.data.data.email  || "");
+  //     } catch (error) {
+  //       console.error('유저 정보를 불러오는 중 오류 발생:', error);
+  //     }
+  //   };
 
-    fetchUser();
-  }, []);
+  //   fetchUser();
+  // }, []);
   const navigate = useNavigate();
 
   const handleNext = () => {
@@ -35,7 +36,8 @@ const Signup4 = () => {
   return (
     <Layout>
       <SignupTitle> 회원가입 </SignupTitle>
-      <MenuContainer>
+      <Stepper>
+        <StepperDesktop>
         <MenuItemWrapper>
           <MenuItem src={Shape2} />
           <Text2>1&#41; 이용약관 동의</Text2>
@@ -55,7 +57,17 @@ const Signup4 = () => {
           <MenuItem src={Shape1} />
           <Text1>4&#41; 가입 완료</Text1>
         </MenuItemWrapper>
-      </MenuContainer>
+        </StepperDesktop>
+          <StepperMobile
+            currentStep={4}
+              titles={[
+                '이용약관 동의',
+                '회원 정보 입력',
+                '선호 장르 및 댄서 고르기',
+                '가입 완료',
+                ]}/>
+        
+      </Stepper>
       <Content>
         <Line>
           <Text>{nickname}님, </Text>
@@ -83,26 +95,37 @@ const Layout = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding-bottom: 342px;
+  padding-bottom: 169px;
+  ${({ theme }) => theme.media.tablet} {
+   padding-bottom: 342px;
+  }
 `;
 const SignupTitle = styled.div`
   color: var(--main_white, #fff);
   font-family: Pretendard;
-  font-size: 32px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin-top: 17px;
   display: flex;
   justify-content: center;
   text-align: center;
+   ${({ theme }) => theme.media.tablet} {
+   font-size: 32px;
+   margin-top: 17px;
+  }
 `;
-
-const MenuContainer = styled.div`
+const Stepper = styled.div`
   display: flex;
-  flex-direction: row;
   margin-top: 30px;
-`;
+`
+const StepperDesktop = styled.div`
+  display: none;
+  ${({ theme }) => theme.media.tablet} {
+    display: flex;
+    flex-direction: row;
+  }
+`
 const MenuItemWrapper = styled.div`
   width: 260px;
   /* height: 64px; */
@@ -163,51 +186,72 @@ const Line = styled.div`
 const Text = styled.div`
   color: var(--main_white, #fff);
   font-family: Pretendard;
-  font-size: 40px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  ${({ theme }) => theme.media.tablet} {
+   font-size: 40px;
+  }
 `;
 
 const Text3 = styled.div`
   color: var(--main_white, #fff);
   font-family: Pretendard;
-  font-size: 28px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  ${({ theme }) => theme.media.tablet} {
+   font-size: 28px;
+  }
 `;
 
 const Logo = styled.img`
-  width: 152px;
-  height: 40px;
+  width: 73px;
+  height: 17px;
   flex-shrink: 0;
-  margin-right: 11px;
-  margin-left: 11px;
+  margin-right: 3px;
+  margin-left: 6px;
+    ${({ theme }) => theme.media.tablet} {
+    width: 152px;
+    height: 40px;
+    margin-right: 11px;
+    margin-left: 11px;
+  }
 `;
 
 const Logo2 = styled.img`
-  width: 100px;
-  height: 27px;
+  width: 60px;
+  height: 16px;
   flex-shrink: 0;
-  margin-right: 11px;
-  margin-left: 11px;
+  margin-right: 1px;
+  margin-left: 10px;
+  ${({ theme }) => theme.media.tablet} {
+    width: 100px;
+    height: 27px;
+    margin-right: 11px;
+    margin-left: 11px;
+  }
 `;
-
-const Login = styled.img``;
 
 const LoginBtn = styled.button`
   background: none;
   cursor: pointer;
   position: relative;
   border: none;
-  margin-top: 63px;
-  width: 510px;
-  height: 60px;
+  margin-top: 129px;
+  width: 307px;
+  height: 46px;
   border-radius: 1000px;
   border: 1.5px solid var(--main_purple, #9819C3);
   background: #000;
   box-shadow: 0 0 20px 0 #9819C3 inset;
+  ${({ theme }) => theme.media.tablet} {
+    width: 510px;
+    height: 60px;
+    margin-top: 63px
+  }
 `;
 
 const LoginText = styled.div`
@@ -219,8 +263,11 @@ const LoginText = styled.div`
   color: #fff;
   text-align: center;
   font-family: Pretendard;
-  font-size: 22px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 22px;
+  }
 `;
