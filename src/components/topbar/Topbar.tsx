@@ -52,6 +52,7 @@ const Topbar = ({ token }: TopbarProps) => {
       {isMobile && <TopbarMenuMobile visible={showMenuMobile} onClose={handleCloseMenuMobile} />}
 
       <Outline />
+
       {showInvalidAlert && (
         <SingleBtnAlert
           message={
@@ -110,12 +111,13 @@ const LogoBtn = styled.button`
 `;
 
 const Outline = styled.div`
-  height: 68px;
+  height: 30px;
   border-top: 1px solid var(--main-purple);
   border-radius: 24px 24px 0 0;
   box-shadow: inset 0px 7px 7px var(--main-purple50);
 
-  ${({ theme }) => theme.media.tablet} {
+  ${({ theme }) => theme.media.desktop} {
+    height: 68px;
     border-radius: 36px 36px 0 0;
     box-shadow: inset 0px 15px 20px var(--main-purple50);
   }
