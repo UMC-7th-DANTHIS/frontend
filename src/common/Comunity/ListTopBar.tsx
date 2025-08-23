@@ -14,33 +14,40 @@ const TopBorder = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  width: 100%;
+
   height: 50px;
   border-bottom: 7px solid #9819c3;
   background-color: #000;
-  font-size: 18px;
-  font-weight: bold;
-  color: white;
+  font-size: 14px;
 
   ${({ theme }) => theme.media.tablet} {
+    font-size: 18px;
   }
+
+  font-weight: bold;
+  color: white;
 `;
 
 const No = styled.span`
-  flex: 1;
-  text-align: left;
-  padding-left: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10%;
 `;
 
 const Title = styled.span`
-  flex: 3;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
 `;
 
 const WriteDate = styled.span`
-  flex: 1;
-  text-align: right;
-  padding-right: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10%;
 `;
 
 export default ListTopBar;

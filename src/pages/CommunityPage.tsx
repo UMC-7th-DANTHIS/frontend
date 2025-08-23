@@ -18,15 +18,22 @@ const Container = styled.div`
   background-color: black;
   justify-items: center;
   min-height: 600px;
+  width: 100%;
 `;
 
 const ContentContainer = styled.div`
   background-color: black;
   height: 100%;
-  width: max-content;
+  width: 100%;
 
-  ${({ theme }) => theme.media.desktop} {
-    max-width: 340px;
+  max-width: 100dvw;
+  padding: 0 2rem;
+  min-width: 340px;
+
+  ${({ theme }) => theme.media.tablet} {
+    width: 100dvw;
+    max-width: 1000px;
+    padding: 0 2rem;
   }
 
   margin: 0 auto;

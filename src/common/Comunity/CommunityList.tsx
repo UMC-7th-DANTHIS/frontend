@@ -26,22 +26,26 @@ const CommunityList = ({ list }: CommunityListProps) => {
   return (
     <ListContainer>
       <NoList>{list?.postId}</NoList>
-      {post?.images.length ? (
-        <ImageYes src={ImageDescript} alt={'그림있으요'} />
-      ) : (
-        <ImageNo />
-      )}
-      <TitleList onClick={() => handleNavigate(post!)}>
-        {post?.title}
-        {post?.commentCount! > 0 ? (
-          <>
-            <ViewDescript src={CommentPhoto} alt={'댓글있으요'} />
-            <ViewPeople>{post?.commentCount}</ViewPeople>
-          </>
+      <TextContainer>
+        {post?.images.length ? (
+          <ImageYes src={ImageDescript} alt={'그림있으요'} />
         ) : (
-          ''
+          <ImageNo />
         )}
-      </TitleList>
+        <TitleList onClick={() => handleNavigate(post!)}>
+          <TitleText>
+            {post?.title}
+            {post?.commentCount! > 0 ? (
+              <>
+                <ViewDescript src={CommentPhoto} alt={'댓글있으요'} />
+                <ViewPeople>{post?.commentCount}</ViewPeople>
+              </>
+            ) : (
+              ''
+            )}
+          </TitleText>
+        </TitleList>
+      </TextContainer>
       <DateList>
         <DateList>{formatDate(post?.createdAt!, 3)}</DateList>
       </DateList>
@@ -51,36 +55,53 @@ const CommunityList = ({ list }: CommunityListProps) => {
 
 const ListContainer = styled.div`
   margin-top: 16px;
-  margin-left: 60px;
-  height: 20px;
-  font-size: 16px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   color: white;
+  width: 100%;
+  min-width: 0;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+  }
 
   display: flex;
   align-items: center;
+  flex-direction: row;
+  gap: 10px;
+`;
+
+const TextContainer = styled.div`
+  display: flex;
+  width: 80%;
+  justify-content: start;
+  align-items: center;
+  min-width: 0;
 `;
 
 const NoList = styled.span`
-  display: inline-block;
-  width: 17px;
-  margin-right: 40px;
-  text-align: center;
+  display: flex;
+  width: 10%;
+  justify-content: center;
+  align-items: center;
 `;
 
 const ImageYes = styled.img`
   display: inline-block;
-  margin-left: 50px;
-  width: 16px;
-  height: 16px;
+  width: 12px;
+  height: 12px;
+
+  ${({ theme }) => theme.media.tablet} {
+    width: 16px;
+    height: 16px;
+  }
   flex-shrink: 0;
 `;
 
 const ImageNo = styled.div`
   display: inline-block;
-  margin-left: 50px;
   width: 16px;
   height: 16px;
   flex-shrink: 0;
@@ -88,26 +109,49 @@ const ImageNo = styled.div`
 `;
 
 const TitleList = styled.button`
-  display: inline-flex;
+  display: flex;
   margin-left: 5px;
-  width: 668px;
+  align-items: center;
   text-align: start;
   border: 0;
   background-color: transparent;
   color: white;
-  font-size: 16px;
+  font-size: 12px;
+
+  flex: 1 1 auto;
+  min-width: 0;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+  }
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   cursor: pointer;
 `;
 
+const TitleText = styled.span`
+  display: flex;
+
+  align-items: center;
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
 const ViewDescript = styled.img`
   display: inline-flex;
   justify-content: center;
   margin-left: 10px;
-  width: 16px;
-  height: 16px;
+  width: 12px;
+  height: 12px;
+
+  ${({ theme }) => theme.media.tablet} {
+    width: 16px;
+    height: 16px;
+  }
 `;
 
 const ViewPeople = styled.div`
@@ -122,10 +166,10 @@ const ViewPeople = styled.div`
 `;
 
 const DateList = styled.span`
-  display: inline-flex;
-  width: 100px;
-  margin-left: 27px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10%;
 `;
 
 export default CommunityList;
