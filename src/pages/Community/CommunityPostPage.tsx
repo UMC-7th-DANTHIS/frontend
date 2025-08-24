@@ -20,6 +20,7 @@ import useGetComment from '../../hooks/useGetComment';
 
 import { SinglePostData } from '../../types/CommunityInterface';
 import { Comment } from '../../types/CommunityInterface';
+import useIsMobile from '../../hooks/useIsMobile';
 
 type SinglePostProps = {
   selectedPost: SinglePostData;
@@ -37,12 +38,12 @@ const CommunityPostPage = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const isMobile = useIsMobile();
 
   const { id } = useParams();
 
   // 게시물 정보 가져오기
   const selectedPost = (location.state as SinglePostProps) || {};
-  console.log(selectedPost);
 
   const { data: user } = useGet();
   const { setForceReload: setListReload } = useOutletContext<PostPageReload>();
@@ -125,49 +126,104 @@ const CommunityPostPage = () => {
             user={user}
             setListReload={setListReload}
           />
-          <CommentSection>
-            {com?.data.comments.map((comment) => (
-              <>
-                <PostComment
-                  comment={comment}
-                  postId={selectedPost?.selectedPost.postId}
-                  user={user}
-                  setForceReload={setForceReload}
-                />
-              </>
-            ))}
+          {isMobile ? (
+            <>
+              <CommentSection>
+                {com?.data.comments.map((comment) => (
+                  <>
+                    <PostComment
+                      comment={comment}
+                      postId={selectedPost?.selectedPost.postId}
+                      user={user}
+                      setForceReload={setForceReload}
+                    />
+                  </>
+                ))}
 
-            {com?.data.comments.length! > 0 && (
-              <PaginationContainer>
-                <Pagination
-                  dataLength={com?.data.totalComments!}
-                  perData={perData}
-                  currentPage={currentPage}
-                  setCurrentPage={setCurrentPage}
-                />
-              </PaginationContainer>
-            )}
+                {com?.data.comments.length! > 0 && (
+                  <PaginationContainer>
+                    <Pagination
+                      dataLength={com?.data.totalComments!}
+                      perData={perData}
+                      currentPage={currentPage}
+                      setCurrentPage={setCurrentPage}
+                    />
+                  </PaginationContainer>
+                )}
 
-            <CommentInput>
-              <input
-                type="text"
-                placeholder="댓글을 입력해주세요"
-                value={commentText}
-                onChange={handleCaution}
-              />
-              {cautionText ? (
-                <InactiveButton>작성</InactiveButton>
-              ) : (
-                <button onClick={(): Promise<void> => handleCommentSubmit()}>
-                  작성
-                </button>
-              )}
-            </CommentInput>
-            <CautionContainer> {cautionText || '\u00A0'}</CautionContainer>
-          </CommentSection>
-          <BackButton onClick={(): void => handleCancel()}>
-            글 목록으로
-          </BackButton>
+                <CommentInput>
+                  <input
+                    type="text"
+                    placeholder="댓글을 입력해주세요"
+                    value={commentText}
+                    onChange={handleCaution}
+                  />
+                </CommentInput>
+
+                <CautionContainer> {cautionText || '\u00A0'}</CautionContainer>
+              </CommentSection>
+              <ButtonWrapper>
+                <BackButton onClick={(): void => handleCancel()}>
+                  글 목록으로
+                </BackButton>
+                {cautionText ? (
+                  <InactiveButton>작성</InactiveButton>
+                ) : (
+                  <button onClick={(): Promise<void> => handleCommentSubmit()}>
+                    작성
+                  </button>
+                )}
+              </ButtonWrapper>
+            </>
+          ) : (
+            <>
+              <CommentSection>
+                {com?.data.comments.map((comment) => (
+                  <>
+                    <PostComment
+                      comment={comment}
+                      postId={selectedPost?.selectedPost.postId}
+                      user={user}
+                      setForceReload={setForceReload}
+                    />
+                  </>
+                ))}
+
+                {com?.data.comments.length! > 0 && (
+                  <PaginationContainer>
+                    <Pagination
+                      dataLength={com?.data.totalComments!}
+                      perData={perData}
+                      currentPage={currentPage}
+                      setCurrentPage={setCurrentPage}
+                    />
+                  </PaginationContainer>
+                )}
+
+                <CommentInput>
+                  <input
+                    type="text"
+                    placeholder="댓글을 입력해주세요"
+                    value={commentText}
+                    onChange={handleCaution}
+                  />
+                  {cautionText ? (
+                    <InactiveButton>작성</InactiveButton>
+                  ) : (
+                    <button
+                      onClick={(): Promise<void> => handleCommentSubmit()}
+                    >
+                      작성
+                    </button>
+                  )}
+                </CommentInput>
+                <CautionContainer> {cautionText || '\u00A0'}</CautionContainer>
+              </CommentSection>
+              <BackButton onClick={(): void => handleCancel()}>
+                글 목록으로
+              </BackButton>
+            </>
+          )}
         </Wrapper>
       </Container>
 
@@ -197,12 +253,13 @@ const Container = styled.div`
   padding-top: 30px;
   background-color: #000000;
   padding-bottom: 100px;
-  width: 1440px;
+  width: 100%;
+  max-width: 900px;
+  padding: 0 2rem;
+  margin-bottom: 30px;
 `;
 
 const Wrapper = styled.div`
-  margin-left: 270px;
-  margin-right: 270px;
   color: white;
 `;
 
@@ -254,7 +311,13 @@ const CommentInput = styled.div`
 `;
 
 const InactiveButton = styled.div`
-  padding: 13px 18px;
+  min-width: 64px;
+  min-height: 30px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   background-color: grey;
   border: none;
   color: white;
@@ -293,13 +356,32 @@ const PaginationContainer = styled.div`
   border-top: 1.5px solid #d9d9d9;
 `;
 
+const ButtonWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  button {
+    min-width: 64px;
+    min-height: 30px;
+
+    background-color: #9819c3;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+`;
+
 const CautionContainer = styled.div`
   margin-top: 10px;
-  padding-right: 86px;
   min-height: 20px;
   color: #f00;
   font-size: 14px;
   text-align: right;
+  margin-bottom: 10px;
 `;
 
 const AlertText = styled.span`
