@@ -114,19 +114,27 @@ const CommunityPut = () => {
 };
 
 const Container = styled.div`
+  width: 100dvw;
+  padding: 0 2rem;
+
   background-color: #000000;
   padding-bottom: 100px;
+
+  ${({ theme }) => theme.media.tablet} {
+    max-width: 1000px;
+  }
 `;
 
 const TopHeader = styled.div`
-  font-size: 22px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
   color: white;
 
-  margin-left: 55px;
-  margin-right: 800px;
+  font-size: 20px;
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 22px;
+  }
 `;
 
 const ContentContainer = styled.div`
@@ -141,7 +149,11 @@ const InfoContainer = styled.div`
 
 const InfoText = styled.div`
   color: #b2b2b2;
-  font-size: 14px;
+  font-size: 10px;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 14px;
+  }
 `;
 
 export default CommunityPut;
