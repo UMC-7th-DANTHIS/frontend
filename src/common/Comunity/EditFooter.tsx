@@ -9,6 +9,7 @@ import ConfirmLeaveAlert from '../../components/ConfirmLeaveAlert';
 import getPresignedUrls, {
   PresignedUrlInterface
 } from '../../hooks/getPresignedUrls';
+import useIsMobile from '../../hooks/useIsMobile';
 
 interface EditFooterProps {
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -36,6 +37,8 @@ const EditFooter = ({
 
   const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
   const [showCancelAlert, setShowCancelAlert] = useState<boolean>(false);
+
+  const isMobile = useIsMobile();
 
   // presignedUrl로 아마존 서버에 이미지 올리고 url 유효하게 하기
   const uploadToS3 = async (
@@ -98,34 +101,77 @@ const EditFooter = ({
   return (
     <>
       <ButtonContainer>
-        <LeftButtons>
-          <ImageInput>
-            사진
-            <input
-              type="file"
-              multiple
-              onChange={handleFileChange}
-              accept="image/*"
-            />
-          </ImageInput>
-          <CatuionContainer>
-            <CautionText>*사진은 최대 4장까지 등록 가능합니다.</CautionText>
-            <CautionText>
-              * 과도한 비방 및 욕설이 포함된 게시글은 신고에 의해 무통보 삭제될
-              수 있습니다.
-            </CautionText>
-            <CautionText>
-              * 초상권, 저작권 침해 및 기타 위법한 게시글은 관리자에 의해 무통보
-              삭제될 수 있습니다.
-            </CautionText>
-          </CatuionContainer>
-        </LeftButtons>
-        <RightButtons>
-          <CancelButton onClick={(): void => handleCancel()}>취소</CancelButton>
-          <SubmitButton onClick={(): Promise<void> => handleSubmit()}>
-            작성
-          </SubmitButton>
-        </RightButtons>
+        {isMobile ? (
+          <>
+            <CatuionContainer>
+              <CautionText>*사진은 최대 4장까지 등록 가능합니다.</CautionText>
+              <CautionText>
+                * 과도한 비방 및 욕설이 포함된 게시글은 신고에 의해 무통보
+                삭제될 수 있습니다.
+              </CautionText>
+              <CautionText>
+                * 초상권, 저작권 침해 및 기타 위법한 게시글은 관리자에 의해
+                무통보 삭제될 수 있습니다.
+              </CautionText>
+            </CatuionContainer>
+
+            <Wrapper>
+              <LeftButtons>
+                <ImageInput>
+                  사진
+                  <input
+                    type="file"
+                    multiple
+                    onChange={handleFileChange}
+                    accept="image/*"
+                  />
+                </ImageInput>
+              </LeftButtons>
+
+              <RightButtons>
+                <CancelButton onClick={(): void => handleCancel()}>
+                  취소
+                </CancelButton>
+                <SubmitButton onClick={(): Promise<void> => handleSubmit()}>
+                  작성
+                </SubmitButton>
+              </RightButtons>
+            </Wrapper>
+          </>
+        ) : (
+          <>
+            <LeftButtons>
+              <ImageInput>
+                사진
+                <input
+                  type="file"
+                  multiple
+                  onChange={handleFileChange}
+                  accept="image/*"
+                />
+              </ImageInput>
+              <CatuionContainer>
+                <CautionText>*사진은 최대 4장까지 등록 가능합니다.</CautionText>
+                <CautionText>
+                  * 과도한 비방 및 욕설이 포함된 게시글은 신고에 의해 무통보
+                  삭제될 수 있습니다.
+                </CautionText>
+                <CautionText>
+                  * 초상권, 저작권 침해 및 기타 위법한 게시글은 관리자에 의해
+                  무통보 삭제될 수 있습니다.
+                </CautionText>
+              </CatuionContainer>
+            </LeftButtons>
+            <RightButtons>
+              <CancelButton onClick={(): void => handleCancel()}>
+                취소
+              </CancelButton>
+              <SubmitButton onClick={(): Promise<void> => handleSubmit()}>
+                작성
+              </SubmitButton>
+            </RightButtons>
+          </>
+        )}
       </ButtonContainer>
 
       {showInvalidAlert && (
@@ -163,25 +209,44 @@ const EditFooter = ({
 
 const CatuionContainer = styled.div`
   color: white;
-  font-size: 12px;
+  font-size: 10px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  margin-top: 30px;
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 12px;
+    margin-top: 0px;
+  }
 `;
 
 const CautionText = styled.div``;
 
 const ButtonContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  justify-items: center;
-  align-items: center;
+  flex-direction: column;
+  gap: 21px;
 
-  min-height: max-content;
-  height: 100%;
-  margin-top: 21px;
-  margin-left: 10px;
-  margin-right: 10px;
+  ${({ theme }) => theme.media.tablet} {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    justify-items: center;
+    align-items: center;
+
+    min-height: max-content;
+    height: 100%;
+    margin-top: 21px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+`;
+
+const Wrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const ImageInput = styled.label`

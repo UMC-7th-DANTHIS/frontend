@@ -26,7 +26,6 @@ const ContentContainer = styled.div`
   height: 100%;
   width: 100%;
 
-  max-width: 100dvw;
   padding: 0 2rem;
   min-width: 340px;
 

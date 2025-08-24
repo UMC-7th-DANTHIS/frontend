@@ -10,6 +10,8 @@ import CommentPhoto from '../../assets/Community/CommentPhoto.svg';
 import { PostPreview } from '@/types/CommunityInterface';
 import { SinglePostData } from '@/types/CommunityInterface';
 
+import useIsMobile from '../../hooks/useIsMobile';
+
 type CommunityListProps = {
   list: PostPreview;
 };
@@ -18,6 +20,7 @@ const CommunityList = ({ list }: CommunityListProps) => {
   const navigate = useNavigate();
 
   const { data: post } = useGetCommunity(list.postId);
+  const isMobile = useIsMobile();
 
   const handleNavigate = (temp: SinglePostData): void => {
     navigate(`/community/${temp.postId}`, { state: { selectedPost: temp } });
@@ -38,7 +41,7 @@ const CommunityList = ({ list }: CommunityListProps) => {
             {post?.commentCount! > 0 ? (
               <>
                 <ViewDescript src={CommentPhoto} alt={'댓글있으요'} />
-                <ViewPeople>{post?.commentCount}</ViewPeople>
+                {!isMobile && <ViewPeople>{post?.commentCount}</ViewPeople>}
               </>
             ) : (
               ''
