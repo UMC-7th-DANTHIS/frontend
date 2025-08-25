@@ -1,116 +1,134 @@
-import React from 'react'
-import styled from 'styled-components';
-import ColorDot from "../../assets/Signup/color.svg"
-import BlackDot from "../../assets/Signup/black.svg"
+import styled from "styled-components";
+import ColorCircle from "../../assets/Signup/color.svg"
+import BlackCircle from "../../assets/Signup/black.svg"
 
-type StepperMobileProps = {
-  currentStep: 1 | 2 | 3 | 4;                 // 현재 단계
-  titles: [string, string, string, string];    // 각 스텝 제목
-};
+interface StepperMobileProps {
+  currentStep: number;
+  steps: string[];
+}
 
-const StepperMobile = ({ currentStep, titles }: StepperMobileProps) => {
+const StepperMobile = ({ currentStep, steps }: StepperMobileProps) => {
   return (
-    <Wrap aria-label="가입 단계">
-      <Left>
-        <Dot>
-          <img src={ColorDot} alt={`${currentStep}단계`} />
-          <Num aria-hidden="true">{currentStep}</Num>
-        </Dot>
-        <Title>{titles[currentStep - 1]}</Title>
-      </Left>
-
-      <Right>
-        {[2, 3, 4].map((n) => (
-          <SmallDot key={n} aria-label={`${n}단계`}>
-            <img src={BlackDot} alt="" />
-            <SmallNum aria-hidden="true">{n}</SmallNum>
-          </SmallDot>
+    <StepperWrapper>
+  {/* 왼쪽: 지난 + 현재 */}
+  <LeftWrap>
+    <PastGroup>
+      {steps
+        .map((_, i) => i + 1)
+        .filter((n) => n < currentStep)
+        .map((n) => (
+          <Circle key={n}>
+            <img src={BlackCircle} alt={`step ${n}`} />
+            <Num>{n}</Num>
+          </Circle>
         ))}
-      </Right>
-    </Wrap>
+    </PastGroup>
+
+    <CurrentStep>
+      <CurrentDot>
+        <img src={ColorCircle} alt={`current step ${currentStep}`} />
+        <NumCurrent>{currentStep}</NumCurrent>
+      </CurrentDot>
+      <Label>{steps[currentStep - 1]}</Label>
+    </CurrentStep>
+  </LeftWrap>
+
+  {/* 오른쪽: 미래 */}
+  <FutureGroup>
+    {steps
+      .map((_, i) => i + 1)
+      .filter((n) => n > currentStep)
+      .map((n) => (
+        <Circle key={n}>
+          <img src={BlackCircle} alt={`step ${n}`} />
+          <Num>{n}</Num>
+        </Circle>
+      ))}
+  </FutureGroup>
+</StepperWrapper>
   );
 };
 
 export default StepperMobile;
 
-const Wrap = styled.div`
+const StepperWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between;   
   align-items: center;
   width: 100vw;
   padding-left: 40px;
   padding-right: 40px;
+
   ${({ theme }) => theme.media.tablet} {
-    display: none;             
+    display: none;
   }
 `;
 
-const Left = styled.div`
+const LeftWrap = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 10px;     
+  flex: 0 0 auto;     
 `;
 
-const Right = styled.div`
+/* 지난/미래 그룹 */
+const PastGroup = styled.div`
   display: flex;
-  align-items: center;
-  gap: 10px;                     
+  gap: 8px;
+  flex: 0 0 auto;
+`;
+const FutureGroup = styled.div`
+  display: flex;
+  gap: 8px;
+  flex: 0 0 auto;
 `;
 
-/* 큰 원(활성) */
-const Dot = styled.div`
+/* 나머지는 기존 그대로 */
+const Circle = styled.div`
   position: relative;
   width: 28px;
   height: 28px;
-  flex: 0 0 28px;
-
-  img {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
+  img { 
+  width: 100%; 
+  height: 100%; 
+  display: block; }
 `;
-
 const Num = styled.span`
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
+  position: absolute; 
+  top: 50%; 
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px; 
+  font-weight: 600; 
+  color: #b2b2b2; 
+`;
+const CurrentStep = styled.div`
+  display: flex; 
+  align-items: center; 
+  gap: 10px; 
+`;
+const CurrentDot = styled.div`
+  position: relative; 
+  width: 32px; 
+  height: 32px; 
+  img { 
+    width: 100%; 
+    height: 100%; 
+    display: block; }
+`;
+const NumCurrent = styled.span`
+  position: absolute; 
+  top: 50%; 
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px; 
+  font-weight: 600; 
   color: #fff;
-  font-size: 16px;
+`;
+const Label = styled.span`
+  color: white; 
+  font-size: 14px; 
   font-weight: 600;
 `;
 
-/* 작은 원(비활성) */
-const SmallDot = styled.div`
-  position: relative;
-  width: 24px;
-  height: 24px;
-  flex: 0 0 24px;
 
-  img {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-`;
-
-const SmallNum = styled.span`
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  color: #b2b2b2;               /* 피그마와 유사한 회색 */
-  //color: var(--main_white, #FFF);
-  text-align: center;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 600;
-
-`;
-
-const Title = styled.span`
-  color: #fff;
-  font-size: 16px;
-  font-weight: 600;
-`;

@@ -58,14 +58,16 @@ const Signup4 = () => {
           <Text1>4&#41; 가입 완료</Text1>
         </MenuItemWrapper>
         </StepperDesktop>
-          <StepperMobile
-            currentStep={4}
-              titles={[
-                '이용약관 동의',
-                '회원 정보 입력',
-                '선호 장르 및 댄서 고르기',
-                '가입 완료',
-                ]}/>
+           <StepperMobile
+        currentStep={4}
+        steps={[
+          "이용약관 동의",
+          "회원 정보 입력",
+          "선호 장르 및 댄서 고르기",
+          "가입 완료",
+        ]}
+      />
+
         
       </Stepper>
       <Content>

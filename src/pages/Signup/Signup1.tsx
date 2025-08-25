@@ -84,20 +84,15 @@ const Signup1: React.FC = () => {
           <Text2>4&#41; 가입 완료</Text2>
         </MenuItemWrapper>       
         </StepperDesktop>
-         {/* <StepperMobile aria-label="가입 단계">
-          {['1','2','3','4'].map((n, i) => (
-          <Dot key={n} className={i === 0 ? 'active' : ''}>{n}</Dot>
-          ))}
-          </StepperMobile> */}
-          <StepperMobile
-            currentStep={1}
-              titles={[
-                '이용약관 동의',
-                '회원 정보 입력',
-                '선호 장르 및 댄서 고르기',
-                '가입 완료',
-                ]}
-              />
+         <StepperMobile
+        currentStep={1}
+        steps={[
+          "이용약관 동의",
+          "회원 정보 입력",
+          "선호 장르 및 댄서 고르기",
+          "가입 완료",
+        ]}
+      />
 
       </Stepper>
       <CheckForm>
@@ -200,25 +195,7 @@ const StepperDesktop = styled.div`
 //   }
 // `
 
-const Dot = styled.div`
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 2px solid var(--main_purple, #9819c3);
-  color: var(--main_white, #fff);
-  display: grid;
-  place-items: center;
-  font-size: 14px;
-  font-weight: 600;
 
-  &.active {
-    background: var(--main_purple, #9819c3);
-  }
-`;
-
-const MenuContainer = styled.div`
-
-`;
 const MenuItemWrapper = styled.div`
   width: 260px;
   /* height: 64px; */

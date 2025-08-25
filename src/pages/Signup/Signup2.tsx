@@ -7,6 +7,7 @@ import Profileimg from '../../assets/profileimg.svg';
 import api from '../../api/api';
 import SingleBtnAlert from '../../components/SingleBtnAlert';
 import { UserType } from '@/types/Signup/useUser';
+import StepperMobile from '../../common/Signup/StepperMobile';
 
 const Signup2 = () => {
   const [nickname, setNickname] = useState('');
@@ -192,34 +193,35 @@ const Signup2 = () => {
     setUploadedImage(null); // 업로드된 이미지 초기화
   };
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await api.get('/users/me'); // API 요청 (토큰 자동 포함)
-        console.log('유저 정보:', response.data);
-        setUser(response.data.data);
-        //setNickname(response.data.data.nickname || ""); // 닉네임 값 설정
-        setEmail(response.data.data.email || '');
-      } catch (error) {
-        console.error('유저 정보를 불러오는 중 오류 발생:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       const response = await api.get('/users/me'); // API 요청 (토큰 자동 포함)
+  //       console.log('유저 정보:', response.data);
+  //       setUser(response.data.data);
+  //       //setNickname(response.data.data.nickname || ""); // 닉네임 값 설정
+  //       setEmail(response.data.data.email || '');
+  //     } catch (error) {
+  //       console.error('유저 정보를 불러오는 중 오류 발생:', error);
+  //     }
+  //   };
 
-    fetchUser();
-  }, []);
+  //   fetchUser();
+  // }, []);
 
   return (
-    <Layout>
+     <Layout>
       <SignupTitle> 회원가입 </SignupTitle>
-      <MenuContainer>
+      <Stepper>
+        <StepperDesktop>
         <MenuItemWrapper>
           <MenuItem src={Shape2} />
           <Text2>1&#41; 이용약관 동의</Text2>
         </MenuItemWrapper>
 
         <MenuItemWrapper>
-          <MenuItem src={Shape1} />
-          <Text1>2&#41; 회원 정보 입력</Text1>
+          <MenuItem src={Shape2} />
+          <Text2>2&#41; 회원 정보 입력</Text2>
         </MenuItemWrapper>
 
         <MenuItemWrapper>
@@ -228,10 +230,20 @@ const Signup2 = () => {
         </MenuItemWrapper>
 
         <MenuItemWrapper>
-          <MenuItem src={Shape2} />
-          <Text2>4&#41; 가입 완료</Text2>
+          <MenuItem src={Shape1} />
+          <Text1>4&#41; 가입 완료</Text1>
         </MenuItemWrapper>
-      </MenuContainer>
+        </StepperDesktop>
+           <StepperMobile
+        currentStep={2}
+        steps={[
+          "이용약관 동의",
+          "회원 정보 입력",
+          "선호 장르 및 댄서 고르기",
+          "가입 완료",
+        ]}
+      />
+      </Stepper>
       <DataForm>
         <Field>
           <Label>닉네임</Label>
@@ -394,6 +406,18 @@ const SignupTitle = styled.div`
   text-align: center;
 `;
 
+const Stepper = styled.div`
+  display: flex;
+  margin-top: 30px;
+`
+const StepperDesktop = styled.div`
+  display: none;
+  ${({ theme }) => theme.media.tablet} {
+    display: flex;
+    flex-direction: row;
+  }
+  `
+
 const MenuContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -441,6 +465,8 @@ const Text2 = styled.div`
 `;
 
 const DataForm = styled.div`
+  display: none;
+  ${({ theme }) => theme.media.tablet} {
   width: 900px;
   height: 900px;
   flex-shrink: 0;
@@ -449,6 +475,7 @@ const DataForm = styled.div`
   margin-top: 62px;
   display: flex;
   flex-direction: column;
+  }
 `;
 const Field = styled.div`
   margin-top: 46px;
