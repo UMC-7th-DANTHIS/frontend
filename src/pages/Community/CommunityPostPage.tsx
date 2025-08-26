@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  useNavigate,
-  useLocation,
-  useOutletContext,
-  useParams
-} from 'react-router-dom';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import ImageModal from '../../common/Comunity/ImageModal';
@@ -18,13 +13,8 @@ import useGet from '../../hooks/useGet';
 import useGetCommunity from '../../hooks/useGetCommunity';
 import useGetComment from '../../hooks/useGetComment';
 
-import { SinglePostData } from '../../types/CommunityInterface';
 import { Comment } from '../../types/CommunityInterface';
 import useIsMobile from '../../hooks/useIsMobile';
-
-type SinglePostProps = {
-  selectedPost: SinglePostData;
-};
 
 interface PostPageReload {
   setForceReload: React.Dispatch<React.SetStateAction<boolean>>;
@@ -37,21 +27,17 @@ const CommunityPostPage = () => {
   const perData: number = 5;
 
   const navigate = useNavigate();
-  const location = useLocation();
   const isMobile = useIsMobile();
 
   const { id } = useParams();
 
-  // 게시물 정보 가져오기
-  const selectedPost = (location.state as SinglePostProps) || {};
-
   const { data: user } = useGet();
   const { setForceReload: setListReload } = useOutletContext<PostPageReload>();
-  const { data: post } = useGetCommunity(selectedPost!.selectedPost.postId);
+  const { data: post } = useGetCommunity(parseInt(id!));
 
   // 댓글 가져오기
   const { data: com } = useGetComment(
-    selectedPost?.selectedPost.postId,
+    parseInt(id!),
     1,
     currentPage,
     forceReload
@@ -133,7 +119,7 @@ const CommunityPostPage = () => {
                   <>
                     <PostComment
                       comment={comment}
-                      postId={selectedPost?.selectedPost.postId}
+                      postId={parseInt(id!)}
                       user={user}
                       setForceReload={setForceReload}
                     />
@@ -182,7 +168,7 @@ const CommunityPostPage = () => {
                   <>
                     <PostComment
                       comment={comment}
-                      postId={selectedPost?.selectedPost.postId}
+                      postId={parseInt(id!)}
                       user={user}
                       setForceReload={setForceReload}
                     />

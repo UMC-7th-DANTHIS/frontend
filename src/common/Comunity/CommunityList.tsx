@@ -2,13 +2,11 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import formatDate from '../../api/formatDate';
-import useGetCommunity from '../../hooks/useGetCommunity';
 
 import ImageDescript from '../../assets/Search/imageDescript.svg';
 import CommentPhoto from '../../assets/Community/CommentPhoto.svg';
 
 import { PostPreview } from '@/types/CommunityInterface';
-import { SinglePostData } from '@/types/CommunityInterface';
 
 import useIsMobile from '../../hooks/useIsMobile';
 
@@ -18,30 +16,28 @@ type CommunityListProps = {
 
 const CommunityList = ({ list }: CommunityListProps) => {
   const navigate = useNavigate();
-
-  const { data: post } = useGetCommunity(list.postId);
   const isMobile = useIsMobile();
 
-  const handleNavigate = (temp: SinglePostData): void => {
-    navigate(`/community/${temp.postId}`, { state: { selectedPost: temp } });
+  const handleNavigate = async (id: number) => {
+    navigate(`/community/${id}`, { state: { id } });
   };
 
   return (
     <ListContainer>
       <NoList>{list?.postId}</NoList>
       <TextContainer>
-        {post?.images.length ? (
+        {list.hasPhoto ? (
           <ImageYes src={ImageDescript} alt={'그림있으요'} />
         ) : (
           <ImageNo />
         )}
-        <TitleList onClick={() => handleNavigate(post!)}>
+        <TitleList onClick={() => handleNavigate(list.postId!)}>
           <TitleText>
-            {post?.title}
-            {post?.commentCount! > 0 ? (
+            {list?.title}
+            {list?.commentCount! > 0 ? (
               <>
                 <ViewDescript src={CommentPhoto} alt={'댓글있으요'} />
-                {!isMobile && <ViewPeople>{post?.commentCount}</ViewPeople>}
+                {!isMobile && <ViewPeople>{list?.commentCount}</ViewPeople>}
               </>
             ) : (
               ''
@@ -50,7 +46,7 @@ const CommunityList = ({ list }: CommunityListProps) => {
         </TitleList>
       </TextContainer>
       <DateList>
-        <DateList>{formatDate(post?.createdAt!, 3)}</DateList>
+        <DateList>{formatDate(list?.createdAt!, 3)}</DateList>
       </DateList>
     </ListContainer>
   );
