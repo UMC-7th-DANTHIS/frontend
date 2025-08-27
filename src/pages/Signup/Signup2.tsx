@@ -396,7 +396,7 @@ const Layout = styled.div`
 const SignupTitle = styled.div`
   color: var(--main_white, #fff);
   font-family: Pretendard;
-  font-size: 32px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -404,6 +404,10 @@ const SignupTitle = styled.div`
   display: flex;
   justify-content: center;
   text-align: center;
+   ${({ theme }) => theme.media.tablet} {
+    font-size: 32px;
+    margin-top: 17px;
+  }
 `;
 
 const Stepper = styled.div`
@@ -418,11 +422,6 @@ const StepperDesktop = styled.div`
   }
   `
 
-const MenuContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-top: 30px;
-`;
 const MenuItemWrapper = styled.div`
   width: 260px;
   /* height: 64px; */
@@ -465,41 +464,49 @@ const Text2 = styled.div`
 `;
 
 const DataForm = styled.div`
-  display: none;
-  ${({ theme }) => theme.media.tablet} {
-  width: 900px;
-  height: 900px;
+  border: none;
+  width: 90%;
   flex-shrink: 0;
   border-radius: 25px;
-  border: 2px solid var(--main_purple, #9819c3);
   margin-top: 62px;
   display: flex;
   flex-direction: column;
+  ${({ theme }) => theme.media.tablet} {
+  border: 2px solid var(--main_purple, #9819c3);
+  width: 900px;
+  height: 900px;
   }
 `;
 const Field = styled.div`
+  margin-top: 40px;
+  margin-left: 25px;
+${({ theme }) => theme.media.tablet} {
   margin-top: 46px;
   margin-left: 161px;
-  /* display : flex;
-flex-direction : column; */
+}
 `;
 const Gender = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   padding-top: 20px;
   padding-bottom: 20px;
+  ${({ theme }) => theme.media.tablet} {
+  flex-direction: row;
+}
 `;
 
 const Label = styled.label`
   color: var(--main_white, #fff);
-  text-align: center;
   font-family: Pretendard;
-  font-size: 22px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
   margin-left: 8px;
   margin-right: 157px;
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 22px;
+}
 `;
 const InputBox = styled.div`
   margin-bottom: 10px;
@@ -510,12 +517,12 @@ const Input = styled.input`
   border: none;
   color: var(--sub_light-gray, #ddd);
   font-family: Pretendard;
-  font-size: 20px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  width: 501px;
-  height: 60px;
+  width: 244px;
+  height: 32px;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
@@ -523,6 +530,11 @@ const Input = styled.input`
   border: 1px solid var(--sub_light-gray, #ddd);
   margin-top: 10px;
   padding-left: 20px;
+  ${({ theme }) => theme.media.tablet} {
+  width: 501px;
+  height: 60px;
+  font-size: 20px;
+}
 `;
 const Input2 = styled.input`
   color: white;
@@ -530,12 +542,12 @@ const Input2 = styled.input`
   background: none;
   color: var(--sub_light-gray, #ddd);
   font-family: Pretendard;
-  font-size: 20px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  width: 588px;
-  height: 60px;
+  width: 325px;
+  height: 32px;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
@@ -543,6 +555,11 @@ const Input2 = styled.input`
   border: 1px solid var(--sub_light-gray, #ddd);
   margin-top: 10px;
   padding-left: 20px;
+   ${({ theme }) => theme.media.tablet} {
+  width: 588px;
+  height: 60px;
+  font-size: 20px;
+}
 `;
 const InputWrapper = styled.div`
   display: flex;
@@ -553,12 +570,12 @@ const Email = styled.div`
   background: none;
   color: var(--sub_light-gray, #ddd);
   font-family: Pretendard;
-  font-size: 20px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  width: 588px;
-  height: 60px;
+  width: 325px;
+  height: 32px;
   display: flex;
   text-align: left;
   justify-content: center;
@@ -568,67 +585,85 @@ const Email = styled.div`
   border: 1px solid var(--sub_light-gray, #ddd);
   margin-top: 10px;
   padding-left: 20px;
+  ${({ theme }) => theme.media.tablet} {
+  width: 588px;
+  height: 60px;
+  font-size: 20px;
+}
 `;
 
 const Button = styled.button`
   display: flex;
-  width: 72px;
-  height: 65px;
-  //padding: 20px 8px;
+  width: 65px;
+  height: 32px;
   justify-content: center;
   align-items: center;
-  //gap: 8px;
   border-radius: 8px;
   background: var(--sub_light-gray, #ddd);
   color: var(--main_purple, #9819c3);
   text-align: center;
   font-family: Pretendard;
-  font-size: 15px;
+  font-size: 12px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   line-height: normal;
   margin-top: 10px;
   margin-left: 21px;
   cursor: pointer;
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 15px;
+    width: 72px;
+    height: 65px;
+    font-weight: 600;
+  }
 `;
 
 const ValidMessage = styled.div`
   color: var(--highlight_green, #00dd0b);
   text-align: center;
   font-family: Pretendard;
-  font-size: 14px;
+  font-size: 10px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   margin-top: 10px;
   text-align: right;
   margin-right: 215px;
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 14px;
+  }
 `;
 
 const ErrorMessage = styled.div`
   color: var(--highlight_red, #f00);
   text-align: center;
   font-family: Pretendard;
-  font-size: 14px;
+  font-size: 10px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   margin-top: 10px;
   margin-right: 215px;
   text-align: right;
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 14px;
+  }
 `;
 
 const ErrorMessage1 = styled.div`
   color: var(--highlight_red, #f00);
   text-align: center;
   font-family: Pretendard;
-  font-size: 14px;
+  font-size: 10px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   margin-top: 10px;
   margin-right: 130px;
   text-align: right;
+   ${({ theme }) => theme.media.tablet} {
+    font-size: 14px;
+  }
 `;
 const RadioWrapper = styled.div`
   display: flex;
@@ -639,6 +674,11 @@ const RadioWrapper = styled.div`
 const RadioGroup = styled.div`
   display: flex;
   gap: 88px;
+  margin-top: 16px;
+  margin-left: 70px;
+  ${({ theme }) => theme.media.tablet} {
+    gap: 88px;
+  }
 `;
 
 const RadioLabel = styled.label`
@@ -654,8 +694,8 @@ const RadioInput = styled.input`
 `;
 
 const CustomCircle = styled.span`
-  width: 24px;
-  height: 24px;
+  width: 16px;
+  height: 16px;
   border: 2px solid #a60f62; /* 외곽선 색상 */
   background: white;
   border-radius: 50%;
@@ -673,8 +713,8 @@ const CustomCircle = styled.span`
 
   ${RadioInput}:checked + &::after {
     content: '';
-    width: 16.8px;
-    height: 16.8px;
+    width: 12px;
+    height: 12px;
     background-color: #a60f62; /* 선택된 상태의 중앙 원 */
     border-radius: 50%;
     position: absolute;
@@ -688,10 +728,15 @@ const CustomCircle = styled.span`
   ${RadioInput}:not(:checked) + &::after {
     content: none; /* 선택 해제 시 중앙 원 제거 */
   }
+
+  ${({ theme }) => theme.media.tablet} {
+  width: 24px;
+  height: 24px;
+}
 `;
 const CustomCircle1 = styled.span`
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   border: 2px solid #a60f62; /* 외곽선 색상 */
   background: white;
   border-radius: 50%;
@@ -712,6 +757,10 @@ const CustomCircle1 = styled.span`
     border-radius: 50%;
     position: absolute;
   }
+  ${({ theme }) => theme.media.tablet} {
+  width: 20px;
+  height: 20px;
+}
 `;
 
 const Message = styled.div`
@@ -729,10 +778,13 @@ const LabelText = styled.span`
   color: var(--main_white, #fff);
   text-align: center;
   font-family: Pretendard;
-  font-size: 20px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  ${({ theme }) => theme.media.tablet} {
+  font-size: 20px;
+}
 `;
 
 const LabelText1 = styled.div`
