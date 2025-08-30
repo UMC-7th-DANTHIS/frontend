@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import SingleBtnAlert from '../../components/SingleBtnAlert';
 
@@ -26,6 +26,15 @@ const SearchBar = ({
   selectedFilter
 }: SearchBarProps) => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  const defaultQuery: 'dance-classes' | 'dancers' | 'posts' = pathname.includes(
+    'posts'
+  )
+    ? 'posts'
+    : pathname.includes('dancers')
+      ? 'dancers'
+      : 'dance-classes';
 
   const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
   const [, setSearchParams] = useSearchParams();
@@ -86,19 +95,19 @@ const SearchBar = ({
       <SelectContainer>
         <SelectWrapper>
           <SelectText
-            className={select === 'dance-classes' ? 'active' : ''}
+            className={defaultQuery === 'dance-classes' ? 'active' : ''}
             onClick={() => handleReSearch('dance-classes')}
           >
             수업
           </SelectText>
           <SelectText
-            className={select === 'dancers' ? 'active' : ''}
+            className={defaultQuery === 'dancers' ? 'active' : ''}
             onClick={() => handleReSearch('dancers')}
           >
             댄서
           </SelectText>
           <SelectText
-            className={select === 'posts' ? 'active' : ''}
+            className={defaultQuery === 'posts' ? 'active' : ''}
             onClick={() => handleReSearch('posts')}
           >
             커뮤니티
