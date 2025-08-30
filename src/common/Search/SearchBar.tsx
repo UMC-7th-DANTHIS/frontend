@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import SingleBtnAlert from '../../components/SingleBtnAlert';
 
 import SearchImage from '../../assets/Search/search.svg';
@@ -129,6 +129,12 @@ const SearchBar = ({
     </Container>
   );
 };
+
+const oneLineEllipsis = css`
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`;
 
 const Container = styled.div`
   width: 100%;
@@ -261,6 +267,8 @@ const HashTagContainer = styled.div`
 `;
 
 const HashTag = styled.div<{ active: boolean }>`
+  ${oneLineEllipsis};
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -278,9 +286,8 @@ const HashTag = styled.div<{ active: boolean }>`
     background-color 0.2s ease,
     color 0.2s ease;
 
-  /* 버튼 크기 동일하게 맞추기 */
-  width: 100%; /* Grid 셀 크기만큼 꽉 채움 */
-  height: 100%; /* grid-auto-rows와 맞춰줌 */
+  width: 100%;
+  height: 100%;
 `;
 
 const AlertText = styled.span`
