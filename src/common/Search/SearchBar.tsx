@@ -8,7 +8,6 @@ import { hashTagID } from '../../api/schema';
 
 type SearchBarProps = {
   handleSearchData: () => void;
-  handleCategoryClick: (category: string) => void;
   handleNowContent: (content: string) => void;
   handleClick: (tag: string) => void;
   temp: string | null;
@@ -18,7 +17,6 @@ type SearchBarProps = {
 
 const SearchBar = ({
   handleSearchData,
-  handleCategoryClick,
   handleClick,
   handleNowContent,
   temp,
@@ -57,7 +55,6 @@ const SearchBar = ({
   };
 
   const handleReSearch = (category: string): void => {
-    handleCategoryClick(category);
     handleSearchData();
     setSearchParams({ query: temp! });
     navigate(`/search/${category}?query=${temp}`);

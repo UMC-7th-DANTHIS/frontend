@@ -68,7 +68,9 @@ const SearchDancer = ({ query, select }: SearchDancerParams) => {
   );
 };
 
-const Container = styled.div``;
+const Container = styled.div`
+  padding-bottom: 120px;
+`;
 
 const ClassLists = styled.div`
   border-top: 2px solid #ddd;
