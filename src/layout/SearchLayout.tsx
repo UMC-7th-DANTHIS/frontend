@@ -51,9 +51,7 @@ const SearchLayout = () => {
         handleNowContent={handleNowContent}
         handleSearchData={handleSearchData}
       />
-      <ContentContainer>
-        <Outlet context={{ selectedFilter }} />
-      </ContentContainer>
+      <Outlet context={{ selectedFilter }} />
     </Container>
   );
 };
@@ -61,12 +59,10 @@ const SearchLayout = () => {
 const Container = styled.div`
   background-color: black;
   padding-bottom: 150px;
-  width: 1440px;
-`;
 
-const ContentContainer = styled.div`
-  margin-left: 120px;
-  margin-right: 120px;
+  padding: 0 2rem;
+  width: 100dvw;
+  max-width: 1200px;
 `;
 
 export default SearchLayout;

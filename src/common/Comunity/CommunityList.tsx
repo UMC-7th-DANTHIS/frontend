@@ -19,7 +19,7 @@ const CommunityList = ({ list }: CommunityListProps) => {
   const isMobile = useIsMobile();
 
   const handleNavigate = async (id: number) => {
-    navigate(`/community/${id}`, { state: { id } });
+    navigate(`/community/${id}`);
   };
 
   return (

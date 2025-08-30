@@ -7,7 +7,6 @@ import imgDesc from '../../assets/Search/imageDescript.svg';
 import Pagination from '../../components/Pagination';
 import SearchNothing from './SearchNothing';
 import useSearch from '../../hooks/useSearch';
-import axiosInstance from '../../api/axios-instance';
 
 type SearchCommunityParams = {
   query: string | null;
@@ -23,14 +22,7 @@ const SearchCommunity = ({ query, select }: SearchCommunityParams) => {
   const { data } = useSearch<'posts'>(select, query, currentPage);
 
   const handleNavigate = async (id: number): Promise<void> => {
-    try {
-      const response = await axiosInstance.get(`/community/posts/${id}`);
-      navigate(`/community/${id}`, {
-        state: { selectedPost: response.data.data }
-      });
-    } catch (error) {
-      alert('게시물 가져오기 실패');
-    }
+    navigate(`/community/${id}`);
   };
 
   return (
@@ -39,20 +31,22 @@ const SearchCommunity = ({ query, select }: SearchCommunityParams) => {
         <>
           <CommunityLists>
             {data?.data.results.map((list, index) => (
-              <CommunityList
-                key={index}
-                onClick={() => handleNavigate(list.id)}
-              >
-                <TextContainer>
-                  <Title>{list.title}</Title>
-                  {list.postImages && (
-                    <ImgDescriptContainer>
-                      <ImgDescript src={imgDesc} alt={'사진 있어요'} />
-                    </ImgDescriptContainer>
-                  )}
-                  <Content>{list?.content.slice(0, 300)}</Content>
-                </TextContainer>
-              </CommunityList>
+              <CommunityWrapper>
+                <CommunityList
+                  key={index}
+                  onClick={() => handleNavigate(list.id)}
+                >
+                  <TextContainer>
+                    <Title>{list.title}</Title>
+                    {list.postImages.length > 0 && (
+                      <ImgDescriptContainer>
+                        <ImgDescript src={imgDesc} alt={'사진 있어요'} />
+                      </ImgDescriptContainer>
+                    )}
+                    <Content>{list?.content.slice(0, 300)}</Content>
+                  </TextContainer>
+                </CommunityList>
+              </CommunityWrapper>
             ))}
           </CommunityLists>
           <PaginationContainer>
@@ -71,16 +65,30 @@ const SearchCommunity = ({ query, select }: SearchCommunityParams) => {
   );
 };
 
-const Container = styled.div``;
+const Container = styled.div`
+  padding-bottom: 120px;
+`;
 
 const CommunityLists = styled.div`
+  width: 100%;
+  padding: 0 auto;
+
   border-top: 2px solid #ddd;
+`;
+
+const CommunityWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   border-bottom: 2px solid #ddd;
 `;
 
 const CommunityList = styled.div`
-  padding-left: 114px;
-  padding-right: 114px;
+  width: 100%;
+  max-width: 970px;
+
   padding-top: 41px;
   padding-bottom: 41px;
 
