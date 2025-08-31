@@ -220,8 +220,8 @@ const Signup2 = () => {
         </MenuItemWrapper>
 
         <MenuItemWrapper>
-          <MenuItem src={Shape2} />
-          <Text2>2&#41; 회원 정보 입력</Text2>
+          <MenuItem src={Shape1} />
+          <Text1>2&#41; 회원 정보 입력</Text1>
         </MenuItemWrapper>
 
         <MenuItemWrapper>
@@ -230,8 +230,8 @@ const Signup2 = () => {
         </MenuItemWrapper>
 
         <MenuItemWrapper>
-          <MenuItem src={Shape1} />
-          <Text1>4&#41; 가입 완료</Text1>
+          <MenuItem src={Shape2} />
+          <Text2>4&#41; 가입 완료</Text2>
         </MenuItemWrapper>
         </StepperDesktop>
            <StepperMobile
@@ -302,7 +302,7 @@ const Signup2 = () => {
 
         <Field>
           <Label>전화번호</Label>
-          <Message>전화번호는 000-0000-0000 형식이어야 합니다.</Message>
+          <Message> ‘-’ 기호를 제외한 숫자만 입력해주세요.</Message>
           <InputBox>
             <Input2
               type="tel"
@@ -468,9 +468,10 @@ const DataForm = styled.div`
   width: 90%;
   flex-shrink: 0;
   border-radius: 25px;
-  margin-top: 62px;
+  margin-top: 52px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   ${({ theme }) => theme.media.tablet} {
   border: 2px solid var(--main_purple, #9819c3);
   width: 900px;
@@ -479,10 +480,11 @@ const DataForm = styled.div`
 `;
 const Field = styled.div`
   margin-top: 40px;
-  margin-left: 25px;
+  //margin-left: 25px;
+  width: 324px;
 ${({ theme }) => theme.media.tablet} {
   margin-top: 46px;
-  margin-left: 161px;
+  width: 600px;
 }
 `;
 const Gender = styled.div`
@@ -502,10 +504,10 @@ const Label = styled.label`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin-left: 8px;
   margin-right: 157px;
   ${({ theme }) => theme.media.tablet} {
     font-size: 22px;
+    margin-left: 8px;
 }
 `;
 const InputBox = styled.div`
@@ -674,10 +676,10 @@ const RadioWrapper = styled.div`
 const RadioGroup = styled.div`
   display: flex;
   gap: 88px;
-  margin-top: 16px;
   margin-left: 70px;
   ${({ theme }) => theme.media.tablet} {
     gap: 88px;
+    margin-left: 1px;
   }
 `;
 
@@ -743,7 +745,7 @@ const CustomCircle1 = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 8px;
+  margin-right: 15px;
   position: relative;
   ${RadioInput}:checked + & {
     background-color: white; /* 선택된 경우 내부 색상 변경 */
@@ -751,8 +753,8 @@ const CustomCircle1 = styled.span`
 
   ${RadioInput}:checked + &::after {
     content: '';
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     background-color: #a60f62; /* 선택된 상태의 중앙 원 */
     border-radius: 50%;
     position: absolute;
@@ -760,19 +762,25 @@ const CustomCircle1 = styled.span`
   ${({ theme }) => theme.media.tablet} {
   width: 20px;
   height: 20px;
+  margin-right: 10px;
 }
 `;
 
 const Message = styled.div`
   color: #fff;
-  text-align: right;
+  text-align: left;
   font-family: Pretendard;
-  font-size: 14px;
+  font-size: 10px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  margin-right: 130px;
+  //margin-right: 130px;
+  margin-left: 170px;
   margin-top: -15px;
+  ${({ theme }) => theme.media.tablet} {
+  font-size: 14px;
+  margin-left: 370px;
+}
 `;
 const LabelText = styled.span`
   color: var(--main_white, #fff);
@@ -791,10 +799,13 @@ const LabelText1 = styled.div`
   color: var(--main_white, #fff);
   text-align: center;
   font-family: Pretendard;
-  font-size: 18px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+    ${({ theme }) => theme.media.tablet} {
+  font-size: 18px;
+}
 `;
 
 const ProfileContainer = styled.div`
@@ -805,11 +816,15 @@ const ProfileContainer = styled.div`
 `;
 
 const ProfileImageWrapper = styled.div`
+  width: 100px;
+  height: 100px;
+  //border: 1px solid #666;
+  border-radius: 2px;
+  overflow: hidden;
+  ${({ theme }) => theme.media.tablet} {
   width: 160px;
   height: 160px;
-  //border: 1px solid #666;
-  border-radius: 5px;
-  overflow: hidden;
+}
 `;
 
 const ProfileImage = styled.img`
@@ -822,22 +837,23 @@ const UploadContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0px;
-
   color: var(--sub_light-gray, #ddd);
   text-align: center;
   font-family: Pretendard;
-  font-size: 15px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  ${({ theme }) => theme.media.tablet} {
+  font-size: 15px;
+}
 `;
 
 const UploadButton = styled.label`
-  width: 300px;
-  height: 36px;
+  width: 168px;
+  height: 26px;
   flex-shrink: 0;
   background-color: transparent;
-  color: white;
   border: 1px solid #666;
   border-radius: 4px;
   text-align: center;
@@ -845,6 +861,10 @@ const UploadButton = styled.label`
   justify-content: center;
   align-items: center;
   display: flex;
+   ${({ theme }) => theme.media.tablet} {
+  width: 300px;
+  height: 36px;
+}
 `;
 
 const HiddenInput = styled.input`
@@ -854,22 +874,29 @@ const HiddenInput = styled.input`
 
 const NextButton = styled.button`
   width: 300px;
-  height: 52px;
+  height: 44px;
   flex-shrink: 0;
   border-radius: 15px;
   background: var(--main_purple, #9819c3);
   margin-top: 70px;
   cursor: pointer;
+   ${({ theme }) => theme.media.tablet} {
+  width: 300px;
+  height: 52px;
+}
 `;
 
 const Next = styled.div`
   color: var(--main_white, #fff);
   text-align: center;
   font-family: Pretendard;
-  font-size: 20px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  ${({ theme }) => theme.media.tablet} {
+  font-size: 20px;
+}
 `;
 
 const ColoredText = styled.span`
