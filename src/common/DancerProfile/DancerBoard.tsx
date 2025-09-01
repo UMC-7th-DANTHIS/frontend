@@ -4,7 +4,7 @@ import styled from 'styled-components';
 //import { ReactComponent as Line } from '../../../assets/shape/line.svg';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
 import Pagination from '../../components/Pagination';
-import api from '../../api/api';
+//import api from '../../api/api';
 import LoadingSpinner from '../../components/LoadingSpinner';
 
 type DancerType = {
@@ -40,34 +40,34 @@ const ClassBoard: React.FC = () => {
 
   const perData = 9;
 
-  useEffect(() => {
-    // API 호출 함수
-    const fetchData = async () => {
-      setIsFetching(true); // 로딩 시작
-      try {
-        const genreId = selectedGenre;
-        const response = await api.get(
-          `/dancers/genres/${genreId}?page=${currentPage}`
-        );
-        if (response.data.code === 200) {
-          setData(response.data.data.dancers);
-          setTotalPages(response.data.data.totalPages);
-          setTotalElements(response.data.data.totalElements); // totalElements 추가
-          console.log('댄서 데이터를 성공적으로 불러왔습니다.');
-          console.log(response.data.data);
-        } else {
-          console.error('데이터를 불러오는 데 실패했습니다.');
-        }
-      } catch (error) {
-        console.error('API 호출 중 오류 발생:', error);
-      } finally {
-        setIsFetching(false); // 로딩 종료
-      }
-    };
+  // useEffect(() => {
+  //   // API 호출 함수
+  //   const fetchData = async () => {
+  //     setIsFetching(true); // 로딩 시작
+  //     try {
+  //       const genreId = selectedGenre;
+  //       const response = await api.get(
+  //         `/dancers/genres/${genreId}?page=${currentPage}`
+  //       );
+  //       if (response.data.code === 200) {
+  //         setData(response.data.data.dancers);
+  //         setTotalPages(response.data.data.totalPages);
+  //         setTotalElements(response.data.data.totalElements); // totalElements 추가
+  //         console.log('댄서 데이터를 성공적으로 불러왔습니다.');
+  //         console.log(response.data.data);
+  //       } else {
+  //         console.error('데이터를 불러오는 데 실패했습니다.');
+  //       }
+  //     } catch (error) {
+  //       console.error('API 호출 중 오류 발생:', error);
+  //     } finally {
+  //       setIsFetching(false); // 로딩 종료
+  //     }
+  //   };
 
-    fetchData();
-  }, [selectedGenre, currentPage]);
-
+  //   fetchData();
+  // }, [selectedGenre, currentPage]);
+  // ClassBoard.tsx (핵심 부분만)
 // const BASE_URL = process.env.REACT_APP_API_BASE_URL!;
 
 // useEffect(() => {
@@ -96,35 +96,35 @@ const ClassBoard: React.FC = () => {
 //   return () => controller.abort();
 // }, [selectedGenre, currentPage]);
 
-// const baseUrlRef = useRef(process.env.REACT_APP_API_BASE_URL!);
+const baseUrlRef = useRef(process.env.REACT_APP_API_BASE_URL!);
 
-// useEffect(() => {
-//   const controller = new AbortController();
+useEffect(() => {
+  const controller = new AbortController();
 
-//   const load = async () => {
-//     setIsFetching(true);
-//     try {
-//       const res = await fetch(
-//         `${baseUrlRef.current}/dancers/genres/${selectedGenre}?page=${currentPage}`,
-//         { method: 'GET', credentials: 'omit', signal: controller.signal }
-//       );
-//       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-//       const json = await res.json();
-//       if (json.code === 200) {
-//         setData(json.data.dancers);
-//         setTotalElements(json.data.totalElements);
-//         setTotalPages(json.data.totalPages);
-//       }
-//     } catch (e) {
-//       if ((e as any).name !== 'AbortError') console.error(e);
-//     } finally {
-//       setIsFetching(false);
-//     }
-//   };
+  const load = async () => {
+    setIsFetching(true);
+    try {
+      const res = await fetch(
+        `${baseUrlRef.current}/dancers/genres/${selectedGenre}?page=${currentPage}`,
+        { method: 'GET', credentials: 'omit', signal: controller.signal }
+      );
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = await res.json();
+      if (json.code === 200) {
+        setData(json.data.dancers);
+        setTotalElements(json.data.totalElements);
+        setTotalPages(json.data.totalPages);
+      }
+    } catch (e) {
+      if ((e as any).name !== 'AbortError') console.error(e);
+    } finally {
+      setIsFetching(false);
+    }
+  };
 
-//   load();
-//   return () => controller.abort();
-// }, [selectedGenre, currentPage]);
+  load();
+  return () => controller.abort();
+}, [selectedGenre, currentPage]);
 
 
   // 장르 선택 핸들러
