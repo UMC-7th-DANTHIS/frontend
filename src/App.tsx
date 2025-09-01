@@ -29,6 +29,7 @@ import ClassRegisterEditPage from './pages/registration/ClassRegisterEditPage';
 import ClassesPage from './pages/reservation/ClassesPage';
 import ReservationPage from './pages/reservation/ReservationPage';
 import ReviewDetailPage from './pages/reservation/ReviewDetailPage';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App(): React.JSX.Element {
   return (
@@ -47,30 +48,32 @@ function App(): React.JSX.Element {
             <Route index element={<SearchWrapper />} />
           </Route>
           <Route path="/login" element={<LoginPage />} />
-          <Route
-            path="/oauth/kakao/callback"
-            element={<KakaoRedirectHandler />}
-          />
+          <Route path="/oauth/kakao/callback" element={<KakaoRedirectHandler />} />
           <Route path="/signup1" element={<SignupPage1 />} />
           <Route path="/signup2" element={<SignupPage2 />} />
           <Route path="/signup3" element={<SignupPage3 />} />
           <Route path="/signup4" element={<SignupPage4 />} />
 
-          <Route path="/dancerregister" element={<DancerRegistrationPage />} />
-          <Route path="/classregister" element={<ClassRegistrationPage />} />
           <Route
-            path="/classregister/:classId"
-            element={<ClassRegisterEditPage />}
+            path="/dancerregister"
+            element={
+              <ProtectedRoute>
+                <DancerRegistrationPage />
+              </ProtectedRoute>
+            }
           />
+          <Route
+            path="/classregister"
+            element={
+              <ProtectedRoute>
+                <ClassRegistrationPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/classregister/:classId" element={<ClassRegisterEditPage />} />
           <Route path="/classreservation" element={<ClassesPage />} />
-          <Route
-            path="/classreservation/:classId"
-            element={<ReservationPage />}
-          />
-          <Route
-            path="/classreservation/review/:reviewId"
-            element={<ReviewDetailPage />}
-          />
+          <Route path="/classreservation/:classId" element={<ReservationPage />} />
+          <Route path="/classreservation/review/:reviewId" element={<ReviewDetailPage />} />
           <Route path="/dancerprofile" element={<ProfileList />} />
           <Route path="/dancerprofile/:dancerId" element={<DancerProfile />} />
           <Route path="/review/:id" element={<ReviewDetail />} />

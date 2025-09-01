@@ -8,7 +8,7 @@ import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
 export const SelectionPanel = () => {
-  const [selectedType, setSelectedType] = useState<DateType>(DATE_TYPE.WEEKLY);
+  const [selectedType, setSelectedType] = useState<DateType>(DATE_TYPE.DATE);
   const [selectedDayKey, setSelectedDayKey] = useState<string>('MON');
   const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -22,12 +22,13 @@ export const SelectionPanel = () => {
       <PanelHeader>
         <DateTypeToggle selectedType={selectedType} setSelectType={setSelectedType} />
         <SelectedDate>
-          선택: <DateText>{selectedType === DATE_TYPE.WEEKLY ? selectedDayName : formattedDate}</DateText>
+          선택:
+          <DateText>{selectedType === DATE_TYPE.DATE ? formattedDate : selectedDayName}</DateText>
         </SelectedDate>
       </PanelHeader>
 
-      {selectedType === DATE_TYPE.WEEKLY && <WeeklySelector dayKey={selectedDayKey} setDayKey={setSelectedDayKey} />}
       {selectedType === DATE_TYPE.DATE && <CustomCalendar selectedDate={selectedDate} onDateClick={setSelectedDate} />}
+      {selectedType === DATE_TYPE.WEEKLY && <WeeklySelector dayKey={selectedDayKey} setDayKey={setSelectedDayKey} />}
     </PanelContainer>
   );
 };
@@ -36,13 +37,8 @@ const PanelContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-width: 345px;
   align-items: center;
   gap: 30px;
-
-  ${({ theme }) => theme.media.tablet} {
-    min-width: 420px;
-  }
 `;
 const PanelHeader = styled.div`
   display: flex;
@@ -53,19 +49,31 @@ const PanelHeader = styled.div`
   white-space: preserve nowrap;
 `;
 const SelectedDate = styled.p`
+  display: flex;
+  align-items: baseline;
   margin: 0;
   padding: 4px 10px;
   border-radius: 10px;
   background: rgba(152, 25, 195, 0.3);
   color: var(--text-purple);
-  font-size: 20px;
+  font-size: 14px;
   font-weight: 500;
-  letter-spacing: -1px;
+  letter-spacing: -0.8px;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 20px;
+    letter-spacing: -1px;
+  }
 `;
 const DateText = styled.span`
   margin-left: 7px;
   color: var(--main-white);
-  font-size: 18px;
+  font-size: 12px;
   font-weight: 500;
-  letter-spacing: -0.9px;
+  letter-spacing: -0.6px;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 18px;
+    letter-spacing: -0.9px;
+  }
 `;

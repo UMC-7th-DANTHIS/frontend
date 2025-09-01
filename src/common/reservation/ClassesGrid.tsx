@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import LoadingSpinner from '../../components/LoadingSpinner';
 import Pagination from '../../components/Pagination';
 import useGetClasses from '../../hooks/reservation/useGetClasses';
+import { ClassesGridSkeleton } from './ClassesGridSkeleton';
 
 interface ClassesGridProps {
   selectedGenre: string;
@@ -19,30 +19,30 @@ export const ClassesGrid = ({ selectedGenre }: ClassesGridProps) => {
     size: perData
   });
 
+  if (isLoading || !classes) return <ClassesGridSkeleton />;
+
   return (
-    <LoadingSpinner isLoading={isLoading} marginTop="0px" wrapperWidth="520px">
-      <GridContainer>
-        <Classes>
-          {classes?.danceClasses?.map((cls) => (
-            <Class to={`/classreservation/${cls.id}`} key={cls.id}>
-              <Image src={cls.thumbnailImage} alt={`class #${cls.id} thumbnail`} />
+    <GridContainer>
+      <Classes>
+        {classes.danceClasses?.map((cls) => (
+          <Class to={`/classreservation/${cls.id}`} key={cls.id}>
+            <Image src={cls.thumbnailImage} />
+            <TextContainer>
               <Title>{cls.className}</Title>
               <Dancer>{cls.dancerName}</Dancer>
-            </Class>
-          ))}
-        </Classes>
-        <PaginationWrapper>
-          {classes && (
-            <Pagination
-              dataLength={classes.totalElements}
-              perData={perData}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
-          )}
-        </PaginationWrapper>
-      </GridContainer>
-    </LoadingSpinner>
+            </TextContainer>
+          </Class>
+        ))}
+      </Classes>
+      <PaginationWrapper>
+        <Pagination
+          dataLength={classes.totalElements}
+          perData={perData}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      </PaginationWrapper>
+    </GridContainer>
   );
 };
 
@@ -52,16 +52,21 @@ const GridContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 520px;
+  width: 100%;
   height: 100%;
+
+  ${({ theme }) => theme.media.desktop} {
+    padding-top: 24px;
+  }
 `;
 const Classes = styled.div`
+  width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 46px 28px;
 
   ${({ theme }) => theme.media.tablet} {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 50px 65px;
   }
 `;
@@ -70,19 +75,29 @@ const Class = styled(Link)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 140px;
+  gap: 20px;
+  width: 100%;
   text-decoration-line: none;
   cursor: pointer;
 `;
 const Image = styled.img`
-  width: 140px;
-  height: 140px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
   border-radius: 10px;
   object-fit: cover;
 `;
+const TextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 6px;
+  overflow: hidden;
+`;
 const Title = styled.div`
   width: 100%;
-  margin-top: 20px;
+  text-align: center;
   color: var(--main-white);
   font-size: 16px;
   font-weight: 600;
@@ -92,17 +107,16 @@ const Title = styled.div`
   text-overflow: ellipsis;
 `;
 const Dancer = styled.div`
-  margin-top: 6px;
+  width: 100%;
+  text-align: center;
   color: var(--text-secondary-gray);
   font-size: 16px;
   font-weight: 600;
   letter-spacing: -0.8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 const PaginationWrapper = styled.div`
   margin-top: 60px;
-
-  // ${({ theme }) => theme.media.desktop} {
-  //   position: absolute;
-  //   bottom: 0;
-  // }
 `;

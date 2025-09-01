@@ -81,7 +81,7 @@ export default CustomCalendar;
 
 const CalendarContainer = styled.div`
   width: 100%;
-  max-width: 400px;
+  max-width: 360px;
   padding: 20px 10px;
   border-radius: 10px;
   box-shadow: 0 0 15px 0 #9819c3;

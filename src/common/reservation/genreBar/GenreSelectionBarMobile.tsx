@@ -30,7 +30,7 @@ const Topbar = styled.div`
     flex-direction: row;
   }
 
-  ${({ theme }) => theme.media.desktop} {
+  ${({ theme }) => theme.media.max} {
     display: none;
   }
 `;

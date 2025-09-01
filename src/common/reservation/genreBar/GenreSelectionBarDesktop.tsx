@@ -18,7 +18,7 @@ export const GenreSelectionDesktop = ({ genres, onGenreClick, selectedGenre }: G
 const Sidebar = styled.div`
   display: none;
 
-  ${({ theme }) => theme.media.desktop} {
+  ${({ theme }) => theme.media.max} {
     display: flex;
     flex-direction: column;
     min-width: 150px;

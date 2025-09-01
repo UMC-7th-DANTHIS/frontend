@@ -11,13 +11,13 @@ interface DateTypeToggleProps {
 export const DateTypeToggle = ({ selectedType, setSelectType }: DateTypeToggleProps) => {
   return (
     <ToggleWrapper>
-      <ToggleButton $isActive={selectedType === DATE_TYPE.WEEKLY} onClick={() => setSelectType(DATE_TYPE.WEEKLY)}>
-        <Weekly />
-        요일
-      </ToggleButton>
       <ToggleButton $isActive={selectedType === DATE_TYPE.DATE} onClick={() => setSelectType(DATE_TYPE.DATE)}>
         <Calendar />
         날짜
+      </ToggleButton>
+      <ToggleButton $isActive={selectedType === DATE_TYPE.WEEKLY} onClick={() => setSelectType(DATE_TYPE.WEEKLY)}>
+        <Weekly />
+        요일
       </ToggleButton>
     </ToggleWrapper>
   );

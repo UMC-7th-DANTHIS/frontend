@@ -24,22 +24,24 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 90%;
-  min-width: 345px;
-  padding-top: 30px;
-  padding-bottom: 100px;
+  width: 100%;
+  padding: 10px 32px 100px 32px;
   gap: 20px;
 
-  ${({ theme }) => theme.media.desktop} {
+  ${({ theme }) => theme.media.tablet} {
+    padding: 30px 64px 100px 64px;
+    gap: 36px;
+  }
+
+  ${({ theme }) => theme.media.max} {
     flex-direction: row;
     gap: 40px;
   }
 `;
 const ClassesContainer = styled.div`
-  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
   width: 100%;
   gap: 60px;
