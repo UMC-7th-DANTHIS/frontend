@@ -2,79 +2,52 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as Speaker } from '../../../../assets/emoji/speaker.svg';
 import { ReactComponent as ThumbsUp } from '../../../../assets/emoji/thumbsup.svg';
+import { ReactComponent as Cursor } from '../../../../assets/reservation/Cursor.svg';
 import { hashTagID } from '../../../../api/schema';
 import { DanceClassDetail } from '../../../../types/class';
+import { DetailSection } from './DetailSection';
+import useIsMobile from '../../../../hooks/useIsMobile';
+import { VideoSection } from './VideoSection';
+import { ImagesSection } from './ImageSection';
 
 interface DetailTabProps {
-  classData: DanceClassDetail | null;
+  classData: DanceClassDetail;
 }
 
 export const DetailTab = ({ classData }: DetailTabProps) => {
-  const getYoutubeEmbedUrl = (link: string) => {
-    const match = link.match(
-      /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/live\/)([\w-]{11})/
-    );
-    return match ? `https://www.youtube.com/embed/${match[1]}?controls=0&rel=0&origin=http://localhost:5173` : '';
-  };
+  const isMobile = useIsMobile();
 
   return (
     <Container>
-      <Video>
-        {(classData?.details.videoUrl && classData?.details.videoUrl.includes('youtube.com')) ||
-        classData?.details.videoUrl.includes('youtu.be') ? (
-          <iframe
-            id="ytplayer"
-            title="클래스 소개 영상"
-            width="1024"
-            height="560"
-            src={getYoutubeEmbedUrl(classData?.details.videoUrl)}
-          />
-        ) : (
-          classData?.details.videoUrl && <video src={classData?.details.videoUrl} controls />
-        )}
-      </Video>
-
-      <Section>
-        <Title>
-          <Emoji>
-            <Speaker />
-          </Emoji>
-          수업 소개
-        </Title>
-        <Text>{classData?.details.description}</Text>
-      </Section>
-      <Section>
-        <Title>
-          <Emoji>
-            <ThumbsUp />
-          </Emoji>
-          이 수업은 이런 분들에게 추천해요!
-        </Title>
-        <Text>{classData?.details.targetAudience}</Text>
+      {/* 수업 영상 */}
+      <VideoSection videoUrl={classData.details.videoUrl} />
+      {/* 소개글 */}
+      <DetailSection title="수업 소개" icon={<Speaker width={isMobile ? 24 : 30} />}>
+        <Text>{classData.details.description}</Text>
+      </DetailSection>
+      {/* 추천 대상 */}
+      <DetailSection title="이 수업은 이런 분들에게 추천해요!" icon={<ThumbsUp width={isMobile ? 24 : 30} />}>
+        <Text>{classData.details.targetAudience}</Text>
         <Tags>
-          {classData?.details.hashtags.map((tag) => {
+          {classData.details.hashtags.map((tag) => {
             const tagName = hashTagID.find((t) => Number(t.id) === tag)?.hashTag;
             return tagName ? <Tag key={tag}>#{tagName}</Tag> : null;
           })}
         </Tags>
-      </Section>
-      <Section>
-        <Title>수업 사진</Title>
-        <Images>
-          {classData?.details.danceClassImages[0] === '' ? (
-            <Image src={classData.dancer?.profileImage} alt={`dancer profile of class #${classData?.id}`} />
-          ) : (
-            classData?.details.danceClassImages.map(
-              (image, index) => image && <Image key={index} src={image} alt={`class #${index}`} />
-            )
-          )}
-        </Images>
-      </Section>
-      <Section>
-        <MoreAboutDancer to={`/dancerprofile/${classData?.details.dancerId}`}>
-          {classData?.dancer.name} 댄서에 대해 더 알고싶다면?
+      </DetailSection>
+      {/* 수업 사진 */}
+      <DetailSection title="수업 사진">
+        <ImagesSection images={classData.details.danceClassImages} profileImage={classData.dancer?.profileImage} />
+      </DetailSection>
+
+      <ButtonWrapper>
+        <MoreAboutDancer to={`/dancerprofile/${classData.details.dancerId}`}>
+          {classData.dancer.name} 댄서에 대해 더 알고싶다면?{' '}
+          <span>
+            <Cursor />
+          </span>
         </MoreAboutDancer>
-      </Section>
+      </ButtonWrapper>
     </Container>
   );
 };
@@ -84,116 +57,99 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 1240px;
-  padding: 77px 108px;
-`;
-const Video = styled.div`
-  position: relative;
-  width: 1024px;
-  height: 560px;
-  margin-bottom: 50px;
-  border: none;
-  border-radius: 3px;
-  overflow: hidden;
+  width: 100%;
+  padding: 43px 28px;
+  gap: 50px;
 
-  iframe {
-    position: absolute;
-    top: -1px;
-    left: -2px;
-    width: 101%;
+  ${({ theme }) => theme.media.desktop} {
+    padding: 78px 0;
+    gap: 90px;
   }
-
-  video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; // 비율 유지
-  }
-`;
-const Section = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 1240px;
-  padding: 50px;
-  white-space: pre-line;
-`;
-const Title = styled.div`
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  color: var(--main_white, #fff);
-  font-family: Pretendard;
-  font-size: 32px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 50px;
-  letter-spacing: -1.6px;
-`;
-const Emoji = styled.span`
-  margin-top: 5px;
 `;
 const Text = styled.div`
-  color: var(--main_white, #fff);
-  font-family: Pretendard;
-  font-size: 24px;
-  font-style: normal;
+  color: var(--main-white);
+  font-size: 12px;
   font-weight: 400;
-  line-height: 50px;
-  letter-spacing: -1.2px;
+  line-height: 140%;
+  letter-spacing: -0.6px;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 18px;
+    line-height: 40px;
+    letter-spacing: -0.9px;
+  }
 `;
 const Tags = styled.div`
-  margin: 18px 0;
+  display: flex;
+  margin-top: 12px;
+  gap: 12px;
+
+  ${({ theme }) => theme.media.tablet} {
+    gap: 20px;
+  }
 `;
 const Tag = styled.div`
   display: inline-flex;
-  padding: 4px 38px;
+  padding: 4px 10px;
   justify-content: center;
   align-items: center;
-  margin-right: 28px;
   border-radius: 80px;
-  border: 2px solid var(--text_purple, #bf00ff);
+  border: 1px solid var(--text-purple);
 
-  color: var(--main_white, #fff);
-  font-family: Pretendard;
-  font-size: 24px;
-  font-style: normal;
+  color: var(--main-white);
+  font-size: 10px;
   font-weight: 500;
-  line-height: 50px; /* 208.333% */
-  letter-spacing: -1.2px;
+  line-height: 140%;
+  letter-spacing: -0.5px;
+
+  ${({ theme }) => theme.media.tablet} {
+    padding: 0 30px;
+    font-size: 16px;
+    line-height: 36px;
+    letter-spacing: -0.8px;
+  }
 `;
-const Images = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  width: 1240px;
-  margin-top: 21px;
-  gap: 20px;
-`;
-const Image = styled.img`
-  width: 400px;
-  height: 400px;
-  border-radius: 10px;
-  background: url(<path-to-image>) lightgray 50% / cover no-repeat;
-  object-fit: cover; // 비율 유지
+const ButtonWrapper = styled.div`
+  width: 100%;
+  justify-content: flex-start;
+  white-space: pre-line;
 `;
 const MoreAboutDancer = styled(Link)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 448px;
-  height: 60px;
+  padding: 10px 48px;
+  border-radius: 10px;
+  border: 1px solid var(--main-white);
+  background: var(--main-black);
+  box-shadow: 0 0 14px 0 var(--main-white) inset;
   text-decoration-line: none;
-  border-radius: 15px;
-  background: var(--main_purple, #9819c3);
-
-  color: var(--main_white, #fff);
-  text-align: center;
-  font-family: Pretendard;
-  font-size: 22px;
-  font-style: normal;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--main-white);
+  font-size: 12px;
   font-weight: 600;
-  line-height: normal;
 
   &:hover {
-    cursor: pointer;
+    border: 1px solid var(--main-purple);
+    box-shadow: 0 0 14px 0 var(--main-purple) inset;
+  }
+
+  ${({ theme }) => theme.media.tablet} {
+    padding: 15px 68px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px 0 var(--main-white) inset;
+    font-size: 18px;
+
+    &:hover {
+      box-shadow: 0 0 20px 0 var(--main-purple) inset;
+    }
+  }
+
+  span {
+    display: inline-block;
+    padding-bottom: 3px;
+    transform: rotate(162deg);
+
+    ${({ theme }) => theme.media.tablet} {
+      padding: 0;
+    }
   }
 `;

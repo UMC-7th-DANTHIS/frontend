@@ -7,3 +7,4 @@ export * from './SelectionPanel';
 export * from './DateTypeToggle';
 export * from './WeeklySelector';
 export * from './genreBar/GenreSelectionBar';
+export * from './ClassButtons';

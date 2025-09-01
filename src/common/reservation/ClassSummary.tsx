@@ -1,13 +1,10 @@
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { formatPrice } from '../../utils/format';
-import useDeleteLiked from '../../hooks/reservation/useDeleteLiked';
-import usePostChat from '../../hooks/reservation/usePostChat';
-import usePostLiked from '../../hooks/reservation/usePostLiked';
-import useGetMyLiked from '../../hooks/reservation/useGetMyLiked';
 import { Level } from './Level';
 import { DanceGenre } from '../../api/schema';
-import { DanceClassDetail, LikedClass } from '../../types/class';
+import { DanceClassDetail } from '../../types/class';
+import { ClassButtons } from './ClassButtons';
+import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
 
 interface ClassSummaryProps {
   classId: string;
@@ -15,129 +12,140 @@ interface ClassSummaryProps {
 }
 
 export const ClassSummary = ({ classId, classData }: ClassSummaryProps) => {
-  console.log(classData);
-  const [isLiked, setIsLiked] = useState(false);
-
-  const { data: myLiked } = useGetMyLiked();
-  const { mutate: postChat } = usePostChat();
-  const { mutate: postLiked } = usePostLiked();
-  const { mutate: deleteLiked } = useDeleteLiked();
-
-  const handleChatClick = (dancerId: number) => postChat(dancerId);
-  const handleLikeClick = () => {
-    if (!isLiked) postLiked(classId);
-    else deleteLiked(classId);
-  };
-
-  useEffect(() => {
-    if (!myLiked || !classId) return;
-
-    const matched = myLiked.danceClasses?.some((cls: LikedClass) => cls.id === Number(classId));
-    setIsLiked(!!matched);
-  }, [myLiked, classId]);
-
   return (
-    <Summary>
-      <Image src={classData?.dancer.profileImage} alt={`dancer profile of class #${classData?.id}`} />
-      <InfoContainer>
-        <p>강사 : {classData?.dancer?.name}</p>
-        <p>장르 : {DanceGenre.find((g) => Number(g.id) === classData?.genre)?.Genre}</p>
-        <p>가격 : {formatPrice(classData?.pricePerSession)}원 / 회당</p>
-        <Level level={classData?.difficulty} />
-      </InfoContainer>
-      <BtnContainer>
-        <ChatBtn type="button" onClick={() => handleChatClick(classData.details.dancerId)}>
-          <span>댄서와 1:1 채팅하기</span>
-        </ChatBtn>
-        <LikeBtn type="button" onClick={() => handleLikeClick()} $isLiked={isLiked}>
-          <span>{isLiked ? '찜한 수업 취소하기' : '수업 찜해놓기'}</span>
-        </LikeBtn>
-      </BtnContainer>
-    </Summary>
+    <Container>
+      <Title>
+        <FocusedCircle width={24} height={24} />
+        <h2>{classData?.className}</h2>
+      </Title>
+      <OverviewAndButtons>
+        <Overview>
+          <Image src={classData?.dancer.profileImage} alt={`dancer profile of class #${classData?.id}`} />
+          <Info>
+            <span>
+              <h4>강사</h4>
+              <p>{classData?.dancer?.name}</p>
+            </span>
+            <span>
+              <h4>장르</h4>
+              <p>{DanceGenre.find((g) => Number(g.id) === classData?.genre)?.Genre}</p>
+            </span>
+            <span>
+              <h4>가격</h4>
+              <p>{formatPrice(classData?.pricePerSession)}원 / 회당</p>
+            </span>
+            <Level level={classData?.difficulty} />
+          </Info>
+        </Overview>
+
+        <ClassButtons classId={classId} dancerId={classData.details.dancerId} />
+      </OverviewAndButtons>
+    </Container>
   );
 };
 
-const Summary = styled.div`
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 28px;
+`;
+const OverviewAndButtons = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1018px;
+  padding: 0 18px;
+  gap: 36px;
+
+  ${({ theme }) => theme.media.desktop} {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+`;
+const Title = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
-  padding: 38px;
-  padding-bottom: 53px;
+  justify-content: start;
+  width: 100%;
+  max-width: 1018px;
+  padding: 0 18px;
+  gap: 10px;
+
+  h2 {
+    margin: 0;
+    color: var(--main-white);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.9px;
+
+    ${({ theme }) => theme.media.tablet} {
+      font-size: 24px;
+      letter-spacing: -1.2px;
+    }
+  }
+`;
+const Overview = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+
+  ${({ theme }) => theme.media.tablet} {
+    gap: 45px;
+  }
 `;
 const Image = styled.img`
-  width: 298px;
-  height: 298px;
+  width: 180px;
+  height: 180px;
   border-radius: 10px;
   object-fit: cover;
+
+  ${({ theme }) => theme.media.tablet} {
+    width: 298px;
+    height: 298px;
+  }
 `;
-const InfoContainer = styled.div`
+const Info = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 298px;
-  margin-left: 53px;
-  margin-right: 120px;
+
+  ${({ theme }) => theme.media.tablet} {
+    gap: 16px;
+  }
+
+  h4 {
+    margin: 0;
+    color: var(--text-purple);
+    font-size: 16px;
+    font-weight: 600px;
+    line-height: 30px;
+    letter-spacing: -0.8px;
+
+    ${({ theme }) => theme.media.tablet} {
+      font-size: 22px;
+      letter-spacing: -1.1px;
+    }
+  }
 
   p {
-    margin: 3px 0;
+    margin: 0;
     color: var(--main-white);
-    font-size: 28px;
-    font-weight: 600;
-    line-height: 50px;
-    letter-spacing: -1.4px;
-  }
-`;
-const BtnContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-const ChatBtn = styled.button`
-  display: flex;
-  width: 420px;
-  padding: 10px 43px;
-  margin-bottom: 23px;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  border-radius: 68px;
-  border: none;
-  background: var(--main-gradation);
-  cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 160%;
+    letter-spacing: -0.7px;
 
-  span {
-    color: #fff;
-    text-align: center;
-    font-size: 24px;
-    font-weight: 600;
-    line-height: 50px;
-    letter-spacing: -1.2px;
-  }
-`;
-const LikeBtn = styled.button<{ $isLiked: boolean }>`
-  display: flex;
-  width: 420px;
-  padding: 10px 87px;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  border-radius: 54px;
-  border: 4px solid var(--main_purple, #9819c3);
-  background: ${({ $isLiked }) => ($isLiked === true ? 'var(--main-white)' : 'transparent')};
-  cursor: pointer;
-
-  &:hover {
-    background: rgba(152, 25, 195, 0.4);
-  }
-
-  span {
-    color: ${({ $isLiked }) => ($isLiked === true ? 'var(--text-purple)' : 'var(--main-white)')};
-    text-align: center;
-    font-size: 24px;
-    font-weight: 600;
-    line-height: 50px;
-    letter-spacing: -1.2px;
+    ${({ theme }) => theme.media.tablet} {
+      font-size: 18px;
+      letter-spacing: -0.9px;
+    }
   }
 `;

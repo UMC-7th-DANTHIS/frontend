@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import useGetClassDetailById from '../../hooks/reservation/useGetClassDetailById';
-import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { ClassSummary, DetailTab, RatingTab, ReviewTab } from '../../common/reservation';
 
@@ -40,32 +39,27 @@ export default function ReservationPage() {
 
   return (
     <Container>
-      <TitleWrapper>
-        <FocusedCircle />
-        <Title>{classData?.className}</Title>
-      </TitleWrapper>
-
-      {classId && !isLoading ? (
+      <LoadingSpinner isLoading={isLoading} marginTop="180px" marginBottom="180px">
         <ClassSummary classId={classId!} classData={classData!} />
-      ) : (
-        <LoadingSpinner isLoading={isLoading} marginTop="180px" marginBottom="180px" />
-      )}
+      </LoadingSpinner>
 
-      <Tabs ref={tabRef}>
-        {tab.map((element, index) => (
-          <Tab key={index} $isActive={currentTab === index} onClick={() => handleTabChange(index)}>
-            {element.name}
-          </Tab>
-        ))}
-      </Tabs>
-      {currentTab === 0 &&
-        (isLoading ? (
-          <LoadingSpinner isLoading={isLoading} marginTop="200px" marginBottom="200px" />
-        ) : (
-          <DetailTab classData={classData!} />
-        ))}
-      {currentTab === 1 && <ReviewTab tabRef={tabRef} />}
-      {currentTab === 2 && <RatingTab tabRef={tabRef} />}
+      <TabSection>
+        <Tabs ref={tabRef}>
+          {tab.map((element, index) => (
+            <Tab key={index} $isActive={currentTab === index} onClick={() => handleTabChange(index)}>
+              <span>{element.name}</span>
+            </Tab>
+          ))}
+        </Tabs>
+
+        {currentTab === 0 && (
+          <LoadingSpinner isLoading={isLoading} marginTop="200px" marginBottom="200px">
+            <DetailTab classData={classData!} />
+          </LoadingSpinner>
+        )}
+        {currentTab === 1 && <ReviewTab tabRef={tabRef} />}
+        {currentTab === 2 && <RatingTab tabRef={tabRef} />}
+      </TabSection>
     </Container>
   );
 }
@@ -75,59 +69,68 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 30px;
+  width: 100%;
+  margin-top: 12px;
+  gap: 56px;
+
+  ${({ theme }) => theme.media.desktop} {
+    gap: 78px;
+  }
 `;
-const TitleWrapper = styled.div`
+const TabSection = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  width: 1200px;
-`;
-const Title = styled.div`
-  margin-left: 10px;
-  color: var(--main_white, #fff);
-  font-family: Pretendard;
-  font-size: 30px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  letter-spacing: -1.5px;
+  flex-direction: column;
+  width: 100%;
+  max-width: 981px;
 `;
 const Tabs = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: 1240px;
-  height: 86px;
+  width: 100%;
+  height: 30px;
   flex-shrink: 0;
-  border-radius: 20px 20px 0px 0px;
-  background: var(--main_purple, #9819c3);
+  border-radius: 15px 15px 0px 0px;
+  background: var(--main-purple);
+
+  ${({ theme }) => theme.media.tablet} {
+    height: 50px;
+    border-radius: 20px 20px 0px 0px;
+  }
 `;
 const Tab = styled.div<{ $isActive: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 410px;
-  height: 83px;
-  color: var(--main_white, #fff);
-  text-align: center;
-  font-family: Pretendard;
-  font-size: 28px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 50px; /* 178.571% */
-  letter-spacing: -1.4px;
+  width: 100%;
+  height: 30px;
+  border-radius: 15px 15px 0px 0px;
+  border-top: 3px solid var(--main-purple);
+  border-right: 3px solid var(--main-purple);
+  border-left: 3px solid var(--main-purple);
+  box-shadow: 0px 8px 16px -5px var(--main-purple) inset;
   transition: all 0.3s ease;
-  border-radius: 20px 20px 0px 0px;
-  border-top: 3px solid var(--main_purple, #9819c3);
-  border-right: 3px solid var(--main_purple, #9819c3);
-  border-left: 3px solid var(--main_purple, #9819c3);
-  box-shadow: 0px 8px 16px 0px var(--main_purple, #9819c3) inset;
+  cursor: pointer;
 
-  ${({ $isActive }) => $isActive && `background: var(--main_black, #000);`}
+  ${({ $isActive }) => $isActive && `background: var(--main-black);`}
 
-  &:hover {
-    cursor: pointer;
+  ${({ theme }) => theme.media.tablet} {
+    height: 50px;
+    border-radius: 20px 20px 0px 0px;
+  }
+
+  span {
+    color: var(--main-white);
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: -0.7px;
+
+    ${({ theme }) => theme.media.tablet} {
+      font-size: 20px;
+      line-height: 50px;
+      letter-spacing: -1px;
+    }
   }
 `;
