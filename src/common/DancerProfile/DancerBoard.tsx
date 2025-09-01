@@ -38,7 +38,10 @@ const ClassBoard: React.FC = () => {
   const [, setTotalPages] = useState<number>(1); // 전체 페이지 수
   const [isFetching, setIsFetching] = useState<boolean>(false); // 로딩 상태
 
-  const perData = 9;
+  const perData = 6;
+  const start = (currentPage - 1) * perData;
+  const pageData = data;
+
 
   useEffect(() => {
     // API 호출 함수
@@ -47,7 +50,7 @@ const ClassBoard: React.FC = () => {
       try {
         const genreId = selectedGenre;
         const response = await api.get(
-          `/dancers/genres/${genreId}?page=${currentPage}`
+          `/dancers/genres/${genreId}?page=${currentPage}size=${perData}`
         );
         if (response.data.code === 200) {
           setData(response.data.data.dancers);
@@ -114,7 +117,7 @@ const ClassBoard: React.FC = () => {
       ) : (
         <BoardContainer>
           <Classes>
-            {data.map((dancer) => (
+            {pageData.map((dancer) => (
               <Class to={`/dancerprofile/${dancer.id}`} key={dancer.id}>
                 <Image src={dancer.images[0]} alt={dancer.dancerName} />
 
@@ -170,7 +173,7 @@ const GenreWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 197px;
+  width: 150px;
   margin-bottom: 50px;
 
   &:hover {
@@ -181,33 +184,39 @@ const GenreWrapper = styled.div`
 const Genre = styled.div<{ $isActive: boolean }>`
   color: var(--text_secondary-gray, #b2b2b2);
   font-family: Pretendard;
-  font-size: 24px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  letter-spacing: -1.2px;
+  letter-spacing: -0.9px;
   transition: all 0.3s ease;
 
   ${({ $isActive }) =>
     $isActive &&
     `margin-left: 13px;
     color: var(--main_white, #fff);
-    font-size: 30px;
+    font-size: 24px;
     font-weight: 600;
-    letter-spacing: -1.5px;`}
+    letter-spacing: -1.2px;`}
+    
+  //   ${({ theme }) => theme.media.tablet} {
+  //  font-size: 40px;
+  // }
 `;
+
 
 const BoardContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 38px 0 160px 36px;
+  margin: 40px 0 140px 40px;
 `;
 const Classes = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(auto-fill, 333px);
-  width: 880px;
+  //grid-template-rows: repeat(2, 330px);
+  width: 740px;
+  height: 553px;
 `;
 const Class = styled(Link)`
   display: flex;
@@ -222,8 +231,8 @@ const Class = styled(Link)`
   }
 `;
 const Image = styled.img`
-  width: 220px;
-  height: 220px;
+  width: 180px;
+  height: 180px;
   border-radius: 10px;
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
 
