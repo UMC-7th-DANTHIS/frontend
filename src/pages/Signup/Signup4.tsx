@@ -8,7 +8,7 @@ import api from '../../api/api';
 import StepperMobile from '../../common/Signup/StepperMobile';
 
 const Signup4 = () => {
-  const [, setUser] = useState(null);
+  const [user, setUser] = useState(null);
   const [nickname, setNickname] = useState('');
 
   useEffect(() => {
