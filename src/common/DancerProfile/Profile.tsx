@@ -144,16 +144,16 @@ const Profile: React.FC<ProfileProps> = ({ dancer }) => {
           <Content>{formatIntroduce(dancer.bio)}</Content>
         </InfoContainer>
         <ButtonContainer>
-          {isLoggedIn && (
-            <>
+          {/* {isLoggedIn && (
+            <> */}
               <ChatButton onClick={handleChatClick}>
                 댄서와 1:1 채팅하기
               </ChatButton>
               <LikeButton isLiked={isLiked} onClick={handleLikeClick}>
                 {isLiked ? '찜 취소하기' : '댄서 찜해놓기'}
               </LikeButton>
-            </>
-          )}
+            {/* </>
+          )} */}
         </ButtonContainer>
       </ProfileContainer>
     </Layout>
@@ -171,12 +171,12 @@ const NameContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-left: 119px;
+  margin-left: 205px;
 `;
 const ProfileContainer = styled.div`
   display: flex;
   flex-direction: row;
-  margin-left: 153px;
+  margin-left: 205px;
   margin-top: 39.84px;
   margin-bottom: 100px;
 `;
@@ -190,7 +190,7 @@ const Circle = styled.img`
 const Name = styled.div`
   color: var(--main_white, #fff);
   font-family: Pretendard;
-  font-size: 30px;
+  font-size: 24px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -216,7 +216,7 @@ const InfoContainer = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  margin-left: 67px;
+  margin-left: 31px;
   margin-right: 150px;
   display: flex;
   flex-direction: column;
@@ -251,7 +251,7 @@ const Content = styled.div`
 
 const ChatButton = styled.button`
   display: flex;
-  width: 420px;
+  width: 360px;
   padding: 10px 43px;
   justify-content: center;
   align-items: center;
@@ -264,17 +264,19 @@ const ChatButton = styled.button`
   color: #fff;
   text-align: center;
   font-family: Pretendard;
-  font-size: 24px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 600;
   line-height: 50px; /* 208.333% */
   letter-spacing: -1.2px;
   cursor: pointer;
+  height: 60px;
 `;
 
 const LikeButton = styled.button<{ isLiked: boolean | null }>`
   display: flex;
-  width: 420px;
+  width: 360px;
+  height: 60px;
   padding: 10px 87px;
   justify-content: center;
   align-items: center;
@@ -284,7 +286,7 @@ const LikeButton = styled.button<{ isLiked: boolean | null }>`
   color: var(--main_white, #fff);
   text-align: center;
   font-family: Pretendard;
-  font-size: 24px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 600;
   line-height: 50px; /* 208.333% */

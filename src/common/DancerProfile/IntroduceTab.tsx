@@ -40,30 +40,31 @@ const Layout = styled.div`
   //justify-content : center;
   flex-direction: column;
   margin-bottom: 388.34px;
-  padding-left: 100px;
-  padding-right: 100px;
+  padding-left: 237px;
+  padding-right: 237px;
 `;
 
 const ImageContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 40px;
 `;
 
 const Picture = styled.img`
-  width: 400px;
-  height: 400px;
+  width: 295px;
+  height: 295px;
   flex-shrink: 0;
+  border-radius: 7.375px;
 `;
 
 const CareerContainer = styled.div`
-  margin-top: 83px;
+  margin-top: 50px;
 `;
 
 const Title = styled.div`
-  color: var(--text_purple, #bf00ff);
+  color: var(--main_white, #fff);
   font-family: Pretendard;
-  font-size: 28px;
+  font-size: 22px;
   font-style: normal;
   font-weight: 700;
   line-height: 50px; /* 178.571% */
@@ -73,7 +74,7 @@ const Title = styled.div`
 const List = styled.div`
   color: var(--main_white, #fff);
   font-family: Pretendard;
-  font-size: 20px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 40px;

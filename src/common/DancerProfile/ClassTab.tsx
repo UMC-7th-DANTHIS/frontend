@@ -11,39 +11,36 @@ type DanceClassType = {
 };
 
 interface ClassTabProps {
-  classes: DanceClassType[];
+  dancerId: number;
 }
 
-const ClassTab: React.FC<ClassTabProps> = ({ classes: initialClasses }) => {
-  const { dancerId } = useParams<{ dancerId: string }>();
-  const [classes, setClasses] = useState<DanceClassType[]>(initialClasses); // 수업 데이터
-  const [currentPage, setCurrentPage] = useState<number>(1); // 현재 페이지
-  const [, setTotalPages] = useState<number>(1); // 전체 페이지 수
-  const [totalElements, setTotalElements] = useState<number>(0); // 전체 요소 개수 상태 추가
+const ClassTab: React.FC<ClassTabProps> = ({ dancerId }) => {
+  const [classes, setClasses] = useState<DanceClassType[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [totalElements, setTotalElements] = useState<number>(0);
 
-  const perData = 6; // 페이지당 데이터 수
+  const perData = 6;
 
   useEffect(() => {
     const fetchClasses = async () => {
       try {
         const response = await api.get(`/dancers/dance-classes`, {
           params: {
-            dancerId: dancerId, // 특정 댄서의 수업 조회
+            dancerId,
             page: currentPage,
-            size: perData
-          }
+            size: perData,
+          },
         });
 
         if (response.data.code === 200) {
-          setClasses(response.data.data.danceClasses); // 수업 데이터 저장
-          setTotalPages(response.data.data.totalPages); // 전체 페이지 수 설정
-          setTotalElements(response.data.data.totalElements); // totalElements 추가
+          setClasses(response.data.data.danceClasses);
+          setTotalPages(response.data.data.totalPages);
+          setTotalElements(response.data.data.totalElements);
           console.log(response.data.data);
-        } else {
-          console.error('수업 정보 불러오기 실패:', response.data.message);
         }
       } catch (error) {
-        console.error('API 호출 중 오류 발생:', error);
+        console.error("API 호출 중 오류 발생:", error);
       }
     };
 
@@ -89,7 +86,7 @@ const ClassContainer = styled.div<{ hasClasses: boolean }>`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 56px;
-  margin-left: 216px;
+  margin-left: 220px;
   margin-right: 210px;
   display: ${({ hasClasses }) =>
     hasClasses ? 'grid' : 'flex'}; // 수업이 없을 때 flex로 변경
@@ -98,8 +95,8 @@ const ClassContainer = styled.div<{ hasClasses: boolean }>`
 `;
 const Class = styled.div`
   margin-bottom: 24px;
-  width: 300px;
-  height: 300px;
+  width: 295px;
+  height: 295px;
   border-radius: 10px;
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
 `;
