@@ -5,7 +5,7 @@ import Profile from '../../common/DancerProfile/Profile';
 import IntroduceTab from '../../common/DancerProfile/IntroduceTab';
 import ClassTab from '../../common/DancerProfile/ClassTab';
 import api from '../../api/api';
-import { DancerType} from '@/types/DancerProfile/useDancer';
+import { DancerType, DanceClassType } from '@/types/DancerProfile/useDancer';
 
 const DancerProfile = () => {
   const [activeTab, setActiveTab] = useState<'소개' | '등록된 수업'>('소개');
