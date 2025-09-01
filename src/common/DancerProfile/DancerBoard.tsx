@@ -4,7 +4,7 @@ import styled from 'styled-components';
 //import { ReactComponent as Line } from '../../../assets/shape/line.svg';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
 import Pagination from '../../components/Pagination';
-import api from '../../api/api';
+//import api from '../../api/api';
 import LoadingSpinner from '../../components/LoadingSpinner';
 
 type DancerType = {
