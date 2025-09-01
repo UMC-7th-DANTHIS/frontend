@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 //import { ReactComponent as Line } from '../../../assets/shape/line.svg';
@@ -68,45 +68,16 @@ const ClassBoard: React.FC = () => {
   //   fetchData();
   // }, [selectedGenre, currentPage]);
   // ClassBoard.tsx (핵심 부분만)
-// const BASE_URL = process.env.REACT_APP_API_BASE_URL!;
-
-// useEffect(() => {
-//   const controller = new AbortController();
-//   const load = async () => {
-//     setIsFetching(true);
-//     try {
-//       const res = await fetch(
-//         `${BASE_URL}/dancers/genres/${selectedGenre}?page=${currentPage}`,
-//         { method: 'GET', credentials: 'omit', signal: controller.signal } // ✅ 완전 공개 요청
-//       );
-//       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-//       const json = await res.json();
-//       if (json.code === 200) {
-//         setData(json.data.dancers);
-//         setTotalElements(json.data.totalElements);
-//         setTotalPages(json.data.totalPages);
-//       }
-//     } catch (e) {
-//       if ((e as any).name !== 'AbortError') console.error(e);
-//     } finally {
-//       setIsFetching(false);
-//     }
-//   };
-//   load();
-//   return () => controller.abort();
-// }, [selectedGenre, currentPage]);
-
-const baseUrlRef = useRef(process.env.REACT_APP_API_BASE_URL!);
+const BASE = process.env.REACT_APP_API_BASE_URL!;
 
 useEffect(() => {
   const controller = new AbortController();
-
   const load = async () => {
     setIsFetching(true);
     try {
       const res = await fetch(
-        `${baseUrlRef.current}/dancers/genres/${selectedGenre}?page=${currentPage}`,
-        { method: 'GET', credentials: 'omit', signal: controller.signal }
+        `${BASE}/dancers/genres/${selectedGenre}?page=${currentPage}`,
+        { method: 'GET', credentials: 'omit', signal: controller.signal } // ✅ 완전 공개 요청
       );
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const json = await res.json();
@@ -121,7 +92,6 @@ useEffect(() => {
       setIsFetching(false);
     }
   };
-
   load();
   return () => controller.abort();
 }, [selectedGenre, currentPage]);
