@@ -2,11 +2,7 @@ import { useState, useEffect } from 'react';
 import { ReactComponent as StarFilled } from '../../../../assets/shape/filledYellowStar.svg';
 import { ReactComponent as StarNonfilled } from '../../../../assets/shape/nonfilledYellowStar.svg';
 import styled from 'styled-components';
-
-interface ReviewStarProps {
-  rating: number;
-  setRating: (value: number) => void;
-}
+import { ReviewStarProps } from '@/types/mypage/ReviewType';
 
 const ReviewStar = ({ rating, setRating }: ReviewStarProps) => {
   const totalStars = 5;

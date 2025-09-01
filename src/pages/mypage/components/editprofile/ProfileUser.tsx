@@ -6,20 +6,7 @@ import api from '../../../../api/api';
 import useConfirmLeave from '../../../../hooks/useConfirmLeave';
 import ConfirmLeaveAlert from '../../../../components/ConfirmLeaveAlert';
 import SingleBtnAlert from '../../../../components/SingleBtnAlert';
-
-interface FormState {
-  nickname: string;
-  gender: string;
-  email: string;
-  phoneNumber: string;
-  profileImage: string;
-  preferredGenres: number[];
-  preferredDancers: number[];
-}
-
-interface ErrorTextProps {
-  error: boolean;
-}
+import { ErrorTextProps, UserFormState } from '@/types/mypage/EditProfileType';
 
 const ProfileUser = () => {
   const [nicknameStatus, setNicknameStatus] = useState<string | null>(null);
@@ -27,7 +14,7 @@ const ProfileUser = () => {
   const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [isDefaultImage, setIsDefaultImage] = useState<boolean>(false);
-  const [formState, setFormState] = useState<FormState>({
+  const [formState, setFormState] = useState<UserFormState>({
     nickname: '',
     gender: '',
     email: '',
@@ -109,7 +96,7 @@ const ProfileUser = () => {
     setFormState((prev) => ({ ...prev, profileImage: Profileimg }));
   };
 
-  const handleFormChange = (key: keyof FormState, value: any) => {
+  const handleFormChange = (key: keyof UserFormState, value: any) => {
     setFormState((prev) => ({ ...prev, [key]: value }));
   };
 

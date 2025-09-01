@@ -8,17 +8,7 @@ import ReviewStar from './ReviewStar';
 import api from '../../../../api/api';
 import { useMutation } from '@tanstack/react-query';
 import SingleBtnAlert from '../../../../components/SingleBtnAlert';
-
-interface ReviewDataProps {
-  title: string;
-  content: string;
-  rating: number;
-  reviewImages: string[];
-}
-
-interface LocationState {
-  className?: string;
-}
+import { LocationState, ReviewDataProps } from '@/types/mypage/ReviewType';
 
 const ReviewDetail = () => {
   const location = useLocation();

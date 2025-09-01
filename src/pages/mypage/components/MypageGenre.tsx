@@ -1,11 +1,6 @@
+import { MypageGenreProps } from '@/types/mypage/MypageGenreType';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-
-interface MypageGenreProps {
-  genreSelect: number;
-  selectedGenres: number[];
-  onGenreChange: (selectedGenres: number[]) => void;
-}
 
 const MypageGenre = ({
   genreSelect,

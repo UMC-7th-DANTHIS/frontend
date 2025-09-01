@@ -4,12 +4,7 @@ import { ReactComponent as PictureIcon } from '../../../assets/picture.svg';
 import { ReactComponent as EditIcon } from '../../../assets/shape/write.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/shape/trash.svg';
 import PictureBox from './PictureBox';
-
-interface DancerPictureProps {
-  isFor: 'edit' | 'create';
-  images: (File | string | null)[];
-  handleFormChange: (field: string, value: (File | string | null)[]) => void;
-}
+import { DancerPictureProps } from '@/types/mypage/DancerPictureType';
 
 const DancerPicture = ({
   isFor,
