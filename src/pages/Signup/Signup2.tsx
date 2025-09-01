@@ -193,21 +193,21 @@ const Signup2 = () => {
     setUploadedImage(null); // 업로드된 이미지 초기화
   };
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await api.get('/users/me'); // API 요청 (토큰 자동 포함)
-        console.log('유저 정보:', response.data);
-        setUser(response.data.data);
-        //setNickname(response.data.data.nickname || ""); // 닉네임 값 설정
-        setEmail(response.data.data.email || '');
-      } catch (error) {
-        console.error('유저 정보를 불러오는 중 오류 발생:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       const response = await api.get('/users/me'); // API 요청 (토큰 자동 포함)
+  //       console.log('유저 정보:', response.data);
+  //       setUser(response.data.data);
+  //       //setNickname(response.data.data.nickname || ""); // 닉네임 값 설정
+  //       setEmail(response.data.data.email || '');
+  //     } catch (error) {
+  //       console.error('유저 정보를 불러오는 중 오류 발생:', error);
+  //     }
+  //   };
 
-    fetchUser();
-  }, []);
+  //   fetchUser();
+  // }, []);
 
   return (
      <Layout>
