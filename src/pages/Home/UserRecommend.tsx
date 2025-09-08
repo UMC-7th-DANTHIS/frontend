@@ -36,16 +36,10 @@ const UserRecommend = ({ dancer, danceclass }: UserRecommendProps) => {
 };
 
 const Container = styled.div`
-  margin-left: 100px;
-  margin-right: 100px;
-
   padding-bottom: 60px;
 `;
 
-const Wrapper = styled.div`
-  margin-left: 105px;
-  margin-right: 105px;
-`;
+const Wrapper = styled.div``;
 
 const Border = styled.div`
   border-bottom: 2px solid #4d4d4d;
@@ -56,11 +50,19 @@ const Border = styled.div`
 
 const Header = styled.div`
   margin-bottom: 62px;
-  position: relative;
-  z-index: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  ${({ theme }) => theme.media.tablet} {
+    justify-content: start;
+    align-items: start;
+    font-size: 28px;
+  }
 
   color: white;
-  font-size: 28px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;

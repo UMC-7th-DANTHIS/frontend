@@ -19,21 +19,31 @@ const HotClass = ({ danceclass }: HotClassProps) => {
 };
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   margin-top: 40px;
+
+  justify-content: center;
+  align-items: center;
+
+  ${({ theme }) => theme.media.tablet} {
+    justify-content: start;
+    align-items: start;
+  }
 `;
 
 const Header = styled.div`
-  margin-left: 96.5px;
   margin-bottom: 20px;
-
-  padding-left: 105px;
-  position: relative;
-  z-index: 1;
 
   color: white;
   font-size: 28px;
   font-weight: 600;
   line-height: normal;
+
+  ${({ theme }) => theme.media.tablet} {
+    padding-left: 205px;
+  }
 `;
 
 const Border = styled.div`

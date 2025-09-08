@@ -9,23 +9,23 @@ const api = axios.create({
 
 // 🔹 토큰 관리 함수
 const getAccessToken = (): string | null => localStorage.getItem('token');
-const setAccessToken = (token: string): void => localStorage.setItem('token', token);
+const setAccessToken = (token: string): void =>
+  localStorage.setItem('token', token);
 const removeAccessToken = (): void => localStorage.removeItem('token');
 
 // 🔹 요청 인터셉터: 항상 최신 Access Token 사용
 api.interceptors.request.use(
   async (config) => {
-    const latestAccessToken = await new Promise<string | null>((resolve) =>
-      setTimeout(() => resolve(getAccessToken()), 50)  // 괄호 닫기 누락!
+    const latestAccessToken = await new Promise<string | null>(
+      (resolve) => setTimeout(() => resolve(getAccessToken()), 50) // 괄호 닫기 누락!
     );
-    
 
     if (latestAccessToken) {
       //config.headers.Authorization = `Bearer ${latestAccessToken}`;
       if (config.headers) {
-        (config.headers as Record<string, string>)['Authorization'] = `Bearer ${latestAccessToken}`;
+        (config.headers as Record<string, string>)['Authorization'] =
+          `Bearer ${latestAccessToken}`;
       }
-    
     }
 
     console.log(
@@ -40,10 +40,10 @@ api.interceptors.request.use(
 
 // 🔹 토큰 갱신 상태 변수
 let isRefreshing = false;
-let refreshSubscribers : ((token: string) => void)[] = [];
+let refreshSubscribers: ((token: string) => void)[] = [];
 
 // 🔹 토큰 갱신 함수
-const refreshToken = async (): Promise<string>=> {
+const refreshToken = async (): Promise<string> => {
   try {
     console.log('🔄 Access Token 만료됨, 새 토큰 요청 중...');
     const response = await axios.get(
@@ -96,10 +96,10 @@ api.interceptors.response.use(
 
       if (isRefreshing) {
         return new Promise((resolve) => {
-          refreshSubscribers.push((newToken : string) => {
+          refreshSubscribers.push((newToken: string) => {
             originalRequest.headers = {
               ...originalRequest.headers,
-              Authorization: `Bearer ${newToken}`,
+              Authorization: `Bearer ${newToken}`
             };
             resolve(api(originalRequest)); //  최신 토큰으로 기존 요청 재시도
           });
@@ -112,7 +112,7 @@ api.interceptors.response.use(
         const newToken = await refreshToken();
         originalRequest.headers = {
           ...originalRequest.headers,
-          Authorization: `Bearer ${newToken}`,
+          Authorization: `Bearer ${newToken}`
         };
         return api(originalRequest); // 기존 요청 다시 실행
       } catch (refreshError) {
