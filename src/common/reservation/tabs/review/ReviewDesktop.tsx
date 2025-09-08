@@ -12,7 +12,7 @@ export const ReviewDesktop = ({ review, classId, page }: ReviewProps) => {
   const STAR_LENGTH = 5;
 
   const handleDetailClick = () => {
-    navigate(`/classreservation/review/${review.id}`, {
+    navigate(`/classes/reviews/${review.id}`, {
       state: { fromReviewTab: true, classId, page } // 페이지네이션 정보 전달
     });
   };

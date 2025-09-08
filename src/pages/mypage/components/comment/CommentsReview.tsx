@@ -30,21 +30,19 @@ const CommentsReview = ({ review }: CommentsReviewProps) => {
   };
 
   const handleClick = (reviewId: number): void => {
-    navigate(`/classreservation/review/${reviewId}`);
+    navigate(`/classes/reviews/${reviewId}`);
   };
 
   return (
     <Container>
-      <ReviewWrapper
-        key={review.reviewId}
-        onClick={() => handleClick(review.reviewId)}
-      >
+      <ReviewWrapper key={review.reviewId} onClick={() => handleClick(review.reviewId)}>
         <InfoWrapper>
           <Data>
             <TitleandPhoto>
               <Title>{review.title}</Title>
-              {(review.images?.filter((image) => image !== null) || []).length >
-                0 && <ExistPhoto width={16} height={16} />}
+              {(review.images?.filter((image) => image !== null) || []).length > 0 && (
+                <ExistPhoto width={16} height={16} />
+              )}
             </TitleandPhoto>
 
             <RatingAndDate>

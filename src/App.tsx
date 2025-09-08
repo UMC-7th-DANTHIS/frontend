@@ -55,7 +55,7 @@ function App(): React.JSX.Element {
           <Route path="/signup4" element={<SignupPage4 />} />
 
           <Route
-            path="/dancerregister"
+            path="/new/dancer"
             element={
               <ProtectedRoute>
                 <DancerRegistrationPage />
@@ -63,17 +63,17 @@ function App(): React.JSX.Element {
             }
           />
           <Route
-            path="/classregister"
+            path="/new/class"
             element={
               <ProtectedRoute>
                 <ClassRegistrationPage />
               </ProtectedRoute>
             }
           />
-          <Route path="/classregister/:classId" element={<ClassRegisterEditPage />} />
-          <Route path="/classreservation" element={<ClassesPage />} />
-          <Route path="/classreservation/:classId" element={<ReservationPage />} />
-          <Route path="/classreservation/review/:reviewId" element={<ReviewDetailPage />} />
+          <Route path="/new/class/:classId" element={<ClassRegisterEditPage />} />
+          <Route path="/classes" element={<ClassesPage />} />
+          <Route path="/classes/:classId" element={<ReservationPage />} />
+          <Route path="/classes/reviews/:reviewId" element={<ReviewDetailPage />} />
           <Route path="/dancerprofile" element={<ProfileList />} />
           <Route path="/dancerprofile/:dancerId" element={<DancerProfile />} />
           <Route path="/review/:id" element={<ReviewDetail />} />

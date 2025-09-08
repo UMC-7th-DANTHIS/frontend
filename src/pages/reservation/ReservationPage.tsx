@@ -25,7 +25,7 @@ export default function ReservationPage() {
   );
 
   const handleTabChange = (index: number) => {
-    navigate(`/classreservation/${classId}?tab=${tab[index].query}`);
+    navigate(`/classes/${classId}?tab=${tab[index].query}`);
   };
 
   // currentTab 변경: 돌아오기 버튼으로 돌아오는 상황을 위해 setCurrentTab을 여기서 핸들링
@@ -33,8 +33,8 @@ export default function ReservationPage() {
     const curTabIndex = tab.findIndex((t) => t.query === urlTabQuery);
     setCurrentTab(curTabIndex);
 
-    if (!urlTabQuery) navigate(`/classreservation/${classId}?tab=detail`);
-    else navigate(`/classreservation/${classId}?tab=${urlTabQuery}`);
+    if (!urlTabQuery) navigate(`/classes/${classId}?tab=detail`);
+    else navigate(`/classes/${classId}?tab=${urlTabQuery}`);
   }, [classId, urlTabQuery, navigate, tab]);
 
   return (

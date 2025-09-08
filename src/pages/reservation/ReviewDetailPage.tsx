@@ -32,7 +32,7 @@ export default function ReviewDetailPage() {
 
   const handleBackClick = () => {
     if (fromReviewTab) {
-      navigate(`/classreservation/${classId}?tab=reviews`, {
+      navigate(`/classes/${classId}?tab=reviews`, {
         state: { fromReviewDetail: true, page } // 페이지네이션 정보 재전달
       });
     }

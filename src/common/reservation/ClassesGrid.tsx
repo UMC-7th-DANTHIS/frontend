@@ -25,7 +25,7 @@ export const ClassesGrid = ({ selectedGenre }: ClassesGridProps) => {
     <GridContainer>
       <Classes>
         {classes.danceClasses?.map((cls) => (
-          <Class to={`/classreservation/${cls.id}`} key={cls.id}>
+          <Class to={`/classes/${cls.id}`} key={cls.id}>
             <Image src={cls.thumbnailImage} />
             <TextContainer>
               <Title>{cls.className}</Title>
