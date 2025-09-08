@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 //import { ReactComponent as Line } from '../../../assets/shape/line.svg';
@@ -6,6 +6,7 @@ import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircl
 import Pagination from '../../components/Pagination';
 import api from '../../api/api';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import axiosInstance from '../../api/axios-instance';
 
 type DancerType = {
   id: number;
@@ -46,7 +47,7 @@ const ClassBoard: React.FC = () => {
       setIsFetching(true); // 로딩 시작
       try {
         const genreId = selectedGenre;
-        const response = await api.get(
+        const response = await axiosInstance.get(
           `/dancers/genres/${genreId}?page=${currentPage}`
         );
         if (response.data.code === 200) {
@@ -68,7 +69,7 @@ const ClassBoard: React.FC = () => {
     fetchData();
   }, [selectedGenre, currentPage]);
 
-// const BASE_URL = process.env.REACT_APP_API_BASE_URL!;
+// const BASE = process.env.REACT_APP_API_BASE_URL!;
 
 // useEffect(() => {
 //   const controller = new AbortController();
@@ -76,7 +77,7 @@ const ClassBoard: React.FC = () => {
 //     setIsFetching(true);
 //     try {
 //       const res = await fetch(
-//         `${BASE_URL}/dancers/genres/${selectedGenre}?page=${currentPage}`,
+//         `${BASE}/dancers/genres/${selectedGenre}?page=${currentPage}`,
 //         { method: 'GET', credentials: 'omit', signal: controller.signal } // ✅ 완전 공개 요청
 //       );
 //       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -92,36 +93,6 @@ const ClassBoard: React.FC = () => {
 //       setIsFetching(false);
 //     }
 //   };
-//   load();
-//   return () => controller.abort();
-// }, [selectedGenre, currentPage]);
-
-// const baseUrlRef = useRef(process.env.REACT_APP_API_BASE_URL!);
-
-// useEffect(() => {
-//   const controller = new AbortController();
-
-//   const load = async () => {
-//     setIsFetching(true);
-//     try {
-//       const res = await fetch(
-//         `${baseUrlRef.current}/dancers/genres/${selectedGenre}?page=${currentPage}`,
-//         { method: 'GET', credentials: 'omit', signal: controller.signal }
-//       );
-//       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-//       const json = await res.json();
-//       if (json.code === 200) {
-//         setData(json.data.dancers);
-//         setTotalElements(json.data.totalElements);
-//         setTotalPages(json.data.totalPages);
-//       }
-//     } catch (e) {
-//       if ((e as any).name !== 'AbortError') console.error(e);
-//     } finally {
-//       setIsFetching(false);
-//     }
-//   };
-
 //   load();
 //   return () => controller.abort();
 // }, [selectedGenre, currentPage]);
@@ -197,9 +168,7 @@ const ClassBoard: React.FC = () => {
 
 export default ClassBoard;
 
- const LoadingContainer = styled.div`
-   width: 880px;
- `;
+
 // const PaginationContainer = styled.div`
 //   margin-top: 20px;
 //   display: flex;
@@ -312,3 +281,7 @@ const Dancer = styled.div`
   letter-spacing: -1.2px;
   margin-top: 9px;
 `;
+
+ const LoadingContainer = styled.div`
+   width: 880px;
+ `;
