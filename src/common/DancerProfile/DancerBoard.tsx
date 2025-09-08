@@ -7,6 +7,7 @@ import Pagination from '../../components/Pagination';
 import api from '../../api/api';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import axiosInstance from '../../api/axios-instance';
+import GenreMobile from './GenreMobile';
 
 type DancerType = {
   id: number;
@@ -72,34 +73,6 @@ const ClassBoard: React.FC = () => {
     fetchData();
   }, [selectedGenre, currentPage]);
 
-// const BASE = process.env.REACT_APP_API_BASE_URL!;
-
-// useEffect(() => {
-//   const controller = new AbortController();
-//   const load = async () => {
-//     setIsFetching(true);
-//     try {
-//       const res = await fetch(
-//         `${BASE}/dancers/genres/${selectedGenre}?page=${currentPage}`,
-//         { method: 'GET', credentials: 'omit', signal: controller.signal } // ✅ 완전 공개 요청
-//       );
-//       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-//       const json = await res.json();
-//       if (json.code === 200) {
-//         setData(json.data.dancers);
-//         setTotalElements(json.data.totalElements);
-//         setTotalPages(json.data.totalPages);
-//       }
-//     } catch (e) {
-//       if ((e as any).name !== 'AbortError') console.error(e);
-//     } finally {
-//       setIsFetching(false);
-//     }
-//   };
-//   load();
-//   return () => controller.abort();
-// }, [selectedGenre, currentPage]);
-
 
   // 장르 선택 핸들러
   const handleGenreClick = (genre: number) => {
@@ -114,20 +87,10 @@ const ClassBoard: React.FC = () => {
   //   }
   // };
 
-  // 현재 페이지에 보여질 요소 계산
-  // const getCurrentPageData = () => {
-  //   const startIndex = (currentPage - 1) * perData;
-  //   const endIndex = startIndex + perData;
-
-  //   return data.slice(startIndex, endIndex);
-  // };
-
-  // const handleDancerClick = (dancerId: number) => {
-  //   navigate(`/dancerprofile/${dancerId}`);
-  // };
 
   return (
     <Container>
+      <SidebarContainer>
       <Sidebar>
         {genres.map((genre) => (
           <GenreWrapper
@@ -139,6 +102,8 @@ const ClassBoard: React.FC = () => {
           </GenreWrapper>
         ))}
       </Sidebar>
+      {/* <GenreMobile /> */}
+      </SidebarContainer>
       <Line />
       {isFetching ? (
         <LoadingContainer>
@@ -155,14 +120,14 @@ const ClassBoard: React.FC = () => {
               </Class>
             ))}
           </Classes>
-          {/* <PaginationContainer> */}
+          <PaginationContainer> 
           <Pagination
             dataLength={totalElements}
             perData={perData}
             currentPage={currentPage}
            setCurrentPage={setCurrentPage}
           />
-          {/* </PaginationContainer> */}
+          </PaginationContainer> 
         </BoardContainer>
       )}
     </Container>
@@ -172,26 +137,27 @@ const ClassBoard: React.FC = () => {
 export default ClassBoard;
 
 
-// const PaginationContainer = styled.div`
-//   margin-top: 20px;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   margin-left: 200px;
-// `;
-
 const Container = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   background-color: black;
   justify-content: center;
+  ${({ theme }) => theme.media.tablet} {
+    flex-direction: row;
+  }
 `;
 const Sidebar = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 900px;
-  margin-top: 14px;
+   display: none;
+   ${({ theme }) => theme.media.tablet} {
+    display: flex;
+    flex-direction: column;
+    height: 900px;
+    margin-top: 14px;
+  }
 `;
+const SidebarContainer = styled.div`
+`
+
 const Line = styled.div`
   width: 0px;
   height: 770px;
@@ -232,12 +198,22 @@ const Genre = styled.div<{ $isActive: boolean }>`
   // }
 `;
 
+const PaginationContainer = styled.div`
+  margin-top: 100px;
+  /* display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 200px; */
+`;
+
 
 const BoardContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 40px 0 140px 40px;
+  margin-top: 40px;
+  margin-left: 100px;
+  width: 740px;
 `;
 const Classes = styled.div`
   display: grid;
@@ -245,6 +221,7 @@ const Classes = styled.div`
   //grid-template-rows: repeat(2, 330px);
   width: 740px;
   height: 553px;
+  gap: 100px;
 `;
 const Class = styled(Link)`
   display: flex;
@@ -252,8 +229,9 @@ const Class = styled(Link)`
   justify-content: center;
   align-items: center;
   text-decoration-line: none;
-  margin-bottom: 54px;
-
+  /* margin-bottom: ; */
+  width: 180px;
+  height: 180px;
   &:hover {
     cursor: pointer;
   }
@@ -282,13 +260,16 @@ const Image = styled.img`
 // `;
 const Dancer = styled.div`
   color: #fff;
-  font-family: Pretendard;
-  font-size: 24px;
+  margin-top: 15px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  letter-spacing: -1.2px;
-  margin-top: 9px;
+  letter-spacing: -0.9px;
+    ${({ theme }) => theme.media.tablet} {
+     font-size: 22px;
+     letter-spacing: -1.1px;
+  }
 `;
 
  const LoadingContainer = styled.div`

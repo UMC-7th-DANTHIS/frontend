@@ -8,7 +8,7 @@ import useConfirmLeave from '../../../../hooks/useConfirmLeave';
 import SingleBtnAlert from '../../../../components/SingleBtnAlert';
 
 import { FormState } from '@/types/mypage/EditProfileType';
-import { ImagesUploader } from '@/common/registration';
+import { ImagesUploader } from '../../../../common/registration';
 
 const ProfileDancer = () => {
   const [formState, setFormState] = useState<FormState>({
