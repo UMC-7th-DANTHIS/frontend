@@ -12,28 +12,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import api from '../../../../api/api';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
-
-// interface DetailProps {
-//   classId: string;
-// }
-
-interface RegisterDetailProps {
-  className: string;
-  dancer?: {
-    profileImage: string;
-  };
-}
-
-interface BookingUser {
-  userId: number;
-  profileImage: string;
-  nickname: string;
-}
-
-interface BookingUserResponse {
-  users: BookingUser[];
-  totalElements: number;
-}
+import {
+  BookingUserResponse,
+  RegisterDetailProps
+} from '@/types/mypage/RegisterType';
 
 const MyRegisterDetail = () => {
   const [isHovered, setIsHovered] = useState(false);

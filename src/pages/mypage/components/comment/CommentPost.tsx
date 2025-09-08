@@ -6,19 +6,7 @@ import { ReactComponent as ExistPhoto } from '../../../../assets/photo.svg';
 import { useQuery } from '@tanstack/react-query';
 import api from '../../../../api/api';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
-
-interface Post {
-  postId: number;
-  title: string;
-  content: string;
-  createdAt: string;
-  images?: string[];
-}
-
-interface FetchUserPostsResponse {
-  posts: Post[];
-  totalElements: number;
-}
+import { FetchUserPostsResponse, Post } from '@/types/mypage/CommentPostType';
 
 const fetchUserPosts = async (
   currentPage: number,
