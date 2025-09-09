@@ -14,7 +14,7 @@ export const MENU = [
   { path: '/dancerprofile', label: '댄서 프로필', isBeta: false },
   { path: '/community', label: '커뮤니티', isBeta: false },
   { path: '#', label: '내 주변 연습실', isBeta: false },
-  { path: '#', label: '배틀 & 이벤트', isBeta: true }
+  { path: '/battle', label: '배틀 & 이벤트', isBeta: true }
 ] as const;
 
 export type MenuItem = (typeof MENU)[number];
