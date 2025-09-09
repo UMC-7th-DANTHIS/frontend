@@ -3,19 +3,7 @@ import { ReactComponent as StarFilled } from '../../../../assets/shape/filledYel
 import { ReactComponent as StarNonfilled } from '../../../../assets/shape/nonfilledYellowStar.svg';
 import { ReactComponent as ExistPhoto } from '../../../../assets/photo.svg';
 import { useNavigate } from 'react-router-dom';
-
-interface Review {
-  reviewId: number;
-  title: string;
-  images?: string[];
-  rating: number;
-  createdAt: string;
-  content: string;
-}
-
-interface CommentsReviewProps {
-  review: Review;
-}
+import { CommentsReviewProps } from '@/types/mypage/CommentPostType';
 
 const CommentsReview = ({ review }: CommentsReviewProps) => {
   const totalStars = 5;

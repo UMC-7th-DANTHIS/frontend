@@ -6,17 +6,9 @@ import NoUser from './NoUser';
 import ConfirmLeaveAlert from '../../../../components/ConfirmLeaveAlert';
 import useConfirmLeave from '../../../../hooks/useConfirmLeave';
 import SingleBtnAlert from '../../../../components/SingleBtnAlert';
-import { ImagesUploader } from '../../../../common/registration';
 
-interface FormState {
-  name: string;
-  instagram: string;
-  chatting: string;
-  introduce: string;
-  genre: number[];
-  record: string;
-  dancerImages: (string | File)[];
-}
+import { FormState } from '@/types/mypage/EditProfileType';
+import { ImagesUploader } from '../../../../common/registration';
 
 const ProfileDancer = () => {
   const [formState, setFormState] = useState<FormState>({
