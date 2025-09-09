@@ -27,8 +27,7 @@ export default function ClassRegistrationPage() {
 
 const Container = styled.div`
   display: flex;
-  background-color: black;
-  justify-content: center;
+  justify-items: center;
 `;
 const Registration = styled.div`
   width: 1440px;

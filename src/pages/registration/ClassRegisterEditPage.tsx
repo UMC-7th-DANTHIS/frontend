@@ -193,7 +193,7 @@ export default function ClassRegisterEditPage() {
 }
 
 const FormContainer = styled.form`
-  justify-items: center;
+  justify-content: center;
   padding-bottom: 143px;
 `;
 const InputContainer = styled.div`
@@ -202,7 +202,7 @@ const InputContainer = styled.div`
   padding-top: 58px;
   padding-bottom: 80px;
   margin-bottom: 43px;
-  justify-items: center;
+  justify-content: center;
   border-radius: 25px;
   border: 2px solid var(--main_purple, #9819c3);
 `;

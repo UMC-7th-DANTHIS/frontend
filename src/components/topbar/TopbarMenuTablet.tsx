@@ -49,7 +49,7 @@ const MenuWrapper = styled.div`
 const MenuLabel = styled(Link)`
   color: var(--text-secondary-gray);
   text-align: center;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 500;
   letter-spacing: -1.2px;
   text-decoration: none;
@@ -59,7 +59,14 @@ const MenuLabel = styled(Link)`
   &.active {
     color: white;
     font-weight: bold;
-    font-size: 30px;
+    font-size: 24px;
+  }
+
+  ${({ theme }) => theme.media.desktop} {
+    font-size: 24px;
+    &.active {
+      font-size: 30px;
+    }
   }
 `;
 const BetaLabel = styled.img`

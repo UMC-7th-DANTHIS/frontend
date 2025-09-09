@@ -59,7 +59,7 @@ const MenuContainer = styled.div`
 
   &.visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
     pointer-events: auto;
   }
 `;

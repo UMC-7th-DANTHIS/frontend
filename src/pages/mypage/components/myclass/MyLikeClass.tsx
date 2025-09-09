@@ -26,9 +26,7 @@ const MyLikeClass = () => {
     }
   });
 
-  const filteredList = data
-    ? data.slice(perData * (currentPage - 1), perData * currentPage)
-    : [];
+  const filteredList = data ? data.slice(perData * (currentPage - 1), perData * currentPage) : [];
 
   if (isLoading) {
     return <LoadingSpinner isLoading={isLoading} />;
@@ -38,14 +36,12 @@ const MyLikeClass = () => {
     return <div>Error: {(error as Error)?.message}</div>;
   }
 
-  const handleImageError = (
-    e: React.SyntheticEvent<HTMLImageElement, Event>
-  ) => {
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     e.currentTarget.src = sampleImage;
   };
 
   const handleClick = (classId: number) => {
-    navigate(`/classreservation/${classId}?tab=detail`);
+    navigate(`/classes/${classId}?tab=detail`);
   };
 
   return (

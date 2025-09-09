@@ -23,9 +23,7 @@ const MyRegisterClass = () => {
   const perData = 9;
   const queryClient = useQueryClient();
 
-  const { data, isLoading, isError, error } = useQuery<
-    RegisterClassProps[] | null
-  >({
+  const { data, isLoading, isError, error } = useQuery<RegisterClassProps[] | null>({
     queryKey: ['userregister'],
     queryFn: async () => {
       try {
@@ -57,17 +55,13 @@ const MyRegisterClass = () => {
   if (data?.length === 0) return <NoRegister />;
   if (isError) return <div>Error: {(error as Error)?.message}</div>;
 
-  const handleImageError = (
-    e: React.SyntheticEvent<HTMLImageElement, Event>
-  ) => {
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     e.currentTarget.src = sampleImage;
   };
 
   const getCurrentPageData = (): RegisterClassProps[] => {
     const startIndex = (currentPage - 1) * perData;
-    return Array.isArray(data)
-      ? data.slice(startIndex, startIndex + perData)
-      : [];
+    return Array.isArray(data) ? data.slice(startIndex, startIndex + perData) : [];
   };
 
   const handleImageClick = (classId: number) => {
@@ -75,7 +69,7 @@ const MyRegisterClass = () => {
   };
 
   const handlegoEdit = (classId: number) => {
-    navigate(`/classregister/${classId}`);
+    navigate(`/new/class/${classId}`);
   };
 
   const handleShowAlert = (id: number) => {

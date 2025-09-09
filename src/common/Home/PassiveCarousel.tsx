@@ -30,7 +30,7 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
       <SlideWrapper currentIndex={currentIndex}>
         {danceclass?.danceClasses?.map((item, index) => (
           <HotImage
-            onClick={() => navigate(`/classreservation/${item.id}?tab=detail`)}
+            onClick={() => navigate(`/classes/${item.id}?tab=detail`)}
             src={item.thumbnailImage}
             alt={'Image'}
             visible={index >= currentIndex && index < currentIndex + 3}
