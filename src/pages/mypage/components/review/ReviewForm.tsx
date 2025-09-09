@@ -2,23 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import PhotoUpload from './PhotoUpload';
 import { ReactComponent as RemoveIcon } from '../../../../assets/buttons/remove.svg';
-
-interface ReviewFormProps {
-  title: string;
-  review: string;
-  handleTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleReview: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  selectedImages: string[];
-  setSelectedImages: React.Dispatch<React.SetStateAction<string[]>>;
-}
-
-interface ReviewBoxProps {
-  imageCount: number;
-}
-
-interface TextareaProps {
-  hasImage: boolean;
-}
+import {
+  ReviewBoxProps,
+  ReviewFormProps,
+  TextareaProps
+} from '@/types/mypage/ReviewType';
 
 const ReviewForm: React.FC<ReviewFormProps> = ({
   title,

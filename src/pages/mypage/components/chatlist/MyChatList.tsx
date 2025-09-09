@@ -5,17 +5,7 @@ import Pagination from '../../../../components/Pagination';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
 import api from '../../../../api/api';
-
-interface Chat {
-  dancerId: number;
-  dancerName: string;
-  profileImage?: string;
-}
-
-interface FetchUserChatResponse {
-  chats: Chat[];
-  totalDancers: number;
-}
+import { FetchUserChatResponse } from '@/types/mypage/ChatListType';
 
 const fetchUserChat = async (
   currentPage: number,

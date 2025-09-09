@@ -17,7 +17,7 @@ const DancerProfile = () => {
     // API 호출
     const fetchDancerData = async () => {
       try {
-        const response = await api.get(`/dancers/${dancerId}`);
+        const response = await api.get(`/dancers/info/${dancerId}`);
         if (response.data.code === 200) {
           setDancerData(response.data.data);
           console.log(response.data.data);
