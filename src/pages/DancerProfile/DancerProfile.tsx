@@ -5,6 +5,8 @@ import Profile from '../../common/DancerProfile/Profile';
 import IntroduceTab from '../../common/DancerProfile/IntroduceTab';
 import ClassTab from '../../common/DancerProfile/ClassTab';
 import api from '../../api/api';
+import axiosInstance from '../../api/axios-instance';
+
 import { DancerType, DanceClassType } from '@/types/DancerProfile/useDancer';
 
 const DancerProfile = () => {
@@ -17,7 +19,7 @@ const DancerProfile = () => {
     // API 호출
     const fetchDancerData = async () => {
       try {
-        const response = await api.get(`/dancers/info/${dancerId}`);
+        const response = await axiosInstance.get(`/dancers/info/${dancerId}`);
         if (response.data.code === 200) {
           setDancerData(response.data.data);
           console.log(response.data.data);
