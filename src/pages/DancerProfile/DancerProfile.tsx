@@ -53,9 +53,14 @@ const DancerProfile = () => {
       </TabContainer>
       <ContentContainer>
         {activeTab === '소개' && <IntroduceTab dancer={dancerData} />}
-        {activeTab === '등록된 수업' && dancerData?.classes && (
+        {/* {activeTab === '등록된 수업' && dancerData?.classes && (
           <ClassTab classes={dancerData.classes} />
+        )} */}
+
+        {activeTab === '등록된 수업' && dancerId && (
+        <ClassTab dancerId={dancerId} />
         )}
+
       </ContentContainer>
     </Layout>
   );
@@ -70,14 +75,14 @@ const Layout = styled.div`
 `;
 
 const TabContainer = styled.div`
-  width: 1240px;
-  height: 86.005px;
+  width: 1028px;
+  height: 50px;
   flex-shrink: 0;
   background: #9819c3;
   border-radius: 20px 20px 0px 0px;
   display: flex;
   align-items: center;
-  margin-left: 100px;
+  margin-left: 205px;
   justify-content: center;
   margin-right: 100px;
 `;
@@ -86,13 +91,13 @@ const Tab = styled.div<{active: boolean}>`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 620px;
-  height: 86.005px;
+  width: 523px;
+  height: 50px;
   flex-shrink: 0;
   color: var(--main_white, #fff);
   text-align: center;
   font-family: Pretendard;
-  font-size: 24px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 600;
   line-height: 50px; /* 208.333% */
@@ -107,5 +112,6 @@ const Tab = styled.div<{active: boolean}>`
   background-color: ${(props) => (props.active ? 'black' : '#9819C3')};
   transition: all 0.3s;
 `;
+
 
 const ContentContainer = styled.div``;

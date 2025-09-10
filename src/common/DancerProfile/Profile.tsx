@@ -171,12 +171,12 @@ const NameContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-left: 119px;
+  margin-left: 205px;
 `;
 const ProfileContainer = styled.div`
   display: flex;
   flex-direction: row;
-  margin-left: 153px;
+  margin-left: 205px;
   margin-top: 39.84px;
   margin-bottom: 100px;
 `;
@@ -190,7 +190,7 @@ const Circle = styled.img`
 const Name = styled.div`
   color: var(--main_white, #fff);
   font-family: Pretendard;
-  font-size: 30px;
+  font-size: 24px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -216,7 +216,7 @@ const InfoContainer = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  margin-left: 67px;
+  margin-left: 31px;
   margin-right: 150px;
   display: flex;
   flex-direction: column;

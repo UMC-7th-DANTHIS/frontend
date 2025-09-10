@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import Pagination from '../../components/Pagination';
 import { useParams } from 'react-router-dom';
 import api from '../../api/api';
+import axiosInstance from '../../api/axios-instance';
+
 
 type DanceClassType = {
   id: number;
@@ -14,9 +16,11 @@ interface ClassTabProps {
   classes: DanceClassType[];
 }
 
-const ClassTab: React.FC<ClassTabProps> = ({ classes: initialClasses }) => {
-  const { dancerId } = useParams<{ dancerId: string }>();
-  const [classes, setClasses] = useState<DanceClassType[]>(initialClasses); // 수업 데이터
+type Props = { dancerId: string };
+
+const ClassTab: React.FC<Props> = ({ dancerId }) => {
+  // const { dancerId } = useParams<{ dancerId: string }>();
+  const [classes, setClasses] = useState<DanceClassType[]>([]); // 수업 데이터
   const [currentPage, setCurrentPage] = useState<number>(1); // 현재 페이지
   const [, setTotalPages] = useState<number>(1); // 전체 페이지 수
   const [totalElements, setTotalElements] = useState<number>(0); // 전체 요소 개수 상태 추가
@@ -26,7 +30,7 @@ const ClassTab: React.FC<ClassTabProps> = ({ classes: initialClasses }) => {
   useEffect(() => {
     const fetchClasses = async () => {
       try {
-        const response = await api.get(`/dancers/dance-classes`, {
+        const response = await axiosInstance.get(`/dancers/dance-classes`, {
           params: {
             dancerId: dancerId, // 특정 댄서의 수업 조회
             page: currentPage,
@@ -83,6 +87,7 @@ const Layout = styled.div`
   justify-content: center;
   padding-bottom: 442px;
   flex-direction: column;
+  height: 640px;
 `;
 
 const ClassContainer = styled.div<{ hasClasses: boolean }>`
@@ -98,8 +103,8 @@ const ClassContainer = styled.div<{ hasClasses: boolean }>`
 `;
 const Class = styled.div`
   margin-bottom: 24px;
-  width: 300px;
-  height: 300px;
+  width: 295px;
+  height: 295px;
   border-radius: 10px;
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
 `;
@@ -123,4 +128,5 @@ const NoClassMessage = styled.div`
   font-size: 20px;
   width: 100%;
   height: 100%;
+  margin-bottom: 200px;
 `;
