@@ -30,7 +30,7 @@ const ClassTab: React.FC<Props> = ({ dancerId }) => {
   useEffect(() => {
     const fetchClasses = async () => {
       try {
-        const response = await axiosInstance.get(`/dancers/dance-classes`, {
+        const response = await axiosInstance.get(`/dancers/info/dance-classes`, {
           params: {
             dancerId: dancerId, // 특정 댄서의 수업 조회
             page: currentPage,
@@ -83,19 +83,23 @@ export default ClassTab;
 
 const Layout = styled.div`
   display: flex;
-  margin-top: 100px;
-  justify-content: center;
+  //margin-top: 100px;
+  //justify-content: center;
   padding-bottom: 442px;
   flex-direction: column;
-  height: 640px;
+  padding-left: 237px;
+  padding-right: 237px;
+  padding-top: 47px;
 `;
 
 const ClassContainer = styled.div<{ hasClasses: boolean }>`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 56px;
-  margin-left: 216px;
-  margin-right: 210px;
+  gap: 55px;
+  //margin-left: 216px;
+  //margin-right: 210px;
+  //margin-top: 50px;
+
   display: ${({ hasClasses }) =>
     hasClasses ? 'grid' : 'flex'}; // 수업이 없을 때 flex로 변경
   grid-template-columns: ${({ hasClasses }) =>
@@ -111,6 +115,7 @@ const Class = styled.div`
 const ClassImg = styled.img`
   width: 100%;
   height: 100%;
+  border-radius: 10px;
   flex-shrink: 0;
 `;
 const PaginationContainer = styled.div`

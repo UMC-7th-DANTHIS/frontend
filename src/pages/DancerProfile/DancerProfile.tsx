@@ -72,6 +72,7 @@ const Layout = styled.div`
   background: black;
   display: flex;
   flex-direction: column;
+  width: 1440px;
 `;
 
 const TabContainer = styled.div`
@@ -114,4 +115,5 @@ const Tab = styled.div<{active: boolean}>`
 `;
 
 
-const ContentContainer = styled.div``;
+const ContentContainer = styled.div`
+  display: flex;`;
