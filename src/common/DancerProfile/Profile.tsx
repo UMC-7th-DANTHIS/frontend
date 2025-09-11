@@ -27,7 +27,7 @@ type GenreType = {
 const Profile: React.FC<ProfileProps> = ({ dancer }) => {
   const [isLiked, setIsLiked] = useState<boolean | null>(null);
   // const { dancerId } = useParams<{ dancerId: string }>();
-  const isLoggedIn = !!localStorage.getItem('accessToken'); // 로그인 상태 확인
+  const isLoggedIn = !!localStorage.getItem('token'); // 로그인 상태 확인
 
   const genres: GenreType[] = [
     { id: 1, name: '힙합' },
@@ -144,16 +144,18 @@ const Profile: React.FC<ProfileProps> = ({ dancer }) => {
           <Content>{formatIntroduce(dancer.bio)}</Content>
         </InfoContainer>
         <ButtonContainer>
-          {isLoggedIn && (
-            <>
+             {isLoggedIn ? (
+             <>
               <ChatButton onClick={handleChatClick}>
                 댄서와 1:1 채팅하기
               </ChatButton>
               <LikeButton isLiked={isLiked} onClick={handleLikeClick}>
                 {isLiked ? '찜 취소하기' : '댄서 찜해놓기'}
               </LikeButton>
-            </>
-          )}
+              </>  
+             ) : (
+              <span>로그인 후 이용 가능합니다</span>
+             )} 
         </ButtonContainer>
       </ProfileContainer>
     </Layout>
@@ -251,7 +253,8 @@ const Content = styled.div`
 
 const ChatButton = styled.button`
   display: flex;
-  width: 420px;
+  width: 360px;
+  height: 60px;
   padding: 10px 43px;
   justify-content: center;
   align-items: center;
@@ -264,7 +267,7 @@ const ChatButton = styled.button`
   color: #fff;
   text-align: center;
   font-family: Pretendard;
-  font-size: 24px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 600;
   line-height: 50px; /* 208.333% */
@@ -274,7 +277,8 @@ const ChatButton = styled.button`
 
 const LikeButton = styled.button<{ isLiked: boolean | null }>`
   display: flex;
-  width: 420px;
+  width: 360px;
+  height: 60px;
   padding: 10px 87px;
   justify-content: center;
   align-items: center;
@@ -284,7 +288,7 @@ const LikeButton = styled.button<{ isLiked: boolean | null }>`
   color: var(--main_white, #fff);
   text-align: center;
   font-family: Pretendard;
-  font-size: 24px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 600;
   line-height: 50px; /* 208.333% */
