@@ -29,12 +29,21 @@ const ForDancer = ({ dancer }: ForDancerProps) => {
 
 const DancerContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  gap: 20px;
   width: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const DancerContent = styled.div`
+  flex: 0 0 auto;
   text-align: center;
+  scroll-snap-align: start;
 `;
 
 const DancerImage = styled.img`

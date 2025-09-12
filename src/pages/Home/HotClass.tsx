@@ -27,6 +27,9 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
 
+  min-width: max-content;
+  max-width: 1030px;
+
   ${({ theme }) => theme.media.tablet} {
     justify-content: start;
     align-items: start;
