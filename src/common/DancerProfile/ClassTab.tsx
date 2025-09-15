@@ -90,41 +90,53 @@ const Layout = styled.div`
   display: flex;
   //margin-top: 100px;
   //justify-content: center;
-  padding-bottom: 442px;
+  padding-bottom: 251px;
   flex-direction: column;
-  padding-left: 237px;
-  padding-right: 237px;
-  padding-top: 47px;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-top: 27px;
+  ${({ theme }) => theme.media.tablet} {
+    padding-top: 47px;
+    padding-left: 237px;
+    padding-right: 237px;
+  }
 `;
 
 const ClassContainer = styled.div<{ hasClasses: boolean }>`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 55px;
-  //margin-left: 216px;
-  //margin-right: 210px;
-  //margin-top: 50px;
-
+  gap: 10px;
   display: ${({ hasClasses }) =>
     hasClasses ? 'grid' : 'flex'}; // 수업이 없을 때 flex로 변경
   grid-template-columns: ${({ hasClasses }) =>
     hasClasses ? 'repeat(3, 1fr)' : 'none'};
+  {({ theme }) => theme.media.tablet} {
+    gap: 55px;
+  }
 `;
 const Class = styled.div`
   margin-bottom: 24px;
-  width: 295px;
-  height: 295px;
-  border-radius: 10px;
+  width: 100px;
+  height: 100px;
+  border-radius: 3.39px;
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+  ${({ theme }) => theme.media.tablet} {
+    width: 295px;
+    height: 295px;
+    border-radius: 10px;
+  }
 `;
 const ClassImg = styled.img`
   width: 100%;
   height: 100%;
-  border-radius: 10px;
+  border-radius: 3.39px;
   flex-shrink: 0;
+  ${({ theme }) => theme.media.tablet} {
+    border-radius: 10px;
+  }
 `;
 const PaginationContainer = styled.div`
-  margin-top: 30px;
+  margin-top: 40px;
   display: flex;
   justify-content: center;
 `;

@@ -132,6 +132,7 @@ const Profile: React.FC<ProfileProps> = ({ dancer }) => {
         <Name>{dancer.dancerName}</Name>
       </NameContainer>
       <ProfileContainer>
+        <MobileContainer>
         <Dancerimg src={dancer.dancerImages?.[0]} />
         <InfoContainer>
           <Title>Instagram</Title>
@@ -148,6 +149,7 @@ const Profile: React.FC<ProfileProps> = ({ dancer }) => {
           <Title>한 마디 소개글</Title>
           <Content>{formatIntroduce(dancer.bio)}</Content>
         </InfoContainer>
+        </MobileContainer>
         <ButtonContainer>
              {isLoggedIn ? (
              <>
@@ -172,54 +174,78 @@ export default Profile;
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 32px;
+  ${({ theme }) => theme.media.tablet} {
+    padding-top: 32px;
+  }
 `;
 const NameContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-left: 205px;
 `;
 const ProfileContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  margin-left: 205px;
-  margin-top: 39.84px;
-  margin-bottom: 100px;
+  flex-direction: column;
+  margin-top: 26px;
+  margin-bottom: 35px;
+  align-items: center;
+  ${({ theme }) => theme.media.tablet} {
+    flex-direction: row;
+     margin-top: 39.84px;
+     margin-bottom: 100px;
+  }
 `;
 
+const MobileContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`
 const Circle = styled.img`
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
   flex-shrink: 0;
+  ${({ theme }) => theme.media.tablet} {
+    width: 24px;
+    height: 24px;
+  }
 `;
 
 const Name = styled.div`
   color: var(--main_white, #fff);
-  font-family: Pretendard;
-  font-size: 24px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  letter-spacing: -1.5px;
+  letter-spacing: -0.9px;
   margin-left: 10.84px;
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 24px;
+    letter-spacing: -0.9px;
+  }
 `;
 
 const Dancerimg = styled.img`
-  width: 250px;
-  height: 250px;
+  width: 180px;
+  height: 180px;
   flex-shrink: 0;
-  border-radius: 10px;
-  //background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+  border-radius: 6px;
+  ${({ theme }) => theme.media.tablet} {
+    width: 250px;
+    height: 250px;
+    border-radius: 10px;
+  }
 `;
 
 const InfoContainer = styled.div`
-  margin-left: 46px;
-  //margin-top : 3px;
+  margin-left: 17px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 351px;
+  width: 144px;
+  ${({ theme }) => theme.media.tablet} {
+    margin-left: 46px;
+    width: 351px;
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -234,25 +260,34 @@ const ButtonContainer = styled.div`
 const Title = styled.div`
   color: var(--text_purple, #bf00ff);
   font-family: Pretendard;
-  font-size: 22px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 600;
-  line-height: 30px; /* 136.364% */
-  letter-spacing: -1.1px;
+  line-height: 30px; 
+  letter-spacing: -0.8px;
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 22px;
+    letter-spacing: -1.1px;
+  }
 `;
 const Content = styled.div`
   color: var(--main_white, #fff);
   font-family: Pretendard;
-  font-size: 18px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
-  line-height: 30px;
-  letter-spacing: -0.9px;
-  margin-bottom: 30px;
+  line-height: 150%;
+  letter-spacing: -0.7px;
+  margin-bottom: 15px;
   white-space: pre-wrap; /* 줄바꿈 처리 */
   word-break: break-word; /* 긴 단어 줄바꿈 */
   &:last-child {
     margin-bottom: 0;
+  }
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 18px;
+    letter-spacing: -0.9px;
+    margin-bottom: 30px;
   }
 `;
 
