@@ -110,7 +110,7 @@ const ClassContainer = styled.div<{ hasClasses: boolean }>`
     hasClasses ? 'grid' : 'flex'}; // 수업이 없을 때 flex로 변경
   grid-template-columns: ${({ hasClasses }) =>
     hasClasses ? 'repeat(3, 1fr)' : 'none'};
-  {({ theme }) => theme.media.tablet} {
+  ${({ theme }) => theme.media.tablet} {
     gap: 55px;
   }
 `;
