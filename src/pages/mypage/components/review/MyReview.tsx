@@ -5,18 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import api from '../../../../api/api';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
 import { useQuery } from '@tanstack/react-query';
-
-interface DanceClassProps {
-  id: number;
-  className: string;
-  dancerName: string;
-  thumbnailImage: string;
-}
-
-interface FetchTakeClassResponse {
-  classlist: DanceClassProps[];
-  totalElements: number;
-}
+import {
+  DanceClassProps,
+  FetchTakeClassResponse
+} from '@/types/mypage/ReviewType';
 
 const fetchTakeClass = async (
   currentPage: number,

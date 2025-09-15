@@ -1,11 +1,7 @@
 import React, { ChangeEvent, useRef, useState } from 'react';
 import styled from 'styled-components';
 import api from '../../../../api/api';
-
-interface PhotoUploadProps {
-  setSelectedImage: (images: string[]) => void;
-  disabled: boolean;
-}
+import { PhotoUploadProps } from '@/types/mypage/ReviewType';
 
 const PhotoUpload = ({ setSelectedImage, disabled }: PhotoUploadProps) => {
   const photoInputRef = useRef<HTMLInputElement | null>(null);

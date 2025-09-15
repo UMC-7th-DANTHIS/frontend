@@ -1,14 +1,8 @@
-import React from 'react';
+import {
+  MenuItemProps,
+  MypageSidebarProps
+} from '@/types/mypage/MypageSideBarType';
 import styled from 'styled-components';
-
-interface MypageSidebarProps {
-  selectedMenu: string;
-  onMenuClick: (menuKey: string) => void;
-}
-
-interface MenuItemProps {
-  isActive: boolean;
-}
 
 const MypageSidebar = ({ selectedMenu, onMenuClick }: MypageSidebarProps) => {
   return (

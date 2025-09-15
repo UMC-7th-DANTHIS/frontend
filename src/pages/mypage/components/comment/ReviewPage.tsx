@@ -5,20 +5,7 @@ import CommentsReview from './CommentsReview';
 import { useQuery } from '@tanstack/react-query';
 import api from '../../../../api/api';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
-
-interface Review {
-  reviewId: number;
-  title: string;
-  content: string;
-  createdAt: string;
-  rating: number;
-  images?: string[];
-}
-
-interface FetchReviewsResponse {
-  reviews: Review[];
-  totalElements: number;
-}
+import { FetchReviewsResponse } from '@/types/mypage/CommentPostType';
 
 const fetchUserReviews = async (
   currentPage: number,
