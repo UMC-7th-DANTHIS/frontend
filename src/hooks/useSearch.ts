@@ -13,7 +13,7 @@ type ResponseMap = {
 };
 
 function useSearch<T extends keyof ResponseMap>(
-  select: string,
+  select: T,
   temp: string | null,
   currentPage: number
 ): { data: ResponseMap[T] | null; isLoading: boolean; isError: boolean } {
@@ -32,6 +32,7 @@ function useSearch<T extends keyof ResponseMap>(
         const response = await axiosInstance.get(
           `/search/${select}?query=${temp}&page=${currentPage}`
         );
+
         setData(response.data);
       } catch (error) {
         setIsError(true);

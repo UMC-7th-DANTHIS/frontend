@@ -199,8 +199,12 @@ const PostMeta = styled.div`
 
 const Content = styled.div`
   margin-top: 35px;
-  margin-bottom: 47px;
+  margin-bottom: 40px;
   text-align: justify;
+
+  ${({ theme }) => theme.media.tablet} {
+    margin-bottom: 57px;
+  }
 
   p {
     line-height: 1.5;
@@ -209,21 +213,27 @@ const Content = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
   margin-top: 45px;
-  margin-left: 20px;
 
-  width: 900px;
-  height: 200px;
+  ${({ theme }) => theme.media.tablet} {
+    grid-template-columns: repeat(4, 1fr);
+    justify-content: start;
+    gap: 16px;
+  }
 `;
 
 const Image = styled.img`
-  border-radius: 7px;
-  width: 200px;
-  height: 200px;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 3px;
+
+  ${({ theme }) => theme.media.tablet} {
+    border-radius: 7px;
+  }
 `;
 
 const ReportButton = styled.img`

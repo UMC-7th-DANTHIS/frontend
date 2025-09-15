@@ -15,16 +15,27 @@ const Community = () => {
 };
 
 const Container = styled.div`
-  height: 488px;
   background-color: black;
   justify-items: center;
-  padding: 20px 204px 180px 206px;
+  min-height: 600px;
+  width: 100%;
 `;
 
 const ContentContainer = styled.div`
   background-color: black;
   height: 100%;
-  width: 1030px;
+  width: 100%;
+
+  padding: 0 2rem;
+  min-width: 340px;
+
+  ${({ theme }) => theme.media.tablet} {
+    width: 100dvw;
+    max-width: 1000px;
+    padding: 0 2rem;
+  }
+
+  margin: 0 auto;
 `;
 
 export default Community;

@@ -18,9 +18,14 @@ const Footer = () => {
       </TopContainer>
 
       <BottomContainer>
-        <InstagramBtn href="https://www.instagram.com/danthis_dtm/" target="_blank" rel="noopener noreferrer">
+        <InstagramBtn
+          href="https://www.instagram.com/danthis_dtm/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <img src={Instagram} alt="danthis instagram" />
         </InstagramBtn>
+
         <TermsOfService>
           <p>서비스 이용약관</p>
           <p>개인정보 처리방침</p>

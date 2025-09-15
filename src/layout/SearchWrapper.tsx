@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useParams, useSearchParams, useOutletContext } from 'react-router-dom';
+import {
+  useLocation,
+  useSearchParams,
+  useOutletContext
+} from 'react-router-dom';
 
 import SearchClass from '../common/Search/SearchClass';
 import SearchCommunity from '../common/Search/SearchCommunity';
@@ -8,9 +12,18 @@ import SearchDancer from '../common/Search/SearchDancer';
 import { SearchFilterOutlet } from '@/types/Context/SearchFilter';
 
 const SearchWrapper = () => {
-  const { select } = useParams<string>();
   const [searchParams] = useSearchParams();
+  const { pathname } = useLocation();
+
   const query: string | null = searchParams.get('query');
+
+  const defaultQuery: 'dance-classes' | 'dancers' | 'posts' = pathname.includes(
+    'posts'
+  )
+    ? 'posts'
+    : pathname.includes('dancers')
+      ? 'dancers'
+      : 'dance-classes';
 
   const [danceQuery, setDanceQuery] = useState<string | null>(query);
 
@@ -23,14 +36,16 @@ const SearchWrapper = () => {
     } else setDanceQuery(query);
   }, [selectedFilter, query]);
 
-  if (select === 'dance-classes') {
-    return <SearchClass query={danceQuery} select={select} />;
+  console.log(defaultQuery);
+
+  if (defaultQuery === 'dance-classes') {
+    return <SearchClass query={danceQuery} select={defaultQuery} />;
   }
-  if (select === 'dancers') {
-    return <SearchDancer query={query} select={select} />;
+  if (defaultQuery === 'dancers') {
+    return <SearchDancer query={query} select={defaultQuery} />;
   }
-  if (select === 'posts') {
-    return <SearchCommunity query={query} select={select} />;
+  if (defaultQuery === 'posts') {
+    return <SearchCommunity query={query} select={defaultQuery} />;
   }
 
   return <div>잘못된 경로입니다.</div>;

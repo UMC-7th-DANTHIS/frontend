@@ -18,6 +18,7 @@ export interface PostPreview {
   title: string;
   createdAt: string;
   commentCount: number;
+  hasPhoto: boolean;
 }
 
 export interface PostListData {

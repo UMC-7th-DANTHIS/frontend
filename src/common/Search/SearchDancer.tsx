@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import Pagination from '../../components/Pagination';
 import SearchNothing from './SearchNothing';
@@ -24,32 +24,36 @@ const SearchDancer = ({ query, select }: SearchDancerParams) => {
 
   return (
     <Container>
-      {data!.data.results.length > 0 ? (
+      {data?.data.results && data?.data.results.length > 0 ? (
         <>
           <ClassLists>
             {data?.data.results.map((list) => (
-              <ClassList onClick={() => navigate(`/dancerprofile/${list.id}`)}>
-                <ImgContainer
-                  src={list.profileImage?.[0]}
-                  alt="프로필 이미지"
-                />
-                <TextContainer>
-                  <TextContent>{list.name}</TextContent>
-                  <TextContent>Instagram : {list.instagramId}</TextContent>
-                  <TextContent>
-                    주 장르 :{' '}
-                    {list.mainGenres
-                      .map(
-                        (genreId) =>
-                          DanceGenre.find(
-                            (dance) => dance.id === String(genreId)
-                          )?.Genre
-                      )
-                      .filter(Boolean)
-                      .join(', ')}
-                  </TextContent>
-                </TextContainer>
-              </ClassList>
+              <ClassWrapper>
+                <ClassList
+                  onClick={() => navigate(`/dancerprofile/${list.id}`)}
+                >
+                  <ImgContainer
+                    src={list.profileImage?.[0]}
+                    alt="프로필 이미지"
+                  />
+                  <TextContainer>
+                    <TextHeader>{list.name}</TextHeader>
+                    <TextContent>Instagram : {list.instagramId}</TextContent>
+                    <TextContent>
+                      주 장르 :{' '}
+                      {list.mainGenres
+                        .map(
+                          (genreId) =>
+                            DanceGenre.find(
+                              (dance) => dance.id === String(genreId)
+                            )?.Genre
+                        )
+                        .filter(Boolean)
+                        .join(', ')}
+                    </TextContent>
+                  </TextContainer>
+                </ClassList>
+              </ClassWrapper>
             ))}
           </ClassLists>
           <PaginationContainer>
@@ -68,44 +72,85 @@ const SearchDancer = ({ query, select }: SearchDancerParams) => {
   );
 };
 
-const Container = styled.div``;
+const oneLineEllipsis = css`
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`;
+
+const Container = styled.div`
+  padding-bottom: 120px;
+`;
 
 const ClassLists = styled.div`
+  width: 100%;
+  padding: 0 auto;
+
   border-top: 2px solid #ddd;
+`;
+
+const ClassWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   border-bottom: 2px solid #ddd;
 `;
 
 const ClassList = styled.div`
   display: flex;
-  padding-top: 41px;
-  padding-bottom: 41px;
-  padding-left: 43px;
+  align-items: center;
 
-  border-bottom: 1px solid #ddd;
+  width: 100%;
+  max-width: 970px;
+  padding: 41px 0;
 
-  &:last-child {
-    border-bottom: none;
-  }
+  min-height: 200px;
+  max-height: 250px;
+
+  gap: 24px;
+`;
+
+const TextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  line-height: 30px;
+
+  flex: 1 1 auto;
+  min-width: 0;
+
+  font-style: normal;
+  font-weight: 600;
 `;
 
 const ImgContainer = styled.img`
   border-radius: 10px;
+  width: 120px;
+  height: 120px;
 
-  width: 210px;
-  height: 210px;
+  ${({ theme }) => theme.media.tablet} {
+    width: 160px;
+    height: 160px;
+  }
 `;
 
-const TextContainer = styled.div`
-  flex-direction: column;
-  margin-left: 38px;
-  margin-top: 41px;
-  margin-bottom: 12px;
+const TextHeader = styled.div`
+  ${oneLineEllipsis};
+  font-size: 20px;
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 22px;
+  }
+  color: #bf00ff;
+`;
 
-  color: white;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 40px;
+const TextContent = styled.div`
+  ${oneLineEllipsis};
+  font-size: 16px;
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 18px;
+  }
+  color: #b2b2b2;
 `;
 
 const PaginationContainer = styled.div`
@@ -113,7 +158,5 @@ const PaginationContainer = styled.div`
   justify-content: center;
   margin-top: 91px;
 `;
-
-const TextContent = styled.div``;
 
 export default SearchDancer;
