@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
+import useIsMobile from '../hooks/useIsMobile';
+
 // Pagination 컴포넌트 사용법
 // dataLength: page를 나타내고 싶은 데이터들의 length 를 넣어주시면 됩니다 => ex. data.length
 // perData: 한 페이지에 몇 개의 데이터가 보여질 것인지를 넣어주시면 됩니다 => ex. 5
@@ -24,6 +26,7 @@ const Pagination = ({
   setCurrentPage
 }: PaginationProps) => {
   const [layer, setLayer] = useState<number>(0);
+  const isMobile = useIsMobile();
 
   const filteredDataLength: number =
     dataLength <= perData ? 1 : Math.ceil(dataLength / perData);
@@ -41,37 +44,73 @@ const Pagination = ({
   };
 
   return (
-    <PageContainer>
-      <PageCursor
-        onClick={() => handlePageDown((layer - 1) * 10 + 1)}
-        className={layer === 0 ? 'inactive' : ''}
-      >
-        {'<'}
-      </PageCursor>
-      {Array.from(
-        {
-          length:
-            filteredDataLength - layer * 10 >= 10
-              ? 10
-              : (filteredDataLength - layer * 10) % 10
-        },
-        (_, i) => layer * 10 + i + 1
-      ).map((page) => (
-        <PageNumber
-          key={page}
-          className={page === currentPage ? 'active' : ''}
-          onClick={() => handlePageClick(page)}
-        >
-          {page}
-        </PageNumber>
-      ))}
-      <PageCursor
-        onClick={() => handlePageUp((layer + 1) * 10 + 1)}
-        className={filteredDataLength <= (layer + 1) * 10 ? 'inactive' : ''}
-      >
-        {'>'}
-      </PageCursor>
-    </PageContainer>
+    <>
+      {isMobile ? (
+        <PageContainer>
+          <PageCursor
+            onClick={() => handlePageDown((layer - 1) * 5 + 1)}
+            className={layer === 0 ? 'inactive' : ''}
+          >
+            {'<'}
+          </PageCursor>
+          {Array.from(
+            {
+              length:
+                filteredDataLength - layer * 5 >= 5
+                  ? 5
+                  : (filteredDataLength - layer * 5) % 5
+            },
+            (_, i) => layer * 5 + i + 1
+          ).map((page) => (
+            <PageNumber
+              key={page}
+              className={page === currentPage ? 'active' : ''}
+              onClick={() => handlePageClick(page)}
+            >
+              {page}
+            </PageNumber>
+          ))}
+          <PageCursor
+            onClick={() => handlePageUp((layer + 1) * 5 + 1)}
+            className={filteredDataLength <= (layer + 1) * 5 ? 'inactive' : ''}
+          >
+            {'>'}
+          </PageCursor>
+        </PageContainer>
+      ) : (
+        <PageContainer>
+          <PageCursor
+            onClick={() => handlePageDown((layer - 1) * 10 + 1)}
+            className={layer === 0 ? 'inactive' : ''}
+          >
+            {'<'}
+          </PageCursor>
+          {Array.from(
+            {
+              length:
+                filteredDataLength - layer * 10 >= 10
+                  ? 10
+                  : (filteredDataLength - layer * 10) % 10
+            },
+            (_, i) => layer * 10 + i + 1
+          ).map((page) => (
+            <PageNumber
+              key={page}
+              className={page === currentPage ? 'active' : ''}
+              onClick={() => handlePageClick(page)}
+            >
+              {page}
+            </PageNumber>
+          ))}
+          <PageCursor
+            onClick={() => handlePageUp((layer + 1) * 10 + 1)}
+            className={filteredDataLength <= (layer + 1) * 10 ? 'inactive' : ''}
+          >
+            {'>'}
+          </PageCursor>
+        </PageContainer>
+      )}
+    </>
   );
 };
 
@@ -80,15 +119,26 @@ const PageContainer = styled.div`
   text-align: center;
   justify-content: center;
   align-items: center;
+
+  min-width: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const PageCursor = styled.div`
   display: inline-block;
-  font-size: 20px;
+  font-size: 12px;
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 20px;
+  }
+
+  padding: 0 1rem;
   font-weight: bold;
   color: #9819c3;
   cursor: pointer;
-  margin: 0 20px;
 
   &.inactive {
     color: #4d4d4d;
@@ -98,12 +148,20 @@ const PageCursor = styled.div`
 
 const PageNumber = styled.div`
   display: inline-block;
-  font-size: 18px;
+  font-size: 12px;
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+  }
+
   color: white;
   margin: 5px;
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
+
+  line-height: 13px;
+  width: 14px;
+  height: 14px;
   text-align: center;
   cursor: pointer;
   border-radius: 50%;

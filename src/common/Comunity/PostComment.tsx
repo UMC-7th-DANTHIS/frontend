@@ -9,6 +9,7 @@ import axiosInstacne from '../../api/axios-instance';
 
 import { Comment } from '@/types/CommunityInterface';
 import { UserData } from '@/types/UserInterface';
+import { useParams } from 'react-router-dom';
 
 type PostCommentProps = {
   comment: Comment;
@@ -23,10 +24,12 @@ const PostComment = ({
   user,
   setForceReload
 }: PostCommentProps) => {
+  const { id } = useParams();
+
   const handleDelete = async (): Promise<void> => {
     try {
       await axiosInstacne.delete(
-        `/community/posts/${postId}/comments/${comment.commentId}`
+        `/community/posts/${parseInt(id!)}/comments/${comment.commentId}`
       );
       setForceReload((prev: boolean) => !prev);
     } catch (error) {

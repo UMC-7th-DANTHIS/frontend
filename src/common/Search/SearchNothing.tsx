@@ -18,11 +18,11 @@ const SearchNothing = () => {
 };
 
 const Container = styled.div`
-  width: 1200px;
-  height: 400px;
+  width: 100%;
+  height: 580px;
   border-top: 2px solid #ddd;
   background-color: black;
-  position: relative;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,9 +30,14 @@ const Container = styled.div`
 
 const ImageContainer = styled.div`
   position: absolute;
-  width: 350px;
-  height: 350px;
+  width: 200px;
+  height: 200px;
   margin-top: 80px;
+
+  ${({ theme }) => theme.media.tablet} {
+    width: 350px;
+    height: 350px;
+  }
 
   background-image: url(${NoSearch});
   background-size: contain;
@@ -51,8 +56,8 @@ const TextContainer = styled.div`
 
 const Text = styled.p`
   color: white;
-  font-size: 32px;
-  line-height: 38.19px;
+  font-size: 24px;
+  line-height: 30px;
   font-weight: 499;
   text-align: center;
 `;

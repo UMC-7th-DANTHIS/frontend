@@ -20,9 +20,6 @@ const HotDancer = ({ dancer }: HotDancerProps) => {
 };
 
 const Container = styled.div`
-  margin-left: 100px;
-  margin-right: 100px;
-
   border-bottom: 2px solid #4d4d4d;
 `;
 
