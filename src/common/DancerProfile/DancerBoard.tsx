@@ -7,6 +7,7 @@ import Pagination from '../../components/Pagination';
 import api from '../../api/api';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import axiosInstance from '../../api/axios-instance';
+import SidebarMobile from './SidebarMobile';
 
 type DancerType = {
   id: number;
@@ -39,7 +40,7 @@ const ClassBoard: React.FC = () => {
   const [, setTotalPages] = useState<number>(1); // 전체 페이지 수
   const [isFetching, setIsFetching] = useState<boolean>(false); // 로딩 상태
 
-  const perData = 9;
+  const perData = 6;
 
   useEffect(() => {
     // API 호출 함수
@@ -65,66 +66,17 @@ const ClassBoard: React.FC = () => {
         setIsFetching(false); // 로딩 종료
       }
     };
-
     fetchData();
   }, [selectedGenre, currentPage]);
-
-// const BASE = process.env.REACT_APP_API_BASE_URL!;
-
-// useEffect(() => {
-//   const controller = new AbortController();
-//   const load = async () => {
-//     setIsFetching(true);
-//     try {
-//       const res = await fetch(
-//         `${BASE}/dancers/genres/${selectedGenre}?page=${currentPage}`,
-//         { method: 'GET', credentials: 'omit', signal: controller.signal } // ✅ 완전 공개 요청
-//       );
-//       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-//       const json = await res.json();
-//       if (json.code === 200) {
-//         setData(json.data.dancers);
-//         setTotalElements(json.data.totalElements);
-//         setTotalPages(json.data.totalPages);
-//       }
-//     } catch (e) {
-//       if ((e as any).name !== 'AbortError') console.error(e);
-//     } finally {
-//       setIsFetching(false);
-//     }
-//   };
-//   load();
-//   return () => controller.abort();
-// }, [selectedGenre, currentPage]);
-
 
   // 장르 선택 핸들러
   const handleGenreClick = (genre: number) => {
     setSelectedGenre(genre);
   };
 
-  // const handlePageChange = (newPage: number) => {
-  //   console.log(`페이지 변경 요청: ${newPage} / 총 페이지: ${totalPages}`);
-
-  //   if (newPage >= 1 && newPage <= totalPages) {
-  //     setCurrentPage(newPage);
-  //   }
-  // };
-
-  // 현재 페이지에 보여질 요소 계산
-  // const getCurrentPageData = () => {
-  //   const startIndex = (currentPage - 1) * perData;
-  //   const endIndex = startIndex + perData;
-
-  //   return data.slice(startIndex, endIndex);
-  // };
-
-  // const handleDancerClick = (dancerId: number) => {
-  //   navigate(`/dancerprofile/${dancerId}`);
-  // };
-
   return (
     <Container>
+      <SidebarContainer>
       <Sidebar>
         {genres.map((genre) => (
           <GenreWrapper
@@ -136,6 +88,12 @@ const ClassBoard: React.FC = () => {
           </GenreWrapper>
         ))}
       </Sidebar>
+      <SidebarMobile 
+        genres={genres}
+        selectedGenre={selectedGenre}
+        onChange={handleGenreClick}
+      />
+      </SidebarContainer>
       <Line />
       {isFetching ? (
         <LoadingContainer>
@@ -169,36 +127,48 @@ const ClassBoard: React.FC = () => {
 export default ClassBoard;
 
 
-// const PaginationContainer = styled.div`
-//   margin-top: 20px;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   margin-left: 200px;
-// `;
-
 const Container = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   background-color: black;
-  justify-content: center;
+  align-items: center;
+  padding-bottom: 140px;
+  ${({ theme }) => theme.media.tablet} {
+    flex-direction: row;
+    align-items: flex-start;
+    padding-bottom: 250px;
+  }
 `;
 const Sidebar = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 900px;
-  margin-top: 14px;
+   display: none;
+   ${({ theme }) => theme.media.tablet} {
+    display: flex;
+    flex-direction: column;
+    height: 620px;
+    margin-top: 14px;
+  }
 `;
+const SidebarContainer = styled.div`
+`
+
 const Line = styled.div`
-  width: 0px;
-  height: 770px;
   border: 2px solid var(--main_purple, #9819c3);
+  //width: 343px;
+  width: 90vw;
+  height: 0px;
+${({ theme }) => theme.media.tablet} {
+    width: 0px;
+    height: 770px;
+    border: 2px solid var(--main_purple, #9819c3);
+  }
+    
+  
 `;
 const GenreWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 197px;
+  width: 150px;
   margin-bottom: 50px;
 
   &:hover {
@@ -209,50 +179,75 @@ const GenreWrapper = styled.div`
 const Genre = styled.div<{ $isActive: boolean }>`
   color: var(--text_secondary-gray, #b2b2b2);
   font-family: Pretendard;
-  font-size: 24px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  letter-spacing: -1.2px;
+  letter-spacing: -0.9px;
   transition: all 0.3s ease;
 
   ${({ $isActive }) =>
     $isActive &&
-    `margin-left: 13px;
+     `
+    margin-left: 13px;
     color: var(--main_white, #fff);
-    font-size: 30px;
+    font-size: 24px;
     font-weight: 600;
-    letter-spacing: -1.5px;`}
+    letter-spacing: -1.2px;`}
+
 `;
+
 
 const BoardContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 38px 0 160px 36px;
+  //justify-content: center;
+  //width: 300px;
+  margin-top: 69px;
+   ${({ theme }) => theme.media.tablet} {
+  margin-top: 40px;
+  margin-left: 100px;
+  width: 740px;
+  }
 `;
 const Classes = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(auto-fill, 333px);
-  width: 880px;
+  grid-template-columns: repeat(2, 1fr);
+  //width: 300px;
+  height: 580px;
+  margin-bottom: 88px;
+  gap: 61px;
+   ${({ theme }) => theme.media.tablet} {
+    width: 740px;
+    height: 553px;
+    gap: 100px;
+    grid-template-columns: repeat(3, 1fr);
+    margin-bottom: 120px;
+  }
 `;
+
 const Class = styled(Link)`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-decoration-line: none;
-  margin-bottom: 54px;
-
+  /* margin-bottom: ; */
+  width: 120px;
+  height: 120px;
   &:hover {
     cursor: pointer;
   }
+  ${({ theme }) => theme.media.tablet} {
+     width: 180px;
+    height: 180px;
+  }
 `;
 const Image = styled.img`
-  width: 220px;
-  height: 220px;
-  border-radius: 10px;
+  width: 120px;
+  height: 120px;
+  border-radius: 7px;
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
 
   img {
@@ -260,26 +255,25 @@ const Image = styled.img`
     height: 100%;
     object-fit: cover; // 비율 유지
   }
+   ${({ theme }) => theme.media.tablet} {
+     width: 180px;
+    height: 180px;
+    border-radius: 7px;
+  }
 `;
-// const Title = styled.div`
-//   margin-top: 9px;
-//   color: #fff;
-//   font-family: Pretendard;
-//   font-size: 24px;
-//   font-style: normal;
-//   font-weight: 600;
-//   line-height: normal;
-//   letter-spacing: -1.2px;
-// `;
+
 const Dancer = styled.div`
   color: #fff;
-  font-family: Pretendard;
-  font-size: 24px;
+  margin-top: 15px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  letter-spacing: -1.2px;
-  margin-top: 9px;
+  letter-spacing: -0.9px;
+    ${({ theme }) => theme.media.tablet} {
+     font-size: 22px;
+     letter-spacing: -1.1px;
+  }
 `;
 
  const LoadingContainer = styled.div`

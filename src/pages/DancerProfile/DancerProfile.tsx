@@ -5,6 +5,8 @@ import Profile from '../../common/DancerProfile/Profile';
 import IntroduceTab from '../../common/DancerProfile/IntroduceTab';
 import ClassTab from '../../common/DancerProfile/ClassTab';
 import api from '../../api/api';
+import axiosInstance from '../../api/axios-instance';
+
 import { DancerType, DanceClassType } from '@/types/DancerProfile/useDancer';
 
 const DancerProfile = () => {
@@ -17,7 +19,7 @@ const DancerProfile = () => {
     // API 호출
     const fetchDancerData = async () => {
       try {
-        const response = await api.get(`/dancers/info/${dancerId}`);
+        const response = await axiosInstance.get(`/dancers/info/${dancerId}`);
         if (response.data.code === 200) {
           setDancerData(response.data.data);
           console.log(response.data.data);
@@ -51,9 +53,10 @@ const DancerProfile = () => {
       </TabContainer>
       <ContentContainer>
         {activeTab === '소개' && <IntroduceTab dancer={dancerData} />}
-        {activeTab === '등록된 수업' && dancerData?.classes && (
-          <ClassTab classes={dancerData.classes} />
+        {activeTab === '등록된 수업' && dancerId && (
+        <ClassTab dancerId={dancerId} />
         )}
+
       </ContentContainer>
     </Layout>
   );
@@ -65,38 +68,51 @@ const Layout = styled.div`
   background: black;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  ${({ theme }) => theme.media.tablet} {
+    width: 1440px;
+  }
 `;
 
 const TabContainer = styled.div`
-  width: 1240px;
-  height: 86.005px;
+  //width: 343px;
+  width: 90vw;
+  height: 30px;
   flex-shrink: 0;
   background: #9819c3;
-  border-radius: 20px 20px 0px 0px;
+  border-radius: 15px 15px 0px 0px;
   display: flex;
   align-items: center;
-  margin-left: 100px;
+
   justify-content: center;
-  margin-right: 100px;
+
+  ${({ theme }) => theme.media.tablet} {
+    width: 1028px;
+    height: 50px;
+    //margin-left: 205px;
+    //margin-right: 100px;
+  }
 `;
 
 const Tab = styled.div<{active: boolean}>`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 620px;
-  height: 86.005px;
+  //width: 171px;
+  width: 50%;
+  height: 30px;
   flex-shrink: 0;
   color: var(--main_white, #fff);
   text-align: center;
   font-family: Pretendard;
-  font-size: 24px;
+  font-size: 14px;
   font-style: normal;
-  font-weight: 600;
-  line-height: 50px; /* 208.333% */
-  letter-spacing: -1.2px;
+  font-weight: 500;
+  line-height: 100%; /* 208.333% */
+  letter-spacing: -0.7px;
   cursor: pointer;
-  border-radius: 20px 20px 0px 0px;
+  border-radius: 15px 15px 0px 0px;
   //border-top: 3px solid var(--main_purple, #9819c3);
   border-right: 3px solid var(--main_purple, #9819c3);
   border-left: 3px solid var(--main_purple, #9819c3);
@@ -104,6 +120,21 @@ const Tab = styled.div<{active: boolean}>`
   box-shadow: 0px 8px 16px 0px var(--main_purple, #9819c3) inset;
   background-color: ${(props) => (props.active ? 'black' : '#9819C3')};
   transition: all 0.3s;
+  ${({ theme }) => theme.media.tablet} {
+    width: 523px;
+    height: 50px;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 50px; /* 208.333% */
+    letter-spacing: -1.2px;
+    border-radius: 20px 20px 0px 0px;
+  }
 `;
 
-const ContentContainer = styled.div``;
+
+const ContentContainer = styled.div`
+  display: flex;
+  //width: 375px;
+  align-items: center;
+  justify-content: center;
+  `;

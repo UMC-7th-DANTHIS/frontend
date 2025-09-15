@@ -9,7 +9,7 @@ import api from '../../api/api';
 import StepperMobile from '../../common/Signup/StepperMobile';
 
 const Signup4 = () => {
-  const [, setUser] = useState(null);
+  const [user, setUser] = useState(null);
   const [nickname, setNickname] = useState('');
 
   // useEffect(() => {
@@ -24,7 +24,6 @@ const Signup4 = () => {
   //       console.error('유저 정보를 불러오는 중 오류 발생:', error);
   //     }
   //   };
-
   //   fetchUser();
   // }, []);
   const navigate = useNavigate();
