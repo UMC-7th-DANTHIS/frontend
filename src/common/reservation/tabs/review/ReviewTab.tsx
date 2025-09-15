@@ -38,7 +38,7 @@ export const ReviewTab = ({ tabRef }: ReviewTabProps) => {
       {Array.isArray(data?.classReviews) && data?.classReviews.length === 0 ? (
         <Notice>등록된 리뷰가 없습니다.</Notice>
       ) : (
-        <>
+        <Contents>
           {data?.classReviews.map((review, index) => (
             <Review key={index} review={review} classId={data?.id} page={data?.pagination.currentPage} />
           ))}
@@ -50,7 +50,7 @@ export const ReviewTab = ({ tabRef }: ReviewTabProps) => {
               setCurrentPage={setCurrentPage}
             />
           )}
-        </>
+        </Contents>
       )}
     </Container>
   );
@@ -72,4 +72,14 @@ const Notice = styled.div`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+`;
+const Contents = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 38px;
+
+  ${({ theme }) => theme.media.tablet} {
+    gap: 50px;
+  }
 `;
