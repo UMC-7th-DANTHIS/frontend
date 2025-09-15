@@ -24,12 +24,16 @@ const UserRecommend = ({ dancer, danceclass }: UserRecommendProps) => {
         <Header>
           {user?.data.nickname} 님의 스타일에 맞는 댄서를 소개할게요
         </Header>
-        <ForDancer dancer={dancer} />
+        <AlignCenter>
+          <ForDancer dancer={dancer} />
+        </AlignCenter>
       </Wrapper>
       <Border />
       <Wrapper>
         <Header>오로지 {user?.data.nickname}님을 위한 맞춤형 수업이에요</Header>
-        <ForClass danceclass={danceclass} />
+        <AlignCenter>
+          <ForClass danceclass={danceclass} />
+        </AlignCenter>
       </Wrapper>
     </Container>
   );
@@ -40,7 +44,7 @@ const Container = styled.div`
   padding-bottom: 60px;
 
   ${({ theme }) => theme.media.tablet} {
-    max-width: 1240px;
+    width: 100%;
   }
 `;
 
@@ -50,9 +54,15 @@ const Wrapper = styled.div`
   flex-direction: column;
 
   margin: 0 auto;
-
-  min-width: max-content;
   max-width: 1030px;
+`;
+
+const AlignCenter = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
 `;
 
 const Border = styled.div`

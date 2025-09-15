@@ -18,7 +18,7 @@ const CommunityList = ({ list }: CommunityListProps) => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
 
-  const handleNavigate = async (id: number) => {
+  const handleNavigate = (id: number) => {
     navigate(`/community/${id}`);
   };
 

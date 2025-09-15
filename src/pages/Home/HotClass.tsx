@@ -13,22 +13,17 @@ const HotClass = ({ danceclass }: HotClassProps) => {
     <Container>
       <Header>유행하는 수업을 한눈에</Header>
       <PassiveCarousel danceclass={danceclass} />
-      <Border />
     </Container>
   );
 };
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
   width: 100%;
   margin-top: 40px;
+  border-bottom: 2px solid #4d4d4d;
 
   justify-content: center;
   align-items: center;
-
-  min-width: max-content;
-  max-width: 1030px;
 
   ${({ theme }) => theme.media.tablet} {
     justify-content: start;
@@ -37,23 +32,28 @@ const Container = styled.div`
 `;
 
 const Header = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 62px;
 
-  color: white;
-  font-size: 28px;
-  font-weight: 600;
-  line-height: normal;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 0px 0px 62px 0px;
 
   ${({ theme }) => theme.media.tablet} {
-    padding-left: 205px;
+    justify-content: start;
+    align-items: start;
+    font-size: 28px;
+
+    margin: 0px 0px 62px 32px;
+    min-width: max-content;
   }
-`;
 
-const Border = styled.div`
-  margin-left: 100px;
-  margin-right: 100px;
-
-  border-bottom: 2px solid #4d4d4d;
+  color: white;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 `;
 
 export default HotClass;

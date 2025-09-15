@@ -22,6 +22,8 @@ const HeadContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+
   gap: 20px;
   margin: 79px 0;
   flex-wrap: nowrap;
@@ -113,15 +115,16 @@ const Title = styled.div`
   position: relative;
   box-sizing: border-box;
 
-  /* 기본 크기 */
-  width: 480px;
-  height: 48px;
+  width: 100%;
+  max-width: 250px;
+  height: 40px;
   border-radius: 73px;
   background: linear-gradient(to right, #b30505, #9819c3);
   padding: 3px;
 
-  ${({ theme }) => theme?.media?.tablet} {
-    width: 420px;
+  ${({ theme }) => theme.media.tablet} {
+    width: 100%;
+    max-width: 480px;
     height: 46px;
   }
 `;
@@ -136,8 +139,12 @@ const TitleText = styled.div`
   align-items: center;
   justify-content: center;
 
+  ${({ theme }) => theme?.media?.tablet} {
+    font-size: 28px;
+  }
+
   color: white;
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 700;
   line-height: normal;
 `;
