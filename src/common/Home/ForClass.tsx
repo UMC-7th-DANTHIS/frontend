@@ -22,7 +22,7 @@ const ForClass = ({ danceclass }: ForClassProps) => {
           key={Class.id}
           onClick={() => navigate(`/classreservation/${Class.id}?tab=detail`)}
         >
-          <ClassImage src={Class.thumbnailImage} al
+          <ClassImage src={Class.thumbnailImage} alt="프로필 이미지" />
           <TextContainer>
             <ClassName>{Class.className}</ClassName>
             <ClassDancer>{Class.dancerName}</ClassDancer>
