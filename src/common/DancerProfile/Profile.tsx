@@ -25,7 +25,7 @@ type GenreType = {
 };
 
 const Profile: React.FC<ProfileProps> = ({ dancer }) => {
-  const [isLiked, setIsLiked] = useState<boolean | null>(null);
+  const [isLiked, setIsLiked] = useState<boolean>(Boolean(dancer?.isFavorite));
   // const { dancerId } = useParams<{ dancerId: string }>();
   const isLoggedIn = !!localStorage.getItem('token'); // 로그인 상태 확인
 
@@ -43,11 +43,16 @@ const Profile: React.FC<ProfileProps> = ({ dancer }) => {
   ];
 
   // 서버에서 받은 isFavorite 값으로 초기 상태 설정
+  // useEffect(() => {
+  //   if (dancer?.isFavorite !== undefined) {
+  //     setIsLiked(dancer.isFavorite);
+  //   }
+  // }, [dancer]);
+
   useEffect(() => {
-    if (dancer?.isFavorite !== undefined) {
-      setIsLiked(dancer.isFavorite);
-    }
-  }, [dancer]);
+  // 서버에서 "true"/"false", 0/1 이 와도 안전하게
+  setIsLiked(Boolean(dancer?.isFavorite));
+}, [dancer]);
 
   if (!dancer) {
     return <div>로딩 중...</div>; // dancer가 null일 때 로딩 메시지 표시
@@ -149,7 +154,7 @@ const Profile: React.FC<ProfileProps> = ({ dancer }) => {
               <ChatButton onClick={handleChatClick}>
                 댄서와 1:1 채팅하기
               </ChatButton>
-              <LikeButton isLiked={isLiked} onClick={handleLikeClick}>
+              <LikeButton $isLiked={!!isLiked} onClick={handleLikeClick}>
                 {isLiked ? '찜 취소하기' : '댄서 찜해놓기'}
               </LikeButton>
               </>  
@@ -275,7 +280,7 @@ const ChatButton = styled.button`
   cursor: pointer;
 `;
 
-const LikeButton = styled.button<{ isLiked: boolean | null }>`
+const LikeButton = styled.button<{ $isLiked: boolean }>`
   display: flex;
   width: 360px;
   height: 60px;
@@ -285,7 +290,8 @@ const LikeButton = styled.button<{ isLiked: boolean | null }>`
   gap: 8px;
   border-radius: 54px;
   border: 4px solid var(--main_purple, #9819c3);
-  color: var(--main_white, #fff);
+  background: ${({ $isLiked }) => ($isLiked === true ? '#FFF' : 'transparent')};
+  color: ${({ $isLiked }) => ($isLiked === true ? 'var(--text_purple, #BF00FF)' : '#FFF')};
   text-align: center;
   font-family: Pretendard;
   font-size: 20px;
@@ -293,7 +299,10 @@ const LikeButton = styled.button<{ isLiked: boolean | null }>`
   font-weight: 600;
   line-height: 50px; /* 208.333% */
   letter-spacing: -1.2px;
-  background: none;
   margin-top: 26.34px;
   cursor: pointer;
+    &:hover {
+    cursor: pointer;
+    background: rgba(152, 25, 195, 0.4);
+  }
 `;

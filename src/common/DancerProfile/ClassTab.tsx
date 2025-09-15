@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
 import Pagination from '../../components/Pagination';
 import { useParams } from 'react-router-dom';
@@ -24,7 +25,7 @@ const ClassTab: React.FC<Props> = ({ dancerId }) => {
   const [currentPage, setCurrentPage] = useState<number>(1); // 현재 페이지
   const [, setTotalPages] = useState<number>(1); // 전체 페이지 수
   const [totalElements, setTotalElements] = useState<number>(0); // 전체 요소 개수 상태 추가
-
+  const navigate = useNavigate();
   const perData = 6; // 페이지당 데이터 수
 
   useEffect(() => {
@@ -59,7 +60,11 @@ const ClassTab: React.FC<Props> = ({ dancerId }) => {
       <ClassContainer hasClasses={classes.length > 0}>
         {classes.length > 0 ? (
           classes.map((item) => (
-            <Class key={item.id}>
+            <Class 
+            key={item.id}
+            onClick={() => navigate(`/classreservation/${item.id}`)}
+              style={{ cursor: 'pointer' }} 
+              >
               <ClassImg src={item.thumbnailImage} alt={item.className} />
             </Class>
           ))
