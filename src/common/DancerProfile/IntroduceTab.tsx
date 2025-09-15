@@ -35,47 +35,77 @@ export default IntroduceTab;
 
 const Layout = styled.div`
   display: flex;
-  padding-top: 47px;
+  padding-top: 22.5px;
   //align-items : center;
   //justify-content : center;
   flex-direction: column;
-  margin-bottom: 388.34px;
-  padding-left: 100px;
-  padding-right: 100px;
+  padding-bottom: 251px;
+  padding-left: 4px;
+  padding-right: 4px;
+  ${({ theme }) => theme.media.tablet} {
+    padding-top: 47px;
+    padding-left: 237px;
+    padding-right: 237px;
+    margin-bottom: 388.34px;
+  }
 `;
 
 const ImageContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 18px;
+  ${({ theme }) => theme.media.tablet} {
+    gap: 40px;
+  }
 `;
 
 const Picture = styled.img`
-  width: 400px;
-  height: 400px;
+  width: 100px;
+  height: 100px;
   flex-shrink: 0;
+  border-radius: 7.375px;
+  ${({ theme }) => theme.media.tablet} {
+    width: 295px;
+    height: 295px;
+  }
 `;
 
 const CareerContainer = styled.div`
-  margin-top: 83px;
+  margin-top: 37px;
+  width: 343px;
+  white-space: pre-wrap; /* 줄바꿈 처리 */
+  word-break: break-word; /* 긴 단어 줄바꿈 */
+  ${({ theme }) => theme.media.tablet} {
+    margin-top: 50px;
+    width: 965px;
+  }
 `;
 
 const Title = styled.div`
-  color: var(--text_purple, #bf00ff);
-  font-family: Pretendard;
-  font-size: 28px;
+  color: var(--main_white, #fff);
+  font-size: 18px;
   font-style: normal;
   font-weight: 700;
-  line-height: 50px; /* 178.571% */
+  line-height: 140%; /* 178.571% */
+  letter-spacing: -0.9px;
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 22px;
+    line-height: 50px; /* 178.571% */
   letter-spacing: -1.4px;
+  }
 `;
 
 const List = styled.div`
   color: var(--main_white, #fff);
   font-family: Pretendard;
-  font-size: 20px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 400;
-  line-height: 40px;
+  line-height: 200%;
+  letter-spacing: -0.6px;
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+    line-height: 40px;
   letter-spacing: -1px;
+  }
 `;

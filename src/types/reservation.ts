@@ -8,11 +8,14 @@ import {
 } from './class';
 import { CommonResponse, OffsetBasedResponse } from './common';
 
-export type ResponseClasses = OffsetBasedResponse<
-  'danceClasses',
-  SimpleDanceClass[]
->;
+export const DATE_TYPE = {
+  WEEKLY: 'WEEKLY',
+  DATE: 'DATE'
+} as const;
 
+export type DateType = (typeof DATE_TYPE)[keyof typeof DATE_TYPE];
+
+export type ResponseClasses = OffsetBasedResponse<'danceClasses', SimpleDanceClass[]>;
 export type ResponseClassDetail = CommonResponse<DanceClassDetail>;
 export type ResponseClassRating = CommonResponse<DanceClassRating>;
 export type ResponseClassReview = CommonResponse<DanceClassReview>;

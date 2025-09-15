@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import {useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
 import Pagination from '../../components/Pagination';
 import { useParams } from 'react-router-dom';
 import api from '../../api/api';
+import axiosInstance from '../../api/axios-instance';
+
 
 type DanceClassType = {
   id: number;
@@ -14,19 +17,21 @@ interface ClassTabProps {
   classes: DanceClassType[];
 }
 
-const ClassTab: React.FC<ClassTabProps> = ({ classes: initialClasses }) => {
-  const { dancerId } = useParams<{ dancerId: string }>();
-  const [classes, setClasses] = useState<DanceClassType[]>(initialClasses); // 수업 데이터
+type Props = { dancerId: string };
+
+const ClassTab: React.FC<Props> = ({ dancerId }) => {
+  // const { dancerId } = useParams<{ dancerId: string }>();
+  const [classes, setClasses] = useState<DanceClassType[]>([]); // 수업 데이터
   const [currentPage, setCurrentPage] = useState<number>(1); // 현재 페이지
   const [, setTotalPages] = useState<number>(1); // 전체 페이지 수
   const [totalElements, setTotalElements] = useState<number>(0); // 전체 요소 개수 상태 추가
-
+  const navigate = useNavigate();
   const perData = 6; // 페이지당 데이터 수
 
   useEffect(() => {
     const fetchClasses = async () => {
       try {
-        const response = await api.get(`/dancers/dance-classes`, {
+        const response = await axiosInstance.get(`/dancers/info/dance-classes`, {
           params: {
             dancerId: dancerId, // 특정 댄서의 수업 조회
             page: currentPage,
@@ -55,7 +60,11 @@ const ClassTab: React.FC<ClassTabProps> = ({ classes: initialClasses }) => {
       <ClassContainer hasClasses={classes.length > 0}>
         {classes.length > 0 ? (
           classes.map((item) => (
-            <Class key={item.id}>
+            <Class 
+            key={item.id}
+            onClick={() => navigate(`/classreservation/${item.id}`)}
+              style={{ cursor: 'pointer' }} 
+              >
               <ClassImg src={item.thumbnailImage} alt={item.className} />
             </Class>
           ))
@@ -79,37 +88,55 @@ export default ClassTab;
 
 const Layout = styled.div`
   display: flex;
-  margin-top: 100px;
-  justify-content: center;
-  padding-bottom: 442px;
+  //margin-top: 100px;
+  //justify-content: center;
+  padding-bottom: 251px;
   flex-direction: column;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-top: 27px;
+  ${({ theme }) => theme.media.tablet} {
+    padding-top: 47px;
+    padding-left: 237px;
+    padding-right: 237px;
+  }
 `;
 
 const ClassContainer = styled.div<{ hasClasses: boolean }>`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 56px;
-  margin-left: 216px;
-  margin-right: 210px;
+  gap: 10px;
   display: ${({ hasClasses }) =>
     hasClasses ? 'grid' : 'flex'}; // 수업이 없을 때 flex로 변경
   grid-template-columns: ${({ hasClasses }) =>
     hasClasses ? 'repeat(3, 1fr)' : 'none'};
+  ${({ theme }) => theme.media.tablet} {
+    gap: 55px;
+  }
 `;
 const Class = styled.div`
   margin-bottom: 24px;
-  width: 300px;
-  height: 300px;
-  border-radius: 10px;
+  width: 100px;
+  height: 100px;
+  border-radius: 3.39px;
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+  ${({ theme }) => theme.media.tablet} {
+    width: 295px;
+    height: 295px;
+    border-radius: 10px;
+  }
 `;
 const ClassImg = styled.img`
   width: 100%;
   height: 100%;
+  border-radius: 3.39px;
   flex-shrink: 0;
+  ${({ theme }) => theme.media.tablet} {
+    border-radius: 10px;
+  }
 `;
 const PaginationContainer = styled.div`
-  margin-top: 30px;
+  margin-top: 40px;
   display: flex;
   justify-content: center;
 `;
@@ -123,4 +150,5 @@ const NoClassMessage = styled.div`
   font-size: 20px;
   width: 100%;
   height: 100%;
+  margin-bottom: 200px;
 `;

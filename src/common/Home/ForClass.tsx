@@ -18,9 +18,7 @@ const ForClass = ({ danceclass }: ForClassProps) => {
   return (
     <ClassContainer>
       {randomDance?.map((Class) => (
-        <ClassContent
-          onClick={() => navigate(`/classreservation/${Class.id}?tab=detail`)}
-        >
+        <ClassContent onClick={() => navigate(`/classes/${Class.id}?tab=detail`)}>
           <ClassImage src={Class.thumbnailImage} alt={'프로필 이미지'} />
           <TextContainer>
             <ClassName>{Class.className}</ClassName>
@@ -28,14 +26,8 @@ const ForClass = ({ danceclass }: ForClassProps) => {
             <ClassDancer>{Class.favoriteGenres}</ClassDancer>
             <ClassHashContainer>
               {Class.hashtagIds.map((HashtagID) => {
-                const foundTag: hashTagIDInterface | undefined = hashTagID.find(
-                  (tag) => tag.id === String(HashtagID)
-                );
-                return foundTag ? (
-                  <ClassHashtag key={HashtagID}>
-                    # {foundTag.hashTag}
-                  </ClassHashtag>
-                ) : null;
+                const foundTag: hashTagIDInterface | undefined = hashTagID.find((tag) => tag.id === String(HashtagID));
+                return foundTag ? <ClassHashtag key={HashtagID}># {foundTag.hashTag}</ClassHashtag> : null;
               })}
             </ClassHashContainer>
           </TextContainer>
