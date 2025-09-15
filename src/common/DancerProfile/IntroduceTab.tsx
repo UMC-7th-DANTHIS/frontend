@@ -72,8 +72,12 @@ const Picture = styled.img`
 
 const CareerContainer = styled.div`
   margin-top: 37px;
+  width: 343px;
+  white-space: pre-wrap; /* 줄바꿈 처리 */
+  word-break: break-word; /* 긴 단어 줄바꿈 */
   ${({ theme }) => theme.media.tablet} {
     margin-top: 50px;
+    width: 965px;
   }
 `;
 

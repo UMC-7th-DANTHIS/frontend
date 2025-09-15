@@ -249,12 +249,16 @@ const InfoContainer = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  margin-left: 31px;
-  margin-right: 150px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
+  margin-bottom: 22px;
+  ${({ theme }) => theme.media.tablet} {
+    align-items: flex-end;
+      margin-left: 31px;
+      margin-right: 150px;
+  }
 `;
 
 const Title = styled.div`
@@ -293,8 +297,8 @@ const Content = styled.div`
 
 const ChatButton = styled.button`
   display: flex;
-  width: 360px;
-  height: 60px;
+  width: 314px;
+  height: 45px;
   padding: 10px 43px;
   justify-content: center;
   align-items: center;
@@ -307,18 +311,25 @@ const ChatButton = styled.button`
   color: #fff;
   text-align: center;
   font-family: Pretendard;
-  font-size: 20px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 600;
   line-height: 50px; /* 208.333% */
-  letter-spacing: -1.2px;
+  letter-spacing: -0.8px;
   cursor: pointer;
+  margin-top: 35px;
+  ${({ theme }) => theme.media.tablet} {
+    width: 360px;
+    height: 60px;
+    font-size: 20px;
+    letter-spacing: -1.2px;
+  }
 `;
 
 const LikeButton = styled.button<{ $isLiked: boolean }>`
   display: flex;
-  width: 360px;
-  height: 60px;
+  width: 314px;
+  height: 45px;
   padding: 10px 87px;
   justify-content: center;
   align-items: center;
@@ -329,15 +340,22 @@ const LikeButton = styled.button<{ $isLiked: boolean }>`
   color: ${({ $isLiked }) => ($isLiked === true ? 'var(--text_purple, #BF00FF)' : '#FFF')};
   text-align: center;
   font-family: Pretendard;
-  font-size: 20px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 600;
   line-height: 50px; /* 208.333% */
-  letter-spacing: -1.2px;
-  margin-top: 26.34px;
+  letter-spacing: -0.8px;
+  margin-top: 18px;
   cursor: pointer;
     &:hover {
     cursor: pointer;
     background: rgba(152, 25, 195, 0.4);
+  }
+  ${({ theme }) => theme.media.tablet} {
+    width: 360px;
+    height: 60px;
+    font-size: 20px;
+    letter-spacing: -1.2px;
+    margin-top: 26.34px;
   }
 `;
