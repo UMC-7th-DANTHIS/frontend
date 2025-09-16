@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Pretendard, sans-serif;
+  font-family: --apple-system, BlinkMacSystemFont, Pretendard, sans-serif;
   font-display: swap;
   font-style: normal;
   line-height: normal;
@@ -29,5 +29,6 @@ body {
 }
 
 * {
+  margin: 0;
   box-sizing: border-box;
 }
