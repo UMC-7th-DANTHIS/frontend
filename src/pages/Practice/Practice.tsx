@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import KakaoMap from './KakaoMap';
 
 const Practice : React.FC=()=> {
   return (
     <Layout>
-        <Map />
-    
+        <Map>
+          <KakaoMap />
+        
+        </Map> 
     </Layout>
   )
 }
@@ -26,7 +29,7 @@ ${({ theme }) => theme.media.tablet} {
 const Map = styled.div`
   width : 338px;
   height: 248px;
-  background-color: lightgray;
+  //background-color: lightgray;
   ${({ theme }) => theme.media.tablet} {
     width : 1003px;
     height: 737px;
