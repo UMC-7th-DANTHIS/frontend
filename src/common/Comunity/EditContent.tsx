@@ -26,17 +26,17 @@ const EditContent = ({
   selectedPost
 }: EditContentProps) => {
   useEffect(() => {
-    if (selectedPost) {
-      setTitle(selectedPost.title || '');
-      setContent(selectedPost.content || '');
-      setFileName(
-        selectedPost.images
-          ? selectedPost.images.map((_, idx) => `image-${idx + 1}`)
-          : []
-      );
-      setPreviews(selectedPost.images || []);
-    }
-  }, [selectedPost, setTitle, setContent, setFileName, setPreviews]);
+    if (!selectedPost) return;
+
+    setTitle(selectedPost.title || '');
+    setContent(selectedPost.content || '');
+    setFileName(
+      selectedPost.images
+        ? selectedPost.images.map((_, idx) => `image-${idx + 1}`)
+        : []
+    );
+    setPreviews(selectedPost.images || []);
+  }, []);
 
   const handleRemoveImage = (index: number): void => {
     setPreviews((prev: string[]) => prev.filter((_, i) => i !== index));
@@ -66,6 +66,7 @@ const EditContent = ({
           maxLength={1000}
         />
       </ContentArea>
+
       {previews.length > 0 && (
         <ImageContainer>
           {previews.map((src, index: number) => (
@@ -85,26 +86,39 @@ const EditContent = ({
 
 const Content = styled.div`
   margin-top: 10px;
-  padding-left: 50px;
-  padding-right: 50px;
+  width: 100%;
+  padding: 0 2rem;
+
   border: 2px solid #9819c3;
   border-radius: 10px;
 
-  width: 900px;
   height: 100%;
+  max-width: 100dvw;
 `;
 
 const ContentTitle = styled.div`
   color: #fff;
-  font-size: 18px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+
+  min-width: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 18px;
+  }
 `;
 
 const TitleArea = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
 
   border-bottom: 1.5px solid #b2b2b2;
 
@@ -119,7 +133,7 @@ const TitleInput = styled.input`
   outline: none;
 
   color: white;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -131,17 +145,21 @@ const TitleInput = styled.input`
 
   width: 92%;
   height: 100%;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+  }
 `;
 
 const ContentArea = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: start;
 
   padding-top: 15px;
-  margin-bottom: 49px;
+  margin-bottom: 15px;
   padding-left: 9px;
-
-  display: flex;
 `;
 
 const ContentInput = styled.textarea`
@@ -151,7 +169,7 @@ const ContentInput = styled.textarea`
   outline: none;
 
   color: white;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -165,29 +183,49 @@ const ContentInput = styled.textarea`
   }
 
   width: 92%;
-  height: 390px;
+  min-height: 400px;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+  }
 `;
 
 const ContentMain = styled.div`
   color: #fff;
-  font-size: 18px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 18px;
+  }
 `;
 
 const ImageContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  margin-left: 20px;
-  margin-bottom: 46px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+
+  margin: 16px 0 46px 0;
+
+  ${({ theme }) => theme.media.tablet} {
+    grid-template-columns: repeat(4, 1fr);
+    justify-content: start;
+    gap: 16px;
+  }
 `;
 
 const ImageWrapper = styled.div`
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
 `;
 
 const Image = styled.img`

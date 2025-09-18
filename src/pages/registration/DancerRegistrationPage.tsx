@@ -27,7 +27,6 @@ export default function DancerRegistrationPage() {
 
 const Container = styled.div`
   display: flex;
-  background-color: black;
   justify-content: center;
 `;
 const Registration = styled.div`

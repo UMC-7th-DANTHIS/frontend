@@ -10,11 +10,11 @@ import TopbarMenuMobile from './TopbarMenuMobile';
 import useIsMobile from '../../hooks/useIsMobile';
 
 export const MENU = [
-  { path: '/classreservation', label: '댄스 수업 예약', isBeta: false },
+  { path: '/classes', label: '댄스 수업 예약', isBeta: false },
   { path: '/dancerprofile', label: '댄서 프로필', isBeta: false },
   { path: '/community', label: '커뮤니티', isBeta: false },
   { path: '/practice', label: '내 주변 연습실', isBeta: false },
-  { path: '#', label: '배틀 & 이벤트', isBeta: true }
+  { path: '/battle', label: '배틀 & 이벤트', isBeta: true }
 ] as const;
 
 export type MenuItem = (typeof MENU)[number];
@@ -49,9 +49,15 @@ const Topbar = ({ token }: TopbarProps) => {
       </TopContainer>
 
       <TopbarMenuTablet />
-      {isMobile && <TopbarMenuMobile visible={showMenuMobile} onClose={handleCloseMenuMobile} />}
+      {isMobile && (
+        <TopbarMenuMobile
+          visible={showMenuMobile}
+          onClose={handleCloseMenuMobile}
+        />
+      )}
 
       <Outline />
+
       {showInvalidAlert && (
         <SingleBtnAlert
           message={
@@ -110,12 +116,13 @@ const LogoBtn = styled.button`
 `;
 
 const Outline = styled.div`
-  height: 68px;
+  height: 30px;
   border-top: 1px solid var(--main-purple);
   border-radius: 24px 24px 0 0;
   box-shadow: inset 0px 7px 7px var(--main-purple50);
 
-  ${({ theme }) => theme.media.tablet} {
+  ${({ theme }) => theme.media.desktop} {
+    height: 68px;
     border-radius: 36px 36px 0 0;
     box-shadow: inset 0px 15px 20px var(--main-purple50);
   }

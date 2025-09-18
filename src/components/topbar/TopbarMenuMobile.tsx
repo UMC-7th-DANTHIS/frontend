@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { MENU } from './Topbar';
 import Beta from '../../assets/beta.svg';
+import { AnimatePresence, motion } from 'motion/react';
 
 interface TopbarMenuMobileProps {
   visible: boolean;
@@ -10,19 +11,29 @@ interface TopbarMenuMobileProps {
 
 const TopbarMenuMobile = ({ visible, onClose }: TopbarMenuMobileProps) => {
   return (
-    <>
-      {visible && <Overlay onClick={onClose} />}
-      <MenuContainer className={visible ? 'visible' : ''}>
-        {MENU.map((menu) => (
-          <MenuWrapper key={menu.path}>
-            <MenuLabel to={menu.path} onClick={onClose}>
-              <span>{menu.label}</span>
-            </MenuLabel>
-            {menu.isBeta && <BetaLabel src={Beta} alt="BETA 라벨" />}
-          </MenuWrapper>
-        ))}
-      </MenuContainer>
-    </>
+    <AnimatePresence>
+      {visible && (
+        <>
+          <Overlay onClick={onClose} />
+          <MenuContainer
+            as={motion.div}
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+          >
+            {MENU.map((menu) => (
+              <MenuWrapper key={menu.path}>
+                <MenuLabel to={menu.path} onClick={onClose}>
+                  <span>{menu.label}</span>
+                </MenuLabel>
+                {menu.isBeta && <BetaLabel src={Beta} alt="BETA 라벨" />}
+              </MenuWrapper>
+            ))}
+          </MenuContainer>
+        </>
+      )}
+    </AnimatePresence>
   );
 };
 
@@ -49,19 +60,6 @@ const MenuContainer = styled.div`
   background-color: black;
   border-radius: 10px 0 0 10px;
   box-shadow: 0px 0px 10px var(--main-purple);
-
-  opacity: 0;
-  transform: translateX(100%);
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
-  pointer-events: none;
-
-  &.visible {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
 `;
 const MenuWrapper = styled.div`
   display: flex;

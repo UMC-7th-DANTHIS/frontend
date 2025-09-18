@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import CloseIcon from '../assets/buttons/close-button.svg';
+import { ReactComponent as CloseIcon } from '../assets/buttons/close-button.svg';
 
 interface ConfirmDeleteAlertProps {
   title?: string;
@@ -57,11 +57,7 @@ const ConfirmDeleteAlert = ({
           {/* 제목 */}
           {title && <AlertTitle>{title}</AlertTitle>}
           {/* 내용이랑 text 색 설정 / 기본색은 검정 */}
-          <AlertMessage
-            color={messageColor}
-            fontSize={messagesize}
-            margintop={mariginsize}
-          >
+          <AlertMessage color={messageColor} fontSize={messagesize} margintop={mariginsize}>
             {message}
           </AlertMessage>
         </TextContainer>

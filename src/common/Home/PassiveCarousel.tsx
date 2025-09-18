@@ -1,93 +1,145 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
+import useIsMobile from '../../hooks/useIsMobile';
 import { AllClassData } from '@/types/MainInterface';
 
 type PassiveCarouselProps = {
   danceclass: AllClassData;
 };
 
+const GAP = 20;
+
 const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
+  const VISIBLE = isMobile ? 1 : 3;
+
+  const GUTTER = isMobile ? 'clamp(24px, 8vw, 72px)' : 'clamp(48px, 6vw, 90px)';
+
   const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const firstCardRef = useRef<HTMLImageElement | null>(null);
+  const [step, setStep] = useState<number>((isMobile ? 320 : 400) + GAP);
 
-  const handleNext = (): void => {
-    if (currentIndex < danceclass?.danceClasses.length - 3) {
-      setCurrentIndex(currentIndex + 1);
-    }
+  const measureStep = () => {
+    const w = firstCardRef.current?.clientWidth ?? (isMobile ? 320 : 400);
+    setStep(w + GAP);
   };
 
-  const handlePrev = (): void => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    }
-  };
+  useEffect(() => {
+    measureStep();
+    window.addEventListener('resize', measureStep);
+    return () => window.removeEventListener('resize', measureStep);
+  }, [isMobile, danceclass?.danceClasses?.length]);
+
+  useEffect(() => {
+    const maxStart = Math.max(
+      0,
+      (danceclass?.danceClasses?.length ?? 0) - VISIBLE
+    );
+    if (currentIndex > maxStart) setCurrentIndex(maxStart);
+  }, [VISIBLE, danceclass?.danceClasses?.length, currentIndex]);
+
+  const maxStart = (danceclass?.danceClasses?.length ?? 0) - VISIBLE;
+  const canPrev = currentIndex > 0;
+  const canNext = currentIndex < maxStart;
+
+  const handleNext = () => canNext && setCurrentIndex((i) => i + 1);
+  const handlePrev = () => canPrev && setCurrentIndex((i) => i - 1);
 
   return (
-    <SliderContainer>
-      <ClickArea onClick={handlePrev} position="left" />
-      <SlideWrapper currentIndex={currentIndex}>
+    <SliderContainer $gutter={GUTTER}>
+      <ClickArea
+        $side="left"
+        $gutter={GUTTER}
+        $disabled={!canPrev}
+        onClick={handlePrev}
+      />
+      <SlideWrapper $offset={currentIndex * step}>
         {danceclass?.danceClasses?.map((item, index) => (
           <HotImage
+            ref={index === 0 ? firstCardRef : undefined}
+            key={item.id ?? index}
             onClick={() => navigate(`/classreservation/${item.id}?tab=detail`)}
             src={item.thumbnailImage}
-            alt={'Image'}
-            visible={index >= currentIndex && index < currentIndex + 3}
+            alt="Image"
+            $visible={index >= currentIndex && index < currentIndex + VISIBLE}
           />
         ))}
       </SlideWrapper>
-      <ClickArea onClick={handleNext} position="right" />
+      <ClickArea
+        $side="right"
+        $gutter={GUTTER}
+        $disabled={!canNext}
+        onClick={handleNext}
+      />
     </SliderContainer>
   );
 };
 
-const SliderContainer = styled.div`
+export default PassiveCarousel;
+
+const SliderContainer = styled.div<{ $gutter: string }>`
   position: relative;
   display: flex;
   align-items: center;
   margin-bottom: 58px;
   overflow: hidden;
+  width: 100%;
+  padding-inline: ${(p) => p.$gutter};
 `;
 
-const SlideWrapper = styled.div<{ currentIndex: number }>`
+const SlideWrapper = styled.div<{ $offset: number }>`
   display: flex;
-  padding-left: 90px;
   flex-direction: row;
-  gap: 20px;
-  transform: translateX(${(props) => -props.currentIndex * 420}px);
+  gap: ${GAP}px;
+  transform: translateX(${(p) => -p.$offset}px);
   transition: transform 0.3s ease;
+  will-change: transform;
 `;
 
-const HotImage = styled.img<{ visible: boolean }>`
-  width: 400px;
-  height: 400px;
+const HotImage = styled.img<{ $visible: boolean }>`
+  width: 80vw;
+  height: 80vw;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+
+  ${({ theme }) => theme.media.tablet} {
+    width: 400px;
+    height: 400px;
+  }
+
   border-radius: 10px;
   background-color: #ddd;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 32px;
-  font-weight: bold;
   flex-shrink: 0;
-  opacity: ${(props) => (props.visible ? 1 : 0.5)};
+
+  opacity: ${(p) => (p.$visible ? 1 : 0.5)};
   cursor: pointer;
-  transition: transform 0.3s ease-in-out;
+  transition:
+    transform 0.3s ease-in-out,
+    opacity 0.2s ease;
 
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.06);
     opacity: 1;
   }
 `;
 
-const ClickArea = styled.div<{ position: 'left' | 'right' }>`
+const ClickArea = styled.button<{
+  $side: 'left' | 'right';
+  $gutter: string;
+  $disabled: boolean;
+}>`
   position: absolute;
   top: 0;
   bottom: 0;
-  ${(props) => (props.position === 'left' ? 'left: 0;' : 'right: 0;')}
-  width: 90px;
-  cursor: pointer;
-  z-index: 1;
-`;
+  ${(p) => (p.$side === 'left' ? 'left: 0;' : 'right: 0;')}
+  width: ${(p) => p.$gutter};
+  z-index: 2;
 
-export default PassiveCarousel;
+  background: transparent;
+  border: 0;
+  cursor: ${(p) => (p.$disabled ? 'default' : 'pointer')};
+  pointer-events: ${(p) => (p.$disabled ? 'none' : 'auto')};
+  opacity: ${(p) => (p.$disabled ? 0.25 : 1)};
+`;

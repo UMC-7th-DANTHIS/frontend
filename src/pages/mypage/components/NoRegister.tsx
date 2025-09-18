@@ -5,7 +5,7 @@ const NoRegister = () => {
   const navigate = useNavigate();
 
   const handleClick = (): void => {
-    navigate('/classregister');
+    navigate('/new/class');
   };
 
   return (

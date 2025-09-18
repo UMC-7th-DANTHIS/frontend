@@ -1,16 +1,29 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams, Outlet, useNavigate } from 'react-router-dom';
+import {
+  useSearchParams,
+  Outlet,
+  useNavigate,
+  useLocation
+} from 'react-router-dom';
 import styled from 'styled-components';
 
 import SearchBar from '../common/Search/SearchBar';
 
 const SearchLayout = () => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const query: string | null = searchParams.get('query');
 
-  const [select, setSelect] = useState<string>('dance-classes');
+  const defaultQuery: 'dance-classes' | 'dancers' | 'posts' = pathname.includes(
+    'posts'
+  )
+    ? 'posts'
+    : pathname.includes('dancers')
+      ? 'dancers'
+      : 'dance-classes';
+
   const [temp, setTemp] = useState<string | null>(query || '');
 
   const [selectedFilter, setSelectedFilter] = useState<string | null>('');
@@ -22,14 +35,10 @@ const SearchLayout = () => {
   }, [query]);
 
   const handleSearchData = (): void => {
-    if (select && temp) {
+    if (defaultQuery && temp) {
       setSearchParams({ query: temp });
-      navigate(`/search/${select}?query=${temp}`);
+      navigate(`/search/${defaultQuery}?query=${temp}`);
     }
-  };
-
-  const handleCategoryClick = (category: string): void => {
-    setSelect(category);
   };
 
   const handleNowContent = (content: string): void => {
@@ -43,17 +52,14 @@ const SearchLayout = () => {
   return (
     <Container>
       <SearchBar
-        select={select}
-        handleCategoryClick={handleCategoryClick}
+        select={defaultQuery}
         selectedFilter={selectedFilter}
         handleClick={handleClick}
         temp={temp}
         handleNowContent={handleNowContent}
         handleSearchData={handleSearchData}
       />
-      <ContentContainer>
-        <Outlet context={{ selectedFilter }} />
-      </ContentContainer>
+      <Outlet context={{ selectedFilter }} />
     </Container>
   );
 };
@@ -61,12 +67,10 @@ const SearchLayout = () => {
 const Container = styled.div`
   background-color: black;
   padding-bottom: 150px;
-  width: 1440px;
-`;
 
-const ContentContainer = styled.div`
-  margin-left: 120px;
-  margin-right: 120px;
+  padding: 0 2rem;
+  width: 100dvw;
+  max-width: 1200px;
 `;
 
 export default SearchLayout;

@@ -11,9 +11,6 @@ const HomePage = () => {
   const { data: danceclass } = useGetClass();
   const { data: dancer } = useGetDancer();
 
-  console.log(dancer);
-  console.log(danceclass);
-
   return (
     <Container>
       {dancer && <HotDancer dancer={dancer} />}
@@ -27,7 +24,13 @@ const HomePage = () => {
 
 const Container = styled.div`
   background-color: black;
-  width: 1440px;
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+
+  width: 100%;
+  margin: 0 auto;
 `;
 
 export default HomePage;

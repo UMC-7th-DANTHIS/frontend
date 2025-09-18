@@ -19,8 +19,7 @@ const ReviewDetail = () => {
   const [review, setReview] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const { id: classId } = useParams<{ id: string }>();
-  const selectedMenu =
-    new URLSearchParams(location.search).get('menu') || 'myreview';
+  const selectedMenu = new URLSearchParams(location.search).get('menu') || 'myreview';
   const className = (location.state as LocationState)?.className || '';
   const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
 
@@ -93,10 +92,7 @@ const ReviewDetail = () => {
   return (
     <>
       <Container>
-        <MypageSidebar
-          selectedMenu={selectedMenu}
-          onMenuClick={handleMenuClick}
-        />
+        <MypageSidebar selectedMenu={selectedMenu} onMenuClick={handleMenuClick} />
 
         <ReviewContainer>
           <ClassTitle>{className}</ClassTitle>
@@ -128,8 +124,7 @@ const ReviewDetail = () => {
                           해당 페이지를 벗어나면 <br />
                         </span>
                         <span>
-                          작성 중인 글이 <ColoredText> 모두 삭제 </ColoredText>{' '}
-                          됩니다 <br />
+                          작성 중인 글이 <ColoredText> 모두 삭제 </ColoredText> 됩니다 <br />
                         </span>
                         <span>떠나시겠습니까?</span>
                       </span>
@@ -159,7 +154,7 @@ const ReviewDetail = () => {
                   }
                   onClose={() => {
                     setShowInvalidAlert(false);
-                    navigate(`/classreservation/${classId}?tab=reviews`);
+                    navigate(`/classes/${classId}?tab=reviews`);
                   }}
                   mariginsize="33px"
                   showButtons={true}

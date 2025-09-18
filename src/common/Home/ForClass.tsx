@@ -19,16 +19,17 @@ const ForClass = ({ danceclass }: ForClassProps) => {
     <ClassContainer>
       {randomDance?.map((Class) => (
         <ClassContent
+          key={Class.id}
           onClick={() => navigate(`/classreservation/${Class.id}?tab=detail`)}
         >
-          <ClassImage src={Class.thumbnailImage} alt={'프로필 이미지'} />
+          <ClassImage src={Class.thumbnailImage} alt="프로필 이미지" />
           <TextContainer>
             <ClassName>{Class.className}</ClassName>
             <ClassDancer>{Class.dancerName}</ClassDancer>
             <ClassDancer>{Class.favoriteGenres}</ClassDancer>
             <ClassHashContainer>
               {Class.hashtagIds.map((HashtagID) => {
-                const foundTag: hashTagIDInterface | undefined = hashTagID.find(
+                const foundTag = hashTagID.find(
                   (tag) => tag.id === String(HashtagID)
                 );
                 return foundTag ? (
@@ -45,22 +46,34 @@ const ForClass = ({ danceclass }: ForClassProps) => {
   );
 };
 
-const ClassContainer = styled.div``;
+const ClassContainer = styled.div`
+  width: 100%;
+  padding: 0 20px;
+
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 36px;
+
+  ${({ theme }) => theme.media.tablet} {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 110px;
+  }
+`;
 
 const ClassContent = styled.div`
-  display: inline-flex;
+  display: flex;
   flex-direction: row;
-  width: 620px;
-  height: 200px;
-
-  margin-bottom: 113px;
+  padding-right: 20px;
 `;
 
 const ClassImage = styled.img`
   display: inline-block;
-  width: 200px;
-  height: 200px;
+  width: 130px;
+  height: 130px;
   background-color: white;
+
+  border-radius: 6px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
 
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
@@ -70,8 +83,11 @@ const ClassImage = styled.img`
     opacity: 1;
   }
 
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
+  ${({ theme }) => theme.media.tablet} {
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+  }
 `;
 
 const TextContainer = styled.div`
@@ -79,31 +95,39 @@ const TextContainer = styled.div`
   flex-direction: column;
   padding-left: 30px;
   align-content: center;
-
-  height: 200px;
+  gap: 5px;
 `;
 
 const ClassName = styled.div`
   color: #fff;
-  font-size: 28px;
+  font-size: 18px;
   font-weight: 600;
-  margin-bottom: 15px;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 24px;
+  }
 `;
 
 const ClassDancer = styled.div`
   color: #b2b2b2;
-  font-size: 22px;
+  font-size: 16px;
   font-weight: 600;
   line-height: 28px;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 22px;
+  }
 `;
 
 const ClassHashContainer = styled.div`
-  padding-top: 5px;
-
   color: #bf00ff;
-  font-size: 22px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 32px;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 20px;
+  }
 `;
 
 const ClassHashtag = styled.div`
