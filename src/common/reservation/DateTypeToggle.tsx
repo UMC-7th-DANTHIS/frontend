@@ -10,7 +10,7 @@ export const DateTypeToggle = () => {
 
   return (
     <ToggleWrapper>
-      <ToggleButton $isActive={selectedType === DATE_TYPE.DATE} onClick={() => setSelectedType(DATE_TYPE.DATE)}>
+      <ToggleButton $isActive={selectedType === DATE_TYPE.DAILY} onClick={() => setSelectedType(DATE_TYPE.DAILY)}>
         <Calendar />
         날짜
       </ToggleButton>

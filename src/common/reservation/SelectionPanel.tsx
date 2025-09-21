@@ -24,11 +24,11 @@ export const SelectionPanel = () => {
         <DateTypeToggle />
         <SelectedDate>
           선택:
-          <DateText>{selectedType === DATE_TYPE.DATE ? formattedDate : selectedDayName}</DateText>
+          <DateText>{selectedType === DATE_TYPE.DAILY ? formattedDate : selectedDayName}</DateText>
         </SelectedDate>
       </PanelHeader>
 
-      {selectedType === DATE_TYPE.DATE && <CustomCalendar selectedDate={selectedDate} onDateClick={setSelectedDate} />}
+      {selectedType === DATE_TYPE.DAILY && <CustomCalendar selectedDate={selectedDate} onDateClick={setSelectedDate} />}
       {selectedType === DATE_TYPE.WEEKLY && <WeeklySelector />}
     </PanelContainer>
   );

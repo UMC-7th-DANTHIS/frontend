@@ -10,7 +10,7 @@ import { CommonPagination, CommonResponse, OffsetBasedResponse } from './common'
 
 export const DATE_TYPE = {
   WEEKLY: 'WEEKLY',
-  DATE: 'DATE'
+  DAILY: 'DAILY'
 } as const;
 
 export type DateType = (typeof DATE_TYPE)[keyof typeof DATE_TYPE];

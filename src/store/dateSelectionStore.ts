@@ -11,7 +11,7 @@ interface DateSelectionState {
 }
 
 export const useDateSelectionStore = create<DateSelectionState>((set) => ({
-  type: DATE_TYPE.DATE,
+  type: DATE_TYPE.DAILY,
   day: DAYS_OF_WEEK[0].key,
   date: new Date(),
   setType: (newType) => set({ type: newType }),

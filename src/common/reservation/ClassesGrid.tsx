@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 import Pagination from '../../components/Pagination';
 import useGetClasses from '../../hooks/reservation/useGetClasses';
 import { ClassesGridSkeleton } from './ClassesGridSkeleton';
+import { useDateSelectionStore } from '../../store/dateSelectionStore';
+import { DATE_TYPE } from '../../types/reservation';
+import { format } from 'date-fns';
 
 interface ClassesGridProps {
   selectedGenre: string;
@@ -11,33 +14,46 @@ interface ClassesGridProps {
 
 export const ClassesGrid = ({ selectedGenre }: ClassesGridProps) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const perData = 6;
+  const SIZE = 6;
+
+  const selectedType = useDateSelectionStore((store) => store.type);
+  const selectedDay = useDateSelectionStore((store) => store.day);
+  const selectedDate = useDateSelectionStore((store) => store.date);
+
+  const params =
+    selectedType === DATE_TYPE.WEEKLY ? { day: selectedDay } : { date: format(selectedDate, 'yyyy-MM-dd') };
 
   const { data: classes, isLoading } = useGetClasses({
     genre: Number(selectedGenre),
     page: currentPage,
-    size: perData
+    size: SIZE,
+    ...params
   });
 
   if (isLoading || !classes) return <ClassesGridSkeleton />;
 
   return (
     <GridContainer>
-      <Classes>
-        {classes.danceClasses?.map((cls) => (
-          <Class to={`/classes/${cls.id}`} key={cls.id}>
-            <Image src={cls.thumbnailImage} />
-            <TextContainer>
-              <Title>{cls.className}</Title>
-              <Dancer>{cls.dancerName}</Dancer>
-            </TextContainer>
-          </Class>
-        ))}
-      </Classes>
+      {classes.danceClasses.length > 0 ? (
+        <Classes>
+          {classes.danceClasses?.map((cls) => (
+            <Class to={`/classes/${cls.id}`} key={cls.id}>
+              <Image src={cls.thumbnailImage} />
+              <TextContainer>
+                <Title>{cls.className}</Title>
+                <Dancer>{cls.dancerName}</Dancer>
+              </TextContainer>
+            </Class>
+          ))}
+        </Classes>
+      ) : (
+        <NoClass>등록된 수업이 없습니다.</NoClass>
+      )}
+
       <PaginationWrapper>
         <Pagination
           dataLength={classes.totalElements}
-          perData={perData}
+          perData={SIZE}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
@@ -54,12 +70,14 @@ const GridContainer = styled.div`
   justify-content: flex-start;
   width: 100%;
   height: 100%;
+  // min-height: 578px;
 
   ${({ theme }) => theme.media.desktop} {
     padding-top: 24px;
   }
 `;
 const Classes = styled.div`
+  // flex: 1;
   width: 100%;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -119,4 +137,12 @@ const Dancer = styled.div`
 `;
 const PaginationWrapper = styled.div`
   margin-top: 60px;
+`;
+const NoClass = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: var(--text-secondary-gray);
 `;
