@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@tanstack/react-query": "^5.89.0",
+    "@tanstack/react-query-devtools": "^5.89.0",
     "axios": "^1.7.9",
     "cra-template": "1.2.0",
     "crypto": "^1.0.1",
