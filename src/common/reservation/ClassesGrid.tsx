@@ -45,6 +45,10 @@ export const ClassesGrid = ({ selectedGenre }: ClassesGridProps) => {
               </TextContainer>
             </Class>
           ))}
+
+          {Array.from({ length: SIZE - classes.danceClasses.length }).map((_, i) => (
+            <ClassPlaceholder key={`placeholder-${i}`} />
+          ))}
         </Classes>
       ) : (
         <NoClass>등록된 수업이 없습니다.</NoClass>
@@ -70,14 +74,13 @@ const GridContainer = styled.div`
   justify-content: flex-start;
   width: 100%;
   height: 100%;
-  // min-height: 578px;
+  min-height: 578px;
 
   ${({ theme }) => theme.media.desktop} {
     padding-top: 24px;
   }
 `;
 const Classes = styled.div`
-  // flex: 1;
   width: 100%;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -143,6 +146,15 @@ const NoClass = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 208px 0;
   text-align: center;
   color: var(--text-secondary-gray);
+`;
+const ClassPlaceholder = styled.div`
+  width: 100%;
+  padding: 97px 0;
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  background: transparent;
+  pointer-events: none;
 `;
