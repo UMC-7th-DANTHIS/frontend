@@ -1,16 +1,17 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import { DateTypeToggle } from './DateTypeToggle';
-import { DATE_TYPE, DateType } from '../../types/reservation';
+import { DATE_TYPE, DAYS_OF_WEEK } from '../../types/reservation';
 import CustomCalendar from '../../components/Calendar';
-import { DAYS_OF_WEEK, WeeklySelector } from './WeeklySelector';
+import { WeeklySelector } from './WeeklySelector';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
+import { useDateSelectionStore } from '../../store/dateSelectionStore';
 
 export const SelectionPanel = () => {
-  const [selectedType, setSelectedType] = useState<DateType>(DATE_TYPE.DATE);
-  const [selectedDayKey, setSelectedDayKey] = useState<string>('MON');
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const selectedType = useDateSelectionStore((store) => store.type);
+  const selectedDayKey = useDateSelectionStore((store) => store.day);
+  const selectedDate = useDateSelectionStore((store) => store.date);
+  const setSelectedDate = useDateSelectionStore((store) => store.setDate);
 
   const selectedDayName = DAYS_OF_WEEK.find((day) => day.key === selectedDayKey)?.ko;
   const formattedDate = format(selectedDate, 'yyyy. MM. dd (E)', {
@@ -20,7 +21,7 @@ export const SelectionPanel = () => {
   return (
     <PanelContainer>
       <PanelHeader>
-        <DateTypeToggle selectedType={selectedType} setSelectType={setSelectedType} />
+        <DateTypeToggle />
         <SelectedDate>
           선택:
           <DateText>{selectedType === DATE_TYPE.DATE ? formattedDate : selectedDayName}</DateText>
@@ -28,7 +29,7 @@ export const SelectionPanel = () => {
       </PanelHeader>
 
       {selectedType === DATE_TYPE.DATE && <CustomCalendar selectedDate={selectedDate} onDateClick={setSelectedDate} />}
-      {selectedType === DATE_TYPE.WEEKLY && <WeeklySelector dayKey={selectedDayKey} setDayKey={setSelectedDayKey} />}
+      {selectedType === DATE_TYPE.WEEKLY && <WeeklySelector />}
     </PanelContainer>
   );
 };
