@@ -17,7 +17,7 @@ export default Practice;
 
 const Layout = styled.div`
 display: flex;
-padding-top: 16px;
+padding-top: 66px;
 padding-bottom: 393px;
 justify-content: center;
 ${({ theme }) => theme.media.tablet} {
