@@ -28,12 +28,6 @@ const MypageSidebar = ({ selectedMenu, onMenuClick }: MypageSidebarProps) => {
           채팅한 유저 목록
         </MenuItem>
         <MenuItem
-          onClick={() => onMenuClick('registeredclasses')}
-          isActive={selectedMenu === 'registeredclasses'}
-        >
-          내가 등록한 수업
-        </MenuItem>
-        <MenuItem
           onClick={() => onMenuClick('myreview')}
           isActive={selectedMenu === 'myreview'}
         >
@@ -45,6 +39,30 @@ const MypageSidebar = ({ selectedMenu, onMenuClick }: MypageSidebarProps) => {
         >
           내가 쓴 게시글/리뷰
         </MenuItem>
+
+        <Divider />
+
+        <MenuItem
+          onClick={() => onMenuClick('registerdancer')}
+          isActive={selectedMenu === 'registerdancer'}
+        >
+          댄서 등록하기
+        </MenuItem>
+        <MenuItem
+          onClick={() => onMenuClick('registerclass')}
+          isActive={selectedMenu === 'registerclass'}
+        >
+          수업 등록하기
+        </MenuItem>
+        <MenuItem
+          onClick={() => onMenuClick('myregisteredclasses')}
+          isActive={selectedMenu === 'myregisteredclasses'}
+        >
+          내가 등록한 수업
+        </MenuItem>
+
+        <Divider />
+
         <MenuItem
           onClick={() => onMenuClick('editprofile')}
           isActive={selectedMenu === 'editprofile'}
@@ -86,7 +104,7 @@ const SidebarMenu = styled.div`
 `;
 
 const MenuItem = styled.div<MenuItemProps>`
-  margin-bottom: 37px;
+  margin-bottom: 20px;
   font-size: 18px;
   font-weight: 500;
   cursor: pointer;
@@ -96,9 +114,16 @@ const MenuItem = styled.div<MenuItemProps>`
   ${({ isActive }) =>
     isActive &&
     `
-        color: #fff;
-        font-size: 24px;
-        font-weight: 600;
-        letter-spacing: -1.2px;
+      color: #fff;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: -1.2px;
     `}
+`;
+
+const Divider = styled.div`
+  width: 156px;
+  height: 1px;
+  background-color: #4d4d4d;
+  margin: 20px 0 20px;
 `;
