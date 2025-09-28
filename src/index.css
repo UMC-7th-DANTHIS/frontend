@@ -26,6 +26,9 @@ body {
   --text-purple: #bf00ff;
   --text-gray: #4d4d4d;
   --text-secondary-gray: #b2b2b2;
+
+  --highlight-red: #f00;
+  --highlight-blue: #07f;
 }
 
 * {
