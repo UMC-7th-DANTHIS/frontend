@@ -55,8 +55,10 @@ const CustomCalendar = ({ selectedDate, onDateClick }: CalendarProps) => {
       </Header>
 
       <WeekDays>
-        {WEEK.map((day) => (
-          <div key={day}>{day}</div>
+        {WEEK.map((day, idx) => (
+          <WeekDay key={day} $dayOfWeek={idx}>
+            {day}
+          </WeekDay>
         ))}
       </WeekDays>
 
@@ -115,10 +117,16 @@ const WeekDays = styled.div`
   padding-bottom: 16px;
   margin-bottom: 16px;
   border-bottom: 1px solid var(--main-white);
-
+`;
+const WeekDay = styled.div<{ $dayOfWeek: number }>`
   font-size: 16px;
   font-weight: 400;
   line-height: 140%;
+  color: ${({ $dayOfWeek }) => {
+    if ($dayOfWeek === 0) return 'var(--highlight-red)';
+    if ($dayOfWeek === 6) return 'var(--highlight-blue)';
+    return 'var(--main-white)';
+  }};
 `;
 const DaysGrid = styled.div`
   display: grid;
