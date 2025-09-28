@@ -36,7 +36,7 @@ const ToggleButton = styled.button<{ $isActive: boolean }>`
   align-items: center;
   justify-content: center;
   padding: ${({ $isActive }) => ($isActive ? '6px 8px' : '4px 8px')};
-  gap: 8px;
+  gap: 4px;
   border: none;
   border-radius: 999px;
   background-color: ${({ $isActive }) => ($isActive ? 'var(--main-purple)' : 'transparent')};
@@ -47,13 +47,13 @@ const ToggleButton = styled.button<{ $isActive: boolean }>`
   font-size: 14px;
   font-weight: 600;
   letter-spacing: -0.7px;
+  line-height: 0.9;
 
   svg {
     width: 24px;
     height: 24px;
     fill: ${({ $isActive }) => ($isActive ? 'var(--main-white)' : 'var(--text-gray)')};
     transition: fill 0.2s ease-in-out;
-    margin-top: 2px;
   }
 
   ${({ theme }) => theme.media.tablet} {

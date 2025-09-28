@@ -69,7 +69,7 @@ const SelectedDate = styled.p`
 const DateText = styled.span`
   margin-left: 7px;
   color: var(--main-white);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   letter-spacing: -0.6px;
 
