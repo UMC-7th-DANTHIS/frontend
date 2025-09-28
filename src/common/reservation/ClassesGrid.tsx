@@ -131,8 +131,8 @@ const Dancer = styled.div`
   width: 100%;
   text-align: center;
   color: var(--text-secondary-gray);
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 400;
   letter-spacing: -0.8px;
   white-space: nowrap;
   overflow: hidden;
