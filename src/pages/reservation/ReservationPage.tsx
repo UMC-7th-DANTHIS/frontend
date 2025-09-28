@@ -4,6 +4,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import useGetClassDetailById from '../../hooks/reservation/useGetClassDetailById';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { ClassSummary, DetailTab, RatingTab, ReviewTab } from '../../common/reservation';
+import { ScrollToTop } from '../../components/ScrollToTop';
 
 export default function ReservationPage() {
   const navigate = useNavigate();
@@ -39,6 +40,8 @@ export default function ReservationPage() {
 
   return (
     <Container>
+      <ScrollToTop />
+
       <LoadingSpinner isLoading={isLoading} marginTop="180px" marginBottom="180px">
         <ClassSummary classId={classId!} classData={classData!} />
       </LoadingSpinner>
