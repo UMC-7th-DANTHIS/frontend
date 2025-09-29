@@ -237,12 +237,6 @@ const Title = styled.div`
   font-weight: 600;
   line-height: normal;
   margin-left: 42px;
-  /* &:first-of-type {
-  font-size: 16px; /* 모바일 기본 */
-  ${({ theme }) => theme.media.tablet} {
-    font-size: 20px; /* 태블릿 이상 */
-  }
-} */
    ${({ theme }) => theme.media.tablet} {
     font-size: 16px;
   } 
@@ -395,15 +389,16 @@ const CustomCircle = styled.label`
   }
 `;
 
-const NextButton = styled.button`
+const NextButton = styled.button<{disabled?: boolean}>`
   width: 300px;
   height: 52px;
   flex-shrink: 0;
   border-radius: 15px;
   border : none;
-  background: var(--main_purple, #9819c3);
+  background: ${({ disabled }) =>
+    disabled ? "#4D4D4D" : "var(--main_purple, #9819c3)"};
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   margin-top: 60px;
-  cursor: pointer;
 `;
 
 const Next = styled.div`
