@@ -48,7 +48,7 @@ const Layout = styled.div`
 const Sidebar = styled.div`
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    //margin-top: 14px;
+    margin-top: 29px;
     align-items: center;
     justify-content: center;
     
@@ -80,7 +80,8 @@ const Genre = styled.div<{ $isActive: boolean }>`
     $isActive &&
     `margin-left: 5px;
     color: var(--main_white, #fff);
-    font-size: 18px;
+    font-size: 17px;
+    width: 70px;
     font-weight: 600;
     letter-spacing: -0.9px;`}
     
