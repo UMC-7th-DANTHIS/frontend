@@ -13,7 +13,7 @@ const MypageSidebar = ({ selectedMenu, onMenuClick }: MypageSidebarProps) => {
 
   if (isMobile) {
     return (
-      //모바일 사이드바
+      // 모바일
       <MobileContainer>
         <MobileHeader onClick={() => setIsOpen(!isOpen)}>
           {getMenuLabel(selectedMenu)} <Dropdown />
@@ -31,6 +31,7 @@ const MypageSidebar = ({ selectedMenu, onMenuClick }: MypageSidebarProps) => {
                     setIsOpen(false);
                   }}
                   isActive={selectedMenu === key}
+                  isMobile={isMobile}
                 >
                   {label}
                 </MenuItem>
@@ -42,7 +43,7 @@ const MypageSidebar = ({ selectedMenu, onMenuClick }: MypageSidebarProps) => {
     );
   }
 
-  //pc 사이드바
+  // PC 사이드바
   return (
     <SidebarContainer>
       <Sidebar />
@@ -55,6 +56,7 @@ const MypageSidebar = ({ selectedMenu, onMenuClick }: MypageSidebarProps) => {
               key={key}
               onClick={() => onMenuClick(key)}
               isActive={selectedMenu === key}
+              isMobile={isMobile}
             >
               {label}
             </MenuItem>
@@ -109,9 +111,9 @@ const SidebarMenu = styled.div`
   margin-top: 24px;
 `;
 
-const MenuItem = styled.div<MenuItemProps>`
+const MenuItem = styled.div<MenuItemProps & { isMobile?: boolean }>`
   margin-bottom: 20px;
-  font-size: 18px;
+  font-size: ${({ isMobile }) => (isMobile ? '13px' : '18px')};
   font-weight: 500;
   cursor: pointer;
   color: #b2b2b2;
@@ -121,11 +123,11 @@ const MenuItem = styled.div<MenuItemProps>`
     padding-left: 16px;
   }
 
-  ${({ isActive }) =>
+  ${({ isActive, isMobile }) =>
     isActive &&
     `
       color: #fff;
-      font-size: 24px;
+      font-size: ${isMobile ? '18px' : '24px'};
       font-weight: 600;
     `}
 `;
