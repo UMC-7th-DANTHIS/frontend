@@ -26,7 +26,9 @@ const MyLikeClass = () => {
     }
   });
 
-  const filteredList = data ? data.slice(perData * (currentPage - 1), perData * currentPage) : [];
+  const filteredList = data
+    ? data.slice(perData * (currentPage - 1), perData * currentPage)
+    : [];
 
   if (isLoading) {
     return <LoadingSpinner isLoading={isLoading} />;
@@ -36,7 +38,9 @@ const MyLikeClass = () => {
     return <div>Error: {(error as Error)?.message}</div>;
   }
 
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+  const handleImageError = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
     e.currentTarget.src = sampleImage;
   };
 
@@ -82,11 +86,38 @@ export default MyLikeClass;
 
 const ClassContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 220px);
-  column-gap: 110px;
   margin-top: 40px;
   justify-content: center;
   align-items: center;
+  justify-items: center;
+  grid-template-columns: repeat(3, 220px);
+  column-gap: 103px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 200px);
+    column-gap: 40px;
+    row-gap: 40px;
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(2, 140px);
+    column-gap: 28px;
+    row-gap: 28px;
+    margin-top: 40px;
+    margin-left: 0;
+    margin-right: 0;
+    justify-content: center;
+    justify-items: center;
+  }
+`;
+
+const Image = styled.img`
+  width: 100%;
+  max-width: 140px;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 10px;
 `;
 
 const ClassList = styled.div`
@@ -100,30 +131,26 @@ const ClassList = styled.div`
 const Title = styled.div`
   color: #fff;
   font-size: 24px;
-  font-style: normal;
   font-weight: 600;
-  line-height: normal;
   letter-spacing: -1.2px;
   margin-top: 9px;
+
+  @media (max-width: 600px) {
+    font-size: 18px;
+  }
 `;
 
 const Singer = styled.div`
   color: #b2b2b2;
   font-size: 18px;
-  font-style: normal;
   font-weight: 600;
-  line-height: normal;
   letter-spacing: -0.9px;
   margin-bottom: 53px;
-`;
 
-const Image = styled.img`
-  width: 220px;
-  height: 220px;
-  object-fit: cover;
-  border-radius: 10px;
-  background-color: white;
-  cursor: pointer;
+  @media (max-width: 600px) {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
 `;
 
 const PaginationContainer = styled.div`
@@ -138,8 +165,6 @@ const Text = styled.div`
   color: #fff;
   text-align: center;
   font-size: 32px;
-  font-style: normal;
   font-weight: 500;
-  line-height: normal;
   margin-top: 219px;
 `;
