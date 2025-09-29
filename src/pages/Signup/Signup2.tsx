@@ -696,8 +696,10 @@ const RadioLabel = styled.label`
   cursor: pointer;
   color: white;
   width: 45px;
+  height: 20px;
   ${({ theme }) => theme.media.tablet} {
    width: 56px; 
+   height: 25px;
   }
 `;
 
@@ -708,8 +710,10 @@ const RadioLabels = styled.label`
   cursor: pointer;
   color: white;
   width: 131px;
+  height: 16px;
   ${({ theme }) => theme.media.tablet} {
    width: 190px; 
+   height: 22px;
   }
 `;
 
