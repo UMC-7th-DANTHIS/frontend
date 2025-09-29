@@ -43,13 +43,12 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   padding-bottom: 236px;
+  padding-top: 116px;
   align-items: center;
-   /* ${({ theme }) => theme.media.tablet} {
-    padding: 120px 24px 160px;
+     ${({ theme }) => theme.media.tablet} {
+    padding-top: 90px;
+    padding-bottom: 287px;
   }
-  ${({ theme }) => theme.media.desktop} {
-    padding: 48px 24px 236px;
-  } */
    
 `;
 const LoginTitle = styled.div`
@@ -73,10 +72,11 @@ const LoginBtn = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  //width: 544px;
   width: 282px;
+  height: 40px;
    ${({ theme }) => theme.media.tablet} {
     width: 544px;
+    height: 66px;
   }
    /* width: clamp(282px, 50vw, 544px); */
 `;

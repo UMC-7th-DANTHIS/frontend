@@ -169,9 +169,10 @@ const SignupTitle = styled.div`
   display: flex;
   justify-content: center;
   text-align: center;
+  margin-top: 26px;
     ${({ theme }) => theme.media.tablet} {
     font-size: 32px;
-    margin-top: 17px;
+    margin-top: 37px;
   }
 `;
 
@@ -186,16 +187,6 @@ const StepperDesktop = styled.div`
     flex-direction: row;
   }
 `
-// const StepperMobile = styled.div`
-// display: flex;
-//   gap: 10px;
-//   align-items: center;
-//   ${({ theme }) => theme.media.tablet} {
-//     display: none;
-//   }
-// `
-
-
 const MenuItemWrapper = styled.div`
   width: 260px;
   /* height: 64px; */
@@ -246,12 +237,6 @@ const Title = styled.div`
   font-weight: 600;
   line-height: normal;
   margin-left: 42px;
-    &:nth-of-type(2) {
-    font-size: 16px;
-     ${({ theme }) => theme.media.tablet} {
-    font-size: 20px;
-  } 
-  }
    ${({ theme }) => theme.media.tablet} {
     font-size: 16px;
   } 
@@ -279,7 +264,12 @@ const CheckForm = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content : center;
-   ${AgreementItem}:first-of-type ${Title} { font-size: 20px; }
+   ${AgreementItem}:first-of-type ${Title} { 
+    font-size: 16px;
+    ${({ theme }) => theme.media.tablet} {
+    font-size: 20px;
+  }
+   }
   ${({ theme }) => theme.media.tablet} {
     width: 900px;
     height: 364px;
@@ -317,11 +307,14 @@ const RequiredTag = styled.span`
   color: var(--main_white, #fff);
   text-align: center;
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
   margin-left: 5px;
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+  }
 `;
 
 const Line = styled.div`
@@ -396,14 +389,16 @@ const CustomCircle = styled.label`
   }
 `;
 
-const NextButton = styled.button`
+const NextButton = styled.button<{disabled?: boolean}>`
   width: 300px;
   height: 52px;
   flex-shrink: 0;
   border-radius: 15px;
-  background: var(--main_purple, #9819c3);
+  border : none;
+  background: ${({ disabled }) =>
+    disabled ? "#4D4D4D" : "var(--main_purple, #9819c3)"};
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   margin-top: 60px;
-  cursor: pointer;
 `;
 
 const Next = styled.div`

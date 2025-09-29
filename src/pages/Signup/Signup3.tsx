@@ -250,11 +250,12 @@ const SignupTitle = styled.div`
   font-weight: 600;
   line-height: normal;
   display: flex;
+  margin-top: 26px;
   justify-content: center;
   text-align: center;
    ${({ theme }) => theme.media.tablet} {
    font-size: 32px;
-   margin-top: 17px;
+   margin-top: 37px;
   }
 `;
 
