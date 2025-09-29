@@ -7,11 +7,17 @@ import { useQuery } from '@tanstack/react-query';
 import api from '../../../../api/api';
 import { useNavigate } from 'react-router-dom';
 import { DanceClassProps } from '@/types/mypage/LikeClassType';
+import useIsMobile from '../../../../hooks/useIsMobile';
+
+interface ImageProps {
+  isMobile: boolean;
+}
 
 const MyLikeClass = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const perData = 9;
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   const { data, isLoading, isError, error } = useQuery<DanceClassProps[]>({
     queryKey: ['userclass'],
@@ -58,6 +64,7 @@ const MyLikeClass = () => {
                 <Image
                   src={danceClass.thumbnailImage}
                   alt={String(danceClass.id)}
+                  isMobile={isMobile}
                   onError={handleImageError}
                   onClick={() => handleClick(danceClass.id)}
                 />
@@ -111,13 +118,21 @@ const ClassContainer = styled.div`
   }
 `;
 
-const Image = styled.img`
-  width: 100%;
-  max-width: 140px;
-  height: auto;
-  aspect-ratio: 1 / 1;
+const Image = styled.img<ImageProps>`
   object-fit: cover;
   border-radius: 10px;
+  cursor: pointer;
+
+  ${({ isMobile }) =>
+    isMobile
+      ? `
+        width: 140px;
+        height: 140px;
+      `
+      : `
+        width: 180px;
+        height: 180px;
+      `}
 `;
 
 const ClassList = styled.div`
@@ -134,9 +149,18 @@ const Title = styled.div`
   font-weight: 600;
   letter-spacing: -1.2px;
   margin-top: 9px;
+  text-align: center;
+
+  min-height: 58px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   @media (max-width: 600px) {
     font-size: 18px;
+    min-height: 44px;
   }
 `;
 
