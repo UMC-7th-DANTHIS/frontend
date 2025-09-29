@@ -237,12 +237,12 @@ const Title = styled.div`
   font-weight: 600;
   line-height: normal;
   margin-left: 42px;
-    &:nth-of-type(2) {
-    font-size: 16px;
-     ${({ theme }) => theme.media.tablet} {
-    font-size: 20px;
-  } 
+  /* &:first-of-type {
+  font-size: 16px; /* 모바일 기본 */
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 20px; /* 태블릿 이상 */
   }
+} */
    ${({ theme }) => theme.media.tablet} {
     font-size: 16px;
   } 
@@ -270,7 +270,12 @@ const CheckForm = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content : center;
-   ${AgreementItem}:first-of-type ${Title} { font-size: 20px; }
+   ${AgreementItem}:first-of-type ${Title} { 
+    font-size: 16px;
+    ${({ theme }) => theme.media.tablet} {
+    font-size: 20px;
+  }
+   }
   ${({ theme }) => theme.media.tablet} {
     width: 900px;
     height: 364px;
@@ -308,11 +313,14 @@ const RequiredTag = styled.span`
   color: var(--main_white, #fff);
   text-align: center;
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
   margin-left: 5px;
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+  }
 `;
 
 const Line = styled.div`
@@ -392,6 +400,7 @@ const NextButton = styled.button`
   height: 52px;
   flex-shrink: 0;
   border-radius: 15px;
+  border : none;
   background: var(--main_purple, #9819c3);
   margin-top: 60px;
   cursor: pointer;

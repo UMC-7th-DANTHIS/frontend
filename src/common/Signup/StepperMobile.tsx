@@ -56,8 +56,8 @@ const StepperWrapper = styled.div`
   justify-content: space-between;   
   align-items: center;
   width: 100vw;
-  padding-left: 40px;
-  padding-right: 40px;
+  padding-left: 25px;
+  padding-right: 25px;
 
   ${({ theme }) => theme.media.tablet} {
     display: none;
@@ -128,7 +128,9 @@ const NumCurrent = styled.span`
 const Label = styled.span`
   color: white; 
   font-size: 16px; 
+  font-style: normal;
   font-weight: 600;
+  line-height: normal;
 `;
 
 
