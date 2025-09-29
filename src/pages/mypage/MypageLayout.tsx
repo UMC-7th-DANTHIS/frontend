@@ -51,10 +51,20 @@ const MainContainer = styled.div`
   background-color: black;
   display: flex;
   min-height: 100vh;
-  width: 1440px;
+  width: 100%;
+  flex-direction: row;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    width: 100%;
+  }
 `;
 
 const ContentContainer = styled.div`
   width: 880px;
   background-color: black;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
