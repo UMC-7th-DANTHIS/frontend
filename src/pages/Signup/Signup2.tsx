@@ -636,9 +636,9 @@ const ValidMessage = styled.div`
   line-height: normal;
   margin-top: 10px;
   text-align: right;
-  margin-right: 215px;
   ${({ theme }) => theme.media.tablet} {
     font-size: 14px;
+    margin-right: 100px;
   }
 `;
 
@@ -651,10 +651,10 @@ const ErrorMessage = styled.div`
   font-weight: 400;
   line-height: normal;
   margin-top: 10px;
-  margin-right: 215px;
   text-align: right;
   ${({ theme }) => theme.media.tablet} {
     font-size: 14px;
+    margin-right: 100px;
   }
 `;
 
@@ -667,7 +667,6 @@ const ErrorMessage1 = styled.div`
   font-weight: 400;
   line-height: normal;
   margin-top: 10px;
-  margin-right: 130px;
   text-align: right;
    ${({ theme }) => theme.media.tablet} {
     font-size: 14px;
