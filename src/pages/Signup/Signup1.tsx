@@ -169,9 +169,10 @@ const SignupTitle = styled.div`
   display: flex;
   justify-content: center;
   text-align: center;
+  margin-top: 26px;
     ${({ theme }) => theme.media.tablet} {
     font-size: 32px;
-    margin-top: 17px;
+    margin-top: 37px;
   }
 `;
 
@@ -186,16 +187,6 @@ const StepperDesktop = styled.div`
     flex-direction: row;
   }
 `
-// const StepperMobile = styled.div`
-// display: flex;
-//   gap: 10px;
-//   align-items: center;
-//   ${({ theme }) => theme.media.tablet} {
-//     display: none;
-//   }
-// `
-
-
 const MenuItemWrapper = styled.div`
   width: 260px;
   /* height: 64px; */
