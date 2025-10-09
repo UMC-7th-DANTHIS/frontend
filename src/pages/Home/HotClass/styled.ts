@@ -26,7 +26,7 @@ const Header = styled.div`
     align-items: start;
     font-size: 28px;
 
-    margin: 0px 0px 62px 2rem;
+    margin: 0px 0px 2rem 2rem;
     min-width: max-content;
   }
 
