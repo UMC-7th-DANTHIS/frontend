@@ -1,22 +1,5 @@
 import styled from 'styled-components';
 
-import PassiveCarousel from '../../common/Home/PassiveCarousel';
-
-import { AllClassData } from '@/types/MainInterface';
-
-type HotClassProps = {
-  danceclass: AllClassData;
-};
-
-const HotClass = ({ danceclass }: HotClassProps) => {
-  return (
-    <Container>
-      <Header>유행하는 수업을 한눈에</Header>
-      <PassiveCarousel danceclass={danceclass} />
-    </Container>
-  );
-};
-
 const Container = styled.div`
   width: 100%;
   margin-top: 40px;
@@ -56,4 +39,4 @@ const Header = styled.div`
   line-height: normal;
 `;
 
-export default HotClass;
+export { Container, Header };

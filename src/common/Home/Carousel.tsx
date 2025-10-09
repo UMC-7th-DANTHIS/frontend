@@ -54,7 +54,6 @@ const CarouselContainer = styled.div`
   margin-bottom: 58px;
   overflow: hidden;
 
-  /* 태블릿 이하에서 상하 여백 살짝 축소 */
   ${({ theme }) => theme.media.tablet} {
     margin-top: 56px;
     margin-bottom: 44px;
@@ -67,12 +66,12 @@ const CarouselContainer = styled.div`
 
 const Slide = styled.div`
   text-align: center;
-  padding: 0 8px; /* 카드 간 간격 */
+  padding: 0 2rem;
   ${({ theme }) => theme.media.tablet} {
-    padding: 0 6px;
+    padding: 0 1.5rem;
   }
   ${({ theme }) => theme.media.mobile} {
-    padding: 0 4px;
+    padding: 0 1rem;
   }
 `;
 

@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
-import styled from 'styled-components';
+import * as S from './styled';
 
-import ImageModal from '../../common/Comunity/ImageModal';
-import PostComment from '../../common/Comunity/PostComment';
-import PostContent from '../../common/Comunity/PostContent';
-import Pagination from '../../components/Pagination';
-import ConfirmLeaveAlert from '../../components/ConfirmLeaveAlert';
+import ImageModal from '../../../common/Comunity/ImageModal';
+import PostComment from '../../../common/Comunity/PostComment';
+import PostContent from '../../../common/Comunity/PostContent';
+import Pagination from '../../../components/Pagination';
+import ConfirmLeaveAlert from '../../../components/ConfirmLeaveAlert';
 
-import axiosInstance from '../../api/axios-instance';
-import useGet from '../../hooks/useGet';
-import useGetCommunity from '../../hooks/useGetCommunity';
-import useGetComment from '../../hooks/useGetComment';
+import axiosInstance from '../../../api/axios-instance';
+import useGet from '../../../hooks/useGet';
+import useGetCommunity from '../../../hooks/useGetCommunity';
+import useGetComment from '../../../hooks/useGetComment';
 
-import { Comment } from '../../types/CommunityInterface';
-import useIsMobile from '../../hooks/useIsMobile';
+import { Comment } from '../../../types/CommunityInterface';
+import useIsMobile from '../../../hooks/useIsMobile';
 
 interface PostPageReload {
   setForceReload: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const CommunityPostPage = () => {
+export const CommunityPostPage = () => {
   const [, setComments] = useState<Comment[]>([]);
   const [forceReload, setForceReload] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -100,11 +100,11 @@ const CommunityPostPage = () => {
 
   return (
     <>
-      <Container>
-        <Wrapper>
-          <PostHeader>
+      <S.Container>
+        <S.Wrapper>
+          <S.PostHeader>
             <div>{post?.title}</div>
-          </PostHeader>
+          </S.PostHeader>
           <PostContent
             length={com?.data.totalComments!}
             handleModal={handleModal}
@@ -114,7 +114,7 @@ const CommunityPostPage = () => {
           />
           {isMobile ? (
             <>
-              <CommentSection>
+              <S.CommentSection>
                 {com?.data.comments.map((comment) => (
                   <>
                     <PostComment
@@ -127,43 +127,46 @@ const CommunityPostPage = () => {
                 ))}
 
                 {com?.data.comments.length! > 0 && (
-                  <PaginationContainer>
+                  <S.PaginationContainer>
                     <Pagination
                       dataLength={com?.data.totalComments!}
                       perData={perData}
                       currentPage={currentPage}
                       setCurrentPage={setCurrentPage}
                     />
-                  </PaginationContainer>
+                  </S.PaginationContainer>
                 )}
 
-                <CommentInput>
+                <S.CommentInput>
                   <input
                     type="text"
                     placeholder="댓글을 입력해주세요"
                     value={commentText}
                     onChange={handleCaution}
                   />
-                </CommentInput>
+                </S.CommentInput>
 
-                <CautionContainer> {cautionText || '\u00A0'}</CautionContainer>
-              </CommentSection>
-              <ButtonWrapper>
-                <BackButton onClick={(): void => handleCancel()}>
+                <S.CautionContainer>
+                  {' '}
+                  {cautionText || '\u00A0'}
+                </S.CautionContainer>
+              </S.CommentSection>
+              <S.ButtonWrapper>
+                <S.BackButton onClick={(): void => handleCancel()}>
                   글 목록으로
-                </BackButton>
+                </S.BackButton>
                 {cautionText ? (
-                  <InactiveButton>작성</InactiveButton>
+                  <S.InactiveButton>작성</S.InactiveButton>
                 ) : (
                   <button onClick={(): Promise<void> => handleCommentSubmit()}>
                     작성
                   </button>
                 )}
-              </ButtonWrapper>
+              </S.ButtonWrapper>
             </>
           ) : (
             <>
-              <CommentSection>
+              <S.CommentSection>
                 {com?.data.comments.map((comment) => (
                   <>
                     <PostComment
@@ -176,17 +179,17 @@ const CommunityPostPage = () => {
                 ))}
 
                 {com?.data.comments.length! > 0 && (
-                  <PaginationContainer>
+                  <S.PaginationContainer>
                     <Pagination
                       dataLength={com?.data.totalComments!}
                       perData={perData}
                       currentPage={currentPage}
                       setCurrentPage={setCurrentPage}
                     />
-                  </PaginationContainer>
+                  </S.PaginationContainer>
                 )}
 
-                <CommentInput>
+                <S.CommentInput>
                   <input
                     type="text"
                     placeholder="댓글을 입력해주세요"
@@ -194,7 +197,7 @@ const CommunityPostPage = () => {
                     onChange={handleCaution}
                   />
                   {cautionText ? (
-                    <InactiveButton>작성</InactiveButton>
+                    <S.InactiveButton>작성</S.InactiveButton>
                   ) : (
                     <button
                       onClick={(): Promise<void> => handleCommentSubmit()}
@@ -202,26 +205,29 @@ const CommunityPostPage = () => {
                       작성
                     </button>
                   )}
-                </CommentInput>
-                <CautionContainer> {cautionText || '\u00A0'}</CautionContainer>
-              </CommentSection>
-              <BackButton onClick={(): void => handleCancel()}>
+                </S.CommentInput>
+                <S.CautionContainer>
+                  {' '}
+                  {cautionText || '\u00A0'}
+                </S.CautionContainer>
+              </S.CommentSection>
+              <S.BackButton onClick={(): void => handleCancel()}>
                 글 목록으로
-              </BackButton>
+              </S.BackButton>
             </>
           )}
-        </Wrapper>
-      </Container>
+        </S.Wrapper>
+      </S.Container>
 
       {showCancelAlert && (
         <ConfirmLeaveAlert
           message={
-            <AlertText>
+            <S.AlertText>
               해당 페이지를 벗어나면{'\n'}
-              작성 중인 정보가 <ColoredText> 모두 삭제</ColoredText>됩니다.
+              작성 중인 정보가 <S.ColoredText> 모두 삭제</S.ColoredText>됩니다.
               {'\n'}
               떠나시겠습니까?
-            </AlertText>
+            </S.AlertText>
           }
           onClose={(): void => setShowCancelAlert(false)}
           showButtons={true}
@@ -234,154 +240,3 @@ const CommunityPostPage = () => {
     </>
   );
 };
-
-const Container = styled.div`
-  padding-top: 30px;
-  background-color: #000000;
-  padding-bottom: 100px;
-  width: 100%;
-  max-width: 900px;
-  padding: 0 2rem;
-  margin-bottom: 30px;
-`;
-
-const Wrapper = styled.div`
-  color: white;
-`;
-
-const PostHeader = styled.div`
-  border-bottom: 1.5px solid #d9d9d9;
-  margin-bottom: 20px;
-  text-align: center;
-
-  div {
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-
-    margin-bottom: 20px;
-  }
-`;
-
-const CommentSection = styled.div`
-  padding-top: 47px;
-  border-top: 1px solid #d9d9d9;
-`;
-
-const CommentInput = styled.div`
-  padding-top: 23px;
-  display: flex;
-  gap: 20px;
-
-  input {
-    flex: 1;
-    padding: 10px;
-    padding-left: 37px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: transparent;
-    color: white;
-    font-size: 16px;
-  }
-
-  button {
-    padding: 13px 18px;
-    background-color: #9819c3;
-    border: none;
-    color: white;
-    border-radius: 10px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-`;
-
-const InactiveButton = styled.div`
-  min-width: 64px;
-  min-height: 30px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  background-color: grey;
-  border: none;
-  color: white;
-  border-radius: 10px;
-  font-size: 16px;
-  cursor: inactive;
-`;
-
-const BackButton = styled.div`
-  width: 90px;
-  height: 27px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  border-radius: 10px;
-  border: 1px solid #bf00ff;
-  background-color: transparent;
-  color: #bf00ff;
-  text-align: center;
-  cursor: pointer;
-
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-`;
-
-const PaginationContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding-bottom: 49px;
-  padding-top: 32px;
-
-  border-top: 1.5px solid #d9d9d9;
-`;
-
-const ButtonWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  button {
-    min-width: 64px;
-    min-height: 30px;
-
-    background-color: #9819c3;
-    border: none;
-    color: white;
-    border-radius: 10px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-`;
-
-const CautionContainer = styled.div`
-  margin-top: 10px;
-  min-height: 20px;
-  color: #f00;
-  font-size: 14px;
-  text-align: right;
-  margin-bottom: 10px;
-`;
-
-const AlertText = styled.span`
-  text-align: center;
-  font-family: Pretendard;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 21px;
-  white-space: pre-line;
-`;
-const ColoredText = styled.span`
-  color: #a60f62;
-  font-weight: bold;
-`;
-
-export default CommunityPostPage;
