@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 
 import { AllDancerData } from '@/types/MainInterface';
 
@@ -50,28 +50,21 @@ const Carousel = ({ dancer }: CarouselProps) => {
 };
 
 const CarouselContainer = styled.div`
-  margin-top: 73px;
-  margin-bottom: 58px;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
   overflow: hidden;
 
   ${({ theme }) => theme.media.tablet} {
-    margin-top: 56px;
-    margin-bottom: 44px;
-  }
-  ${({ theme }) => theme.media.mobile} {
-    margin-top: 44px;
-    margin-bottom: 36px;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
   }
 `;
 
 const Slide = styled.div`
   text-align: center;
-  padding: 0 2rem;
+  padding: 0 0.5;
   ${({ theme }) => theme.media.tablet} {
-    padding: 0 1.5rem;
-  }
-  ${({ theme }) => theme.media.mobile} {
-    padding: 0 1rem;
+    padding: 0 0.25;
   }
 `;
 
@@ -108,7 +101,7 @@ const ImageContainer = styled.div`
   border-radius: 10px;
   overflow: hidden;
   transition: transform 0.3s ease-in-out;
-  margin: 0 auto; /* 가운데 정렬 */
+  margin: 0 auto;
 
   &:hover {
     transform: scale(1.06);

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   width: 100%;
-  margin-top: 40px;
+  margin-top: 2rem;
   border-bottom: 2px solid #4d4d4d;
 
   justify-content: center;
@@ -15,20 +15,18 @@ const Container = styled.div`
 `;
 
 const Header = styled.div`
-  margin-bottom: 62px;
-
   display: flex;
   justify-content: center;
   align-items: center;
 
-  margin: 0px 0px 62px 0px;
+  margin-bottom: 2rem;
 
   ${({ theme }) => theme.media.tablet} {
     justify-content: start;
     align-items: start;
     font-size: 28px;
 
-    margin: 0px 0px 62px 32px;
+    margin: 0px 0px 62px 2rem;
     min-width: max-content;
   }
 
