@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { hashTagID, hashTagIDInterface } from '../../api/schema';
+import { hashTagID } from '../../api/schema';
 import { AllClassData, AllClassList } from '@/types/MainInterface';
 
 type ForClassProps = {
@@ -111,11 +111,12 @@ const ClassName = styled.div`
 const ClassDancer = styled.div`
   color: #b2b2b2;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 28px;
 
   ${({ theme }) => theme.media.tablet} {
     font-size: 22px;
+    font-weight: 600;
   }
 `;
 
