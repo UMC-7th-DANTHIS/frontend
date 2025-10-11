@@ -65,8 +65,8 @@ const DancerContent = styled.div`
 `;
 
 const DancerImage = styled.img`
-  width: 200px;
-  height: 271px;
+  width: 150px;
+  height: 230px;
   flex-shrink: 0;
 
   background-color: white;
@@ -79,6 +79,11 @@ const DancerImage = styled.img`
   &:hover {
     transform: scale(1.1);
     opacity: 1;
+  }
+
+  ${({ theme }) => theme.media.tablet} {
+    width: 200px;
+    height: 271px;
   }
 `;
 
