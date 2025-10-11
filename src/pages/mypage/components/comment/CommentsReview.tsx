@@ -23,14 +23,16 @@ const CommentsReview = ({ review }: CommentsReviewProps) => {
 
   return (
     <Container>
-      <ReviewWrapper key={review.reviewId} onClick={() => handleClick(review.reviewId)}>
+      <ReviewWrapper
+        key={review.reviewId}
+        onClick={() => handleClick(review.reviewId)}
+      >
         <InfoWrapper>
           <Data>
             <TitleandPhoto>
               <Title>{review.title}</Title>
-              {(review.images?.filter((image) => image !== null) || []).length > 0 && (
-                <ExistPhoto width={16} height={16} />
-              )}
+              {(review.images?.filter((image) => image !== null) || []).length >
+                0 && <ExistPhoto width={16} height={16} />}
             </TitleandPhoto>
 
             <RatingAndDate>
@@ -63,6 +65,11 @@ const Container = styled.div`
   flex-direction: column;
   width: 970px;
   margin-left: 27px;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    margin-left: 0;
+  }
 `;
 
 const ReviewWrapper = styled.div`
@@ -74,11 +81,22 @@ const ReviewWrapper = styled.div`
   box-shadow: 0px 0px 5px 2px #9819c3;
   margin-bottom: 50px;
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    height: auto;
+    margin-bottom: 24px;
+    box-shadow: 0px 0px 5px 2px #9819c3;
+    padding: 16px;
+  }
 `;
 
 const InfoWrapper = styled.div`
   display: flex;
   flex-direction: row;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 
 const Data = styled.div`
@@ -88,6 +106,11 @@ const Data = styled.div`
   align-items: flex-start;
   margin-left: 50px;
   margin-top: 15px;
+
+  @media (max-width: 600px) {
+    margin-left: 0;
+    margin-top: 0;
+  }
 `;
 
 const TitleandPhoto = styled.div`
@@ -95,6 +118,10 @@ const TitleandPhoto = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 5px;
+
+  @media (max-width: 600px) {
+    gap: 5px;
+  }
 `;
 
 const Title = styled.div`
@@ -104,18 +131,35 @@ const Title = styled.div`
   font-weight: 600;
   line-height: 50px;
   letter-spacing: -1px;
+
+  @media (max-width: 600px) {
+    font-size: 16px;
+  }
 `;
 
 const RatingAndDate = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  @media (max-width: 600px) {
+    margin-top: 4px;
+  }
 `;
 
 const Stars = styled.div`
   display: flex;
   flex-direction: row;
   margin-right: 10px;
+
+  @media (max-width: 600px) {
+    margin-right: 6px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
 `;
 
 const Star = styled.div`
@@ -128,6 +172,10 @@ const Date = styled.div`
   font-weight: 500;
   line-height: 20px;
   letter-spacing: -0.6px;
+
+  @media (max-width: 600px) {
+    font-size: 11px;
+  }
 `;
 
 const Detail = styled.div`
@@ -138,4 +186,9 @@ const Detail = styled.div`
   margin-top: 20px;
   margin-right: 46px;
   margin-bottom: 30px;
+
+  @media (max-width: 600px) {
+    font-size: 14px;
+    margin: 12px 0 0 0;
+  }
 `;
