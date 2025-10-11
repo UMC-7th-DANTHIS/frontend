@@ -92,86 +92,104 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
 
 export default ReviewForm;
 
-const getReviewBoxHeight = (imageCount: number) => {
-  switch (imageCount) {
-    case 0:
-      return '400px';
-    case 1:
-    case 2:
-      return '882px';
-    case 3:
-    case 4:
-      return '1130px';
-    default:
-      return '400px';
-  }
-};
+// const getReviewBoxHeight = (imageCount: number) => {
+//   switch (imageCount) {
+//     case 0:
+//       return '400px';
+//     case 1:
+//     case 2:
+//       return '882px';
+//     case 3:
+//     case 4:
+//       return '1130px';
+//     default:
+//       return '400px';
+//   }
+// };
 
 const ReviewBox = styled.div<ReviewBoxProps>`
-  width: 660px;
-  height: ${(props) => getReviewBoxHeight(props.imageCount)};
+  width: 100%;
+  max-width: 660px;
+  min-width: 320px;
+  height: auto;
+  min-height: ${(props) => (props.imageCount > 0 ? '400px' : '300px')};
+
   border: 2px solid #9819c3;
   border-radius: 10px;
   box-shadow: 0px 0px 5px #9819c3;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  padding: 16px 24px;
+  box-sizing: border-box;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    max-width: 100%;
+    padding: 12px;
+  }
 `;
 
 const BoxTitle = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: 6px;
+  gap: 16px;
+  padding: 12px 24px 0;
 `;
 
 const Line = styled.div`
   border: 1.5px solid #b2b2b2;
-  width: 555px;
-  margin-left: 59px;
-  margin-top: 14px;
-  margin-bottom: 14px;
+  width: 100%;
+  margin: 14px 0;
 `;
 
 const PhotoLine = styled.div`
   border: 1.5px solid #4d4d4d;
-  width: 555px;
-  margin-left: 59px;
-  margin-top: 14px;
-  margin-bottom: 27px;
+  width: 100%;
+  margin: 14px 0 27px;
 `;
 
 const BoxContent = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 12px 24px 0;
 `;
 
 const Label = styled.div`
   font-size: 18px;
   font-weight: 500;
-  margin-left: 59px;
-  line-height: normal;
-  margin-top: 15px;
+  min-width: 50px;
+  flex-shrink: 0;
+
+  @media (max-width: 600px) {
+    font-size: 14px;
+    min-width: 40px;
+  }
 `;
 
 const Input = styled.input`
-  width: 474px;
+  flex: 1;
   font-size: 14px;
   font-weight: 400;
   border: none;
   background-color: transparent;
   color: #fff;
   outline: none;
-  margin-left: 30px;
-  margin-top: 18px;
 
   &::placeholder {
     color: #4d4d4d;
   }
+
+  @media (max-width: 600px) {
+    font-size: 13px;
+  }
 `;
 
 const Textarea = styled.textarea<TextareaProps>`
-  width: 474px;
+  flex: 1;
   height: ${(props) => (props.hasImage ? '462px' : '300px')};
   font-size: 14px;
   font-weight: 400;
@@ -180,11 +198,13 @@ const Textarea = styled.textarea<TextareaProps>`
   color: #fff;
   outline: none;
   resize: none;
-  margin-top: 18px;
-  margin-left: 30px;
 
   &::placeholder {
     color: #4d4d4d;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 13px;
   }
 `;
 
@@ -192,6 +212,10 @@ const PreviewImageContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 13px;
+
+  @media (max-width: 600px) {
+    margin-top: 10px;
+  }
 `;
 
 const ImageGrid = styled.div`
@@ -200,12 +224,23 @@ const ImageGrid = styled.div`
   column-gap: 53px;
   row-gap: 43px;
   max-width: 420px;
+
+  @media (max-width: 600px) {
+    column-gap: 16px;
+    row-gap: 16px;
+    max-width: 100%;
+  }
 `;
 
 const ImageWrapper = styled.div`
   position: relative;
   width: 200px;
   height: 200px;
+
+  @media (max-width: 600px) {
+    width: 140px;
+    height: 140px;
+  }
 `;
 
 const PreviewImage = styled.img`
@@ -213,6 +248,11 @@ const PreviewImage = styled.img`
   height: 200px;
   object-fit: cover;
   border-radius: 7px;
+
+  @media (max-width: 600px) {
+    width: 140px;
+    height: 140px;
+  }
 `;
 
 const RemoveButton = styled.div`
@@ -225,4 +265,14 @@ const RemoveButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 600px) {
+    top: -10px;
+    right: -6px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
 `;
