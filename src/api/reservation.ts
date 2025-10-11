@@ -1,6 +1,7 @@
 import api from './api';
 import { PaginationParams } from '../types/common';
 import {
+  GetClassesAllDto,
   ResponseChat,
   ResponseClassDetail,
   ResponseClasses,
@@ -12,9 +13,9 @@ import {
   ResponseReview
 } from '../types/reservation';
 
-export const fetchClasses = async (paginationParams: PaginationParams): Promise<ResponseClasses> => {
+export const fetchClasses = async (params: GetClassesAllDto): Promise<ResponseClasses> => {
   const { data } = await api.get(`/dance-classes/all`, {
-    params: paginationParams
+    params
   });
   return data;
 };

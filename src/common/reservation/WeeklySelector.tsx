@@ -1,25 +1,15 @@
+import { useDateSelectionStore } from '../../store/dateSelectionStore';
+import { Day, DAYS_OF_WEEK } from '../../types/reservation';
 import styled from 'styled-components';
-
-export const DAYS_OF_WEEK = [
-  { key: 'MON', ko: '월' },
-  { key: 'TUE', ko: '화' },
-  { key: 'WED', ko: '수' },
-  { key: 'THU', ko: '목' },
-  { key: 'FRI', ko: '금' },
-  { key: 'SAT', ko: '토' },
-  { key: 'SUN', ko: '일' }
-];
 
 const firstRowDays = DAYS_OF_WEEK.slice(0, 4); // 월, 화, 수, 목
 const secondRowDays = DAYS_OF_WEEK.slice(4); // 금, 토, 일
 
-interface WeeklySelectorProps {
-  dayKey: string;
-  setDayKey: (value: string) => void;
-}
+export const WeeklySelector = () => {
+  const dayKey = useDateSelectionStore((store) => store.day);
+  const setDayKey = useDateSelectionStore((store) => store.setDay);
 
-export const WeeklySelector = ({ dayKey, setDayKey }: WeeklySelectorProps) => {
-  const handleSelectWeek = (dayKey: string) => setDayKey(dayKey);
+  const handleSelectWeek = (day: Day) => setDayKey(day);
 
   return (
     <DayButtonsWrapper>

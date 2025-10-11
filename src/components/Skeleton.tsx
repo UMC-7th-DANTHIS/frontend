@@ -36,8 +36,8 @@ const shimmer = keyframes`
 `;
 
 const baseStyle = css<SkeletonProps>`
-  --sk-base: ${({ baseColor }) => baseColor ?? '#222'};
-  --sk-highlight: ${({ highlightColor }) => highlightColor ?? '#333'};
+  --sk-base: ${({ baseColor }) => baseColor ?? '#111'};
+  --sk-highlight: ${({ highlightColor }) => highlightColor ?? '#222'};
 
   position: relative;
   overflow: hidden;
