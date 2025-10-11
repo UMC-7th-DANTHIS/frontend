@@ -63,13 +63,15 @@ const ClassContainer = styled.div`
 const ClassContent = styled.div`
   display: flex;
   flex-direction: row;
-  padding-right: 20px;
+  gap: 30px;
 `;
 
 const ClassImage = styled.img`
   display: inline-block;
+
   width: 130px;
   height: 130px;
+
   background-color: white;
 
   border-radius: 6px;
@@ -86,6 +88,7 @@ const ClassImage = styled.img`
   ${({ theme }) => theme.media.tablet} {
     width: 200px;
     height: 200px;
+
     border-radius: 10px;
   }
 `;
@@ -93,7 +96,6 @@ const ClassImage = styled.img`
 const TextContainer = styled.div`
   display: inline-block;
   flex-direction: column;
-  padding-left: 30px;
   align-content: center;
   gap: 5px;
 `;
