@@ -71,6 +71,8 @@ const DancerImage = styled.img`
 
   background-color: white;
   border-radius: 50%;
+
+  margin-top: 15px;
   margin-bottom: 50px;
 
   cursor: pointer;
