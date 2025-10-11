@@ -8,6 +8,10 @@ import api from '../../../../api/api';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
 import { FetchUserPostsResponse, Post } from '@/types/mypage/CommentPostType';
 
+interface CommentPostProps {
+  perPage: number;
+}
+
 const fetchUserPosts = async (
   currentPage: number,
   perData: number
@@ -28,17 +32,16 @@ const fetchUserPosts = async (
   };
 };
 
-const CommentPost = () => {
+const CommentPost = ({ perPage }: CommentPostProps) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const perData = 5;
   const navigate = useNavigate();
 
   const { data, isLoading, isError, error } = useQuery<
     FetchUserPostsResponse,
     Error
   >({
-    queryKey: ['userposts', currentPage, perData],
-    queryFn: () => fetchUserPosts(currentPage, perData)
+    queryKey: ['userposts', currentPage, perPage],
+    queryFn: () => fetchUserPosts(currentPage, perPage)
   });
 
   if (isLoading) {
@@ -92,7 +95,7 @@ const CommentPost = () => {
       {data?.totalElements ? (
         <Pagination
           dataLength={data.totalElements}
-          perData={perData}
+          perData={perPage}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
@@ -109,6 +112,11 @@ const AllContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 154px;
+
+  @media (max-width: 600px) {
+    margin-bottom: 100px;
+    width: 100%;
+  }
 `;
 
 const CommentContainer = styled.div`
@@ -121,10 +129,23 @@ const CommentContainer = styled.div`
   margin-bottom: 20px;
   margin-left: 29px;
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    height: auto;
+    margin-left: 0;
+    margin-bottom: 16px;
+    box-shadow: 0px 0px 3px #9819c3;
+    padding: 12px;
+  }
 `;
 
 const ContentsContainer = styled.div`
   padding: 0 39px 0 50px;
+
+  @media (max-width: 600px) {
+    padding: 0;
+  }
 `;
 
 const CommentTitle = styled.div`
@@ -133,6 +154,11 @@ const CommentTitle = styled.div`
   font-weight: 600;
   line-height: normal;
   margin-top: 29px;
+
+  @media (max-width: 600px) {
+    font-size: 16px;
+    margin-top: 4px;
+  }
 `;
 
 const PhotoandTitle = styled.div`
@@ -146,6 +172,12 @@ const CommentData = styled.div`
   color: #b2b2b2;
   margin-top: 8px;
   margin-bottom: 13px;
+
+  @media (max-width: 600px) {
+    font-size: 12px;
+    margin-top: 4px;
+    margin-bottom: 8px;
+  }
 `;
 
 const CommentContents = styled.div`
@@ -153,14 +185,31 @@ const CommentContents = styled.div`
   font-size: 18px;
   font-weight: 500;
   line-height: normal;
+
+  @media (max-width: 600px) {
+    font-size: 14px;
+    line-height: 1.4;
+  }
 `;
 
 const IconContainer = styled.div`
   margin-top: 20px;
+
+  @media (max-width: 600px) {
+    margin-top: 0;
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
 `;
 
 const LoadingContainer = styled.div`
   margin-left: 450px;
+
+  @media (max-width: 600px) {
+    margin: 0 auto;
+  }
 `;
 
 const Text = styled.div`
@@ -168,4 +217,10 @@ const Text = styled.div`
   font-size: 18px;
   font-weight: 600;
   align-items: center;
+
+  @media (max-width: 600px) {
+    font-size: 15px;
+    text-align: center;
+    width: 100%;
+  }
 `;
