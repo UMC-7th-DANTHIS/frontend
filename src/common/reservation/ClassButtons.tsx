@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useAuth } from '../../hooks/useAuth';
 import useDeleteLiked from '../../hooks/reservation/useDeleteLiked';
 import usePostChat from '../../hooks/reservation/usePostChat';
 import usePostLiked from '../../hooks/reservation/usePostLiked';
 import useGetMyLiked from '../../hooks/reservation/useGetMyLiked';
 import { LikedClass } from '../../types/class';
+import { useNavigate } from 'react-router-dom';
 
 interface ClassButtonsProps {
   classId: string;
@@ -12,19 +14,34 @@ interface ClassButtonsProps {
 }
 
 export const ClassButtons = ({ classId, dancerId }: ClassButtonsProps) => {
+  const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
+
   const [isLiked, setIsLiked] = useState(false);
 
   const { mutate: postChat } = usePostChat();
   const { mutate: postLiked } = usePostLiked();
   const { mutate: deleteLiked } = useDeleteLiked();
 
-  const handleChatClick = (dancerId: number) => postChat(dancerId);
+  const { data: myLiked } = useGetMyLiked({ enabled: isLoggedIn });
+
+  const handleChatClick = (dancerId: number) => {
+    if (!isLoggedIn) {
+      navigate('/login');
+      return;
+    }
+    postChat(dancerId);
+  };
+
   const handleLikeClick = () => {
+    if (!isLoggedIn) {
+      navigate('/login');
+      return;
+    }
+
     if (!isLiked) postLiked(classId);
     else deleteLiked(classId);
   };
-
-  const { data: myLiked } = useGetMyLiked();
 
   useEffect(() => {
     if (!myLiked || !classId) return;
