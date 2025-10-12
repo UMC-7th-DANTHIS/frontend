@@ -33,7 +33,10 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
   }, [isMobile, danceclass?.danceClasses?.length]);
 
   useEffect(() => {
-    const maxStart = Math.max(0, (danceclass?.danceClasses?.length ?? 0) - VISIBLE);
+    const maxStart = Math.max(
+      0,
+      (danceclass?.danceClasses?.length ?? 0) - VISIBLE
+    );
     if (currentIndex > maxStart) setCurrentIndex(maxStart);
   }, [VISIBLE, danceclass?.danceClasses?.length, currentIndex]);
 
@@ -46,7 +49,12 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
 
   return (
     <SliderContainer $gutter={GUTTER}>
-      <ClickArea $side="left" $gutter={GUTTER} $disabled={!canPrev} onClick={handlePrev} />
+      <ClickArea
+        $side="left"
+        $gutter={GUTTER}
+        $disabled={!canPrev}
+        onClick={handlePrev}
+      />
       <SlideWrapper $offset={currentIndex * step}>
         {danceclass?.danceClasses?.map((item, index) => (
           <HotImage
@@ -59,7 +67,12 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
           />
         ))}
       </SlideWrapper>
-      <ClickArea $side="right" $gutter={GUTTER} $disabled={!canNext} onClick={handleNext} />
+      <ClickArea
+        $side="right"
+        $gutter={GUTTER}
+        $disabled={!canNext}
+        onClick={handleNext}
+      />
     </SliderContainer>
   );
 };
