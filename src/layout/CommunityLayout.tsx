@@ -1,3 +1,5 @@
+import styled from 'styled-components';
+
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
@@ -12,7 +14,7 @@ const CommunityLayout = () => {
   const { data: lists } = useFetchList(currentPage, forceReload);
 
   return (
-    <>
+    <Container>
       <Outlet
         context={{
           lists,
@@ -22,8 +24,12 @@ const CommunityLayout = () => {
           setForceReload
         }}
       />
-    </>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  margin-top: 15px;
+`;
 
 export default CommunityLayout;
