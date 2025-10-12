@@ -49,6 +49,7 @@ const ForClass = ({ danceclass }: ForClassProps) => {
 const ClassContainer = styled.div`
   width: 100%;
   padding: 0 20px;
+  max-width: 400px;
 
   display: grid;
   grid-template-columns: repeat(1, 1fr);
@@ -57,13 +58,24 @@ const ClassContainer = styled.div`
   ${({ theme }) => theme.media.tablet} {
     grid-template-columns: repeat(2, 1fr);
     gap: 110px;
+
+    max-width: 1400px;
   }
 `;
 
 const ClassContent = styled.div`
   display: flex;
   flex-direction: row;
+
+  justify-content: start;
+  align-items: start;
+
   gap: 30px;
+
+  ${({ theme }) => theme.media.tablet} {
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const ClassImage = styled.img`
@@ -94,16 +106,22 @@ const ClassImage = styled.img`
 `;
 
 const TextContainer = styled.div`
-  display: inline-block;
+  display: flex;
+  min-width: 0;
+
   flex-direction: column;
-  align-content: center;
-  gap: 5px;
+
+  gap: 10px;
 `;
 
 const ClassName = styled.div`
   color: #fff;
   font-size: 18px;
   font-weight: 600;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   ${({ theme }) => theme.media.tablet} {
     font-size: 24px;

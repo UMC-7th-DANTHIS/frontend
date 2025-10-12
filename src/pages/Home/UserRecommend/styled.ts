@@ -18,18 +18,43 @@ const Wrapper = styled.div`
   max-width: 1030px;
 `;
 
+const ClassWrapper = styled.div`
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  margin: 0 auto;
+  padding: 0;
+  max-width: 350px;
+
+  ${({ theme }) => theme.media.tablet} {
+    justify-content: start;
+    align-items: center;
+
+    max-width: 1440px;
+    padding: 0 50px;
+  }
+`;
+
 const AlignCenter = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: start;
 
   width: 100%;
+  height: 100%;
 `;
 
 const Border = styled.div`
   border-bottom: 2px solid #4d4d4d;
 
   margin-top: 2rem;
+
   ${({ theme }) => theme.media.tablet} {
     margin-top: 4rem;
   }
@@ -61,4 +86,4 @@ const Header = styled.div`
   line-height: normal;
 `;
 
-export { Container, Wrapper, AlignCenter, Border, Header };
+export { Container, Wrapper, ClassWrapper, AlignCenter, Border, Header };

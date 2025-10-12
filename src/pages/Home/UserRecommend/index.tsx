@@ -28,14 +28,18 @@ export const UserRecommend = ({ dancer, danceclass }: UserRecommendProps) => {
         </S.AlignCenter>
       </S.Wrapper>
       <S.Border />
-      <S.Wrapper>
-        <S.Header>
-          오로지 {user?.data.nickname}님을 위한 맞춤형 수업이에요
-        </S.Header>
-        <S.AlignCenter>
-          <ForClass danceclass={danceclass} />
-        </S.AlignCenter>
-      </S.Wrapper>
+      <div>
+        <S.Wrapper>
+          <S.Header>
+            오로지 {user?.data.nickname}님을 위한 맞춤형 수업이에요
+          </S.Header>
+        </S.Wrapper>
+        <S.ClassWrapper>
+          <S.AlignCenter>
+            <ForClass danceclass={danceclass} />
+          </S.AlignCenter>
+        </S.ClassWrapper>
+      </div>
     </S.Container>
   );
 };
