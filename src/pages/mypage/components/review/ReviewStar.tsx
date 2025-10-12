@@ -45,6 +45,13 @@ export default ReviewStar;
 
 const RatingSection = styled.div`
   margin-top: 50px;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const RatingTitle = styled.p`
@@ -53,6 +60,12 @@ const RatingTitle = styled.p`
   color: #fff;
   margin-bottom: 21px;
   margin-left: 40px;
+
+  @media (max-width: 600px) {
+    margin-left: 0;
+    font-size: 16px;
+    text-align: left;
+  }
 `;
 
 const Stars = styled.div`
@@ -60,6 +73,13 @@ const Stars = styled.div`
   align-items: center;
   margin-left: 166px;
   gap: 20px;
+
+  @media (max-width: 600px) {
+    margin-left: 0;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+  }
 `;
 
 const Star = styled.span`

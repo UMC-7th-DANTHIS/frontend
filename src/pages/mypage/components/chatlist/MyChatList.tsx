@@ -90,6 +90,12 @@ const ChatContainer = styled.div`
   flex-direction: column;
   gap: 32px;
   margin-top: 25px;
+
+  @media (max-width: 600px) {
+    gap: 23px;
+    margin-top: 49px;
+    justify-items: start;
+  }
 `;
 
 const ChatList = styled.div`
@@ -100,24 +106,45 @@ const ChatList = styled.div`
   border: 1px solid #9819c3;
   background-color: black;
   border-radius: 20px;
-  box-shadow: 0px 0px 5px 2px #9819c3;
+  box-shadow: 0px 0px 10px 2px #9819c3;
+
+  @media (max-width: 600px) {
+    width: 90%;
+    max-width: 318px;
+    height: 50px;
+    border-radius: 15px;
+    margin: 0 auto;
+  }
 `;
 
 const ListItem = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  height: 100%;
+  padding: 0 16px;
+
+  @media (max-width: 600px) {
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 20px;
+  }
 `;
 
 const ListImage = styled.img`
   width: 50px;
   height: 50px;
   flex-shrink: 0;
-  margin-top: 15px;
-  margin-bottom: 15px;
   margin-left: 33px;
   background-color: gray;
   border-radius: 6px;
+
+  @media (max-width: 600px) {
+    width: 30px;
+    height: 30px;
+    margin-left: 0px;
+  }
 `;
 
 const ListName = styled.div`
@@ -126,12 +153,25 @@ const ListName = styled.div`
   font-weight: 600;
   letter-spacing: -1.4px;
   margin-left: 22px;
+
+  @media (max-width: 600px) {
+    font-size: 16px;
+    margin-left: 31px;
+  }
 `;
 
 const ArrowContainer = styled.div`
   margin-left: auto;
   margin-right: 25px;
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    margin-right: 0px;
+    svg {
+      width: 10px;
+      height: 22px;
+    }
+  }
 `;
 
 const PaginationContainer = styled.div`
@@ -139,15 +179,21 @@ const PaginationContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 75px;
+
+  @media (max-width: 600px) {
+    margin-top: 40px;
+  }
 `;
 
 const Text = styled.div`
   color: #fff;
   text-align: center;
   font-size: 32px;
-  font-style: normal;
   font-weight: 500;
-  line-height: normal;
-  margin-top: 100px;
   margin-top: 219px;
+
+  @media (max-width: 600px) {
+    font-size: 20px;
+    margin-top: 100px;
+  }
 `;
