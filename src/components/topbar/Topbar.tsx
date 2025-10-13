@@ -13,7 +13,7 @@ export const MENU = [
   { path: '/classes', label: '댄스 수업 예약', isBeta: false },
   { path: '/dancerprofile', label: '댄서 프로필', isBeta: false },
   { path: '/community', label: '커뮤니티', isBeta: false },
-  { path: '#', label: '내 주변 연습실', isBeta: false },
+  { path: '/practice', label: '내 주변 연습실', isBeta: false },
   { path: '/battle', label: '배틀 & 이벤트', isBeta: true }
 ] as const;
 

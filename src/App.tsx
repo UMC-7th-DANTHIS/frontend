@@ -31,6 +31,7 @@ import ClassRegisterEditPage from './pages/registration/ClassRegisterEditPage';
 import ClassesPage from './pages/reservation/ClassesPage';
 import ReservationPage from './pages/reservation/ReservationPage';
 import ReviewDetailPage from './pages/reservation/ReviewDetailPage';
+import Practice from './pages/Practice/Practice';
 import ProtectedRoute from './components/ProtectedRoute';
 import Battle from './pages/Battle/Battle';
 
@@ -90,6 +91,7 @@ function App(): React.JSX.Element {
           <Route path="/dancerprofile/:dancerId" element={<DancerProfile />} />
           <Route path="/review/:id" element={<ReviewDetail />} />
           <Route path="/detail/:classId" element={<MyRegisterDetail />} />
+          <Route path="/practice" element={<Practice />} />
           <Route path="/battle" element={<Battle />} />
         </Route>
       </Routes>
