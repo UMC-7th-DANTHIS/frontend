@@ -335,7 +335,7 @@ const Signup2 = () => {
               <UploadButton htmlFor="file-upload">파일 업로드</UploadButton>
 
               <RadioWrapper>
-                <RadioLabel>
+                <RadioLabels>
                   <RadioInput
                     type="checkbox"
                     name="profile"
@@ -345,7 +345,7 @@ const Signup2 = () => {
                   />
                   <CustomCircle1 />
                   <LabelText1>기본 이미지 사용하기</LabelText1>
-                </RadioLabel>
+                </RadioLabels>
               </RadioWrapper>
             </UploadContainer>
           </ProfileContainer>
@@ -400,13 +400,13 @@ const SignupTitle = styled.div`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin-top: 17px;
+  margin-top: 26px;
   display: flex;
   justify-content: center;
   text-align: center;
    ${({ theme }) => theme.media.tablet} {
     font-size: 32px;
-    margin-top: 17px;
+    margin-top: 37px;
   }
 `;
 
@@ -480,8 +480,14 @@ const DataForm = styled.div`
 `;
 const Field = styled.div`
   margin-top: 40px;
-  //margin-left: 25px;
   width: 324px;
+   &:first-of-type {
+    margin-top: 0; 
+    ${({ theme }) => theme.media.tablet} {
+  margin-top: 46px;
+}
+
+  }
 ${({ theme }) => theme.media.tablet} {
   margin-top: 46px;
   width: 600px;
@@ -630,9 +636,9 @@ const ValidMessage = styled.div`
   line-height: normal;
   margin-top: 10px;
   text-align: right;
-  margin-right: 215px;
   ${({ theme }) => theme.media.tablet} {
     font-size: 14px;
+    margin-right: 100px;
   }
 `;
 
@@ -645,10 +651,10 @@ const ErrorMessage = styled.div`
   font-weight: 400;
   line-height: normal;
   margin-top: 10px;
-  margin-right: 215px;
   text-align: right;
   ${({ theme }) => theme.media.tablet} {
     font-size: 14px;
+    margin-right: 100px;
   }
 `;
 
@@ -661,12 +667,12 @@ const ErrorMessage1 = styled.div`
   font-weight: 400;
   line-height: normal;
   margin-top: 10px;
-  margin-right: 130px;
   text-align: right;
    ${({ theme }) => theme.media.tablet} {
     font-size: 14px;
   }
 `;
+
 const RadioWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -689,6 +695,26 @@ const RadioLabel = styled.label`
   justify-content: center;
   cursor: pointer;
   color: white;
+  width: 45px;
+  height: 20px;
+  ${({ theme }) => theme.media.tablet} {
+   width: 56px; 
+   height: 25px;
+  }
+`;
+
+const RadioLabels = styled.label`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+  width: 131px;
+  height: 16px;
+  ${({ theme }) => theme.media.tablet} {
+   width: 190px; 
+   height: 22px;
+  }
 `;
 
 const RadioInput = styled.input`
@@ -709,14 +735,15 @@ const CustomCircle = styled.span`
   top: 50%; /* 부모의 50% */
   left: 50%; /* 부모의 50% */
   transform: translate(-50%, -50%); /* 중심으로 이동 */
+  
   ${RadioInput}:checked + & {
     background-color: white; /* 선택된 경우 내부 색상 변경 */
   }
 
   ${RadioInput}:checked + &::after {
     content: '';
-    width: 12px;
-    height: 12px;
+    width: 80%;
+    height: 80%;
     background-color: #a60f62; /* 선택된 상태의 중앙 원 */
     border-radius: 50%;
     position: absolute;
@@ -747,14 +774,15 @@ const CustomCircle1 = styled.span`
   align-items: center;
   margin-right: 15px;
   position: relative;
+  
   ${RadioInput}:checked + & {
     background-color: white; /* 선택된 경우 내부 색상 변경 */
   }
 
   ${RadioInput}:checked + &::after {
     content: '';
-    width: 12px;
-    height: 12px;
+    width: 80%;
+    height: 80%;
     background-color: #a60f62; /* 선택된 상태의 중앙 원 */
     border-radius: 50%;
     position: absolute;

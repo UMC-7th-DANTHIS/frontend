@@ -244,8 +244,13 @@ const SignupTitle = styled.div`
   line-height: normal;
   margin-top: 17px;
   display: flex;
+  margin-top: 26px;
   justify-content: center;
   text-align: center;
+   ${({ theme }) => theme.media.tablet} {
+   font-size: 32px;
+   margin-top: 37px;
+  }
 `;
 
 const MenuContainer = styled.div`
