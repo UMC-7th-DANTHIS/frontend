@@ -249,11 +249,13 @@ const Image = styled.img`
   height: 120px;
   border-radius: 7px;
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
-
+  object-fit: cover;
+    aspect-ratio: 1 / 1; 
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover; // 비율 유지
+    object-fit: cover;
+    aspect-ratio: 1 / 1; 
   }
    ${({ theme }) => theme.media.tablet} {
      width: 180px;
