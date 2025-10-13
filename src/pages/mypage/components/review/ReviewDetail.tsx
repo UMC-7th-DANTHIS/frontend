@@ -19,7 +19,8 @@ const ReviewDetail = () => {
   const [review, setReview] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const { id: classId } = useParams<{ id: string }>();
-  const selectedMenu = new URLSearchParams(location.search).get('menu') || 'myreview';
+  const selectedMenu =
+    new URLSearchParams(location.search).get('menu') || 'myreview';
   const className = (location.state as LocationState)?.className || '';
   const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
 
@@ -92,14 +93,17 @@ const ReviewDetail = () => {
   return (
     <>
       <Container>
-        <MypageSidebar selectedMenu={selectedMenu} onMenuClick={handleMenuClick} />
+        <MypageSidebar
+          selectedMenu={selectedMenu}
+          onMenuClick={handleMenuClick}
+        />
 
         <ReviewContainer>
           <ClassTitle>{className}</ClassTitle>
           <Title>리뷰 작성</Title>
           <Notice>
-            <li> * 제목은 최대 50자까지 입력 가능합니다. </li>
-            <li> * 내용은 최대 1000자까지 입력 가능합니다.</li>
+            <li>* 제목은 최대 50자까지 입력 가능합니다.</li>
+            <li>* 내용은 최대 1000자까지 입력 가능합니다.</li>
           </Notice>
 
           <ReviewForm
@@ -124,7 +128,8 @@ const ReviewDetail = () => {
                           해당 페이지를 벗어나면 <br />
                         </span>
                         <span>
-                          작성 중인 글이 <ColoredText> 모두 삭제 </ColoredText> 됩니다 <br />
+                          작성 중인 글이 <ColoredText> 모두 삭제 </ColoredText>{' '}
+                          됩니다 <br />
                         </span>
                         <span>떠나시겠습니까?</span>
                       </span>
@@ -175,6 +180,12 @@ const Container = styled.div`
   flex-direction: row;
   background-color: black;
   width: 1440px;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const ReviewContainer = styled.div`
@@ -185,6 +196,12 @@ const ReviewContainer = styled.div`
   margin-top: 38px;
   width: 880px;
   margin-left: 50px;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    margin-left: 0;
+    padding: 0 16px;
+  }
 `;
 
 const ClassTitle = styled.div`
@@ -193,6 +210,12 @@ const ClassTitle = styled.div`
   font-weight: 600;
   margin-bottom: 23px;
   margin-left: 200px;
+
+  @media (max-width: 600px) {
+    margin-left: 0;
+    text-align: center;
+    font-size: 22px;
+  }
 `;
 
 const Title = styled.div`
@@ -200,15 +223,27 @@ const Title = styled.div`
   color: #fff;
   font-size: 22px;
   margin-left: 55px;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 `;
 
-const Notice = styled.div`
+const Notice = styled.ul`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   color: #b2b2b2;
   font-size: 14px;
   list-style: none;
   margin-bottom: 10px;
-  text-align: right;
   margin-right: 220px;
+
+  @media (max-width: 600px) {
+    margin-right: 0;
+    font-size: 12px;
+    width: 100%;
+  }
 `;
 
 const FinalSection = styled.div`
@@ -218,6 +253,13 @@ const FinalSection = styled.div`
   gap: 24px;
   margin-top: 75px;
   margin-left: 519px;
+
+  @media (max-width: 600px) {
+    margin-left: 0;
+    justify-content: flex-end;
+    margin-bottom: 100px;
+    width: 100%;
+  }
 `;
 
 const Buttons = styled.div`
