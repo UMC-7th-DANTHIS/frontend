@@ -7,11 +7,17 @@ import { useQuery } from '@tanstack/react-query';
 import api from '../../../../api/api';
 import { useNavigate } from 'react-router-dom';
 import { DanceClassProps } from '@/types/mypage/LikeClassType';
+import useIsMobile from '../../../../hooks/useIsMobile';
+
+interface ImageProps {
+  isMobile: boolean;
+}
 
 const MyLikeClass = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const perData = 9;
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   const { data, isLoading, isError, error } = useQuery<DanceClassProps[]>({
     queryKey: ['userclass'],
@@ -26,7 +32,9 @@ const MyLikeClass = () => {
     }
   });
 
-  const filteredList = data ? data.slice(perData * (currentPage - 1), perData * currentPage) : [];
+  const filteredList = data
+    ? data.slice(perData * (currentPage - 1), perData * currentPage)
+    : [];
 
   if (isLoading) {
     return <LoadingSpinner isLoading={isLoading} />;
@@ -36,7 +44,9 @@ const MyLikeClass = () => {
     return <div>Error: {(error as Error)?.message}</div>;
   }
 
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+  const handleImageError = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
     e.currentTarget.src = sampleImage;
   };
 
@@ -54,6 +64,7 @@ const MyLikeClass = () => {
                 <Image
                   src={danceClass.thumbnailImage}
                   alt={String(danceClass.id)}
+                  isMobile={isMobile}
                   onError={handleImageError}
                   onClick={() => handleClick(danceClass.id)}
                 />
@@ -82,11 +93,46 @@ export default MyLikeClass;
 
 const ClassContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 220px);
-  column-gap: 110px;
   margin-top: 40px;
   justify-content: center;
   align-items: center;
+  justify-items: center;
+  grid-template-columns: repeat(3, 220px);
+  column-gap: 103px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 200px);
+    column-gap: 40px;
+    row-gap: 40px;
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(2, 140px);
+    column-gap: 28px;
+    row-gap: 28px;
+    margin-top: 40px;
+    margin-left: 0;
+    margin-right: 0;
+    justify-content: center;
+    justify-items: center;
+  }
+`;
+
+const Image = styled.img<ImageProps>`
+  object-fit: cover;
+  border-radius: 10px;
+  cursor: pointer;
+
+  ${({ isMobile }) =>
+    isMobile
+      ? `
+        width: 140px;
+        height: 140px;
+      `
+      : `
+        width: 180px;
+        height: 180px;
+      `}
 `;
 
 const ClassList = styled.div`
@@ -100,30 +146,35 @@ const ClassList = styled.div`
 const Title = styled.div`
   color: #fff;
   font-size: 24px;
-  font-style: normal;
   font-weight: 600;
-  line-height: normal;
   letter-spacing: -1.2px;
   margin-top: 9px;
+  text-align: center;
+
+  min-height: 58px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @media (max-width: 600px) {
+    font-size: 18px;
+    min-height: 44px;
+  }
 `;
 
 const Singer = styled.div`
   color: #b2b2b2;
   font-size: 18px;
-  font-style: normal;
   font-weight: 600;
-  line-height: normal;
   letter-spacing: -0.9px;
   margin-bottom: 53px;
-`;
 
-const Image = styled.img`
-  width: 220px;
-  height: 220px;
-  object-fit: cover;
-  border-radius: 10px;
-  background-color: white;
-  cursor: pointer;
+  @media (max-width: 600px) {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
 `;
 
 const PaginationContainer = styled.div`
@@ -138,8 +189,6 @@ const Text = styled.div`
   color: #fff;
   text-align: center;
   font-size: 32px;
-  font-style: normal;
   font-weight: 500;
-  line-height: normal;
   margin-top: 219px;
 `;

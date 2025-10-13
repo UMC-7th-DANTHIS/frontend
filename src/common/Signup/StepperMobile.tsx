@@ -56,8 +56,8 @@ const StepperWrapper = styled.div`
   justify-content: space-between;   
   align-items: center;
   width: 100vw;
-  padding-left: 40px;
-  padding-right: 40px;
+  padding-left: 25px;
+  padding-right: 25px;
 
   ${({ theme }) => theme.media.tablet} {
     display: none;
@@ -86,8 +86,8 @@ const FutureGroup = styled.div`
 /* 나머지는 기존 그대로 */
 const Circle = styled.div`
   position: relative;
-  width: 28px;
-  height: 28px;
+  width: 20px;
+  height: 20px;
   img { 
   width: 100%; 
   height: 100%; 
@@ -98,7 +98,7 @@ const Num = styled.span`
   top: 50%; 
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 12px; 
+  font-size: 11px; 
   font-weight: 600; 
   color: #b2b2b2; 
 `;
@@ -109,8 +109,8 @@ const CurrentStep = styled.div`
 `;
 const CurrentDot = styled.div`
   position: relative; 
-  width: 32px; 
-  height: 32px; 
+  width: 30px; 
+  height: 30px; 
   img { 
     width: 100%; 
     height: 100%; 
@@ -127,8 +127,10 @@ const NumCurrent = styled.span`
 `;
 const Label = styled.span`
   color: white; 
-  font-size: 14px; 
+  font-size: 16px; 
+  font-style: normal;
   font-weight: 600;
+  line-height: normal;
 `;
 
 

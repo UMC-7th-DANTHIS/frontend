@@ -60,7 +60,7 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
           <HotImage
             ref={index === 0 ? firstCardRef : undefined}
             key={item.id ?? index}
-            onClick={() => navigate(`/classreservation/${item.id}?tab=detail`)}
+            onClick={() => navigate(`/classes/${item.id}?tab=detail`)}
             src={item.thumbnailImage}
             alt="Image"
             $visible={index >= currentIndex && index < currentIndex + VISIBLE}

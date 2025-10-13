@@ -107,7 +107,6 @@ const ContentTitle = styled.div`
   flex: 1 1 auto;
   min-width: 0;
   white-space: nowrap;
-  overflow: hidden;
 
   ${({ theme }) => theme.media.tablet} {
     font-size: 18px;
@@ -200,8 +199,6 @@ const ContentMain = styled.div`
   flex: 1 1 auto;
   min-width: 0;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 
   ${({ theme }) => theme.media.tablet} {
     font-size: 18px;

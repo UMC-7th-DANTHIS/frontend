@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import Pagination from '../../../../components/Pagination';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,11 @@ import {
   DanceClassProps,
   FetchTakeClassResponse
 } from '@/types/mypage/ReviewType';
+import useIsMobile from '../../../../hooks/useIsMobile';
+
+interface ImageProps {
+  isMobile: boolean;
+}
 
 const fetchTakeClass = async (
   currentPage: number,
@@ -35,6 +40,7 @@ const MyReview = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const perData = 9;
+  const isMobile = useIsMobile();
 
   const { data, isLoading, isError, error } = useQuery<FetchTakeClassResponse>({
     queryKey: ['usertakeclass', currentPage, perData],
@@ -69,6 +75,7 @@ const MyReview = () => {
                 <Image
                   src={danceClass.thumbnailImage}
                   alt={String(danceClass.id)}
+                  isMobile={isMobile}
                   onClick={() => handleImageClick(danceClass)}
                 />
                 <Title>{danceClass.className}</Title>
@@ -94,10 +101,29 @@ export default MyReview;
 
 const ClassContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 220px);
-  column-gap: 110px;
   margin-top: 40px;
   justify-content: center;
+  align-items: center;
+  justify-items: center;
+  grid-template-columns: repeat(3, 220px);
+  column-gap: 103px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 200px);
+    column-gap: 40px;
+    row-gap: 40px;
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(2, 140px);
+    column-gap: 28px;
+    row-gap: 28px;
+    margin-top: 40px;
+    margin-left: 0;
+    margin-right: 0;
+    justify-content: center;
+    justify-items: center;
+  }
 `;
 
 const ClassList = styled.div`
@@ -114,6 +140,10 @@ const Title = styled.div`
   font-weight: 600;
   margin-top: 9px;
   letter-spacing: -1.2px;
+
+  @media (max-width: 600px) {
+    font-size: 16px;
+  }
 `;
 
 const Singer = styled.div`
@@ -121,15 +151,27 @@ const Singer = styled.div`
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 53px;
+
+  @media (max-width: 600px) {
+    font-size: 16px;
+  }
 `;
 
-const Image = styled.img`
-  width: 220px;
-  height: 220px;
+const Image = styled.img<ImageProps>`
   object-fit: cover;
   border-radius: 10px;
   cursor: pointer;
-  background-color: white;
+
+  ${({ isMobile }) =>
+    isMobile
+      ? `
+        width: 140px;
+        height: 140px;
+      `
+      : `
+        width: 220px;
+        height: 220px;
+      `}
 `;
 
 const PaginationContainer = styled.div`

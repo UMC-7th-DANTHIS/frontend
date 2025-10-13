@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { hashTagID, hashTagIDInterface } from '../../api/schema';
+import { hashTagID } from '../../api/schema';
 import { AllClassData, AllClassList } from '@/types/MainInterface';
 
 type ForClassProps = {
@@ -20,7 +20,7 @@ const ForClass = ({ danceclass }: ForClassProps) => {
       {randomDance?.map((Class) => (
         <ClassContent
           key={Class.id}
-          onClick={() => navigate(`/classreservation/${Class.id}?tab=detail`)}
+          onClick={() => navigate(`/classes/${Class.id}?tab=detail`)}
         >
           <ClassImage src={Class.thumbnailImage} alt="프로필 이미지" />
           <TextContainer>
@@ -49,6 +49,7 @@ const ForClass = ({ danceclass }: ForClassProps) => {
 const ClassContainer = styled.div`
   width: 100%;
   padding: 0 20px;
+  max-width: 400px;
 
   display: grid;
   grid-template-columns: repeat(1, 1fr);
@@ -57,19 +58,32 @@ const ClassContainer = styled.div`
   ${({ theme }) => theme.media.tablet} {
     grid-template-columns: repeat(2, 1fr);
     gap: 110px;
+
+    max-width: 1400px;
   }
 `;
 
 const ClassContent = styled.div`
   display: flex;
   flex-direction: row;
-  padding-right: 20px;
+
+  justify-content: start;
+  align-items: start;
+
+  gap: 30px;
+
+  ${({ theme }) => theme.media.tablet} {
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const ClassImage = styled.img`
   display: inline-block;
+
   width: 130px;
   height: 130px;
+
   background-color: white;
 
   border-radius: 6px;
@@ -86,22 +100,28 @@ const ClassImage = styled.img`
   ${({ theme }) => theme.media.tablet} {
     width: 200px;
     height: 200px;
+
     border-radius: 10px;
   }
 `;
 
 const TextContainer = styled.div`
-  display: inline-block;
+  display: flex;
+  min-width: 0;
+
   flex-direction: column;
-  padding-left: 30px;
-  align-content: center;
-  gap: 5px;
+
+  gap: 10px;
 `;
 
 const ClassName = styled.div`
   color: #fff;
   font-size: 18px;
   font-weight: 600;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   ${({ theme }) => theme.media.tablet} {
     font-size: 24px;
@@ -111,11 +131,12 @@ const ClassName = styled.div`
 const ClassDancer = styled.div`
   color: #b2b2b2;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 28px;
 
   ${({ theme }) => theme.media.tablet} {
     font-size: 22px;
+    font-weight: 600;
   }
 `;
 

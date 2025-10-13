@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Pagination from '../../components/Pagination';
 import { useParams } from 'react-router-dom';
 import api from '../../api/api';
 import axiosInstance from '../../api/axios-instance';
-
 
 type DanceClassType = {
   id: number;
@@ -60,11 +59,7 @@ const ClassTab: React.FC<Props> = ({ dancerId }) => {
       <ClassContainer hasClasses={classes.length > 0}>
         {classes.length > 0 ? (
           classes.map((item) => (
-            <Class 
-            key={item.id}
-            onClick={() => navigate(`/classreservation/${item.id}`)}
-              style={{ cursor: 'pointer' }} 
-              >
+            <Class key={item.id} onClick={() => navigate(`/classes/${item.id}`)} style={{ cursor: 'pointer' }}>
               <ClassImg src={item.thumbnailImage} alt={item.className} />
             </Class>
           ))
@@ -106,10 +101,8 @@ const ClassContainer = styled.div<{ hasClasses: boolean }>`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
-  display: ${({ hasClasses }) =>
-    hasClasses ? 'grid' : 'flex'}; // 수업이 없을 때 flex로 변경
-  grid-template-columns: ${({ hasClasses }) =>
-    hasClasses ? 'repeat(3, 1fr)' : 'none'};
+  display: ${({ hasClasses }) => (hasClasses ? 'grid' : 'flex')}; // 수업이 없을 때 flex로 변경
+  grid-template-columns: ${({ hasClasses }) => (hasClasses ? 'repeat(3, 1fr)' : 'none')};
   ${({ theme }) => theme.media.tablet} {
     gap: 55px;
   }

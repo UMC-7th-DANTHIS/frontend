@@ -1,21 +1,20 @@
 import styled from 'styled-components';
 import { ReactComponent as Weekly } from '../../assets/reservation/Weekly.svg';
 import { ReactComponent as Calendar } from '../../assets/reservation/Calendar.svg';
-import { DATE_TYPE, DateType } from '../../types/reservation';
+import { DATE_TYPE } from '../../types/reservation';
+import { useDateSelectionStore } from '../../store/dateSelectionStore';
 
-interface DateTypeToggleProps {
-  selectedType: DateType;
-  setSelectType: (type: DateType) => void;
-}
+export const DateTypeToggle = () => {
+  const selectedType = useDateSelectionStore((store) => store.type);
+  const setSelectedType = useDateSelectionStore((store) => store.setType);
 
-export const DateTypeToggle = ({ selectedType, setSelectType }: DateTypeToggleProps) => {
   return (
     <ToggleWrapper>
-      <ToggleButton $isActive={selectedType === DATE_TYPE.DATE} onClick={() => setSelectType(DATE_TYPE.DATE)}>
+      <ToggleButton $isActive={selectedType === DATE_TYPE.DAILY} onClick={() => setSelectedType(DATE_TYPE.DAILY)}>
         <Calendar />
         날짜
       </ToggleButton>
-      <ToggleButton $isActive={selectedType === DATE_TYPE.WEEKLY} onClick={() => setSelectType(DATE_TYPE.WEEKLY)}>
+      <ToggleButton $isActive={selectedType === DATE_TYPE.WEEKLY} onClick={() => setSelectedType(DATE_TYPE.WEEKLY)}>
         <Weekly />
         요일
       </ToggleButton>
@@ -37,7 +36,7 @@ const ToggleButton = styled.button<{ $isActive: boolean }>`
   align-items: center;
   justify-content: center;
   padding: ${({ $isActive }) => ($isActive ? '6px 8px' : '4px 8px')};
-  gap: 8px;
+  gap: 4px;
   border: none;
   border-radius: 999px;
   background-color: ${({ $isActive }) => ($isActive ? 'var(--main-purple)' : 'transparent')};
@@ -48,13 +47,13 @@ const ToggleButton = styled.button<{ $isActive: boolean }>`
   font-size: 14px;
   font-weight: 600;
   letter-spacing: -0.7px;
+  line-height: 0.9;
 
   svg {
     width: 24px;
     height: 24px;
     fill: ${({ $isActive }) => ($isActive ? 'var(--main-white)' : 'var(--text-gray)')};
     transition: fill 0.2s ease-in-out;
-    margin-top: 2px;
   }
 
   ${({ theme }) => theme.media.tablet} {

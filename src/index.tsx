@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './theme';
 
@@ -21,6 +22,8 @@ root.render(
       <ThemeProvider theme={theme}>
         <App />
       </ThemeProvider>
+
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   </React.StrictMode>
 );

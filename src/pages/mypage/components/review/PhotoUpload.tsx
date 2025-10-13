@@ -9,20 +9,14 @@ const PhotoUpload = ({ setSelectedImage, disabled }: PhotoUploadProps) => {
 
   const getPresignedUrl = async (file: File): Promise<string | null> => {
     try {
-      console.log('📡 Presigned URL 요청 시작...');
       const fileExtension = file.name.split('.').pop();
       const response = await api.post(
         `/images/review?fileExtensions=${fileExtension}`
       );
 
-      console.log('📡 Presigned URL API 응답:', response.data);
-
       return response.data[0]?.presignedUrl || null;
     } catch (error: any) {
-      console.error(
-        '❌ Presigned URL 발급 실패:',
-        error.response?.data || error.message
-      );
+      console.error(error.response?.data || error.message);
       return null;
     }
   };
@@ -31,20 +25,16 @@ const PhotoUpload = ({ setSelectedImage, disabled }: PhotoUploadProps) => {
     const file = event.target.files?.[0];
     if (!file || !file.type.startsWith('image/')) return;
 
-    console.log('📂 선택된 파일:', file.name);
-
     if (selectedImages.length >= 4) {
       alert('사진은 최대 4장까지 등록할 수 있습니다.');
       return;
     }
 
     const presignedUrl = await getPresignedUrl(file);
-    console.log('🔗 발급된 Presigned URL:', presignedUrl);
 
     if (!presignedUrl) return;
 
     const uploadedImageUrl = await uploadFileToS3(presignedUrl, file);
-    console.log('🖼️ 업로드된 이미지 URL:', uploadedImageUrl);
 
     if (uploadedImageUrl) {
       const updatedImages = [...selectedImages, uploadedImageUrl];
@@ -72,10 +62,8 @@ const PhotoUpload = ({ setSelectedImage, disabled }: PhotoUploadProps) => {
         throw new Error(`업로드 실패: ${uploadResponse.status}`);
       }
 
-      console.log('✅ 이미지 업로드 성공:', presignedUrl.split('?')[0]);
       return presignedUrl.split('?')[0];
     } catch (error: any) {
-      console.error('❌ 업로드 실패:', error.message);
       return null;
     }
   };
@@ -117,6 +105,13 @@ const PhotoSection = styled.div`
   align-items: center;
   gap: 30px;
   margin-top: 21px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+    text-align: center;
+  }
 `;
 
 const PhotoButton = styled.button`
@@ -134,6 +129,10 @@ const PhotoButton = styled.button`
   &:hover {
     background-color: #9819c3;
   }
+
+  @media (max-width: 600px) {
+    margin-left: 0;
+  }
 `;
 
 const PhotoInput = styled.input`
@@ -146,4 +145,11 @@ const Warning = styled.div`
   font-size: 12px;
   font-weight: 400;
   list-style: none;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    max-width: 320px;
+    font-size: 10px;
+    text-align: start;
+  }
 `;

@@ -5,11 +5,13 @@ import './App.css';
 import MainLayout from './layout/MainLayout';
 import MypageLayout from './pages/mypage/MypageLayout';
 import CommunityLayout from './layout/CommunityLayout';
-import Community from './pages/CommunityPage';
-import CommunityPostPage from './pages/Community/CommunityPostPage';
-import CommunityPut from './pages/Community/CommunityPut';
-import CommunityEdit from './pages/Community/CommunityEdit';
-import HomePage from './pages/HomePage';
+
+import { Community } from './pages/Community';
+import { CommunityPostPage } from './pages/Community/CommunityPostPage';
+import { CommunityPut } from './pages/Community/CommunityPut';
+import { CommunityEdit } from './pages/Community/CommunityEdit';
+
+import { HomePage } from './pages/Home';
 import LoginPage from './pages/Login/LoginPage';
 import SignupPage1 from './pages/Signup/Signup1';
 import SignupPage2 from './pages/Signup/Signup2';
@@ -50,7 +52,10 @@ function App(): React.JSX.Element {
             <Route index element={<SearchWrapper />} />
           </Route>
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/oauth/kakao/callback" element={<KakaoRedirectHandler />} />
+          <Route
+            path="/oauth/kakao/callback"
+            element={<KakaoRedirectHandler />}
+          />
           <Route path="/signup1" element={<SignupPage1 />} />
           <Route path="/signup2" element={<SignupPage2 />} />
           <Route path="/signup3" element={<SignupPage3 />} />
@@ -72,17 +77,22 @@ function App(): React.JSX.Element {
               </ProtectedRoute>
             }
           />
-          <Route path="/new/class/:classId" element={<ClassRegisterEditPage />} />
+          <Route
+            path="/new/class/:classId"
+            element={<ClassRegisterEditPage />}
+          />
           <Route path="/classes" element={<ClassesPage />} />
           <Route path="/classes/:classId" element={<ReservationPage />} />
-          <Route path="/classes/reviews/:reviewId" element={<ReviewDetailPage />} />
+          <Route
+            path="/classes/reviews/:reviewId"
+            element={<ReviewDetailPage />}
+          />
           <Route path="/dancerprofile" element={<ProfileList />} />
           <Route path="/dancerprofile/:dancerId" element={<DancerProfile />} />
           <Route path="/review/:id" element={<ReviewDetail />} />
           <Route path="/detail/:classId" element={<MyRegisterDetail />} />
           <Route path="/practice" element={<Practice />} />
           <Route path="/battle" element={<Battle />} />
-
         </Route>
       </Routes>
     </Router>

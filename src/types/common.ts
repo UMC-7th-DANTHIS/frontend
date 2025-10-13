@@ -12,8 +12,14 @@ export type OffsetBasedResponse<K extends string, T> = CommonResponse<
   } & Record<K, T>
 >;
 
-export type PaginationParams = {
+// TODO: 수정 필요 -> CommonPagination 이용
+export interface PaginationParams {
   genre?: number;
   page?: number;
   size?: number;
-};
+}
+
+export interface CommonPagination {
+  page?: number;
+  size?: number;
+}
