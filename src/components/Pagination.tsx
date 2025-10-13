@@ -48,34 +48,39 @@ const Pagination = ({
       {isMobile ? (
         <PageContainer>
           <PageCursor
-            onClick={() => handlePageDown((layer - 1) * 5 + 1)}
-            className={layer === 0 ? 'inactive' : ''}
-          >
+            onClick={() => handlePageDown((layer - 1) * (isMobile ? 5 : 10) + 1)}
+            className={layer <= 0 ? 'inactive' : ''} // ✅ 음수 방지
+            >
             {'<'}
           </PageCursor>
+         
           {Array.from(
-            {
-              length:
-                filteredDataLength - layer * 5 >= 5
-                  ? 5
-                  : (filteredDataLength - layer * 5) % 5
-            },
-            (_, i) => layer * 5 + i + 1
-          ).map((page) => (
-            <PageNumber
-              key={page}
-              className={page === currentPage ? 'active' : ''}
-              onClick={() => handlePageClick(page)}
-            >
-              {page}
-            </PageNumber>
-          ))}
+  {
+    length:
+      filteredDataLength - layer * (isMobile ? 5 : 10) >= (isMobile ? 5 : 10)
+        ? (isMobile ? 5 : 10)
+        : (filteredDataLength - layer * (isMobile ? 5 : 10)) % (isMobile ? 5 : 10),
+  },
+  (_, i) => layer * (isMobile ? 5 : 10) + i + 1
+).map((page) => (
+  <PageNumber
+    key={page}
+    className={page === currentPage ? 'active' : ''}
+    onClick={() => handlePageClick(page)}
+  >
+    {page}
+  </PageNumber>
+))}
           <PageCursor
-            onClick={() => handlePageUp((layer + 1) * 5 + 1)}
-            className={filteredDataLength <= (layer + 1) * 5 ? 'inactive' : ''}
-          >
-            {'>'}
-          </PageCursor>
+  onClick={() => handlePageUp((layer + 1) * (isMobile ? 5 : 10) + 1)}
+  className={
+    (layer + 1) * (isMobile ? 5 : 10) >= filteredDataLength
+      ? 'inactive'
+      : ''
+  } // ✅ 조건 반대로 교정
+>
+  {'>'}
+</PageCursor>
         </PageContainer>
       ) : (
         <PageContainer>

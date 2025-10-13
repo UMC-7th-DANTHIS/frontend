@@ -60,9 +60,7 @@ const GenreWrapper = styled.div`
   align-items: center;
   height: 25px;
   margin-bottom: 20px;
-  //gap: 5px;
-    justify-content: center;
-    //text-align: right;
+  justify-content: center;
   &:hover {
     cursor: pointer;
   }
@@ -77,19 +75,15 @@ const Genre = styled.div<{ $isActive: boolean }>`
   line-height: normal;
   letter-spacing: -0.8px;
   transition: all 0.3s ease;
-  width: 60px;
-  justify-content: center;
-  text-align: center;
-  margin-right: 5px;
+  white-space: nowrap; 
 
   ${({ $isActive }) =>
     $isActive &&
     `
     justify-content: center;
-    margin-left: -5px;
+    margin-left: 5px;
     color: var(--main_white, #fff);
     font-size: 17px;
-    width: 70px;
     font-weight: 600;
     letter-spacing: -0.9px;`}
     
