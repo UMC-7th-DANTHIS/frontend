@@ -40,6 +40,14 @@ const KakaoMap: React.FC = () => {
       center,
       level: 4,
     });
+    // 지도 이동(드래그 종료) 시 이벤트 등록
+window.kakao.maps.event.addListener(mapInstance.current, "dragend", () => {
+  const center = mapInstance.current.getCenter(); // 현재 지도 중심좌표
+  const lat = center.getLat();
+  const lng = center.getLng();
+  searchPlacesNearby("연습실", lat, lng, 2000); // 새 중심 기준으로 재검색
+});
+
 
     // Places 서비스 인스턴스
     placesService.current = new window.kakao.maps.services.Places();
@@ -142,7 +150,6 @@ const KakaoMap: React.FC = () => {
   const addOrMoveMyMarker = (position: { lat: number; lng: number }, accuracyMeters?: number) => {
     if (!mapInstance.current) return;
     if (!(window.kakao && window.kakao.maps && typeof window.kakao.maps.LatLng === "function")) return;
-
     const latlng = new window.kakao.maps.LatLng(position.lat, position.lng);
 
     if (myMarker.current) {
