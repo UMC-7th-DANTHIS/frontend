@@ -40,14 +40,16 @@ const Title = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 80%;
+  width: 75%;
 `;
 
 const WriteDate = styled.span`
   display: flex;
+  white-space: nowrap;
+
   justify-content: center;
   align-items: center;
-  width: 10%;
+  width: 15%;
 `;
 
 export default ListTopBar;

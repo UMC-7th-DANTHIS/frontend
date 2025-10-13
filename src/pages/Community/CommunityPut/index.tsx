@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useLocation, useOutletContext, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import * as S from './styled';
 
-import EditFooter from '../../common/Comunity/EditFooter';
-import EditContent from '../../common/Comunity/EditContent';
+import EditFooter from '../../../common/Comunity/EditFooter';
+import EditContent from '../../../common/Comunity/EditContent';
 
-import axiosInstance from '../../api/axios-instance';
+import axiosInstance from '../../../api/axios-instance';
 
 import { SinglePostData } from '@/types/CommunityInterface';
 
@@ -15,7 +15,7 @@ interface PostPutReload {
   setForceReload: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const CommunityPut = () => {
+export const CommunityPut = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const selectedPost = (location.state as SinglePostData) || {};
@@ -69,7 +69,7 @@ const CommunityPut = () => {
 
     try {
       await axiosInstance.put(
-        `/community/posts/${selectedPost.postId}`,
+        `/community/info/posts/${selectedPost.postId}`,
         postData
       );
       setForceReload((prev: boolean) => !prev);
@@ -80,15 +80,15 @@ const CommunityPut = () => {
   };
 
   return (
-    <Container>
-      <ContentContainer>
-        <TopHeader>커뮤니티 글 작성</TopHeader>
-        <InfoContainer>
-          <InfoText>*제목은 최대 50자까지 입력 가능합니다.</InfoText>
-        </InfoContainer>
-        <InfoContainer>
-          <InfoText>*내용은 최대 1000자까지 입력 가능합니다.</InfoText>
-        </InfoContainer>
+    <S.Container>
+      <S.ContentContainer>
+        <S.TopHeader>커뮤니티 글 작성</S.TopHeader>
+        <S.InfoContainer>
+          <S.InfoText>*제목은 최대 50자까지 입력 가능합니다.</S.InfoText>
+        </S.InfoContainer>
+        <S.InfoContainer>
+          <S.InfoText>*내용은 최대 1000자까지 입력 가능합니다.</S.InfoText>
+        </S.InfoContainer>
         <EditContent
           setFileName={setFileName}
           previews={previews}
@@ -108,52 +108,7 @@ const CommunityPut = () => {
           setForceReload={setForceReload}
           createPost={createPost}
         />
-      </ContentContainer>
-    </Container>
+      </S.ContentContainer>
+    </S.Container>
   );
 };
-
-const Container = styled.div`
-  width: 100dvw;
-  padding: 0 2rem;
-
-  background-color: #000000;
-  padding-bottom: 100px;
-
-  ${({ theme }) => theme.media.tablet} {
-    max-width: 1000px;
-  }
-`;
-
-const TopHeader = styled.div`
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  color: white;
-
-  font-size: 20px;
-  ${({ theme }) => theme.media.tablet} {
-    font-size: 22px;
-  }
-`;
-
-const ContentContainer = styled.div`
-  width: 100%;
-  height: 100%;
-`;
-
-const InfoContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
-
-const InfoText = styled.div`
-  color: #b2b2b2;
-  font-size: 10px;
-
-  ${({ theme }) => theme.media.tablet} {
-    font-size: 14px;
-  }
-`;
-
-export default CommunityPut;

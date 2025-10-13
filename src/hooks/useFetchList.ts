@@ -14,7 +14,7 @@ export function useFetchList(currentPage: number, forceReload: boolean) {
 
       try {
         const page = currentPage || 1;
-        const url = `/community/posts?page=${page}`;
+        const url = `/community/info/posts?page=${page}`;
 
         const response = await axiosInstance.get(url);
         setData(response.data.data);

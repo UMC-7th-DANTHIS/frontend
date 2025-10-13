@@ -1,8 +1,10 @@
 import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { PartialStars } from './PartialStars';
+import { useAuth } from '../../../../hooks/useAuth';
 import useGetRating from '../../../../hooks/reservation/useGetRating';
 import useIsMobile from '../../../../hooks/useIsMobile';
+import { useEffect } from 'react';
 
 interface RatingTabProps {
   tabRef: React.RefObject<HTMLDivElement | null>;
@@ -10,20 +12,25 @@ interface RatingTabProps {
 
 export const RatingTab = ({ tabRef }: RatingTabProps) => {
   const { classId } = useParams<{ classId: string }>();
-  const totalStars: number = 5;
+  const { isLoggedIn } = useAuth();
+
+  const STAR_LENGTH: number = 5;
   const { data } = useGetRating(classId ?? '');
 
   const isMobile = useIsMobile();
 
-  if (tabRef.current) {
-    const offset = -100;
-    const top = window.pageYOffset + tabRef.current.getBoundingClientRect().top + offset;
+  useEffect(() => {
+    if (tabRef.current) {
+      const offset = -100;
+      const top = window.pageYOffset + tabRef.current.getBoundingClientRect().top + offset;
 
-    window.scrollTo({ top, behavior: 'smooth' });
-  }
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const getRatingStars = (rate: number) => {
-    return Array.from({ length: totalStars }, (_, idx) => {
+    return Array.from({ length: STAR_LENGTH }, (_, idx) => {
       const remainingRate = rate - idx;
       const percentage = Math.max(0, Math.min(1, remainingRate));
 
@@ -48,7 +55,7 @@ export const RatingTab = ({ tabRef }: RatingTabProps) => {
         </>
       }
       <Notice>이 수업을 수강하셨나요?{'\n'} 직접 이 수업에 대한 만족도를 평가해보세요!</Notice>
-      <GoReviewButton to={`/mypage?menu=myreview`}>
+      <GoReviewButton to={isLoggedIn ? '/mypage?menu=myreview' : '/login'}>
         <span>후기 작성하러 가기</span>
       </GoReviewButton>
     </Container>

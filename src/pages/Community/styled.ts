@@ -1,19 +1,5 @@
 import styled from 'styled-components';
 
-import CommunityLists from '../common/Comunity/CommunityLists';
-import ListTopBar from '../common/Comunity/ListTopBar';
-
-const Community = () => {
-  return (
-    <Container>
-      <ContentContainer>
-        <ListTopBar />
-        <CommunityLists />
-      </ContentContainer>
-    </Container>
-  );
-};
-
 const Container = styled.div`
   background-color: black;
   justify-items: center;
@@ -38,4 +24,4 @@ const ContentContainer = styled.div`
   margin: 0 auto;
 `;
 
-export default Community;
+export { Container, ContentContainer };
