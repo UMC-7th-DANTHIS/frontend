@@ -84,9 +84,7 @@ const TabContainer = styled.div`
   border-radius: 15px 15px 0px 0px;
   display: flex;
   align-items: center;
-
   justify-content: center;
-
   ${({ theme }) => theme.media.tablet} {
     width: 1028px;
     height: 50px;
@@ -99,7 +97,6 @@ const Tab = styled.div<{active: boolean}>`
   display: flex;
   align-items: center;
   justify-content: center;
-  //width: 171px;
   width: 50%;
   height: 30px;
   flex-shrink: 0;
@@ -117,7 +114,7 @@ const Tab = styled.div<{active: boolean}>`
   border-right: 3px solid var(--main_purple, #9819c3);
   border-left: 3px solid var(--main_purple, #9819c3);
   background: var(--main_black, #000);
-  box-shadow: 0px 8px 16px 0px var(--main_purple, #9819c3) inset;
+  box-shadow: 0px 8px 16px -5px var(--main_purple, #9819c3) inset;
   background-color: ${(props) => (props.active ? 'black' : '#9819C3')};
   transition: all 0.3s;
   ${({ theme }) => theme.media.tablet} {
