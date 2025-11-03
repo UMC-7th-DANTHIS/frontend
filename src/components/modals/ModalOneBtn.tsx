@@ -58,11 +58,15 @@ const TextContainer = styled.div<{
   height?: string;
 }>`
   border-radius: 10px;
-  background: #fff;
+  background: var(--main-white);
   width: 100%;
+  height: 100%;
+  min-height: 108px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 16px 26px;
 `;
 
