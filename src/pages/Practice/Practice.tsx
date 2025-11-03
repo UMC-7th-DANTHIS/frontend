@@ -28,7 +28,7 @@ ${({ theme }) => theme.media.tablet} {
 
 const Map = styled.div`
   width : 338px;
-  height: 248px;
+  height: 600px;
   //background-color: lightgray;
   ${({ theme }) => theme.media.tablet} {
     width : 1003px;
