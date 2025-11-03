@@ -1,13 +1,13 @@
-import { useState, useEffect, ChangeEvent } from 'react';
+import { useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Shape1 from '../../assets/shape/shape1.svg';
 import Shape2 from '../../assets/shape/shape2.svg';
 import Profileimg from '../../assets/profileimg.svg';
 import api from '../../api/api';
-import SingleBtnAlert from '../../components/SingleBtnAlert';
-import { UserType } from '@/types/Signup/useUser';
+// import { UserType } from '@/types/Signup/useUser';
 import StepperMobile from '../../common/Signup/StepperMobile';
+import { ModalOneBtn } from '../../components/modals';
 
 const Signup2 = () => {
   const [nickname, setNickname] = useState('');
@@ -19,14 +19,12 @@ const Signup2 = () => {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null); // 업로드된 이미지
   const [errorMessage, setErrorMessage] = useState('');
   const [phoneError, setPhoneError] = useState('');
-  const [, setUser] = useState<UserType | null>(null);
+  // const [, setUser] = useState<UserType | null>(null);
   const [showAlert, setShowAlert] = useState(false);
 
   const handleNicknameCheck = async () => {
     try {
-      const response = await api.get(
-        `/users/check-nickname?nickname=${nickname}`
-      );
+      const response = await api.get(`/users/check-nickname?nickname=${nickname}`);
       if (response.data.code === 200) {
         if (response.data.data === true) {
           setIsNicknameValid(true); // 사용 가능한 닉네임
@@ -139,9 +137,7 @@ const Signup2 = () => {
       nickname,
       gender,
       phoneNumber,
-      profileImage: isDefaultImage
-        ? 'https://example.com/default-profile.jpg'
-        : uploadedImage
+      profileImage: isDefaultImage ? 'https://example.com/default-profile.jpg' : uploadedImage
     };
 
     localStorage.setItem('signup2Data', JSON.stringify(signup2Data)); // 로컬 저장
@@ -157,9 +153,7 @@ const Signup2 = () => {
       console.log('📡 Presigned URL 요청 시작...');
       // 1️⃣ Presigned URL 요청
       const fileExtension = file.name.split('.').pop(); // 파일 확장자 추출
-      const response = await api.post(
-        `/image/user?fileExtension=${fileExtension}`
-      );
+      const response = await api.post(`/image/user?fileExtension=${fileExtension}`);
       console.log('📡 Presigned URL API 응답:', response);
       if (!response.data || !response.data.presignedUrl) {
         throw new Error('Presigned URL 발급 실패');
@@ -210,58 +204,44 @@ const Signup2 = () => {
   // }, []);
 
   return (
-     <Layout>
+    <Layout>
       <SignupTitle> 회원가입 </SignupTitle>
       <Stepper>
         <StepperDesktop>
-        <MenuItemWrapper>
-          <MenuItem src={Shape2} />
-          <Text2>1&#41; 이용약관 동의</Text2>
-        </MenuItemWrapper>
+          <MenuItemWrapper>
+            <MenuItem src={Shape2} />
+            <Text2>1&#41; 이용약관 동의</Text2>
+          </MenuItemWrapper>
 
-        <MenuItemWrapper>
-          <MenuItem src={Shape1} />
-          <Text1>2&#41; 회원 정보 입력</Text1>
-        </MenuItemWrapper>
+          <MenuItemWrapper>
+            <MenuItem src={Shape1} />
+            <Text1>2&#41; 회원 정보 입력</Text1>
+          </MenuItemWrapper>
 
-        <MenuItemWrapper>
-          <MenuItem src={Shape2} />
-          <Text2>3&#41; 선호 장르 및 댄서 고르기</Text2>
-        </MenuItemWrapper>
+          <MenuItemWrapper>
+            <MenuItem src={Shape2} />
+            <Text2>3&#41; 선호 장르 및 댄서 고르기</Text2>
+          </MenuItemWrapper>
 
-        <MenuItemWrapper>
-          <MenuItem src={Shape2} />
-          <Text2>4&#41; 가입 완료</Text2>
-        </MenuItemWrapper>
+          <MenuItemWrapper>
+            <MenuItem src={Shape2} />
+            <Text2>4&#41; 가입 완료</Text2>
+          </MenuItemWrapper>
         </StepperDesktop>
-           <StepperMobile
-        currentStep={2}
-        steps={[
-          "이용약관 동의",
-          "회원 정보 입력",
-          "선호 장르 및 댄서 고르기",
-          "가입 완료",
-        ]}
-      />
+        <StepperMobile
+          currentStep={2}
+          steps={['이용약관 동의', '회원 정보 입력', '선호 장르 및 댄서 고르기', '가입 완료']}
+        />
       </Stepper>
       <DataForm>
         <Field>
           <Label>닉네임</Label>
           <InputWrapper>
-            <Input
-              type="text"
-              placeholder="닉네임을 입력하세요."
-              value={nickname}
-              onChange={handleNicknameChange}
-            />
+            <Input type="text" placeholder="닉네임을 입력하세요." value={nickname} onChange={handleNicknameChange} />
             <Button onClick={handleNicknameCheck}>중복확인</Button>
           </InputWrapper>
-          {isNicknameValid === true && (
-            <ValidMessage>사용 가능한 닉네임입니다.</ValidMessage>
-          )}
-          {isNicknameValid === false && (
-            <ErrorMessage>다른 유저와 중복되는 닉네임입니다.</ErrorMessage>
-          )}
+          {isNicknameValid === true && <ValidMessage>사용 가능한 닉네임입니다.</ValidMessage>}
+          {isNicknameValid === false && <ErrorMessage>다른 유저와 중복되는 닉네임입니다.</ErrorMessage>}
           {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
         </Field>
 
@@ -271,22 +251,12 @@ const Signup2 = () => {
             <RadioGroup>
               <RadioLabel>
                 <LabelText>남</LabelText>
-                <RadioInput
-                  type="radio"
-                  name="gender"
-                  value="남"
-                  onChange={(e) => setGender(e.target.value)}
-                />
+                <RadioInput type="radio" name="gender" value="남" onChange={(e) => setGender(e.target.value)} />
                 <CustomCircle />
               </RadioLabel>
               <RadioLabel>
                 <LabelText>여</LabelText>
-                <RadioInput
-                  type="radio"
-                  name="gender"
-                  value="여"
-                  onChange={(e) => setGender(e.target.value)}
-                />
+                <RadioInput type="radio" name="gender" value="여" onChange={(e) => setGender(e.target.value)} />
                 <CustomCircle />
               </RadioLabel>
             </RadioGroup>
@@ -304,12 +274,7 @@ const Signup2 = () => {
           <Label>전화번호</Label>
           <Message> ‘-’ 기호를 제외한 숫자만 입력해주세요.</Message>
           <InputBox>
-            <Input2
-              type="tel"
-              placeholder="전화번호를 입력하세요."
-              value={phoneNumber}
-              onChange={handlePhoneChange}
-            />
+            <Input2 type="tel" placeholder="전화번호를 입력하세요." value={phoneNumber} onChange={handlePhoneChange} />
           </InputBox>
           {phoneError && <ErrorMessage1>{phoneError}</ErrorMessage1>}
         </Field>
@@ -326,12 +291,7 @@ const Signup2 = () => {
               )}
             </ProfileImageWrapper>
             <UploadContainer>
-              <HiddenInput
-                type="file"
-                id="file-upload"
-                accept="image/*"
-                onChange={handleFileUpload}
-              />
+              <HiddenInput type="file" id="file-upload" accept="image/*" onChange={handleFileUpload} />
               <UploadButton htmlFor="file-upload">파일 업로드</UploadButton>
 
               <RadioWrapper>
@@ -355,7 +315,7 @@ const Signup2 = () => {
         <Next>다음으로</Next>
       </NextButton>
       {showAlert && (
-        <SingleBtnAlert
+        <ModalOneBtn
           onClose={() => setShowAlert(false)}
           message={
             <span>
@@ -371,14 +331,7 @@ const Signup2 = () => {
               </span>
             </span>
           }
-          mariginsize="25px"
-          ContainerWidth="280px"
-          ContainerHeight="108px"
-          //marginsize="24px"
-          AlertWidth="392px"
-          AlertHeight="260px"
           showButtons={true}
-          confirmLabel="확인"
         />
       )}
     </Layout>
@@ -404,7 +357,7 @@ const SignupTitle = styled.div`
   display: flex;
   justify-content: center;
   text-align: center;
-   ${({ theme }) => theme.media.tablet} {
+  ${({ theme }) => theme.media.tablet} {
     font-size: 32px;
     margin-top: 37px;
   }
@@ -413,14 +366,14 @@ const SignupTitle = styled.div`
 const Stepper = styled.div`
   display: flex;
   margin-top: 30px;
-`
+`;
 const StepperDesktop = styled.div`
   display: none;
   ${({ theme }) => theme.media.tablet} {
     display: flex;
     flex-direction: row;
   }
-  `
+`;
 
 const MenuItemWrapper = styled.div`
   width: 260px;
@@ -473,25 +426,24 @@ const DataForm = styled.div`
   flex-direction: column;
   align-items: center;
   ${({ theme }) => theme.media.tablet} {
-  border: 2px solid var(--main_purple, #9819c3);
-  width: 900px;
-  height: 900px;
+    border: 2px solid var(--main_purple, #9819c3);
+    width: 900px;
+    height: 900px;
   }
 `;
 const Field = styled.div`
   margin-top: 40px;
   width: 324px;
-   &:first-of-type {
-    margin-top: 0; 
+  &:first-of-type {
+    margin-top: 0;
     ${({ theme }) => theme.media.tablet} {
-  margin-top: 46px;
-}
-
+      margin-top: 46px;
+    }
   }
-${({ theme }) => theme.media.tablet} {
-  margin-top: 46px;
-  width: 600px;
-}
+  ${({ theme }) => theme.media.tablet} {
+    margin-top: 46px;
+    width: 600px;
+  }
 `;
 const Gender = styled.div`
   display: flex;
@@ -499,8 +451,8 @@ const Gender = styled.div`
   padding-top: 20px;
   padding-bottom: 20px;
   ${({ theme }) => theme.media.tablet} {
-  flex-direction: row;
-}
+    flex-direction: row;
+  }
 `;
 
 const Label = styled.label`
@@ -514,7 +466,7 @@ const Label = styled.label`
   ${({ theme }) => theme.media.tablet} {
     font-size: 22px;
     margin-left: 8px;
-}
+  }
 `;
 const InputBox = styled.div`
   margin-bottom: 10px;
@@ -539,10 +491,10 @@ const Input = styled.input`
   margin-top: 10px;
   padding-left: 20px;
   ${({ theme }) => theme.media.tablet} {
-  width: 501px;
-  height: 60px;
-  font-size: 20px;
-}
+    width: 501px;
+    height: 60px;
+    font-size: 20px;
+  }
 `;
 const Input2 = styled.input`
   color: white;
@@ -563,11 +515,11 @@ const Input2 = styled.input`
   border: 1px solid var(--sub_light-gray, #ddd);
   margin-top: 10px;
   padding-left: 20px;
-   ${({ theme }) => theme.media.tablet} {
-  width: 588px;
-  height: 60px;
-  font-size: 20px;
-}
+  ${({ theme }) => theme.media.tablet} {
+    width: 588px;
+    height: 60px;
+    font-size: 20px;
+  }
 `;
 const InputWrapper = styled.div`
   display: flex;
@@ -594,10 +546,10 @@ const Email = styled.div`
   margin-top: 10px;
   padding-left: 20px;
   ${({ theme }) => theme.media.tablet} {
-  width: 588px;
-  height: 60px;
-  font-size: 20px;
-}
+    width: 588px;
+    height: 60px;
+    font-size: 20px;
+  }
 `;
 
 const Button = styled.button`
@@ -668,7 +620,7 @@ const ErrorMessage1 = styled.div`
   line-height: normal;
   margin-top: 10px;
   text-align: right;
-   ${({ theme }) => theme.media.tablet} {
+  ${({ theme }) => theme.media.tablet} {
     font-size: 14px;
   }
 `;
@@ -698,8 +650,8 @@ const RadioLabel = styled.label`
   width: 45px;
   height: 20px;
   ${({ theme }) => theme.media.tablet} {
-   width: 56px; 
-   height: 25px;
+    width: 56px;
+    height: 25px;
   }
 `;
 
@@ -712,8 +664,8 @@ const RadioLabels = styled.label`
   width: 131px;
   height: 16px;
   ${({ theme }) => theme.media.tablet} {
-   width: 190px; 
-   height: 22px;
+    width: 190px;
+    height: 22px;
   }
 `;
 
@@ -735,7 +687,7 @@ const CustomCircle = styled.span`
   top: 50%; /* 부모의 50% */
   left: 50%; /* 부모의 50% */
   transform: translate(-50%, -50%); /* 중심으로 이동 */
-  
+
   ${RadioInput}:checked + & {
     background-color: white; /* 선택된 경우 내부 색상 변경 */
   }
@@ -759,9 +711,9 @@ const CustomCircle = styled.span`
   }
 
   ${({ theme }) => theme.media.tablet} {
-  width: 24px;
-  height: 24px;
-}
+    width: 24px;
+    height: 24px;
+  }
 `;
 const CustomCircle1 = styled.span`
   width: 16px;
@@ -774,7 +726,7 @@ const CustomCircle1 = styled.span`
   align-items: center;
   margin-right: 15px;
   position: relative;
-  
+
   ${RadioInput}:checked + & {
     background-color: white; /* 선택된 경우 내부 색상 변경 */
   }
@@ -788,10 +740,10 @@ const CustomCircle1 = styled.span`
     position: absolute;
   }
   ${({ theme }) => theme.media.tablet} {
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-}
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
 `;
 
 const Message = styled.div`
@@ -806,9 +758,9 @@ const Message = styled.div`
   margin-left: 170px;
   margin-top: -15px;
   ${({ theme }) => theme.media.tablet} {
-  font-size: 14px;
-  margin-left: 370px;
-}
+    font-size: 14px;
+    margin-left: 370px;
+  }
 `;
 const LabelText = styled.span`
   color: var(--main_white, #fff);
@@ -819,8 +771,8 @@ const LabelText = styled.span`
   font-weight: 500;
   line-height: normal;
   ${({ theme }) => theme.media.tablet} {
-  font-size: 20px;
-}
+    font-size: 20px;
+  }
 `;
 
 const LabelText1 = styled.div`
@@ -831,9 +783,9 @@ const LabelText1 = styled.div`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-    ${({ theme }) => theme.media.tablet} {
-  font-size: 18px;
-}
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 18px;
+  }
 `;
 
 const ProfileContainer = styled.div`
@@ -850,9 +802,9 @@ const ProfileImageWrapper = styled.div`
   border-radius: 2px;
   overflow: hidden;
   ${({ theme }) => theme.media.tablet} {
-  width: 160px;
-  height: 160px;
-}
+    width: 160px;
+    height: 160px;
+  }
 `;
 
 const ProfileImage = styled.img`
@@ -873,8 +825,8 @@ const UploadContainer = styled.div`
   font-weight: 500;
   line-height: normal;
   ${({ theme }) => theme.media.tablet} {
-  font-size: 15px;
-}
+    font-size: 15px;
+  }
 `;
 
 const UploadButton = styled.label`
@@ -889,10 +841,10 @@ const UploadButton = styled.label`
   justify-content: center;
   align-items: center;
   display: flex;
-   ${({ theme }) => theme.media.tablet} {
-  width: 300px;
-  height: 36px;
-}
+  ${({ theme }) => theme.media.tablet} {
+    width: 300px;
+    height: 36px;
+  }
 `;
 
 const HiddenInput = styled.input`
@@ -908,10 +860,10 @@ const NextButton = styled.button`
   background: var(--main_purple, #9819c3);
   margin-top: 70px;
   cursor: pointer;
-   ${({ theme }) => theme.media.tablet} {
-  width: 300px;
-  height: 52px;
-}
+  ${({ theme }) => theme.media.tablet} {
+    width: 300px;
+    height: 52px;
+  }
 `;
 
 const Next = styled.div`
@@ -923,8 +875,8 @@ const Next = styled.div`
   font-weight: 600;
   line-height: normal;
   ${({ theme }) => theme.media.tablet} {
-  font-size: 20px;
-}
+    font-size: 20px;
+  }
 `;
 
 const ColoredText = styled.span`

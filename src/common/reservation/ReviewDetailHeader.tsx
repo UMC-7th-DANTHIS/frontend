@@ -6,8 +6,8 @@ import { ReactComponent as DeleteIcon } from '../../assets/shape/trash.svg';
 import { ReactComponent as Siren } from '../../assets/Community/SirenButton.svg';
 import formatDate from '../../api/formatDate';
 import useIsMobile from '../../hooks/useIsMobile';
-import ConfirmDeleteAlert from '../../components/ConfirmDelete';
 import useDeleteReview from '../../hooks/reservation/review/useDeleteReview';
+import { ModalTwoBtns } from '../../components/modals';
 
 interface PostHeaderProps {
   title: string;
@@ -63,17 +63,15 @@ export const ReviewDetailHeader = ({
       </Info>
 
       {showDeleteAlert && (
-        <ConfirmDeleteAlert
+        <ModalTwoBtns
           message={
             <AlertText>
               해당 게시글을 삭제하면{'\n'}
-              추후에 <span>복구가 불가</span>합니다.
-              {'\n'}
-              삭제 하시겠습니까?
+              추후에 <span>복구가 불가</span>합니다.{'\n'} 삭제 하시겠습니까?
             </AlertText>
           }
           onClose={onDeleteClick}
-          onConfirm={() => deleteReview({ classId, reviewId: String(reviewId), page })}
+          onPrimaryClick={() => deleteReview({ classId, reviewId: String(reviewId), page })}
           showButtons={true}
         />
       )}

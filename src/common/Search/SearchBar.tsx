@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import SingleBtnAlert from '../../components/SingleBtnAlert';
 
 import SearchImage from '../../assets/Search/search.svg';
 import { hashTagID } from '../../api/schema';
+import { ModalOneBtn } from '../../components/modals';
 
 type SearchBarProps = {
   handleSearchData: () => void;
@@ -26,9 +26,7 @@ const SearchBar = ({
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const defaultQuery: 'dance-classes' | 'dancers' | 'posts' = pathname.includes(
-    'posts'
-  )
+  const defaultQuery: 'dance-classes' | 'dancers' | 'posts' = pathname.includes('posts')
     ? 'posts'
     : pathname.includes('dancers')
       ? 'dancers'
@@ -64,26 +62,14 @@ const SearchBar = ({
     <Container>
       <InputWrapper>
         <InputContainer>
-          <Input
-            value={temp!}
-            onKeyDown={handleKeyDown}
-            onChange={handleSearch}
-          />
+          <Input value={temp!} onKeyDown={handleKeyDown} onChange={handleSearch} />
 
-          <SearchIcon
-            src={SearchImage}
-            alt="search"
-            onClick={handleSearchData}
-          />
+          <SearchIcon src={SearchImage} alt="search" onClick={handleSearchData} />
         </InputContainer>
       </InputWrapper>
       <HashTagContainer>
         {hashTagID.map((list) => (
-          <HashTag
-            onClick={() => handleClick(list.id)}
-            active={selectedFilter === list.id}
-            key={list.id}
-          >
+          <HashTag onClick={() => handleClick(list.id)} active={selectedFilter === list.id} key={list.id}>
             # {list.hashTag}
           </HashTag>
         ))}
@@ -97,23 +83,17 @@ const SearchBar = ({
           >
             수업
           </SelectText>
-          <SelectText
-            className={defaultQuery === 'dancers' ? 'active' : ''}
-            onClick={() => handleReSearch('dancers')}
-          >
+          <SelectText className={defaultQuery === 'dancers' ? 'active' : ''} onClick={() => handleReSearch('dancers')}>
             댄서
           </SelectText>
-          <SelectText
-            className={defaultQuery === 'posts' ? 'active' : ''}
-            onClick={() => handleReSearch('posts')}
-          >
+          <SelectText className={defaultQuery === 'posts' ? 'active' : ''} onClick={() => handleReSearch('posts')}>
             커뮤니티
           </SelectText>
         </SelectWrapper>
       </SelectContainer>
 
       {showInvalidAlert && (
-        <SingleBtnAlert
+        <ModalOneBtn
           message={
             <AlertText>
               검색어는
@@ -122,7 +102,6 @@ const SearchBar = ({
             </AlertText>
           }
           onClose={() => setShowInvalidAlert(false)}
-          mariginsize="33px"
           showButtons={true}
         />
       )}

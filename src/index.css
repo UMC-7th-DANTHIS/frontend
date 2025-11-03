@@ -21,6 +21,7 @@ body {
   --main-purple50: #9819c380;
   --main-white: #ffffff;
   --main-black: #000000;
+  --main-magenta: #a60f62;
   --main-gradation: linear-gradient(90deg, #b30505 0%, #9819c3 100%);
 
   --sub-light-gray: #dddddd;
