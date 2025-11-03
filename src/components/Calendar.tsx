@@ -145,7 +145,7 @@ const DayCell = styled.div<{ $isCurrentMonth: boolean; $isToday: boolean; $isSel
   font-size: 16px;
   font-weight: 400;
   line-height: 140%;
-  transition: all 0.2s ease-in;
+  transition: all 0.1s ease-in;
   cursor: pointer;
 
   ${({ $isSelected }) =>

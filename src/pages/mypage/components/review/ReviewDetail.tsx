@@ -1,14 +1,13 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import styled from 'styled-components';
-import Alert from '../../../../components/Alert';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import MypageSidebar from '../../MypageSidebar';
 import ReviewForm from './ReviewForm';
 import ReviewStar from './ReviewStar';
 import api from '../../../../api/api';
 import { useMutation } from '@tanstack/react-query';
-import SingleBtnAlert from '../../../../components/SingleBtnAlert';
 import { LocationState, ReviewDataProps } from '@/types/mypage/ReviewType';
+import { ModalOneBtn, ModalTwoBtns } from '../../../../components/modals';
 
 const ReviewDetail = () => {
   const location = useLocation();
@@ -19,8 +18,7 @@ const ReviewDetail = () => {
   const [review, setReview] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const { id: classId } = useParams<{ id: string }>();
-  const selectedMenu =
-    new URLSearchParams(location.search).get('menu') || 'myreview';
+  const selectedMenu = new URLSearchParams(location.search).get('menu') || 'myreview';
   const className = (location.state as LocationState)?.className || '';
   const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
 
@@ -93,10 +91,7 @@ const ReviewDetail = () => {
   return (
     <>
       <Container>
-        <MypageSidebar
-          selectedMenu={selectedMenu}
-          onMenuClick={handleMenuClick}
-        />
+        <MypageSidebar selectedMenu={selectedMenu} onMenuClick={handleMenuClick} />
 
         <ReviewContainer>
           <ClassTitle>{className}</ClassTitle>
@@ -121,35 +116,31 @@ const ReviewDetail = () => {
               <CancelButton onClick={handleClickCancel}>
                 취소
                 {showAlert && (
-                  <Alert
+                  <ModalTwoBtns
                     message={
                       <span>
                         <span>
                           해당 페이지를 벗어나면 <br />
                         </span>
                         <span>
-                          작성 중인 글이 <ColoredText> 모두 삭제 </ColoredText>{' '}
-                          됩니다 <br />
+                          작성 중인 글이 <ColoredText> 모두 삭제 </ColoredText> 됩니다 <br />
                         </span>
                         <span>떠나시겠습니까?</span>
                       </span>
                     }
                     onClose={hideClickCancel}
-                    ContainerWidth="280px"
-                    ContainerHeight="108px"
-                    marginsize="24px"
-                    AlertWidth="392px"
-                    AlertHeight="260px"
                     showButtons={true}
-                    confirmLabel="남기"
-                    cancelLabel="떠나기"
+                    primaryLabel="남기"
+                    secondaryLabel="떠나기"
+                    onPrimaryClick={hideClickCancel}
+                    onSecondaryClick={() => navigate('/mypage')}
                   />
                 )}
               </CancelButton>
 
               <SubmitButton onClick={handleSubmit}>작성</SubmitButton>
               {showInvalidAlert && (
-                <SingleBtnAlert
+                <ModalOneBtn
                   message={
                     <AlertText>
                       모든 항목을 {'\n'}
@@ -161,7 +152,6 @@ const ReviewDetail = () => {
                     setShowInvalidAlert(false);
                     navigate(`/classes/${classId}?tab=reviews`);
                   }}
-                  mariginsize="33px"
                   showButtons={true}
                 />
               )}

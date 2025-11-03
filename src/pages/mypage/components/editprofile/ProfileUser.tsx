@@ -1,14 +1,15 @@
 import { useEffect, useState, ChangeEvent, FormEvent, useRef } from 'react';
 import Profileimg from '../../../../assets/profileimg.svg';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import MypageGenre from '../MypageGenre';
 import api from '../../../../api/api';
+import { ModalOneBtn, ModalTwoBtns } from '../../../../components/modals';
 import useConfirmLeave from '../../../../hooks/useConfirmLeave';
-import ConfirmLeaveAlert from '../../../../components/ConfirmLeaveAlert';
-import SingleBtnAlert from '../../../../components/SingleBtnAlert';
 import { ErrorTextProps, UserFormState } from '@/types/mypage/EditProfileType';
 
 const ProfileUser = () => {
+  const navigate = useNavigate();
   const [nicknameStatus, setNicknameStatus] = useState<string | null>(null);
   const [showLeaveAlert, setShowLeaveAlert] = useState<boolean>(false);
   const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
@@ -63,9 +64,7 @@ const ProfileUser = () => {
 
     try {
       const fileExtension = file.name.split('.').pop();
-      const response = await api.post(
-        `/image/user?fileExtension=${fileExtension}`
-      );
+      const response = await api.post(`/image/user?fileExtension=${fileExtension}`);
 
       if (!response.data || !response.data.presignedUrl) {
         throw new Error('Presigned URL 발급 실패');
@@ -107,9 +106,7 @@ const ProfileUser = () => {
     }
 
     try {
-      const response = await api.get(
-        `/users/check-nickname?nickname=${formState.nickname}`
-      );
+      const response = await api.get(`/users/check-nickname?nickname=${formState.nickname}`);
       if (response.data.data === true) {
         setNicknameStatus('사용 가능한 닉네임입니다.');
       } else {
@@ -159,12 +156,7 @@ const ProfileUser = () => {
       return;
     }
 
-    const genderForPut =
-      formState.gender === '남'
-        ? 'male'
-        : formState.gender === '여'
-          ? 'female'
-          : '';
+    const genderForPut = formState.gender === '남' ? 'male' : formState.gender === '여' ? 'female' : '';
 
     try {
       const token = localStorage.getItem('token');
@@ -212,13 +204,7 @@ const ProfileUser = () => {
                   value={formState.nickname}
                   onChange={(e) => handleFormChange('nickname', e.target.value)}
                 />
-                <ErrorText
-                  error={
-                    nicknameStatus === '다른 유저와 중복되는 닉네임입니다.'
-                  }
-                >
-                  {nicknameStatus}
-                </ErrorText>
+                <ErrorText error={nicknameStatus === '다른 유저와 중복되는 닉네임입니다.'}>{nicknameStatus}</ErrorText>
               </ErrorContainer>
               <DoubleCheck onClick={handleDoubleCheck}>중복확인</DoubleCheck>
             </InputContainer>
@@ -279,26 +265,13 @@ const ProfileUser = () => {
                 )}
               </ProfileImageWrapper>
               <UploadContainer>
-                <UploadButton
-                  type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                >
+                <UploadButton type="button" onClick={() => fileInputRef.current?.click()}>
                   파일 업로드
                 </UploadButton>
-                <HiddenInput
-                  type="file"
-                  id="file-upload"
-                  accept="image/*"
-                  onChange={handleFileUpload}
-                />
+                <HiddenInput type="file" id="file-upload" accept="image/*" onChange={handleFileUpload} />
                 <RadioWrapper>
                   <RadioLabel>
-                    <RadioInput
-                      type="radio"
-                      name="profile"
-                      checked={isDefaultImage}
-                      onChange={handleCheckboxChange}
-                    />
+                    <RadioInput type="radio" name="profile" checked={isDefaultImage} onChange={handleCheckboxChange} />
                     <RadioText>기본 이미지 사용하기</RadioText>
                   </RadioLabel>
                 </RadioWrapper>
@@ -327,16 +300,15 @@ const ProfileUser = () => {
       </SaveButton>
 
       {showInvalidAlert && (
-        <SingleBtnAlert
+        <ModalOneBtn
           message={<AlertText>프로필 저장이 완료되었습니다.</AlertText>}
           onClose={() => setShowInvalidAlert(false)}
-          mariginsize="33px"
           showButtons={true}
         />
       )}
 
       {showLeaveAlert && (
-        <ConfirmLeaveAlert
+        <ModalTwoBtns
           message={
             <AlertText>
               해당 페이지를 벗어나면{'\n'}
@@ -346,7 +318,10 @@ const ProfileUser = () => {
             </AlertText>
           }
           onClose={() => setShowLeaveAlert(false)}
+          onSecondaryClick={() => navigate('/mypage')}
           showButtons={true}
+          primaryLabel="남기"
+          secondaryLabel="떠나기"
         />
       )}
     </AllContainer>

@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
-import ConfirmLeaveAlert from '../../components/ConfirmLeaveAlert';
-import SingleBtnAlert from '../../components/SingleBtnAlert';
+import { ModalOneBtn, ModalTwoBtns } from '../../components/modals';
 import {
   GenreSelectorClass,
   ImagesUploader,
@@ -24,6 +24,7 @@ interface ClassFormProps {
 }
 
 export default function ClassForm({ setIsRegistered }: ClassFormProps) {
+  const navigate = useNavigate();
   const [formState, setFormState] = useState<ClassFormState>({
     className: '',
     pricePerSession: '',
@@ -144,7 +145,7 @@ export default function ClassForm({ setIsRegistered }: ClassFormProps) {
       <Notice>*댄스 수업 등록은 내부 운영팀의 심사를 통해 최종 승인됩니다.</Notice>
       <SubmitButton text="댄스 수업 등록하기" />
       {showInvalidAlert && (
-        <SingleBtnAlert
+        <ModalOneBtn
           message={
             <AlertText>
               모든 항목을{'\n'}
@@ -153,12 +154,11 @@ export default function ClassForm({ setIsRegistered }: ClassFormProps) {
             </AlertText>
           }
           onClose={() => setShowInvalidAlert(false)}
-          mariginsize="33px"
           showButtons={true}
         />
       )}
       {showLeaveAlert && (
-        <ConfirmLeaveAlert
+        <ModalTwoBtns
           message={
             <AlertText>
               해당 페이지를 벗어나면{'\n'}
@@ -168,7 +168,10 @@ export default function ClassForm({ setIsRegistered }: ClassFormProps) {
             </AlertText>
           }
           onClose={() => setShowLeaveAlert(false)}
+          onSecondaryClick={() => navigate('/')}
           showButtons={true}
+          primaryLabel="남기"
+          secondaryLabel="떠나기"
         />
       )}
     </FormContainer>

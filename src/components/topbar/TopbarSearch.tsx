@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import SearchIcon from '../../assets/searchicon.svg';
+import useIsMobile from '../../hooks/useIsMobile';
 
 interface TopbarSearchProps {
   setShowInvalidAlert: (value: boolean) => void;
@@ -16,6 +17,7 @@ interface TopbarSearchProps {
  */
 const TopbarSearch = ({ setShowInvalidAlert }: TopbarSearchProps) => {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   const [search, setSearch] = useState('');
   const [searchPlaceholder, setSearchPlaceholder] = useState('검색어를 입력하세요');
@@ -34,9 +36,13 @@ const TopbarSearch = ({ setShowInvalidAlert }: TopbarSearchProps) => {
   const handleSearch = (query: string) => navigate(`/search/dance-classes?query=${query}`);
 
   const handleSearchClick = () => {
-    if (search.trim()) {
-      handleSearch(search.trim());
-      setSearch('');
+    if (isMobile) {
+      navigate('/search');
+    } else {
+      if (search.trim()) {
+        handleSearch(search.trim());
+        setSearch('');
+      }
     }
   };
 
@@ -46,8 +52,12 @@ const TopbarSearch = ({ setShowInvalidAlert }: TopbarSearchProps) => {
     }
   };
 
+  const handleSearchWrapperClick = () => {
+    if (isMobile) navigate('/search');
+  };
+
   return (
-    <Search>
+    <Search onClick={handleSearchWrapperClick}>
       <SearchInput
         id="main search"
         placeholder={searchPlaceholder}
@@ -58,7 +68,7 @@ const TopbarSearch = ({ setShowInvalidAlert }: TopbarSearchProps) => {
         value={search}
         maxLength={21}
       />
-      <SearchButton onClick={handleSearchClick} disabled={search.trim() === ''}>
+      <SearchButton onClick={handleSearchClick} disabled={!isMobile && search.trim() === ''}>
         <img src={SearchIcon} alt="search" />
       </SearchButton>
     </Search>

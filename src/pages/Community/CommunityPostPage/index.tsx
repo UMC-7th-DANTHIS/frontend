@@ -6,7 +6,7 @@ import ImageModal from '../../../common/Comunity/ImageModal';
 import PostComment from '../../../common/Comunity/PostComment';
 import PostContent from '../../../common/Comunity/PostContent';
 import Pagination from '../../../components/Pagination';
-import ConfirmLeaveAlert from '../../../components/ConfirmLeaveAlert';
+import { ModalTwoBtns } from '../../../components/modals';
 
 import axiosInstance from '../../../api/axios-instance';
 import useGet from '../../../hooks/useGet';
@@ -36,12 +36,7 @@ export const CommunityPostPage = () => {
   const { data: post } = useGetCommunity(parseInt(id!));
 
   // 댓글 가져오기
-  const { data: com } = useGetComment(
-    parseInt(id!),
-    1,
-    currentPage,
-    forceReload
-  );
+  const { data: com } = useGetComment(parseInt(id!), 1, currentPage, forceReload);
 
   useEffect(() => {
     if (com?.data?.comments) {
@@ -65,10 +60,8 @@ export const CommunityPostPage = () => {
 
   const handleCaution = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setCommentText(e.target.value);
-    if (e.target.value.length > 200)
-      setCautionText('댓글은 최대 200자까지 입력 가능합니다.');
-    else if (e.target.value.length === 0)
-      setCautionText('댓글을 최소 1자 이상 입력하셔야 합니다.');
+    if (e.target.value.length > 200) setCautionText('댓글은 최대 200자까지 입력 가능합니다.');
+    else if (e.target.value.length === 0) setCautionText('댓글을 최소 1자 이상 입력하셔야 합니다.');
     else setCautionText(null);
   };
 
@@ -81,15 +74,9 @@ export const CommunityPostPage = () => {
     if (!commentText.trim()) return;
 
     try {
-      const response = await axiosInstance.post(
-        `/community/posts/${parseInt(id!)}/comments`,
-        { content: commentText }
-      );
+      const response = await axiosInstance.post(`/community/posts/${parseInt(id!)}/comments`, { content: commentText });
 
-      setComments((prevComments: Comment[]) => [
-        response.data,
-        ...prevComments
-      ]);
+      setComments((prevComments: Comment[]) => [response.data, ...prevComments]);
 
       setForceReload((prev: boolean) => !prev);
       setCommentText('');
@@ -117,12 +104,7 @@ export const CommunityPostPage = () => {
               <S.CommentSection>
                 {com?.data.comments.map((comment) => (
                   <>
-                    <PostComment
-                      comment={comment}
-                      postId={parseInt(id!)}
-                      user={user}
-                      setForceReload={setForceReload}
-                    />
+                    <PostComment comment={comment} postId={parseInt(id!)} user={user} setForceReload={setForceReload} />
                   </>
                 ))}
 
@@ -138,29 +120,17 @@ export const CommunityPostPage = () => {
                 )}
 
                 <S.CommentInput>
-                  <input
-                    type="text"
-                    placeholder="댓글을 입력해주세요"
-                    value={commentText}
-                    onChange={handleCaution}
-                  />
+                  <input type="text" placeholder="댓글을 입력해주세요" value={commentText} onChange={handleCaution} />
                 </S.CommentInput>
 
-                <S.CautionContainer>
-                  {' '}
-                  {cautionText || '\u00A0'}
-                </S.CautionContainer>
+                <S.CautionContainer> {cautionText || '\u00A0'}</S.CautionContainer>
               </S.CommentSection>
               <S.ButtonWrapper>
-                <S.BackButton onClick={(): void => handleCancel()}>
-                  글 목록으로
-                </S.BackButton>
+                <S.BackButton onClick={(): void => handleCancel()}>글 목록으로</S.BackButton>
                 {cautionText ? (
                   <S.InactiveButton>작성</S.InactiveButton>
                 ) : (
-                  <button onClick={(): Promise<void> => handleCommentSubmit()}>
-                    작성
-                  </button>
+                  <button onClick={(): Promise<void> => handleCommentSubmit()}>작성</button>
                 )}
               </S.ButtonWrapper>
             </>
@@ -169,12 +139,7 @@ export const CommunityPostPage = () => {
               <S.CommentSection>
                 {com?.data.comments.map((comment) => (
                   <>
-                    <PostComment
-                      comment={comment}
-                      postId={parseInt(id!)}
-                      user={user}
-                      setForceReload={setForceReload}
-                    />
+                    <PostComment comment={comment} postId={parseInt(id!)} user={user} setForceReload={setForceReload} />
                   </>
                 ))}
 
@@ -190,37 +155,23 @@ export const CommunityPostPage = () => {
                 )}
 
                 <S.CommentInput>
-                  <input
-                    type="text"
-                    placeholder="댓글을 입력해주세요"
-                    value={commentText}
-                    onChange={handleCaution}
-                  />
+                  <input type="text" placeholder="댓글을 입력해주세요" value={commentText} onChange={handleCaution} />
                   {cautionText ? (
                     <S.InactiveButton>작성</S.InactiveButton>
                   ) : (
-                    <button
-                      onClick={(): Promise<void> => handleCommentSubmit()}
-                    >
-                      작성
-                    </button>
+                    <button onClick={(): Promise<void> => handleCommentSubmit()}>작성</button>
                   )}
                 </S.CommentInput>
-                <S.CautionContainer>
-                  {' '}
-                  {cautionText || '\u00A0'}
-                </S.CautionContainer>
+                <S.CautionContainer> {cautionText || '\u00A0'}</S.CautionContainer>
               </S.CommentSection>
-              <S.BackButton onClick={(): void => handleCancel()}>
-                글 목록으로
-              </S.BackButton>
+              <S.BackButton onClick={(): void => handleCancel()}>글 목록으로</S.BackButton>
             </>
           )}
         </S.Wrapper>
       </S.Container>
 
       {showCancelAlert && (
-        <ConfirmLeaveAlert
+        <ModalTwoBtns
           message={
             <S.AlertText>
               해당 페이지를 벗어나면{'\n'}
@@ -230,13 +181,14 @@ export const CommunityPostPage = () => {
             </S.AlertText>
           }
           onClose={(): void => setShowCancelAlert(false)}
+          onSecondaryClick={() => navigate('/community')}
           showButtons={true}
+          primaryLabel="남기"
+          secondaryLabel="떠나기"
         />
       )}
 
-      {isModalOpen && (
-        <ImageModal imgUrl={imgUrl} setIsModalOpen={setIsModalOpen} />
-      )}
+      {isModalOpen && <ImageModal imgUrl={imgUrl} setIsModalOpen={setIsModalOpen} />}
     </>
   );
 };
