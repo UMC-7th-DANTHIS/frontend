@@ -236,11 +236,15 @@ const ReportButton = styled.img`
 const AlertText = styled.span`
   text-align: center;
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
   line-height: 21px;
   white-space: pre-line;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+  }
 `;
 
 const ColoredText = styled.span`

@@ -55,7 +55,6 @@ const AlertContainer = styled.div<{
   box-shadow: 0px 0px 11.9px 2px var(--main-magenta);
 
   ${({ theme }) => theme.media.tablet} {
-    padding: 54px;
     max-width: ${({ width }) => width || 'auto'};
     border-radius: 23px;
   }
@@ -71,7 +70,7 @@ const CloseButton = styled.button`
   cursor: pointer;
 
   ${({ theme }) => theme.media.tablet} {
-    top: 14px;
-    right: 17px;
+    top: 8px;
+    right: 12px;
   }
 `;
