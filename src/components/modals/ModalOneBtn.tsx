@@ -60,6 +60,7 @@ const TextContainer = styled.div<{
   border-radius: 10px;
   background: var(--main-white);
   width: 100%;
+  min-width: 240px;
   height: 100%;
   min-height: 108px;
   flex-shrink: 0;
@@ -68,6 +69,11 @@ const TextContainer = styled.div<{
   align-items: center;
   justify-content: center;
   padding: 16px 26px;
+
+  ${({ theme }) => theme.media.tablet} {
+    min-width: 280px;
+    min-height: 128px;
+  }
 `;
 
 const AlertTitle = styled.h2`
@@ -90,7 +96,7 @@ const AlertMessage = styled.div<{
   justify-content: center;
   align-items: center;
 
-  ${({ theme }) => theme.media.tablet} {
+  ${({ theme }) => theme.media.desktop} {
     font-size: ${({ fontSize }) => fontSize || '16px'};
   }
 `;
