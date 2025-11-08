@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Logo from '../../assets/logo.svg';
-import SingleBtnAlert from '../SingleBtnAlert';
 import TopbarActions from './TopbarActions';
 import TopbarMenuTablet from './TopbarMenuTablet';
 import TopbarMenuMobile from './TopbarMenuMobile';
 import useIsMobile from '../../hooks/useIsMobile';
+import { ModalOneBtn } from '../modals';
 
 export const MENU = [
   { path: '/classes', label: '댄스 수업 예약', isBeta: false },
@@ -49,17 +49,12 @@ const Topbar = ({ token }: TopbarProps) => {
       </TopContainer>
 
       <TopbarMenuTablet />
-      {isMobile && (
-        <TopbarMenuMobile
-          visible={showMenuMobile}
-          onClose={handleCloseMenuMobile}
-        />
-      )}
+      {isMobile && <TopbarMenuMobile visible={showMenuMobile} onClose={handleCloseMenuMobile} />}
 
       <Outline />
 
       {showInvalidAlert && (
-        <SingleBtnAlert
+        <ModalOneBtn
           message={
             <AlertText>
               검색어는
@@ -68,7 +63,6 @@ const Topbar = ({ token }: TopbarProps) => {
             </AlertText>
           }
           onClose={(): void => setShowInvalidAlert(false)}
-          mariginsize="33px"
           showButtons={true}
         />
       )}
@@ -131,11 +125,15 @@ const Outline = styled.div`
 const AlertText = styled.span`
   text-align: center;
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
   line-height: 21px;
   white-space: pre-line;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+  }
 `;
 
 const ColoredText = styled.span`

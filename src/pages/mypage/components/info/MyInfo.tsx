@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as InfoArrow } from '../../../../assets/infoarrow.svg';
-import Alert from '../../../../components/Alert';
-import AgreeAlert from '../../../../components/AgreeAlert';
+import { ModalAgree, ModalTwoBtns } from '../../../../components/modals';
 import Quit from '../Quit';
 import api from '../../../../api/api';
-import { useNavigate } from 'react-router-dom';
 
 const MyInfo = () => {
   const [showLogoutAlert, setShowLogoutAlert] = useState(false);
@@ -77,18 +76,15 @@ const MyInfo = () => {
           <MenuText>로그아웃</MenuText>
           <InfoArrow onClick={handleLogoutAlert} />
           {showLogoutAlert && (
-            <Alert
+            <ModalTwoBtns
               message={
                 <span>
                   <ColoredText>로그아웃</ColoredText> 하시겠습니까?
                 </span>
               }
-              onClose={handleLogoutConfirm}
-              marginsize="45px"
-              ContainerWidth="280px"
-              ContainerHeight="108px"
-              AlertWidth="392px"
-              AlertHeight="260px"
+              onClose={hideLogoutAlert}
+              onPrimaryClick={handleLogoutConfirm}
+              onSecondaryClick={hideLogoutAlert}
               showButtons={true}
             />
           )}
@@ -106,7 +102,7 @@ const MyInfo = () => {
           <MenuText>서비스 이용약관</MenuText>
           <InfoArrow onClick={handleAgreeAlert} />
           {showAgreeAlert && (
-            <AgreeAlert
+            <ModalAgree
               onClose={hideAgreeAlert}
               title="서비스 이용약관"
               message="서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구"
@@ -117,7 +113,7 @@ const MyInfo = () => {
           <MenuText>개인정보 처리방침</MenuText>
           <InfoArrow onClick={handlePersonalAlert} />
           {showPersonalAlert && (
-            <AgreeAlert
+            <ModalAgree
               onClose={hidePersonalAlert}
               title="개인정보 처리방침"
               message="개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침"

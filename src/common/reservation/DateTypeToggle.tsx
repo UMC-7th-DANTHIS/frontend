@@ -40,7 +40,7 @@ const ToggleButton = styled.button<{ $isActive: boolean }>`
   border: none;
   border-radius: 999px;
   background-color: ${({ $isActive }) => ($isActive ? 'var(--main-purple)' : 'transparent')};
-  transition: all 0.2s ease-in;
+  transition: all 0.1s ease-in;
   cursor: pointer;
 
   color: ${({ $isActive }) => ($isActive ? 'var(--main-white)' : 'var(--text-gray)')};

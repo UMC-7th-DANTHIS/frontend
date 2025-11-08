@@ -1,9 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import ConfirmLeaveAlert from '../../components/ConfirmLeaveAlert';
-import SingleBtnAlert from '../../components/SingleBtnAlert';
+import { ModalOneBtn, ModalTwoBtns } from '../../components/modals';
 import {
   GenreSelectorClass,
   ImagesUploader,
@@ -22,6 +21,7 @@ import useGetClassDetailById from '../../hooks/reservation/useGetClassDetailById
 import { ClassFormState } from '../../types/registration';
 
 export default function ClassRegisterEditPage() {
+  const navigate = useNavigate();
   const [formState, setFormState] = useState<ClassFormState>({
     className: '',
     pricePerSession: '',
@@ -161,7 +161,7 @@ export default function ClassRegisterEditPage() {
       <Notice>*댄스 수업 등록은 내부 운영팀의 심사를 통해 최종 승인됩니다.</Notice>
       <SubmitButton text="댄스 수업 등록하기" />
       {showInvalidAlert && (
-        <SingleBtnAlert
+        <ModalOneBtn
           message={
             <AlertText>
               모든 항목을{'\n'}
@@ -170,12 +170,11 @@ export default function ClassRegisterEditPage() {
             </AlertText>
           }
           onClose={() => setShowInvalidAlert(false)}
-          mariginsize="33px"
           showButtons={true}
         />
       )}
       {showLeaveAlert && (
-        <ConfirmLeaveAlert
+        <ModalTwoBtns
           message={
             <AlertText>
               해당 페이지를 벗어나면{'\n'}
@@ -185,7 +184,10 @@ export default function ClassRegisterEditPage() {
             </AlertText>
           }
           onClose={() => setShowLeaveAlert(false)}
+          onSecondaryClick={() => navigate('/')}
           showButtons={true}
+          primaryLabel="남기"
+          secondaryLabel="떠나기"
         />
       )}
     </FormContainer>
@@ -236,11 +238,15 @@ const Notice = styled.div`
 const AlertText = styled.span`
   text-align: center;
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
   line-height: 21px;
   white-space: pre-line;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+  }
 `;
 const ColoredText = styled.span`
   color: #a60f62;

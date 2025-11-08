@@ -9,7 +9,7 @@ import Edit from '../../assets/Community/EditButton.svg';
 import Delete from '../../assets/Community/DeleteButton.svg';
 import Alert from '../../assets/Community/SirenButton.svg';
 
-import ConfirmDeleteAlert from '../../components/ConfirmDelete';
+import { ModalTwoBtns } from '../../components/modals';
 import axiosInstance from '../../api/axios-instance';
 
 import { SinglePostData } from '@/types/CommunityInterface';
@@ -23,13 +23,7 @@ type PostContentProps = {
   setListReload: Dispatch<any>;
 };
 
-const PostContent = ({
-  length,
-  handleModal,
-  selectedPost,
-  user,
-  setListReload
-}: PostContentProps) => {
+const PostContent = ({ length, handleModal, selectedPost, user, setListReload }: PostContentProps) => {
   const navigate = useNavigate();
 
   const [showConfirmDelete, setShowConfirmDelete] = useState<boolean>(false);
@@ -73,11 +67,7 @@ const PostContent = ({
               src={Edit}
               alt={'Edit'}
             />
-            <ButtonContainer
-              src={Delete}
-              alt={'Delete'}
-              onClick={() => handleDelete()}
-            />
+            <ButtonContainer src={Delete} alt={'Delete'} onClick={() => handleDelete()} />
           </PostActions>
         ) : (
           <PostActions>
@@ -92,16 +82,14 @@ const PostContent = ({
         {selectedPost?.content}
         {selectedPost?.images.length > 0 && (
           <ImageContainer>
-            {selectedPost?.images.map((img) => (
-              <Image src={img} alt={'Image'} onClick={() => handleModal(img)} />
-            ))}
+            {selectedPost?.images.map((img) => <Image src={img} alt={'Image'} onClick={() => handleModal(img)} />)}
           </ImageContainer>
         )}
         <br />
       </Content>
 
       {showConfirmDelete && (
-        <ConfirmDeleteAlert
+        <ModalTwoBtns
           message={
             <AlertText>
               해당 게시글을 삭제하면{'\n'}
@@ -111,8 +99,10 @@ const PostContent = ({
             </AlertText>
           }
           onClose={() => setShowConfirmDelete(false)}
-          onConfirm={handleDeleteConfirm}
+          onSecondaryClick={handleDeleteConfirm}
           showButtons={true}
+          primaryLabel="취소"
+          secondaryLabel="삭제하기"
         />
       )}
     </>
@@ -246,11 +236,15 @@ const ReportButton = styled.img`
 const AlertText = styled.span`
   text-align: center;
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
   line-height: 21px;
   white-space: pre-line;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+  }
 `;
 
 const ColoredText = styled.span`

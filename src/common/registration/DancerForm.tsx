@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
-import ConfirmLeaveAlert from '../../components/ConfirmLeaveAlert';
-import SingleBtnAlert from '../../components/SingleBtnAlert';
+import { ModalOneBtn, ModalTwoBtns } from '../../components/modals';
 import { GenreSelectorDancer, ImagesUploader, Input, SubmitButton, Textarea } from '.';
 
 import { DancerFormState } from '../../types/registration';
@@ -15,6 +15,7 @@ interface DancerFormProps {
 }
 
 export default function DancerForm({ setIsRegistered }: DancerFormProps) {
+  const navigate = useNavigate();
   const [formState, setFormState] = useState<DancerFormState>({
     dancerName: '',
     instargramId: '',
@@ -127,7 +128,7 @@ export default function DancerForm({ setIsRegistered }: DancerFormProps) {
       <SubmitButton text="댄서 등록하기" />
 
       {showInvalidAlert && (
-        <SingleBtnAlert
+        <ModalOneBtn
           message={
             <AlertText>
               모든 항목을{'\n'}
@@ -136,13 +137,12 @@ export default function DancerForm({ setIsRegistered }: DancerFormProps) {
             </AlertText>
           }
           onClose={() => setShowInvalidAlert(false)}
-          mariginsize="33px"
           showButtons={true}
         />
       )}
 
       {showLeaveAlert && (
-        <ConfirmLeaveAlert
+        <ModalTwoBtns
           message={
             <AlertText>
               해당 페이지를 벗어나면{'\n'}
@@ -152,7 +152,10 @@ export default function DancerForm({ setIsRegistered }: DancerFormProps) {
             </AlertText>
           }
           onClose={() => setShowLeaveAlert(false)}
+          onSecondaryClick={() => navigate('/')}
           showButtons={true}
+          primaryLabel="남기"
+          secondaryLabel="떠나기"
         />
       )}
     </FormContainer>
@@ -201,11 +204,15 @@ const Notice = styled.div`
 const AlertText = styled.span`
   text-align: center;
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
   line-height: 21px;
   white-space: pre-line;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+  }
 `;
 const ColoredText = styled.span`
   color: #a60f62;
