@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import SearchIcon from '../../assets/searchicon.svg';
@@ -12,6 +12,12 @@ export const SearchbarMobile = ({ onClose, setShowInvalidAlert }: SearchbarMobil
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [searchPlaceholder, setSearchPlaceholder] = useState('검색어를 입력하세요');
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value: string = e.target.value;
@@ -52,6 +58,7 @@ export const SearchbarMobile = ({ onClose, setShowInvalidAlert }: SearchbarMobil
       <Overlay onClick={handleClose} />
       <Search>
         <SearchInput
+          ref={inputRef}
           id="main search"
           placeholder={searchPlaceholder}
           onFocus={(): void => setSearchPlaceholder('검색어를 입력하세요.')}
