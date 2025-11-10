@@ -684,10 +684,10 @@ const CustomCircle = styled.span`
   align-items: center;
   margin-right: 8px;
   position: relative;
-  top: 50%; /* 부모의 50% */
+  top: 45%; /* 부모의 50% */
   left: 50%; /* 부모의 50% */
   transform: translate(-50%, -50%); /* 중심으로 이동 */
-
+  
   ${RadioInput}:checked + & {
     background-color: white; /* 선택된 경우 내부 색상 변경 */
   }
@@ -713,6 +713,7 @@ const CustomCircle = styled.span`
   ${({ theme }) => theme.media.tablet} {
     width: 24px;
     height: 24px;
+    top: 50%; /* 부모의 50% */
   }
 `;
 const CustomCircle1 = styled.span`
@@ -770,6 +771,7 @@ const LabelText = styled.span`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  //justify-content: end;
   ${({ theme }) => theme.media.tablet} {
     font-size: 20px;
   }

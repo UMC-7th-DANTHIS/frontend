@@ -70,11 +70,13 @@ const Signup4 = () => {
         
       </Stepper>
       <Content>
+        <Title>
+        <Text>{nickname}님, </Text>
         <Line>
-          <Text>{nickname}님, </Text>
           <Logo src={Logoimg} />
-          <Text>가입을 축하드려요!</Text>
+          <Text4>가입을 축하드려요!</Text4>
         </Line>
+        </Title>
         <Line>
           <Logo2 src={Logoimg} />
           <Text3>에서 같이 춤으로 소통하고 성장해요 : &#41;</Text3>
@@ -172,7 +174,7 @@ const Content = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 98px;
+  margin-top: 102px;
   flex-direction: column;
 `;
 
@@ -184,18 +186,46 @@ const Line = styled.div`
   margin-bottom: 17px;
 `;
 
+const Title = styled.div`
+  display: flex;
+  flex-direction: column;
+ ${({ theme }) => theme.media.tablet} {
+   flex-direction: row;
+  }
+`
+
+
 const Text = styled.div`
+  color: var(--main_white, #fff);
+  font-family: Pretendard;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  align-items: center;
+  margin-bottom: 39px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  ${({ theme }) => theme.media.tablet} {
+   font-size: 40px;
+   font-weight: 600;
+   margin-bottom: 17px;
+  }
+`;
+const Text4 = styled.div`
   color: var(--main_white, #fff);
   font-family: Pretendard;
   font-size: 20px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  align-items: center;
+  display: flex;
   ${({ theme }) => theme.media.tablet} {
    font-size: 40px;
   }
 `;
-
 const Text3 = styled.div`
   color: var(--main_white, #fff);
   font-family: Pretendard;
