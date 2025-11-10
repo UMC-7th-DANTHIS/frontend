@@ -62,7 +62,7 @@ const AlertContainer = styled.div<{
 
 const CloseButton = styled.button`
   position: absolute;
-  top: 7px;
+  top: 8px;
   right: 10px;
   background: none;
   border: none;
