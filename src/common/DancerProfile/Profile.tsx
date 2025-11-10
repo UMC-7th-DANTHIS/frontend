@@ -246,6 +246,7 @@ const Name = styled.div`
   line-height: normal;
   letter-spacing: -0.9px;
   margin-left: 10.84px;
+  font-family: Pretendard;
   ${({ theme }) => theme.media.tablet} {
     font-size: 24px;
     letter-spacing: -0.9px;
@@ -374,15 +375,16 @@ const LikeButton = styled.button<{ $isLiked: boolean }>`
   letter-spacing: -0.8px;
   margin-top: 18px;
   cursor: pointer;
-    &:hover {
-    cursor: pointer;
-    background: rgba(152, 25, 195, 0.4);
-  }
+    
   ${({ theme }) => theme.media.tablet} {
     width: 360px;
     height: 60px;
     font-size: 20px;
     letter-spacing: -1.2px;
     margin-top: 26.34px;
+    &:hover {
+    cursor: pointer;
+    background: rgba(152, 25, 195, 0.4);
+  }
   }
 `;

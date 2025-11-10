@@ -85,6 +85,7 @@ const TabContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: Pretendard;
   ${({ theme }) => theme.media.tablet} {
     width: 1028px;
     height: 50px;

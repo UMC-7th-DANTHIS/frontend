@@ -205,6 +205,7 @@ const BoardContainer = styled.div`
   //justify-content: center;
   //width: 300px;
   margin-top: 69px;
+  position: relative;
    ${({ theme }) => theme.media.tablet} {
   margin-top: 40px;
   margin-left: 100px;
@@ -215,8 +216,10 @@ const Classes = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   //width: 300px;
-  height: 580px;
+  max-height: 580px;
   margin-bottom: 88px;
+  justify-items: center;
+  align-items: start;
   gap: 61px;
    ${({ theme }) => theme.media.tablet} {
     width: 740px;
