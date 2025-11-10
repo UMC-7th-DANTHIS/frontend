@@ -62,13 +62,16 @@ const TextContainer = styled.div<{
   width: 100%;
   min-width: 240px;
   height: 100%;
-  min-height: 108px;
+  min-height: 96px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 16px 26px;
+  padding: 20px 14px;
+  white-space: normal;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 
   ${({ theme }) => theme.media.tablet} {
     min-width: 280px;
@@ -121,4 +124,9 @@ const Confirm = styled.button`
   border: 1px solid var(--main-magenta);
   color: white;
   cursor: pointer;
+  font-size: 14px;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+  }
 `;
