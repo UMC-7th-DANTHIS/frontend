@@ -34,59 +34,77 @@ import ReviewDetailPage from './pages/reservation/ReviewDetailPage';
 import Practice from './pages/Practice/Practice';
 import ProtectedRoute from './components/ProtectedRoute';
 import Battle from './pages/Battle/Battle';
+import GlobalStyle from './utils/globalstyle';
 
 function App(): React.JSX.Element {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/mypage" element={<MypageLayout />} />
-          <Route path="/community" element={<CommunityLayout />}>
-            <Route path="" element={<Community />} />
-            <Route path=":id" element={<CommunityPostPage />} />
-            <Route path="edit" element={<CommunityEdit />} />
-            <Route path="edit/:id" element={<CommunityPut />} />
-          </Route>
-          <Route path="/search/:select?" element={<SearchLayout />}>
-            <Route index element={<SearchWrapper />} />
-          </Route>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/oauth/kakao/callback" element={<KakaoRedirectHandler />} />
-          <Route path="/signup1" element={<SignupPage1 />} />
-          <Route path="/signup2" element={<SignupPage2 />} />
-          <Route path="/signup3" element={<SignupPage3 />} />
-          <Route path="/signup4" element={<SignupPage4 />} />
+    <>
+      {/* 모바일 흰색 여백 삭제 */}
+      <GlobalStyle />
 
-          <Route
-            path="/new/dancer"
-            element={
-              <ProtectedRoute>
-                <DancerRegistrationPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/new/class"
-            element={
-              <ProtectedRoute>
-                <ClassRegistrationPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/new/class/:classId" element={<ClassRegisterEditPage />} />
-          <Route path="/classes" element={<ClassesPage />} />
-          <Route path="/classes/:classId" element={<ReservationPage />} />
-          <Route path="/classes/reviews/:reviewId" element={<ReviewDetailPage />} />
-          <Route path="/dancerprofile" element={<ProfileList />} />
-          <Route path="/dancerprofile/:dancerId" element={<DancerProfile />} />
-          <Route path="/review/:id" element={<ReviewDetail />} />
-          <Route path="/detail/:classId" element={<MyRegisterDetail />} />
-          <Route path="/practice" element={<Practice />} />
-          <Route path="/battle" element={<Battle />} />
-        </Route>
-      </Routes>
-    </Router>
+      <Router>
+        <Routes>
+          <Route path="/" element={<MainLayout />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/mypage" element={<MypageLayout />} />
+            <Route path="/community" element={<CommunityLayout />}>
+              <Route path="" element={<Community />} />
+              <Route path=":id" element={<CommunityPostPage />} />
+              <Route path="edit" element={<CommunityEdit />} />
+              <Route path="edit/:id" element={<CommunityPut />} />
+            </Route>
+            <Route path="/search/:select?" element={<SearchLayout />}>
+              <Route index element={<SearchWrapper />} />
+            </Route>
+            <Route path="/login" element={<LoginPage />} />
+            <Route
+              path="/oauth/kakao/callback"
+              element={<KakaoRedirectHandler />}
+            />
+            <Route path="/signup1" element={<SignupPage1 />} />
+            <Route path="/signup2" element={<SignupPage2 />} />
+            <Route path="/signup3" element={<SignupPage3 />} />
+            <Route path="/signup4" element={<SignupPage4 />} />
+
+            <Route
+              path="/new/dancer"
+              element={
+                <ProtectedRoute>
+                  <DancerRegistrationPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/new/class"
+              element={
+                <ProtectedRoute>
+                  <ClassRegistrationPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/new/class/:classId"
+              element={<ClassRegisterEditPage />}
+            />
+            <Route path="/classes" element={<ClassesPage />} />
+            <Route path="/classes/:classId" element={<ReservationPage />} />
+            <Route
+              path="/classes/reviews/:reviewId"
+              element={<ReviewDetailPage />}
+            />
+            <Route path="/dancerprofile" element={<ProfileList />} />
+            <Route
+              path="/dancerprofile/:dancerId"
+              element={<DancerProfile />}
+            />
+            <Route path="/review/:id" element={<ReviewDetail />} />
+            <Route path="/detail/:classId" element={<MyRegisterDetail />} />
+            <Route path="/practice" element={<Practice />} />
+            <Route path="/battle" element={<Battle />} />
+          </Route>
+        </Routes>
+      </Router>
+    </>
   );
 }
 

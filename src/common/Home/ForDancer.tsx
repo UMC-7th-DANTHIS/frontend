@@ -53,7 +53,7 @@ const DancerContainer = styled.div`
 const DancerWrapper = styled.div`
   display: inline-flex;
   flex-wrap: nowrap;
-  gap: 20px;
+  gap: 40px;
   width: max-content;
 `;
 
@@ -91,7 +91,7 @@ const DancerImage = styled.img`
 
 const DancerName = styled.div`
   color: white;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   margin-bottom: 5px;
 
@@ -103,7 +103,7 @@ const DancerName = styled.div`
 
 const DancerGenre = styled.div`
   color: #b2b2b2;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
 
   ${({ theme }) => theme.media.tablet} {
