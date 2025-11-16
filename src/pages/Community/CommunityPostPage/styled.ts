@@ -4,8 +4,9 @@ const Container = styled.div`
   padding-top: 30px;
   background-color: #000000;
   padding-bottom: 100px;
-  width: 100%;
-  max-width: 900px;
+  width: 100dvw;
+
+  max-width: 1440px;
   padding: 0 2rem;
   margin-bottom: 30px;
 `;

@@ -25,6 +25,7 @@ const CommunityLists = () => {
             setCurrentPage={setCurrentPage}
           />
         </PaginationWrapper>
+
         <WriteButton onClick={() => navigate('edit')}>글쓰기</WriteButton>
       </PaginationContainer>
     </ListsContainer>
@@ -39,6 +40,7 @@ const ListsContainer = styled.div`
 
 const PaginationContainer = styled.div`
   display: flex;
+
   justify-content: space-between;
   align-items: center;
   margin-top: 56px;
@@ -47,14 +49,24 @@ const PaginationContainer = styled.div`
 `;
 
 const PaginationWrapper = styled.div`
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  ${({ theme }) => theme.media.tablet} {
+    position: absolute;
+    left: 50%;
+
+    justify-content: start;
+    align-items: center;
+    transform: translateX(-50%);
+  }
 `;
 
 const WriteButton = styled.button`
-  width: 80px;
-  height: 40px;
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  width: 64px;
+  height: 36px;
   background-color: #9819c3;
   color: white;
   font-size: 16px;
@@ -63,6 +75,12 @@ const WriteButton = styled.button`
   border-radius: 10px;
   cursor: pointer;
   margin-left: auto;
+
+  ${({ theme }) => theme.media.tablet} {
+    width: 80px;
+    height: 40px;
+    font-size: 16px;
+  }
 
   &:hover {
     background-color: #b327d1;
