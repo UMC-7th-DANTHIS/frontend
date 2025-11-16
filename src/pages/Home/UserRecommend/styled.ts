@@ -26,7 +26,6 @@ const ClassWrapper = styled.div`
   align-items: center;
 
   white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
 
   margin: 0 auto;
@@ -66,7 +65,7 @@ const Header = styled.div`
   justify-content: center;
   align-items: center;
 
-  margin: 0px 0px 1rem 0px;
+  margin: 0px 0px 2rem 0px;
 
   ${({ theme }) => theme.media.tablet} {
     justify-content: start;

@@ -1,5 +1,5 @@
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 import { hashTagID } from '../../api/schema';
 import { AllClassData, AllClassList } from '@/types/MainInterface';
@@ -48,16 +48,15 @@ const ForClass = ({ danceclass }: ForClassProps) => {
 
 const ClassContainer = styled.div`
   width: 100%;
-  padding: 0 20px;
-  max-width: 400px;
+  height: 100%;
 
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 36px;
+  gap: 30px;
 
-  ${({ theme }) => theme.media.tablet} {
+  ${({ theme }) => theme.media.desktop} {
     grid-template-columns: repeat(2, 1fr);
-    gap: 110px;
+    gap: 50px 70px;
 
     max-width: 1400px;
   }
@@ -71,11 +70,6 @@ const ClassContent = styled.div`
   align-items: start;
 
   gap: 30px;
-
-  ${({ theme }) => theme.media.tablet} {
-    justify-content: center;
-    align-items: center;
-  }
 `;
 
 const ClassImage = styled.img`
@@ -107,17 +101,28 @@ const ClassImage = styled.img`
 
 const TextContainer = styled.div`
   display: flex;
-  min-width: 0;
-
   flex-direction: column;
 
-  gap: 10px;
+  height: 100%;
+  width: 100%;
+
+  justify-content: center;
+
+  min-width: 0;
+
+  ${({ theme }) => theme.media.tablet} {
+    gap: 10px;
+  }
 `;
 
 const ClassName = styled.div`
   color: #fff;
   font-size: 18px;
   font-weight: 600;
+  margin-bottom: 3px;
+
+  width: 100%;
+  max-width: 250px;
 
   white-space: nowrap;
   overflow: hidden;
@@ -125,6 +130,12 @@ const ClassName = styled.div`
 
   ${({ theme }) => theme.media.tablet} {
     font-size: 24px;
+    max-width: 500px;
+  }
+
+  ${({ theme }) => theme.media.mobile} {
+    font-size: 18px;
+    max-width: 270px;
   }
 `;
 
@@ -132,11 +143,13 @@ const ClassDancer = styled.div`
   color: #b2b2b2;
   font-size: 16px;
   font-weight: 400;
-  line-height: 28px;
+  line-height: 14px;
+
+  margin-bottom: 5px;
 
   ${({ theme }) => theme.media.tablet} {
     font-size: 22px;
-    font-weight: 600;
+    font-weight: 400;
   }
 `;
 
