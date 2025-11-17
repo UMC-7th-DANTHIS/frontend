@@ -26,7 +26,6 @@ const ClassWrapper = styled.div`
   align-items: center;
 
   white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
 
   margin: 0 auto;
@@ -53,7 +52,7 @@ const AlignCenter = styled.div`
 const Border = styled.div`
   border-bottom: 2px solid #4d4d4d;
 
-  margin-top: 2rem;
+  margin-top: 3rem;
 
   ${({ theme }) => theme.media.tablet} {
     margin-top: 4rem;
@@ -62,13 +61,11 @@ const Border = styled.div`
 `;
 
 const Header = styled.div`
-  margin-bottom: 3rem;
-
   display: flex;
   justify-content: center;
   align-items: center;
 
-  margin: 0px 0px 3rem 0px;
+  margin: 0px 0px 2rem 0px;
 
   ${({ theme }) => theme.media.tablet} {
     justify-content: start;
