@@ -92,18 +92,18 @@ const Signup3 = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Signup2 데이터 로컬스토리지에서 가져오기
-    //const data = JSON.parse(localStorage.getItem('signup2Data'));
-    const data = localStorage.getItem('signup2Data');
-    if (data) {
-      setSignup2Data(JSON.parse(data)); // 상태에 저장
-      console.log('Signup2에서 가져온 데이터:', data); // 데이터 출력
-    } else {
-      console.error('Signup2 데이터가 없습니다. 이전 단계로 이동합니다.');
-      navigate('/signup2'); // 데이터가 없으면 이전 단계로 이동
-    }
-  }, [navigate]);
+  // useEffect(() => {
+  //   // Signup2 데이터 로컬스토리지에서 가져오기
+  //   //const data = JSON.parse(localStorage.getItem('signup2Data'));
+  //   const data = localStorage.getItem('signup2Data');
+  //   if (data) {
+  //     setSignup2Data(JSON.parse(data)); // 상태에 저장
+  //     console.log('Signup2에서 가져온 데이터:', data); // 데이터 출력
+  //   } else {
+  //     console.error('Signup2 데이터가 없습니다. 이전 단계로 이동합니다.');
+  //     navigate('/signup2'); // 데이터가 없으면 이전 단계로 이동
+  //   }
+  // }, [navigate]);
 
   const handleNext = async () => {
     const requestBody = {
