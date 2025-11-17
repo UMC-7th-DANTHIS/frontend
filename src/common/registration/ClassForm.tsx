@@ -30,6 +30,8 @@ export default function ClassForm({ setIsRegistered }: ClassFormProps) {
     pricePerSession: '',
     difficulty: 0,
     genre: 0,
+    days: [],
+    dates: [],
     description: '',
     targetAudience: '',
     hashtags: [],

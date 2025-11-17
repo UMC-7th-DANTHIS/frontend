@@ -124,6 +124,11 @@ const Confirm = styled.button`
   border: 1px solid var(--main-magenta);
   color: white;
   cursor: pointer;
+  font-size: 14px;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+  }
 `;
 
 const Cancel = styled.button`
@@ -137,4 +142,9 @@ const Cancel = styled.button`
   background-color: black;
   color: white;
   cursor: pointer;
+  font-size: 14px;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+  }
 `;

@@ -30,7 +30,7 @@ const Outline = styled.div`
   width: 177px;
   height: 232px;
   border-radius: 7px;
-  border: 2px solid var(--main_magenta, #a60f62);
+  border: 2px solid var(--main-magenta);
 `;
 const Label = styled.div<{ $left: string }>`
   position: absolute;
@@ -38,7 +38,7 @@ const Label = styled.div<{ $left: string }>`
   left: ${({ $left }) => $left};
   padding: 2px 8px;
   border-radius: 7px 7px 0px 0px;
-  background: var(--main_magenta, #a60f62);
+  background: var(--main-magenta);
   color: #fff;
   text-align: center;
   font-family: Pretendard;
