@@ -28,7 +28,9 @@ export const SelectionPanel = () => {
         </SelectedDate>
       </PanelHeader>
 
-      {selectedType === DATE_TYPE.DAILY && <CustomCalendar selectedDate={selectedDate} onDateClick={setSelectedDate} />}
+      {selectedType === DATE_TYPE.DAILY && (
+        <CustomCalendar selectedDate={format(selectedDate, 'yyyy-MM-dd')} onDateClick={setSelectedDate} />
+      )}
       {selectedType === DATE_TYPE.WEEKLY && <WeeklySelector />}
     </PanelContainer>
   );

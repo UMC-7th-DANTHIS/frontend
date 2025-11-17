@@ -10,12 +10,15 @@ import MyComments from './components/comment/MyComments';
 import MyEditProfile from './components/editprofile/MyEditProfile';
 import MyInfo from './components/info/MyInfo';
 import MypageSidebar from './MypageSidebar';
+import { MyNewClass } from './components/newclass/MyNewClass';
 
 const menuMapping: Record<string, React.ReactNode> = {
   'myclasses': <MyLikeClass />,
   'mydancers': <MyLikeDancer />,
   'chatlist': <MyChatList />,
   'registeredclasses': <MyRegisterClass />,
+  'registerdancer': <div></div>,
+  'registerclass': <MyNewClass />,
   'myreview': <MyReview />,
   'mycomments': <MyComments />,
   'editprofile': <MyEditProfile />,
@@ -25,8 +28,7 @@ const menuMapping: Record<string, React.ReactNode> = {
 const MypageLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const selectedMenu =
-    new URLSearchParams(location.search).get('menu') || 'myclasses';
+  const selectedMenu = new URLSearchParams(location.search).get('menu') || 'myclasses';
 
   const renderContent = () => menuMapping[selectedMenu] || <MyLikeClass />;
 
@@ -36,10 +38,7 @@ const MypageLayout = () => {
 
   return (
     <MainContainer>
-      <MypageSidebar
-        selectedMenu={selectedMenu}
-        onMenuClick={handleMenuClick}
-      />
+      <MypageSidebar selectedMenu={selectedMenu} onMenuClick={handleMenuClick} />
       <ContentContainer>{renderContent()}</ContentContainer>
     </MainContainer>
   );

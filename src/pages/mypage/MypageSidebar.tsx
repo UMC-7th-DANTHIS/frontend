@@ -1,8 +1,5 @@
 import { useState } from 'react';
-import {
-  MenuItemProps,
-  MypageSidebarProps
-} from '@/types/mypage/MypageSideBarType';
+import { MenuItemProps, MypageSidebarProps } from '@/types/mypage/MypageSideBarType';
 import styled from 'styled-components';
 import useIsMobile from '../../hooks/useIsMobile';
 import { ReactComponent as Dropdown } from '../../assets/dropdown.svg';
@@ -52,12 +49,7 @@ const MypageSidebar = ({ selectedMenu, onMenuClick }: MypageSidebarProps) => {
           divider ? (
             <Divider key={key} />
           ) : (
-            <MenuItem
-              key={key}
-              onClick={() => onMenuClick(key)}
-              isActive={selectedMenu === key}
-              isMobile={isMobile}
-            >
+            <MenuItem key={key} onClick={() => onMenuClick(key)} isActive={selectedMenu === key} isMobile={isMobile}>
               {label}
             </MenuItem>
           )
@@ -94,8 +86,13 @@ const SidebarContainer = styled.div`
   width: 350px;
   display: flex;
   flex-direction: row;
-  margin-top: 17px;
-  margin-left: 96px;
+  margin-top: 14px;
+  margin-left: 32px;
+
+  ${({ theme }) => theme.media.desktop} {
+    margin-top: 17px;
+    margin-left: 96px;
+  }
 `;
 
 const Sidebar = styled.div`
@@ -113,6 +110,7 @@ const SidebarMenu = styled.div`
 
 const MenuItem = styled.div<MenuItemProps & { isMobile?: boolean }>`
   margin-bottom: 20px;
+  white-space: nowrap;
   font-size: ${({ isMobile }) => (isMobile ? '13px' : '18px')};
   font-weight: 500;
   cursor: pointer;
