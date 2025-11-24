@@ -1,12 +1,9 @@
 import React, {useEffect} from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
-import LoginMobile from "../../assets/buttons/LoginMobile.svg"
-import LoginDesktop from "../../assets/buttons/LoginDesktop.svg"
-import SignupMobile from "../../assets/buttons/SignupMobile.svg"
-import SignupDesktop from "../../assets/buttons/SignupDesktop.svg"
 import TextImg from "../../assets/buttons/danthis.svg"
-import KakaoLogo from "../../assets/kakao.svg"
+import KakaoMobile from "../../assets/kakaomobile.svg"
+import KakaoDesktop from "../../assets/kakaodesktop.svg"
 
 const LoginPage = () => {
   const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY!;
@@ -25,7 +22,7 @@ const LoginPage = () => {
     <Layout>
       <LoginTitle>로그인</LoginTitle>
       <LoginBtn onClick={loginHandler}>
-        <KakaoIcon src={KakaoLogo} alt="카카오톡 로고" />
+        <KakaoIcon alt="카카오톡 로고" />
         <LoginText>카카오로 로그인</LoginText>
       </LoginBtn>
       <Line />
@@ -34,7 +31,7 @@ const LoginPage = () => {
       </Info>
       <SignupTitle>회원가입</SignupTitle>
       <SignupBtn onClick={loginHandler}>
-        <KakaoIcon src={KakaoLogo} alt="카카오톡 로고" />
+        <KakaoIcon alt="카카오톡 로고" />
         <SignupText>카카오로 회원가입</SignupText>
       </SignupBtn>
     </Layout>
@@ -97,7 +94,10 @@ const LoginBtn = styled.button`
 const KakaoIcon = styled.img`
   width: 36px;
   height: 36px;
-   ${({ theme }) => theme.media.tablet} {
+  content: url(${KakaoMobile}); /* 모바일 기본 */
+
+  ${({ theme }) => theme.media.tablet} {
+    content: url(${KakaoDesktop}); /* 데스크탑에서 다른 이미지 */
     width: 50px;
     height: 50px;
   }
