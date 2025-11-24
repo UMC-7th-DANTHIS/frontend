@@ -68,6 +68,7 @@ export const DancerForm = () => {
                 value={formState.bio}
                 onChange={(e) => handleFormChange('bio', e.target.value)}
                 placeholder="한 마디 소개글을 입력하세요."
+                maxLength={60}
               />
             </LabeledBox>
 

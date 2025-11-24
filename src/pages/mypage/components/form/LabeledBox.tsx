@@ -66,4 +66,8 @@ const Notice = styled.p`
     margin-left: 20px;
     font-size: 14px;
   }
+
+  ${({ theme }) => theme.media.desktop} {
+    white-space: nowrap;
+  }
 `;
