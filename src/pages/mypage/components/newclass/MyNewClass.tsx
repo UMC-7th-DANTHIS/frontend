@@ -14,8 +14,7 @@ const MyNewClass = () => {
 
   const TITLE = '댄스 수업 등록';
   const COMPLETE_MESSAGE = '댄스 수업 등록 신청이 완료되었어요!';
-  const COMPLETE_DESCRIPTION =
-    '운영진의 검토 이후, \n정식 댄스 수업으로 등록될 수 있어요. \n등록 신청에 감사드려요 :)';
+  const COMPLETE_DESCRIPTION = '운영진의 검토 이후, \n정식 댄스 수업으로 등록될 수 있어요. \n등록 신청에 감사드려요 :)';
 
   const [formState, setFormState] = useState<ClassFormState>({
     className: '',
@@ -38,12 +37,9 @@ const MyNewClass = () => {
 
   const { mutate: postClass } = usePostClass();
 
-  const handleFormChange = useCallback(
-    <K extends keyof ClassFormState>(key: K, value: ClassFormState[K]) => {
-      setFormState((prev) => ({ ...prev, [key]: value }));
-    },
-    []
-  );
+  const handleFormChange = useCallback(<K extends keyof ClassFormState>(key: K, value: ClassFormState[K]) => {
+    setFormState((prev) => ({ ...prev, [key]: value }));
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -76,14 +72,10 @@ const MyNewClass = () => {
       }}
     >
       <Container>
-        <ClassForm />
         {!isRegistered ? (
-          <div />
+          <ClassForm />
         ) : (
-          <RegisterComplete
-            message={COMPLETE_MESSAGE}
-            description={COMPLETE_DESCRIPTION}
-          />
+          <RegisterComplete message={COMPLETE_MESSAGE} description={COMPLETE_DESCRIPTION} />
         )}
       </Container>
     </MyNewClassContext>

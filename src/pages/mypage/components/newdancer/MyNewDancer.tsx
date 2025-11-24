@@ -66,8 +66,11 @@ const MyNewDancer = () => {
       }}
     >
       <Container>
-        <DancerForm />
-        {!isRegistered ? <div /> : <RegisterComplete message={COMPLETE_MESSAGE} description={COMPLETE_DESCRIPTION} />}
+        {!isRegistered ? (
+          <DancerForm />
+        ) : (
+          <RegisterComplete message={COMPLETE_MESSAGE} description={COMPLETE_DESCRIPTION} />
+        )}
       </Container>
     </MyNewDancerContext>
   );
