@@ -125,13 +125,17 @@ const TextareaBox = styled.textarea`
 `;
 const WarningMessage = styled.div`
   position: absolute;
-  bottom: 5px;
+  bottom: -20px;
   right: 0px;
-  color: var(--highlight_red, #f00);
+  color: var(--highlight-red);
   text-align: right;
   font-family: Pretendard;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 400;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 14px;
+  }
 `;
 const ShortInput = styled.div`
   display: flex;

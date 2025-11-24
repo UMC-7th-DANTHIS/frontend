@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { DanceGenre as genres } from '../../api/schema';
-import { ClassFormState, DancerFormState, HandleFormChange } from '../../types/registration';
+import { DanceGenre as genres } from '../../../../api/schema';
+import { ClassFormState, DancerFormState, HandleFormChange } from '@/types/registration';
 
 interface DancerGenreSelectorProps {
   selectedGenres: string[];
@@ -28,14 +28,14 @@ export const GenreSelectorDancer = ({ selectedGenres, handleFormChange }: Dancer
   return (
     <GenreWrapper>
       {genres.map((genre) => (
-        <GenreBtn
+        <GenreButton
           key={genre.id}
           type="button"
           selected={selectedGenres.includes(genre.id)}
           onClick={() => handleSelect(genre.id)}
         >
-          #{genre.Genre}
-        </GenreBtn>
+          <span>#{genre.Genre}</span>
+        </GenreButton>
       ))}
     </GenreWrapper>
   );
@@ -57,54 +57,66 @@ export const GenreSelectorClass = ({ selectedGenre, handleFormChange }: ClassGen
   return (
     <GenreWrapper>
       {genres.map((genre) => (
-        <GenreBtn
+        <GenreButton
           key={genre.id}
           type="button"
           selected={selectedGenre === Number(genre.id)}
           onClick={() => handleSelect(Number(genre.id))}
         >
-          #{genre.Genre}
-        </GenreBtn>
+          <span>#{genre.Genre}</span>
+        </GenreButton>
       ))}
     </GenreWrapper>
   );
 };
 
 const GenreWrapper = styled.div`
-  width: 514px;
-  padding: 18px 37px 69px 37px;
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  row-gap: 33px;
-  column-gap: 17px;
+  justify-content: center;
+  justify-items: center;
+  width: 100%;
+  row-gap: 14px;
+  column-gap: 12px;
+
+  ${({ theme }) => theme.media.tablet} {
+    padding: 18px 37px 69px 37px;
+    row-gap: 33px;
+    column-gap: 17px;
+  }
 `;
-const GenreBtn = styled.button<{ selected: boolean }>`
+const GenreButton = styled.button<{ selected: boolean }>`
   display: flex;
-  width: 160px;
   max-width: 160px;
   padding: 8px 10px;
   justify-content: center;
   align-items: center;
+  width: 100%;
   gap: 8px;
   border-radius: 4px;
-  border: 1px solid ${({ selected }) => (selected ? 'var(--main_purple, #9819C3)' : 'var(--sub_light-gray, #ddd)')};
-  background-color: ${({ selected }) => (selected ? 'var(--main_purple, #9819C3)' : 'transparent')};
-  transition: all 0.3s ease-in-out;
-
-  color: var(--sub_light-gray, #ddd);
-  text-align: center;
-  font-family: Pretendard;
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
+  border: 1px solid ${({ selected }) => (selected ? 'var(--main-purple)' : 'var(--sub-light-gray)')};
+  background-color: ${({ selected }) => (selected ? 'var(--main-purple)' : 'transparent')};
+  transition: all 0.2s ease-in-out;
 
   &:hover {
     cursor: pointer;
-    border: 1px solid var(--main_purple, #9819c3);
+    border: 1px solid var(--main-purple);
   }
 
   &:nth-last-child(1) {
     grid-column: 2;
+  }
+
+  span {
+    color: var(--sub-light-gray);
+    text-align: center;
+    font-family: Pretendard;
+    font-size: 12px;
+    font-weight: 500;
+
+    ${({ theme }) => theme.media.tablet} {
+      font-size: 15px;
+    }
   }
 `;

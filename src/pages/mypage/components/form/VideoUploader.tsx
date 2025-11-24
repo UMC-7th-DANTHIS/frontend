@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { ReactComponent as VideoIcon } from '../../../../assets/video.svg';
 import { ReactComponent as DeleteIcon } from '../../../../assets/shape/trash.svg';
-import { UrlInput } from '../../../..//components/FormInputs';
+import { UrlInput } from '../../../../components/FormInputs';
 
 import { ClassFormState, HandleFormChange } from '@/types/registration';
 import usePostVideoPresigned from '../../../../hooks/registration/usePostVideoPresigned';
@@ -15,7 +15,10 @@ interface VideoUplodaerProps {
   handleFormChange: HandleFormChange<ClassFormState>;
 }
 
-export const VideoUploader = ({ video, handleFormChange }: VideoUplodaerProps) => {
+export const VideoUploader = ({
+  video,
+  handleFormChange
+}: VideoUplodaerProps) => {
   const [fileUrl, setFileUrl] = useState<string>('');
   const [url, setUrl] = useState<string>('');
 
@@ -61,15 +64,27 @@ export const VideoUploader = ({ video, handleFormChange }: VideoUplodaerProps) =
       <VideoInputWrapper>
         <Video htmlFor="video">
           {!video && <VideoIcon width={isMobile ? '30px' : '48px'} />}
-          {(video && video.includes('youtube.com')) || video.includes('youtu.be') ? (
-            <Iframe src={getYoutubeEmbedUrl(video)} title="YouTube Video" allowFullScreen />
+          {(video && video.includes('youtube.com')) ||
+          video.includes('youtu.be') ? (
+            <Iframe
+              src={getYoutubeEmbedUrl(video)}
+              title="YouTube Video"
+              allowFullScreen
+            />
           ) : (
             video && <video src={video} controls />
           )}
         </Video>
 
         {/* 파일 선택 */}
-        {!video && <HiddenInput type="file" id="video" accept="video/*" onChange={handleUploadFile} />}
+        {!video && (
+          <HiddenInput
+            type="file"
+            id="video"
+            accept="video/*"
+            onChange={handleUploadFile}
+          />
+        )}
 
         {/* 비디오가 업로드 된 상태에서만 삭제 버튼 표시 */}
         {video && (
@@ -78,7 +93,11 @@ export const VideoUploader = ({ video, handleFormChange }: VideoUplodaerProps) =
           </Icon>
         )}
       </VideoInputWrapper>
-      <UrlInput value={url} onChange={(e) => setUrl(e.target.value)} placeholder="동영상 링크를 붙여넣으세요." />
+      <UrlInput
+        value={url}
+        onChange={(e) => setUrl(e.target.value)}
+        placeholder="동영상 링크를 붙여넣으세요."
+      />
     </Container>
   );
 };

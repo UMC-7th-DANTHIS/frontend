@@ -1,20 +1,21 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { RegisterComplete } from '../form';
 import { ClassFormState } from '@/types/registration';
 import useValidation from '../../../../hooks/registration/useValidation';
-import { ClassForm } from './ClassForm';
-import { MyNewClassContext } from './MyNewClassContext';
-import usePostClass from '../../../../hooks/registration/usePostClass';
 import useConfirmLeave from '../../../../hooks/useConfirmLeave';
+import { MyEditClassContext } from './MyEditClassContext';
+import { ClassEditForm } from './ClassEditForm';
+import usePutClass from '../../../../hooks/registration/usePutClass';
+import useGetClassDetailById from '../../../../hooks/reservation/useGetClassDetailById';
 
-const MyNewClass = () => {
-  const [isRegistered, setIsRegistered] = useState(false);
+interface MyEditClassProps {
+  classId: number;
+  onClose: () => void;
+}
 
+const MyEditClass = ({ classId, onClose }: MyEditClassProps) => {
   const TITLE = '댄스 수업 등록';
-  const COMPLETE_MESSAGE = '댄스 수업 등록 신청이 완료되었어요!';
-  const COMPLETE_DESCRIPTION = '운영진의 검토 이후, \n정식 댄스 수업으로 등록될 수 있어요. \n등록 신청에 감사드려요 :)';
 
   const [formState, setFormState] = useState<ClassFormState>({
     className: '',
@@ -33,9 +34,28 @@ const MyNewClass = () => {
   const [showInvalidAlert, setShowInvalidAlert] = useState(false);
   const [showLeaveAlert, setShowLeaveAlert] = useState(false);
 
+  const { data } = useGetClassDetailById(String(classId));
+
+  useEffect(() => {
+    if (data)
+      setFormState({
+        className: data.className || '',
+        pricePerSession: String(data.pricePerSession) || '',
+        difficulty: data.difficulty || 0,
+        genre: data.genre || 0,
+        days: data.days || [],
+        dates: data.dates || [],
+        description: data.details.description || '',
+        targetAudience: data.details.targetAudience || 's',
+        hashtags: data.details.hashtags || [],
+        images: data.details.danceClassImages || ['', '', ''],
+        videoUrl: data.details.videoUrl || ''
+      });
+  }, [data]);
+
   useConfirmLeave({ setAlert: setShowLeaveAlert });
 
-  const { mutate: postClass } = usePostClass();
+  const { mutate: editClass } = usePutClass();
 
   const handleFormChange = useCallback(<K extends keyof ClassFormState>(key: K, value: ClassFormState[K]) => {
     setFormState((prev) => ({ ...prev, [key]: value }));
@@ -46,8 +66,7 @@ const MyNewClass = () => {
 
     const updatedFormState = {
       ...formState,
-      pricePerSession: Number(formState.pricePerSession) || 0, // 빈 값이면 0 처리
-      images: formState.images.filter((img) => img) // ''  값 제거
+      pricePerSession: Number(formState.pricePerSession) || 0
     };
 
     if (!isValid) {
@@ -55,11 +74,11 @@ const MyNewClass = () => {
       return;
     }
 
-    postClass(updatedFormState, { onSuccess: () => setIsRegistered(true) });
+    editClass({ classId: String(classId), body: updatedFormState });
   };
 
   return (
-    <MyNewClassContext
+    <MyEditClassContext
       value={{
         title: TITLE,
         formState,
@@ -72,17 +91,14 @@ const MyNewClass = () => {
       }}
     >
       <Container>
-        {!isRegistered ? (
-          <ClassForm />
-        ) : (
-          <RegisterComplete message={COMPLETE_MESSAGE} description={COMPLETE_DESCRIPTION} />
-        )}
+        <ClassEditForm />
+        <BackBtn onClick={onClose}>뒤로가기</BackBtn>
       </Container>
-    </MyNewClassContext>
+    </MyEditClassContext>
   );
 };
 
-export default MyNewClass;
+export default MyEditClass;
 
 const Container = styled.div`
   display: flex;
@@ -90,4 +106,9 @@ const Container = styled.div`
   justify-content: center;
   width: 100%;
   padding: 28px 30px 96px 30px;
+`;
+const BackBtn = styled.div`
+  color: var(--text-secondary-gray);
+  border: none;
+  background: transparent;
 `;

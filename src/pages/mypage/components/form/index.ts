@@ -1,6 +1,6 @@
 export * from './GenreSelector';
 export * from './ImagesUploader';
-export * from './Inputs';
+export * from './LabeledBox';
 export * from './MainBox';
 export * from './RegisterComplete';
 export * from './StarRating';

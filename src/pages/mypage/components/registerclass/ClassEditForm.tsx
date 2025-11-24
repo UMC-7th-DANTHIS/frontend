@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import styled from 'styled-components';
-import { MyNewClassContext } from './MyNewClassContext';
 import { Input, Textarea } from '../../../../components/FormInputs';
 import { ModalOneBtn, ModalTwoBtns } from '../../../../components/modals';
 import { useNavigate } from 'react-router-dom';
@@ -13,11 +12,12 @@ import {
   TagSelector,
   VideoUploader
 } from '../form';
-import { WeekdayOrDatePicker } from './WeekdayOrDatePicker';
+import { MyEditClassContext } from './MyEditClassContext';
+import { WeekdayOrDatePicker } from '../newclass/WeekdayOrDatePicker';
 
-export const ClassForm = () => {
+export const ClassEditForm = () => {
   const navigate = useNavigate();
-  const context = useContext(MyNewClassContext);
+  const context = useContext(MyEditClassContext);
 
   const {
     title,
