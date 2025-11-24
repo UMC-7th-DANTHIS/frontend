@@ -1,8 +1,10 @@
 import React, {useEffect} from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
-import LoginImg from "../../assets/LoginButton.svg"
-import SignupImg from "../../assets/signup.svg"
+import LoginMobile from "../../assets/buttons/LoginMobile.svg"
+import LoginDesktop from "../../assets/buttons/LoginDesktop.svg"
+import SignupMobile from "../../assets/buttons/SignupMobile.svg"
+import SignupDesktop from "../../assets/buttons/SignupDesktop.svg"
 import TextImg from "../../assets/buttons/danthis.svg"
 
 const LoginPage = () => {
@@ -22,7 +24,7 @@ const LoginPage = () => {
     <Layout>
       <LoginTitle>로그인</LoginTitle>
       <LoginBtn onClick={loginHandler}>
-        <Login src={LoginImg} alt="로그인하러가기" />
+        <Login alt="로그인하러가기" />
       </LoginBtn>
       <Line />
       <Info>
@@ -30,7 +32,7 @@ const LoginPage = () => {
       </Info>
       <SignupTitle>회원가입</SignupTitle>
       <SignupBtn onClick={loginHandler}>
-        <Signup src={SignupImg} alt="회원가입하러가기" />
+        <Signup alt="회원가입하러가기" />
       </SignupBtn>
     </Layout>
   );
@@ -78,11 +80,15 @@ const LoginBtn = styled.button`
     width: 544px;
     height: 66px;
   }
-   /* width: clamp(282px, 50vw, 544px); */
 `;
 
 const Login = styled.img`
-  width: 100%;`;
+  width: 100%;
+  content: url(${LoginMobile}); 
+  ${({ theme }) => theme.media.tablet} {
+    content: url(${LoginDesktop}); 
+  }
+  `;
 
 const Line = styled.div`
   width: 90vw;
@@ -140,12 +146,19 @@ const SignupBtn = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  //width: 564px;
-    width: 282px;
+  width: 282px;
+  height: 40px;
    ${({ theme }) => theme.media.tablet} {
     width: 544px;
+    height: 66px;
   }
 `;
 
 const Signup = styled.img`
-  width: 100%;`;
+     width: 100%;
+  content: url(${SignupMobile}); 
+
+  ${({ theme }) => theme.media.tablet} {
+    content: url(${SignupDesktop}); 
+  }
+  `;
