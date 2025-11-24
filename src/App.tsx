@@ -24,14 +24,10 @@ import KakaoRedirectHandler from './pages/Login/KakaoRedirectHandler';
 import SearchLayout from './layout/SearchLayout';
 import SearchWrapper from './layout/SearchWrapper';
 import MyRegisterDetail from './pages/mypage/components/registerclass/MyRegisterDetail';
-
-import DancerRegistrationPage from './pages/registration/DancerRegistrationPage';
-import ClassRegisterEditPage from './pages/registration/ClassRegisterEditPage';
 import ClassesPage from './pages/reservation/ClassesPage';
 import ReservationPage from './pages/reservation/ReservationPage';
 import ReviewDetailPage from './pages/reservation/ReviewDetailPage';
 import Practice from './pages/Practice/Practice';
-import ProtectedRoute from './components/ProtectedRoute';
 import Battle from './pages/Battle/Battle';
 import GlobalStyle from './utils/globalstyle';
 
@@ -61,16 +57,6 @@ function App(): React.JSX.Element {
             <Route path="/signup2" element={<SignupPage2 />} />
             <Route path="/signup3" element={<SignupPage3 />} />
             <Route path="/signup4" element={<SignupPage4 />} />
-
-            <Route
-              path="/new/dancer"
-              element={
-                <ProtectedRoute>
-                  <DancerRegistrationPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/new/class/:classId" element={<ClassRegisterEditPage />} />
             <Route path="/classes" element={<ClassesPage />} />
             <Route path="/classes/:classId" element={<ReservationPage />} />
             <Route path="/classes/reviews/:reviewId" element={<ReviewDetailPage />} />

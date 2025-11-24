@@ -29,8 +29,7 @@ const menuMapping: Record<string, React.ReactNode> = {
 const MypageLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const selectedMenu =
-    new URLSearchParams(location.search).get('menu') || 'myclasses';
+  const selectedMenu = new URLSearchParams(location.search).get('menu') || 'myclasses';
 
   const renderContent = () => menuMapping[selectedMenu] || <MyLikeClass />;
 
@@ -40,10 +39,7 @@ const MypageLayout = () => {
 
   return (
     <MainContainer>
-      <MypageSidebar
-        selectedMenu={selectedMenu}
-        onMenuClick={handleMenuClick}
-      />
+      <MypageSidebar selectedMenu={selectedMenu} onMenuClick={handleMenuClick} />
       <ContentContainer>{renderContent()}</ContentContainer>
     </MainContainer>
   );

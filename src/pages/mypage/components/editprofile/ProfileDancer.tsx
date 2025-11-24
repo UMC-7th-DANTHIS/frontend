@@ -9,7 +9,7 @@ import useConfirmLeave from '../../../../hooks/useConfirmLeave';
 import { ModalOneBtn, ModalTwoBtns } from '../../../../components/modals';
 
 import { FormState } from '@/types/mypage/EditProfileType';
-import { ImagesUploader } from '../../../../common/registration';
+import { ImagesUploader } from '../form';
 
 const ProfileDancer = () => {
   const navigate = useNavigate();

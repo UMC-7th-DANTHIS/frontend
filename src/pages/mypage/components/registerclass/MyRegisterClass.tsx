@@ -13,6 +13,7 @@ import LoadingSpinner from '../../../../components/LoadingSpinner';
 import { ModalTwoBtns } from '../../../../components/modals';
 import NoDancer from '../NoDancer';
 import { RegisterClassProps } from '@/types/mypage/RegisterType';
+import MyEditClass from './MyEditClass';
 
 const MyRegisterClass = () => {
   const [selectedClass] = useState<number | null>(null);
@@ -22,6 +23,9 @@ const MyRegisterClass = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const perData = 9;
   const queryClient = useQueryClient();
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [editClassId, setEditClassId] = useState<number | null>(null);
 
   const { data, isLoading, isError, error } = useQuery<RegisterClassProps[] | null>({
     queryKey: ['userregister'],
@@ -68,8 +72,9 @@ const MyRegisterClass = () => {
     navigate(`/detail/${classId}`);
   };
 
-  const handlegoEdit = (classId: number) => {
-    navigate(`/new/class/${classId}`);
+  const handleEdit = (classId: number) => {
+    setEditClassId(classId);
+    setIsEditing(true);
   };
 
   const handleShowAlert = (id: number) => {
@@ -88,6 +93,10 @@ const MyRegisterClass = () => {
     }
   };
 
+  if (isEditing && editClassId !== null) {
+    return <MyEditClass classId={editClassId} onClose={() => setIsEditing(false)} />;
+  }
+
   return (
     <PageWrapper>
       {selectedClass === null ? (
@@ -104,7 +113,7 @@ const MyRegisterClass = () => {
                 <ContentWrapper>
                   <TitleText>{danceClass.className}</TitleText>
                   <IconContainer>
-                    <WriteIcon onClick={() => handlegoEdit(danceClass.id)} />
+                    <WriteIcon onClick={() => handleEdit(danceClass.id)} />
                     <TrashIcon
                       onClick={(e) => {
                         e.stopPropagation();
