@@ -34,7 +34,7 @@ export const GenreSelectorDancer = ({ selectedGenres, handleFormChange }: Dancer
           selected={selectedGenres.includes(genre.id)}
           onClick={() => handleSelect(genre.id)}
         >
-          #{genre.Genre}
+          <span>#{genre.Genre}</span>
         </GenreButton>
       ))}
     </GenreWrapper>

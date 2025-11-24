@@ -2,16 +2,18 @@ import { useContext } from 'react';
 import styled from 'styled-components';
 import { MyNewClassContext } from './MyNewClassContext';
 import { Input, Textarea } from '../../../../components/FormInputs';
-import { LabeledBox } from './LabeledBox';
-import { StarRating } from './StarRating';
-import { GenreSelectorClass } from './GenreSelector';
-import { TagSelector } from './TagSelector';
-import { ImagesUploader } from './ImagesUploader';
-import { VideoUploader } from './VideoUploader';
-import { SubmitButton } from './SubmitButton';
-import { WeekdayOrDatePicker } from './WeekdayOrDatePicker';
 import { ModalOneBtn, ModalTwoBtns } from '../../../../components/modals';
 import { useNavigate } from 'react-router-dom';
+import {
+  GenreSelectorClass,
+  ImagesUploader,
+  LabeledBox,
+  StarRating,
+  SubmitButton,
+  TagSelector,
+  VideoUploader
+} from '../form';
+import { WeekdayOrDatePicker } from './WeekdayOrDatePicker';
 
 export const ClassForm = () => {
   const navigate = useNavigate();
@@ -208,7 +210,7 @@ const InputContainer = styled.div`
   }
 
   ${({ theme }) => theme.media.max} {
-    padding: 80px 100px;
+    padding: 64px 100px;
   }
 `;
 const Notice = styled.div`
@@ -227,7 +229,6 @@ const Notice = styled.div`
     font-size: 16px;
   }
 `;
-
 const ColoredText = styled.span`
   color: #a60f62;
   font-weight: bold;
