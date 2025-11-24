@@ -332,6 +332,7 @@ const ChatButton = styled.button`
   align-items: center;
   gap: 8px;
   border-radius: 68px;
+  border: none;
   background: var(
     --main-gradation,
     linear-gradient(90deg, #b30505 0%, #9819c3 100%)
@@ -363,7 +364,7 @@ const LikeButton = styled.button<{ $isLiked: boolean }>`
   align-items: center;
   gap: 8px;
   border-radius: 54px;
-  border: 4px solid var(--main_purple, #9819c3);
+  border: 2px solid var(--main_purple, #9819c3);
   background: ${({ $isLiked }) => ($isLiked === true ? '#FFF' : 'transparent')};
   color: ${({ $isLiked }) => ($isLiked === true ? 'var(--text_purple, #BF00FF)' : '#FFF')};
   text-align: center;
@@ -382,6 +383,7 @@ const LikeButton = styled.button<{ $isLiked: boolean }>`
     font-size: 20px;
     letter-spacing: -1.2px;
     margin-top: 26.34px;
+    border: 3px solid var(--main_purple, #9819c3);
     &:hover {
     cursor: pointer;
     background: rgba(152, 25, 195, 0.4);
