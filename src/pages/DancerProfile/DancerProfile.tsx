@@ -111,7 +111,7 @@ const Tab = styled.div<{active: boolean}>`
   cursor: pointer;
   //background-color: ${(props) => (props.active ? 'black' : '#9819C3')};
   border-bottom: ${(props) => (props.active ? 'black' : '#9819C3')};
-  transition: all 0.3s;
+  //transition: all 0.3s;
   ${({ theme }) => theme.media.tablet} {
     width: 523px;
     height: 50px;
