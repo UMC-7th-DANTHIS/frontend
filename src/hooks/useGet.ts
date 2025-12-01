@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import axiosInstance from '../api/axios-instance';
 
-import { UserResponse, UserData } from '../types/UserInterface';
+import { UserData } from '../types/UserInterface';
 
 function useGet() {
   const [data, setData] = useState<UserData | null>(null);
@@ -15,8 +15,8 @@ function useGet() {
       setIsError(false);
 
       try {
-        const response: UserResponse = await axiosInstance.get(`/users/me`);
-        setData(response.data);
+        const response = await axiosInstance.get(`/users/me`);
+        setData(response.data.data);
       } catch (error) {
         setIsError(true);
       } finally {

@@ -57,6 +57,7 @@ export default function ReservationPage() {
 
       <TabSection>
         <Tabs ref={tabRef}>
+          <TabSlider $currentTab={currentTab} />
           {tab.map((element, index) => (
             <Tab
               key={index}
@@ -111,11 +112,27 @@ const Tabs = styled.div`
   height: 30px;
   flex-shrink: 0;
   background: var(--kakaotalk_label);
+  position: relative;
 
   ${({ theme }) => theme.media.tablet} {
     height: 50px;
   }
 `;
+
+const TabSlider = styled.div<{ $currentTab: number }>`
+  position: absolute;
+  bottom: 0;
+  left: ${({ $currentTab }) => $currentTab * 33.333}%;
+  width: 33.333%;
+  height: 3px;
+  background-color: var(--main-purple);
+  transition: left 0.3s ease-in-out;
+
+  ${({ theme }) => theme.media.tablet} {
+    height: 6px;
+  }
+`;
+
 const Tab = styled.div<{ $isActive: boolean }>`
   display: flex;
   justify-content: center;
@@ -125,15 +142,9 @@ const Tab = styled.div<{ $isActive: boolean }>`
   transition: all 0.3s ease;
   cursor: pointer;
 
-  ${({ $isActive }) =>
-    $isActive && `border-bottom: 3px solid var(--main-purple);`}
-
   ${({ theme }) => theme.media.tablet} {
     height: 50px;
     border-radius: 20px 20px 0px 0px;
-
-    ${({ $isActive }) =>
-      $isActive && `border-bottom: 6px solid var(--main-purple);`}
   }
 
   span {

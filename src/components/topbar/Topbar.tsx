@@ -49,7 +49,12 @@ const Topbar = ({ token }: TopbarProps) => {
       </TopContainer>
 
       <TopbarMenuTablet />
-      {isMobile && <TopbarMenuMobile visible={showMenuMobile} onClose={handleCloseMenuMobile} />}
+      {isMobile && (
+        <TopbarMenuMobile
+          visible={showMenuMobile}
+          onClose={handleCloseMenuMobile}
+        />
+      )}
 
       <Outline />
 
@@ -82,7 +87,7 @@ const TopContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 68px 27px 15px 27px;
+  padding: 30px 27px 15px 27px;
 
   ${({ theme }) => theme.media.desktop} {
     padding: 24px 90px;

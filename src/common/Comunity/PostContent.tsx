@@ -23,7 +23,13 @@ type PostContentProps = {
   setListReload: Dispatch<any>;
 };
 
-const PostContent = ({ length, handleModal, selectedPost, user, setListReload }: PostContentProps) => {
+const PostContent = ({
+  length,
+  handleModal,
+  selectedPost,
+  user,
+  setListReload
+}: PostContentProps) => {
   const navigate = useNavigate();
 
   const [showConfirmDelete, setShowConfirmDelete] = useState<boolean>(false);
@@ -56,7 +62,7 @@ const PostContent = ({ length, handleModal, selectedPost, user, setListReload }:
         </PostMeta>
       </PostInfo>
       <PostInfo>
-        {user?.nickname === selectedPost?.author ? (
+        {user?.userId === selectedPost?.userId ? (
           <PostActions>
             <ButtonContainer
               onClick={() =>
@@ -67,7 +73,11 @@ const PostContent = ({ length, handleModal, selectedPost, user, setListReload }:
               src={Edit}
               alt={'Edit'}
             />
-            <ButtonContainer src={Delete} alt={'Delete'} onClick={() => handleDelete()} />
+            <ButtonContainer
+              src={Delete}
+              alt={'Delete'}
+              onClick={() => handleDelete()}
+            />
           </PostActions>
         ) : (
           <PostActions>
@@ -82,7 +92,9 @@ const PostContent = ({ length, handleModal, selectedPost, user, setListReload }:
         {selectedPost?.content}
         {selectedPost?.images.length > 0 && (
           <ImageContainer>
-            {selectedPost?.images.map((img) => <Image src={img} alt={'Image'} onClick={() => handleModal(img)} />)}
+            {selectedPost?.images.map((img) => (
+              <Image src={img} alt={'Image'} onClick={() => handleModal(img)} />
+            ))}
           </ImageContainer>
         )}
         <br />

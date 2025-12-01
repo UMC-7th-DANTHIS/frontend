@@ -73,10 +73,13 @@ const ClassContent = styled.div`
 `;
 
 const ClassImage = styled.img`
-  display: inline-block;
+  display: block;
+  flex-shrink: 0;
 
   width: 130px;
   height: 130px;
+  min-width: 130px;
+  min-height: 130px;
 
   background-color: white;
 
@@ -84,16 +87,16 @@ const ClassImage = styled.img`
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
 
   cursor: pointer;
-  transition: transform 0.3s ease-in-out;
 
-  &:hover {
-    transform: scale(1.1);
-    opacity: 1;
-  }
+  object-fit: cover;
+  object-position: center;
+  overflow: hidden;
 
   ${({ theme }) => theme.media.tablet} {
     width: 200px;
     height: 200px;
+    min-width: 200px;
+    min-height: 200px;
 
     border-radius: 10px;
   }
