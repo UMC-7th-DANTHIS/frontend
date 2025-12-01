@@ -17,6 +17,8 @@ const CommunityLists = () => {
     <ListsContainer>
       {lists?.posts.map((list: PostPreview) => <CommunityList list={list} />)}
       <PaginationContainer>
+        <Spacer />
+
         <PaginationWrapper>
           <Pagination
             dataLength={lists?.totalPosts!}
@@ -49,13 +51,23 @@ const PaginationContainer = styled.div`
 `;
 
 const PaginationWrapper = styled.div`
-  ${({ theme }) => theme.media.tablet} {
+  ${({ theme }) => theme.media.mobile} {
     position: absolute;
     left: 50%;
 
     justify-content: start;
     align-items: center;
     transform: translateX(-50%);
+  }
+`;
+
+const Spacer = styled.div`
+  display: block;
+  width: 64px;
+  height: 36px;
+
+  ${({ theme }) => theme.media.mobile} {
+    display: hidden;
   }
 `;
 
