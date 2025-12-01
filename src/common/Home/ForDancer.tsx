@@ -73,7 +73,7 @@ const DancerImage = styled.img`
   border-radius: 50%;
 
   margin-top: 15px;
-  margin-bottom: 50px;
+  margin-bottom: 15px;
 
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
