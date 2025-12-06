@@ -109,13 +109,11 @@ const Tabs = styled.div`
   flex-direction: row;
   justify-content: center;
   width: 100%;
-  height: 30px;
+  height: 38px;
   flex-shrink: 0;
   background: var(--kakaotalk_label);
-  position: relative;
-
   ${({ theme }) => theme.media.tablet} {
-    height: 50px;
+    height: 58px;
   }
 `;
 
@@ -138,13 +136,16 @@ const Tab = styled.div<{ $isActive: boolean }>`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 30px;
-  transition: all 0.3s ease;
+  height: 38px;
+  transition: transform 0.3s ease;
   cursor: pointer;
 
   ${({ theme }) => theme.media.tablet} {
-    height: 50px;
-    border-radius: 20px 20px 0px 0px;
+    height: 58px;
+    //border-radius: 20px 20px 0px 0px;
+
+    ${({ $isActive }) =>
+      $isActive && `border-bottom: 6px solid var(--main-purple);`}
   }
 
   span {
