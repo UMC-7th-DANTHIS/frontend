@@ -21,7 +21,7 @@ export const UserRecommend = ({ dancer, danceclass }: UserRecommendProps) => {
       <S.Wrapper>
         <ForUserBanner />
         <S.Header>
-          {user?.data.nickname} 님의 스타일에 맞는 댄서를 소개할게요
+          {user?.nickname} 님의 스타일에 맞는 댄서를 소개할게요
         </S.Header>
         <S.AlignCenter>
           <ForDancer dancer={dancer} />
@@ -31,7 +31,7 @@ export const UserRecommend = ({ dancer, danceclass }: UserRecommendProps) => {
       <div>
         <S.Wrapper>
           <S.Header>
-            오로지 {user?.data.nickname}님을 위한 맞춤형 수업이에요
+            오로지 {user?.nickname}님을 위한 맞춤형 수업이에요
           </S.Header>
         </S.Wrapper>
         <S.ClassWrapper>

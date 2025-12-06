@@ -1,12 +1,6 @@
-import React, {useEffect} from 'react'
-import axios from 'axios'
-import styled from 'styled-components'
-import LoginMobile from "../../assets/buttons/LoginMobile.svg"
-import LoginDesktop from "../../assets/buttons/LoginDesktop.svg"
-import SignupMobile from "../../assets/buttons/SignupMobile.svg"
-import SignupDesktop from "../../assets/buttons/SignupDesktop.svg"
-import TextImg from "../../assets/buttons/danthis.svg"
-import KakaoLogo from "../../assets/kakao.svg"
+import styled from 'styled-components';
+import TextImg from '../../assets/buttons/danthis.svg';
+import { ReactComponent as KakaoDesktopIcon } from '../../assets/kakaodesktop.svg';
 
 const LoginPage = () => {
   const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY!;
@@ -25,7 +19,7 @@ const LoginPage = () => {
     <Layout>
       <LoginTitle>로그인</LoginTitle>
       <LoginBtn onClick={loginHandler}>
-        <KakaoIcon src={KakaoLogo} alt="카카오톡 로고" />
+        <KakaoIcon />
         <LoginText>카카오로 로그인</LoginText>
       </LoginBtn>
       <Line />
@@ -34,7 +28,7 @@ const LoginPage = () => {
       </Info>
       <SignupTitle>회원가입</SignupTitle>
       <SignupBtn onClick={loginHandler}>
-        <KakaoIcon src={KakaoLogo} alt="카카오톡 로고" />
+        <KakaoIcon />
         <SignupText>카카오로 회원가입</SignupText>
       </SignupBtn>
     </Layout>
@@ -50,11 +44,10 @@ const Layout = styled.div`
   padding-bottom: 236px;
   padding-top: 116px;
   align-items: center;
-     ${({ theme }) => theme.media.tablet} {
+  ${({ theme }) => theme.media.tablet} {
     padding-top: 90px;
     padding-bottom: 287px;
   }
-   
 `;
 const LoginTitle = styled.div`
   color: var(--main_white, #fff);
@@ -67,7 +60,7 @@ const LoginTitle = styled.div`
   justify-content: center;
   text-align: center;
   margin-bottom: 20px;
-    ${({ theme }) => theme.media.tablet} {
+  ${({ theme }) => theme.media.tablet} {
     font-size: 32px;
     margin-top: 57px;
     margin-bottom: 30px;
@@ -80,12 +73,12 @@ const LoginBtn = styled.button`
   width: 282px;
   height: 40px;
   border-radius: 8px;
-  background: #FFE812;
+  background: #ffe812;
   padding: 4px 67px 4px 14px;
   display: flex;
   align-items: center;
   gap: 53px;
-   ${({ theme }) => theme.media.tablet} {
+  ${({ theme }) => theme.media.tablet} {
     width: 544px;
     height: 66px;
     padding: 10px 196px 10px 26px;
@@ -94,10 +87,11 @@ const LoginBtn = styled.button`
   }
 `;
 
-const KakaoIcon = styled.img`
+const KakaoIcon = styled(KakaoDesktopIcon)`
   width: 36px;
   height: 36px;
-   ${({ theme }) => theme.media.tablet} {
+
+  ${({ theme }) => theme.media.tablet} {
     width: 50px;
     height: 50px;
   }
@@ -143,7 +137,7 @@ const Info = styled.div`
 const Text = styled.img`
   width: 195px;
   height: 37px;
-     ${({ theme }) => theme.media.tablet} {
+  ${({ theme }) => theme.media.tablet} {
     width: 298px;
   }
 `;
@@ -174,12 +168,12 @@ const SignupBtn = styled.button`
   width: 282px;
   height: 40px;
   border-radius: 8px;
-  background: #FFE812;
+  background: #ffe812;
   padding: 4px 67px 4px 14px;
   display: flex;
   align-items: center;
   gap: 53px;
-   ${({ theme }) => theme.media.tablet} {
+  ${({ theme }) => theme.media.tablet} {
     width: 544px;
     height: 66px;
     padding-left: 26px;

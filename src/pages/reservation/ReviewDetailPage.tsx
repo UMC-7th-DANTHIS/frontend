@@ -20,14 +20,15 @@ export default function ReviewDetailPage() {
   const [isUserAuthorMatch, setIsUserAuthorMatch] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean[]>([]);
 
-  const { fromReviewTab, classId, page } = (location.state as ReviewLocationState) || {}; // 페이지네이션을 기억해 둠
+  const { fromReviewTab, classId, page } =
+    (location.state as ReviewLocationState) || {}; // 페이지네이션을 기억해 둠
 
   const { data: review, isLoading } = useGetReview(classId, reviewId ?? '');
   const { data: user } = useGetMyInfo();
 
   useEffect(() => {
     if (!user || !review) return;
-    if (user.nickname === review.author) setIsUserAuthorMatch(true);
+    if (user?.nickname === review.author) setIsUserAuthorMatch(true);
   }, [user, review]);
 
   const handleBackClick = () => {
@@ -69,8 +70,18 @@ export default function ReviewDetailPage() {
         {review.reviewImages.length > 0 &&
           review.reviewImages.map((image, index) => (
             <div key={index}>
-              <Image src={image} alt={`review ${review.reviewId} #${index}`} onClick={() => handleOpenModal(index)} />
-              {isModalOpen[index] && <ImageModal imgUrl={image} setIsModalOpen={setIsModalOpen} index={index} />}
+              <Image
+                src={image}
+                alt={`review ${review.reviewId} #${index}`}
+                onClick={() => handleOpenModal(index)}
+              />
+              {isModalOpen[index] && (
+                <ImageModal
+                  imgUrl={image}
+                  setIsModalOpen={setIsModalOpen}
+                  index={index}
+                />
+              )}
             </div>
           ))}
       </ImagesContainer>

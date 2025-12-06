@@ -7,6 +7,7 @@ export interface UserResponse extends Response {
 }
 
 export interface UserData {
+  userId: number;
   nickname: string;
   gender: string | null;
   email: string;
