@@ -1,5 +1,5 @@
-import { UserResponse } from '@/types/UserInterface';
+import { UserData } from '@/types/UserInterface';
 
 export interface UserContext {
-  user: UserResponse;
+  user: UserData;
 }

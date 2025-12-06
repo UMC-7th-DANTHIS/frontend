@@ -10,10 +10,9 @@ const Container = styled.div`
 const ContentContainer = styled.div`
   background-color: black;
   height: 100%;
-  width: 100%;
+  width: 100dvw;
 
   padding: 0 2rem;
-  min-width: 340px;
 
   ${({ theme }) => theme.media.tablet} {
     width: 100dvw;

@@ -31,6 +31,7 @@ export interface PostListData {
 // 게시물 단일 조회
 export interface SinglePostData {
   postId: number;
+  userId: number;
   title: string;
   author: string;
   createdAt: string;
