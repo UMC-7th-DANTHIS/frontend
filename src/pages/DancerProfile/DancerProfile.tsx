@@ -50,6 +50,7 @@ const DancerProfile = () => {
         >
           등록된 수업
         </Tab>
+        <Indicator active={activeTab} />
       </TabContainer>
       <ContentContainer>
         {activeTab === '소개' && <IntroduceTab dancer={dancerData} />}
@@ -77,20 +78,18 @@ const Layout = styled.div`
 
 const TabContainer = styled.div`
   //width: 343px;
-  width: 90vw;
-  height: 30px;
+  width: 100vw;
+  height: 38px;
   flex-shrink: 0;
-  background: #9819c3;
-  border-radius: 15px 15px 0px 0px;
+  background: #191919;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: Pretendard;
+  position: relative;
   ${({ theme }) => theme.media.tablet} {
-    width: 1028px;
-    height: 50px;
-    //margin-left: 205px;
-    //margin-right: 100px;
+    width: 1080px;
+    height: 58px;
   }
 `;
 
@@ -107,28 +106,31 @@ const Tab = styled.div<{active: boolean}>`
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
-  line-height: 100%; /* 208.333% */
+  line-height: 100%; 
   letter-spacing: -0.7px;
   cursor: pointer;
-  border-radius: 15px 15px 0px 0px;
-  //border-top: 3px solid var(--main_purple, #9819c3);
-  border-right: 3px solid var(--main_purple, #9819c3);
-  border-left: 3px solid var(--main_purple, #9819c3);
-  background: var(--main_black, #000);
-  box-shadow: 0px 8px 16px -5px var(--main_purple, #9819c3) inset;
-  background-color: ${(props) => (props.active ? 'black' : '#9819C3')};
-  transition: all 0.3s;
+  //background-color: ${(props) => (props.active ? 'black' : '#9819C3')};
+  border-bottom: ${(props) => (props.active ? 'black' : '#9819C3')};
+  //transition: all 0.3s;
   ${({ theme }) => theme.media.tablet} {
     width: 523px;
     height: 50px;
     font-size: 20px;
-    font-weight: 600;
-    line-height: 50px; /* 208.333% */
-    letter-spacing: -1.2px;
-    border-radius: 20px 20px 0px 0px;
+    letter-spacing: -0.9px;
   }
 `;
 
+const Indicator = styled.div<{ active: string }>`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  height: 3px;
+  background: #9819c3;
+  transition: transform 0.3s ease;
+  transform: translateX(${props =>
+    props.active === '소개' ? '0%' : '100%'});
+`;
 
 const ContentContainer = styled.div`
   display: flex;
