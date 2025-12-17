@@ -17,7 +17,7 @@ interface PostEditReload {
 export const CommunityEdit = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const selectedPost = (location.state as SinglePostData) || {};
+  const selectedPost = (location.state as Record<string, SinglePostData>) || {};
   const { setForceReload } = useOutletContext<PostEditReload>();
 
   const [fileName, setFileName] = useState<string[]>([]);

@@ -113,7 +113,7 @@ const HotImage = styled.img<{ $visible: boolean }>`
   background-color: #ddd;
   flex-shrink: 0;
 
-  opacity: ${(p) => (p.$visible ? 1 : 0.5)};
+  opacity: ${(p) => (p.$visible ? 1 : 0.2)};
   cursor: pointer;
   transition:
     transform 0.3s ease-in-out,

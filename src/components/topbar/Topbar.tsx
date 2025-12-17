@@ -87,10 +87,10 @@ const TopContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 30px 27px 15px 27px;
+  padding: 20px 27px 15px 27px;
 
-  ${({ theme }) => theme.media.desktop} {
-    padding: 24px 90px;
+  ${({ theme }) => theme.media.tablet} {
+    padding: 30px 27px 15px 27px;
   }
 `;
 

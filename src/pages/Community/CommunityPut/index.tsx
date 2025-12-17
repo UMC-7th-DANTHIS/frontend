@@ -7,8 +7,6 @@ import EditContent from '../../../common/Comunity/EditContent';
 
 import axiosInstance from '../../../api/axios-instance';
 
-import { SinglePostData } from '@/types/CommunityInterface';
-
 const MAX_IMAGES = 4;
 
 interface PostPutReload {
@@ -18,15 +16,20 @@ interface PostPutReload {
 export const CommunityPut = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const selectedPost = (location.state as SinglePostData) || {};
+
+  const selectedPost = location.state || {};
   const { setForceReload } = useOutletContext<PostPutReload>();
 
   const [fileName, setFileName] = useState<string[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
   const [fileObjects, setFileObjects] = useState<File[]>([]);
 
-  const [title, setTitle] = useState<string>('');
-  const [content, setContent] = useState<string>('');
+  console.log(selectedPost.selectedPost);
+
+  const [title, setTitle] = useState<string>(
+    selectedPost?.selectedPost?.title ?? ''
+  );
+  const [content, setContent] = useState<string>(selectedPost.content ?? '');
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
@@ -69,7 +72,7 @@ export const CommunityPut = () => {
 
     try {
       await axiosInstance.put(
-        `/community/info/posts/${selectedPost.postId}`,
+        `/community/posts/${selectedPost.selectedPost.postId}`,
         postData
       );
       setForceReload((prev: boolean) => !prev);
