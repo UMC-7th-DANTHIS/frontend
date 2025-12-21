@@ -3,12 +3,54 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import useIsMobile from '../../hooks/useIsMobile';
 import { AllClassData } from '@/types/MainInterface';
+import { Weekday } from '@/types/registration';
 
 type PassiveCarouselProps = {
   danceclass: AllClassData;
 };
 
 const GAP = 20;
+
+const WEEKDAY_TO_ENGLISH: Record<Weekday, string> = {
+  MON: 'Mon',
+  TUE: 'Tue',
+  WED: 'Wed',
+  THU: 'Thu',
+  FRI: 'Fri',
+  SAT: 'Sat',
+  SUN: 'Sun'
+};
+
+function formatSchedule(days: string[], dates: string[]): string {
+  if (days.length > 0) {
+    const dayLabels = days
+      .filter((day): day is Weekday => day in WEEKDAY_TO_ENGLISH)
+      .map((day) => WEEKDAY_TO_ENGLISH[day])
+      .join(', ');
+    if (dayLabels) {
+      return `Every ${dayLabels}`;
+    }
+  }
+
+  if (dates.length > 0) {
+    const firstDate = dates[0];
+    const timeMatch = firstDate?.match(/T(\d{2}:\d{2})/);
+    if (timeMatch) {
+      const startTime = timeMatch[1];
+
+      if (dates.length > 1) {
+        const secondTimeMatch = dates[1]?.match(/T(\d{2}:\d{2})/);
+        if (secondTimeMatch) {
+          return `${startTime} ~ ${secondTimeMatch[1]}`;
+        }
+      }
+
+      return startTime;
+    }
+  }
+
+  return '';
+}
 
 const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
   const navigate = useNavigate();
@@ -21,12 +63,12 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
   const firstCardRef = useRef<HTMLImageElement | null>(null);
   const [step, setStep] = useState<number>((isMobile ? 320 : 400) + GAP);
 
-  const measureStep = () => {
-    const w = firstCardRef.current?.clientWidth ?? (isMobile ? 320 : 400);
-    setStep(w + GAP);
-  };
-
   useEffect(() => {
+    const measureStep = () => {
+      const w = firstCardRef.current?.clientWidth ?? (isMobile ? 320 : 400);
+      setStep(w + GAP);
+    };
+
     measureStep();
     window.addEventListener('resize', measureStep);
     return () => window.removeEventListener('resize', measureStep);
@@ -47,37 +89,75 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
   const handleNext = () => canNext && setCurrentIndex((i) => i + 1);
   const handlePrev = () => canPrev && setCurrentIndex((i) => i - 1);
 
+  const totalItems = danceclass?.danceClasses?.length ?? 0;
+
+  const handleDotClick = (targetIndex: number) => {
+    const clampedIndex = Math.min(targetIndex, maxStart);
+    setCurrentIndex(clampedIndex);
+  };
+
   return (
-    <SliderContainer $gutter={GUTTER}>
-      <ClickArea
-        $side="left"
-        $gutter={GUTTER}
-        $disabled={!canPrev}
-        onClick={handlePrev}
-      />
-      <SlideWrapper $offset={currentIndex * step}>
-        {danceclass?.danceClasses?.map((item, index) => (
-          <HotImage
-            ref={index === 0 ? firstCardRef : undefined}
-            key={item.id ?? index}
-            onClick={() => navigate(`/classes/${item.id}?tab=detail`)}
-            src={item.thumbnailImage}
-            alt="Image"
-            $visible={index >= currentIndex && index < currentIndex + VISIBLE}
+    <CarouselWrapper>
+      <SliderContainer $gutter={GUTTER}>
+        <ClickArea
+          $side="left"
+          $gutter={GUTTER}
+          $disabled={!canPrev}
+          onClick={handlePrev}
+        />
+        <SlideWrapper $offset={currentIndex * step}>
+          {danceclass?.danceClasses?.map((item, index) => {
+            const isVisible =
+              index >= currentIndex && index < currentIndex + VISIBLE;
+            return (
+              <ImageContainer key={item.id ?? index}>
+                <HotImage
+                  ref={index === 0 ? firstCardRef : undefined}
+                  onClick={() => navigate(`/classes/${item.id}?tab=detail`)}
+                  src={item.thumbnailImage}
+                  alt="Image"
+                  $visible={isVisible}
+                />
+                {isVisible && (
+                  <Overlay>
+                    <ClassTitle>{item.className}</ClassTitle>
+                    <Schedule>
+                      {formatSchedule(item.days || [], item.dates || [])}
+                    </Schedule>
+                  </Overlay>
+                )}
+              </ImageContainer>
+            );
+          })}
+        </SlideWrapper>
+        <ClickArea
+          $side="right"
+          $gutter={GUTTER}
+          $disabled={!canNext}
+          onClick={handleNext}
+        />
+      </SliderContainer>
+      <DotContainer>
+        {Array.from({ length: totalItems }).map((_, index) => (
+          <Dot
+            key={index}
+            $active={index === currentIndex}
+            onClick={() => handleDotClick(index)}
           />
         ))}
-      </SlideWrapper>
-      <ClickArea
-        $side="right"
-        $gutter={GUTTER}
-        $disabled={!canNext}
-        onClick={handleNext}
-      />
-    </SliderContainer>
+      </DotContainer>
+    </CarouselWrapper>
   );
 };
 
 export default PassiveCarousel;
+
+const CarouselWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+`;
 
 const SliderContainer = styled.div<{ $gutter: string }>`
   position: relative;
@@ -98,30 +178,81 @@ const SlideWrapper = styled.div<{ $offset: number }>`
   will-change: transform;
 `;
 
-const HotImage = styled.img<{ $visible: boolean }>`
+const ImageContainer = styled.div`
+  position: relative;
+  flex-shrink: 0;
   width: 80vw;
   height: 80vw;
   aspect-ratio: 1 / 1;
-  object-fit: cover;
 
   ${({ theme }) => theme.media.tablet} {
     width: 400px;
     height: 400px;
   }
+`;
 
+const HotImage = styled.img<{ $visible: boolean }>`
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
   border-radius: 10px;
   background-color: #ddd;
-  flex-shrink: 0;
 
   opacity: ${(p) => (p.$visible ? 1 : 0.2)};
   cursor: pointer;
   transition:
     transform 0.3s ease-in-out,
     opacity 0.2s ease;
+`;
 
-  &:hover {
-    transform: scale(1.06);
-    opacity: 1;
+const Overlay = styled.div`
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  padding: 20px;
+  background: #0000004d;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 80px;
+
+  ${({ theme }) => theme.media.tablet} {
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    padding: 24px;
+    gap: 10px;
+    min-height: 100px;
+  }
+`;
+
+const ClassTitle = styled.div`
+  color: var(--main-white);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 24px;
+  }
+`;
+
+const Schedule = styled.div`
+  color: var(--main-white);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.3;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  opacity: 0.95;
+  min-height: 20px;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+    min-height: 22px;
   }
 `;
 
@@ -142,4 +273,31 @@ const ClickArea = styled.button<{
   cursor: ${(p) => (p.$disabled ? 'default' : 'pointer')};
   pointer-events: ${(p) => (p.$disabled ? 'none' : 'auto')};
   opacity: ${(p) => (p.$disabled ? 0.25 : 1)};
+`;
+
+const DotContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  width: 100%;
+  padding-inline: 0;
+`;
+
+const Dot = styled.button<{ $active: boolean }>`
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background-color: ${(p) =>
+    p.$active ? 'var(--main-white)' : 'rgba(255, 255, 255, 0.3)'};
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  padding: 0;
+
+  &:hover {
+    background-color: ${(p) =>
+      p.$active ? 'var(--main-white)' : 'rgba(255, 255, 255, 0.5)'};
+  }
 `;
