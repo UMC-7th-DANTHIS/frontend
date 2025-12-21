@@ -102,10 +102,8 @@ const ImageContainer = styled.div`
   overflow: hidden;
   transition: transform 0.3s ease-in-out;
   margin: 0 auto;
+  cursor: pointer;
 
-  &:hover {
-    transform: scale(1.06);
-  }
   &:hover ${Overlay} {
     opacity: 1;
   }

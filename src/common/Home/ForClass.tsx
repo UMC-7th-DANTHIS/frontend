@@ -26,7 +26,7 @@ const ForClass = ({ danceclass }: ForClassProps) => {
           <TextContainer>
             <ClassName>{Class.className}</ClassName>
             <ClassDancer>{Class.dancerName}</ClassDancer>
-            <ClassDancer>{Class.favoriteGenres}</ClassDancer>
+            <ClassDancer>{Class.genre}</ClassDancer>
             <ClassHashContainer>
               {Class.hashtagIds.map((HashtagID) => {
                 const foundTag = hashTagID.find(
