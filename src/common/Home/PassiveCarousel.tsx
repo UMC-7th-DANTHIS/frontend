@@ -89,50 +89,75 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
   const handleNext = () => canNext && setCurrentIndex((i) => i + 1);
   const handlePrev = () => canPrev && setCurrentIndex((i) => i - 1);
 
+  const totalItems = danceclass?.danceClasses?.length ?? 0;
+
+  const handleDotClick = (targetIndex: number) => {
+    const clampedIndex = Math.min(targetIndex, maxStart);
+    setCurrentIndex(clampedIndex);
+  };
+
   return (
-    <SliderContainer $gutter={GUTTER}>
-      <ClickArea
-        $side="left"
-        $gutter={GUTTER}
-        $disabled={!canPrev}
-        onClick={handlePrev}
-      />
-      <SlideWrapper $offset={currentIndex * step}>
-        {danceclass?.danceClasses?.map((item, index) => {
-          const isVisible =
-            index >= currentIndex && index < currentIndex + VISIBLE;
-          return (
-            <ImageContainer key={item.id ?? index}>
-              <HotImage
-                ref={index === 0 ? firstCardRef : undefined}
-                onClick={() => navigate(`/classes/${item.id}?tab=detail`)}
-                src={item.thumbnailImage}
-                alt="Image"
-                $visible={isVisible}
-              />
-              {isVisible && (
-                <Overlay>
-                  <ClassTitle>{item.className}</ClassTitle>
-                  <Schedule>
-                    {formatSchedule(item.days || [], item.dates || [])}
-                  </Schedule>
-                </Overlay>
-              )}
-            </ImageContainer>
-          );
-        })}
-      </SlideWrapper>
-      <ClickArea
-        $side="right"
-        $gutter={GUTTER}
-        $disabled={!canNext}
-        onClick={handleNext}
-      />
-    </SliderContainer>
+    <CarouselWrapper>
+      <SliderContainer $gutter={GUTTER}>
+        <ClickArea
+          $side="left"
+          $gutter={GUTTER}
+          $disabled={!canPrev}
+          onClick={handlePrev}
+        />
+        <SlideWrapper $offset={currentIndex * step}>
+          {danceclass?.danceClasses?.map((item, index) => {
+            const isVisible =
+              index >= currentIndex && index < currentIndex + VISIBLE;
+            return (
+              <ImageContainer key={item.id ?? index}>
+                <HotImage
+                  ref={index === 0 ? firstCardRef : undefined}
+                  onClick={() => navigate(`/classes/${item.id}?tab=detail`)}
+                  src={item.thumbnailImage}
+                  alt="Image"
+                  $visible={isVisible}
+                />
+                {isVisible && (
+                  <Overlay>
+                    <ClassTitle>{item.className}</ClassTitle>
+                    <Schedule>
+                      {formatSchedule(item.days || [], item.dates || [])}
+                    </Schedule>
+                  </Overlay>
+                )}
+              </ImageContainer>
+            );
+          })}
+        </SlideWrapper>
+        <ClickArea
+          $side="right"
+          $gutter={GUTTER}
+          $disabled={!canNext}
+          onClick={handleNext}
+        />
+      </SliderContainer>
+      <DotContainer>
+        {Array.from({ length: totalItems }).map((_, index) => (
+          <Dot
+            key={index}
+            $active={index === currentIndex}
+            onClick={() => handleDotClick(index)}
+          />
+        ))}
+      </DotContainer>
+    </CarouselWrapper>
   );
 };
 
 export default PassiveCarousel;
+
+const CarouselWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+`;
 
 const SliderContainer = styled.div<{ $gutter: string }>`
   position: relative;
@@ -248,4 +273,31 @@ const ClickArea = styled.button<{
   cursor: ${(p) => (p.$disabled ? 'default' : 'pointer')};
   pointer-events: ${(p) => (p.$disabled ? 'none' : 'auto')};
   opacity: ${(p) => (p.$disabled ? 0.25 : 1)};
+`;
+
+const DotContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  width: 100%;
+  padding-inline: 0;
+`;
+
+const Dot = styled.button<{ $active: boolean }>`
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background-color: ${(p) =>
+    p.$active ? 'var(--main-white)' : 'rgba(255, 255, 255, 0.3)'};
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  padding: 0;
+
+  &:hover {
+    background-color: ${(p) =>
+      p.$active ? 'var(--main-white)' : 'rgba(255, 255, 255, 0.5)'};
+  }
 `;
