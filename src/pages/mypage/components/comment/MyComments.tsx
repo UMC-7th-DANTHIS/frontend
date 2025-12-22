@@ -9,31 +9,30 @@ const MyComments = () => {
   const isMobile = useIsMobile();
 
   const renderContents = () => {
-    if (activeTab === '게시글') {
+    if (activeTab === '게시글')
       return <CommentPost perPage={isMobile ? 2 : 5} />;
-    }
-    if (activeTab === '댓글') {
-      return <ReviewPage perPage={isMobile ? 2 : 5} />;
-    }
+    return <ReviewPage perPage={isMobile ? 2 : 5} />;
   };
 
   return (
     <AllContainer>
       <Container>
-        <TextContainer>
-          <Tab
+        <TabsRow>
+          <TabButton
+            type="button"
             isActive={activeTab === '게시글'}
             onClick={() => setActiveTab('게시글')}
           >
             게시글
-          </Tab>
-          <Tab
+          </TabButton>
+          <TabButton
+            type="button"
             isActive={activeTab === '댓글'}
             onClick={() => setActiveTab('댓글')}
           >
             댓글
-          </Tab>
-        </TextContainer>
+          </TabButton>
+        </TabsRow>
 
         <Divider />
         {renderContents()}
@@ -47,12 +46,11 @@ export default MyComments;
 const AllContainer = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
+  width: 100%;
   margin-right: 100px;
 
   @media (max-width: 600px) {
     justify-content: flex-start;
-    align-items: flex-start;
     margin-right: 0;
     width: 100%;
     padding: 0 16px;
@@ -62,45 +60,61 @@ const AllContainer = styled.div`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  width: 100%;
+  max-width: 1005px;
 
   @media (max-width: 600px) {
-    width: 100%;
+    max-width: none;
   }
 `;
 
-const TextContainer = styled.div`
+const TabsRow = styled.div`
   display: flex;
-  flex-direction: row;
   gap: 45px;
-  margin-left: 29px;
+  padding-left: 29px;
+
+  align-items: flex-end;
 
   @media (max-width: 600px) {
     gap: 32px;
-    margin-left: 10px;
+    padding-left: 10px;
     margin-top: 37px;
+
+    align-items: flex-end;
     justify-content: flex-start;
   }
 `;
 
-type TabProps = {
-  isActive: boolean;
-};
+type TabProps = { isActive: boolean };
 
-const Tab = styled.div<TabProps>`
-  color: ${(props) => (props.isActive ? 'white' : '#4D4D4D')};
-  font-size: ${(props) => (props.isActive ? '22px' : '18px')};
-  font-weight: ${(props) => (props.isActive ? '600' : '500')};
-  line-height: normal;
+const TabButton = styled.button<TabProps>`
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
   cursor: pointer;
 
+  height: 34px;
+  display: inline-flex;
+  align-items: flex-end;
+
+  color: ${(p) => (p.isActive ? '#FFFFFF' : '#4D4D4D')};
+  font-size: ${(p) => (p.isActive ? '22px' : '18px')};
+  font-weight: ${(p) => (p.isActive ? 600 : 500)};
+  line-height: 1;
+
   @media (max-width: 600px) {
-    font-size: ${(props) => (props.isActive ? '20px' : '16px')};
+    height: 32px;
+    font-size: ${(p) => (p.isActive ? '20px' : '16px')};
+    padding: 0;
   }
 `;
 
 const Divider = styled.div`
-  width: 1005px;
+  width: 100%;
   flex-shrink: 0;
   border: 1px solid #ddd;
   background-color: #ddd;

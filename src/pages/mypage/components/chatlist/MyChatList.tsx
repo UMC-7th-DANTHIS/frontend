@@ -155,7 +155,7 @@ const ListName = styled.div`
   margin-left: 22px;
 
   @media (max-width: 600px) {
-    font-size: 16px;
+    font-size: 14px;
     margin-left: 31px;
   }
 `;
@@ -193,7 +193,7 @@ const Text = styled.div`
   margin-top: 219px;
 
   @media (max-width: 600px) {
-    font-size: 20px;
+    font-size: 16px;
     margin-top: 100px;
   }
 `;
