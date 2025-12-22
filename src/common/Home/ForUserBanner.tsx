@@ -25,7 +25,7 @@ const HeadContainer = styled.div`
   width: 100%;
 
   gap: 20px;
-  margin: 79px 0;
+  margin: 3rem 0 2rem 0;
   flex-wrap: nowrap;
 `;
 

@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import SearchIcon from '../../assets/searchicon.svg';
+import useIsMobile from '../../hooks/useIsMobile';
+import { SearchbarMobile } from './SearchbarMobile';
 
 interface TopbarSearchProps {
   setShowInvalidAlert: (value: boolean) => void;
@@ -16,40 +18,42 @@ interface TopbarSearchProps {
  */
 const TopbarSearch = ({ setShowInvalidAlert }: TopbarSearchProps) => {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   const [search, setSearch] = useState('');
   const [searchPlaceholder, setSearchPlaceholder] = useState('검색어를 입력하세요');
+  const [showMobileSearchbar, setShowMobileSearchbar] = useState(false);
 
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value: string = e.target.value;
+    const value = e.target.value;
+    if (value.length > 20) return setShowInvalidAlert(true);
 
-    if (value.length > 20) {
-      setShowInvalidAlert(true);
-    } else {
-      setSearch(value);
-      setShowInvalidAlert(false);
-    }
+    setSearch(value);
+    setShowInvalidAlert(false);
   };
 
-  const handleSearch = (query: string) => navigate(`/search/dance-classes?query=${query}`);
+  const submitSearch = (value: string) => {
+    navigate(`/search/dance-classes?query=${value}`);
+    setSearch('');
+  };
 
-  const handleSearchClick = () => {
-    if (search.trim()) {
-      handleSearch(search.trim());
-      setSearch('');
+  const handleSearchClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isMobile) {
+      setShowMobileSearchbar(true);
+      return;
     }
+
+    if (search.trim()) submitSearch(search.trim());
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && search.trim() !== '') {
-      setTimeout(() => handleSearchClick(), 0);
-    }
+    if (e.key === 'Enter' && search.trim()) submitSearch(search.trim());
   };
 
   return (
     <Search>
       <SearchInput
-        id="main search"
         placeholder={searchPlaceholder}
         onFocus={(): void => setSearchPlaceholder('')}
         onBlur={(): void => setSearchPlaceholder('검색어를 입력하세요')}
@@ -58,9 +62,13 @@ const TopbarSearch = ({ setShowInvalidAlert }: TopbarSearchProps) => {
         value={search}
         maxLength={21}
       />
-      <SearchButton onClick={handleSearchClick} disabled={search.trim() === ''}>
+      <SearchButton disabled={!isMobile && !search.trim()} onClick={handleSearchClick}>
         <img src={SearchIcon} alt="search" />
       </SearchButton>
+
+      {isMobile && showMobileSearchbar && (
+        <SearchbarMobile onClose={() => setShowMobileSearchbar(false)} setShowInvalidAlert={setShowInvalidAlert} />
+      )}
     </Search>
   );
 };
@@ -122,11 +130,20 @@ const SearchInput = styled.input`
 const SearchButton = styled.button`
   display: flex;
   align-items: center;
+  justify-content: end;
   z-index: 1;
   background: none;
   border: none;
   margin-left: auto;
   cursor: pointer;
+
+  width: 100%;
+  height: 100%;
+
+  ${({ theme }) => theme.media.tablet} {
+    width: auto;
+    height: auto;
+  }
 
   &:disabled {
     cursor: not-allowed;

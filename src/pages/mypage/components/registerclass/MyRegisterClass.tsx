@@ -7,12 +7,13 @@ import { ReactComponent as TrashIcon } from '../../../../assets/shape/trash.svg'
 import { useNavigate } from 'react-router-dom';
 import Pagination from '../../../../components/Pagination';
 import NoRegister from '../NoRegister';
-import Alert from '../../../../components/Alert';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import api from '../../../../api/api';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
+import { ModalTwoBtns } from '../../../../components/modals';
 import NoDancer from '../NoDancer';
 import { RegisterClassProps } from '@/types/mypage/RegisterType';
+import MyEditClass from './MyEditClass';
 
 const MyRegisterClass = () => {
   const [selectedClass] = useState<number | null>(null);
@@ -22,6 +23,9 @@ const MyRegisterClass = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const perData = 9;
   const queryClient = useQueryClient();
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [editClassId, setEditClassId] = useState<number | null>(null);
 
   const { data, isLoading, isError, error } = useQuery<RegisterClassProps[] | null>({
     queryKey: ['userregister'],
@@ -68,8 +72,9 @@ const MyRegisterClass = () => {
     navigate(`/detail/${classId}`);
   };
 
-  const handlegoEdit = (classId: number) => {
-    navigate(`/new/class/${classId}`);
+  const handleEdit = (classId: number) => {
+    setEditClassId(classId);
+    setIsEditing(true);
   };
 
   const handleShowAlert = (id: number) => {
@@ -88,6 +93,10 @@ const MyRegisterClass = () => {
     }
   };
 
+  if (isEditing && editClassId !== null) {
+    return <MyEditClass classId={editClassId} onClose={() => setIsEditing(false)} />;
+  }
+
   return (
     <PageWrapper>
       {selectedClass === null ? (
@@ -104,7 +113,7 @@ const MyRegisterClass = () => {
                 <ContentWrapper>
                   <TitleText>{danceClass.className}</TitleText>
                   <IconContainer>
-                    <WriteIcon onClick={() => handlegoEdit(danceClass.id)} />
+                    <WriteIcon onClick={() => handleEdit(danceClass.id)} />
                     <TrashIcon
                       onClick={(e) => {
                         e.stopPropagation();
@@ -112,7 +121,7 @@ const MyRegisterClass = () => {
                       }}
                     />
                     {showAlert && (
-                      <Alert
+                      <ModalTwoBtns
                         message={
                           <span>
                             <span>
@@ -126,16 +135,11 @@ const MyRegisterClass = () => {
                           </span>
                         }
                         onClose={hideShowAlert}
-                        marginsize="22.5px"
-                        ContainerWidth="280px"
-                        ContainerHeight="108px"
-                        AlertWidth="392px"
-                        AlertHeight="260px"
                         showButtons={true}
-                        confirmLabel="취소"
-                        cancelLabel="삭제하기"
-                        onCancel={handleDelete}
-                        onConfirm={hideShowAlert}
+                        primaryLabel="취소"
+                        secondaryLabel="삭제하기"
+                        onPrimaryClick={hideShowAlert}
+                        onSecondaryClick={handleDelete}
                       />
                     )}
                   </IconContainer>

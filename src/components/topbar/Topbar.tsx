@@ -3,17 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Logo from '../../assets/logo.svg';
-import SingleBtnAlert from '../SingleBtnAlert';
 import TopbarActions from './TopbarActions';
 import TopbarMenuTablet from './TopbarMenuTablet';
 import TopbarMenuMobile from './TopbarMenuMobile';
 import useIsMobile from '../../hooks/useIsMobile';
+import { ModalOneBtn } from '../modals';
 
 export const MENU = [
   { path: '/classes', label: '댄스 수업 예약', isBeta: false },
   { path: '/dancerprofile', label: '댄서 프로필', isBeta: false },
   { path: '/community', label: '커뮤니티', isBeta: false },
-  { path: '#', label: '내 주변 연습실', isBeta: false },
+  { path: '/practice', label: '내 주변 연습실', isBeta: false },
   { path: '/battle', label: '배틀 & 이벤트', isBeta: true }
 ] as const;
 
@@ -59,7 +59,7 @@ const Topbar = ({ token }: TopbarProps) => {
       <Outline />
 
       {showInvalidAlert && (
-        <SingleBtnAlert
+        <ModalOneBtn
           message={
             <AlertText>
               검색어는
@@ -68,7 +68,6 @@ const Topbar = ({ token }: TopbarProps) => {
             </AlertText>
           }
           onClose={(): void => setShowInvalidAlert(false)}
-          mariginsize="33px"
           showButtons={true}
         />
       )}
@@ -88,10 +87,10 @@ const TopContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 68px 27px 15px 27px;
+  padding: 20px 27px 15px 27px;
 
-  ${({ theme }) => theme.media.desktop} {
-    padding: 24px 90px;
+  ${({ theme }) => theme.media.tablet} {
+    padding: 30px 27px 15px 27px;
   }
 `;
 
@@ -131,11 +130,15 @@ const Outline = styled.div`
 const AlertText = styled.span`
   text-align: center;
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
   line-height: 21px;
   white-space: pre-line;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+  }
 `;
 
 const ColoredText = styled.span`

@@ -1,3 +1,5 @@
+import { Weekday } from './registration';
+
 export type Dancer = {
   name: string;
   profileImage: string;
@@ -18,6 +20,8 @@ export type CommonDanceClass = {
   className: string;
   dancer: Dancer;
   genre: number;
+  days: Weekday[];
+  dates: string[];
   pricePerSession: number;
   difficulty: number;
 };

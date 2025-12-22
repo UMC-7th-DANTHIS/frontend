@@ -48,10 +48,10 @@ const Layout = styled.div`
 const Sidebar = styled.div`
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    //margin-top: 14px;
+    margin-top: 29px;
     align-items: center;
     justify-content: center;
-    
+    justify-items: center;
 `;
 
 const GenreWrapper = styled.div`
@@ -60,7 +60,7 @@ const GenreWrapper = styled.div`
   align-items: center;
   height: 25px;
   margin-bottom: 20px;
-    justify-content: center;
+  justify-content: center;
   &:hover {
     cursor: pointer;
   }
@@ -75,12 +75,15 @@ const Genre = styled.div<{ $isActive: boolean }>`
   line-height: normal;
   letter-spacing: -0.8px;
   transition: all 0.3s ease;
+  white-space: nowrap; 
 
   ${({ $isActive }) =>
     $isActive &&
-    `margin-left: 5px;
+    `
+    justify-content: center;
+    margin-left: 5px;
     color: var(--main_white, #fff);
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 600;
     letter-spacing: -0.9px;`}
     

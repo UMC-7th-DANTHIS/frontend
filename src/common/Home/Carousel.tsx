@@ -1,8 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import styled, { useTheme } from 'styled-components';
+import { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
 
 import { AllDancerData } from '@/types/MainInterface';
 
@@ -10,29 +8,41 @@ type CarouselProps = {
   dancer: AllDancerData;
 };
 
+const GAP = 20; // 이미지 사이 고정 간격
+
 const Carousel = ({ dancer }: CarouselProps) => {
   const navigate = useNavigate();
+  const [offset, setOffset] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const animationRef = useRef<number | undefined>(undefined);
 
-  const sliderSettings = {
-    dots: false,
-    arrows: false,
-    infinite: true,
-    speed: 3000,
-    slidesToShow: 7,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2,
-    cssEase: 'linear',
-    responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 6 } },
-      { breakpoint: 768, settings: { slidesToShow: 5 } },
-      { breakpoint: 375, settings: { slidesToShow: 4 } }
-    ]
-  };
+  useEffect(() => {
+    const animate = () => {
+      setOffset((prev) => {
+        const itemWidth = 80 + GAP;
+        const totalWidth = (dancer?.dancers?.length ?? 0) * itemWidth;
+        const nextOffset = prev + 0.5;
+
+        if (nextOffset >= totalWidth) {
+          return 0;
+        }
+        return nextOffset;
+      });
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    animationRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, [dancer?.dancers?.length]);
 
   return (
-    <CarouselContainer>
-      <Slider {...sliderSettings}>
+    <CarouselContainer ref={containerRef}>
+      <SlideWrapper $offset={offset}>
         {dancer?.dancers?.map((data, id) => (
           <Slide key={id}>
             <ImageContainer
@@ -44,36 +54,49 @@ const Carousel = ({ dancer }: CarouselProps) => {
             </ImageContainer>
           </Slide>
         ))}
-      </Slider>
+
+        {dancer?.dancers?.map((data, id) => (
+          <Slide key={`duplicate-${id}`}>
+            <ImageContainer
+              onClick={() => navigate(`/dancerprofile/${data.id}`)}
+            >
+              <PlaceholderImg src={data.images[0]} alt={data.dancerName} />
+              <Overlay />
+              <DancerName>{data.dancerName}</DancerName>
+            </ImageContainer>
+          </Slide>
+        ))}
+      </SlideWrapper>
     </CarouselContainer>
   );
 };
 
-const CarouselContainer = styled.div`
-  margin-top: 73px;
-  margin-bottom: 58px;
-  overflow: hidden;
+export default Carousel;
 
-  /* 태블릿 이하에서 상하 여백 살짝 축소 */
+const CarouselContainer = styled.div`
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  overflow: hidden;
+  width: 100%;
+  padding-inline: clamp(16px, 4vw, 48px);
+
   ${({ theme }) => theme.media.tablet} {
-    margin-top: 56px;
-    margin-bottom: 44px;
-  }
-  ${({ theme }) => theme.media.mobile} {
-    margin-top: 44px;
-    margin-bottom: 36px;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    padding-inline: clamp(24px, 6vw, 72px);
   }
 `;
 
+const SlideWrapper = styled.div<{ $offset: number }>`
+  display: flex;
+  flex-direction: row;
+  gap: ${GAP}px;
+  transform: translateX(${(p) => -p.$offset}px);
+  will-change: transform;
+`;
+
 const Slide = styled.div`
-  text-align: center;
-  padding: 0 8px; /* 카드 간 간격 */
-  ${({ theme }) => theme.media.tablet} {
-    padding: 0 6px;
-  }
-  ${({ theme }) => theme.media.mobile} {
-    padding: 0 4px;
-  }
+  flex-shrink: 0;
 `;
 
 const Overlay = styled.div`
@@ -109,11 +132,8 @@ const ImageContainer = styled.div`
   border-radius: 10px;
   overflow: hidden;
   transition: transform 0.3s ease-in-out;
-  margin: 0 auto; /* 가운데 정렬 */
+  cursor: pointer;
 
-  &:hover {
-    transform: scale(1.06);
-  }
   &:hover ${Overlay} {
     opacity: 1;
   }
@@ -133,5 +153,3 @@ const PlaceholderImg = styled.img`
   object-fit: cover;
   border-radius: inherit;
 `;
-
-export default Carousel;

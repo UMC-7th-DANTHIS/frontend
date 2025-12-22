@@ -68,7 +68,7 @@ const DayButton = styled.button<{ $isActive: boolean }>`
   border-radius: 10px;
   background-color: ${({ $isActive }) => ($isActive ? 'var(--main-purple)' : 'rgba(152, 25, 195, 0.4)')};
   backdrop-filter: blur(2px);
-  transition: all 0.2s ease-in;
+  transition: all 0.1s ease-in;
   cursor: pointer;
 
   ${({ theme }) => theme.media.tablet} {

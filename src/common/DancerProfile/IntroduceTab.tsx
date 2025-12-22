@@ -83,6 +83,7 @@ const CareerContainer = styled.div`
 
 const Title = styled.div`
   color: var(--main_white, #fff);
+  font-family: Pretendard;
   font-size: 18px;
   font-style: normal;
   font-weight: 700;

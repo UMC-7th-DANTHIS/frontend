@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Shape1 from '../../assets/shape/shape1.svg';
 import Shape2 from '../../assets/shape/shape2.svg';
-import AgreeAlert from '../../components/AgreeAlert';
 import { AgreementItemType } from '@/types/Signup/useAgreement';
-import StepperMobile from '../../common/Signup/StepperMobile'
+import StepperMobile from '../../common/Signup/StepperMobile';
+import { ModalAgree } from '../../components/modals';
 
 const Signup1: React.FC = () => {
   const [showAgreeAlert, setShowAgreeAlert] = useState(false);
@@ -34,9 +34,7 @@ const Signup1: React.FC = () => {
 
   // 개별 체크박스 변경 핸들러
   const handleSingleCheck = (id: number) => {
-    const updatedAgreements = agreements.map((item) =>
-      item.id === id ? { ...item, checked: !item.checked } : item
-    );
+    const updatedAgreements = agreements.map((item) => (item.id === id ? { ...item, checked: !item.checked } : item));
 
     // 개별 동의 항목이 모두 체크되었는지 확인
     const allChecked = updatedAgreements.slice(1).every((item) => item.checked);
@@ -64,75 +62,62 @@ const Signup1: React.FC = () => {
       <SignupTitle> 회원가입 </SignupTitle>
       <Stepper>
         <StepperDesktop>
-        <MenuItemWrapper>
-          <MenuItem src={Shape1} />
-          <Text1>1&#41; 이용약관 동의</Text1>
-        </MenuItemWrapper>
+          <MenuItemWrapper>
+            <MenuItem src={Shape1} />
+            <Text1>1&#41; 이용약관 동의</Text1>
+          </MenuItemWrapper>
 
-        <MenuItemWrapper>
-          <MenuItem src={Shape2} />
-          <Text2>2&#41; 회원 정보 입력</Text2>
-        </MenuItemWrapper>
+          <MenuItemWrapper>
+            <MenuItem src={Shape2} />
+            <Text2>2&#41; 회원 정보 입력</Text2>
+          </MenuItemWrapper>
 
-        <MenuItemWrapper>
-          <MenuItem src={Shape2} />
-          <Text2>3&#41; 선호 장르 및 댄서 고르기</Text2>
-        </MenuItemWrapper>
+          <MenuItemWrapper>
+            <MenuItem src={Shape2} />
+            <Text2>3&#41; 선호 장르 및 댄서 고르기</Text2>
+          </MenuItemWrapper>
 
-        <MenuItemWrapper>
-          <MenuItem src={Shape2} />
-          <Text2>4&#41; 가입 완료</Text2>
-        </MenuItemWrapper>       
+          <MenuItemWrapper>
+            <MenuItem src={Shape2} />
+            <Text2>4&#41; 가입 완료</Text2>
+          </MenuItemWrapper>
         </StepperDesktop>
-         <StepperMobile
-        currentStep={1}
-        steps={[
-          "이용약관 동의",
-          "회원 정보 입력",
-          "선호 장르 및 댄서 고르기",
-          "가입 완료",
-        ]}
-      />
-
+        <StepperMobile
+          currentStep={1}
+          steps={['이용약관 동의', '회원 정보 입력', '선호 장르 및 댄서 고르기', '가입 완료']}
+        />
       </Stepper>
       <CheckForm>
-      <Form>
-        {agreements.map((item, index) => (
-          <>
-            <AgreementItem key={item.id}>
-              <TextContainer>
-                <Title>
-                  {item.title}{' '}
-                  {item.required && <RequiredTag>(필수)</RequiredTag>}
-                </Title>
-                {index !== 0 && (
-                  <Detail onClick={() => handleDetailClick(item.id)}>
-                    자세히 보기 &gt;
-                  </Detail>
-                )}
-              </TextContainer>
-              <CheckboxWrapper>
-                <Checkbox
-                  id={`checkbox-${item.id}`}
-                  type="checkbox"
-                  checked={item.checked}
-                  onChange={() =>
-                    index === 0 ? handleAllCheck() : handleSingleCheck(item.id)
-                  }
-                />
-                <CustomCircle htmlFor={`checkbox-${item.id}`} />
-              </CheckboxWrapper>
-            </AgreementItem>
-            {index < agreements.length - 1 && <Line />}
-          </>
-        ))}
+        <Form>
+          {agreements.map((item, index) => (
+            <>
+              <AgreementItem key={item.id}>
+                <TextContainer>
+                  <Title>
+                    {item.title} {item.required && <RequiredTag>(필수)</RequiredTag>}
+                  </Title>
+                  {index !== 0 && <Detail onClick={() => handleDetailClick(item.id)}>자세히 보기 &gt;</Detail>}
+                </TextContainer>
+                <CheckboxWrapper>
+                  <Checkbox
+                    id={`checkbox-${item.id}`}
+                    type="checkbox"
+                    checked={item.checked}
+                    onChange={() => (index === 0 ? handleAllCheck() : handleSingleCheck(item.id))}
+                  />
+                  <CustomCircle htmlFor={`checkbox-${item.id}`} />
+                </CheckboxWrapper>
+              </AgreementItem>
+              {index < agreements.length - 1 && <Line />}
+            </>
+          ))}
         </Form>
       </CheckForm>
       <NextButton onClick={handleNext} disabled={isNextDisabled}>
         <Next>다음으로</Next>
       </NextButton>
       {showAgreeAlert && (
-        <AgreeAlert
+        <ModalAgree
           onClose={() => setShowAgreeAlert(false)}
           title="서비스 이용약관"
           message="서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구 서비스 이용약관 어쩌구 저쩌구"
@@ -140,7 +125,7 @@ const Signup1: React.FC = () => {
       )}
 
       {showPersonalAlert && (
-        <AgreeAlert
+        <ModalAgree
           onClose={() => setShowPersonalAlert(false)}
           title="개인정보 처리방침"
           message="개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침 개인정보 처리방침"
@@ -169,33 +154,24 @@ const SignupTitle = styled.div`
   display: flex;
   justify-content: center;
   text-align: center;
-    ${({ theme }) => theme.media.tablet} {
+  margin-top: 26px;
+  ${({ theme }) => theme.media.tablet} {
     font-size: 32px;
-    margin-top: 17px;
+    margin-top: 37px;
   }
 `;
 
 const Stepper = styled.div`
   display: flex;
   margin-top: 30px;
-`
+`;
 const StepperDesktop = styled.div`
   display: none;
   ${({ theme }) => theme.media.tablet} {
     display: flex;
     flex-direction: row;
   }
-`
-// const StepperMobile = styled.div`
-// display: flex;
-//   gap: 10px;
-//   align-items: center;
-//   ${({ theme }) => theme.media.tablet} {
-//     display: none;
-//   }
-// `
-
-
+`;
 const MenuItemWrapper = styled.div`
   width: 260px;
   /* height: 64px; */
@@ -246,15 +222,9 @@ const Title = styled.div`
   font-weight: 600;
   line-height: normal;
   margin-left: 42px;
-    &:nth-of-type(2) {
+  ${({ theme }) => theme.media.tablet} {
     font-size: 16px;
-     ${({ theme }) => theme.media.tablet} {
-    font-size: 20px;
-  } 
   }
-   ${({ theme }) => theme.media.tablet} {
-    font-size: 16px;
-  } 
 `;
 const AgreementItem = styled.div`
   display: flex;
@@ -263,10 +233,9 @@ const AgreementItem = styled.div`
   padding-top: 26px;
   padding-bottom: 26px;
   ${({ theme }) => theme.media.tablet} {
-   padding-top: 36px;
-   padding-bottom: 36px;
-  } 
-
+    padding-top: 36px;
+    padding-bottom: 36px;
+  }
 `;
 const CheckForm = styled.div`
   width: 90vw;
@@ -278,8 +247,13 @@ const CheckForm = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content : center;
-   ${AgreementItem}:first-of-type ${Title} { font-size: 20px; }
+  justify-content: center;
+  ${AgreementItem}:first-of-type ${Title} {
+    font-size: 16px;
+    ${({ theme }) => theme.media.tablet} {
+      font-size: 20px;
+    }
+  }
   ${({ theme }) => theme.media.tablet} {
     width: 900px;
     height: 364px;
@@ -293,7 +267,7 @@ const Form = styled.div`
     width: 436px;
     height: 100%;
   }
-  `
+`;
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column; /* 제목과 자세히 보기를 세로로 정렬 */
@@ -301,7 +275,7 @@ const TextContainer = styled.div`
 `;
 
 const Detail = styled.div`
-  color: var(--highlight_blue, #07F);
+  color: var(--highlight_blue, #07f);
   //text-align: center;
   margin-top: 8px;
   font-family: Pretendard;
@@ -317,27 +291,30 @@ const RequiredTag = styled.span`
   color: var(--main_white, #fff);
   text-align: center;
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
   margin-left: 5px;
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+  }
 `;
 
 const Line = styled.div`
   height: 1px;
 
   margin: 0 auto; /* 중앙 정렬 */
-  background-color: #4D4D4D; /* 두 번째 항목만 다른 배경색 */
+  background-color: #4d4d4d; /* 두 번째 항목만 다른 배경색 */
   width: 340px;
   &:nth-of-type(2) {
-    background-color: #B2B2B2;
+    background-color: #b2b2b2;
     width: 340px; /* 선 길이 */
     ${({ theme }) => theme.media.tablet} {
-    width: 436px;
+      width: 436px;
+    }
   }
-  }
-   ${({ theme }) => theme.media.tablet} {
+  ${({ theme }) => theme.media.tablet} {
     width: 352px;
   }
 `;
@@ -358,7 +335,6 @@ const Checkbox = styled.input`
   display: flex;
   align-items: center;
   justify-content: center;
-  
 `;
 
 const CustomCircle = styled.label`
@@ -396,14 +372,15 @@ const CustomCircle = styled.label`
   }
 `;
 
-const NextButton = styled.button`
+const NextButton = styled.button<{ disabled?: boolean }>`
   width: 300px;
   height: 52px;
   flex-shrink: 0;
   border-radius: 15px;
-  background: var(--main_purple, #9819c3);
+  border: none;
+  background: ${({ disabled }) => (disabled ? '#4D4D4D' : 'var(--main_purple, #9819c3)')};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   margin-top: 60px;
-  cursor: pointer;
 `;
 
 const Next = styled.div`
@@ -416,5 +393,5 @@ const Next = styled.div`
   line-height: normal;
   ${({ theme }) => theme.media.tablet} {
     font-size: 20px;
-  } 
+  }
 `;

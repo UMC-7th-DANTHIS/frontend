@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import MypageGenre from '../MypageGenre';
 import api from '../../../../api/api';
 import NoUser from './NoUser';
-import ConfirmLeaveAlert from '../../../../components/ConfirmLeaveAlert';
+
 import useConfirmLeave from '../../../../hooks/useConfirmLeave';
-import SingleBtnAlert from '../../../../components/SingleBtnAlert';
+import { ModalOneBtn, ModalTwoBtns } from '../../../../components/modals';
 
 import { FormState } from '@/types/mypage/EditProfileType';
-import { ImagesUploader } from '../../../../common/registration';
+import { ImagesUploader } from '../form';
 
 const ProfileDancer = () => {
+  const navigate = useNavigate();
   const [formState, setFormState] = useState<FormState>({
     name: '',
     instagram: '',
@@ -64,10 +66,7 @@ const ProfileDancer = () => {
     return <NoUser />;
   }
 
-  const handleFormChange = (
-    key: keyof FormState,
-    value: string | string[] | number[] | File[]
-  ) => {
+  const handleFormChange = (key: keyof FormState, value: string | string[] | number[] | File[]) => {
     setFormState((prev) => ({ ...prev, [key]: value }));
   };
 
@@ -143,10 +142,7 @@ const ProfileDancer = () => {
           <OpenChatContainer>
             <OpenChatItemContainer>
               <Label> 오픈채팅방 링크 </Label>
-              <Text>
-                {' '}
-                *유저들과의 채팅이 이루어질 오픈채팅방 링크를 입력해주세요{' '}
-              </Text>
+              <Text> *유저들과의 채팅이 이루어질 오픈채팅방 링크를 입력해주세요 </Text>
             </OpenChatItemContainer>
             <Input
               type="link"
@@ -194,16 +190,12 @@ const ProfileDancer = () => {
               <Label> 댄서 사진 </Label>
               <SmallTextContainer>
                 <SmallText>* 최대 3장까지 등록 가능합니다</SmallText>
-                <SmallText>
-                  * 가장 첫 번째로 등록된 사진이 프로필로 사용됩니다
-                </SmallText>
+                <SmallText>* 가장 첫 번째로 등록된 사진이 프로필로 사용됩니다</SmallText>
               </SmallTextContainer>
             </OpenChatItemContainer>
             <ImagesUploader
               isFor="dancer"
-              images={getPreview(formState.dancerImages).filter(
-                (v): v is string => v !== undefined
-              )}
+              images={getPreview(formState.dancerImages).filter((v): v is string => v !== undefined)}
               handleFormChange={handleFormChange}
             />
           </DancerPictureContainer>
@@ -211,15 +203,14 @@ const ProfileDancer = () => {
       </Container>
       <SaveButton onClick={handleSubmit}> 프로필 저장 </SaveButton>
       {showInvalidAlert && (
-        <SingleBtnAlert
+        <ModalOneBtn
           message={<AlertText>프로필 저장이 완료되었습니다.</AlertText>}
           onClose={() => setShowInvalidAlert(false)}
-          mariginsize="33px"
           showButtons={true}
         />
       )}
       {showLeaveAlert && (
-        <ConfirmLeaveAlert
+        <ModalTwoBtns
           message={
             <AlertText>
               해당 페이지를 벗어나면{'\n'}
@@ -229,7 +220,10 @@ const ProfileDancer = () => {
             </AlertText>
           }
           onClose={() => setShowLeaveAlert(false)}
+          onSecondaryClick={() => navigate('/mypage')}
           showButtons={true}
+          primaryLabel="남기"
+          secondaryLabel="떠나기"
         />
       )}
     </AllContainer>
@@ -395,11 +389,15 @@ const SaveButton = styled.button`
 const AlertText = styled.span`
   text-align: center;
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
   line-height: 21px;
   white-space: pre-line;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+  }
 `;
 
 const ColoredText = styled.span`

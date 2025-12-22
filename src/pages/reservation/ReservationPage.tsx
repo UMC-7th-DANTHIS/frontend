@@ -3,7 +3,12 @@ import styled from 'styled-components';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import useGetClassDetailById from '../../hooks/reservation/useGetClassDetailById';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import { ClassSummary, DetailTab, RatingTab, ReviewTab } from '../../common/reservation';
+import {
+  ClassSummary,
+  DetailTab,
+  RatingTab,
+  ReviewTab
+} from '../../common/reservation';
 import { ScrollToTop } from '../../components/ScrollToTop';
 
 export default function ReservationPage() {
@@ -42,21 +47,34 @@ export default function ReservationPage() {
     <Container>
       <ScrollToTop />
 
-      <LoadingSpinner isLoading={isLoading} marginTop="180px" marginBottom="180px">
+      <LoadingSpinner
+        isLoading={isLoading}
+        marginTop="180px"
+        marginBottom="180px"
+      >
         <ClassSummary classId={classId!} classData={classData!} />
       </LoadingSpinner>
 
       <TabSection>
         <Tabs ref={tabRef}>
+          <TabSlider $currentTab={currentTab} />
           {tab.map((element, index) => (
-            <Tab key={index} $isActive={currentTab === index} onClick={() => handleTabChange(index)}>
+            <Tab
+              key={index}
+              $isActive={currentTab === index}
+              onClick={() => handleTabChange(index)}
+            >
               <span>{element.name}</span>
             </Tab>
           ))}
         </Tabs>
 
         {currentTab === 0 && (
-          <LoadingSpinner isLoading={isLoading} marginTop="200px" marginBottom="200px">
+          <LoadingSpinner
+            isLoading={isLoading}
+            marginTop="200px"
+            marginBottom="200px"
+          >
             <DetailTab classData={classData!} />
           </LoadingSpinner>
         )}
@@ -91,35 +109,43 @@ const Tabs = styled.div`
   flex-direction: row;
   justify-content: center;
   width: 100%;
-  height: 30px;
+  height: 38px;
   flex-shrink: 0;
-  border-radius: 15px 15px 0px 0px;
-  background: var(--main-purple);
-
+  background: var(--kakaotalk_label);
   ${({ theme }) => theme.media.tablet} {
-    height: 50px;
-    border-radius: 20px 20px 0px 0px;
+    height: 58px;
   }
 `;
+
+const TabSlider = styled.div<{ $currentTab: number }>`
+  position: absolute;
+  bottom: 0;
+  left: ${({ $currentTab }) => $currentTab * 33.333}%;
+  width: 33.333%;
+  height: 3px;
+  background-color: var(--main-purple);
+  transition: left 0.3s ease-in-out;
+
+  ${({ theme }) => theme.media.tablet} {
+    height: 6px;
+  }
+`;
+
 const Tab = styled.div<{ $isActive: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 30px;
-  border-radius: 15px 15px 0px 0px;
-  border-top: 3px solid var(--main-purple);
-  border-right: 3px solid var(--main-purple);
-  border-left: 3px solid var(--main-purple);
-  box-shadow: 0px 8px 16px -5px var(--main-purple) inset;
-  transition: all 0.3s ease;
+  height: 38px;
+  transition: transform 0.3s ease;
   cursor: pointer;
 
-  ${({ $isActive }) => $isActive && `background: var(--main-black);`}
-
   ${({ theme }) => theme.media.tablet} {
-    height: 50px;
-    border-radius: 20px 20px 0px 0px;
+    height: 58px;
+    //border-radius: 20px 20px 0px 0px;
+
+    ${({ $isActive }) =>
+      $isActive && `border-bottom: 6px solid var(--main-purple);`}
   }
 
   span {

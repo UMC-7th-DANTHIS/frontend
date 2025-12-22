@@ -9,7 +9,7 @@ import Edit from '../../assets/Community/EditButton.svg';
 import Delete from '../../assets/Community/DeleteButton.svg';
 import Alert from '../../assets/Community/SirenButton.svg';
 
-import ConfirmDeleteAlert from '../../components/ConfirmDelete';
+import { ModalTwoBtns } from '../../components/modals';
 import axiosInstance from '../../api/axios-instance';
 
 import { SinglePostData } from '@/types/CommunityInterface';
@@ -62,7 +62,7 @@ const PostContent = ({
         </PostMeta>
       </PostInfo>
       <PostInfo>
-        {user?.nickname === selectedPost?.author ? (
+        {user?.userId === selectedPost?.userId ? (
           <PostActions>
             <ButtonContainer
               onClick={() =>
@@ -101,7 +101,7 @@ const PostContent = ({
       </Content>
 
       {showConfirmDelete && (
-        <ConfirmDeleteAlert
+        <ModalTwoBtns
           message={
             <AlertText>
               해당 게시글을 삭제하면{'\n'}
@@ -111,8 +111,10 @@ const PostContent = ({
             </AlertText>
           }
           onClose={() => setShowConfirmDelete(false)}
-          onConfirm={handleDeleteConfirm}
+          onSecondaryClick={handleDeleteConfirm}
           showButtons={true}
+          primaryLabel="취소"
+          secondaryLabel="삭제하기"
         />
       )}
     </>
@@ -246,11 +248,15 @@ const ReportButton = styled.img`
 const AlertText = styled.span`
   text-align: center;
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
   line-height: 21px;
   white-space: pre-line;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+  }
 `;
 
 const ColoredText = styled.span`

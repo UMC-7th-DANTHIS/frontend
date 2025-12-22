@@ -205,6 +205,7 @@ const BoardContainer = styled.div`
   //justify-content: center;
   //width: 300px;
   margin-top: 69px;
+  position: relative;
    ${({ theme }) => theme.media.tablet} {
   margin-top: 40px;
   margin-left: 100px;
@@ -215,8 +216,10 @@ const Classes = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   //width: 300px;
-  height: 580px;
+  max-height: 580px;
   margin-bottom: 88px;
+  justify-items: center;
+  align-items: start;
   gap: 61px;
    ${({ theme }) => theme.media.tablet} {
     width: 740px;
@@ -249,11 +252,13 @@ const Image = styled.img`
   height: 120px;
   border-radius: 7px;
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
-
+  object-fit: cover;
+    aspect-ratio: 1 / 1; 
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover; // 비율 유지
+    object-fit: cover;
+    aspect-ratio: 1 / 1; 
   }
    ${({ theme }) => theme.media.tablet} {
      width: 180px;

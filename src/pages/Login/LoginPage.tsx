@@ -1,9 +1,6 @@
-import React, {useEffect} from 'react'
-import axios from 'axios'
-import styled from 'styled-components'
-import LoginImg from "../../assets/LoginButton.svg"
-import SignupImg from "../../assets/signup.svg"
-import TextImg from "../../assets/buttons/danthis.svg"
+import styled from 'styled-components';
+import TextImg from '../../assets/buttons/danthis.svg';
+import { ReactComponent as KakaoDesktopIcon } from '../../assets/kakaodesktop.svg';
 
 const LoginPage = () => {
   const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY!;
@@ -22,7 +19,8 @@ const LoginPage = () => {
     <Layout>
       <LoginTitle>로그인</LoginTitle>
       <LoginBtn onClick={loginHandler}>
-        <Login src={LoginImg} alt="로그인하러가기" />
+        <KakaoIcon />
+        <LoginText>카카오로 로그인</LoginText>
       </LoginBtn>
       <Line />
       <Info>
@@ -30,7 +28,8 @@ const LoginPage = () => {
       </Info>
       <SignupTitle>회원가입</SignupTitle>
       <SignupBtn onClick={loginHandler}>
-        <Signup src={SignupImg} alt="회원가입하러가기" />
+        <KakaoIcon />
+        <SignupText>카카오로 회원가입</SignupText>
       </SignupBtn>
     </Layout>
   );
@@ -43,14 +42,12 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   padding-bottom: 236px;
+  padding-top: 116px;
   align-items: center;
-   /* ${({ theme }) => theme.media.tablet} {
-    padding: 120px 24px 160px;
+  ${({ theme }) => theme.media.tablet} {
+    padding-top: 90px;
+    padding-bottom: 287px;
   }
-  ${({ theme }) => theme.media.desktop} {
-    padding: 48px 24px 236px;
-  } */
-   
 `;
 const LoginTitle = styled.div`
   color: var(--main_white, #fff);
@@ -63,7 +60,7 @@ const LoginTitle = styled.div`
   justify-content: center;
   text-align: center;
   margin-bottom: 20px;
-    ${({ theme }) => theme.media.tablet} {
+  ${({ theme }) => theme.media.tablet} {
     font-size: 32px;
     margin-top: 57px;
     margin-bottom: 30px;
@@ -73,16 +70,44 @@ const LoginBtn = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  //width: 544px;
   width: 282px;
-   ${({ theme }) => theme.media.tablet} {
+  height: 40px;
+  border-radius: 8px;
+  background: #ffe812;
+  padding: 4px 67px 4px 14px;
+  display: flex;
+  align-items: center;
+  gap: 53px;
+  ${({ theme }) => theme.media.tablet} {
     width: 544px;
+    height: 66px;
+    padding: 10px 196px 10px 26px;
+    border-radius: 12px;
+    gap: 120px;
   }
-   /* width: clamp(282px, 50vw, 544px); */
 `;
 
-const Login = styled.img`
-  width: 100%;`;
+const KakaoIcon = styled(KakaoDesktopIcon)`
+  width: 36px;
+  height: 36px;
+
+  ${({ theme }) => theme.media.tablet} {
+    width: 50px;
+    height: 50px;
+  }
+`;
+
+const LoginText = styled.span`
+  color: var(--kakaotalk_label, #191919);
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 24px;
+  }
+`;
 
 const Line = styled.div`
   width: 90vw;
@@ -112,7 +137,7 @@ const Info = styled.div`
 const Text = styled.img`
   width: 195px;
   height: 37px;
-     ${({ theme }) => theme.media.tablet} {
+  ${({ theme }) => theme.media.tablet} {
     width: 298px;
   }
 `;
@@ -140,12 +165,32 @@ const SignupBtn = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  //width: 564px;
-    width: 282px;
-   ${({ theme }) => theme.media.tablet} {
+  width: 282px;
+  height: 40px;
+  border-radius: 8px;
+  background: #ffe812;
+  padding: 4px 67px 4px 14px;
+  display: flex;
+  align-items: center;
+  gap: 53px;
+  ${({ theme }) => theme.media.tablet} {
     width: 544px;
+    height: 66px;
+    padding-left: 26px;
+    border-radius: 12px;
+    gap: 120px;
   }
 `;
 
-const Signup = styled.img`
-  width: 100%;`;
+const SignupText = styled.span`
+  color: var(--kakaotalk_label, #191919);
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  width: fit-content;
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 24px;
+  }
+`;

@@ -74,7 +74,7 @@ const ListContainer = styled.div`
 
 const TextContainer = styled.div`
   display: flex;
-  width: 80%;
+  width: 75%;
   justify-content: start;
   align-items: center;
   min-width: 0;
@@ -168,7 +168,7 @@ const DateList = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 10%;
+  width: 15%;
 `;
 
 export default CommunityList;

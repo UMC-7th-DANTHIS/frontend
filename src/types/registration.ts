@@ -1,5 +1,7 @@
 import { CommonResponse } from './common';
 
+export type Weekday = 'MON' | 'TUE' | 'WED' | 'THU' | 'FRI' | 'SAT' | 'SUN';
+
 export type DancerFormState = {
   dancerName: string;
   instargramId: string;
@@ -15,6 +17,8 @@ export type ClassFormState = {
   pricePerSession: string;
   difficulty: number;
   genre: number;
+  days: Weekday[];
+  dates: string[];
   description: string;
   targetAudience: string;
   hashtags: number[];
