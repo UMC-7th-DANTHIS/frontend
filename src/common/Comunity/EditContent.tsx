@@ -1,4 +1,4 @@
-import { useEffect, Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { SinglePostData } from '@/types/CommunityInterface';
 
@@ -12,7 +12,7 @@ type EditContentProps = {
   setTitle: Dispatch<SetStateAction<string>>;
   content: string;
   setContent: Dispatch<SetStateAction<string>>;
-  selectedPost: SinglePostData;
+  selectedPost: Record<string, SinglePostData>;
 };
 
 const EditContent = ({
@@ -22,22 +22,8 @@ const EditContent = ({
   title,
   setTitle,
   content,
-  setContent,
-  selectedPost
+  setContent
 }: EditContentProps) => {
-  useEffect(() => {
-    if (!selectedPost) return;
-
-    setTitle(selectedPost.title || '');
-    setContent(selectedPost.content || '');
-    setFileName(
-      selectedPost.images
-        ? selectedPost.images.map((_, idx) => `image-${idx + 1}`)
-        : []
-    );
-    setPreviews(selectedPost.images || []);
-  }, []);
-
   const handleRemoveImage = (index: number): void => {
     setPreviews((prev: string[]) => prev.filter((_, i) => i !== index));
   };

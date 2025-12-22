@@ -7,7 +7,9 @@ import Footer from '../components/Footer';
 import useGet from '../hooks/useGet';
 
 const MainLayout = () => {
-  const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'));
+  const [token, setToken] = useState<string | null>(() =>
+    localStorage.getItem('token')
+  );
   const { data: user } = useGet();
 
   useEffect(() => {

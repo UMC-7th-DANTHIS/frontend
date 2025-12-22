@@ -32,7 +32,9 @@ export interface AllClassList {
   id: number;
   className: string;
   dancerName: string;
+  dates: string[];
+  days: string[];
   thumbnailImage: string;
-  favoriteGenres: string;
+  genre: string;
   hashtagIds: number[];
 }
