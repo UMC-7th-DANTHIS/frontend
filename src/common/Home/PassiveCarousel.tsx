@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import useIsMobile from '../../hooks/useIsMobile';
 import { AllClassData } from '@/types/MainInterface';
-import { Weekday } from '@/types/registration';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 type PassiveCarouselProps = {
   danceclass: AllClassData;
@@ -11,52 +11,38 @@ type PassiveCarouselProps = {
 
 const GAP = 20;
 
-const WEEKDAY_TO_ENGLISH: Record<Weekday, string> = {
-  MON: 'Mon',
-  TUE: 'Tue',
-  WED: 'Wed',
-  THU: 'Thu',
-  FRI: 'Fri',
-  SAT: 'Sat',
-  SUN: 'Sun'
-};
-
-function formatSchedule(days: string[], dates: string[]): string {
-  if (days.length > 0) {
-    const dayLabels = days
-      .filter((day): day is Weekday => day in WEEKDAY_TO_ENGLISH)
-      .map((day) => WEEKDAY_TO_ENGLISH[day])
-      .join(', ');
-    if (dayLabels) {
-      return `Every ${dayLabels}`;
-    }
-  }
-
-  if (dates.length > 0) {
-    const firstDate = dates[0];
-    const timeMatch = firstDate?.match(/T(\d{2}:\d{2})/);
-    if (timeMatch) {
-      const startTime = timeMatch[1];
-
-      if (dates.length > 1) {
-        const secondTimeMatch = dates[1]?.match(/T(\d{2}:\d{2})/);
-        if (secondTimeMatch) {
-          return `${startTime} ~ ${secondTimeMatch[1]}`;
-        }
-      }
-
-      return startTime;
-    }
-  }
-
-  return '';
-}
-
 const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
-  const VISIBLE = isMobile ? 1 : 3;
 
+  const getVisibleCount = () => {
+    if (typeof window === 'undefined') return 3;
+    const width = window.innerWidth;
+    if (width < 768) return 1; // 모바일: 1개
+    if (width < 1024) return 2; // 태블릿: 2개
+    return 3; // 데스크톱: 3개
+  };
+
+  const [visibleCount, setVisibleCount] = useState<number>(getVisibleCount());
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < 768) {
+        setVisibleCount(1); // 모바일: 1개
+      } else if (width < 1024) {
+        setVisibleCount(2); // 태블릿: 2개
+      } else {
+        setVisibleCount(3); // 데스크톱: 3개
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const VISIBLE = visibleCount;
   const GUTTER = isMobile ? 'clamp(24px, 8vw, 72px)' : 'clamp(48px, 6vw, 90px)';
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -72,7 +58,7 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
     measureStep();
     window.addEventListener('resize', measureStep);
     return () => window.removeEventListener('resize', measureStep);
-  }, [isMobile, danceclass?.danceClasses?.length]);
+  }, [isMobile, danceclass?.danceClasses?.length, visibleCount]);
 
   useEffect(() => {
     const maxStart = Math.max(
@@ -104,7 +90,9 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
           $gutter={GUTTER}
           $disabled={!canPrev}
           onClick={handlePrev}
-        />
+        >
+          {FaChevronLeft({}) as React.ReactElement}
+        </ClickArea>
         <SlideWrapper $offset={currentIndex * step}>
           {danceclass?.danceClasses?.map((item, index) => {
             const isVisible =
@@ -121,9 +109,6 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
                 {isVisible && (
                   <Overlay>
                     <ClassTitle>{item.className}</ClassTitle>
-                    <Schedule>
-                      {formatSchedule(item.days || [], item.dates || [])}
-                    </Schedule>
                   </Overlay>
                 )}
               </ImageContainer>
@@ -135,7 +120,9 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
           $gutter={GUTTER}
           $disabled={!canNext}
           onClick={handleNext}
-        />
+        >
+          {FaChevronRight({}) as React.ReactElement}
+        </ClickArea>
       </SliderContainer>
       <DotContainer>
         {Array.from({ length: totalItems }).map((_, index) => (
@@ -186,6 +173,13 @@ const ImageContainer = styled.div`
   aspect-ratio: 1 / 1;
 
   ${({ theme }) => theme.media.tablet} {
+    width: calc((100vw - clamp(48px, 6vw, 90px) * 2 - 20px) / 2);
+    max-width: 400px;
+    height: calc((100vw - clamp(48px, 6vw, 90px) * 2 - 20px) / 2);
+    max-height: 400px;
+  }
+
+  ${({ theme }) => theme.media.desktop} {
     width: 400px;
     height: 400px;
   }
@@ -211,48 +205,35 @@ const Overlay = styled.div`
   bottom: 12px;
   left: 12px;
   right: 12px;
-  padding: 20px;
-  background: #0000004d;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.3);
   border-radius: 10px;
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-  min-height: 80px;
+  align-items: center;
+  min-height: 36px;
 
   ${({ theme }) => theme.media.tablet} {
     bottom: 16px;
     left: 16px;
     right: 16px;
-    padding: 24px;
-    gap: 10px;
-    min-height: 100px;
+    padding: 8px 16px;
+    min-height: 36px;
   }
 `;
 
 const ClassTitle = styled.div`
   color: var(--main-white);
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 1.3;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-
-  ${({ theme }) => theme.media.tablet} {
-    font-size: 24px;
-  }
-`;
-
-const Schedule = styled.div`
-  color: var(--main-white);
   font-size: 14px;
-  font-weight: 400;
-  line-height: 1.3;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  opacity: 0.95;
-  min-height: 20px;
+  font-weight: 500;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 
   ${({ theme }) => theme.media.tablet} {
     font-size: 16px;
-    min-height: 22px;
   }
 `;
 
@@ -268,11 +249,28 @@ const ClickArea = styled.button<{
   width: ${(p) => p.$gutter};
   z-index: 2;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
   border: 0;
   cursor: ${(p) => (p.$disabled ? 'default' : 'pointer')};
   pointer-events: ${(p) => (p.$disabled ? 'none' : 'auto')};
   opacity: ${(p) => (p.$disabled ? 0.25 : 1)};
+
+  svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--main-white);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+  }
+
+  ${({ theme }) => theme.media.tablet} {
+    svg {
+      width: 32px;
+      height: 32px;
+    }
+  }
 `;
 
 const DotContainer = styled.div`
