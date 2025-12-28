@@ -69,7 +69,7 @@ const ClassContent = styled.div`
   justify-content: start;
   align-items: start;
 
-  gap: 30px;
+  gap: 25px;
 `;
 
 const ClassImage = styled.img`

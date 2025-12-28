@@ -135,9 +135,9 @@ const Tab = styled.div<{ $isActive: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 38px;
-  transition: transform 0.3s ease;
+  flex: 1;
+  height: 30px;
+  transition: all 0.3s ease;
   cursor: pointer;
 
   ${({ theme }) => theme.media.tablet} {
