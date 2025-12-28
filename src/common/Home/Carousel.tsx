@@ -19,7 +19,7 @@ const Carousel = ({ dancer }: CarouselProps) => {
   const [isManualScrolling, setIsManualScrolling] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number | undefined>(undefined);
-  const manualScrollTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+  const manualScrollTimeoutRef = useRef<number | undefined>(undefined);
 
   // 아이템 너비 계산 (모바일/태블릿 반응형)
   const getItemWidth = () => {
@@ -90,9 +90,9 @@ const Carousel = ({ dancer }: CarouselProps) => {
     // 수동 스크롤 상태 설정 및 타이머 리셋
     setIsManualScrolling(true);
     if (manualScrollTimeoutRef.current) {
-      clearTimeout(manualScrollTimeoutRef.current);
+      window.clearTimeout(manualScrollTimeoutRef.current);
     }
-    manualScrollTimeoutRef.current = setTimeout(() => {
+    manualScrollTimeoutRef.current = window.setTimeout(() => {
       setIsManualScrolling(false);
     }, AUTO_SCROLL_RESUME_DELAY);
   };
@@ -101,7 +101,7 @@ const Carousel = ({ dancer }: CarouselProps) => {
   useEffect(() => {
     return () => {
       if (manualScrollTimeoutRef.current) {
-        clearTimeout(manualScrollTimeoutRef.current);
+        window.clearTimeout(manualScrollTimeoutRef.current);
       }
     };
   }, []);
