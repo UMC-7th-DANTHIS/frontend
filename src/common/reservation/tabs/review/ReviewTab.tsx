@@ -5,11 +5,7 @@ import { Review } from './Review';
 import Pagination from '../../../../components/Pagination';
 import useGetReviews from '../../../../hooks/reservation/review/useGetReviews';
 
-interface ReviewTabProps {
-  tabRef: React.RefObject<HTMLDivElement | null>;
-}
-
-export const ReviewTab = ({ tabRef }: ReviewTabProps) => {
+export const ReviewTab = () => {
   const location = useLocation();
   const { classId } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,13 +13,6 @@ export const ReviewTab = ({ tabRef }: ReviewTabProps) => {
   const { data } = useGetReviews(classId ?? '', { page: currentPage });
 
   const { fromReviewDetail, page } = location.state || {}; // 이동했던 페이지로부터 이전 페이지네이션 정보를 전달 받음
-
-  if (tabRef.current) {
-    const offset = -100;
-    const top = window.pageYOffset + tabRef.current.getBoundingClientRect().top + offset;
-
-    window.scrollTo({ top, behavior: 'smooth' });
-  }
 
   // 이동했던 페이지로부터 이전 페이지네이션 정보를 받았을 경우
   // currentPage를 해당 페이지(이전 페이지)로 설정
@@ -40,7 +29,12 @@ export const ReviewTab = ({ tabRef }: ReviewTabProps) => {
       ) : (
         <Contents>
           {data?.classReviews.map((review, index) => (
-            <Review key={index} review={review} classId={data?.id} page={data?.pagination.currentPage} />
+            <Review
+              key={index}
+              review={review}
+              classId={data?.id}
+              page={data?.pagination.currentPage}
+            />
           ))}
           {data?.pagination && (
             <Pagination
