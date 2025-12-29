@@ -46,7 +46,9 @@ export const ClassButtons = ({ classId, dancerId }: ClassButtonsProps) => {
   useEffect(() => {
     if (!myLiked || !classId) return;
 
-    const matched = myLiked.danceClasses?.some((cls: LikedClass) => cls.id === Number(classId));
+    const matched = myLiked.danceClasses?.some(
+      (cls: LikedClass) => cls.id === Number(classId)
+    );
     setIsLiked(!!matched);
   }, [myLiked, classId]);
 
@@ -55,7 +57,11 @@ export const ClassButtons = ({ classId, dancerId }: ClassButtonsProps) => {
       <ChatButton type="button" onClick={() => handleChatClick(dancerId)}>
         <span>댄서와 1:1 채팅하기</span>
       </ChatButton>
-      <LikeButton type="button" onClick={() => handleLikeClick()} $isLiked={isLiked}>
+      <LikeButton
+        type="button"
+        onClick={() => handleLikeClick()}
+        $isLiked={isLiked}
+      >
         <span>{isLiked ? '찜한 수업 취소하기' : '수업 찜해놓기'}</span>
       </LikeButton>
     </ButtonsWrapper>
@@ -111,21 +117,23 @@ const LikeButton = styled.button<{ $isLiked: boolean }>`
   gap: 8px;
   border-radius: 54px;
   border: 2px solid var(--main_purple, #9819c3);
-  background: ${({ $isLiked }) => ($isLiked === true ? 'var(--main-white)' : 'transparent')};
+  background: ${({ $isLiked }) =>
+    $isLiked === true ? 'var(--main-white)' : 'transparent'};
   cursor: pointer;
   transition: all 0.3s ease;
-
-  &:hover {
-    background: rgba(152, 25, 195, 0.4);
-  }
 
   ${({ theme }) => theme.media.desktop} {
     width: 360px;
     height: 56px;
+
+    &:hover {
+      background: rgba(152, 25, 195, 0.4);
+    }
   }
 
   span {
-    color: ${({ $isLiked }) => ($isLiked === true ? 'var(--text-purple)' : 'var(--main-white)')};
+    color: ${({ $isLiked }) =>
+      $isLiked === true ? 'var(--text-purple)' : 'var(--main-white)'};
     text-align: center;
     font-size: 16px;
     font-weight: 600;
