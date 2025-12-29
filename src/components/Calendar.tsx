@@ -85,7 +85,10 @@ const CustomCalendar = ({
               $isCurrentMonth={isSameMonth(day, currentDate)}
               $isToday={isToday(day)}
               $isSelected={isSelected(day)}
-              onClick={() => onDateClick(day)}
+              onClick={() => {
+                if (!isSameMonth(day, currentDate)) return;
+                onDateClick(day);
+              }}
             >
               {format(day, 'd')}
             </DayCell>
@@ -195,12 +198,15 @@ const DayCell = styled.div<{ $isCurrentMonth: boolean; $isToday: boolean; $isSel
   width: 38px;
   height: 38px;
   border-radius: 10px;
-  color: ${({ $isCurrentMonth }) => (!$isCurrentMonth ? 'transparent' : 'inherit')};
+
   font-size: 16px;
   font-weight: 400;
   line-height: 140%;
   transition: all 0.1s ease-in;
-  cursor: pointer;
+
+  color: ${({ $isCurrentMonth }) => (!$isCurrentMonth ? 'transparent' : 'inherit')};
+  cursor: ${({ $isCurrentMonth }) => ($isCurrentMonth ? 'pointer' : 'default')};
+  pointer-events: ${({ $isCurrentMonth }) => ($isCurrentMonth ? 'auto' : 'none')};
 
   ${({ $isSelected }) =>
     $isSelected &&

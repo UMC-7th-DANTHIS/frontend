@@ -7,12 +7,15 @@ import { ClassesGridSkeleton } from './ClassesGridSkeleton';
 import { useDateSelectionStore } from '../../store/dateSelectionStore';
 import { DATE_TYPE } from '../../types/reservation';
 import { format } from 'date-fns';
+import useIsMobile from '../../hooks/useIsMobile';
 
 interface ClassesGridProps {
   selectedGenre: string;
 }
 
 export const ClassesGrid = ({ selectedGenre }: ClassesGridProps) => {
+  const isMobile = useIsMobile();
+
   const [currentPage, setCurrentPage] = useState(1);
   const SIZE = 6;
 
@@ -21,7 +24,9 @@ export const ClassesGrid = ({ selectedGenre }: ClassesGridProps) => {
   const selectedDate = useDateSelectionStore((store) => store.date);
 
   const params =
-    selectedType === DATE_TYPE.WEEKLY ? { day: selectedDay } : { date: format(selectedDate, 'yyyy-MM-dd') };
+    selectedType === DATE_TYPE.WEEKLY
+      ? { day: selectedDay }
+      : { date: format(selectedDate, 'yyyy-MM-dd') };
 
   const { data: classes, isLoading } = useGetClasses({
     genre: Number(selectedGenre),
@@ -46,9 +51,10 @@ export const ClassesGrid = ({ selectedGenre }: ClassesGridProps) => {
             </Class>
           ))}
 
-          {Array.from({ length: SIZE - classes.danceClasses.length }).map((_, i) => (
-            <ClassPlaceholder key={`placeholder-${i}`} />
-          ))}
+          {!isMobile &&
+            Array.from({ length: SIZE - classes.danceClasses.length }).map(
+              (_, i) => <ClassPlaceholder key={`placeholder-${i}`} />
+            )}
         </Classes>
       ) : (
         <NoClass>등록된 수업이 없습니다.</NoClass>
@@ -74,10 +80,10 @@ const GridContainer = styled.div`
   justify-content: flex-start;
   width: 100%;
   height: 100%;
-  min-height: 578px;
 
   ${({ theme }) => theme.media.desktop} {
     padding-top: 24px;
+    min-height: 578px;
   }
 `;
 const Classes = styled.div`

@@ -54,7 +54,12 @@ export const WeekdayOrDatePicker = ({ days, dates, handleFormChange }: WeekdayOr
         {WEEK.map((w) => {
           const weekday = WEEKDAY_MAP[w];
           return (
-            <WeekButton key={w} className={days.includes(weekday) ? 'active' : ''} onClick={() => handleWeekClick(w)}>
+            <WeekButton
+              type="button"
+              key={w}
+              className={days.includes(weekday) ? 'active' : ''}
+              onClick={() => handleWeekClick(w)}
+            >
               {w}
             </WeekButton>
           );
