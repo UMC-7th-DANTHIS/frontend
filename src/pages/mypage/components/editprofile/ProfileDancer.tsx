@@ -236,6 +236,11 @@ const AllContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 const Container = styled.div`
   width: 900px;
@@ -246,14 +251,31 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   padding-bottom: 56px;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    height: auto;
+    padding: 20px 0 28px;
+    border: none;
+    border-radius: 0;
+  }
 `;
 
 const ItemContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 const DancerNameContainer = styled.div`
   margin-top: 58px;
+
+  @media (max-width: 600px) {
+    margin-top: 24px;
+  }
 `;
 
 const Label = styled.div`
@@ -261,6 +283,10 @@ const Label = styled.div`
   font-size: 22px;
   font-weight: 600;
   line-height: normal;
+
+  @media (max-width: 600px) {
+    font-size: 18px;
+  }
 `;
 
 const Input = styled.input`
@@ -285,19 +311,43 @@ const Input = styled.input`
     line-height: normal;
     font-style: normal;
   }
+
+  @media (max-width: 600px) {
+    width: 100%;
+    height: 50px;
+    font-size: 16px;
+    padding-left: 16px;
+
+    &::placeholder {
+      font-size: 16px;
+    }
+  }
 `;
 
 const InstaContainer = styled.div`
   margin-top: 27px;
+
+  @media (max-width: 600px) {
+    margin-top: 20px;
+  }
 `;
 
 const OpenChatContainer = styled.div`
   margin-top: 27px;
+
+  @media (max-width: 600px) {
+    margin-top: 20px;
+  }
 `;
 
 const OpenChatItemContainer = styled.div`
   display: flex;
   flex-direction: row;
+
+  @media (max-width: 600px) {
+    flex-direction: row;
+    margin-bottom: 12px;
+  }
 `;
 
 const Text = styled.div`
@@ -308,20 +358,38 @@ const Text = styled.div`
   line-height: normal;
   margin-left: 20px;
   margin-top: 7px;
+
+  @media (max-width: 600px) {
+    font-size: 12px;
+    margin-left: 0;
+    margin-top: 4px;
+  }
 `;
 
 const IntroContainer = styled.div`
   margin-top: 44px;
+
+  @media (max-width: 600px) {
+    margin-top: 30px;
+  }
 `;
 
 const GenreContainer = styled.div`
   margin-top: 44px;
+
+  @media (max-width: 600px) {
+    margin-top: 30px;
+  }
 `;
 
 const DancerRecord = styled.div`
   margin-top: 59px;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 600px) {
+    margin-top: 30px;
+  }
 `;
 
 const WriteInput = styled.textarea`
@@ -347,15 +415,35 @@ const WriteInput = styled.textarea`
     line-height: normal;
     font-style: normal;
   }
+
+  @media (max-width: 600px) {
+    width: 100%;
+    height: 300px;
+    font-size: 16px;
+    padding: 12px 16px 0 14px;
+
+    &::placeholder {
+      font-size: 16px;
+    }
+  }
 `;
 
 const DancerPictureContainer = styled.div`
   margin-top: 45px;
+
+  @media (max-width: 600px) {
+    margin-top: 30px;
+  }
 `;
 
 const SmallTextContainer = styled.div`
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    margin-left: 20px;
+  }
 `;
 
 const SmallText = styled.div`
@@ -365,6 +453,16 @@ const SmallText = styled.div`
   font-weight: 300;
   line-height: normal;
   margin-left: 20px;
+
+  @media (max-width: 600px) {
+    font-size: 12px;
+    margin-left: 0;
+    margin-top: 4px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
 `;
 
 const SaveButton = styled.button`
@@ -384,6 +482,14 @@ const SaveButton = styled.button`
   margin-top: 45px;
   margin-bottom: 92px;
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    height: 48px;
+    font-size: 18px;
+    margin-top: 30px;
+    margin-bottom: 46px;
+  }
 `;
 
 const AlertText = styled.span`
