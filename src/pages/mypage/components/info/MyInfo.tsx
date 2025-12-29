@@ -135,7 +135,7 @@ const InfoContainer = styled.div`
 
   @media (max-width: 600px) {
     flex-direction: column;
-    padding: 32px 16px;
+    padding: 32px 26px;
   }
 `;
 
@@ -160,7 +160,7 @@ const RightSection = styled.div`
 
   @media (max-width: 600px) {
     margin-left: 0;
-    margin-top: 32px;
+    margin-top: 42px;
     width: 100%;
   }
 `;
@@ -181,11 +181,11 @@ const MenuItem = styled.div`
 
 const MenuText = styled.span`
   color: white;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
 
   @media (max-width: 600px) {
-    font-size: 18px;
+    font-size: 16px;
   }
 `;
 
