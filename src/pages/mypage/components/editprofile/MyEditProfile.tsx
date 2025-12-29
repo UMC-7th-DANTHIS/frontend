@@ -50,6 +50,14 @@ const AllContent = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 600px) {
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
 `;
 
 const Container = styled.div`
@@ -57,20 +65,41 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  width: 100%;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    align-items: flex-start;
+  }
 `;
 
 const TextContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 45px;
+  align-items: baseline;
+  width: 100%;
+
+  @media (max-width: 600px) {
+    gap: 32px;
+    margin-top: 32px;
+    justify-content: flex-start;
+    width: 100%;
+    align-items: baseline;
+  }
 `;
 
 const Tab = styled.div<TabProps>`
   color: ${(props) => (props.isActive ? 'white' : '#4D4D4D')};
   font-size: ${(props) => (props.isActive ? '22px' : '18px')};
   font-weight: ${(props) => (props.isActive ? '600' : '500')};
-  line-height: normal;
+  line-height: 1.2;
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    font-size: ${(props) => (props.isActive ? '20px' : '16px')};
+    line-height: 1.2;
+  }
 `;
 
 const Divider = styled.div`
@@ -80,4 +109,11 @@ const Divider = styled.div`
   background-color: #ddd;
   margin-top: 13px;
   margin-bottom: 39px;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 28px;
+    border-width: 1px;
+  }
 `;
