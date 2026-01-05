@@ -162,7 +162,7 @@ const PaginationContainer = styled.div`
 const Text = styled.div`
   color: #fff;
   text-align: center;
-  font-size: 32px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
