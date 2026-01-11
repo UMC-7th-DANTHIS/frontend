@@ -32,6 +32,7 @@ const MyNewClass = () => {
   const isValid = useValidation(formState, 'class');
   const [showInvalidAlert, setShowInvalidAlert] = useState(false);
   const [showLeaveAlert, setShowLeaveAlert] = useState(false);
+  const [isVideoValid, setIsVideoValid] = useState(true);
 
   useConfirmLeave({ setAlert: setShowLeaveAlert });
 
@@ -50,7 +51,7 @@ const MyNewClass = () => {
       images: formState.images.filter((img) => img) // ''  값 제거
     };
 
-    if (!isValid) {
+    if (!isValid || !isVideoValid) {
       setShowInvalidAlert(true);
       return;
     }
@@ -68,7 +69,8 @@ const MyNewClass = () => {
         showInvalidAlert,
         setShowInvalidAlert,
         showLeaveAlert,
-        setShowLeaveAlert
+        setShowLeaveAlert,
+        setVideoValid: setIsVideoValid
       }}
     >
       <Container>

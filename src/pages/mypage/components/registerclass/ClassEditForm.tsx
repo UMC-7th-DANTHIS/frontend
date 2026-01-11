@@ -27,7 +27,8 @@ export const ClassEditForm = () => {
     showInvalidAlert,
     setShowInvalidAlert,
     showLeaveAlert,
-    setShowLeaveAlert
+    setShowLeaveAlert,
+    setVideoValid
   } = context!;
 
   return (
@@ -117,7 +118,11 @@ export const ClassEditForm = () => {
               label="수업 영상"
               notice={`*영상 파일 혹은 url 중 하나의 형식을 선택해 업로드 해주세요. \n*수업 영상이 없는 경우, 댄서 영상을 업로드 해주세요.`}
             >
-              <VideoUploader video={formState.videoUrl} handleFormChange={handleFormChange} />
+              <VideoUploader
+                video={formState.videoUrl}
+                handleFormChange={handleFormChange}
+                setVideoValid={setVideoValid}
+              />
             </LabeledBox>
           </InputContainer>
 

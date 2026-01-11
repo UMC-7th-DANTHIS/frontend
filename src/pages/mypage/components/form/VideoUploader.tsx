@@ -10,16 +10,22 @@ import usePostVideoPresigned from '../../../../hooks/registration/usePostVideoPr
 import useUploadToS3 from '../../../../hooks/registration/useUploadToS3';
 import useIsMobile from '../../../../hooks/useIsMobile';
 
+const YOUTUBE_REGEX =
+  /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/live\/)([\w-]{11})/;
+const INSTAGRAM_REGEX = /(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:p|reel|tv)\/([^/?#&]+)/;
+
 interface VideoUplodaerProps {
   video: string;
   handleFormChange: HandleFormChange<ClassFormState>;
+  setVideoValid: (isValid: boolean) => void;
 }
 
-export const VideoUploader = ({ video, handleFormChange }: VideoUplodaerProps) => {
+export const VideoUploader = ({ video, handleFormChange, setVideoValid }: VideoUplodaerProps) => {
   const [fileUrl, setFileUrl] = useState<string>('');
   const [url, setUrl] = useState<string>('');
   const [isUploading, setIsUploading] = useState(false);
   const [localPreview, setLocalPreview] = useState<string>('');
+  const [isValidUrl, setIsValidUrl] = useState(true);
 
   const isMobile = useIsMobile();
 
@@ -27,8 +33,33 @@ export const VideoUploader = ({ video, handleFormChange }: VideoUplodaerProps) =
   const { uploadToS3 } = useUploadToS3();
 
   useEffect(() => {
-    handleFormChange('videoUrl', fileUrl || url);
-  }, [fileUrl, url, handleFormChange]);
+    if (fileUrl) {
+      handleFormChange('videoUrl', fileUrl);
+      setIsValidUrl(true);
+      setVideoValid(true);
+      return;
+    }
+
+    if (!url) {
+      handleFormChange('videoUrl', '');
+      setIsValidUrl(true);
+      setVideoValid(true);
+      return;
+    }
+
+    const isYoutube = YOUTUBE_REGEX.test(url);
+    const isInstagram = INSTAGRAM_REGEX.test(url);
+
+    if (isYoutube || isInstagram) {
+      handleFormChange('videoUrl', url);
+      setIsValidUrl(true);
+      setVideoValid(true);
+    } else {
+      handleFormChange('videoUrl', '');
+      setIsValidUrl(false);
+      setVideoValid(false);
+    }
+  }, [fileUrl, url, handleFormChange, setVideoValid]);
 
   // 비디오 업로드 핸들러
   const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,6 +69,7 @@ export const VideoUploader = ({ video, handleFormChange }: VideoUplodaerProps) =
     const previewUrl = URL.createObjectURL(file);
     setLocalPreview(previewUrl);
     setIsUploading(true);
+    setUrl('');
 
     try {
       const result = await postVideoPresignedUrl({ file });
@@ -53,10 +85,13 @@ export const VideoUploader = ({ video, handleFormChange }: VideoUplodaerProps) =
   };
 
   const getYoutubeEmbedUrl = (link: string) => {
-    const match = link.match(
-      /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/live\/)([\w-]{11})/
-    );
+    const match = link.match(YOUTUBE_REGEX);
     return match ? `https://www.youtube.com/embed/${match[1]}` : '';
+  };
+
+  const getInstagramEmbedUrl = (link: string) => {
+    const match = link.match(INSTAGRAM_REGEX);
+    return match ? `https://www.instagram.com/p/${match[1]}/embed` : '';
   };
 
   // 비디오 삭제 핸들러
@@ -65,6 +100,8 @@ export const VideoUploader = ({ video, handleFormChange }: VideoUplodaerProps) =
     setFileUrl('');
     setLocalPreview('');
     setUrl('');
+    setIsValidUrl(true);
+    setVideoValid(true);
   };
 
   const displayVideo = fileUrl || localPreview || video;
@@ -81,10 +118,20 @@ export const VideoUploader = ({ video, handleFormChange }: VideoUplodaerProps) =
         <Video htmlFor="video">
           {!displayVideo && <VideoIcon width={isMobile ? '30px' : '48px'} />}
 
-          {displayVideo && (displayVideo.includes('youtube.com') || displayVideo.includes('youtu.be')) ? (
-            <Iframe src={getYoutubeEmbedUrl(displayVideo)} title="YouTube Video" allowFullScreen />
-          ) : (
-            displayVideo && <video src={displayVideo} controls />
+          {displayVideo && (
+            <>
+              {YOUTUBE_REGEX.test(displayVideo) ? (
+                <Iframe src={getYoutubeEmbedUrl(displayVideo)} title="YouTube Video" allowFullScreen />
+              ) : INSTAGRAM_REGEX.test(displayVideo) ? (
+                <Iframe
+                  src={getInstagramEmbedUrl(displayVideo)}
+                  title="Instagram Video"
+                  sandbox="allow-scripts allow-same-origin allow-popups"
+                />
+              ) : (
+                <video src={displayVideo} controls />
+              )}
+            </>
           )}
 
           {isUploading && <LoadingOverlay>업로드 중...</LoadingOverlay>}
@@ -101,7 +148,10 @@ export const VideoUploader = ({ video, handleFormChange }: VideoUplodaerProps) =
         )}
       </VideoInputWrapper>
 
-      <UrlInput value={url} onChange={(e) => setUrl(e.target.value)} placeholder="동영상 링크를 붙여넣으세요." />
+      <UrlInputWrapper>
+        <UrlInput value={url} onChange={(e) => setUrl(e.target.value)} placeholder="동영상 링크를 붙여넣으세요." />
+        {!isValidUrl && <ErrorMessage>Youtube 또는 Instagram 링크만 등록 가능합니다.</ErrorMessage>}
+      </UrlInputWrapper>
     </Container>
   );
 };
@@ -110,6 +160,13 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 55px;
+`;
+const UrlInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: end;
+  gap: 6px;
 `;
 const VideoInputWrapper = styled.div`
   position: relative;
@@ -186,4 +243,9 @@ const LoadingOverlay = styled.div`
   align-items: center;
   font-size: 14px;
   z-index: 2;
+`;
+const ErrorMessage = styled.span`
+  color: var(--highlight-red);
+  font-size: 12px;
+  padding-right: 4px;
 `;
