@@ -43,6 +43,7 @@ const GridContainer = styled.div`
 
   ${({ theme }) => theme.media.desktop} {
     padding-top: 24px;
+    min-height: 578px;
   }
 `;
 const Classes = styled.div`

@@ -127,11 +127,6 @@ const MoreAboutDancer = styled(Link)`
   font-size: 12px;
   font-weight: 600;
 
-  &:hover {
-    border: 1px solid var(--main-purple);
-    box-shadow: 0 0 14px 0 var(--main-purple) inset;
-  }
-
   ${({ theme }) => theme.media.tablet} {
     padding: 15px 68px;
     border-radius: 15px;
@@ -139,6 +134,7 @@ const MoreAboutDancer = styled(Link)`
     font-size: 18px;
 
     &:hover {
+      border: 1px solid var(--main-purple);
       box-shadow: 0 0 20px 0 var(--main-purple) inset;
     }
   }

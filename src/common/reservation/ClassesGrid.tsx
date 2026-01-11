@@ -24,9 +24,7 @@ export const ClassesGrid = ({ selectedGenre }: ClassesGridProps) => {
   const selectedDate = useDateSelectionStore((store) => store.date);
 
   const params =
-    selectedType === DATE_TYPE.WEEKLY
-      ? { day: selectedDay }
-      : { date: format(selectedDate, 'yyyy-MM-dd') };
+    selectedType === DATE_TYPE.WEEKLY ? { day: selectedDay } : { date: format(selectedDate, 'yyyy-MM-dd') };
 
   const { data: classes, isLoading } = useGetClasses({
     genre: Number(selectedGenre),
@@ -52,9 +50,9 @@ export const ClassesGrid = ({ selectedGenre }: ClassesGridProps) => {
           ))}
 
           {!isMobile &&
-            Array.from({ length: SIZE - classes.danceClasses.length }).map(
-              (_, i) => <ClassPlaceholder key={`placeholder-${i}`} />
-            )}
+            Array.from({ length: SIZE - classes.danceClasses.length }).map((_, i) => (
+              <ClassPlaceholder key={`placeholder-${i}`} />
+            ))}
         </Classes>
       ) : (
         <NoClass>등록된 수업이 없습니다.</NoClass>
