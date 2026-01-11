@@ -1,7 +1,6 @@
 import { useOutletContext } from 'react-router-dom';
 import * as S from './styled';
 
-import ForUserBanner from '../../../common/Home/ForUserBanner';
 import ForDancer from '../../../common/Home/ForDancer';
 import ForClass from '../../../common/Home/ForClass';
 
@@ -19,7 +18,7 @@ export const UserRecommend = ({ dancer, danceclass }: UserRecommendProps) => {
   return (
     <S.Container>
       <S.Wrapper>
-        <ForUserBanner />
+        {/* <ForUserBanner /> */}
         <S.Header>
           {user?.nickname} 님의 스타일에 맞는 댄서를 소개할게요
         </S.Header>
