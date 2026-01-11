@@ -95,12 +95,13 @@ const ClassBoard: React.FC = () => {
       />
       </SidebarContainer>
       <Line />
-      {isFetching ? (
+        <BoardContainer>
+           {isFetching ? (
         <LoadingContainer>
           <LoadingSpinner isLoading={isFetching} />
         </LoadingContainer>
       ) : (
-        <BoardContainer>
+        <>
           <Classes>
             {data.map((dancer) => (
               <Class to={`/dancerprofile/${dancer.id}`} key={dancer.id}>
@@ -118,8 +119,9 @@ const ClassBoard: React.FC = () => {
            setCurrentPage={setCurrentPage}
           />
           {/* </PaginationContainer> */}
-        </BoardContainer>
+          </>
       )}
+      </BoardContainer>
     </Container>
   );
 };
