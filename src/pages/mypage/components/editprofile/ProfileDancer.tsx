@@ -254,7 +254,6 @@ const AllContainer = styled.div`
 `;
 const Container = styled.div`
   width: 900px;
-  height: 1800px;
   flex-shrink: 0;
   border-radius: 25px;
   border: 2px solid #9819c3;
@@ -441,6 +440,7 @@ const WriteInput = styled.textarea`
 
 const DancerPictureContainer = styled.div`
   margin-top: 45px;
+  width: 616px;
 
   @media (max-width: 600px) {
     width: 100%;
