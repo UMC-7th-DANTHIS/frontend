@@ -135,7 +135,7 @@ const InfoContainer = styled.div`
 
   @media (max-width: 600px) {
     flex-direction: column;
-    padding: 32px 26px;
+    padding: 60px 26px;
   }
 `;
 
