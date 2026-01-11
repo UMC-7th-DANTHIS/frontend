@@ -14,7 +14,7 @@ export type DancerFormState = {
 
 export type ClassFormState = {
   className: string;
-  pricePerSession: string;
+  pricePerSession: number;
   difficulty: number;
   genre: number;
   days: Weekday[];

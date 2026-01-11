@@ -19,7 +19,7 @@ const MyEditClass = ({ classId, onClose }: MyEditClassProps) => {
 
   const [formState, setFormState] = useState<ClassFormState>({
     className: '',
-    pricePerSession: '',
+    pricePerSession: 0,
     difficulty: 0,
     genre: 0,
     days: [],
@@ -40,7 +40,7 @@ const MyEditClass = ({ classId, onClose }: MyEditClassProps) => {
     if (data)
       setFormState({
         className: data.className || '',
-        pricePerSession: String(data.pricePerSession) || '',
+        pricePerSession: 0,
         difficulty: data.difficulty || 0,
         genre: data.genre || 0,
         days: data.days || [],

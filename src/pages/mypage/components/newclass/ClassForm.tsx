@@ -51,9 +51,15 @@ export const ClassForm = () => {
             <LabeledBox label="회당 가격">
               <Input
                 label="회당 가격"
-                value={formState.pricePerSession}
-                onChange={(e) => handleFormChange('pricePerSession', e.target.value)}
+                value={formState.pricePerSession === 0 ? '' : String(formState.pricePerSession)}
+                onChange={(e) => {
+                  const val = Number(e.target.value);
+                  if (!isNaN(val)) {
+                    handleFormChange('pricePerSession', val);
+                  }
+                }}
                 placeholder="회당 가격을 입력하세요."
+                type="number"
               />
             </LabeledBox>
 

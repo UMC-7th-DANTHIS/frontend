@@ -18,7 +18,7 @@ const MyNewClass = () => {
 
   const [formState, setFormState] = useState<ClassFormState>({
     className: '',
-    pricePerSession: '',
+    pricePerSession: 0,
     difficulty: 0,
     genre: 0,
     days: [],
