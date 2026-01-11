@@ -206,10 +206,13 @@ const Overlay = styled.div`
   left: 12px;
   right: 12px;
   padding: 8px 16px;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.4);
   border-radius: 10px;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   min-height: 36px;
 
   ${({ theme }) => theme.media.tablet} {
@@ -226,6 +229,7 @@ const ClassTitle = styled.div`
   font-size: 14px;
   font-weight: 500;
   line-height: 1.2;
+  text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;

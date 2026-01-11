@@ -67,6 +67,7 @@ export const ClassForm = () => {
               <GenreSelectorClass selectedGenre={formState.genre} handleFormChange={handleFormChange} />
             </LabeledBox>
 
+            {/* 날짜 */}
             <LabeledBox label="날짜" notice="*수업을 진행하는 모든 날짜를 선택해주세요.">
               <WeekdayOrDatePicker days={formState.days} dates={formState.dates} handleFormChange={handleFormChange} />
             </LabeledBox>
