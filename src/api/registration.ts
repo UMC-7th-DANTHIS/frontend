@@ -24,10 +24,17 @@ export const postImagePresignedUrl = async (urlParam: string, file: File): Promi
   return presignedUrl;
 };
 
-export const postVideoPresignedUrl = async (file: File): Promise<string | null> => {
-  const fileExtension = file.name.split('.').pop() || '';
-  const { data } = await api.post(`/video/dance-class?fileExtensions=${fileExtension}`);
+export interface VideoPresignedResponse {
+  presignedUrl: string;
+  fileUrl: string;
+}
 
-  const presignedUrl = data[0]?.presignedUrl;
-  return presignedUrl;
+export const postVideoPresignedUrl = async (file: File): Promise<VideoPresignedResponse | null> => {
+  const fileExtension = file.name.split('.').pop() || '';
+  const { data } = await api.post(`/video/dance-class?fileExtension=${fileExtension}`);
+
+  return {
+    presignedUrl: data.presignedUrl,
+    fileUrl: data.fileUrl
+  };
 };
