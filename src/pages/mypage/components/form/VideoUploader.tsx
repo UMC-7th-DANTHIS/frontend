@@ -15,12 +15,11 @@ interface VideoUplodaerProps {
   handleFormChange: HandleFormChange<ClassFormState>;
 }
 
-export const VideoUploader = ({
-  video,
-  handleFormChange
-}: VideoUplodaerProps) => {
+export const VideoUploader = ({ video, handleFormChange }: VideoUplodaerProps) => {
   const [fileUrl, setFileUrl] = useState<string>('');
   const [url, setUrl] = useState<string>('');
+  const [isUploading, setIsUploading] = useState(false);
+  const [localPreview, setLocalPreview] = useState<string>('');
 
   const isMobile = useIsMobile();
 
@@ -33,16 +32,24 @@ export const VideoUploader = ({
 
   // 비디오 업로드 핸들러
   const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]; // 파일 가져오기
+    const file = e.target.files?.[0];
     if (!file || !file.type.startsWith('video/')) return;
 
-    const presignedUrl = await postVideoPresignedUrl({ file });
-    if (!presignedUrl) return;
+    const previewUrl = URL.createObjectURL(file);
+    setLocalPreview(previewUrl);
+    setIsUploading(true);
 
-    await uploadToS3(presignedUrl, file);
-    setFileUrl(presignedUrl);
+    try {
+      const result = await postVideoPresignedUrl({ file });
+      if (!result) return;
 
-    e.target.value = ''; // 파일 선택 초기화
+      await uploadToS3(result.presignedUrl, file);
+      setFileUrl(result.fileUrl);
+    } finally {
+      setIsUploading(false);
+    }
+
+    e.target.value = '';
   };
 
   const getYoutubeEmbedUrl = (link: string) => {
@@ -56,48 +63,45 @@ export const VideoUploader = ({
   const deleteVideo = () => {
     handleFormChange('videoUrl', '');
     setFileUrl('');
+    setLocalPreview('');
     setUrl('');
   };
+
+  const displayVideo = fileUrl || localPreview || video;
+
+  useEffect(() => {
+    return () => {
+      if (localPreview) URL.revokeObjectURL(localPreview);
+    };
+  }, [localPreview]);
 
   return (
     <Container>
       <VideoInputWrapper>
         <Video htmlFor="video">
-          {!video && <VideoIcon width={isMobile ? '30px' : '48px'} />}
-          {(video && video.includes('youtube.com')) ||
-          video.includes('youtu.be') ? (
-            <Iframe
-              src={getYoutubeEmbedUrl(video)}
-              title="YouTube Video"
-              allowFullScreen
-            />
+          {!displayVideo && <VideoIcon width={isMobile ? '30px' : '48px'} />}
+
+          {displayVideo && (displayVideo.includes('youtube.com') || displayVideo.includes('youtu.be')) ? (
+            <Iframe src={getYoutubeEmbedUrl(displayVideo)} title="YouTube Video" allowFullScreen />
           ) : (
-            video && <video src={video} controls />
+            displayVideo && <video src={displayVideo} controls />
           )}
+
+          {isUploading && <LoadingOverlay>업로드 중...</LoadingOverlay>}
         </Video>
 
         {/* 파일 선택 */}
-        {!video && (
-          <HiddenInput
-            type="file"
-            id="video"
-            accept="video/*"
-            onChange={handleUploadFile}
-          />
-        )}
+        {!displayVideo && <HiddenInput type="file" id="video" accept="video/*" onChange={handleUploadFile} />}
 
-        {/* 비디오가 업로드 된 상태에서만 삭제 버튼 표시 */}
-        {video && (
+        {/* 삭제 버튼 */}
+        {displayVideo && !isUploading && (
           <Icon onClick={deleteVideo}>
             <DeleteIcon />
           </Icon>
         )}
       </VideoInputWrapper>
-      <UrlInput
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
-        placeholder="동영상 링크를 붙여넣으세요."
-      />
+
+      <UrlInput value={url} onChange={(e) => setUrl(e.target.value)} placeholder="동영상 링크를 붙여넣으세요." />
     </Container>
   );
 };
@@ -171,4 +175,15 @@ const Icon = styled.div`
   &[aria-hidden='true'] {
     display: none;
   }
+`;
+const LoadingOverlay = styled.div`
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  z-index: 2;
 `;
