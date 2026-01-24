@@ -27,6 +27,12 @@ const PostHeader = styled.div`
     line-height: normal;
 
     margin-bottom: 20px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `;
 
