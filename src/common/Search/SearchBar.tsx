@@ -26,7 +26,9 @@ const SearchBar = ({
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const defaultQuery: 'dance-classes' | 'dancers' | 'posts' = pathname.includes('posts')
+  const defaultQuery: 'dance-classes' | 'dancers' | 'posts' = pathname.includes(
+    'posts'
+  )
     ? 'posts'
     : pathname.includes('dancers')
       ? 'dancers'
@@ -62,14 +64,26 @@ const SearchBar = ({
     <Container>
       <InputWrapper>
         <InputContainer>
-          <Input value={temp!} onKeyDown={handleKeyDown} onChange={handleSearch} />
+          <Input
+            value={temp!}
+            onKeyDown={handleKeyDown}
+            onChange={handleSearch}
+          />
 
-          <SearchIcon src={SearchImage} alt="search" onClick={handleSearchData} />
+          <SearchIcon
+            src={SearchImage}
+            alt="search"
+            onClick={handleSearchData}
+          />
         </InputContainer>
       </InputWrapper>
       <HashTagContainer>
         {hashTagID.map((list) => (
-          <HashTag onClick={() => handleClick(list.id)} active={selectedFilter === list.id} key={list.id}>
+          <HashTag
+            onClick={() => handleClick(list.id)}
+            active={selectedFilter === list.id}
+            key={list.id}
+          >
             # {list.hashTag}
           </HashTag>
         ))}
@@ -83,10 +97,16 @@ const SearchBar = ({
           >
             수업
           </SelectText>
-          <SelectText className={defaultQuery === 'dancers' ? 'active' : ''} onClick={() => handleReSearch('dancers')}>
+          <SelectText
+            className={defaultQuery === 'dancers' ? 'active' : ''}
+            onClick={() => handleReSearch('dancers')}
+          >
             댄서
           </SelectText>
-          <SelectText className={defaultQuery === 'posts' ? 'active' : ''} onClick={() => handleReSearch('posts')}>
+          <SelectText
+            className={defaultQuery === 'posts' ? 'active' : ''}
+            onClick={() => handleReSearch('posts')}
+          >
             커뮤니티
           </SelectText>
         </SelectWrapper>
@@ -251,6 +271,8 @@ const HashTag = styled.div<{ active: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  cursor: pointer;
 
   border-radius: 80px;
   border: 2px solid #bf00ff;
