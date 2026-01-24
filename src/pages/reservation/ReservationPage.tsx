@@ -57,7 +57,6 @@ export default function ReservationPage() {
 
       <TabSection>
         <Tabs ref={tabRef}>
-          <TabSlider $currentTab={currentTab} />
           {tab.map((element, index) => (
             <Tab
               key={index}
@@ -67,6 +66,7 @@ export default function ReservationPage() {
               <span>{element.name}</span>
             </Tab>
           ))}
+          <Indicator $activeIndex={currentTab} $tabCount={tab.length} />
         </Tabs>
 
         {currentTab === 0 && (
@@ -78,8 +78,8 @@ export default function ReservationPage() {
             <DetailTab classData={classData!} />
           </LoadingSpinner>
         )}
-        {currentTab === 1 && <ReviewTab tabRef={tabRef} />}
-        {currentTab === 2 && <RatingTab tabRef={tabRef} />}
+        {currentTab === 1 && <ReviewTab />}
+        {currentTab === 2 && <RatingTab />}
       </TabSection>
     </Container>
   );
@@ -105,6 +105,7 @@ const TabSection = styled.div`
   max-width: 981px;
 `;
 const Tabs = styled.div`
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -117,35 +118,17 @@ const Tabs = styled.div`
   }
 `;
 
-const TabSlider = styled.div<{ $currentTab: number }>`
-  position: absolute;
-  bottom: 0;
-  left: ${({ $currentTab }) => $currentTab * 33.333}%;
-  width: 33.333%;
-  height: 3px;
-  background-color: var(--main-purple);
-  transition: left 0.3s ease-in-out;
-
-  ${({ theme }) => theme.media.tablet} {
-    height: 6px;
-  }
-`;
-
 const Tab = styled.div<{ $isActive: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
   flex: 1;
-  height: 30px;
+  height: 38px;
   transition: all 0.3s ease;
   cursor: pointer;
 
   ${({ theme }) => theme.media.tablet} {
     height: 58px;
-    //border-radius: 20px 20px 0px 0px;
-
-    ${({ $isActive }) =>
-      $isActive && `border-bottom: 6px solid var(--main-purple);`}
   }
 
   span {
@@ -162,4 +145,17 @@ const Tab = styled.div<{ $isActive: boolean }>`
       letter-spacing: -1px;
     }
   }
+`;
+
+const Indicator = styled.div<{ $activeIndex: number; $tabCount: number }>`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: ${({ $tabCount }) => 100 / $tabCount}%;
+  background: #9819c3;
+
+  transform: translateX(${({ $activeIndex }) => `${$activeIndex * 100}%`});
+
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 `;

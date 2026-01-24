@@ -52,20 +52,18 @@ const CustomCalendar = ({
   };
 
   const handleDeleteDate = (dateStr: string) => {
-    if (!selectedDates) return;
-    const newDates = selectedDates.filter((d) => d !== dateStr);
-    newDates.forEach((d) => onDateClick(parseISO(d)));
+    onDateClick(parseISO(dateStr));
   };
 
   return (
     <Container>
       <CalendarContainer>
         <Header>
-          <button onClick={goToPrevMonth}>
+          <button type="button" onClick={goToPrevMonth}>
             <ChevronLeft />
           </button>
           <span>{format(currentDate, 'yyyy. MM')}</span>
-          <button onClick={goToNextMonth}>
+          <button type="button" onClick={goToNextMonth}>
             <ChevronRight />
           </button>
         </Header>
@@ -85,7 +83,10 @@ const CustomCalendar = ({
               $isCurrentMonth={isSameMonth(day, currentDate)}
               $isToday={isToday(day)}
               $isSelected={isSelected(day)}
-              onClick={() => onDateClick(day)}
+              onClick={() => {
+                if (!isSameMonth(day, currentDate)) return;
+                onDateClick(day);
+              }}
             >
               {format(day, 'd')}
             </DayCell>
@@ -105,19 +106,25 @@ const CustomCalendar = ({
                 })
                 .map((d) => {
                   const dateObj = parseISO(d);
-                  const formatted = format(dateObj, 'yyyy. MM. dd (EEE)', { locale: ko });
+                  const formatted = format(dateObj, 'yyyy. MM. dd (EEE)', {
+                    locale: ko
+                  });
                   return (
                     <SelectedDate key={d}>
                       <Circle />
                       <span>{formatted}</span>
-                      <button onClick={() => handleDeleteDate(d)}>삭제</button>
+                      <button type="button" onClick={() => handleDeleteDate(d)}>
+                        삭제
+                      </button>
                     </SelectedDate>
                   );
                 })
             : selectedDate &&
               (() => {
                 const dateObj = parseISO(selectedDate);
-                const formatted = format(dateObj, 'yyyy. MM. dd (EEE)', { locale: ko });
+                const formatted = format(dateObj, 'yyyy. MM. dd (EEE)', {
+                  locale: ko
+                });
                 return (
                   <SelectedDate>
                     <span>{formatted}</span>
@@ -188,19 +195,26 @@ const DaysGrid = styled.div`
   justify-items: center;
   gap: 16px 0;
 `;
-const DayCell = styled.div<{ $isCurrentMonth: boolean; $isToday: boolean; $isSelected: boolean }>`
+const DayCell = styled.div<{
+  $isCurrentMonth: boolean;
+  $isToday: boolean;
+  $isSelected: boolean;
+}>`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 38px;
   height: 38px;
   border-radius: 10px;
-  color: ${({ $isCurrentMonth }) => (!$isCurrentMonth ? 'transparent' : 'inherit')};
+
   font-size: 16px;
   font-weight: 400;
   line-height: 140%;
   transition: all 0.1s ease-in;
-  cursor: pointer;
+
+  color: ${({ $isCurrentMonth }) => (!$isCurrentMonth ? 'transparent' : 'inherit')};
+  cursor: ${({ $isCurrentMonth }) => ($isCurrentMonth ? 'pointer' : 'default')};
+  pointer-events: ${({ $isCurrentMonth }) => ($isCurrentMonth ? 'auto' : 'none')};
 
   ${({ $isSelected }) =>
     $isSelected &&

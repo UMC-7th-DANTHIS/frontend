@@ -116,10 +116,14 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   width: 100%;
-  min-width: 
+  min-width: 0;
   margin-top: 32px;
   margin-bottom: 80px;
   gap: 12px;
+
+  @media (max-width: 600px) {
+    margin-top: 16px;
+  }
 
   ${({ theme }) => theme.media.desktop} {
     gap: 44px;
