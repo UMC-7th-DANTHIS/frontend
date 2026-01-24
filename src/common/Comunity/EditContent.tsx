@@ -116,6 +116,7 @@ const TitleInput = styled.input`
   border: transparent;
   background-color: transparent;
   outline: none;
+  font-family: inherit;
 
   color: white;
   font-size: 14px;
@@ -152,6 +153,7 @@ const ContentInput = styled.textarea`
   border: transparent;
   resize: none;
   outline: none;
+  font-family: inherit;
 
   color: white;
   font-size: 14px;
