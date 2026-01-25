@@ -14,6 +14,7 @@ import axiosInstance from '../../api/axios-instance';
 
 import { SinglePostData } from '@/types/CommunityInterface';
 import { UserData } from '@/types/UserInterface';
+import { toast } from 'react-toastify';
 
 type PostContentProps = {
   length: number;
@@ -50,6 +51,10 @@ const PostContent = ({
     }
   };
 
+  const handleReport = () => {
+    toast.error('게시글이 신고되었습니다.');
+  };
+
   return (
     <>
       <PostInfo>
@@ -81,7 +86,11 @@ const PostContent = ({
           </PostActions>
         ) : (
           <PostActions>
-            <ReportButton src={Alert} alt={'Alert'} />
+            <ReportButton
+              onClick={() => handleReport()}
+              src={Alert}
+              alt={'Alert'}
+            />
           </PostActions>
         )}
         <PostMeta>
