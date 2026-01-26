@@ -227,7 +227,7 @@ const Overlay = styled.div`
 const ClassTitle = styled.div`
   color: var(--main-white);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1.2;
   text-align: center;
   overflow: hidden;
