@@ -98,14 +98,7 @@ const moveCenterWithOffset = (
     const geocoder = new window.kakao.maps.services.Geocoder();
 
     rooms.forEach((room) => {
-      //const pos = new window.kakao.maps.LatLng(room.latitude, room.longitude);
-      const offsetLat = (Math.random() - 0.5) * 0.00005;
-      const offsetLng = (Math.random() - 0.5) * 0.00005;
-
-      const pos = new window.kakao.maps.LatLng(
-         room.latitude + offsetLat,
-         room.longitude + offsetLng
-);
+      const pos = new window.kakao.maps.LatLng(room.latitude, room.longitude);
 
       const marker = new window.kakao.maps.Marker({
         map: mapInstance.current,
@@ -162,6 +155,7 @@ window.kakao.maps.event.addListener(marker, "click", () => {
           : `위도: ${room.latitude}, 경도: ${room.longitude}`;
 
       const container = document.createElement("div");
+      container.style.pointerEvents = "none";
       const root = createRoot(container);
 
       root.render(
