@@ -212,9 +212,13 @@ const Content = styled.div`
   margin-top: 35px;
   margin-bottom: 40px;
   text-align: justify;
+  min-height: 200px;
+  white-space: pre-wrap;
+  word-break: break-all;
 
   ${({ theme }) => theme.media.tablet} {
     margin-bottom: 57px;
+    min-height: 200px;
   }
 
   p {
