@@ -27,7 +27,9 @@ export const CommunityPut = () => {
   const [title, setTitle] = useState<string>(
     selectedPost?.selectedPost?.title ?? ''
   );
-  const [content, setContent] = useState<string>(selectedPost.content ?? '');
+  const [content, setContent] = useState<string>(
+    selectedPost?.selectedPost?.content ?? ''
+  );
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
