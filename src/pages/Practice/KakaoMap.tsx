@@ -44,6 +44,47 @@ const KakaoMap: React.FC = () => {
     return [];
   };
 
+//   const moveCenterWithOffset = (lat: number, lng: number, offsetY = 150) => {
+//   if (!mapInstance.current) return;
+
+//   const map = mapInstance.current;
+//   const projection = map.getProjection();
+
+//   const latlng = new window.kakao.maps.LatLng(lat, lng);
+
+//   // 좌표 → 화면 좌표
+//   const point = projection.pointFromCoords(latlng);
+
+//   // y축 위로 이동 (오버레이 높이만큼)
+//   point.y -= offsetY;
+
+//   // 다시 좌표로 변환
+//   const newCenter = projection.coordsFromPoint(point);
+
+//   map.panTo(newCenter);
+// };
+const moveCenterWithOffset = (
+  lat: number,
+  lng: number,
+  offsetX = 0,
+  offsetY = 0
+) => {
+  if (!mapInstance.current) return;
+
+  const map = mapInstance.current;
+  const projection = map.getProjection();
+  const latlng = new window.kakao.maps.LatLng(lat, lng);
+
+  const point = projection.pointFromCoords(latlng);
+
+  point.x += offsetX;
+  point.y -= offsetY; // 위로 이동
+
+  const newCenter = projection.coordsFromPoint(point);
+  map.panTo(newCenter);
+};
+
+
   // ✅ 내 API에서 받은 연습실 마커 표시 + 주소 변환
   const showPracticeRoomMarkers = (rooms: any[]) => {
     if (!mapInstance.current) return;
@@ -57,7 +98,15 @@ const KakaoMap: React.FC = () => {
     const geocoder = new window.kakao.maps.services.Geocoder();
 
     rooms.forEach((room) => {
-      const pos = new window.kakao.maps.LatLng(room.latitude, room.longitude);
+      //const pos = new window.kakao.maps.LatLng(room.latitude, room.longitude);
+      const offsetLat = (Math.random() - 0.5) * 0.00005;
+      const offsetLng = (Math.random() - 0.5) * 0.00005;
+
+      const pos = new window.kakao.maps.LatLng(
+         room.latitude + offsetLat,
+         room.longitude + offsetLng
+);
+
       const marker = new window.kakao.maps.Marker({
         map: mapInstance.current,
         position: pos,
@@ -66,38 +115,91 @@ const KakaoMap: React.FC = () => {
       });
 
       // ✅ 클릭 시 주소 변환 후 CustomOverlay 표시
-      window.kakao.maps.event.addListener(marker, "click", () => {
-        geocoder.coord2Address(room.longitude, room.latitude, (result:any, status:string) => {
-          const address =
-            status === window.kakao.maps.services.Status.OK
-              ? result[0].road_address?.address_name ||
-                result[0].address?.address_name ||
-                "주소 정보를 찾을 수 없습니다."
-              : `위도: ${room.latitude}, 경도: ${room.longitude}`;
+      // window.kakao.maps.event.addListener(marker, "click", () => {
+      //    moveCenterWithOffset(room.latitude, room.longitude, 180);
+      //   geocoder.coord2Address(room.longitude, room.latitude, (result:any, status:string) => {
+      //     const address =
+      //       status === window.kakao.maps.services.Status.OK
+      //         ? result[0].road_address?.address_name ||
+      //           result[0].address?.address_name ||
+      //           "주소 정보를 찾을 수 없습니다."
+      //         : `위도: ${room.latitude}, 경도: ${room.longitude}`;
 
-          const container = document.createElement("div");
-          const root = createRoot(container);
+      //     const container = document.createElement("div");
+      //     const root = createRoot(container);
 
-          root.render(
-            <PlaceInfo
-              name={room.name}
-              address={address}
-              url={`https://map.kakao.com/link/to/${encodeURIComponent(room.name)},${room.latitude},${room.longitude}`}
-            />
-          );
+      //     root.render(
+      //       <PlaceInfo
+      //         name={room.name}
+      //         address={address}
+      //         url={`https://map.kakao.com/link/to/${encodeURIComponent(room.name)},${room.latitude},${room.longitude}`}
+      //       />
+      //     );
 
-          if (overlayRef.current) overlayRef.current.setMap(null);
+      //     if (overlayRef.current) overlayRef.current.setMap(null);
 
-          overlayRef.current = new window.kakao.maps.CustomOverlay({
-            content: container,
-            position: pos,
-            yAnchor: 1.5,
-            zIndex: 10,
-          });
+      //     overlayRef.current = new window.kakao.maps.CustomOverlay({
+      //       content: container,
+      //       position: pos,
+      //       yAnchor: 1.5,
+      //       zIndex: 10,
+      //     });
 
-          overlayRef.current.setMap(mapInstance.current);
-        });
+      //     overlayRef.current.setMap(mapInstance.current);
+      //   });
+      // });
+// ✅ 클릭 시 주소 변환 후 CustomOverlay 표시
+window.kakao.maps.event.addListener(marker, "click", () => {
+  geocoder.coord2Address(
+    room.longitude,
+    room.latitude,
+    (result: any, status: string) => {
+      const address =
+        status === window.kakao.maps.services.Status.OK
+          ? result[0].road_address?.address_name ||
+            result[0].address?.address_name ||
+            "주소 정보를 찾을 수 없습니다."
+          : `위도: ${room.latitude}, 경도: ${room.longitude}`;
+
+      const container = document.createElement("div");
+      const root = createRoot(container);
+
+      root.render(
+        <PlaceInfo
+          name={room.name}
+          address={address}
+          url={`https://map.kakao.com/link/to/${encodeURIComponent(
+            room.name
+          )},${room.latitude},${room.longitude}`}
+        />
+      );
+
+      // 기존 오버레이 제거
+      if (overlayRef.current) overlayRef.current.setMap(null);
+
+      overlayRef.current = new window.kakao.maps.CustomOverlay({
+        content: container,
+        position: pos,
+        yAnchor: 1,
+        zIndex: 10,
       });
+
+      overlayRef.current.setMap(mapInstance.current);
+
+      // ✅ 오버레이가 DOM에 올라간 뒤 → 높이 기준으로 지도 이동
+      setTimeout(() => {
+        const overlayHeight = container.offsetHeight || 200;
+
+        moveCenterWithOffset(
+          room.latitude,
+          room.longitude,
+          0,
+          overlayHeight / 2 + 40
+        );
+      }, 0);
+    }
+  );
+});
 
       placeMarkers.current.push(marker);
     });
