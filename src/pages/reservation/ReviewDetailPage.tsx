@@ -6,6 +6,7 @@ import { ImageModal } from '../../common/reservation';
 import useGetReview from '../../hooks/reservation/review/useGetReview';
 import useGetMyInfo from '../../hooks/user/useGetMyInfo';
 import { ReviewDetailHeader } from '../../common/reservation/ReviewDetailHeader';
+import { useAuth } from '../../hooks/useAuth';
 
 interface ReviewLocationState {
   fromReviewTab: boolean;
@@ -17,14 +18,16 @@ export default function ReviewDetailPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const { reviewId } = useParams();
+
+  const { isLoggedIn } = useAuth();
+
   const [isUserAuthorMatch, setIsUserAuthorMatch] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean[]>([]);
 
-  const { fromReviewTab, classId, page } =
-    (location.state as ReviewLocationState) || {}; // 페이지네이션을 기억해 둠
+  const { fromReviewTab, classId, page } = (location.state as ReviewLocationState) || {}; // 페이지네이션을 기억해 둠
 
   const { data: review, isLoading } = useGetReview(classId, reviewId ?? '');
-  const { data: user } = useGetMyInfo();
+  const { data: user } = useGetMyInfo({ enabled: isLoggedIn });
 
   useEffect(() => {
     if (!user || !review) return;
@@ -70,18 +73,8 @@ export default function ReviewDetailPage() {
         {review.reviewImages.length > 0 &&
           review.reviewImages.map((image, index) => (
             <div key={index}>
-              <Image
-                src={image}
-                alt={`review ${review.reviewId} #${index}`}
-                onClick={() => handleOpenModal(index)}
-              />
-              {isModalOpen[index] && (
-                <ImageModal
-                  imgUrl={image}
-                  setIsModalOpen={setIsModalOpen}
-                  index={index}
-                />
-              )}
+              <Image src={image} alt={`review ${review.reviewId} #${index}`} onClick={() => handleOpenModal(index)} />
+              {isModalOpen[index] && <ImageModal imgUrl={image} setIsModalOpen={setIsModalOpen} index={index} />}
             </div>
           ))}
       </ImagesContainer>
