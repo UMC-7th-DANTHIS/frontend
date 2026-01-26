@@ -260,19 +260,46 @@ const ClickArea = styled.button<{
   border: 0;
   cursor: ${(p) => (p.$disabled ? 'default' : 'pointer')};
   pointer-events: ${(p) => (p.$disabled ? 'none' : 'auto')};
-  opacity: ${(p) => (p.$disabled ? 0.25 : 1)};
+  opacity: 0;
+  transition: opacity 0.3s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    z-index: -1;
+    transition: background 0.3s ease;
+  }
+
+  &:hover::before {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  ${CarouselWrapper}:hover & {
+    opacity: ${(p) => (p.$disabled ? 0.25 : 1)};
+  }
+
+  @media (hover: none) {
+    opacity: ${(p) => (p.$disabled ? 0.25 : 0.7)};
+  }
 
   svg {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     fill: var(--main-white);
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
   }
 
   ${({ theme }) => theme.media.tablet} {
+    &::before {
+      width: 48px;
+      height: 48px;
+    }
     svg {
-      width: 32px;
-      height: 32px;
+      width: 24px;
+      height: 24px;
     }
   }
 `;
