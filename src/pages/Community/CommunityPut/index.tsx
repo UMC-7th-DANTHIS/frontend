@@ -24,8 +24,6 @@ export const CommunityPut = () => {
   const [previews, setPreviews] = useState<string[]>([]);
   const [fileObjects, setFileObjects] = useState<File[]>([]);
 
-  console.log(selectedPost.selectedPost);
-
   const [title, setTitle] = useState<string>(
     selectedPost?.selectedPost?.title ?? ''
   );

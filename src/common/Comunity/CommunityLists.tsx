@@ -7,18 +7,19 @@ import CommunityList from './CommunityList';
 
 import { CommunityPostListOutlet } from '@/types/Context/CommunityPostList';
 import { PostPreview } from '@/types/CommunityInterface';
-import { UserContext } from '@/types/Context/User';
+import useGet from '../../hooks/useGet';
 
 const CommunityLists = () => {
   const navigate = useNavigate();
-  const { user } = useOutletContext<UserContext>();
 
   const { lists, perData, currentPage, setCurrentPage } =
     useOutletContext<CommunityPostListOutlet>();
 
+  const { data: user } = useGet();
+
   const handleEdit = () => {
     if (!user) return navigate('/login');
-    return '/edit';
+    return navigate('edit');
   };
 
   return (
