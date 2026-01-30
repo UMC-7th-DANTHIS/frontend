@@ -16,6 +16,7 @@ import MyNewClass from './components/newclass/MyNewClass';
 import MyNewDancer from './components/newdancer/MyNewDancer';
 import NoDancer from './components/NoDancer';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import AlreadyDancer from './components/AlreadyDancer';
 
 const MypageLayout = () => {
   const location = useLocation();
@@ -36,7 +37,7 @@ const MypageLayout = () => {
 
       return response.data.data;
     },
-    enabled: selectedMenu === 'myregisteredclasses'
+    enabled: selectedMenu === 'myregisteredclasses' || selectedMenu === 'registerdancer'
   });
 
   const { data: dancerData, isLoading: isLoadingDancerData } = useQuery({
@@ -70,6 +71,9 @@ const MypageLayout = () => {
         }
         return <MyRegisterClass dancerId={dancerData.id} />;
       case 'registerdancer':
+        if (isDancer === true) {
+          return <AlreadyDancer />;
+        }
         return <MyNewDancer />;
       case 'registerclass':
         return <MyNewClass />;
