@@ -247,6 +247,13 @@ const Image = styled.img`
   object-fit: cover;
   border-radius: 3px;
   cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+
+  &:hover {
+    opacity: 0.7;
+    border: 2px solid #b2b2b2;
+  }
 
   ${({ theme }) => theme.media.tablet} {
     border-radius: 7px;
