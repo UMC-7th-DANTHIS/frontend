@@ -5,6 +5,7 @@ import { DanceGenre } from '../../api/schema';
 import { DanceClassDetail } from '../../types/class';
 import { ClassButtons } from './ClassButtons';
 import { ReactComponent as FocusedCircle } from '../../assets/shape/focusedcircle.svg';
+import { useAuth } from '../../hooks/useAuth';
 
 interface ClassSummaryProps {
   classId: string;
@@ -12,6 +13,8 @@ interface ClassSummaryProps {
 }
 
 export const ClassSummary = ({ classId, classData }: ClassSummaryProps) => {
+  const { isLoggedIn } = useAuth();
+
   return (
     <Container>
       <Title>
@@ -38,7 +41,7 @@ export const ClassSummary = ({ classId, classData }: ClassSummaryProps) => {
           </Info>
         </Overview>
 
-        <ClassButtons classId={classId} dancerId={classData.details.dancerId} />
+        {isLoggedIn && <ClassButtons classId={classId} dancerId={classData.details.dancerId} />}
       </OverviewAndButtons>
     </Container>
   );

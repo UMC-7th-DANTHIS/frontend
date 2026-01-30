@@ -1,41 +1,41 @@
 import styled from 'styled-components';
 import { addPostposition } from '../utils/format';
+import { InputHTMLAttributes, TextareaHTMLAttributes } from 'react';
 
-interface BaseInputProps<T extends HTMLInputElement | HTMLTextAreaElement> {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<T>) => void;
-  placeholder?: string;
-  maxLength?: number;
 }
 
-type InputProps = BaseInputProps<HTMLInputElement>;
-type TextareaProps = BaseInputProps<HTMLTextAreaElement>;
+interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  label?: string;
+}
 
-export const Input = ({ label, value, onChange, placeholder, maxLength }: InputProps) => {
-  const isExeedingMaxLength = maxLength && value.length > maxLength;
+export const Input = ({ label, ...props }: InputProps) => {
+  const currentValueStr = props.value ? String(props.value) : '';
+  const isExeedingMaxLength = props.maxLength && currentValueStr.length > props.maxLength;
 
   return (
     <Container>
-      <InputBox value={value} onChange={onChange} placeholder={placeholder} />
+      <InputBox {...props} />
       {isExeedingMaxLength && label && (
         <WarningMessage>
-          {addPostposition(label)} 최대 {maxLength}자까지 입력 가능합니다.
+          {addPostposition(label)} 최대 {props.maxLength}자까지 입력 가능합니다.
         </WarningMessage>
       )}
     </Container>
   );
 };
 
-export const Textarea = ({ label, value, onChange, placeholder, maxLength }: TextareaProps) => {
-  const isExeedingMaxLength = maxLength && value.length > maxLength;
+export const Textarea = ({ label, ...props }: TextareaProps) => {
+  const currentValueStr = props.value ? String(props.value) : '';
+  const isExeedingMaxLength = props.maxLength && currentValueStr.length > props.maxLength;
 
   return (
     <Container>
-      <TextareaBox value={value} onChange={onChange} placeholder={placeholder} />
+      <TextareaBox {...props} />
       {isExeedingMaxLength && label && (
         <WarningMessage>
-          {addPostposition(label)} 최대 {maxLength}자까지 입력 가능합니다.
+          {addPostposition(label)} 최대 {props.maxLength}자까지 입력 가능합니다.
         </WarningMessage>
       )}
     </Container>
@@ -69,6 +69,18 @@ const InputBox = styled.input`
   font-size: 12px;
   font-weight: 400;
   transition: all 0.2s ease-in-out;
+
+  /* Chrome, Safari, Edge, Opera */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  &[type='number'] {
+    -moz-appearance: textfield;
+  }
 
   &:hover {
     border: 1px solid var(--main-purple);

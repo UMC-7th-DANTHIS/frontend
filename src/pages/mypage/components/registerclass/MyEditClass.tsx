@@ -19,7 +19,7 @@ const MyEditClass = ({ classId, onClose }: MyEditClassProps) => {
 
   const [formState, setFormState] = useState<ClassFormState>({
     className: '',
-    pricePerSession: '',
+    pricePerSession: 0,
     difficulty: 0,
     genre: 0,
     days: [],
@@ -33,6 +33,7 @@ const MyEditClass = ({ classId, onClose }: MyEditClassProps) => {
   const isValid = useValidation(formState, 'class');
   const [showInvalidAlert, setShowInvalidAlert] = useState(false);
   const [showLeaveAlert, setShowLeaveAlert] = useState(false);
+  const [isVideoValid, setIsVideoValid] = useState(true);
 
   const { data } = useGetClassDetailById(String(classId));
 
@@ -40,7 +41,7 @@ const MyEditClass = ({ classId, onClose }: MyEditClassProps) => {
     if (data)
       setFormState({
         className: data.className || '',
-        pricePerSession: String(data.pricePerSession) || '',
+        pricePerSession: 0,
         difficulty: data.difficulty || 0,
         genre: data.genre || 0,
         days: data.days || [],
@@ -69,7 +70,7 @@ const MyEditClass = ({ classId, onClose }: MyEditClassProps) => {
       pricePerSession: Number(formState.pricePerSession) || 0
     };
 
-    if (!isValid) {
+    if (!isValid || !isVideoValid) {
       setShowInvalidAlert(true);
       return;
     }
@@ -87,7 +88,8 @@ const MyEditClass = ({ classId, onClose }: MyEditClassProps) => {
         showInvalidAlert,
         setShowInvalidAlert,
         showLeaveAlert,
-        setShowLeaveAlert
+        setShowLeaveAlert,
+        setVideoValid: setIsVideoValid
       }}
     >
       <Container>

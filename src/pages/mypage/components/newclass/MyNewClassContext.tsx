@@ -10,6 +10,7 @@ interface MyNewClassContextType {
   setShowInvalidAlert: React.Dispatch<React.SetStateAction<boolean>>;
   showLeaveAlert: boolean;
   setShowLeaveAlert: React.Dispatch<React.SetStateAction<boolean>>;
+  setVideoValid: (isValid: boolean) => void;
 }
 
 export const MyNewClassContext = createContext<MyNewClassContextType | null>(null);
