@@ -244,7 +244,9 @@ const Image = styled.img`
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
+  object-fit: cover;
   border-radius: 3px;
+  cursor: pointer;
 
   ${({ theme }) => theme.media.tablet} {
     border-radius: 7px;
