@@ -5,13 +5,17 @@ import CommentPost from './CommentPost';
 import useIsMobile from '../../../../hooks/useIsMobile';
 
 const MyComments = () => {
-  const [activeTab, setActiveTab] = useState<'게시글' | '댓글'>('게시글');
+  const [activeTab, setActiveTab] = useState<'게시글' | '댓글' | '리뷰'>('게시글');
   const isMobile = useIsMobile();
 
   const renderContents = () => {
     if (activeTab === '게시글')
       return <CommentPost perPage={isMobile ? 2 : 5} />;
-    return <ReviewPage perPage={isMobile ? 2 : 5} />;
+    if (activeTab === '댓글')
+      return <CommentPost perPage={isMobile ? 2 : 5} />;
+    if (activeTab === '리뷰')
+      return <ReviewPage perPage={isMobile ? 2 : 5} />;
+
   };
 
   return (
@@ -31,6 +35,13 @@ const MyComments = () => {
             onClick={() => setActiveTab('댓글')}
           >
             댓글
+          </TabButton>
+          <TabButton
+            type="button"
+            isActive={activeTab === '리뷰'}
+            onClick={() => setActiveTab('리뷰')}
+          >
+            리뷰
           </TabButton>
         </TabsRow>
 
@@ -115,14 +126,17 @@ const TabButton = styled.button<TabProps>`
 
 const Divider = styled.div`
   width: 100%;
+  max-width: 100%;
   flex-shrink: 0;
   border: 1px solid #ddd;
   background-color: #ddd;
   margin-top: 13px;
   margin-bottom: 34px;
+  box-sizing: border-box;
 
   @media (max-width: 600px) {
     width: 100%;
+    max-width: 100%;
     margin: 18px 0 22px;
   }
 `;

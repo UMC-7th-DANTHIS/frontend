@@ -90,7 +90,6 @@ const Container = styled.div`
     justify-content: center;
     margin-bottom: 120px;
     width: 100%;
-    padding: 0 16px;
   }
 `;
 

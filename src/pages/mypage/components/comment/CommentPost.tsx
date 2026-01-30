@@ -125,7 +125,6 @@ const CommentContainer = styled.div`
   flex-shrink: 0;
   border: 1px solid #ddd;
   border-radius: 10px;
-  box-shadow: 0px 0px 5px #9819c3;
   margin-bottom: 20px;
   margin-left: 29px;
   cursor: pointer;
@@ -135,7 +134,6 @@ const CommentContainer = styled.div`
     height: auto;
     margin-left: 0;
     margin-bottom: 16px;
-    box-shadow: 0px 0px 3px #9819c3;
     padding: 12px;
   }
 `;
