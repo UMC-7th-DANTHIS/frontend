@@ -1,41 +1,62 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { MenuItemProps, MypageSidebarProps } from '@/types/mypage/MypageSideBarType';
 import styled from 'styled-components';
 import useIsMobile from '../../hooks/useIsMobile';
 import { ReactComponent as Dropdown } from '../../assets/dropdown.svg';
+import { ReactComponent as WhiteDropdown } from '../../assets/white_dropdown.svg';
 
 const MypageSidebar = ({ selectedMenu, onMenuClick }: MypageSidebarProps) => {
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const [menuHeight, setMenuHeight] = useState(0);
+
+  useEffect(() => {
+    if (isOpen && menuRef.current) {
+      setMenuHeight(menuRef.current.offsetHeight);
+    } else {
+      setMenuHeight(0);
+    }
+  }, [isOpen, selectedMenu]);
 
   if (isMobile) {
     return (
       // 모바일
       <MobileContainer>
-        <MobileHeader onClick={() => setIsOpen(!isOpen)}>
-          {getMenuLabel(selectedMenu)} <Dropdown />
-        </MobileHeader>
-        {isOpen && (
-          <MobileMenu>
-            {menuList.map(({ key, label, divider }) =>
-              divider ? (
-                <Divider key={key} />
-              ) : (
-                <MenuItem
-                  key={key}
-                  onClick={() => {
-                    onMenuClick(key);
-                    setIsOpen(false);
-                  }}
-                  isActive={selectedMenu === key}
-                  isMobile={isMobile}
-                >
-                  {label}
-                </MenuItem>
-              )
+        <MobileContentWrapper $isOpen={isOpen}>
+          <PurpleBar $isOpen={isOpen} $menuHeight={menuHeight} />
+          <MobileContent>
+            <MobileHeader onClick={() => setIsOpen(!isOpen)} $isOpen={isOpen}>
+              {getMenuLabel(selectedMenu)} {isOpen ? <WhiteDropdown /> : <Dropdown />}
+            </MobileHeader>
+            {isOpen && (
+              <>
+                <BlurOverlay $height={menuHeight} />
+                <MobileMenu ref={menuRef}>
+                  {menuList
+                    .filter(({ key }) => key !== selectedMenu)
+                    .map(({ key, label, divider }) =>
+                      divider ? (
+                        <Divider key={key} />
+                      ) : (
+                        <MenuItem
+                          key={key}
+                          onClick={() => {
+                            onMenuClick(key);
+                            setIsOpen(false);
+                          }}
+                          isActive={selectedMenu === key}
+                          isMobile={isMobile}
+                        >
+                          {label}
+                        </MenuItem>
+                      )
+                    )}
+                </MobileMenu>
+              </>
             )}
-          </MobileMenu>
-        )}
+          </MobileContent>
+        </MobileContentWrapper>
       </MobileContainer>
     );
   }
@@ -109,23 +130,19 @@ const SidebarMenu = styled.div`
 `;
 
 const MenuItem = styled.div<MenuItemProps & { isMobile?: boolean }>`
-  margin-bottom: 20px;
+  margin-bottom: ${({ isMobile }) => (isMobile ? '12px' : '20px')};
   white-space: nowrap;
-  font-size: ${({ isMobile }) => (isMobile ? '13px' : '18px')};
+  font-size: ${({ isMobile }) => (isMobile ? '16px' : '18px')};
   font-weight: 500;
   cursor: pointer;
   color: #b2b2b2;
   transition: all 0.3s ease;
 
-  @media (max-width: 768px) {
-    padding-left: 16px;
-  }
-
   ${({ isActive, isMobile }) =>
     isActive &&
     `
       color: #fff;
-      font-size: ${isMobile ? '18px' : '24px'};
+      font-size: ${isMobile ? '20px' : '24px'};
       font-weight: 600;
     `}
 `;
@@ -144,30 +161,67 @@ const MobileContainer = styled.div`
   flex-direction: column;
   margin-top: 12px;
   position: relative;
+  z-index: 1000;
 `;
 
-const MobileHeader = styled.div`
+const MobileContentWrapper = styled.div<{ $isOpen: boolean }>`
+  position: relative;
+  padding-left: 16px;
+`;
+
+const PurpleBar = styled.div<{ $isOpen: boolean; $menuHeight: number }>`
+  width: 2px;
+  background-color: #9819c3;
+  position: absolute;
+  left: 16px;
+  top: 0;
+  height: ${({ $isOpen, $menuHeight }) => ($isOpen ? `calc(24px + 10px + ${$menuHeight}px)` : '24px')};
+  z-index: 1002;
+`;
+
+const MobileContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+  position: relative;
+`;
+
+const MobileHeader = styled.div<{ $isOpen: boolean }>`
   color: #fff;
   font-size: 18px;
   font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding-left: 16px;
+  gap: 10px;
+`;
+
+const BlurOverlay = styled.div<{ $height: number }>`
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  width: 50%;
+  min-width: 200px;
+  height: ${({ $height }) => ($height > 0 ? `${$height}px` : 'auto')};
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 998;
+  pointer-events: none;
 `;
 
 const MobileMenu = styled.div`
   position: absolute;
   top: 100%;
   left: 0;
-  margin-left: 16px;
   margin-top: 10px;
   padding-top: 10px;
-  z-index: 1000;
+  padding-bottom: 10px;
+  padding-left: 10px;
   width: 50%;
+  min-width: 200px;
   background: rgba(0, 0, 0, 0.85);
-  border-left: 2px solid #9819c3;
   display: flex;
   flex-direction: column;
+  z-index: 1000;
 `;

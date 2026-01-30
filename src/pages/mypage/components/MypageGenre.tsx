@@ -77,16 +77,38 @@ const GenreWrapper = styled.div`
   row-gap: 33px;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
+
+  @media (max-width: 1024px) {
+    width: 90%;
+    gap: 14px;
+    row-gap: 28px;
+  }
+
+  @media (max-width: 768px) {
+    width: 95%;
+    padding: 24px 16px 0 16px;
+    gap: 12px;
+    row-gap: 24px;
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
+    padding: 20px 10px 0 10px;
+    gap: 10px;
+    row-gap: 20px;
+  }
 `;
 
 const GenreBtn = styled.button<{ selected: boolean }>`
-  display: flex;
-  width: 160px;
+  flex: 1 1 calc(33.333% - 12px);
   max-width: 160px;
+  min-width: 100px;
   padding: 8px 10px;
-  gap: 8px;
+  display: flex;
   justify-content: center;
   align-items: center;
+
   border-radius: 4px;
   border: 1px solid ${(props) => (props.selected ? '#9819C3' : '#ddd')};
   background-color: ${(props) => (props.selected ? '#9819C3' : 'transparent')};
@@ -96,9 +118,21 @@ const GenreBtn = styled.button<{ selected: boolean }>`
   font-size: 15px;
   font-weight: 500;
   line-height: normal;
+  box-sizing: border-box;
 
   &:hover {
     cursor: pointer;
     border: 1px solid #9819c3;
+  }
+
+  @media (max-width: 768px) {
+    flex: 1 1 calc(45% - 10px);
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
+    flex: 1 1 calc(48% - 8px);
+    font-size: 13px;
+    padding: 6px 8px;
   }
 `;

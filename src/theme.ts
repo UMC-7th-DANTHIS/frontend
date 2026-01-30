@@ -1,3 +1,5 @@
+import { DefaultTheme } from 'styled-components';
+
 const breakpoints = {
   mobile: '500px',
   tablet: '768px', // 태블릿 뷰는 768px부터 시작
@@ -5,11 +7,14 @@ const breakpoints = {
   max: '1440px'
 };
 
-export const media = Object.entries(breakpoints).reduce((acc, [key, value]) => {
-  return { ...acc, [key]: `@media (min-width: ${value})` };
-}, {});
+export const media: DefaultTheme['media'] = {
+  mobile: `@media (min-width: ${breakpoints.mobile})`,
+  tablet: `@media (min-width: ${breakpoints.tablet})`,
+  desktop: `@media (min-width: ${breakpoints.desktop})`,
+  max: `@media (min-width: ${breakpoints.max})`
+};
 
-export const theme = {
+export const theme: DefaultTheme = {
   colors: {
     mainPurple: '#9819c3',
     mainWhite: '#ffffff',

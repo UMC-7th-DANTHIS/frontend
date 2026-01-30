@@ -72,9 +72,9 @@ const MyInfo = () => {
   return (
     <InfoContainer>
       <LeftSection>
-        <MenuItem>
+        <MenuItem onClick={handleLogoutAlert}>
           <MenuText>로그아웃</MenuText>
-          <InfoArrow onClick={handleLogoutAlert} />
+          <InfoArrow />
           {showLogoutAlert && (
             <ModalTwoBtns
               message={
@@ -89,9 +89,9 @@ const MyInfo = () => {
             />
           )}
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={gotoQuit}>
           <MenuText>회원탈퇴</MenuText>
-          <InfoArrow onClick={gotoQuit} />
+          <InfoArrow />
         </MenuItem>
       </LeftSection>
 
@@ -132,6 +132,11 @@ const InfoContainer = styled.div`
   background-color: black;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    padding: 60px 26px;
+  }
 `;
 
 const LeftSection = styled.div`
@@ -139,6 +144,12 @@ const LeftSection = styled.div`
   flex-direction: column;
   margin-right: 150px;
   margin-top: 127px;
+
+  @media (max-width: 600px) {
+    margin-right: 0;
+    margin-top: 0;
+    width: 100%;
+  }
 `;
 
 const RightSection = styled.div`
@@ -146,6 +157,12 @@ const RightSection = styled.div`
   flex-direction: column;
   margin-left: 150px;
   margin-top: 127px;
+
+  @media (max-width: 600px) {
+    margin-left: 0;
+    margin-top: 42px;
+    width: 100%;
+  }
 `;
 
 const MenuItem = styled.div`
@@ -155,12 +172,21 @@ const MenuItem = styled.div`
   width: 275px;
   margin-bottom: 96px;
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    margin-bottom: 48px;
+  }
 `;
 
 const MenuText = styled.span`
   color: white;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
+
+  @media (max-width: 600px) {
+    font-size: 16px;
+  }
 `;
 
 const Divider = styled.div`
@@ -168,6 +194,13 @@ const Divider = styled.div`
   height: 220px;
   background-color: #4d4d4d;
   margin-top: 111px;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    height: 1px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 `;
 
 const ColoredText = styled.span`

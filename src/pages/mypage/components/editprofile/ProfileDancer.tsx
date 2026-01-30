@@ -66,7 +66,10 @@ const ProfileDancer = () => {
     return <NoUser />;
   }
 
-  const handleFormChange = (key: keyof FormState, value: string | string[] | number[] | File[]) => {
+  const handleFormChange = (
+    key: keyof FormState,
+    value: string | string[] | number[] | File[]
+  ) => {
     setFormState((prev) => ({ ...prev, [key]: value }));
   };
 
@@ -142,7 +145,10 @@ const ProfileDancer = () => {
           <OpenChatContainer>
             <OpenChatItemContainer>
               <Label> 오픈채팅방 링크 </Label>
-              <Text> *유저들과의 채팅이 이루어질 오픈채팅방 링크를 입력해주세요 </Text>
+              <Text>
+                {' '}
+                *유저들과의 채팅이 이루어질 오픈채팅방 링크를 입력해주세요{' '}
+              </Text>
             </OpenChatItemContainer>
             <Input
               type="link"
@@ -190,12 +196,16 @@ const ProfileDancer = () => {
               <Label> 댄서 사진 </Label>
               <SmallTextContainer>
                 <SmallText>* 최대 3장까지 등록 가능합니다</SmallText>
-                <SmallText>* 가장 첫 번째로 등록된 사진이 프로필로 사용됩니다</SmallText>
+                <SmallText>
+                  * 가장 첫 번째로 등록된 사진이 프로필로 사용됩니다
+                </SmallText>
               </SmallTextContainer>
             </OpenChatItemContainer>
             <ImagesUploader
               isFor="dancer"
-              images={getPreview(formState.dancerImages).filter((v): v is string => v !== undefined)}
+              images={getPreview(formState.dancerImages).filter(
+                (v): v is string => v !== undefined
+              )}
               handleFormChange={handleFormChange}
             />
           </DancerPictureContainer>
@@ -236,24 +246,46 @@ const AllContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 const Container = styled.div`
   width: 900px;
-  height: 1800px;
   flex-shrink: 0;
   border-radius: 25px;
   border: 2px solid #9819c3;
   display: flex;
   justify-content: center;
   padding-bottom: 56px;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    height: auto;
+    padding: 20px 0 28px;
+    border: none;
+    border-radius: 0;
+  }
 `;
 
 const ItemContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+  align-items: center;
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 const DancerNameContainer = styled.div`
   margin-top: 58px;
+
+  @media (max-width: 600px) {
+    margin-top: 24px;
+  }
 `;
 
 const Label = styled.div`
@@ -261,6 +293,10 @@ const Label = styled.div`
   font-size: 22px;
   font-weight: 600;
   line-height: normal;
+
+  @media (max-width: 600px) {
+    font-size: 18px;
+  }
 `;
 
 const Input = styled.input`
@@ -285,19 +321,43 @@ const Input = styled.input`
     line-height: normal;
     font-style: normal;
   }
+
+  @media (max-width: 600px) {
+    width: 100%;
+    height: 50px;
+    font-size: 16px;
+    padding-left: 16px;
+
+    &::placeholder {
+      font-size: 16px;
+    }
+  }
 `;
 
 const InstaContainer = styled.div`
   margin-top: 27px;
+
+  @media (max-width: 600px) {
+    margin-top: 20px;
+  }
 `;
 
 const OpenChatContainer = styled.div`
   margin-top: 27px;
+
+  @media (max-width: 600px) {
+    margin-top: 20px;
+  }
 `;
 
 const OpenChatItemContainer = styled.div`
   display: flex;
   flex-direction: row;
+
+  @media (max-width: 600px) {
+    flex-direction: row;
+    margin-bottom: 12px;
+  }
 `;
 
 const Text = styled.div`
@@ -308,20 +368,38 @@ const Text = styled.div`
   line-height: normal;
   margin-left: 20px;
   margin-top: 7px;
+
+  @media (max-width: 600px) {
+    font-size: 12px;
+    margin-left: 0;
+    margin-top: 4px;
+  }
 `;
 
 const IntroContainer = styled.div`
   margin-top: 44px;
+
+  @media (max-width: 600px) {
+    margin-top: 30px;
+  }
 `;
 
 const GenreContainer = styled.div`
   margin-top: 44px;
+
+  @media (max-width: 600px) {
+    margin-top: 30px;
+  }
 `;
 
 const DancerRecord = styled.div`
   margin-top: 59px;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 600px) {
+    margin-top: 30px;
+  }
 `;
 
 const WriteInput = styled.textarea`
@@ -347,15 +425,37 @@ const WriteInput = styled.textarea`
     line-height: normal;
     font-style: normal;
   }
+
+  @media (max-width: 600px) {
+    width: 100%;
+    height: 300px;
+    font-size: 16px;
+    padding: 12px 16px 0 14px;
+
+    &::placeholder {
+      font-size: 16px;
+    }
+  }
 `;
 
 const DancerPictureContainer = styled.div`
   margin-top: 45px;
+  width: 616px;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    margin-top: 30px;
+  }
 `;
 
 const SmallTextContainer = styled.div`
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 765px) {
+    flex-direction: column;
+    margin-left: 20px;
+  }
 `;
 
 const SmallText = styled.div`
@@ -365,6 +465,16 @@ const SmallText = styled.div`
   font-weight: 300;
   line-height: normal;
   margin-left: 20px;
+
+  @media (max-width: 600px) {
+    font-size: 12px;
+    margin-left: 0;
+    margin-top: 4px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
 `;
 
 const SaveButton = styled.button`
@@ -384,6 +494,14 @@ const SaveButton = styled.button`
   margin-top: 45px;
   margin-bottom: 92px;
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    height: 48px;
+    font-size: 18px;
+    margin-top: 30px;
+    margin-bottom: 46px;
+  }
 `;
 
 const AlertText = styled.span`

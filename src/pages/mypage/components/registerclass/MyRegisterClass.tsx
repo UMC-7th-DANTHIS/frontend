@@ -15,7 +15,7 @@ import NoDancer from '../NoDancer';
 import { RegisterClassProps } from '@/types/mypage/RegisterType';
 import MyEditClass from './MyEditClass';
 
-const MyRegisterClass = () => {
+const MyRegisterClass = ({ dancerId }: { dancerId: number }) => {
   const [selectedClass] = useState<number | null>(null);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -27,16 +27,24 @@ const MyRegisterClass = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editClassId, setEditClassId] = useState<number | null>(null);
 
-  const { data, isLoading, isError, error } = useQuery<RegisterClassProps[] | null>({
+  const { data, isLoading, isError, error } = useQuery<
+    RegisterClassProps[] | null
+  >({
     queryKey: ['userregister'],
     queryFn: async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await api.get('/dancers/dance-classes', {
+        const response = await api.get('/dancers/info/dance-classes', {
           headers: {
             'Authorization': `Bearer ${token}`
+          },
+          params: {
+            dancerId: dancerId, // 특정 댄서의 수업 조회
+            page: currentPage,
+            size: perData
           }
         });
+
         return response.data.data.danceClasses || [];
       } catch (error: any) {
         if (error.response?.status === 404) {
@@ -59,13 +67,17 @@ const MyRegisterClass = () => {
   if (data?.length === 0) return <NoRegister />;
   if (isError) return <div>Error: {(error as Error)?.message}</div>;
 
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+  const handleImageError = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
     e.currentTarget.src = sampleImage;
   };
 
   const getCurrentPageData = (): RegisterClassProps[] => {
     const startIndex = (currentPage - 1) * perData;
-    return Array.isArray(data) ? data.slice(startIndex, startIndex + perData) : [];
+    return Array.isArray(data)
+      ? data.slice(startIndex, startIndex + perData)
+      : [];
   };
 
   const handleImageClick = (classId: number) => {
@@ -94,7 +106,9 @@ const MyRegisterClass = () => {
   };
 
   if (isEditing && editClassId !== null) {
-    return <MyEditClass classId={editClassId} onClose={() => setIsEditing(false)} />;
+    return (
+      <MyEditClass classId={editClassId} onClose={() => setIsEditing(false)} />
+    );
   }
 
   return (

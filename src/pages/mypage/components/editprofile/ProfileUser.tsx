@@ -64,7 +64,9 @@ const ProfileUser = () => {
 
     try {
       const fileExtension = file.name.split('.').pop();
-      const response = await api.post(`/image/user?fileExtension=${fileExtension}`);
+      const response = await api.post(
+        `/image/user?fileExtension=${fileExtension}`
+      );
 
       if (!response.data || !response.data.presignedUrl) {
         throw new Error('Presigned URL 발급 실패');
@@ -106,7 +108,9 @@ const ProfileUser = () => {
     }
 
     try {
-      const response = await api.get(`/users/check-nickname?nickname=${formState.nickname}`);
+      const response = await api.get(
+        `/users/check-nickname?nickname=${formState.nickname}`
+      );
       if (response.data.data === true) {
         setNicknameStatus('사용 가능한 닉네임입니다.');
       } else {
@@ -156,7 +160,12 @@ const ProfileUser = () => {
       return;
     }
 
-    const genderForPut = formState.gender === '남' ? 'male' : formState.gender === '여' ? 'female' : '';
+    const genderForPut =
+      formState.gender === '남'
+        ? 'male'
+        : formState.gender === '여'
+          ? 'female'
+          : '';
 
     try {
       const token = localStorage.getItem('token');
@@ -202,9 +211,17 @@ const ProfileUser = () => {
                   type="text"
                   placeholder="닉네임을 입력하세요."
                   value={formState.nickname}
-                  onChange={(e) => handleFormChange('nickname', e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleFormChange('nickname', e.target.value)
+                  }
                 />
-                <ErrorText error={nicknameStatus === '다른 유저와 중복되는 닉네임입니다.'}>{nicknameStatus}</ErrorText>
+                <ErrorText
+                  error={
+                    nicknameStatus === '다른 유저와 중복되는 닉네임입니다.'
+                  }
+                >
+                  {nicknameStatus}
+                </ErrorText>
               </ErrorContainer>
               <DoubleCheck onClick={handleDoubleCheck}>중복확인</DoubleCheck>
             </InputContainer>
@@ -240,7 +257,9 @@ const ProfileUser = () => {
               type="text"
               placeholder="이메일을 입력하세요."
               value={formState.email}
-              onChange={(e) => handleFormChange('email', e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleFormChange('email', e.target.value)
+              }
             />
           </EmailContainer>
 
@@ -265,13 +284,26 @@ const ProfileUser = () => {
                 )}
               </ProfileImageWrapper>
               <UploadContainer>
-                <UploadButton type="button" onClick={() => fileInputRef.current?.click()}>
+                <UploadButton
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                >
                   파일 업로드
                 </UploadButton>
-                <HiddenInput type="file" id="file-upload" accept="image/*" onChange={handleFileUpload} />
+                <HiddenInput
+                  type="file"
+                  id="file-upload"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                />
                 <RadioWrapper>
                   <RadioLabel>
-                    <RadioInput type="radio" name="profile" checked={isDefaultImage} onChange={handleCheckboxChange} />
+                    <RadioInput
+                      type="radio"
+                      name="profile"
+                      checked={isDefaultImage}
+                      onChange={handleCheckboxChange}
+                    />
                     <RadioText>기본 이미지 사용하기</RadioText>
                   </RadioLabel>
                 </RadioWrapper>
@@ -334,6 +366,11 @@ const AllContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 //
@@ -347,16 +384,37 @@ const UserContainer = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    height: auto;
+    padding: 20px 0;
+    border: none;
+    border-radius: 0;
+  }
 `;
 
 const ItemContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+  align-items: center;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    align-items: flex-start;
+  }
 `;
 
 const NicknameContainer = styled.div`
   margin-top: 47px;
   margin-bottom: 59px;
+
+  @media (max-width: 600px) {
+    margin-top: 24px;
+    margin-bottom: 30px;
+    width: 100%;
+  }
 `;
 
 const Label = styled.div`
@@ -364,6 +422,10 @@ const Label = styled.div`
   font-size: 22px;
   font-weight: 600;
   line-height: normal;
+
+  @media (max-width: 600px) {
+    font-size: 18px;
+  }
 `;
 
 const InputContainer = styled.div`
@@ -372,6 +434,11 @@ const InputContainer = styled.div`
   gap: 8px;
   margin-top: 10px;
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 8px;
+  }
 `;
 
 const Input = styled.input`
@@ -393,6 +460,17 @@ const Input = styled.input`
     font-size: 20px;
     font-weight: 500;
   }
+
+  @media (max-width: 600px) {
+    width: 100%;
+    height: 50px;
+    font-size: 16px;
+    padding-left: 16px;
+
+    &::placeholder {
+      font-size: 16px;
+    }
+  }
 `;
 const DoubleCheck = styled.button`
   display: flex;
@@ -408,10 +486,21 @@ const DoubleCheck = styled.button`
   font-size: 15px;
   font-weight: 400;
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    margin-top: 0;
+    height: 40px;
+    font-size: 14px;
+  }
 `;
 
 const ErrorContainer = styled.div`
   text-align: end;
+
+  @media (max-width: 600px) {
+    text-align: start;
+  }
 `;
 
 const ErrorText = styled.div<ErrorTextProps>`
@@ -419,6 +508,11 @@ const ErrorText = styled.div<ErrorTextProps>`
   font-size: 14px;
   font-weight: 400;
   margin-top: 9px;
+
+  @media (max-width: 600px) {
+    font-size: 12px;
+    margin-top: 6px;
+  }
 `;
 
 //
@@ -427,6 +521,12 @@ const GenderContainer = styled.div`
   align-items: center;
   gap: 88px;
   margin-bottom: 86px;
+
+  @media (max-width: 600px) {
+    gap: 40px;
+    margin-bottom: 43px;
+    flex-wrap: wrap;
+  }
 `;
 
 const GenderLabel = styled.div`
@@ -435,6 +535,12 @@ const GenderLabel = styled.div`
   font-weight: 600;
   line-height: normal;
   margin-right: 156px;
+
+  @media (max-width: 600px) {
+    font-size: 18px;
+    margin-right: 0;
+    width: 100%;
+  }
 `;
 
 const RadioLabel = styled.label`
@@ -444,6 +550,10 @@ const RadioLabel = styled.label`
   font-size: 20px;
   font-weight: 500;
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    font-size: 16px;
+  }
 `;
 
 const RadioInput = styled.input`
@@ -464,11 +574,22 @@ const RadioInput = styled.input`
     background-color: #a60f62;
     border: 3px solid #fff;
   }
+
+  @media (max-width: 600px) {
+    width: 20px;
+    height: 20px;
+    margin-left: 8px;
+  }
 `;
 
 //
 const EmailContainer = styled.div`
   margin-bottom: 55px;
+
+  @media (max-width: 600px) {
+    margin-bottom: 28px;
+    width: 100%;
+  }
 `;
 
 const EmailInput = styled.input`
@@ -491,25 +612,55 @@ const EmailInput = styled.input`
     font-size: 20px;
     font-weight: 500;
   }
+
+  @media (max-width: 600px) {
+    width: 100%;
+    height: 50px;
+    font-size: 16px;
+    padding-left: 16px;
+
+    &::placeholder {
+      font-size: 16px;
+    }
+  }
 `;
 const PhoneContainer = styled.div`
   margin-bottom: 70px;
+
+  @media (max-width: 600px) {
+    margin-bottom: 35px;
+    width: 100%;
+  }
 `;
 //
 const ImageContainer = styled.div`
   margin-bottom: 89px;
+
+  @media (max-width: 600px) {
+    margin-bottom: 45px;
+  }
 `;
 
 const ProfileContainer = styled.div`
   display: flex;
   align-items: center;
   margin-top: 10px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 const ProfileImageWrapper = styled.div`
   width: 160px;
   height: 160px;
   overflow: hidden;
+
+  @media (max-width: 600px) {
+    width: 120px;
+    height: 120px;
+  }
 `;
 
 const ProfileImage = styled.img`
@@ -522,6 +673,12 @@ const UploadContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 45px;
+
+  @media (max-width: 600px) {
+    margin-left: 0;
+    margin-top: 16px;
+    width: 100%;
+  }
 `;
 
 const UploadButton = styled.button`
@@ -534,6 +691,12 @@ const UploadButton = styled.button`
   border-radius: 4px;
   text-align: center;
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    height: 40px;
+    font-size: 14px;
+  }
 `;
 
 const HiddenInput = styled.input`
@@ -545,6 +708,10 @@ const RadioWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-top: 15px;
+
+  @media (max-width: 600px) {
+    margin-top: 12px;
+  }
 `;
 
 const RadioText = styled.div`
@@ -555,16 +722,29 @@ const RadioText = styled.div`
   line-height: normal;
   margin-left: 10px;
   margin-top: 4px;
+
+  @media (max-width: 600px) {
+    font-size: 14px;
+    margin-left: 8px;
+  }
 `;
 
 //
 const DanceContainer = styled.div`
   margin-bottom: 74px;
+
+  @media (max-width: 600px) {
+    margin-bottom: 37px;
+  }
 `;
 
 const DanceTextContainer = styled.div`
   display: flex;
   flex-direction: row;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 
 const Text = styled.div`
@@ -575,6 +755,12 @@ const Text = styled.div`
   line-height: normal;
   margin-left: 20px;
   margin-top: 9px;
+
+  @media (max-width: 600px) {
+    font-size: 12px;
+    margin-left: 0;
+    margin-top: 4px;
+  }
 `;
 
 const SaveButton = styled.button`
@@ -594,6 +780,14 @@ const SaveButton = styled.button`
   text-align: center;
   margin-bottom: 159px;
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    height: 48px;
+    font-size: 18px;
+    margin-top: 40px;
+    margin-bottom: 80px;
+  }
 `;
 
 const AlertText = styled.span`
