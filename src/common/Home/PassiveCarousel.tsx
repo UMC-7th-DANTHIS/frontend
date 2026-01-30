@@ -14,93 +14,85 @@ const GAP = 20;
 const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [containerWidth, setContainerWidth] = useState<number>(0);
 
   const getVisibleCount = () => {
     if (typeof window === 'undefined') return 3;
     const width = window.innerWidth;
-    if (width < 768) return 1; // 모바일: 1개
-    if (width < 1024) return 2; // 태블릿: 2개
-    return 3; // 데스크톱: 3개
+    if (width < 768) return 1; // 모바일
+    if (width < 1024) return 2; // 태블릿
+    return 3; // 데스크톱
   };
 
   const [visibleCount, setVisibleCount] = useState<number>(getVisibleCount());
 
   useEffect(() => {
     const handleResize = () => {
-      const width = window.innerWidth;
-      if (width < 768) {
-        setVisibleCount(1); // 모바일: 1개
-      } else if (width < 1024) {
-        setVisibleCount(2); // 태블릿: 2개
-      } else {
-        setVisibleCount(3); // 데스크톱: 3개
+      setVisibleCount(getVisibleCount());
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.offsetWidth);
       }
     };
-
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const VISIBLE = visibleCount;
-  const GUTTER = isMobile ? 'clamp(24px, 8vw, 72px)' : 'clamp(48px, 6vw, 90px)';
+  const totalItems = danceclass?.danceClasses?.length ?? 0;
 
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const firstCardRef = useRef<HTMLImageElement | null>(null);
-  const [step, setStep] = useState<number>((isMobile ? 320 : 400) + GAP);
+  // 1. 화면별 카드 너비 (데스크톱 3개일 때 400px 고정 또는 비율 계산)
+  const cardWidth = isMobile
+    ? Math.min(window.innerWidth * 0.8, 320)
+    : visibleCount === 2
+      ? Math.min((window.innerWidth - 160) / 2, 400)
+      : 400; // 3개일 때 기본 400px
 
-  useEffect(() => {
-    const measureStep = () => {
-      const w = firstCardRef.current?.clientWidth ?? (isMobile ? 320 : 400);
-      setStep(w + GAP);
-    };
+  const step = cardWidth + GAP;
 
-    measureStep();
-    window.addEventListener('resize', measureStep);
-    return () => window.removeEventListener('resize', measureStep);
-  }, [isMobile, danceclass?.danceClasses?.length, visibleCount]);
+  // 2. 이동 로직: 1개일 때만 중앙 정렬 오프셋 적용, 나머지는 왼쪽 정렬 기준
+  const centerOffset = containerWidth / 2 - cardWidth / 2;
+  const translateX =
+    visibleCount === 1
+      ? -currentIndex * step + centerOffset
+      : -currentIndex * step;
 
-  useEffect(() => {
-    const maxStart = Math.max(
-      0,
-      (danceclass?.danceClasses?.length ?? 0) - VISIBLE
-    );
-    if (currentIndex > maxStart) setCurrentIndex(maxStart);
-  }, [VISIBLE, danceclass?.danceClasses?.length, currentIndex]);
-
-  const maxStart = (danceclass?.danceClasses?.length ?? 0) - VISIBLE;
+  const maxStart = Math.max(0, totalItems - visibleCount);
   const canPrev = currentIndex > 0;
   const canNext = currentIndex < maxStart;
 
   const handleNext = () => canNext && setCurrentIndex((i) => i + 1);
   const handlePrev = () => canPrev && setCurrentIndex((i) => i - 1);
 
-  const totalItems = danceclass?.danceClasses?.length ?? 0;
-
   const handleDotClick = (targetIndex: number) => {
-    const clampedIndex = Math.min(targetIndex, maxStart);
-    setCurrentIndex(clampedIndex);
+    setCurrentIndex(Math.min(targetIndex, maxStart));
   };
+
+  const GUTTER = isMobile ? '0px' : 'clamp(48px, 6vw, 90px)';
 
   return (
     <CarouselWrapper>
-      <SliderContainer $gutter={GUTTER}>
+      <SliderContainer ref={containerRef} $gutter={GUTTER}>
         <ClickArea
           $side="left"
-          $gutter={GUTTER}
+          $gutter={isMobile ? '40px' : GUTTER}
           $disabled={!canPrev}
           onClick={handlePrev}
         >
           {FaChevronLeft({}) as React.ReactElement}
         </ClickArea>
-        <SlideWrapper $offset={currentIndex * step}>
+
+        <SlideWrapper $offset={translateX}>
           {danceclass?.danceClasses?.map((item, index) => {
+            // 현재 활성화된(보이는) 카드들: currentIndex부터 visibleCount 개수만큼
             const isVisible =
-              index >= currentIndex && index < currentIndex + VISIBLE;
+              index >= currentIndex && index < currentIndex + visibleCount;
+
             return (
-              <ImageContainer key={item.id ?? index}>
+              <ImageContainer key={item.id ?? index} $width={cardWidth}>
                 <HotImage
-                  ref={index === 0 ? firstCardRef : undefined}
                   onClick={() => navigate(`/classes/${item.id}?tab=detail`)}
                   src={item.thumbnailImage}
                   alt="Image"
@@ -115,15 +107,17 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
             );
           })}
         </SlideWrapper>
+
         <ClickArea
           $side="right"
-          $gutter={GUTTER}
+          $gutter={isMobile ? '40px' : GUTTER}
           $disabled={!canNext}
           onClick={handleNext}
         >
           {FaChevronRight({}) as React.ReactElement}
         </ClickArea>
       </SliderContainer>
+
       <DotContainer>
         {Array.from({ length: totalItems }).map((_, index) => (
           <Dot
@@ -139,11 +133,14 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
 
 export default PassiveCarousel;
 
+/* --- 스타일 --- */
+
 const CarouselWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  overflow: hidden;
 `;
 
 const SliderContainer = styled.div<{ $gutter: string }>`
@@ -151,94 +148,73 @@ const SliderContainer = styled.div<{ $gutter: string }>`
   display: flex;
   align-items: center;
   margin-bottom: 58px;
-  overflow: hidden;
   width: 100%;
   padding-inline: ${(p) => p.$gutter};
+
+  @media (max-width: 767px) {
+    padding-inline: 0;
+  }
 `;
 
 const SlideWrapper = styled.div<{ $offset: number }>`
   display: flex;
   flex-direction: row;
   gap: ${GAP}px;
-  transform: translateX(${(p) => -p.$offset}px);
-  transition: transform 0.3s ease;
+  transform: translateX(${(p) => p.$offset}px);
+  transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
   will-change: transform;
 `;
 
-const ImageContainer = styled.div`
+const ImageContainer = styled.div<{ $width: number }>`
   position: relative;
   flex-shrink: 0;
-  width: 80vw;
-  height: 80vw;
+  width: ${(p) => p.$width}px;
   aspect-ratio: 1 / 1;
-
-  ${({ theme }) => theme.media.tablet} {
-    width: calc((100vw - clamp(48px, 6vw, 90px) * 2 - 20px) / 2);
-    max-width: 400px;
-    height: calc((100vw - clamp(48px, 6vw, 90px) * 2 - 20px) / 2);
-    max-height: 400px;
-  }
-
-  ${({ theme }) => theme.media.desktop} {
-    width: 400px;
-    height: 400px;
-  }
+  max-height: 400px;
 `;
 
 const HotImage = styled.img<{ $visible: boolean }>`
   width: 100%;
   height: 100%;
-  aspect-ratio: 1 / 1;
   object-fit: cover;
-  border-radius: 10px;
-  background-color: #ddd;
+  border-radius: 12px;
+  background-color: #222;
 
+  /* 비활성 이미지 효과 */
   opacity: ${(p) => (p.$visible ? 1 : 0.2)};
-  cursor: pointer;
-  transition:
-    transform 0.3s ease-in-out,
-    opacity 0.2s ease;
+  transform: ${(p) => (p.$visible ? 'scale(1)' : 'scale(0.94)')};
+  filter: ${(p) => (p.$visible ? 'none' : 'brightness(0.5)')};
+
+  /* 비활성 터치 차단 */
+  cursor: ${(p) => (p.$visible ? 'pointer' : 'default')};
+  pointer-events: ${(p) => (p.$visible ? 'auto' : 'none')};
+
+  transition: all 0.4s ease;
 `;
 
 const Overlay = styled.div`
   position: absolute;
-  bottom: 12px;
-  left: 12px;
-  right: 12px;
-  padding: 8px 16px;
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 10px;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  padding: 10px 16px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  border-radius: 8px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  min-height: 36px;
-
-  ${({ theme }) => theme.media.tablet} {
-    bottom: 16px;
-    left: 16px;
-    right: 16px;
-    padding: 8px 16px;
-    min-height: 36px;
-  }
+  pointer-events: none;
 `;
 
 const ClassTitle = styled.div`
-  color: var(--main-white);
+  color: #fff;
   font-size: 14px;
   font-weight: 700;
-  line-height: 1.2;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-
-  ${({ theme }) => theme.media.tablet} {
-    font-size: 16px;
-  }
+  white-space: nowrap;
 `;
 
 const ClickArea = styled.button<{
@@ -251,8 +227,7 @@ const ClickArea = styled.button<{
   bottom: 0;
   ${(p) => (p.$side === 'left' ? 'left: 0;' : 'right: 0;')}
   width: ${(p) => p.$gutter};
-  z-index: 2;
-
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -261,57 +236,33 @@ const ClickArea = styled.button<{
   cursor: ${(p) => (p.$disabled ? 'default' : 'pointer')};
   pointer-events: ${(p) => (p.$disabled ? 'none' : 'auto')};
   opacity: 0;
-  transition: opacity 0.3s ease;
 
   &::before {
     content: '';
     position: absolute;
-    width: 40px;
-    height: 40px;
-    background: rgba(0, 0, 0, 0.5);
+    width: 44px;
+    height: 44px;
+    background: rgba(0, 0, 0, 0.6);
     border-radius: 50%;
     z-index: -1;
-    transition: background 0.3s ease;
-  }
-
-  &:hover::before {
-    background: rgba(0, 0, 0, 0.7);
   }
 
   ${CarouselWrapper}:hover & {
-    opacity: ${(p) => (p.$disabled ? 0.25 : 1)};
-  }
-
-  @media (hover: none) {
-    opacity: ${(p) => (p.$disabled ? 0.25 : 0.7)};
+    opacity: ${(p) => (p.$disabled ? 0.2 : 1)};
   }
 
   svg {
-    width: 20px;
-    height: 20px;
-    fill: var(--main-white);
-  }
-
-  ${({ theme }) => theme.media.tablet} {
-    &::before {
-      width: 48px;
-      height: 48px;
-    }
-    svg {
-      width: 24px;
-      height: 24px;
-    }
+    width: 24px;
+    height: 24px;
+    fill: #fff;
   }
 `;
 
 const DotContainer = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
   gap: 8px;
   margin-bottom: 24px;
-  width: 100%;
-  padding-inline: 0;
 `;
 
 const Dot = styled.button<{ $active: boolean }>`
@@ -319,14 +270,7 @@ const Dot = styled.button<{ $active: boolean }>`
   height: 8px;
   border-radius: 50%;
   border: none;
-  background-color: ${(p) =>
-    p.$active ? 'var(--main-white)' : 'rgba(255, 255, 255, 0.3)'};
+  background-color: ${(p) => (p.$active ? '#fff' : 'rgba(255, 255, 255, 0.3)')};
   cursor: pointer;
-  transition: background-color 0.2s ease;
-  padding: 0;
-
-  &:hover {
-    background-color: ${(p) =>
-      p.$active ? 'var(--main-white)' : 'rgba(255, 255, 255, 0.5)'};
-  }
+  transition: all 0.3s ease;
 `;
