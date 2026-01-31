@@ -89,7 +89,7 @@ const CommentPost = ({ perPage }: CommentPostProps) => {
           </CommentContainer>
         ))
       ) : (
-        <Text>게시글이 없습니다.</Text>
+        <EmptyText>게시글이 없습니다.</EmptyText>
       )}
 
       {data?.totalElements ? (
@@ -120,14 +120,11 @@ const AllContainer = styled.div`
 `;
 
 const CommentContainer = styled.div`
-  width: 971px;
-  height: 160px;
+  width: 800px;
   flex-shrink: 0;
   border: 1px solid #ddd;
   border-radius: 10px;
   margin-bottom: 20px;
-  margin-left: 20px;
-  margin-right: 20px;
   cursor: pointer;
 
   @media (max-width: 600px) {
@@ -141,7 +138,7 @@ const CommentContainer = styled.div`
 `;
 
 const ContentsContainer = styled.div`
-  padding: 0 39px 0 50px;
+  padding: 30px;
 
   @media (max-width: 600px) {
     padding: 0;
@@ -150,10 +147,10 @@ const ContentsContainer = styled.div`
 
 const CommentTitle = styled.div`
   color: white;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 600;
   line-height: normal;
-  margin-top: 29px;
+
 
   @media (max-width: 600px) {
     font-size: 16px;
@@ -170,8 +167,8 @@ const PhotoandTitle = styled.div`
 
 const CommentData = styled.div`
   color: #b2b2b2;
-  margin-top: 8px;
-  margin-bottom: 13px;
+  margin-top: 14px;
+  margin-bottom: 14px;
 
   @media (max-width: 600px) {
     font-size: 12px;
@@ -182,7 +179,7 @@ const CommentData = styled.div`
 
 const CommentContents = styled.div`
   color: white;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 500;
   line-height: normal;
 
@@ -193,7 +190,7 @@ const CommentContents = styled.div`
 `;
 
 const IconContainer = styled.div`
-  margin-top: 20px;
+  
 
   @media (max-width: 600px) {
     margin-top: 0;
@@ -212,15 +209,16 @@ const LoadingContainer = styled.div`
   }
 `;
 
-const Text = styled.div`
-  color: #fff;
+const EmptyText = styled.div`
+  color: #b2b2b2;
   font-size: 18px;
-  font-weight: 600;
-  align-items: center;
+  font-weight: 500;
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 100px;
 
   @media (max-width: 600px) {
     font-size: 15px;
-    text-align: center;
-    width: 100%;
+    margin-top: 60px;
   }
 `;

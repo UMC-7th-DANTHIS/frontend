@@ -72,6 +72,7 @@ const AllContainer = styled.div`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 
 
   @media (max-width: 600px) {
@@ -128,7 +129,6 @@ const TabButton = styled.button<TabProps>`
 
 const Divider = styled.div`
   width: 100%;
-  max-width: 100%;
   flex-shrink: 0;
   border: 1px solid #ddd;
   background-color: #ddd;
