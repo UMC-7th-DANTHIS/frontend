@@ -21,7 +21,7 @@ function useGetComment(
       try {
         let url: string = '';
 
-        if (!currentPage) currentPage = 1;
+        if (!currentPage) return;
         url = `/community/info/posts/${postId}/comments?page=${currentPage}`;
         const response = await axiosInstance.get(url);
 
