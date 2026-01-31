@@ -12,7 +12,7 @@ import { ModalOneBtn } from '../../components/modals';
 const Signup2 = () => {
   const [nickname, setNickname] = useState('');
   const [gender, setGender] = useState('');
-  const [email, setEmail] = useState('');
+  const [email] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isNicknameValid, setIsNicknameValid] = useState<boolean | null>(null);
   const [isDefaultImage, setIsDefaultImage] = useState(true); // 기본 이미지 여부 상태
