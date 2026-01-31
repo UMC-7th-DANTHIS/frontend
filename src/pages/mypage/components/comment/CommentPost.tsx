@@ -126,13 +126,15 @@ const CommentContainer = styled.div`
   border: 1px solid #ddd;
   border-radius: 10px;
   margin-bottom: 20px;
-  margin-left: 29px;
+  margin-left: 20px;
+  margin-right: 20px;
   cursor: pointer;
 
   @media (max-width: 600px) {
     width: 100%;
     height: auto;
     margin-left: 0;
+    margin-right: 0;
     margin-bottom: 16px;
     padding: 12px;
   }
