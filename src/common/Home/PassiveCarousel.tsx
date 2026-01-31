@@ -65,10 +65,6 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
     if (!scrollRef.current) return;
     const scrollLeft = scrollRef.current.scrollLeft;
 
-    // 1개 모드일 때는 패딩값이 포함되므로 계산 보정
-    const offset = isSingle
-      ? (scrollRef.current.clientWidth - cardWidth) / 2
-      : 0;
     const newIndex = Math.round(scrollLeft / step);
 
     if (newIndex !== currentIndex) {
