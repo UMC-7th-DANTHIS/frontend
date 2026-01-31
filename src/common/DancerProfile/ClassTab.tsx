@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Pagination from '../../components/Pagination';
-import { useParams } from 'react-router-dom';
-import api from '../../api/api';
 import axiosInstance from '../../api/axios-instance';
 
 type DanceClassType = {
@@ -12,9 +10,6 @@ type DanceClassType = {
   thumbnailImage: string;
 };
 
-interface ClassTabProps {
-  classes: DanceClassType[];
-}
 
 type Props = { dancerId: string };
 
