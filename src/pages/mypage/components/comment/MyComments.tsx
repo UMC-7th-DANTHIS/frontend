@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import ReviewPage from './ReviewPage';
 import CommentPost from './CommentPost';
 import useIsMobile from '../../../../hooks/useIsMobile';
+import Comments from './Comments';
 
 const MyComments = () => {
   const [activeTab, setActiveTab] = useState<'게시글' | '댓글' | '리뷰'>('게시글');
@@ -12,7 +13,7 @@ const MyComments = () => {
     if (activeTab === '게시글')
       return <CommentPost perPage={isMobile ? 2 : 5} />;
     if (activeTab === '댓글')
-      return <CommentPost perPage={isMobile ? 2 : 5} />;
+      return <Comments perPage={isMobile ? 2 : 5} />;
     if (activeTab === '리뷰')
       return <ReviewPage perPage={isMobile ? 2 : 5} />;
 
