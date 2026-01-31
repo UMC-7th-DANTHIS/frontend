@@ -141,6 +141,10 @@ const ClassList = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 10px;
+
+  @media (max-width: 600px) {
+    gap: 3px;
+  }
 `;
 
 const Title = styled.div`
@@ -160,7 +164,9 @@ const Title = styled.div`
 
   @media (max-width: 600px) {
     font-size: 18px;
-    min-height: 44px;
+    min-height: 35px;
+    margin-top: 10px;
+
   }
 `;
 

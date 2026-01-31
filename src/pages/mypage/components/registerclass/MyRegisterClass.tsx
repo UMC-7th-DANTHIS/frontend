@@ -14,6 +14,7 @@ import { ModalTwoBtns } from '../../../../components/modals';
 import NoDancer from '../NoDancer';
 import { RegisterClassProps } from '@/types/mypage/RegisterType';
 import MyEditClass from './MyEditClass';
+import useIsMobile from '../../../../hooks/useIsMobile';
 
 const MyRegisterClass = ({ dancerId }: { dancerId: number }) => {
   const [selectedClass] = useState<number | null>(null);
@@ -23,6 +24,7 @@ const MyRegisterClass = ({ dancerId }: { dancerId: number }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const perData = 9;
   const queryClient = useQueryClient();
+  const isMobile = useIsMobile();
 
   const [isEditing, setIsEditing] = useState(false);
   const [editClassId, setEditClassId] = useState<number | null>(null);
@@ -121,12 +123,13 @@ const MyRegisterClass = ({ dancerId }: { dancerId: number }) => {
                 <Image
                   src={danceClass.thumbnailImage}
                   alt={String(danceClass.id)}
+                  isMobile={isMobile}
                   onError={handleImageError}
                   onClick={() => handleImageClick(danceClass.id)}
                 />
                 <ContentWrapper>
-                  <TitleText>{danceClass.className}</TitleText>
-                  <IconContainer>
+                  <TitleText isMobile={isMobile}>{danceClass.className}</TitleText>
+                  <IconContainer isMobile={isMobile}>
                     <WriteIcon onClick={() => handleEdit(danceClass.id)} />
                     <TrashIcon
                       onClick={(e) => {
@@ -192,19 +195,55 @@ const ClassContainer = styled.div`
   column-gap: 110px;
   justify-content: center;
   margin-top: 40px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 200px);
+    column-gap: 40px;
+    row-gap: 40px;
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(2, 140px);
+    column-gap: 20px;
+    row-gap: 16px;
+    margin-top: 30px;
+  }
 `;
 
 const ClassList = styled.div`
   width: 220px;
   cursor: pointer;
+
+  @media (max-width: 1024px) {
+    width: 200px;
+  }
+
+  @media (max-width: 600px) {
+    width: 140px;
+  }
 `;
 
-const Image = styled.img`
-  width: 220px;
-  height: 220px;
+const Image = styled.img<{ isMobile: boolean }>`
   object-fit: cover;
   border-radius: 10px;
   background-color: white;
+  cursor: pointer;
+
+  ${({ isMobile }) =>
+    isMobile
+      ? `
+        width: 140px;
+        height: 140px;
+      `
+      : `
+        width: 220px;
+        height: 220px;
+      `}
+
+  @media (max-width: 1024px) and (min-width: 601px) {
+    width: 200px;
+    height: 200px;
+  }
 `;
 
 const ContentWrapper = styled.div`
@@ -213,24 +252,64 @@ const ContentWrapper = styled.div`
   align-items: center;
   gap: 8px;
   margin-top: 9px;
+
+  @media (max-width: 600px) {
+    gap: 6px;
+    margin-top: 6px;
+  }
 `;
 
-const TitleText = styled.div`
+const TitleText = styled.div<{ isMobile: boolean }>`
   color: #fff;
-  font-size: 24px;
   font-weight: 600;
   line-height: normal;
   letter-spacing: -1.2px;
-  white-space: nowrap;
+  text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  ${({ isMobile }) =>
+    isMobile
+      ? `
+        font-size: 18px;
+      
+      `
+      : `
+        font-size: 24px;
+        white-space: nowrap;
+      `}
+
+  @media (max-width: 1024px) and (min-width: 601px) {
+    font-size: 20px;
+    min-height: 48px;
+  }
 `;
 
-const IconContainer = styled.div`
+const IconContainer = styled.div<{ isMobile: boolean }>`
   display: flex;
   flex-direction: row;
   gap: 11px;
   margin-bottom: 49px;
+
+  ${({ isMobile }) =>
+    isMobile &&
+    `
+      gap: 8px;
+      margin-bottom: 20px;
+    `}
+
+  svg {
+    cursor: pointer;
+    ${({ isMobile }) =>
+      isMobile &&
+      `
+        width: 18px;
+        height: 18px;
+      `}
+  }
 `;
 
 const PaginationContainer = styled.div`
@@ -238,6 +317,10 @@ const PaginationContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 164px;
+
+  @media (max-width: 600px) {
+    margin-bottom: 80px;
+  }
 `;
 
 const ColoredText = styled.span`

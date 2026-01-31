@@ -87,7 +87,7 @@ const menuList = [
   { key: 'mydancers', label: '내가 찜한 댄서' },
   { key: 'chatlist', label: '채팅한 유저 목록' },
   { key: 'myreview', label: '수업 후기 작성하기' },
-  { key: 'mycomments', label: '내가 쓴 게시글/리뷰' },
+  { key: 'mycomments', label: '내가 쓴 콘텐츠' },
   { key: 'divider1', divider: true },
   { key: 'registerdancer', label: '댄서 등록하기' },
   { key: 'registerclass', label: '수업 등록하기' },
