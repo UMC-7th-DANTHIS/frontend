@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Shape1 from '../../assets/shape/shape1.svg';
@@ -14,7 +14,7 @@ import StepperMobile from '../../common/Signup/StepperMobile';
 
 const Signup3 = () => {
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
-  const [signup2Data, setSignup2Data] = useState<Signup2Data | null>(null); // Signup2에서 가져온 데이터 상태
+  const [signup2Data] = useState<Signup2Data | null>(null); // Signup2에서 가져온 데이터 상태
   const [favoriteDancer, setFavoriteDancer] = useState<string>('');
   const [searchResults, setSearchResults] = useState<DancerType[]>([]);
   const [isOverlayOpen, setIsOverlayOpen] = useState<boolean>(false); // Overlay 상태 추가
