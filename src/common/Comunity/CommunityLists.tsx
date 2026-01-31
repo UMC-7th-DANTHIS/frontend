@@ -7,11 +7,20 @@ import CommunityList from './CommunityList';
 
 import { CommunityPostListOutlet } from '@/types/Context/CommunityPostList';
 import { PostPreview } from '@/types/CommunityInterface';
+import useGet from '../../hooks/useGet';
 
 const CommunityLists = () => {
   const navigate = useNavigate();
+
   const { lists, perData, currentPage, setCurrentPage } =
     useOutletContext<CommunityPostListOutlet>();
+
+  const { data: user } = useGet();
+
+  const handleEdit = () => {
+    if (!user) return navigate('/login');
+    return navigate('edit');
+  };
 
   return (
     <ListsContainer>
@@ -28,7 +37,7 @@ const CommunityLists = () => {
           />
         </PaginationWrapper>
 
-        <WriteButton onClick={() => navigate('edit')}>글쓰기</WriteButton>
+        <WriteButton onClick={() => handleEdit()}>글쓰기</WriteButton>
       </PaginationContainer>
     </ListsContainer>
   );
