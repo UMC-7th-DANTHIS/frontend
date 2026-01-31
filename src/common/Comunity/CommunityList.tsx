@@ -8,15 +8,12 @@ import CommentPhoto from '../../assets/Community/CommentPhoto.svg';
 
 import { PostPreview } from '@/types/CommunityInterface';
 
-import useIsMobile from '../../hooks/useIsMobile';
-
 type CommunityListProps = {
   list: PostPreview;
 };
 
 const CommunityList = ({ list }: CommunityListProps) => {
   const navigate = useNavigate();
-  const isMobile = useIsMobile();
 
   const handleNavigate = (id: number) => {
     navigate(`/community/${id}`);
@@ -33,12 +30,12 @@ const CommunityList = ({ list }: CommunityListProps) => {
         )}
         <TitleList onClick={() => handleNavigate(list.postId!)}>
           <TitleText>
-            {list?.title}
+            <Title>{list?.title}</Title>
             {list?.commentCount! > 0 ? (
-              <>
+              <ViewWrapper>
                 <ViewDescript src={CommentPhoto} alt={'댓글있으요'} />
-                {!isMobile && <ViewPeople>{list?.commentCount}</ViewPeople>}
-              </>
+                <ViewPeople>{list?.commentCount}</ViewPeople>
+              </ViewWrapper>
             ) : (
               ''
             )}
@@ -131,13 +128,27 @@ const TitleList = styled.button`
 
 const TitleText = styled.span`
   display: flex;
-
   align-items: center;
-  flex: 1 1 auto;
+  width: 100%;
   min-width: 0;
+  gap: 8px;
+`;
+
+const Title = styled.span`
+  display: block;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  flex: 0 1 auto;
+  min-width: 0;
+`;
+
+const ViewWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 0 0 auto;
 `;
 
 const ViewDescript = styled.img`

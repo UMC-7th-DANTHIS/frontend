@@ -14,6 +14,7 @@ import axiosInstance from '../../api/axios-instance';
 
 import { SinglePostData } from '@/types/CommunityInterface';
 import { UserData } from '@/types/UserInterface';
+import { toast } from 'react-toastify';
 
 type PostContentProps = {
   length: number;
@@ -50,6 +51,10 @@ const PostContent = ({
     }
   };
 
+  const handleReport = () => {
+    toast.error('게시글이 신고되었습니다.');
+  };
+
   return (
     <>
       <PostInfo>
@@ -81,7 +86,11 @@ const PostContent = ({
           </PostActions>
         ) : (
           <PostActions>
-            <ReportButton src={Alert} alt={'Alert'} />
+            <ReportButton
+              onClick={() => handleReport()}
+              src={Alert}
+              alt={'Alert'}
+            />
           </PostActions>
         )}
         <PostMeta>
@@ -203,9 +212,13 @@ const Content = styled.div`
   margin-top: 35px;
   margin-bottom: 40px;
   text-align: justify;
+  min-height: 200px;
+  white-space: pre-wrap;
+  word-break: break-all;
 
   ${({ theme }) => theme.media.tablet} {
     margin-bottom: 57px;
+    min-height: 200px;
   }
 
   p {
@@ -231,7 +244,16 @@ const Image = styled.img`
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
+  object-fit: cover;
   border-radius: 3px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+
+  &:hover {
+    opacity: 0.7;
+    border: 2px solid #b2b2b2;
+  }
 
   ${({ theme }) => theme.media.tablet} {
     border-radius: 7px;
