@@ -170,15 +170,3 @@ const LoadingContainer = styled.div`
   }
 `;
 
-const Text = styled.div`
-  color: #fff;
-  font-size: 18px;
-  font-weight: 600;
-  align-items: center;
-
-  @media (max-width: 600px) {
-    font-size: 15px;
-    text-align: center;
-    width: 100%;
-  }
-`;
