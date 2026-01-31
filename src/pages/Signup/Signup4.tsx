@@ -7,7 +7,7 @@ import Logoimg from '../../assets/logo.svg';
 import StepperMobile from '../../common/Signup/StepperMobile';
 
 const Signup4 = () => {
-  const [nickname, setNickname] = useState('');
+  const [nickname] = useState('');
 
   // useEffect(() => {
   //   const fetchUser = async () => {

@@ -7,7 +7,6 @@ const Practice : React.FC=()=> {
     <Layout>
         <Map>
           <KakaoMap />
-        
         </Map> 
     </Layout>
   )
