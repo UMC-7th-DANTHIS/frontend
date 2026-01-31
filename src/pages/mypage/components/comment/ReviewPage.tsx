@@ -59,7 +59,7 @@ const ReviewPage = ({ perPage }: ReviewPageProps) => {
   return (
     <Container>
       {hasNoData ? (
-        <EmptyText>댓글이 없습니다.</EmptyText>
+        <EmptyText>리뷰가 없습니다.</EmptyText>
       ) : (
         <>
           {data.reviews.map((review) => (
@@ -108,7 +108,8 @@ const EmptyText = styled.div`
   font-size: 18px;
   font-weight: 500;
   text-align: center;
-  margin-top: 100px;
+  margin-top: 60px;
+  margin-bottom: 100px;
 
   @media (max-width: 600px) {
     font-size: 15px;

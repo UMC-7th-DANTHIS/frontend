@@ -89,7 +89,7 @@ const CommentPost = ({ perPage }: CommentPostProps) => {
           </CommentContainer>
         ))
       ) : (
-        <Text>게시글이 없습니다.</Text>
+        <EmptyText>게시글이 없습니다.</EmptyText>
       )}
 
       {data?.totalElements ? (
@@ -209,15 +209,16 @@ const LoadingContainer = styled.div`
   }
 `;
 
-const Text = styled.div`
-  color: #fff;
+const EmptyText = styled.div`
+  color: #b2b2b2;
   font-size: 18px;
-  font-weight: 600;
-  align-items: center;
+  font-weight: 500;
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 100px;
 
   @media (max-width: 600px) {
     font-size: 15px;
-    text-align: center;
-    width: 100%;
+    margin-top: 60px;
   }
 `;
