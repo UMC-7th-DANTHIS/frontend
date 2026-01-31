@@ -14,7 +14,7 @@ const GAP = 20;
 const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
-  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [containerWidth, setContainerWidth] = useState<number>(0);
@@ -22,9 +22,9 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
   const getVisibleCount = () => {
     if (typeof window === 'undefined') return 3;
     const width = window.innerWidth;
-    if (width < 768) return 1; // 모바일
-    if (width < 1024) return 2; // 태블릿
-    return 3; // 데스크톱
+    if (width < 768) return 1;
+    if (width < 1024) return 2;
+    return 3;
   };
 
   const [visibleCount, setVisibleCount] = useState<number>(getVisibleCount());
@@ -32,8 +32,8 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
   useEffect(() => {
     const handleResize = () => {
       setVisibleCount(getVisibleCount());
-      if (containerRef.current) {
-        setContainerWidth(containerRef.current.offsetWidth);
+      if (scrollRef.current) {
+        setContainerWidth(scrollRef.current.clientWidth);
       }
     };
     handleResize();
@@ -43,87 +43,114 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
 
   const totalItems = danceclass?.danceClasses?.length ?? 0;
 
-  // 1. 화면별 카드 너비 (데스크톱 3개일 때 400px 고정 또는 비율 계산)
-  const cardWidth = isMobile
-    ? Math.min(window.innerWidth * 0.8, 320)
-    : visibleCount === 2
-      ? Math.min((window.innerWidth - 160) / 2, 400)
-      : 400; // 3개일 때 기본 400px
-
-  const step = cardWidth + GAP;
-
-  // 2. 이동 로직: 1개일 때만 중앙 정렬 오프셋 적용, 나머지는 왼쪽 정렬 기준
-  const centerOffset = containerWidth / 2 - cardWidth / 2;
-  const translateX =
-    visibleCount === 1
-      ? -currentIndex * step + centerOffset
-      : -currentIndex * step;
-
-  const maxStart = Math.max(0, totalItems - visibleCount);
-  const canPrev = currentIndex > 0;
-  const canNext = currentIndex < maxStart;
-
-  const handleNext = () => canNext && setCurrentIndex((i) => i + 1);
-  const handlePrev = () => canPrev && setCurrentIndex((i) => i - 1);
-
-  const handleDotClick = (targetIndex: number) => {
-    setCurrentIndex(Math.min(targetIndex, maxStart));
+  // 카드 너비 계산
+  const getCardWidth = () => {
+    if (visibleCount === 1) {
+      // 1개일 때: 양옆 여백을 제외하고 화면의 약 80% 차지 (이미지 느낌 재현)
+      return Math.min(window.innerWidth * 0.75, 340);
+    }
+    const preciseWidth =
+      (containerWidth - GAP * (visibleCount - 1)) / visibleCount;
+    return Math.min(preciseWidth, 400);
   };
 
+  const cardWidth = getCardWidth();
+  const step = cardWidth + GAP;
+  const maxStartIndex = Math.max(0, totalItems - visibleCount);
+
+  // 현재 상태가 1개 모드인지 확인
+  const isSingle = visibleCount === 1;
+
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const scrollLeft = scrollRef.current.scrollLeft;
+
+    // 1개 모드일 때는 패딩값이 포함되므로 계산 보정
+    const offset = isSingle
+      ? (scrollRef.current.clientWidth - cardWidth) / 2
+      : 0;
+    const newIndex = Math.round(scrollLeft / step);
+
+    if (newIndex !== currentIndex) {
+      setCurrentIndex(newIndex);
+    }
+  };
+
+  const scrollTo = (index: number) => {
+    if (!scrollRef.current) return;
+    const targetIndex = Math.min(Math.max(0, index), maxStartIndex);
+
+    // 1개일 때는 snap-align center가 작동하므로 단순 인덱스 계산
+    scrollRef.current.scrollTo({
+      left: targetIndex * step,
+      behavior: 'smooth'
+    });
+  };
+
+  const handleNext = () =>
+    currentIndex < maxStartIndex && scrollTo(currentIndex + 1);
+  const handlePrev = () => currentIndex > 0 && scrollTo(currentIndex - 1);
+
   const GUTTER = isMobile ? '0px' : 'clamp(48px, 6vw, 90px)';
+  const dotCount = totalItems > visibleCount ? maxStartIndex + 1 : 1;
 
   return (
     <CarouselWrapper>
-      <SliderContainer ref={containerRef} $gutter={GUTTER}>
+      <SliderContainer $gutter={GUTTER}>
         <ClickArea
           $side="left"
           $gutter={isMobile ? '40px' : GUTTER}
-          $disabled={!canPrev}
+          $disabled={currentIndex === 0}
           onClick={handlePrev}
         >
-          {FaChevronLeft({}) as React.ReactElement}
+          {FaChevronLeft({})}
         </ClickArea>
 
-        <SlideWrapper $offset={translateX}>
-          {danceclass?.danceClasses?.map((item, index) => {
-            // 현재 활성화된(보이는) 카드들: currentIndex부터 visibleCount 개수만큼
-            const isVisible =
-              index >= currentIndex && index < currentIndex + visibleCount;
+        <ScrollContainer ref={scrollRef} onScroll={handleScroll}>
+          <SlideWrapper $isSingle={isSingle} $cardWidth={cardWidth}>
+            {danceclass?.danceClasses?.map((item, index) => {
+              const isVisible =
+                index >= currentIndex && index < currentIndex + visibleCount;
 
-            return (
-              <ImageContainer key={item.id ?? index} $width={cardWidth}>
-                <HotImage
-                  onClick={() => navigate(`/classes/${item.id}?tab=detail`)}
-                  src={item.thumbnailImage}
-                  alt="Image"
-                  $visible={isVisible}
-                />
-                {isVisible && (
-                  <Overlay>
-                    <ClassTitle>{item.className}</ClassTitle>
-                  </Overlay>
-                )}
-              </ImageContainer>
-            );
-          })}
-        </SlideWrapper>
+              return (
+                <ImageContainer
+                  key={item.id ?? index}
+                  $width={cardWidth}
+                  $isSingle={isSingle}
+                >
+                  <HotImage
+                    onClick={() => navigate(`/classes/${item.id}?tab=detail`)}
+                    src={item.thumbnailImage}
+                    alt="Class Thumbnail"
+                    $visible={isVisible}
+                  />
+                  {isVisible && (
+                    <Overlay>
+                      <ClassTitle>{item.className}</ClassTitle>
+                    </Overlay>
+                  )}
+                </ImageContainer>
+              );
+            })}
+          </SlideWrapper>
+        </ScrollContainer>
 
         <ClickArea
           $side="right"
           $gutter={isMobile ? '40px' : GUTTER}
-          $disabled={!canNext}
+          $disabled={currentIndex >= maxStartIndex}
           onClick={handleNext}
         >
-          {FaChevronRight({}) as React.ReactElement}
+          {FaChevronRight({})}
         </ClickArea>
       </SliderContainer>
 
       <DotContainer>
-        {Array.from({ length: totalItems }).map((_, index) => (
+        {Array.from({ length: dotCount }).map((_, index) => (
           <Dot
             key={index}
             $active={index === currentIndex}
-            onClick={() => handleDotClick(index)}
+            onClick={() => scrollTo(index)}
           />
         ))}
       </DotContainer>
@@ -133,14 +160,13 @@ const PassiveCarousel = ({ danceclass }: PassiveCarouselProps) => {
 
 export default PassiveCarousel;
 
-/* --- 스타일 --- */
+/* --- CSS 스타일 --- */
 
 const CarouselWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  overflow: hidden;
 `;
 
 const SliderContainer = styled.div<{ $gutter: string }>`
@@ -150,27 +176,49 @@ const SliderContainer = styled.div<{ $gutter: string }>`
   margin-bottom: 58px;
   width: 100%;
   padding-inline: ${(p) => p.$gutter};
+  box-sizing: border-box;
 
   @media (max-width: 767px) {
     padding-inline: 0;
   }
 `;
 
-const SlideWrapper = styled.div<{ $offset: number }>`
+const ScrollContainer = styled.div`
+  width: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const SlideWrapper = styled.div<{ $isSingle: boolean; $cardWidth: number }>`
   display: flex;
   flex-direction: row;
   gap: ${GAP}px;
-  transform: translateX(${(p) => p.$offset}px);
-  transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
-  will-change: transform;
+  width: max-content;
+
+  /* 1개일 때 핵심: 양옆 패딩을 주어 첫 번째/마지막 카드가 화면 중앙에 오게 함 */
+  padding-left: ${(p) =>
+    p.$isSingle ? `calc(50% - ${p.$cardWidth / 2}px)` : '0px'};
+  padding-right: ${(p) =>
+    p.$isSingle ? `calc(50% - ${p.$cardWidth / 2}px)` : `${GAP}px`};
 `;
 
-const ImageContainer = styled.div<{ $width: number }>`
+const ImageContainer = styled.div<{ $width: number; $isSingle: boolean }>`
   position: relative;
   flex-shrink: 0;
   width: ${(p) => p.$width}px;
   aspect-ratio: 1 / 1;
-  max-height: 400px;
+
+  /* 1개일 때 너무 커지는 것 방지 */
+  max-height: ${(p) => (p.$isSingle ? '450px' : 'none')};
+
+  /* 1개일 때는 중앙 스냅, 여러 개일 때는 왼쪽 정렬 스냅 */
+  scroll-snap-align: ${(p) => (p.$isSingle ? 'center' : 'start')};
 `;
 
 const HotImage = styled.img<{ $visible: boolean }>`
@@ -179,17 +227,13 @@ const HotImage = styled.img<{ $visible: boolean }>`
   object-fit: cover;
   border-radius: 12px;
   background-color: #222;
-
-  /* 비활성 이미지 효과 */
-  opacity: ${(p) => (p.$visible ? 1 : 0.2)};
-  transform: ${(p) => (p.$visible ? 'scale(1)' : 'scale(0.94)')};
-  filter: ${(p) => (p.$visible ? 'none' : 'brightness(0.5)')};
-
-  /* 비활성 터치 차단 */
+  /* 보여주는 카드 외에는 흐리게 처리하여 강조 효과 */
+  opacity: ${(p) => (p.$visible ? 1 : 0.3)};
+  transform: ${(p) => (p.$visible ? 'scale(1)' : 'scale(0.9)')};
+  filter: ${(p) => (p.$visible ? 'none' : 'brightness(0.4)')};
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: ${(p) => (p.$visible ? 'pointer' : 'default')};
   pointer-events: ${(p) => (p.$visible ? 'auto' : 'none')};
-
-  transition: all 0.4s ease;
 `;
 
 const Overlay = styled.div`
@@ -198,8 +242,8 @@ const Overlay = styled.div`
   left: 16px;
   right: 16px;
   padding: 10px 16px;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -234,7 +278,6 @@ const ClickArea = styled.button<{
   background: transparent;
   border: 0;
   cursor: ${(p) => (p.$disabled ? 'default' : 'pointer')};
-  pointer-events: ${(p) => (p.$disabled ? 'none' : 'auto')};
   opacity: 0;
 
   &::before {
@@ -248,7 +291,7 @@ const ClickArea = styled.button<{
   }
 
   ${CarouselWrapper}:hover & {
-    opacity: ${(p) => (p.$disabled ? 0.2 : 1)};
+    opacity: ${(p) => (p.$disabled ? 0 : 1)};
   }
 
   svg {
@@ -273,4 +316,5 @@ const Dot = styled.button<{ $active: boolean }>`
   background-color: ${(p) => (p.$active ? '#fff' : 'rgba(255, 255, 255, 0.3)')};
   cursor: pointer;
   transition: all 0.3s ease;
+  padding: 0;
 `;
