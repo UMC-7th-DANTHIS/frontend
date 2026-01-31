@@ -49,10 +49,10 @@ const CommentsReview = ({ review }: CommentsReviewProps) => {
               </Stars>
               <Date>{formatDate(review.createdAt)}</Date>
             </RatingAndDate>
+            <Detail>{CuttingDetail(review.content)}</Detail>
           </Data>
         </InfoWrapper>
 
-        <Detail>{CuttingDetail(review.content)}</Detail>
       </ReviewWrapper>
     </Container>
   );
@@ -63,8 +63,8 @@ export default CommentsReview;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 970px;
-  margin-left: 27px;
+  width: 800px;
+
 
   @media (max-width: 600px) {
     width: 100%;
@@ -75,7 +75,6 @@ const Container = styled.div`
 const ReviewWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 200px;
   border-radius: 10px;
   border: 1px solid #ddd;
   margin-bottom: 50px;
@@ -84,13 +83,14 @@ const ReviewWrapper = styled.div`
   @media (max-width: 600px) {
     height: auto;
     margin-bottom: 24px;
-    padding: 16px;
+    padding: 18px 22px 18px 22px;
   }
 `;
 
 const InfoWrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  
 
   @media (max-width: 600px) {
     flex-direction: column;
@@ -102,12 +102,10 @@ const Data = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  margin-left: 50px;
-  margin-top: 15px;
+  padding: 30px;
 
   @media (max-width: 600px) {
-    margin-left: 0;
-    margin-top: 0;
+  padding: 0;
   }
 `;
 
@@ -125,7 +123,7 @@ const TitleandPhoto = styled.div`
 const Title = styled.div`
   color: #fff;
   text-align: center;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 600;
   line-height: 50px;
   letter-spacing: -1px;
@@ -148,7 +146,6 @@ const RatingAndDate = styled.div`
 const Stars = styled.div`
   display: flex;
   flex-direction: row;
-  margin-right: 10px;
 
   @media (max-width: 600px) {
     margin-right: 6px;
@@ -178,12 +175,9 @@ const Date = styled.div`
 
 const Detail = styled.div`
   color: #fff;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
-  margin-left: 50px;
-  margin-top: 20px;
-  margin-right: 46px;
-  margin-bottom: 30px;
+  margin-top: 14px;
 
   @media (max-width: 600px) {
     font-size: 14px;
