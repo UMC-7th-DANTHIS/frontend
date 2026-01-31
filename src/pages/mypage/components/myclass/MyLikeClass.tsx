@@ -152,21 +152,18 @@ const Title = styled.div`
   font-size: 24px;
   font-weight: 600;
   letter-spacing: -1.2px;
-  margin-top: 9px;
+  margin-top: 10px;
   text-align: center;
-
-  min-height: 58px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  width: 100%;
+  max-width: 300px;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 
   @media (max-width: 600px) {
     font-size: 18px;
-    min-height: 35px;
+    max-width: 140px;
     margin-top: 10px;
-
   }
 `;
 
