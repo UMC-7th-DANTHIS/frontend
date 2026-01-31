@@ -9,7 +9,10 @@ import useGetClass from '../../hooks/useGetClass';
 import useGetDancer from '../../hooks/useGetDancer';
 import ForUserBanner from '../../common/Home/ForUserBanner';
 import { UserContext } from '../../types/Context/User';
-import { NoLogin } from '../../common/Home/NoLogin';
+import {
+  CONST_RECOMMEND_CLASS,
+  CONST_RECOMMEND_DANCER
+} from '../../store/home/dummyUserRecommend';
 
 export const HomePage = () => {
   const { data: danceclass } = useGetClass();
@@ -26,7 +29,10 @@ export const HomePage = () => {
         dancer &&
         danceclass && <UserRecommend danceclass={danceclass} dancer={dancer} />
       ) : (
-        <NoLogin />
+        <UserRecommend
+          danceclass={CONST_RECOMMEND_CLASS}
+          dancer={CONST_RECOMMEND_DANCER}
+        />
       )}
     </S.Container>
   );

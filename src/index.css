@@ -39,3 +39,32 @@ body {
   margin: 0;
   box-sizing: border-box;
 }
+
+.Toastify__toast--error {
+  background-color: #7d3333 !important;
+  border-radius: 12px !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  padding: 12px 20px !important;
+}
+
+.Toastify__toast--error .Toastify__toast-icon svg {
+  fill: #ffffff !important;
+}
+
+.Toastify__progress-bar--error {
+  background: rgba(255, 255, 255, 0.5) !important;
+}
+
+.Toastify__close-button {
+  color: #ffffff !important;
+  opacity: 0.7;
+}
+
+.custom-toast {
+  min-height: unset !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  border-radius: 10px !important;
+  justify-content: center !important;
+}

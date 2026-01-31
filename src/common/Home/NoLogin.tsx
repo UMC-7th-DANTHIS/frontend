@@ -16,9 +16,11 @@ export const NoLogin = () => {
         </TitleText>
       </TextWrapper>
 
-      <LoginButton onClick={() => navigate('/login')}>
-        로그인 하러가기
-      </LoginButton>
+      <LoginButtonWrapper>
+        <LoginButton onClick={() => navigate('/login')}>
+          로그인 하러가기
+        </LoginButton>
+      </LoginButtonWrapper>
     </TextContainer>
   );
 };
@@ -30,7 +32,7 @@ const TextContainer = styled.main`
   width: 100%;
   height: 100%;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
 
   background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(5px);
@@ -56,28 +58,48 @@ const TextWrapper = styled.div`
 const TitleText = styled.div`
   color: #fff;
 
-  font-size: 40px;
+  font-size: 22px;
   font-style: normal;
   font-weight: 600;
 
   line-height: 1.4;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 40px;
+  }
 `;
 
 const HightligtText = styled.span`
   color: #bf00ff;
 
-  font-size: 40px;
+  font-size: 22px;
   font-style: normal;
   font-weight: 600;
 
   line-height: 1.4;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 40px;
+  }
+`;
+
+const LoginButtonWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  padding: 0px 34px;
 `;
 
 const LoginButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 510px;
+
+  width: 100%;
+  max-width: 510px;
+
   height: 60px;
 
   background-color: #000000;
@@ -93,6 +115,10 @@ const LoginButton = styled.button`
 
   cursor: pointer;
   transition: all 0.3s ease;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 22px;
+  }
 
   &:hover {
     box-shadow: 0 0 30px 0 #9819c3 inset;

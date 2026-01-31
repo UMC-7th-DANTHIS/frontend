@@ -10,6 +10,7 @@ import axiosInstacne from '../../api/axios-instance';
 import { Comment } from '@/types/CommunityInterface';
 import { UserData } from '@/types/UserInterface';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 type PostCommentProps = {
   comment: Comment;
@@ -18,16 +19,27 @@ type PostCommentProps = {
   setForceReload: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const PostComment = ({ comment, postId, user, setForceReload }: PostCommentProps) => {
+const PostComment = ({
+  comment,
+  postId,
+  user,
+  setForceReload
+}: PostCommentProps) => {
   const { id } = useParams();
 
   const handleDelete = async (): Promise<void> => {
     try {
-      await axiosInstacne.delete(`/community/posts/${parseInt(id!)}/comments/${comment.commentId}`);
+      await axiosInstacne.delete(
+        `/community/posts/${parseInt(id!)}/comments/${comment.commentId}`
+      );
       setForceReload((prev: boolean) => !prev);
     } catch (error) {
       alert(error);
     }
+  };
+
+  const handleReport = () => {
+    toast.error('댓글이 신고되었습니다.');
   };
 
   return (
@@ -38,10 +50,19 @@ const PostComment = ({ comment, postId, user, setForceReload }: PostCommentProps
           <CommentDate>{formatDate(comment.createdAt, 2)}</CommentDate>
           <CommentAuthor>{comment.userName}</CommentAuthor>
         </CommentDetails>
-        {user?.nickname === comment.userName && user?.profileImage === comment.userProfileImage ? (
-          <ButtonContainer src={Delete} alt={'Button'} onClick={() => handleDelete()} />
+        {user?.nickname === comment.userName &&
+        user?.profileImage === comment.userProfileImage ? (
+          <ButtonContainer
+            src={Delete}
+            alt={'Button'}
+            onClick={() => handleDelete()}
+          />
         ) : (
-          <ReportButton src={Alert} alt={'Alert'} />
+          <ReportButton
+            src={Alert}
+            alt={'Alert'}
+            onClick={() => handleReport()}
+          />
         )}
       </CommentProfile>
       <CommentContent>{comment.content}</CommentContent>

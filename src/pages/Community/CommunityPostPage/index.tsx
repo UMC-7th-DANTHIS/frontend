@@ -80,6 +80,8 @@ export const CommunityPostPage = () => {
   const handleCommentSubmit = async (): Promise<void> => {
     if (!commentText.trim()) return;
 
+    if (!user) return navigate('/login');
+
     try {
       const response = await axiosInstance.post(
         `/community/posts/${parseInt(id!)}/comments`,
