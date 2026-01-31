@@ -66,7 +66,10 @@ const ProfileDancer = () => {
     return <NoUser />;
   }
 
-  const handleFormChange = (key: keyof FormState, value: string | string[] | number[] | File[]) => {
+  const handleFormChange = (
+    key: keyof FormState,
+    value: string | string[] | number[] | File[]
+  ) => {
     setFormState((prev) => ({ ...prev, [key]: value }));
   };
 
@@ -142,7 +145,10 @@ const ProfileDancer = () => {
           <OpenChatContainer>
             <OpenChatItemContainer>
               <Label> 오픈채팅방 링크 </Label>
-              <Text> *유저들과의 채팅이 이루어질 오픈채팅방 링크를 입력해주세요 </Text>
+              <Text>
+                {' '}
+                *유저들과의 채팅이 이루어질 오픈채팅방 링크를 입력해주세요{' '}
+              </Text>
             </OpenChatItemContainer>
             <Input
               type="link"
@@ -190,12 +196,16 @@ const ProfileDancer = () => {
               <Label> 댄서 사진 </Label>
               <SmallTextContainer>
                 <SmallText>* 최대 3장까지 등록 가능합니다</SmallText>
-                <SmallText>* 가장 첫 번째로 등록된 사진이 프로필로 사용됩니다</SmallText>
+                <SmallText>
+                  * 가장 첫 번째로 등록된 사진이 프로필로 사용됩니다
+                </SmallText>
               </SmallTextContainer>
             </OpenChatItemContainer>
             <ImagesUploader
               isFor="dancer"
-              images={getPreview(formState.dancerImages).filter((v): v is string => v !== undefined)}
+              images={getPreview(formState.dancerImages).filter(
+                (v): v is string => v !== undefined
+              )}
               handleFormChange={handleFormChange}
             />
           </DancerPictureContainer>
@@ -244,7 +254,6 @@ const AllContainer = styled.div`
 `;
 const Container = styled.div`
   width: 900px;
-  height: 1800px;
   flex-shrink: 0;
   border-radius: 25px;
   border: 2px solid #9819c3;
@@ -265,6 +274,7 @@ const ItemContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  align-items: center;
 
   @media (max-width: 600px) {
     width: 100%;
@@ -430,8 +440,10 @@ const WriteInput = styled.textarea`
 
 const DancerPictureContainer = styled.div`
   margin-top: 45px;
+  width: 616px;
 
   @media (max-width: 600px) {
+    width: 100%;
     margin-top: 30px;
   }
 `;
@@ -440,7 +452,7 @@ const SmallTextContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  @media (max-width: 600px) {
+  @media (max-width: 765px) {
     flex-direction: column;
     margin-left: 20px;
   }

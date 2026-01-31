@@ -6,9 +6,7 @@ export interface RegisterClassProps {
 
 export interface RegisterDetailProps {
   className: string;
-  dancer?: {
-    profileImage: string;
-  };
+  classImage: string;
 }
 
 export interface BookingUser {

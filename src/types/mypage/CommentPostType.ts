@@ -20,11 +20,28 @@ export interface Review {
   content: string;
 }
 
+export interface Comment {
+  reviewId: number;
+  title: string;
+  perPage: number;
+}
+
+
 export interface CommentsReviewProps {
   review: Review;
 }
 
+export interface CommentsProps {
+  comment: Comment;
+}
+
+
 export interface FetchReviewsResponse {
   reviews: Review[];
+  totalElements: number;
+}
+
+export interface FetchCommentsResponse {
+  comments: Comment[];
   totalElements: number;
 }
