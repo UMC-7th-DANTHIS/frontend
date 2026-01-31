@@ -72,11 +72,12 @@ const AllContainer = styled.div`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: 1005px;
+
 
   @media (max-width: 600px) {
     max-width: none;
+    width: 100%;
+    max-width: 1005px;
   }
 `;
 
