@@ -85,10 +85,12 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 182px;
+  margin-right: 20px;
 
   @media (max-width: 600px) {
     justify-content: center;
     margin-bottom: 120px;
+    margin-right: 0;
     width: 100%;
   }
 `;
