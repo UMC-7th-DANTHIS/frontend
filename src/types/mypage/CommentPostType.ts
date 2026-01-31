@@ -21,9 +21,10 @@ export interface Review {
 }
 
 export interface Comment {
-  reviewId: number;
-  title: string;
-  perPage: number;
+ postId: number;
+ commentId: number;
+ content: string;
+ createAt: string;
 }
 
 

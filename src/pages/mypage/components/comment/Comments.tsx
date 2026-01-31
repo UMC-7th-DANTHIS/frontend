@@ -5,17 +5,17 @@ import { useQuery } from '@tanstack/react-query';
 import api from '../../../../api/api';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
 import { FetchCommentsResponse } from '@/types/mypage/CommentPostType';
+import CommentsPage from './CommentsPage';
 
-interface CommentProps {
+interface CommentsPageProps {
   perPage: number;
 }
-
 const fetchUserComments = async (
   currentPage: number,
   perData: number
 ): Promise<FetchCommentsResponse> => {
   const token = localStorage.getItem('token');
-  const response = await api.get('/users/reviews', {
+  const response = await api.get('/users/comments', {
     headers: {
       Authorization: `Bearer ${token}`
     },
@@ -25,19 +25,19 @@ const fetchUserComments = async (
     }
   });
   return {
-    comments: response.data.data.comment || [],
+    comments: response.data.data.comments || [],
     totalElements: response.data.data.totalElements || 0
   };
 };
 
-const Comments = ({ perPage }: CommentProps) => {
+const Comments = ({ perPage }: CommentsPageProps) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const { data, isLoading, isError, error } = useQuery<
   FetchCommentsResponse,
     Error
   >({
-    queryKey: ['userposts', currentPage, perPage],
+    queryKey: ['usercomments', currentPage, perPage],
     queryFn: () => fetchUserComments(currentPage, perPage)
   });
 
@@ -53,99 +53,53 @@ const Comments = ({ perPage }: CommentProps) => {
     return <div>Error: {error?.message}</div>;
   }
 
-
+  const hasNoData = !data || data.comments.length === 0;
 
   return (
-    <AllContainer>
-      {data?.comments?.length ? (
-        data.comments.map((comment) => (
-          <CommentContainer key={comment.reviewId}>
-            <ContentsContainer>
-              <PhotoandTitle>
-                <CommentTitle>{comment.title}</CommentTitle>
-              </PhotoandTitle>
-
-      
-        
-            </ContentsContainer>
-          </CommentContainer>
-        ))
-      ) : (
+    <Container>
+      {hasNoData ? (
         <EmptyText>댓글이 없습니다.</EmptyText>
+      ) : (
+        <>
+          {data.comments.map((comment) => (
+            <CommentsPage key={comment.commentId} comment={comment} />
+          ))}
+          <Pagination
+            dataLength={data.totalElements || 0}
+            perData={perPage}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </>
       )}
-
-      {data?.totalElements ? (
-        <Pagination
-          dataLength={data.totalElements}
-          perData={perPage}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-      ) : null}
-    </AllContainer>
+    </Container>
   );
 };
 
 export default Comments;
 
-const AllContainer = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 154px;
+  margin-bottom: 182px;
+  margin-right: 20px;
 
   @media (max-width: 600px) {
-    margin-bottom: 100px;
+    justify-content: center;
+    margin-bottom: 120px;
+    margin-right: 0;
     width: 100%;
   }
 `;
 
-const CommentContainer = styled.div`
-  width: 971px;
-  height: 160px;
-  flex-shrink: 0;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  margin-left: 29px;
-  cursor: pointer;
+const LoadingContainer = styled.div`
+  margin-left: 450px;
 
   @media (max-width: 600px) {
-    width: 100%;
-    height: auto;
-    margin-left: 0;
-    margin-bottom: 16px;
-    padding: 12px;
+    margin: 0 auto;
   }
-`;
-
-const ContentsContainer = styled.div`
-  padding: 0 39px 0 50px;
-
-  @media (max-width: 600px) {
-    padding: 0;
-  }
-`;
-
-const CommentTitle = styled.div`
-  color: white;
-  font-size: 22px;
-  font-weight: 600;
-  line-height: normal;
-  margin-top: 29px;
-
-  @media (max-width: 600px) {
-    font-size: 16px;
-    margin-top: 4px;
-  }
-`;
-
-const PhotoandTitle = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 5px;
 `;
 
 const EmptyText = styled.div`
@@ -161,12 +115,3 @@ const EmptyText = styled.div`
     margin-top: 60px;
   }
 `;
-
-const LoadingContainer = styled.div`
-  margin-left: 450px;
-
-  @media (max-width: 600px) {
-    margin: 0 auto;
-  }
-`;
-

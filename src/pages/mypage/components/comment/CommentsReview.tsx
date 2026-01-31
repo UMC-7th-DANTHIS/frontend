@@ -17,15 +17,12 @@ const CommentsReview = ({ review }: CommentsReviewProps) => {
     return dateString.split('T')[0].replace(/-/g, '.');
   };
 
-  const handleClick = (reviewId: number): void => {
-    navigate(`/classes/reviews/${reviewId}`);
-  };
 
   return (
     <Container>
       <ReviewWrapper
         key={review.reviewId}
-        onClick={() => handleClick(review.reviewId)}
+        onClick={() => navigate(`/classes/reviews/${review.reviewId}`)}
       >
         <InfoWrapper>
           <Data>
@@ -125,7 +122,7 @@ const Title = styled.div`
   text-align: center;
   font-size: 18px;
   font-weight: 600;
-  line-height: 50px;
+  margin-bottom: 14px;
   letter-spacing: -1px;
 
   @media (max-width: 600px) {
@@ -165,8 +162,8 @@ const Date = styled.div`
   color: #b2b2b2;
   font-size: 12px;
   font-weight: 500;
-  line-height: 20px;
   letter-spacing: -0.6px;
+  margin-left: 10px;
 
   @media (max-width: 600px) {
     font-size: 11px;
