@@ -88,7 +88,7 @@ const ChatContainer = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 32px;
+  gap: 9px;
   margin-top: 25px;
 
   @media (max-width: 600px) {
@@ -105,8 +105,8 @@ const ChatList = styled.div`
   flex-shrink: 0;
   border: 1px solid #9819c3;
   background-color: black;
-  border-radius: 20px;
-  box-shadow: 0px 0px 10px 2px #9819c3;
+  border-radius: 15px;
+  box-shadow: 0px 0px 8px 2px #9819c3;
 
   @media (max-width: 600px) {
     width: 90%;
