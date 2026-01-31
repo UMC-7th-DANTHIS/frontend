@@ -1,23 +1,21 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Pagination from '../../../../components/Pagination';
-import { ReactComponent as ExistPhoto } from '../../../../assets/photo.svg';
 import { useQuery } from '@tanstack/react-query';
 import api from '../../../../api/api';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
-import { FetchUserPostsResponse, Post } from '@/types/mypage/CommentPostType';
+import { FetchCommentsResponse } from '@/types/mypage/CommentPostType';
 
-interface CommentPostProps {
+interface CommentProps {
   perPage: number;
 }
 
-const fetchUserPosts = async (
+const fetchUserComments = async (
   currentPage: number,
   perData: number
-): Promise<FetchUserPostsResponse> => {
+): Promise<FetchCommentsResponse> => {
   const token = localStorage.getItem('token');
-  const response = await api.get('/users/posts', {
+  const response = await api.get('/users/reviews', {
     headers: {
       Authorization: `Bearer ${token}`
     },
@@ -27,21 +25,20 @@ const fetchUserPosts = async (
     }
   });
   return {
-    posts: response.data.data.posts || [],
+    comments: response.data.data.comment || [],
     totalElements: response.data.data.totalElements || 0
   };
 };
 
-const CommentPost = ({ perPage }: CommentPostProps) => {
+const Comments = ({ perPage }: CommentProps) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const navigate = useNavigate();
 
   const { data, isLoading, isError, error } = useQuery<
-    FetchUserPostsResponse,
+  FetchCommentsResponse,
     Error
   >({
     queryKey: ['userposts', currentPage, perPage],
-    queryFn: () => fetchUserPosts(currentPage, perPage)
+    queryFn: () => fetchUserComments(currentPage, perPage)
   });
 
   if (isLoading) {
@@ -56,40 +53,25 @@ const CommentPost = ({ perPage }: CommentPostProps) => {
     return <div>Error: {error?.message}</div>;
   }
 
-  const formatDate = (dateString: string): string => {
-    return dateString.split('T')[0].replace(/-/g, '.');
-  };
 
-  const handleClick = (post: Post) => {
-    navigate(`/community/${post.postId}`, { state: { selectedPost: post } });
-  };
 
   return (
     <AllContainer>
-      {data?.posts?.length ? (
-        data.posts.map((post) => (
-          <CommentContainer key={post.postId} onClick={() => handleClick(post)}>
+      {data?.comments?.length ? (
+        data.comments.map((comment) => (
+          <CommentContainer key={comment.reviewId}>
             <ContentsContainer>
               <PhotoandTitle>
-                <CommentTitle>{post.title}</CommentTitle>
-                <IconContainer>
-                  {(post.images?.filter((img) => img !== null) || []).length >
-                    0 && <ExistPhoto width={20} height={20} />}
-                </IconContainer>
+                <CommentTitle>{comment.title}</CommentTitle>
               </PhotoandTitle>
 
-              <CommentData>{formatDate(post.createdAt)}</CommentData>
-
-              <CommentContents>
-                {post.content.length > 210
-                  ? post.content.slice(0, 209) + '...'
-                  : post.content}
-              </CommentContents>
+      
+        
             </ContentsContainer>
           </CommentContainer>
         ))
       ) : (
-        <Text>게시글이 없습니다.</Text>
+        <Text>댓글이 없습니다.</Text>
       )}
 
       {data?.totalElements ? (
@@ -104,7 +86,7 @@ const CommentPost = ({ perPage }: CommentPostProps) => {
   );
 };
 
-export default CommentPost;
+export default Comments;
 
 const AllContainer = styled.div`
   display: flex;
@@ -166,41 +148,10 @@ const PhotoandTitle = styled.div`
   gap: 5px;
 `;
 
-const CommentData = styled.div`
-  color: #b2b2b2;
-  margin-top: 8px;
-  margin-bottom: 13px;
 
-  @media (max-width: 600px) {
-    font-size: 12px;
-    margin-top: 4px;
-    margin-bottom: 8px;
-  }
-`;
 
-const CommentContents = styled.div`
-  color: white;
-  font-size: 18px;
-  font-weight: 500;
-  line-height: normal;
 
-  @media (max-width: 600px) {
-    font-size: 14px;
-    line-height: 1.4;
-  }
-`;
 
-const IconContainer = styled.div`
-  margin-top: 20px;
-
-  @media (max-width: 600px) {
-    margin-top: 0;
-    svg {
-      width: 14px;
-      height: 14px;
-    }
-  }
-`;
 
 const LoadingContainer = styled.div`
   margin-left: 450px;

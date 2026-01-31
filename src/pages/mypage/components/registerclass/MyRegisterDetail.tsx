@@ -35,9 +35,10 @@ const MyRegisterDetail = () => {
     queryKey: ['classDetails', classId],
     queryFn: async () => {
       const token = localStorage.getItem('token');
-      const response = await api.get(`dance-classes/${classId}`, {
+      const response = await api.get(`dance-classes/${classId}/booking-users`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+
       return response.data.data;
     },
     enabled: !!classId
@@ -68,6 +69,35 @@ const MyRegisterDetail = () => {
     enabled: !!classId
   });
 
+  // 댄서 여부 확인
+  const { data: isDancer } = useQuery({
+    queryKey: ['isDancer'],
+    queryFn: async () => {
+      const token = localStorage.getItem('token');
+      const response = await api.get('/users/dancer-admin', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      return response.data.data;
+    }
+  });
+
+  // 댄서인 경우 dancerId 가져오기
+  const { data: dancerData } = useQuery({
+    queryKey: ['myDancer'],
+    queryFn: async () => {
+      const token = localStorage.getItem('token');
+      const response = await api.get('/dancers', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      return response.data.data;
+    },
+    enabled: isDancer === true
+  });
+
   if (classDataLoading) return <LoadingSpinner isLoading={classDataLoading} />;
   if (classDataError) return <div>Error: {(error as Error).message}</div>;
 
@@ -92,7 +122,7 @@ const MyRegisterDetail = () => {
 
             <ContentSection>
               <ImageContainer>
-                <Image src={classData.dancer?.profileImage} />
+                <Image src={classData.classImage} />
               </ImageContainer>
 
               <ReviewSection>
@@ -166,9 +196,9 @@ const MyRegisterDetail = () => {
             <GoBack onClick={handleGoBack}>수업 목록으로</GoBack>
           </ItemContainer>
         </ClassContainer>
-      ) : (
-        <MyRegisterClass />
-      )}
+      ) : dancerData?.id ? (
+        <MyRegisterClass dancerId={dancerData.id} />
+      ) : null}
     </>
   );
 };
@@ -246,11 +276,10 @@ const IconText = styled.div`
 const IconContainer = styled.div`
   margin-top: 36px;
   display: inline-flex;
-  width: 82px;
-  height: 19px;
-  padding: 6px 12px;
+  width: 106px;
+  height: 31px;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 9px;
   border-radius: 37px;
   border: 1px solid #9819c3;

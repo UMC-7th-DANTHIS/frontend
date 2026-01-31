@@ -64,7 +64,9 @@ const ProfileUser = () => {
 
     try {
       const fileExtension = file.name.split('.').pop();
-      const response = await api.post(`/image/user?fileExtension=${fileExtension}`);
+      const response = await api.post(
+        `/image/user?fileExtension=${fileExtension}`
+      );
 
       if (!response.data || !response.data.presignedUrl) {
         throw new Error('Presigned URL 발급 실패');
@@ -106,7 +108,9 @@ const ProfileUser = () => {
     }
 
     try {
-      const response = await api.get(`/users/check-nickname?nickname=${formState.nickname}`);
+      const response = await api.get(
+        `/users/check-nickname?nickname=${formState.nickname}`
+      );
       if (response.data.data === true) {
         setNicknameStatus('사용 가능한 닉네임입니다.');
       } else {
@@ -156,7 +160,12 @@ const ProfileUser = () => {
       return;
     }
 
-    const genderForPut = formState.gender === '남' ? 'male' : formState.gender === '여' ? 'female' : '';
+    const genderForPut =
+      formState.gender === '남'
+        ? 'male'
+        : formState.gender === '여'
+          ? 'female'
+          : '';
 
     try {
       const token = localStorage.getItem('token');
@@ -202,9 +211,17 @@ const ProfileUser = () => {
                   type="text"
                   placeholder="닉네임을 입력하세요."
                   value={formState.nickname}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleFormChange('nickname', e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleFormChange('nickname', e.target.value)
+                  }
                 />
-                <ErrorText error={nicknameStatus === '다른 유저와 중복되는 닉네임입니다.'}>{nicknameStatus}</ErrorText>
+                <ErrorText
+                  error={
+                    nicknameStatus === '다른 유저와 중복되는 닉네임입니다.'
+                  }
+                >
+                  {nicknameStatus}
+                </ErrorText>
               </ErrorContainer>
               <DoubleCheck onClick={handleDoubleCheck}>중복확인</DoubleCheck>
             </InputContainer>
@@ -240,7 +257,9 @@ const ProfileUser = () => {
               type="text"
               placeholder="이메일을 입력하세요."
               value={formState.email}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleFormChange('email', e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleFormChange('email', e.target.value)
+              }
             />
           </EmailContainer>
 
@@ -265,13 +284,26 @@ const ProfileUser = () => {
                 )}
               </ProfileImageWrapper>
               <UploadContainer>
-                <UploadButton type="button" onClick={() => fileInputRef.current?.click()}>
+                <UploadButton
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                >
                   파일 업로드
                 </UploadButton>
-                <HiddenInput type="file" id="file-upload" accept="image/*" onChange={handleFileUpload} />
+                <HiddenInput
+                  type="file"
+                  id="file-upload"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                />
                 <RadioWrapper>
                   <RadioLabel>
-                    <RadioInput type="radio" name="profile" checked={isDefaultImage} onChange={handleCheckboxChange} />
+                    <RadioInput
+                      type="radio"
+                      name="profile"
+                      checked={isDefaultImage}
+                      onChange={handleCheckboxChange}
+                    />
                     <RadioText>기본 이미지 사용하기</RadioText>
                   </RadioLabel>
                 </RadioWrapper>
@@ -366,9 +398,11 @@ const ItemContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  align-items: center;
 
   @media (max-width: 600px) {
     width: 100%;
+    align-items: flex-start;
   }
 `;
 
@@ -379,6 +413,7 @@ const NicknameContainer = styled.div`
   @media (max-width: 600px) {
     margin-top: 24px;
     margin-bottom: 30px;
+    width: 100%;
   }
 `;
 
@@ -553,6 +588,7 @@ const EmailContainer = styled.div`
 
   @media (max-width: 600px) {
     margin-bottom: 28px;
+    width: 100%;
   }
 `;
 
@@ -593,6 +629,7 @@ const PhoneContainer = styled.div`
 
   @media (max-width: 600px) {
     margin-bottom: 35px;
+    width: 100%;
   }
 `;
 //

@@ -78,14 +78,12 @@ const ReviewWrapper = styled.div`
   height: 200px;
   border-radius: 10px;
   border: 1px solid #ddd;
-  box-shadow: 0px 0px 5px 2px #9819c3;
   margin-bottom: 50px;
   cursor: pointer;
 
   @media (max-width: 600px) {
     height: auto;
     margin-bottom: 24px;
-    box-shadow: 0px 0px 5px 2px #9819c3;
     padding: 16px;
   }
 `;

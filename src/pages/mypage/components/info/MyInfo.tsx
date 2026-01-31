@@ -72,9 +72,9 @@ const MyInfo = () => {
   return (
     <InfoContainer>
       <LeftSection>
-        <MenuItem>
+        <MenuItem onClick={handleLogoutAlert}>
           <MenuText>로그아웃</MenuText>
-          <InfoArrow onClick={handleLogoutAlert} />
+          <InfoArrow />
           {showLogoutAlert && (
             <ModalTwoBtns
               message={
@@ -89,9 +89,9 @@ const MyInfo = () => {
             />
           )}
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={gotoQuit}>
           <MenuText>회원탈퇴</MenuText>
-          <InfoArrow onClick={gotoQuit} />
+          <InfoArrow />
         </MenuItem>
       </LeftSection>
 
@@ -135,7 +135,7 @@ const InfoContainer = styled.div`
 
   @media (max-width: 600px) {
     flex-direction: column;
-    padding: 32px 26px;
+    padding: 60px 26px;
   }
 `;
 

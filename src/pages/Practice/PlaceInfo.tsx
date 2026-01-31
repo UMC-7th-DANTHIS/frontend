@@ -22,7 +22,7 @@ const PlaceInfo: React.FC<PlaceInfoProps> = ({ name, address, url }) => {
 
 export default PlaceInfo;
 const Wrapper = styled.div`
-  width: 300px;
+  width: 320px;
   height: 74px;
   border-radius: 1.287px;
   background-color: #FFF;
@@ -32,6 +32,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   padding-left: 12px;
+  padding-right: 12px;
   margin-top: 5px;
   strong {
     color: var(--main_black, #000);
