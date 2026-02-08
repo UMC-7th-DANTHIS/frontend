@@ -86,6 +86,8 @@ const WriteButton = styled.button`
   justify-content: center;
   align-items: center;
 
+  white-space: nowrap;
+
   width: 64px;
   height: 36px;
   background-color: #9819c3;

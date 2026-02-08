@@ -58,7 +58,7 @@ const ClassContainer = styled.div`
     grid-template-columns: repeat(2, 1fr);
     gap: 50px 70px;
 
-    max-width: 1400px;
+    max-width: 1000px;
   }
 `;
 
@@ -133,11 +133,6 @@ const ClassName = styled.div`
 
   ${({ theme }) => theme.media.tablet} {
     font-size: 24px;
-    max-width: 500px;
-  }
-
-  ${({ theme }) => theme.media.mobile} {
-    font-size: 18px;
     max-width: 270px;
   }
 `;
