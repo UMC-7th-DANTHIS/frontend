@@ -31,7 +31,11 @@ root.render(
           closeOnClick
           draggable
           pauseOnHover
-          toastClassName="custom-toast"
+          style={{
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)'
+          }}
         />
         <App />
       </ThemeProvider>

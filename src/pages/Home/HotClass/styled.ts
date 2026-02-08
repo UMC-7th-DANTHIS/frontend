@@ -20,14 +20,13 @@ const Header = styled.div`
   align-items: center;
 
   margin-bottom: 2rem;
+  margin-left: 0;
 
   ${({ theme }) => theme.media.tablet} {
     justify-content: start;
-    align-items: start;
     font-size: 28px;
 
-    margin: 0px 0px 2rem 2rem;
-    min-width: max-content;
+    margin-left: 220px;
   }
 
   color: white;

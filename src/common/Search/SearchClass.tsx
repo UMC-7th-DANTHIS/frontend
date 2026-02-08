@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 import { ReactComponent as StarFilled } from '../../assets/buttons/starlevel_filled.svg';
@@ -19,6 +20,8 @@ const SearchClass = ({ query, select }: SearchClassParams) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const perData: number = 5;
 
+  const navigate = useNavigate();
+
   const { data } = useSearch<'dance-classes'>(select, query, currentPage);
 
   return (
@@ -27,7 +30,9 @@ const SearchClass = ({ query, select }: SearchClassParams) => {
         <>
           <ClassLists>
             {data?.data.results.map((list) => (
-              <ClassWrapper>
+              <ClassWrapper
+                onClick={() => navigate(`/classes/${list.classId}`)}
+              >
                 <ClassList>
                   <ImgContainer src={list.classImage[0]} alt="프로필 이미지" />
                   <TextContainer>
@@ -101,6 +106,7 @@ const ClassWrapper = styled.div`
   align-items: center;
 
   border-bottom: 2px solid #ddd;
+  cursor: pointer;
 `;
 
 const ClassList = styled.div`
