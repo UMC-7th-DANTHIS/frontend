@@ -19,12 +19,7 @@ type PostCommentProps = {
   setForceReload: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const PostComment = ({
-  comment,
-  postId,
-  user,
-  setForceReload
-}: PostCommentProps) => {
+const PostComment = ({ comment, user, setForceReload }: PostCommentProps) => {
   const { id } = useParams();
 
   const handleDelete = async (): Promise<void> => {
@@ -39,7 +34,8 @@ const PostComment = ({
   };
 
   const handleReport = () => {
-    toast.error('댓글이 신고되었습니다.');
+    if (!user) return toast.info('로그인후 이용가능합니다.');
+    return toast.error('게시글이 신고되었습니다.');
   };
 
   return (
