@@ -43,6 +43,7 @@ const TextContainer = styled.main`
   padding-top: 70px;
   padding-bottom: 70px;
 
+  margin-top: -10px;
   gap: 140px;
 `;
 
