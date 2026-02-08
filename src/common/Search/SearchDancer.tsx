@@ -96,6 +96,7 @@ const ClassWrapper = styled.div`
   align-items: center;
 
   border-bottom: 2px solid #ddd;
+  cursor: pointer;
 `;
 
 const ClassList = styled.div`
