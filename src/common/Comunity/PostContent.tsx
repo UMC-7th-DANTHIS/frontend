@@ -1,5 +1,5 @@
 import { useState, Dispatch } from 'react';
-import { useNavigate, useOutletContext } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import formatDate from '../../api/formatDate';
