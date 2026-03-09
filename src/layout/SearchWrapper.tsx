@@ -36,8 +36,6 @@ const SearchWrapper = () => {
     } else setDanceQuery(query);
   }, [selectedFilter, query]);
 
-  console.log(defaultQuery);
-
   if (defaultQuery === 'dance-classes') {
     return <SearchClass query={danceQuery} select={defaultQuery} />;
   }

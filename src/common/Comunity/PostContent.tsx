@@ -52,7 +52,8 @@ const PostContent = ({
   };
 
   const handleReport = () => {
-    toast.error('게시글이 신고되었습니다.');
+    if (!user) return toast.info('로그인후 이용가능합니다.');
+    return toast.error('게시글이 신고되었습니다.');
   };
 
   return (

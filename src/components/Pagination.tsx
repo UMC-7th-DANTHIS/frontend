@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import useIsMobile from '../hooks/useIsMobile';
@@ -25,97 +25,57 @@ const Pagination = ({
   currentPage,
   setCurrentPage
 }: PaginationProps) => {
-  const [layer, setLayer] = useState<number>(0);
   const isMobile = useIsMobile();
+  const limit = isMobile ? 5 : 10;
 
-  const filteredDataLength: number =
-    dataLength <= perData ? 1 : Math.ceil(dataLength / perData);
+  const totalPages = Math.ceil(dataLength / perData) || 1;
+  const [layer, setLayer] = useState(0);
 
-  const handlePageClick = (page: number): void => setCurrentPage(page);
+  useEffect(() => {
+    setLayer(Math.floor((currentPage - 1) / limit));
+  }, [currentPage, limit]);
 
-  const handlePageDown = (num: number): void => {
-    setLayer(layer - 1);
-    handlePageClick(num);
+  const handlePageClick = (page: number) => setCurrentPage(page);
+
+  const handlePrev = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
 
-  const handlePageUp = (num: number): void => {
-    setLayer(layer + 1);
-    handlePageClick(num);
+  const handleNext = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
+
+  const startPage = layer * limit + 1;
+  const currentLayerRange = Math.min(limit, totalPages - startPage + 1);
 
   return (
-    <>
-      {isMobile ? (
-        <PageContainer>
-          <PageCursor
-            onClick={() => handlePageDown((layer - 1) * (isMobile ? 5 : 10) + 1)}
-            className={layer <= 0 ? 'inactive' : ''} // ✅ 음수 방지
-            >
-            {'<'}
-          </PageCursor>
-         
-          {Array.from(
-  {
-    length:
-      filteredDataLength - layer * (isMobile ? 5 : 10) >= (isMobile ? 5 : 10)
-        ? (isMobile ? 5 : 10)
-        : (filteredDataLength - layer * (isMobile ? 5 : 10)) % (isMobile ? 5 : 10),
-  },
-  (_, i) => layer * (isMobile ? 5 : 10) + i + 1
-).map((page) => (
-  <PageNumber
-    key={page}
-    className={page === currentPage ? 'active' : ''}
-    onClick={() => handlePageClick(page)}
-  >
-    {page}
-  </PageNumber>
-))}
-          <PageCursor
-  onClick={() => handlePageUp((layer + 1) * (isMobile ? 5 : 10) + 1)}
-  className={
-    (layer + 1) * (isMobile ? 5 : 10) >= filteredDataLength
-      ? 'inactive'
-      : ''
-  } // ✅ 조건 반대로 교정
->
-  {'>'}
-</PageCursor>
-        </PageContainer>
-      ) : (
-        <PageContainer>
-          <PageCursor
-            onClick={() => handlePageDown((layer - 1) * 10 + 1)}
-            className={layer === 0 ? 'inactive' : ''}
+    <PageContainer>
+      <PageCursor
+        onClick={handlePrev}
+        className={currentPage === 1 ? 'inactive' : ''}
+      >
+        {'<'}
+      </PageCursor>
+
+      {Array.from({ length: currentLayerRange }, (_, i) => startPage + i).map(
+        (page) => (
+          <PageNumber
+            key={page}
+            className={page === currentPage ? 'active' : ''}
+            onClick={() => handlePageClick(page)}
           >
-            {'<'}
-          </PageCursor>
-          {Array.from(
-            {
-              length:
-                filteredDataLength - layer * 10 >= 10
-                  ? 10
-                  : (filteredDataLength - layer * 10) % 10
-            },
-            (_, i) => layer * 10 + i + 1
-          ).map((page) => (
-            <PageNumber
-              key={page}
-              className={page === currentPage ? 'active' : ''}
-              onClick={() => handlePageClick(page)}
-            >
-              {page}
-            </PageNumber>
-          ))}
-          <PageCursor
-            onClick={() => handlePageUp((layer + 1) * 10 + 1)}
-            className={filteredDataLength <= (layer + 1) * 10 ? 'inactive' : ''}
-          >
-            {'>'}
-          </PageCursor>
-        </PageContainer>
+            {page}
+          </PageNumber>
+        )
       )}
-    </>
+
+      <PageCursor
+        onClick={handleNext}
+        className={currentPage === totalPages ? 'inactive' : ''}
+      >
+        {'>'}
+      </PageCursor>
+    </PageContainer>
   );
 };
 
