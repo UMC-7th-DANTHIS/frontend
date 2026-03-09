@@ -98,9 +98,9 @@ const MyInfo = () => {
       <Divider />
 
       <RightSection>
-        <MenuItem>
+        <MenuItem onClick={handleAgreeAlert}>
           <MenuText>서비스 이용약관</MenuText>
-          <InfoArrow onClick={handleAgreeAlert} />
+          <InfoArrow  />
           {showAgreeAlert && (
             <ModalAgree
               onClose={hideAgreeAlert}
@@ -109,9 +109,9 @@ const MyInfo = () => {
             />
           )}
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={handlePersonalAlert} >
           <MenuText>개인정보 처리방침</MenuText>
-          <InfoArrow onClick={handlePersonalAlert} />
+          <InfoArrow/>
           {showPersonalAlert && (
             <ModalAgree
               onClose={hidePersonalAlert}
