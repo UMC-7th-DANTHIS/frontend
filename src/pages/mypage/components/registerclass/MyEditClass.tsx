@@ -14,7 +14,7 @@ interface MyEditClassProps {
   onClose: () => void;
 }
 
-const MyEditClass = ({ classId, onClose }: MyEditClassProps) => {
+const MyEditClass = ({ classId }: MyEditClassProps) => {
   const TITLE = '댄스 수업 등록';
 
   const [formState, setFormState] = useState<ClassFormState>({
@@ -94,7 +94,6 @@ const MyEditClass = ({ classId, onClose }: MyEditClassProps) => {
     >
       <Container>
         <ClassEditForm />
-        <BackBtn onClick={onClose}>뒤로가기</BackBtn>
       </Container>
     </MyEditClassContext>
   );
@@ -108,9 +107,4 @@ const Container = styled.div`
   justify-content: center;
   width: 100%;
   padding: 28px 30px 96px 30px;
-`;
-const BackBtn = styled.div`
-  color: var(--text-secondary-gray);
-  border: none;
-  background: transparent;
 `;

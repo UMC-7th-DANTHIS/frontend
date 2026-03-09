@@ -179,7 +179,7 @@ const MyRegisterDetail = () => {
                     </ImageList>
                   ))
                 ) : (
-                  <NoText>예약된 유저가 없습니다.</NoText>
+                  <NoText>수강한 유저가 없습니다.</NoText>
                 )}
               </UserImage>
             </CheckUserContainer>
