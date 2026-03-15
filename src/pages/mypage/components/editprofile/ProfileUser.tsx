@@ -99,6 +99,7 @@ const ProfileUser = () => {
 
       setUploadedImage(fileUrl);
       setIsDefaultImage(false);
+      handleFormChange('profileImage', fileUrl);
     } catch (error: any) {
       console.error('파일 업로드 오류:', error.message);
     }
@@ -290,11 +291,15 @@ const ProfileUser = () => {
             <Label>프로필 사진</Label>
             <ProfileContainer>
               <ProfileImageWrapper>
-                {isDefaultImage || !uploadedImage ? (
-                  <ProfileImage src={Profileimg} alt="프로필 이미지" />
-                ) : (
-                  <ProfileImage src={uploadedImage} alt="프로필 이미지" />
-                )}
+                <ProfileImage
+                  src={
+                    uploadedImage ||
+                    (formState.profileImage && formState.profileImage !== Profileimg
+                      ? formState.profileImage
+                      : Profileimg)
+                  }
+                  alt="프로필 이미지"
+                />
               </ProfileImageWrapper>
               <UploadContainer>
                 <UploadButton
@@ -304,6 +309,7 @@ const ProfileUser = () => {
                   파일 업로드
                 </UploadButton>
                 <HiddenInput
+                  ref={fileInputRef}
                   type="file"
                   id="file-upload"
                   accept="image/*"

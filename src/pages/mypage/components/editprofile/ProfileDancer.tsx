@@ -208,9 +208,14 @@ const ProfileDancer = () => {
             </OpenChatItemContainer>
             <ImagesUploader
               isFor="dancer"
-              images={getPreview(formState.dancerImages).filter(
-                (v): v is string => v !== undefined
-              )}
+              images={(() => {
+                const preview = getPreview(formState.dancerImages).filter(
+                  (v): v is string => v !== undefined
+                );
+                const padded = [...preview];
+                while (padded.length < 3) padded.push('');
+                return padded.slice(0, 3);
+              })()}
               handleFormChange={handleFormChange}
             />
           </DancerPictureContainer>
