@@ -40,13 +40,19 @@ const ProfileUser = () => {
         });
         const data = response.data.data;
 
+        const preferredGenres = data.preferredGenres;
+        const genreInitial =
+          preferredGenres == null || preferredGenres.length === 0
+            ? [11]
+            : preferredGenres;
+
         setFormState({
           nickname: data.nickname || '',
           gender: data.gender || '',
           email: data.email || '',
           phoneNumber: data.phoneNumber || '',
           profileImage: data.profileImage || Profileimg,
-          preferredGenres: data.preferredGenres || [],
+          preferredGenres: genreInitial,
           preferredDancers: data.preferredDancers || []
         });
 
