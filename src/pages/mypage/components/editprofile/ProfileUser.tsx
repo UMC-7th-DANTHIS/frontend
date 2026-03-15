@@ -40,13 +40,26 @@ const ProfileUser = () => {
         });
         const data = response.data.data;
 
+        const preferredGenres = data.preferredGenres;
+        const genreInitial =
+          preferredGenres == null || preferredGenres.length === 0
+            ? [11]
+            : preferredGenres;
+
+        const genderDisplay =
+          data.gender === 'male'
+            ? '남'
+            : data.gender === 'female'
+              ? '여'
+              : '';
+
         setFormState({
           nickname: data.nickname || '',
-          gender: data.gender || '',
+          gender: genderDisplay,
           email: data.email || '',
           phoneNumber: data.phoneNumber || '',
           profileImage: data.profileImage || Profileimg,
-          preferredGenres: data.preferredGenres || [],
+          preferredGenres: genreInitial,
           preferredDancers: data.preferredDancers || []
         });
 
@@ -86,6 +99,7 @@ const ProfileUser = () => {
 
       setUploadedImage(fileUrl);
       setIsDefaultImage(false);
+      handleFormChange('profileImage', fileUrl);
     } catch (error: any) {
       console.error('파일 업로드 오류:', error.message);
     }
@@ -277,11 +291,15 @@ const ProfileUser = () => {
             <Label>프로필 사진</Label>
             <ProfileContainer>
               <ProfileImageWrapper>
-                {isDefaultImage || !uploadedImage ? (
-                  <ProfileImage src={Profileimg} alt="프로필 이미지" />
-                ) : (
-                  <ProfileImage src={uploadedImage} alt="프로필 이미지" />
-                )}
+                <ProfileImage
+                  src={
+                    uploadedImage ||
+                    (formState.profileImage && formState.profileImage !== Profileimg
+                      ? formState.profileImage
+                      : Profileimg)
+                  }
+                  alt="프로필 이미지"
+                />
               </ProfileImageWrapper>
               <UploadContainer>
                 <UploadButton
@@ -291,6 +309,7 @@ const ProfileUser = () => {
                   파일 업로드
                 </UploadButton>
                 <HiddenInput
+                  ref={fileInputRef}
                   type="file"
                   id="file-upload"
                   accept="image/*"
@@ -479,7 +498,7 @@ const DoubleCheck = styled.button`
   align-items: center;
   border: 1px solid #ddd;
   border-radius: 8px;
-  width: 70px;
+  /* width: 70px; */
   height: 36px;
   margin-top: 13px;
   color: #4d4d4d;
