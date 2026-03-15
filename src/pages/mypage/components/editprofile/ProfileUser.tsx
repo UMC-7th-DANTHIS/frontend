@@ -492,7 +492,7 @@ const DoubleCheck = styled.button`
   align-items: center;
   border: 1px solid #ddd;
   border-radius: 8px;
-  width: 70px;
+  /* width: 70px; */
   height: 36px;
   margin-top: 13px;
   color: #4d4d4d;
