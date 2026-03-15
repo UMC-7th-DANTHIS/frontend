@@ -42,9 +42,15 @@ export const ImagesUploader = <T extends DancerFormState | ClassFormState>({
   const { mutateAsync: postImagePresignedUrl } = usePostImagePresigned();
   const { uploadToS3 } = useUploadToS3();
 
-  // 이미지 업데이트 로직
+  // 이미지 업데이트 로직 (항상 3칸 배열 유지)
   const updateImageList = (index: number, newImageUrl: string) => {
-    const updatedImages = images.map((img, i) => (i === index ? newImageUrl : img));
+    const padded = [...images];
+    while (padded.length < TOTAL_IMAGES) {
+      padded.push('');
+    }
+    const updatedImages = padded
+      .slice(0, TOTAL_IMAGES)
+      .map((img, i) => (i === index ? newImageUrl : img));
 
     handleFormChange(fieldName, updatedImages as T[typeof fieldName]);
   };
@@ -148,7 +154,7 @@ const Image = styled.label<{ $isEmpty: boolean }>`
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover; // 비율 유지
+    object-fit: cover; 
   }
 
   ${({ $isEmpty }) => $isEmpty && `cursor: pointer;`}
