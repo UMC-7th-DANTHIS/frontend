@@ -31,20 +31,41 @@ const MypageGenre = ({
 
   const handleGenreClick = (genre: string) => {
     const genreIndex = genres.indexOf(genre) + 1;
+    const noneIndex = genres.indexOf('없음') + 1;
 
     setSelectedGenres((prevSelectedGenres) => {
-      if (prevSelectedGenres.includes(genreIndex)) {
-        const newGenres = prevSelectedGenres.filter(
+      if (genre === '없음') {
+        if (
+          prevSelectedGenres.length === 1 &&
+          prevSelectedGenres.includes(noneIndex)
+        ) {
+          onGenreChange([]);
+          return [];
+        }
+
+        const newGenres = [noneIndex];
+        onGenreChange(newGenres);
+        return newGenres;
+      }
+
+  
+      const cleanedPrev = prevSelectedGenres.filter(
+        (selected) => selected !== noneIndex
+      );
+
+      if (cleanedPrev.includes(genreIndex)) {
+        const newGenres = cleanedPrev.filter(
           (selected) => selected !== genreIndex
         );
         onGenreChange(newGenres);
         return newGenres;
-      } else if (prevSelectedGenres.length < genreSelect) {
-        const newGenres = [...prevSelectedGenres, genreIndex];
+      } else if (cleanedPrev.length < genreSelect) {
+        const newGenres = [...cleanedPrev, genreIndex];
         onGenreChange(newGenres);
         return newGenres;
       }
-      return prevSelectedGenres;
+
+      return cleanedPrev;
     });
   };
 

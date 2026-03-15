@@ -40,13 +40,26 @@ const ProfileUser = () => {
         });
         const data = response.data.data;
 
+        const preferredGenres = data.preferredGenres;
+        const genreInitial =
+          preferredGenres == null || preferredGenres.length === 0
+            ? [11]
+            : preferredGenres;
+
+        const genderDisplay =
+          data.gender === 'male'
+            ? '남'
+            : data.gender === 'female'
+              ? '여'
+              : '';
+
         setFormState({
           nickname: data.nickname || '',
-          gender: data.gender || '',
+          gender: genderDisplay,
           email: data.email || '',
           phoneNumber: data.phoneNumber || '',
           profileImage: data.profileImage || Profileimg,
-          preferredGenres: data.preferredGenres || [],
+          preferredGenres: genreInitial,
           preferredDancers: data.preferredDancers || []
         });
 

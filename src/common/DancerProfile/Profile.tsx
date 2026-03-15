@@ -42,12 +42,11 @@ const Profile: React.FC<ProfileProps> = ({ dancer }) => {
     { id: 10, name: 'K-pop' }
   ];
 
-   /** 1) props로 온 isFavorite에 맞춰 동기화 */
+
   useEffect(() => {
     setIsLiked(!!dancer?.isFavorite);
   }, [dancer?.isFavorite]);
 
-  /** 2) 서버의 내 즐겨찾기 목록으로 한 번 더 정확히 동기화 */
   useEffect(() => {
     if (!isLoggedIn || !dancer?.id) return;
 
@@ -167,12 +166,15 @@ const handleLikeClick = async () => {
           <Content>{dancer.instargramId}</Content>
           <Title>주 장르</Title>
           <Content>
-            {dancer.preferredGenres
-              ?.map(
-                (genreId) => genres.find((genre) => genre.id === genreId)?.name
-              )
-              .filter(Boolean) // undefined 값 제거
-              .join(', ') || '알 수 없음'}
+            {!dancer.preferredGenres || dancer.preferredGenres.length === 0
+              ? '없음'
+              : dancer.preferredGenres
+                  .map(
+                    (genreId) =>
+                      genres.find((genre) => genre.id === genreId)?.name
+                  )
+                  .filter(Boolean)
+                  .join(', ') || '없음'}
           </Content>
           <Title>한 마디 소개글</Title>
           <Content>{formatIntroduce(dancer.bio)}</Content>

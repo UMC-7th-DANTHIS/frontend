@@ -39,16 +39,21 @@ const ProfileDancer = () => {
             Authorization: `Bearer ${token}`
           }
         });
-        console.log(response.data.data);
-        console.log(response.data.data.dancerImages);
+    
         const data = response.data.data;
+
+        const preferredGenres = data.preferredGenres;
+        const genreInitial =
+          preferredGenres == null || preferredGenres.length === 0
+            ? [11]
+            : preferredGenres;
 
         setFormState({
           name: data.dancerName || '',
           instagram: data.instargramId || '',
           chatting: data.openChatUrl || '',
           introduce: data.bio || '',
-          genre: data.preferredGenres || [],
+          genre: genreInitial,
           record: data.history || '',
           dancerImages: data.dancerImages || []
         });
