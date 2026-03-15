@@ -46,9 +46,16 @@ const ProfileUser = () => {
             ? [11]
             : preferredGenres;
 
+        const genderDisplay =
+          data.gender === 'male'
+            ? '남'
+            : data.gender === 'female'
+              ? '여'
+              : '';
+
         setFormState({
           nickname: data.nickname || '',
-          gender: data.gender || '',
+          gender: genderDisplay,
           email: data.email || '',
           phoneNumber: data.phoneNumber || '',
           profileImage: data.profileImage || Profileimg,
