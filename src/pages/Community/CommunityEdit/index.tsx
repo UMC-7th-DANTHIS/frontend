@@ -88,6 +88,7 @@ export const CommunityEdit = () => {
           setFileName={setFileName}
           previews={previews}
           setPreviews={setPreviews}
+          setFileObjects={setFileObjects}
           title={title}
           setTitle={setTitle}
           content={content}

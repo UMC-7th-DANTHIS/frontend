@@ -96,6 +96,7 @@ export const CommunityPut = () => {
           setFileName={setFileName}
           previews={previews}
           setPreviews={setPreviews}
+          setFileObjects={setFileObjects}
           title={title}
           setTitle={setTitle}
           content={content}
