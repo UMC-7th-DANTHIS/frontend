@@ -40,31 +40,73 @@ body {
   box-sizing: border-box;
 }
 
-.Toastify__toast--error {
-  background-color: #7d3333 !important;
-  border-radius: 12px !important;
-  color: #ffffff !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
-  padding: 12px 20px !important;
+/* Toastify 글로벌 변수 강제 덮어쓰기 */
+:root {
+  --toastify-color-light: rgba(120, 0, 0, 0.75) !important;
+  --toastify-text-color-light: #ffffff !important;
+  --toastify-text-color-dark: #ffffff !important;
+  --toastify-text-color-info: #ffffff !important;
+  --toastify-text-color-success: #ffffff !important;
+  --toastify-text-color-warning: #ffffff !important;
+  --toastify-text-color-error: #ffffff !important;
 }
 
-.Toastify__toast--error .Toastify__toast-icon svg {
+.Toastify__toast-theme--light.Toastify__toast--info,
+.Toastify__toast-theme--light,
+.Toastify__toast--info {
+  color: #ffffff !important;
+}
+
+.Toastify .Toastify__toast {
+  background: rgba(120, 0, 0, 0.75) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border-radius: 10px !important;
+  padding: 10px 70px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 10px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+  min-height: unset !important;
+  width: fit-content !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.Toastify .Toastify__toast-body {
+  color: #ffffff !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  white-space: nowrap !important;
+  opacity: 1 !important;
+}
+
+.Toastify .Toastify__toast-body > div,
+.Toastify .Toastify__toast-body * {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+.Toastify .Toastify__toast-icon {
+  margin-inline-end: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.Toastify .Toastify__toast-icon svg {
   fill: #ffffff !important;
 }
 
-.Toastify__progress-bar--error {
-  background: rgba(255, 255, 255, 0.5) !important;
+.Toastify .Toastify__progress-bar {
+  background: rgba(255, 255, 255, 0.3) !important;
 }
 
-.Toastify__close-button {
-  color: #ffffff !important;
-  opacity: 0.7;
-}
-
-.custom-toast {
-  min-height: unset !important;
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
-  border-radius: 10px !important;
-  justify-content: center !important;
+.Toastify .Toastify__close-button {
+  display: none !important;
 }
