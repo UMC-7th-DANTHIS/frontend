@@ -26,11 +26,11 @@ ${({ theme }) => theme.media.tablet} {
 `
 
 const Map = styled.div`
-  width : 338px;
+  width : 80vw;
   height: 600px;
   //background-color: lightgray;
   ${({ theme }) => theme.media.tablet} {
-    width : 1003px;
+    width : 80vw;
     height: 737px;
   } 
 `
