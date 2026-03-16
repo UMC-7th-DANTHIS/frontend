@@ -8,6 +8,7 @@ type EditContentProps = {
   setFileName: Dispatch<SetStateAction<string[]>>;
   previews: string[];
   setPreviews: Dispatch<SetStateAction<string[]>>;
+  setFileObjects: Dispatch<SetStateAction<File[]>>;
   title: string;
   setTitle: Dispatch<SetStateAction<string>>;
   content: string;
@@ -19,6 +20,7 @@ const EditContent = ({
   setFileName,
   previews,
   setPreviews,
+  setFileObjects,
   title,
   setTitle,
   content,
@@ -26,6 +28,8 @@ const EditContent = ({
 }: EditContentProps) => {
   const handleRemoveImage = (index: number): void => {
     setPreviews((prev: string[]) => prev.filter((_, i) => i !== index));
+    setFileName((prev: string[]) => prev.filter((_, i) => i !== index));
+    setFileObjects((prev: File[]) => prev.filter((_, i) => i !== index));
   };
 
   return (
