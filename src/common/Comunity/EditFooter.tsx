@@ -25,6 +25,7 @@ const EditFooter = ({ handleFileChange, content, title, fileName, fileObjects, c
   const [showCancelAlert, setShowCancelAlert] = useState<boolean>(false);
 
   const isMobile = useIsMobile();
+  const isImageLimitReached = fileName.length >= 4;
 
   // presignedUrl로 아마존 서버에 이미지 올리고 url 유효하게 하기
   const uploadToS3 = async (presignedUrl: string, file: File): Promise<boolean> => {
@@ -90,9 +91,15 @@ const EditFooter = ({ handleFileChange, content, title, fileName, fileObjects, c
 
             <Wrapper>
               <LeftButtons>
-                <ImageInput>
+                <ImageInput $disabled={isImageLimitReached}>
                   사진
-                  <input type="file" multiple onChange={handleFileChange} accept="image/*" />
+                  <input
+                    type="file"
+                    multiple
+                    onChange={handleFileChange}
+                    accept="image/*"
+                    disabled={isImageLimitReached}
+                  />
                 </ImageInput>
               </LeftButtons>
 
@@ -105,9 +112,15 @@ const EditFooter = ({ handleFileChange, content, title, fileName, fileObjects, c
         ) : (
           <>
             <LeftButtons>
-              <ImageInput>
+              <ImageInput $disabled={isImageLimitReached}>
                 사진
-                <input type="file" multiple onChange={handleFileChange} accept="image/*" />
+                <input
+                  type="file"
+                  multiple
+                  onChange={handleFileChange}
+                  accept="image/*"
+                  disabled={isImageLimitReached}
+                />
               </ImageInput>
               <CatuionContainer>
                 <CautionText>*사진은 최대 4장까지 등록 가능합니다.</CautionText>
@@ -204,19 +217,19 @@ const Wrapper = styled.div`
   justify-content: space-between;
 `;
 
-const ImageInput = styled.label`
+const ImageInput = styled.label<{ $disabled: boolean }>`
   display: flex;
 
   background-color: transparent;
-  border: 2px solid #9819c3;
-  color: #ffffff;
+  border: 2px solid ${(props) => (props.$disabled ? '#4d4d4d' : '#9819c3')};
+  color: ${(props) => (props.$disabled ? '#4d4d4d' : '#ffffff')};
   height: 100%;
 
   justify-content: center;
   align-items: center;
 
   border-radius: 10px;
-  cursor: pointer;
+  cursor: ${(props) => (props.$disabled ? 'default' : 'pointer')};
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
@@ -224,10 +237,11 @@ const ImageInput = styled.label`
   text-align: center;
   min-height: 36px;
   min-width: 64px;
+  pointer-events: ${(props) => (props.$disabled ? 'none' : 'auto')};
 
   &:hover {
-    background-color: #9819c3;
-    color: #fff;
+    background-color: ${(props) => (props.$disabled ? 'transparent' : '#9819c3')};
+    color: ${(props) => (props.$disabled ? '#4d4d4d' : '#fff')};
   }
 
   input[type='file'] {
