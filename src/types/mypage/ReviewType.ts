@@ -24,6 +24,8 @@ export interface ReviewDataProps {
 
 export interface LocationState {
   className?: string;
+  editReviewId?: number;
+  page?: number;
 }
 
 export interface ReviewFormProps {
