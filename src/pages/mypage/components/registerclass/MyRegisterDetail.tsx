@@ -105,7 +105,7 @@ const MyRegisterDetail = () => {
   const handleMouseLeave = () => setIsHovered(false);
   const handleAddOverlay = () => setShowRegisterUser(true);
   const hideAddOverlay = () => setShowRegisterUser(false);
-  const handleGoBack = () => navigate(-1);
+  const handleGoBack = () => navigate('/mypage?menu=myregisteredclasses');
   const users = bookingUser?.users ?? [];
 
   return (
@@ -126,32 +126,32 @@ const MyRegisterDetail = () => {
               </ImageContainer>
 
               <ReviewSection>
-                <IconContainer>
-                  <IconText> 유저 추가 </IconText>
-                  <PlusButton
-                    width={16}
-                    height={16}
-                    onClick={handleAddOverlay}
-                  />
-                  {showRegisterUser && classId && (
-                    <UserOverlay onclose={hideAddOverlay} classId={classId} />
-                  )}
-                </IconContainer>
+                <TextContainer>
+                  <MainText>
+                    수업을 수강한 유저를 추가하고 리뷰를 받아보세요!
+                  </MainText>
+                  <SubText>
+                    *강사가 수업을 수강했음을 증명한 유저만 해당 수업에 대한
+                    리뷰를 남길 수 있습니다
+                  </SubText>
+                  <SubText>
+                    *무분별한 리뷰 작성을 막기 위해 한 번 추가한 유저는 운영진
+                    문의를 통해서만 삭제할 수 있습니다
+                  </SubText>
+                </TextContainer>
 
-                <AddIconContainer>
-                  <TextContainer>
-                    <MainText>
-                      수업을 수강한 유저를 추가하고 리뷰를 받아보세요!
-                    </MainText>
-                    <SubText>
-                      *강사가 수업을 수강했음을 증명한 유저만 해당 수업에 대한
-                      리뷰를 남길 수 있습니다
-                    </SubText>
-                    <SubText>
-                      *무분별한 리뷰 작성을 막기 위해 한 번 추가한 유저는 운영진
-                      문의를 통해서만 삭제할 수 있습니다
-                    </SubText>
-                  </TextContainer>
+                <ActionsRow>
+                  <IconContainer>
+                    <IconText> 유저 추가 </IconText>
+                    <PlusButton
+                      width={16}
+                      height={16}
+                      onClick={handleAddOverlay}
+                    />
+                    {showRegisterUser && classId && (
+                      <UserOverlay onclose={hideAddOverlay} classId={classId} />
+                    )}
+                  </IconContainer>
                   <AskContainer
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
@@ -159,7 +159,7 @@ const MyRegisterDetail = () => {
                     <Ask />
                     {isHovered && <AskAlert />}
                   </AskContainer>
-                </AddIconContainer>
+                </ActionsRow>
               </ReviewSection>
             </ContentSection>
 
@@ -210,12 +210,28 @@ const ClassContainer = styled.div`
   flex-direction: column;
   margin-top: 16px;
   align-items: center;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 0 16px;
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 600px) {
+    padding: 0 12px;
+  }
 `;
 
 const ItemContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 898px;
+    box-sizing: border-box;
+  }
 `;
 
 const HeaderContainer = styled.div`
@@ -223,6 +239,10 @@ const HeaderContainer = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 15px;
+
+  @media (max-width: 600px) {
+    gap: 10px;
+  }
 `;
 
 const IconWrapper = styled.div`
@@ -236,12 +256,34 @@ const Label = styled.div`
   font-weight: 600;
   line-height: normal;
   letter-spacing: -1.2px;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 18px;
+  }
 `;
 
 const ContentSection = styled.div`
   display: flex;
   gap: 15px;
   margin-left: 35px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    margin-left: 20px;
+    gap: 12px;
+  }
+
+  @media (max-width: 600px) {
+    margin-left: 0;
+    gap: 10px;
+    align-items: flex-start;
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -249,6 +291,17 @@ const ImageContainer = styled.div`
   height: 160px;
   overflow: hidden;
   border-radius: 8px;
+
+  @media (max-width: 768px) {
+    width: 140px;
+    height: 140px;
+  }
+
+  @media (max-width: 600px) {
+    width: 160px;
+    height: 160px;
+    flex-shrink: 0;
+  }
 `;
 
 const Image = styled.img`
@@ -262,6 +315,23 @@ const ReviewSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  flex: 1;
+  min-width: 0;
+
+  @media (max-width: 768px) {
+    gap: 12px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+`;
+
+const ActionsRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
 `;
 
 const IconText = styled.div`
@@ -274,33 +344,42 @@ const IconText = styled.div`
 `;
 
 const IconContainer = styled.div`
-  margin-top: 36px;
   display: inline-flex;
   width: 106px;
+  min-width: 106px;
+  max-width: 106px;
   height: 31px;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
   gap: 9px;
   border-radius: 37px;
   border: 1px solid #9819c3;
   cursor: pointer;
+  box-sizing: border-box;
 `;
+
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
+  min-width: 0;
+
+  @media (max-width: 768px) {
+    gap: 8px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
 `;
 
-const AddIconContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
 const AskContainer = styled.div`
   position: relative;
-  margin-top: 43px;
-  margin-left: 20px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
 `;
 const MainText = styled.div`
   color: #fff;
@@ -308,6 +387,13 @@ const MainText = styled.div`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
 `;
 
 const SubText = styled.div`
@@ -316,6 +402,14 @@ const SubText = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: 24px;
+
+  @media (max-width: 768px) {
+    font-size: 10px;
+    line-height: 15px;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
 `;
 
 const Divider = styled.div`
@@ -324,20 +418,64 @@ const Divider = styled.div`
   background-color: #ddd;
   margin-top: 41px;
   margin-bottom: 29px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 898px;
+    margin-top: 28px;
+    margin-bottom: 24px;
+  }
+
+  @media (max-width: 600px) {
+    margin-top: 20px;
+    margin-bottom: 16px;
+  }
 `;
 
 const CheckUserContainer = styled.div`
   margin-left: 35px;
+
+  @media (max-width: 768px) {
+    margin-left: 20px;
+  }
+
+  @media (max-width: 600px) {
+    margin-left: 0;
+    width: 100%;
+  }
 `;
 
 const UserImage = styled.div`
   margin-top: 29px;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  @media (max-width: 600px) {
+    margin-top: 20px;
+  }
 `;
 
 const ImageList = styled.div`
   margin-left: 19px;
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  margin-bottom: 37px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 28px;
+  }
+
+  @media (max-width: 600px) {
+    margin-left: 0;
+    margin-bottom: 12px;
+  }
 `;
 
 const ListImage = styled.img`
@@ -345,7 +483,18 @@ const ListImage = styled.img`
   height: 50px;
   border-radius: 6px;
   object-fit: cover;
-  margin-bottom: 37px;
+  display: block;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    width: 44px;
+    height: 44px;
+  }
+
+  @media (max-width: 600px) {
+    width: 44px;
+    height: 44px;
+  }
 `;
 
 const UserName = styled.div`
@@ -353,16 +502,35 @@ const UserName = styled.div`
   text-align: center;
   font-size: 20px;
   font-weight: 600;
-  line-height: normal;
+  line-height: 1.2;
   letter-spacing: -1px;
   margin-left: 22px;
-  margin-top: 13px;
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+    margin-left: 16px;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 14px;
+    margin-left: 12px;
+  }
 `;
 const PaginationContainer = styled.div`
   margin-bottom: 32px;
   align-items: center;
   justify-content: center;
   display: flex;
+
+  @media (max-width: 600px) {
+    margin-bottom: 24px;
+    width: 100%;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
 `;
 
 const GoBack = styled.button`
@@ -379,6 +547,14 @@ const GoBack = styled.button`
   font-weight: 600;
   line-height: normal;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    margin-bottom: 120px;
+  }
+
+  @media (max-width: 600px) {
+    margin-bottom: 60px;
+  }
 `;
 
 const NoText = styled.div`
@@ -388,4 +564,12 @@ const NoText = styled.div`
   line-height: normal;
   letter-spacing: -1.2px;
   text-align: center;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 16px;
+  }
 `;
