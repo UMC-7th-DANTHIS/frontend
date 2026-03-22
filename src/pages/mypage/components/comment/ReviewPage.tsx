@@ -5,7 +5,10 @@ import CommentsReview from './CommentsReview';
 import { useQuery } from '@tanstack/react-query';
 import api from '../../../../api/api';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
-import { FetchReviewsResponse } from '@/types/mypage/CommentPostType';
+import {
+  FetchReviewsResponse,
+  Review
+} from '@/types/mypage/CommentPostType';
 
 interface ReviewPageProps {
   perPage: number;
@@ -25,8 +28,12 @@ const fetchUserReviews = async (
       size: perData
     }
   });
+  const raw = response.data.data.reviews || [];
   return {
-    reviews: response.data.data.reviews || [],
+    reviews: raw.map((r: Review & { danceClassId?: number }) => ({
+      ...r,
+      classId: r.classId ?? r.danceClassId
+    })),
     totalElements: response.data.data.totalElements || 0
   };
 };
@@ -63,7 +70,11 @@ const ReviewPage = ({ perPage }: ReviewPageProps) => {
       ) : (
         <>
           {data.reviews.map((review) => (
-            <CommentsReview key={review.reviewId} review={review} />
+            <CommentsReview
+              key={review.reviewId}
+              review={review}
+              page={currentPage}
+            />
           ))}
           <Pagination
             dataLength={data.totalElements || 0}

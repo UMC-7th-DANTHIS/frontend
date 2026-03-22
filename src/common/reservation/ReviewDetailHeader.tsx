@@ -44,7 +44,13 @@ export const ReviewDetailHeader = ({
       <Info>
         {isAuthor ? (
           <Tools>
-            <Button onClick={() => navigate(`/review/${reviewId}`)}>
+            <Button
+              onClick={() =>
+                navigate(`/review/${classId}`, {
+                  state: { editReviewId: reviewId, page }
+                })
+              }
+            >
               <EditIcon width={isMobile ? 24 : 28} height={isMobile ? 24 : 28} />
             </Button>
             <Button onClick={onDeleteClick}>

@@ -5,7 +5,7 @@ import { ReactComponent as ExistPhoto } from '../../../../assets/photo.svg';
 import { useNavigate } from 'react-router-dom';
 import { CommentsReviewProps } from '@/types/mypage/CommentPostType';
 
-const CommentsReview = ({ review }: CommentsReviewProps) => {
+const CommentsReview = ({ review, page }: CommentsReviewProps) => {
   const totalStars = 5;
   const navigate = useNavigate();
 
@@ -22,7 +22,12 @@ const CommentsReview = ({ review }: CommentsReviewProps) => {
     <Container>
       <ReviewWrapper
         key={review.reviewId}
-        onClick={() => navigate(`/classes/reviews/${review.reviewId}`)}
+        onClick={() => {
+          if (review.classId == null) return;
+          navigate(`/classes/${review.classId}/reviews/${review.reviewId}`, {
+            state: { fromReviewTab: true, page }
+          });
+        }}
       >
         <InfoWrapper>
           <Data>

@@ -148,14 +148,15 @@ export const ClassEditForm = () => {
         <ModalTwoBtns
           message={
             <span>
-              해당 페이지를 벗어나면{'\n'}
+              해당 페이지를 벗어나면 
+              <br/>
               작성 중인 정보가 <ColoredText> 모두 삭제</ColoredText>됩니다.
-              {'\n'}
+              <br/>
               떠나시겠습니까?
             </span>
           }
           onClose={() => setShowLeaveAlert(false)}
-          onSecondaryClick={() => navigate('/')}
+          onSecondaryClick={() => navigate('/mypage?menu=myregisteredclasses')}
           showButtons={true}
           primaryLabel="남기"
           secondaryLabel="떠나기"

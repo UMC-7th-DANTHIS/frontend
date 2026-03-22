@@ -11,7 +11,6 @@ import useGetClassDetailById from '../../../../hooks/reservation/useGetClassDeta
 
 interface MyEditClassProps {
   classId: number;
-  onClose: () => void;
 }
 
 const MyEditClass = ({ classId }: MyEditClassProps) => {

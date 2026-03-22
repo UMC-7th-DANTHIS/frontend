@@ -120,7 +120,7 @@ const TitleInput = styled.input`
   border: transparent;
   background-color: transparent;
   outline: none;
-  font-family: inherit;
+  font-family: Pretendard, sans-serif;
 
   color: white;
   font-size: 14px;
@@ -130,6 +130,7 @@ const TitleInput = styled.input`
 
   &::placeholder {
     color: #4d4d4d;
+    font-family: Pretendard, sans-serif;
     font-size: 14px;
   }
 
@@ -157,7 +158,7 @@ const ContentInput = styled.textarea`
   border: transparent;
   resize: none;
   outline: none;
-  font-family: inherit;
+  font-family: Pretendard, sans-serif;
 
   color: white;
   font-size: 14px;
@@ -167,6 +168,7 @@ const ContentInput = styled.textarea`
 
   &::placeholder {
     color: #4d4d4d;
+    font-family: Pretendard, sans-serif;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;

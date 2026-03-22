@@ -13,6 +13,13 @@ import {
   ResponseReview
 } from '../types/reservation';
 
+type ReviewWriteBody = {
+  title: string;
+  content: string;
+  rating: number;
+  reviewImages: string[];
+};
+
 export const fetchClasses = async (params: GetClassesAllDto): Promise<ResponseClasses> => {
   const { data } = await api.get(`/dance-classes/all`, {
     params
@@ -30,6 +37,7 @@ export const fetchRating = async (classId: string): Promise<ResponseClassRating>
   return data;
 };
 
+/** 수업별 리뷰 목록 (페이지네이션) */
 export const fetchReviews = async (
   classId: string,
   paginationParams: PaginationParams
@@ -67,5 +75,14 @@ export const fetchReview = async (classId: string, reviewId: string): Promise<Re
 
 export const deleteReview = async (classId: string, reviewId: string): Promise<ResponseDeleteReview> => {
   const { data } = await api.delete(`/dance-classes/${classId}/reviews/${reviewId}`);
+  return data;
+};
+
+export const updateReview = async (
+  classId: string,
+  reviewId: string,
+  body: ReviewWriteBody
+): Promise<ResponseReview> => {
+  const { data } = await api.put(`/dance-classes/${classId}/reviews/${reviewId}`, body);
   return data;
 };
