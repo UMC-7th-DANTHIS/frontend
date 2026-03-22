@@ -15,13 +15,12 @@ const ReviewDetail = () => {
   const [selectedImage, setSelectedImage] = useState<string[]>([]);
   const [rating, setRating] = useState<number>(0);
   const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [showInvalidAlert, setShowInvalidAlert] = useState(false);
   const [review, setReview] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const { id: classId } = useParams<{ id: string }>();
   const selectedMenu = new URLSearchParams(location.search).get('menu') || 'myreview';
   const className = (location.state as LocationState)?.className || '';
-  const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
-
   const handleMenuClick = (menuKey: string) => {
     navigate(`/mypage?menu=${menuKey}`);
   };
@@ -49,7 +48,7 @@ const ReviewDetail = () => {
   const mutation = useMutation({
     mutationFn: createReview,
     onSuccess: () => {
-      setShowInvalidAlert(true);
+      navigate(`/classes/${classId}?tab=reviews`);
     },
     onError: (error: any) => {
       console.error(error.message);
@@ -66,12 +65,8 @@ const ReviewDetail = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!review.trim()) {
-      alert('리뷰 내용을 작성해주세요.');
-      return;
-    }
-    if (!title.trim()) {
-      alert('리뷰 제목을 작성해주세요');
+    if (!title.trim() || !review.trim()) {
+      setShowInvalidAlert(true);
       return;
     }
 
@@ -148,10 +143,7 @@ const ReviewDetail = () => {
                       입력했는지 확인해주세요.
                     </AlertText>
                   }
-                  onClose={() => {
-                    setShowInvalidAlert(false);
-                    navigate(`/classes/${classId}?tab=reviews`);
-                  }}
+                  onClose={() => setShowInvalidAlert(false)}
                   showButtons={true}
                 />
               )}
