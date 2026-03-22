@@ -14,7 +14,7 @@ export default function usePutClass() {
   return useMutation({
     mutationFn: ({ classId, body }: PutClassArgs) => editClass(classId, body),
     onSuccess: (data) => {
-      if (data) navigate(`/mypage?menu=registeredclasses`);
+      if (data) navigate(`/mypage?menu=myregisteredclasses`);
     },
     onError: (error) => {
       console.error('❌ 수업 수정 실패:', error);

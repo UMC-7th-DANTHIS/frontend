@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
 import './App.css';
 
 import MainLayout from './layout/MainLayout';
@@ -24,6 +24,7 @@ import KakaoRedirectHandler from './pages/Login/KakaoRedirectHandler';
 import SearchLayout from './layout/SearchLayout';
 import SearchWrapper from './layout/SearchWrapper';
 import MyRegisterDetail from './pages/mypage/components/registerclass/MyRegisterDetail';
+import MyEditClass from './pages/mypage/components/registerclass/MyEditClass';
 import RegisterClassDetailLayout from './pages/mypage/RegisterClassDetailLayout';
 import ClassesPage from './pages/reservation/ClassesPage';
 import ReservationPage from './pages/reservation/ReservationPage';
@@ -31,6 +32,15 @@ import ReviewDetailPage from './pages/reservation/ReviewDetailPage';
 import Practice from './pages/Practice/Practice';
 import Battle from './pages/Battle/Battle';
 import GlobalStyle from './utils/globalstyle';
+
+/** `/detail/:classId/edit` — URL에서 classId를 넘겨 수정 폼 렌더 */
+const RegisterClassEditPage = (): React.JSX.Element | null => {
+  const { classId } = useParams<{ classId: string }>();
+  if (!classId) return null;
+  const id = Number(classId);
+  if (Number.isNaN(id)) return null;
+  return <MyEditClass classId={id} />;
+};
 
 function App(): React.JSX.Element {
   return (
@@ -66,6 +76,7 @@ function App(): React.JSX.Element {
             <Route path="/review/:id" element={<ReviewDetail />} />
             <Route path="/detail/:classId" element={<RegisterClassDetailLayout />}>
               <Route index element={<MyRegisterDetail />} />
+              <Route path="edit" element={<RegisterClassEditPage />} />
             </Route>
             <Route path="/practice" element={<Practice />} />
             <Route path="/battle" element={<Battle />} />

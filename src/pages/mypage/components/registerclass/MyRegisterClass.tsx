@@ -13,7 +13,6 @@ import LoadingSpinner from '../../../../components/LoadingSpinner';
 import { ModalTwoBtns } from '../../../../components/modals';
 import NoDancer from '../NoDancer';
 import { RegisterClassProps } from '@/types/mypage/RegisterType';
-import MyEditClass from './MyEditClass';
 import useIsMobile from '../../../../hooks/useIsMobile';
 
 const MyRegisterClass = ({ dancerId }: { dancerId: number }) => {
@@ -25,9 +24,6 @@ const MyRegisterClass = ({ dancerId }: { dancerId: number }) => {
   const perData = 9;
   const queryClient = useQueryClient();
   const isMobile = useIsMobile();
-
-  const [isEditing, setIsEditing] = useState(false);
-  const [editClassId, setEditClassId] = useState<number | null>(null);
 
   const { data, isLoading, isError, error } = useQuery<
     RegisterClassProps[] | null
@@ -87,8 +83,7 @@ const MyRegisterClass = ({ dancerId }: { dancerId: number }) => {
   };
 
   const handleEdit = (classId: number) => {
-    setEditClassId(classId);
-    setIsEditing(true);
+    navigate(`/detail/${classId}/edit`);
   };
 
   const handleShowAlert = (id: number) => {
@@ -106,12 +101,6 @@ const MyRegisterClass = ({ dancerId }: { dancerId: number }) => {
       setShowAlert(false);
     }
   };
-
-  if (isEditing && editClassId !== null) {
-    return (
-      <MyEditClass classId={editClassId} onClose={() => setIsEditing(false)} />
-    );
-  }
 
   return (
     <PageWrapper>
