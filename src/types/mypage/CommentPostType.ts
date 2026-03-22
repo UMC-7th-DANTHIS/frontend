@@ -13,6 +13,7 @@ export interface FetchUserPostsResponse {
 
 export interface Review {
   reviewId: number;
+  classId?: number;
   title: string;
   images?: string[];
   rating: number;
@@ -30,6 +31,7 @@ export interface Comment {
 
 export interface CommentsReviewProps {
   review: Review;
+  page: number;
 }
 
 export interface CommentsProps {

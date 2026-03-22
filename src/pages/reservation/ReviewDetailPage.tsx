@@ -9,24 +9,23 @@ import { ReviewDetailHeader } from '../../common/reservation/ReviewDetailHeader'
 import { useAuth } from '../../hooks/useAuth';
 
 interface ReviewLocationState {
-  fromReviewTab: boolean;
-  classId: string;
-  page: number;
+  fromReviewTab?: boolean;
+  page?: number;
 }
 
 export default function ReviewDetailPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { reviewId } = useParams();
+  const { classId, reviewId } = useParams<{ classId: string; reviewId: string }>();
 
   const { isLoggedIn } = useAuth();
 
   const [isUserAuthorMatch, setIsUserAuthorMatch] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean[]>([]);
 
-  const { fromReviewTab, classId, page } = (location.state as ReviewLocationState) || {}; // 페이지네이션을 기억해 둠
+  const { fromReviewTab, page } = (location.state as ReviewLocationState) || {}; // 리뷰 탭에서 온 경우 페이지네이션
 
-  const { data: review, isLoading } = useGetReview(classId, reviewId ?? '');
+  const { data: review, isLoading } = useGetReview(classId, reviewId);
   const { data: user } = useGetMyInfo({ enabled: isLoggedIn });
 
   useEffect(() => {
@@ -35,7 +34,7 @@ export default function ReviewDetailPage() {
   }, [user, review]);
 
   const handleBackClick = () => {
-    if (fromReviewTab) {
+    if (fromReviewTab && classId) {
       navigate(`/classes/${classId}?tab=reviews`, {
         state: { fromReviewDetail: true, page } // 페이지네이션 정보 재전달
       });
@@ -50,7 +49,7 @@ export default function ReviewDetailPage() {
     });
   };
 
-  if (!review || !reviewId || isLoading)
+  if (!review || !reviewId || !classId || isLoading)
     return (
       <Container>
         <LoadingSpinner isLoading={isLoading} marginTop="0" />
@@ -65,8 +64,8 @@ export default function ReviewDetailPage() {
         reviewId={review.reviewId}
         isAuthor={isUserAuthorMatch}
         createdAt={review.createdAt}
-        classId={classId}
-        page={page}
+        classId={classId ?? ''}
+        page={page ?? 1}
       />
       <Content>{review.content}</Content>
       <ImagesContainer>

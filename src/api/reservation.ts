@@ -30,6 +30,7 @@ export const fetchRating = async (classId: string): Promise<ResponseClassRating>
   return data;
 };
 
+/** 수업별 리뷰 목록 (페이지네이션) */
 export const fetchReviews = async (
   classId: string,
   paginationParams: PaginationParams
