@@ -10,7 +10,7 @@ import { MyEditClassContext } from './MyEditClassContext';
 import { ClassEditForm } from './ClassEditForm';
 import usePutClass from '../../../../hooks/registration/usePutClass';
 import useGetClassDetailById from '../../../../hooks/reservation/useGetClassDetailById';
-import { buildClassImagesWithDancerFallback } from '../../../../utils/classImages';
+import { buildClassImagesWithDancerFallback, normalizeClassImageSlots } from '../../../../utils/classImages';
 
 interface MyEditClassProps {
   classId: number;
@@ -46,7 +46,7 @@ const MyEditClass = ({ classId }: MyEditClassProps) => {
       const response = await api.get('/dancers', {
         headers: { Authorization: `Bearer ${token}` }
       });
-      return response.data.data as { dancerImages?: string[] };
+      return response.data.data;
     }
   });
 
@@ -62,7 +62,7 @@ const MyEditClass = ({ classId }: MyEditClassProps) => {
         description: data.details.description || '',
         targetAudience: data.details.targetAudience || 's',
         hashtags: data.details.hashtags || [],
-        images: data.details.danceClassImages || ['', '', ''],
+        images: normalizeClassImageSlots(data.details.danceClassImages),
         videoUrl: data.details.videoUrl || ''
       });
   }, [data]);
@@ -81,10 +81,7 @@ const MyEditClass = ({ classId }: MyEditClassProps) => {
     const updatedFormState = {
       ...formState,
       pricePerSession: Number(formState.pricePerSession) || 0,
-      images: buildClassImagesWithDancerFallback(
-        formState.images,
-        dancerData?.dancerImages
-      )
+      images: buildClassImagesWithDancerFallback(formState.images, dancerData)
     };
 
     if (!isValid || !isVideoValid) {

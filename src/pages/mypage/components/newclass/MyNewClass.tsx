@@ -46,7 +46,7 @@ const MyNewClass = () => {
       const response = await api.get('/dancers', {
         headers: { Authorization: `Bearer ${token}` }
       });
-      return response.data.data as { dancerImages?: string[] };
+      return response.data.data;
     }
   });
 
@@ -62,10 +62,7 @@ const MyNewClass = () => {
     const updatedFormState = {
       ...formState,
       pricePerSession: Number(formState.pricePerSession) || 0, // 빈 값이면 0 처리
-      images: buildClassImagesWithDancerFallback(
-        formState.images,
-        dancerData?.dancerImages
-      )
+      images: buildClassImagesWithDancerFallback(formState.images, dancerData)
     };
 
     if (!isValid || !isVideoValid) {
