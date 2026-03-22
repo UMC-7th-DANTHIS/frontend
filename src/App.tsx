@@ -69,8 +69,8 @@ function App(): React.JSX.Element {
             <Route path="/signup3" element={<SignupPage3 />} />
             <Route path="/signup4" element={<SignupPage4 />} />
             <Route path="/classes" element={<ClassesPage />} />
+            <Route path="/classes/:classId/reviews/:reviewId" element={<ReviewDetailPage />} />
             <Route path="/classes/:classId" element={<ReservationPage />} />
-            <Route path="/classes/reviews/:reviewId" element={<ReviewDetailPage />} />
             <Route path="/dancerprofile" element={<ProfileList />} />
             <Route path="/dancerprofile/:dancerId" element={<DancerProfile />} />
             <Route path="/review/:id" element={<ReviewDetail />} />

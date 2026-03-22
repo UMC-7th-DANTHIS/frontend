@@ -10,7 +10,10 @@ export const ReviewTab = () => {
   const { classId } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const perData = 5;
-  const { data } = useGetReviews(classId ?? '', { page: currentPage });
+  const { data } = useGetReviews(classId, {
+    page: currentPage,
+    size: perData
+  });
 
   const { fromReviewDetail, page } = location.state || {}; // 이동했던 페이지로부터 이전 페이지네이션 정보를 전달 받음
 

@@ -17,7 +17,7 @@ export default function useDeleteReview() {
     onSuccess: (_data, variables) => {
       const { classId, reviewId, page } = variables;
 
-      queryClient.invalidateQueries({ queryKey: ['review', reviewId] });
+      queryClient.invalidateQueries({ queryKey: ['review', classId, reviewId] });
 
       navigate(`/classes/${classId}?tab=reviews`, {
         state: { fromReviewDetail: true, page } // 페이지네이션 정보 재전달

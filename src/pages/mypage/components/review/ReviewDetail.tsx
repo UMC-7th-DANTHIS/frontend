@@ -1,26 +1,48 @@
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import styled from 'styled-components';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import MypageSidebar from '../../MypageSidebar';
 import ReviewForm from './ReviewForm';
 import ReviewStar from './ReviewStar';
 import api from '../../../../api/api';
-import { useMutation } from '@tanstack/react-query';
+import { updateReview } from '../../../../api/reservation';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LocationState, ReviewDataProps } from '@/types/mypage/ReviewType';
 import { ModalOneBtn, ModalTwoBtns } from '../../../../components/modals';
+import useGetReview from '../../../../hooks/reservation/review/useGetReview';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
 
 const ReviewDetail = () => {
+  const queryClient = useQueryClient();
   const location = useLocation();
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState<string[]>([]);
   const [rating, setRating] = useState<number>(0);
   const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [showInvalidAlert, setShowInvalidAlert] = useState(false);
   const [review, setReview] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const { id: classId } = useParams<{ id: string }>();
   const selectedMenu = new URLSearchParams(location.search).get('menu') || 'myreview';
-  const className = (location.state as LocationState)?.className || '';
-  const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
+  const locationState = (location.state as LocationState) || {};
+  const editReviewId = locationState.editReviewId;
+  const isEditMode = editReviewId != null;
+  const className = locationState.className || '';
+
+  const { data: existingReview, isLoading: isLoadingEdit } = useGetReview(
+    classId,
+    isEditMode ? String(editReviewId) : undefined
+  );
+
+  useEffect(() => {
+    if (!isEditMode || !existingReview) return;
+    setTitle(existingReview.title);
+    setReview(existingReview.content);
+    setRating(existingReview.rating ?? 0);
+    setSelectedImage(
+      existingReview.reviewImages?.length ? [...existingReview.reviewImages] : []
+    );
+  }, [isEditMode, existingReview]);
 
   const handleMenuClick = (menuKey: string) => {
     navigate(`/mypage?menu=${menuKey}`);
@@ -47,12 +69,26 @@ const ReviewDetail = () => {
   };
 
   const mutation = useMutation({
-    mutationFn: createReview,
-    onSuccess: () => {
-      setShowInvalidAlert(true);
+    mutationFn: async (reviewData: ReviewDataProps) => {
+      if (isEditMode && classId) {
+        return updateReview(classId, String(editReviewId), reviewData);
+      }
+      return createReview(reviewData);
     },
-    onError: (error: any) => {
-      console.error(error.message);
+    onSuccess: async () => {
+      if (classId) {
+        await queryClient.invalidateQueries({ queryKey: ['reviews', classId] });
+        if (isEditMode && editReviewId != null) {
+          await queryClient.invalidateQueries({
+            queryKey: ['review', classId, String(editReviewId)]
+          });
+        }
+      }
+      await queryClient.invalidateQueries({ queryKey: ['userreviews'] });
+      navigate(`/classes/${classId}?tab=reviews`);
+    },
+    onError: (error: unknown) => {
+      console.error(error);
     }
   });
 
@@ -66,12 +102,8 @@ const ReviewDetail = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!review.trim()) {
-      alert('리뷰 내용을 작성해주세요.');
-      return;
-    }
-    if (!title.trim()) {
-      alert('리뷰 제목을 작성해주세요');
+    if (!title.trim() || !review.trim()) {
+      setShowInvalidAlert(true);
       return;
     }
 
@@ -88,6 +120,17 @@ const ReviewDetail = () => {
   const handleClickCancel = () => setShowAlert(true);
   const hideClickCancel = () => setShowAlert(false);
 
+  if (isEditMode && isLoadingEdit) {
+    return (
+      <Container>
+        <MypageSidebar selectedMenu={selectedMenu} onMenuClick={handleMenuClick} />
+        <ReviewContainer>
+          <LoadingSpinner isLoading={true} marginTop="120px" />
+        </ReviewContainer>
+      </Container>
+    );
+  }
+
   return (
     <>
       <Container>
@@ -95,7 +138,7 @@ const ReviewDetail = () => {
 
         <ReviewContainer>
           <ClassTitle>{className}</ClassTitle>
-          <Title>리뷰 작성</Title>
+          <Title>{isEditMode ? '리뷰 수정' : '리뷰 작성'}</Title>
           <Notice>
             <li>* 제목은 최대 50자까지 입력 가능합니다.</li>
             <li>* 내용은 최대 1000자까지 입력 가능합니다.</li>
@@ -138,7 +181,7 @@ const ReviewDetail = () => {
                 )}
               </CancelButton>
 
-              <SubmitButton onClick={handleSubmit}>작성</SubmitButton>
+              <SubmitButton onClick={handleSubmit}>{isEditMode ? '수정' : '작성'}</SubmitButton>
               {showInvalidAlert && (
                 <ModalOneBtn
                   message={
@@ -148,10 +191,7 @@ const ReviewDetail = () => {
                       입력했는지 확인해주세요.
                     </AlertText>
                   }
-                  onClose={() => {
-                    setShowInvalidAlert(false);
-                    navigate(`/classes/${classId}?tab=reviews`);
-                  }}
+                  onClose={() => setShowInvalidAlert(false)}
                   showButtons={true}
                 />
               )}

@@ -102,6 +102,7 @@ export type SingleReview = {
   author: string;
   createdAt: string;
   reviewImages: string[];
+  rating?: number;
 };
 
 export type User = {
