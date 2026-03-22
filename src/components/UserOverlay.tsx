@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as PlusButton } from '../assets/buttons/plus-button.svg';
 import api from '../api/api';
@@ -26,6 +26,14 @@ const UserOverlay: React.FC<UserOverlayProps> = ({ onclose, classId }) => {
   const [currentPage] = useState<number>(1);
   const perData = 5;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onclose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onclose]);
 
   const fetchEligibleUsers = async (
     currentPage: number,
@@ -56,14 +64,6 @@ const UserOverlay: React.FC<UserOverlayProps> = ({ onclose, classId }) => {
     queryFn: () => fetchEligibleUsers(currentPage, perData, classId)
   });
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError || !eligibleUsers) {
-    return <div>Error loading data</div>;
-  }
-
   const handlePlusButtonClick = async (
     userId: number,
     currentApprovalStatus: boolean
@@ -92,56 +92,99 @@ const UserOverlay: React.FC<UserOverlayProps> = ({ onclose, classId }) => {
     }
   };
 
-  const sortedUsers = [...eligibleUsers.users].sort((a, b) => {
-    return a.isApproved === b.isApproved ? 0 : a.isApproved ? 1 : -1;
-  });
+  const sortedUsers = eligibleUsers?.users
+    ? [...eligibleUsers.users].sort((a, b) => {
+        return a.isApproved === b.isApproved ? 0 : a.isApproved ? 1 : -1;
+      })
+    : [];
 
   return (
-    <Container>
-      <AllContainer onClick={onclose}>
-        <ScrollableContainer>
-          <ImageContainer>
-            {sortedUsers.map((user) => (
-              <ImageList key={user.userId}>
-                <ListImage src={user.profileImage || ''} alt={'userImage'} />
-                <UserName isApproved={user.isApproved}>
-                  {user.nickname}
-                </UserName>
-                <Icon
-                  isApproved={user.isApproved}
-                  onClick={() =>
-                    handlePlusButtonClick(user.userId, user.isApproved)
-                  }
-                  disabled={user.isApproved}
-                >
-                  <PlusButton width={40} height={40} />
-                </Icon>
-              </ImageList>
-            ))}
-          </ImageContainer>
-        </ScrollableContainer>
-      </AllContainer>
-    </Container>
+    <Backdrop role="presentation" onClick={onclose}>
+      <ModalPanel
+        role="dialog"
+        aria-modal="true"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {isLoading && <StateMessage>Loading...</StateMessage>}
+
+        {!isLoading && (isError || !eligibleUsers) && (
+          <StateMessage>데이터를 불러오지 못했습니다.</StateMessage>
+        )}
+
+        {!isLoading && eligibleUsers && (
+          <ScrollableContainer>
+            <ImageContainer>
+              {sortedUsers.map((user) => (
+                <ImageList key={user.userId}>
+                  <ListImage src={user.profileImage || ''} alt={'userImage'} />
+                  <UserName isApproved={user.isApproved}>
+                    {user.nickname}
+                  </UserName>
+                  <Icon
+                    isApproved={user.isApproved}
+                    onClick={() =>
+                      handlePlusButtonClick(user.userId, user.isApproved)
+                    }
+                    disabled={user.isApproved}
+                  >
+                    <PlusButton width={40} height={40} />
+                  </Icon>
+                </ImageList>
+              ))}
+            </ImageContainer>
+          </ScrollableContainer>
+        )}
+      </ModalPanel>
+    </Backdrop>
   );
 };
 
 export default UserOverlay;
 
-const Container = styled.div`
+const Backdrop = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  padding: 16px;
+  box-sizing: border-box;
+`;
+
+const ModalPanel = styled.div`
+  width: 528px;
+  max-width: calc(100vw - 32px);
+  max-height: min(494px, calc(100vh - 32px));
+  border-radius: 15px;
+  border: 1px solid #a60f62;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    max-height: calc(100vh - 24px);
+    border-radius: 12px;
+  }
+`;
+
+const StateMessage = styled.div`
+  padding: 48px 24px;
+  text-align: center;
+  color: #fff;
+  font-size: 16px;
+
+  @media (max-width: 600px) {
+    padding: 32px 16px;
+    font-size: 14px;
+  }
 `;
 
 const ScrollableContainer = styled.div`
-  max-height: 485px;
+  max-height: min(485px, calc(100vh - 80px));
   overflow: hidden;
   overflow-y: auto;
   width: 100%;
@@ -165,6 +208,10 @@ const ScrollableContainer = styled.div`
     display: block;
     height: 39px;
   }
+
+  @media (max-width: 600px) {
+    max-height: calc(100vh - 100px);
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -172,21 +219,22 @@ const ImageContainer = styled.div`
   flex-direction: column;
   gap: 40px;
   margin: 36px 56px;
-`;
 
-const AllContainer = styled.div`
-  width: 528px;
-  height: 494px;
-  border-radius: 15px;
-  border: 1px solid #a60f62;
-  background: #000;
-  display: flex;
-  flex-direction: column;
+  @media (max-width: 768px) {
+    margin: 28px 32px;
+    gap: 28px;
+  }
+
+  @media (max-width: 600px) {
+    margin: 20px 16px;
+    gap: 20px;
+  }
 `;
 
 const ImageList = styled.div`
   display: flex;
   align-items: center;
+  min-width: 0;
 `;
 
 const ListImage = styled.img`
@@ -194,6 +242,12 @@ const ListImage = styled.img`
   height: 50px;
   border-radius: 6px;
   object-fit: cover;
+  flex-shrink: 0;
+
+  @media (max-width: 600px) {
+    width: 44px;
+    height: 44px;
+  }
 `;
 
 const UserName = styled.div<{ isApproved: boolean }>`
@@ -202,6 +256,15 @@ const UserName = styled.div<{ isApproved: boolean }>`
   margin-left: 22px;
   font-weight: 600;
   line-height: 1.5;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  @media (max-width: 600px) {
+    font-size: 16px;
+    margin-left: 12px;
+  }
 `;
 
 const Icon = styled.div<{ isApproved: boolean; disabled: boolean }>`
@@ -210,6 +273,14 @@ const Icon = styled.div<{ isApproved: boolean; disabled: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+
+  svg {
+    @media (max-width: 600px) {
+      width: 32px;
+      height: 32px;
+    }
+  }
 
   svg rect {
     stroke: ${({ isApproved, disabled }) =>

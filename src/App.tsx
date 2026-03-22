@@ -24,6 +24,7 @@ import KakaoRedirectHandler from './pages/Login/KakaoRedirectHandler';
 import SearchLayout from './layout/SearchLayout';
 import SearchWrapper from './layout/SearchWrapper';
 import MyRegisterDetail from './pages/mypage/components/registerclass/MyRegisterDetail';
+import RegisterClassDetailLayout from './pages/mypage/RegisterClassDetailLayout';
 import ClassesPage from './pages/reservation/ClassesPage';
 import ReservationPage from './pages/reservation/ReservationPage';
 import ReviewDetailPage from './pages/reservation/ReviewDetailPage';
@@ -63,7 +64,9 @@ function App(): React.JSX.Element {
             <Route path="/dancerprofile" element={<ProfileList />} />
             <Route path="/dancerprofile/:dancerId" element={<DancerProfile />} />
             <Route path="/review/:id" element={<ReviewDetail />} />
-            <Route path="/detail/:classId" element={<MyRegisterDetail />} />
+            <Route path="/detail/:classId" element={<RegisterClassDetailLayout />}>
+              <Route index element={<MyRegisterDetail />} />
+            </Route>
             <Route path="/practice" element={<Practice />} />
             <Route path="/battle" element={<Battle />} />
           </Route>
