@@ -69,7 +69,7 @@ const MypageLayout = () => {
         if (!isDancer || !dancerData || !dancerData.id) {
           return <NoDancer />;
         }
-        return <MyRegisterClass dancerId={dancerData.id} />;
+        return <MyRegisterClass dancerId={dancerData.id} dancerInfo={dancerData} />;
       case 'registerdancer':
         if (isDancer === true) {
           return <AlreadyDancer />;

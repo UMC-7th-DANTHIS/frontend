@@ -1,5 +1,8 @@
 import { useCallback, useState } from 'react';
 import styled from 'styled-components';
+import { useQuery } from '@tanstack/react-query';
+import api from '../../../../api/api';
+import { buildClassImagesWithDancerFallback } from '../../../../utils/classImages';
 
 import { RegisterComplete } from '../form';
 import { ClassFormState } from '@/types/registration';
@@ -36,6 +39,17 @@ const MyNewClass = () => {
 
   useConfirmLeave({ setAlert: setShowLeaveAlert });
 
+  const { data: dancerData } = useQuery({
+    queryKey: ['myDancer'],
+    queryFn: async () => {
+      const token = localStorage.getItem('token');
+      const response = await api.get('/dancers', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      return response.data.data;
+    }
+  });
+
   const { mutate: postClass } = usePostClass();
 
   const handleFormChange = useCallback(<K extends keyof ClassFormState>(key: K, value: ClassFormState[K]) => {
@@ -48,7 +62,7 @@ const MyNewClass = () => {
     const updatedFormState = {
       ...formState,
       pricePerSession: Number(formState.pricePerSession) || 0, // 빈 값이면 0 처리
-      images: formState.images.filter((img) => img) // ''  값 제거
+      images: buildClassImagesWithDancerFallback(formState.images, dancerData)
     };
 
     if (!isValid || !isVideoValid) {
