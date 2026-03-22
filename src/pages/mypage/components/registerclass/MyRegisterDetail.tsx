@@ -204,7 +204,7 @@ const MyRegisterDetail = () => {
           </ItemContainer>
         </ClassContainer>
       ) : dancerData?.id ? (
-        <MyRegisterClass dancerId={dancerData.id} />
+        <MyRegisterClass dancerId={dancerData.id} dancerInfo={dancerData} />
       ) : null}
     </>
   );

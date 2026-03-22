@@ -14,8 +14,16 @@ import { ModalTwoBtns } from '../../../../components/modals';
 import NoDancer from '../NoDancer';
 import { RegisterClassProps } from '@/types/mypage/RegisterType';
 import useIsMobile from '../../../../hooks/useIsMobile';
+import { MyDancerImagesPayload, resolveClassThumbnail } from '../../../../utils/classImages';
 
-const MyRegisterClass = ({ dancerId }: { dancerId: number }) => {
+const MyRegisterClass = ({
+  dancerId,
+  dancerInfo
+}: {
+  dancerId: number;
+  /** 수업 썸네일이 비었을 때 댄서 등록 사진으로 표시 */
+  dancerInfo?: MyDancerImagesPayload | null;
+}) => {
   const [selectedClass] = useState<number | null>(null);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -110,7 +118,7 @@ const MyRegisterClass = ({ dancerId }: { dancerId: number }) => {
             {getCurrentPageData().map((danceClass) => (
               <ClassList key={danceClass.id}>
                 <Image
-                  src={danceClass.thumbnailImage}
+                  src={resolveClassThumbnail(danceClass.thumbnailImage, dancerInfo) || sampleImage}
                   alt={String(danceClass.id)}
                   isMobile={isMobile}
                   onError={handleImageError}

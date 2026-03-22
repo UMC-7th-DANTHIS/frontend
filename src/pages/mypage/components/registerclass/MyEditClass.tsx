@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useQuery } from '@tanstack/react-query';
+import api from '../../../../api/api';
 
 import { ClassFormState } from '@/types/registration';
 import useValidation from '../../../../hooks/registration/useValidation';
@@ -8,6 +10,7 @@ import { MyEditClassContext } from './MyEditClassContext';
 import { ClassEditForm } from './ClassEditForm';
 import usePutClass from '../../../../hooks/registration/usePutClass';
 import useGetClassDetailById from '../../../../hooks/reservation/useGetClassDetailById';
+import { buildClassImagesWithDancerFallback, normalizeClassImageSlots } from '../../../../utils/classImages';
 
 interface MyEditClassProps {
   classId: number;
@@ -36,6 +39,17 @@ const MyEditClass = ({ classId }: MyEditClassProps) => {
 
   const { data } = useGetClassDetailById(String(classId));
 
+  const { data: dancerData } = useQuery({
+    queryKey: ['myDancer'],
+    queryFn: async () => {
+      const token = localStorage.getItem('token');
+      const response = await api.get('/dancers', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      return response.data.data;
+    }
+  });
+
   useEffect(() => {
     if (data)
       setFormState({
@@ -48,7 +62,7 @@ const MyEditClass = ({ classId }: MyEditClassProps) => {
         description: data.details.description || '',
         targetAudience: data.details.targetAudience || 's',
         hashtags: data.details.hashtags || [],
-        images: data.details.danceClassImages || ['', '', ''],
+        images: normalizeClassImageSlots(data.details.danceClassImages),
         videoUrl: data.details.videoUrl || ''
       });
   }, [data]);
@@ -66,7 +80,8 @@ const MyEditClass = ({ classId }: MyEditClassProps) => {
 
     const updatedFormState = {
       ...formState,
-      pricePerSession: Number(formState.pricePerSession) || 0
+      pricePerSession: Number(formState.pricePerSession) || 0,
+      images: buildClassImagesWithDancerFallback(formState.images, dancerData)
     };
 
     if (!isValid || !isVideoValid) {
