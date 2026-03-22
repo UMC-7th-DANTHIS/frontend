@@ -127,39 +127,46 @@ const MyRegisterDetail = () => {
 
               <ReviewSection>
                 <TextContainer>
+                  <ActionsRow>
+                    <IconContainer onClick={handleAddOverlay}>
+                      <IconText> 유저 추가 </IconText>
+                      <PlusButton width={16} height={16} />
+                    </IconContainer>
+                    <AskInActionsRow
+                      onMouseEnter={handleMouseEnter}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      <Ask />
+                      {isHovered && <AskAlert />}
+                    </AskInActionsRow>
+                  </ActionsRow>
                   <MainText>
                     수업을 수강한 유저를 추가하고 리뷰를 받아보세요!
                   </MainText>
-                  <SubText>
-                    *강사가 수업을 수강했음을 증명한 유저만 해당 수업에 대한
-                    리뷰를 남길 수 있습니다
-                  </SubText>
-                  <SubText>
-                    *무분별한 리뷰 작성을 막기 위해 한 번 추가한 유저는 운영진
-                    문의를 통해서만 삭제할 수 있습니다
-                  </SubText>
+                  <SubTextBlock>
+                    <SubText>
+                      강사가 수업을 수강했음을 증명한 유저만 해당 수업에 대한
+                      리뷰를 남길 수 있습니다.
+                    </SubText>
+                    <SubTextAskRow>
+                      <SubText>
+                        무분별한 리뷰 삭제를 막기 위해 한 번 추가한 유저는 운영진
+                        문의를 통해서만 삭제할 수 있습니다.
+                      </SubText>
+                      <AskInSubTextRow
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                      >
+                        <Ask />
+                        {isHovered && <AskAlert />}
+                      </AskInSubTextRow>
+                    </SubTextAskRow>
+                  </SubTextBlock>
                 </TextContainer>
-
-                <ActionsRow>
-                  <IconContainer>
-                    <IconText> 유저 추가 </IconText>
-                    <PlusButton
-                      width={16}
-                      height={16}
-                      onClick={handleAddOverlay}
-                    />
-                    {showRegisterUser && classId && (
-                      <UserOverlay onclose={hideAddOverlay} classId={classId} />
-                    )}
-                  </IconContainer>
-                  <AskContainer
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                  >
-                    <Ask />
-                    {isHovered && <AskAlert />}
-                  </AskContainer>
-                </ActionsRow>
+           
+                {showRegisterUser && classId && (
+                  <UserOverlay onclose={hideAddOverlay} classId={classId} />
+                )}
               </ReviewSection>
             </ContentSection>
 
@@ -225,7 +232,6 @@ const ClassContainer = styled.div`
 const ItemContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 15px;
 
   @media (max-width: 768px) {
     width: 100%;
@@ -268,8 +274,9 @@ const Label = styled.div`
 
 const ContentSection = styled.div`
   display: flex;
-  gap: 15px;
+  gap: 37px;
   margin-left: 35px;
+  margin-top: 26px;
 
   @media (max-width: 768px) {
     width: 100%;
@@ -314,7 +321,7 @@ const Image = styled.img`
 const ReviewSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  margin-top: 44px;
   flex: 1;
   min-width: 0;
 
@@ -323,15 +330,23 @@ const ReviewSection = styled.div`
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+    margin-top: 0;
   }
 `;
+
 
 const ActionsRow = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 15px;
+  justify-content: flex-start;
+  width: 100%;
   flex-wrap: wrap;
+  margin-bottom: 2px;
+
+  @media (max-width: 768px) {
+    gap: 15px;
+  }
 `;
 
 const IconText = styled.div`
@@ -357,20 +372,34 @@ const IconContainer = styled.div`
   border: 1px solid #9819c3;
   cursor: pointer;
   box-sizing: border-box;
+  flex-wrap: nowrap;
+  white-space: nowrap;
 `;
 
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 8px;
   min-width: 0;
 
   @media (max-width: 768px) {
-    gap: 8px;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
     overflow-wrap: break-word;
     word-break: break-word;
+    gap: 0;
+
+
+    & > *:nth-child(1) {
+      order: 3;
+    }
+    & > *:nth-child(2) {
+      order: 1;
+    }
+    & > *:nth-child(3) {
+      order: 2;
+    }
   }
 `;
 
@@ -380,6 +409,18 @@ const AskContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+`;
+
+const AskInSubTextRow = styled(AskContainer)`
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const AskInActionsRow = styled(AskContainer)`
+  @media (min-width: 769px) {
+    display: none;
+  }
 `;
 const MainText = styled.div`
   color: #fff;
@@ -393,12 +434,13 @@ const MainText = styled.div`
     min-width: 0;
     max-width: 100%;
     box-sizing: border-box;
+    margin-bottom: 4px;
   }
 `;
 
 const SubText = styled.div`
   color: #b2b2b2;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: 24px;
@@ -409,6 +451,49 @@ const SubText = styled.div`
     min-width: 0;
     max-width: 100%;
     box-sizing: border-box;
+  }
+`;
+
+const SubTextBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+
+  @media (min-width: 769px) {
+    position: relative;
+    padding-left: 4px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 2px;
+      height: 42px;
+      background-color: #b2b2b2;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding-left: 0;
+    margin-bottom: 14px;
+  }
+`;
+
+const SubTextAskRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 25px;
+  min-width: 0;
+
+  ${SubText} {
+    flex: 1;
+    min-width: 0;
+
+    @media (max-width: 768px) {
+      margin-top: 4px;
+    }
   }
 `;
 
