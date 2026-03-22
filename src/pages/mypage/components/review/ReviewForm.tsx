@@ -172,6 +172,7 @@ const Label = styled.div`
 
 const Input = styled.input`
   flex: 1;
+  font-family: Pretendard, sans-serif;
   font-size: 14px;
   font-weight: 400;
   border: none;
@@ -181,6 +182,7 @@ const Input = styled.input`
 
   &::placeholder {
     color: #4d4d4d;
+    font-family: Pretendard, sans-serif;
   }
 
   @media (max-width: 600px) {
@@ -191,6 +193,7 @@ const Input = styled.input`
 const Textarea = styled.textarea<TextareaProps>`
   flex: 1;
   height: ${(props) => (props.hasImage ? '462px' : '300px')};
+  font-family: Pretendard, sans-serif;
   font-size: 14px;
   font-weight: 400;
   border: none;
@@ -201,6 +204,7 @@ const Textarea = styled.textarea<TextareaProps>`
 
   &::placeholder {
     color: #4d4d4d;
+    font-family: Pretendard, sans-serif;
   }
 
   @media (max-width: 600px) {
