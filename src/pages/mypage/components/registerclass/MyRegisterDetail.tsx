@@ -620,7 +620,7 @@ const PaginationContainer = styled.div`
 
 const GoBack = styled.button`
   margin-bottom: 193px;
-  width: 100px;
+  width: 110px;
   height: 36px;
   flex-shrink: 0;
   border-radius: 10px;
