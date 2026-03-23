@@ -20,7 +20,7 @@ export const ReviewDesktop = ({ review, classId, page }: ReviewProps) => {
   return (
     <Container>
       <MetaWrapper>
-        <img src={review.authorProfileImage ?? defaultProfile} alt={`${review.author}의 프로필`} />
+        <img src={review.authorProfileImage || defaultProfile} alt={`${review.author}의 프로필`} />
         <Meta>
           <AuthorName>{review.author}</AuthorName>
           <Title>{review.title}</Title>

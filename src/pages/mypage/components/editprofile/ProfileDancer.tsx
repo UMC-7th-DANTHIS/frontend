@@ -25,6 +25,7 @@ const ProfileDancer = () => {
   const [isUnauthorized, setIsUnauthorized] = useState<boolean>(false);
   const [showLeaveAlert, setShowLeaveAlert] = useState<boolean>(false);
   const [showInvalidAlert, setShowInvalidAlert] = useState<boolean>(false);
+  const [showImageRequiredAlert, setShowImageRequiredAlert] = useState<boolean>(false);
 
   // 뒤로 가기 방지 팝업 경고
   useConfirmLeave({ setAlert: setShowLeaveAlert });
@@ -80,6 +81,12 @@ const ProfileDancer = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const dancerImages = formState.dancerImages.filter((img) => Boolean(img));
+
+    if (dancerImages.length < 1) {
+      setShowImageRequiredAlert(true);
+      return;
+    }
 
     try {
       const token = localStorage.getItem('token');
@@ -91,7 +98,7 @@ const ProfileDancer = () => {
         bio: formState.introduce,
         preferredGenres: formState.genre,
         history: formState.record,
-        dancerImages: formState.dancerImages
+        dancerImages
       };
 
       const response = await api.put('/dancers', updatedData, {
@@ -226,6 +233,17 @@ const ProfileDancer = () => {
         <ModalOneBtn
           message={<AlertText>프로필 저장이 완료되었습니다.</AlertText>}
           onClose={() => setShowInvalidAlert(false)}
+          showButtons={true}
+        />
+      )}
+      {showImageRequiredAlert && (
+        <ModalOneBtn
+          message={
+            <AlertText>
+              댄서 사진은 최소 1장 이상{'\n'}등록해주세요.
+            </AlertText>
+          }
+          onClose={() => setShowImageRequiredAlert(false)}
           showButtons={true}
         />
       )}
