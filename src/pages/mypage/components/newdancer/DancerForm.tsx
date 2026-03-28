@@ -21,6 +21,8 @@ export const DancerForm = () => {
     setShowLeaveAlert
   } = context!;
 
+  const hasDancerPhoto = formState.dancerImages.filter(Boolean).length >= 1;
+
   return (
     <>
       <Container>
@@ -97,7 +99,14 @@ export const DancerForm = () => {
             </LabeledBox>
           </InputContainer>
 
-          <SubmitButton text="프로필 저장" />
+          <SubmitBlock>
+            {!hasDancerPhoto && (
+              <PhotoRequiredMessage role="alert">
+                최소 1장 이상의 댄서 사진을 등록해주세요
+              </PhotoRequiredMessage>
+            )}
+            <SubmitButton text="프로필 저장" disabled={!hasDancerPhoto} />
+          </SubmitBlock>
         </FormContainer>
       </Container>
 
@@ -157,6 +166,26 @@ const FormContainer = styled.form`
   justify-items: center;
   align-items: center;
   gap: 36px;
+`;
+
+const SubmitBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+`;
+
+const PhotoRequiredMessage = styled.p`
+  margin: 0;
+  color: #FF0000;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 15px;
+  }
 `;
 const InputContainer = styled.div`
   display: flex;

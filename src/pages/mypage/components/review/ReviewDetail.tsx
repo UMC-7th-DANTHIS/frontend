@@ -85,6 +85,7 @@ const ReviewDetail = () => {
         }
       }
       await queryClient.invalidateQueries({ queryKey: ['userreviews'] });
+      await queryClient.invalidateQueries({ queryKey: ['userReviewClassIds'] });
       navigate(`/classes/${classId}?tab=reviews`);
     },
     onError: (error: unknown) => {

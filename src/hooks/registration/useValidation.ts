@@ -18,13 +18,15 @@ export default function useValidation(formState: FormState, type: FormType) {
         isBioValid: formState.bio.length <= 80,
         isPreferredGenresValid: formState.preferredGenres.length > 0 && formState.preferredGenres.length <= 2,
         isHistoryValid: formState.history.length <= 1000,
-        isDancerImagesValid: formState.dancerImages.filter((img) => img !== null).length <= 3
+        isDancerImagesValid:
+          formState.dancerImages.filter((img) => Boolean(img)).length >= 1 &&
+          formState.dancerImages.filter((img) => Boolean(img)).length <= 3
       };
     } else if (type === 'class' && 'className' in formState) {
       validationRules = {
         isClassNameValid: formState.className.trim().length > 0 && formState.className.trim().length <= 20,
-        isPricePerSessionValid: !isNaN(Number(formState.pricePerSession)) && Number(formState.pricePerSession) >= 0,
-        isDifficultyValid: formState.difficulty > -1,
+        isPricePerSessionValid: !isNaN(Number(formState.pricePerSession)) && Number(formState.pricePerSession) >= 1,
+        isDifficultyValid: formState.difficulty >= 1,
         isGenreValid: formState.genre > 0,
         isDescriptionValid: formState.description.length <= 1000,
         isTargetAudienceValid: formState.targetAudience.length <= 1000,

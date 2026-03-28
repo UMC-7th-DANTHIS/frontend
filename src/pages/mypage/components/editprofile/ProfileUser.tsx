@@ -72,11 +72,14 @@ const ProfileUser = () => {
   }, []);
 
   const handleFileUpload = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
+    const files = event.target.files;
+    if (!files?.length) return;
+
+    const imageFile = Array.from(files).find((f) => f.type.startsWith('image/'));
+    if (!imageFile) return;
 
     try {
-      const fileExtension = file.name.split('.').pop();
+      const fileExtension = imageFile.name.split('.').pop();
       const response = await api.post(
         `/image/user?fileExtension=${fileExtension}`
       );
@@ -89,8 +92,8 @@ const ProfileUser = () => {
 
       const uploadResponse = await fetch(presignedUrl, {
         method: 'PUT',
-        body: file,
-        headers: { 'Content-Type': file.type }
+        body: imageFile,
+        headers: { 'Content-Type': imageFile.type }
       });
 
       if (!uploadResponse.ok) {
@@ -102,6 +105,8 @@ const ProfileUser = () => {
       handleFormChange('profileImage', fileUrl);
     } catch (error: any) {
       console.error('파일 업로드 오류:', error.message);
+    } finally {
+      event.target.value = '';
     }
   };
 
@@ -308,11 +313,13 @@ const ProfileUser = () => {
                 >
                   파일 업로드
                 </UploadButton>
+                <UploadHint>여러 장 선택 시 첫 번째 이미지가 프로필로 적용됩니다.</UploadHint>
                 <HiddenInput
                   ref={fileInputRef}
                   type="file"
                   id="file-upload"
                   accept="image/*"
+                  multiple
                   onChange={handleFileUpload}
                 />
                 <RadioWrapper>
@@ -715,6 +722,20 @@ const UploadButton = styled.button`
     width: 100%;
     height: 40px;
     font-size: 14px;
+  }
+`;
+
+const UploadHint = styled.p`
+  margin: 8px 0 0;
+  color: #b2b2b2;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  max-width: 300px;
+
+  @media (max-width: 600px) {
+    max-width: 100%;
+    font-size: 11px;
   }
 `;
 
