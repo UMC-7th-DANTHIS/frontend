@@ -3,6 +3,7 @@ export interface DanceClassProps {
   className: string;
   dancerName: string;
   thumbnailImage: string;
+  hasReview?: boolean;
 }
 
 export interface FetchTakeClassResponse {
