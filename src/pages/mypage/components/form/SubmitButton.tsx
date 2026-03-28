@@ -1,8 +1,14 @@
 import styled from 'styled-components';
 
-export const SubmitButton = ({ text }: { text: string }) => {
+export const SubmitButton = ({
+  text,
+  disabled = false
+}: {
+  text: string;
+  disabled?: boolean;
+}) => {
   return (
-    <Button type="submit">
+    <Button type="submit" disabled={disabled}>
       <span>{text}</span>
     </Button>
   );
@@ -19,8 +25,14 @@ const Button = styled.button`
   border-radius: 15px;
   background: var(--main-purple);
 
-  &:hover {
+  &:hover:not(:disabled) {
     cursor: pointer;
+  }
+
+  &:disabled {
+    background: #B2B2B2;
+    cursor: not-allowed;
+    color: #FFFFFF
   }
 
   ${({ theme }) => theme.media.tablet} {
