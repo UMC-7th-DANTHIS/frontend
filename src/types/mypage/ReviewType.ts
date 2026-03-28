@@ -11,7 +11,7 @@ export interface FetchTakeClassResponse {
 }
 
 export interface PhotoUploadProps {
-  setSelectedImage: (images: string[]) => void;
+  setSelectedImage: (images: string[] | string) => void;
   disabled: boolean;
 }
 
