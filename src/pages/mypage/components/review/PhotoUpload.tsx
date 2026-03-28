@@ -1,11 +1,10 @@
-import React, { ChangeEvent, useRef, useState } from 'react';
+import React, { ChangeEvent, useRef } from 'react';
 import styled from 'styled-components';
 import api from '../../../../api/api';
 import { PhotoUploadProps } from '@/types/mypage/ReviewType';
 
 const PhotoUpload = ({ setSelectedImage, disabled }: PhotoUploadProps) => {
   const photoInputRef = useRef<HTMLInputElement | null>(null);
-  const [selectedImages, setSelectedImagesState] = useState<string[]>([]);
 
   const getPresignedUrl = async (file: File): Promise<string | null> => {
     try {
@@ -25,8 +24,9 @@ const PhotoUpload = ({ setSelectedImage, disabled }: PhotoUploadProps) => {
     const file = event.target.files?.[0];
     if (!file || !file.type.startsWith('image/')) return;
 
-    if (selectedImages.length >= 4) {
+    if (disabled) {
       alert('사진은 최대 4장까지 등록할 수 있습니다.');
+      event.target.value = '';
       return;
     }
 
@@ -37,9 +37,7 @@ const PhotoUpload = ({ setSelectedImage, disabled }: PhotoUploadProps) => {
     const uploadedImageUrl = await uploadFileToS3(presignedUrl, file);
 
     if (uploadedImageUrl) {
-      const updatedImages = [...selectedImages, uploadedImageUrl];
-      setSelectedImagesState(updatedImages);
-      setSelectedImage(updatedImages);
+      setSelectedImage(uploadedImageUrl);
     }
 
     event.target.value = '';
@@ -126,8 +124,13 @@ const PhotoButton = styled.button`
   border-radius: 10px;
   cursor: pointer;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: #9819c3;
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
   }
 
   @media (max-width: 600px) {

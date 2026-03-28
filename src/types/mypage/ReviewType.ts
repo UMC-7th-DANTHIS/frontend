@@ -3,6 +3,7 @@ export interface DanceClassProps {
   className: string;
   dancerName: string;
   thumbnailImage: string;
+  hasReview?: boolean;
 }
 
 export interface FetchTakeClassResponse {
@@ -11,7 +12,7 @@ export interface FetchTakeClassResponse {
 }
 
 export interface PhotoUploadProps {
-  setSelectedImage: (images: string[]) => void;
+  setSelectedImage: (images: string[] | string) => void;
   disabled: boolean;
 }
 

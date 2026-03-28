@@ -21,7 +21,7 @@ export const ReviewMobile = ({ review, classId, page }: ReviewProps) => {
     <Container>
       <Wrapper>
         <MetaWrapper>
-          <img src={review.authorProfileImage ?? defaultProfile} alt={`${review.author}의 프로필`} />
+          <img src={review.authorProfileImage || defaultProfile} alt={`${review.author}의 프로필`} />
           <Meta>
             <AuthorAndDate>
               <p id="author-name">{review.author}</p>
