@@ -20,26 +20,19 @@ const TitleContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  overflow: hidden; /* 영역을 벗어나면 숨김 */
-  margin-top: 20px;
-
-  ${({ theme }) => theme.media.tablet} {
-    margin-top: 36.5px;
-  }
+  overflow: hidden;
+  margin-top: 10px;
 `;
 
-/* 공통 원 스타일 (반응형 우선순위 적용) */
 const BaseCircle = styled.div`
   border-radius: 50%;
-  flex-shrink: 0; /* 원이 타원이 되지 않도록 보호 */
+  flex-shrink: 0;
 
-  /* 768px 미만(모바일 기본)에서는 가장 안쪽 원 1개씩만 표시 */
   &.c-mid,
   &.c-outer {
     display: none;
   }
 
-  /* 화면이 조금씩 커짐에 따라 하나씩 등장 */
   @media (min-width: 1024px) {
     &.c-mid {
       display: block;
