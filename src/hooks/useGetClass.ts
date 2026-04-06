@@ -14,7 +14,7 @@ function useGetClass() {
       setIsError(false);
 
       try {
-        const response = await axiosInstance.get('/dance-classes/all');
+        const response = await axiosInstance.get('/dance-classes/info/random');
 
         setData(response.data.data);
       } catch (error) {

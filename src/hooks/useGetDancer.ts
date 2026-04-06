@@ -14,7 +14,7 @@ function useGetDancer() {
       setIsError(false);
 
       try {
-        const response = await axiosInstance.get('/dancers/all');
+        const response = await axiosInstance.get('/dancers/info/random');
 
         setData(response.data.data);
       } catch (error) {
